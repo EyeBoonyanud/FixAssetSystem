@@ -116,7 +116,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     subMenu();
    
   }, []);
-  // console.log(menu,"menu")
+   console.log(menu,"menu")
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose} sx={{ border: "10" }}>
       <List sx={{ width: "250px", bgcolor: "background.paper" }}>
@@ -148,23 +148,48 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             {subMenuOpen2 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
           <Collapse in={subMenuOpen2} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          {menudata.map(
+              (item, index) =>  
+              menudata[index][3] === "2405" && (
+              <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <ArrowCircleRightIcon />
                 </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="Issue FAM" />
+                
+                
+                <ListItemText onClick={DataPro} primary={menudata[index][1]} />
+             
               </ListItemButton>
-
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <ArrowCircleRightIcon />
-                </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="Approve FAM" />
-              </ListItemButton> 
-            </List>
+               
+            </List> 
+            )
+            )
+                }
           </Collapse>
-        
+          {/* {subMenuOpen1 && (
+          <>
+            {data2.map(
+              (item, index) =>
+                item.parent_id === "Report" && (
+                  <ListItem
+                    className="SubMenuItem"
+
+                    onClick={() => {
+                      onClose();
+                      handleButtonClick(item.menu_name);
+                    }}
+
+                    
+
+                    key={index}
+                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
+                    <ListItemText primary={item.menu_name} />
+                  </ListItem>
+                )
+            )}
+          </>
+        )} */}
         </div>
         {/* Menu Monitoring Function */}
         <div>
@@ -176,14 +201,24 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             {subMenuOpen3 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
           <Collapse in={subMenuOpen3} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          {menudata.map(
+              (item, index) =>  
+              menudata[index][3] === "2406" && (
+              <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <ArrowCircleRightIcon />
                 </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="FAM Master" />
+                
+                
+                <ListItemText onClick={DataPro} primary={menudata[index][1]} />
+             
               </ListItemButton>
-            </List>
+               
+            </List> 
+            )
+            )
+                }
           </Collapse>
         </div>
         {/* Menu Master Data Function */}
@@ -196,21 +231,24 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             {subMenuOpen4 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
           <Collapse in={subMenuOpen4} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          {menudata.map(
+              (item, index) =>  
+              menudata[index][3] === "2407" && (
+              <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <ArrowCircleRightIcon />
                 </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="Person Maintain" />
+                
+                
+                <ListItemText onClick={DataPro} primary={menudata[index][1]} />
+             
               </ListItemButton>
-
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <ArrowCircleRightIcon />
-                </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="Master Code Maintain" />
-              </ListItemButton> 
-            </List>
+               
+            </List> 
+            )
+            )
+                }
           </Collapse>
         </div>
         {/* Menu Report Function  */}
@@ -223,21 +261,24 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             {subMenuOpen5 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
           <Collapse in={subMenuOpen5} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
+          {menudata.map(
+              (item, index) =>  
+              menudata[index][3] === "2408" && (
+              <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <ArrowCircleRightIcon />
                 </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="FAM Detail Report" />
+                
+                
+                <ListItemText onClick={DataPro} primary={menudata[index][1]} />
+             
               </ListItemButton>
-
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemIcon>
-                  <ArrowCircleRightIcon />
-                </ListItemIcon>
-                <ListItemText onClick={DataPro} primary="FAM Form" />
-              </ListItemButton> 
-            </List>
+               
+            </List> 
+            )
+            )
+                }
           </Collapse>
         </div>
       </List>
