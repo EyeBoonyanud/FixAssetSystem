@@ -29,7 +29,7 @@ function ButtonAppBar({ isOpen, onClose }) {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="static"
+          position="fixed"
           style={{
             backgroundColor: "green",
           }}

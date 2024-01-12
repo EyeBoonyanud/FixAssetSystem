@@ -7,7 +7,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import {
-  TextField,
+  Typography,
   FormControl,
   TableRow,
   Table,
@@ -19,6 +19,7 @@ import {
   Select,
   MenuItem,
   Grid,
+  TextField,
 } from "@mui/material";
 
 function Issue() {
@@ -30,43 +31,49 @@ function Issue() {
   return (
     <>
       <Header />
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            m: 7,
-            width: 1000,
-            height: 200,
-          },
-        }}
-      >
-        <Paper>
-          <Grid container spacing={2} style={{ width: "100%" ,marginLeft:"20px"}}>
-            <Grid item xs={1} style={{marginTop:"20px"}}>
-             <TextField></TextField>
+      <div >
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            "& > :not(style)": {
+              m: 7,
+              width: 1000,
+             
+            },
+          }}
+        >
+          <Paper sx={{
+            height:500 ,
+          }} >
+            {/* Factiory  */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "20px" }}
+            >
+              <Grid item xs={1.2} style={{ marginTop: "2px" }}>
+                <Typography>Factory</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              {/* <Grid item xs={1} style={{ marginTop: "20px" }}>
+              <Typography>FAM No.</Typography>
             </Grid>
-            <Grid item xs={3}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {/* <Grid item xs={3}>
-              gggggggg
-            </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Age</InputLabel>
                 <Select
@@ -82,9 +89,200 @@ function Issue() {
                 </Select>
               </FormControl>
             </Grid> */}
-          </Grid>
-        </Paper>
-      </Box>
+            </Grid>
+            {/* FamNo. and To. */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            >
+              <Grid item xs={1.2} style={{ marginTop: "20px" }}>
+                <Typography>FAM No :</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ height: "10px" }}>
+                <TextField
+                  size="small"
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    width: "319px",
+                    marginTop: "10px",
+                    marginRight: "5px",
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={1} style={{ marginTop: "20px" }}>
+                <Typography>To.</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  size="small"
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    width: "319px",
+                    marginTop: "10px",
+                    marginRight: "5px",
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            {/* Dept. and Cost */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "20px" }}
+            >
+              <Grid item xs={1.2} style={{ marginTop: "2px" }}>
+                <Typography>Dept :</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={1} style={{ marginTop: "2px" }}>
+                <Typography>Cost Center :</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            {/* request and Fix */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "10px" }}
+            >
+              <Grid item xs={2} style={{ marginTop: "2px" }}>
+                <Typography>Request Type :</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={1} style={{ marginTop: "5px" }}>
+                <Typography>Fix Asset Code :</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            {/* request Date and To */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            >
+              <Grid item xs={2} style={{ marginTop: "20px" }}>
+                <Typography>Request Date :</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ height: "10px" }}>
+                <TextField
+                  size="small"
+                  type="date"
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    width: "300px",
+                    marginTop: "10px",
+                    marginRight: "5px",
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={1} style={{ marginTop: "20px" }}>
+                <Typography>To :</Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  size="small"
+                  type="date"
+                  style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    width: "319px",
+                    marginTop: "10px",
+                    marginRight: "5px",
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            {/* Request By */}
+            <Grid
+              container
+              spacing={2}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            >
+              <Grid item xs={2} style={{ marginTop: "20px" }}>
+                <Typography>Request By :</Typography>
+              </Grid>
+              <Grid item xs={4} style={{ height: "5px" }}>
+              <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    size="small"
+                    style={{
+                      width:'737px'
+                    }}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
+      </div>
       <div className="responsive-container">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
