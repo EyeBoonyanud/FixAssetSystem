@@ -14,6 +14,15 @@
   padding: 0;
   margin-bottom: 30px;
 }
+.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1ygcj2i-MuiTableCell-root{
+  text-align: center;
+}
+.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root{
+  text-align: center;
+}
+#demo-simple-select-label{
+  border: 1px solid red;
+}
 /* .table tr{
  border: 1px solid red;
 } */

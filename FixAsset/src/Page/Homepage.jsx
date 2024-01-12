@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Sidebar from "./Sidebar";
-import Avatar from "@mui/material/Avatar";
-import { deepOrange, deepPurple } from "@mui/material/colors";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import axios from "axios";
 import "./Style.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useNavigate } from "react-router-dom";
+import Header from './Hearder'
+function ButtonAppBar() {
 
-function ButtonAppBar({ isOpen, onClose }) {
-  const Name = localStorage.getItem("Name");
-  const Lastname = localStorage.getItem("Lastname");
   const Role = localStorage.getItem("Role");
   const UserLogin = localStorage.getItem("UserLogin");
-  const [Login, setDataLogin] = useState([]);
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   const Menu = async () => {
     try {
       const response = await axios.get(
@@ -47,60 +28,12 @@ function ButtonAppBar({ isOpen, onClose }) {
       console.error("Error during login:", error);
     }
   };
-
   useEffect(() => {
     Menu();
   }, []);
-  const navigate = useNavigate();
-  const Logout = () => {
-    navigate("/");
-  };
-
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar
-          position="static"
-          style={{
-            backgroundColor: "green",
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={toggleSidebar}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Fix Asset System
-            </Typography>
-            <Avatar
-              sx={{ bgcolor: deepOrange[500], marginRight: "10px" }}
-            ></Avatar>
-            <Button
-              className="btnDate"
-              color="inherit"
-              style={{
-                display: "contents",
-                alignItems: "start",
-                justifyContent: "start",
-                fontSize: "12px",
-                fontFamily: "Roboto, sans-serif",
-              }}
-            >
-              User: {Name} {Lastname}  &nbsp;| &nbsp; <text onClick={Logout}>Logout</text> 
-              <br />
-
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+   <>
+  <Header />
       <div className="responsive-container">
         <table className="table">
           <tr>
@@ -352,7 +285,6 @@ function ButtonAppBar({ isOpen, onClose }) {
               </Card>
             </td>
           </tr>
-
           <tr>
             <td colSpan={4}>
               <Card sx={{ minWidth: 275 }}>
@@ -633,6 +565,7 @@ function ButtonAppBar({ isOpen, onClose }) {
           </tr>
         </table>
       </div>
+    
     </>
   );
 }

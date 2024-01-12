@@ -70,12 +70,40 @@ module.exports.menu = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+// กรณี where role กับ userlogin
+// module.exports.mainmenu = async function (req, res) {
+//   try {
+//     const  Userlogin  = req.query.userlogin;
+//     const  Role  = req.query.role;
+//     console.log(Userlogin,Role)
+//     const connect = await oracledb.getConnection(CUSR);
+//     const query = 
+//     `SELECT DISTINCT M.MENU_ID,
+//     M.MENU_NAME,
+//     M.MENU_DESC,
+//     M.MENU_PARENT_ID,
+//     M.MENU_SORT
+// FROM CU_ROLE_USER T
+// INNER JOIN CU_ROLE_M R ON R.ROLE_ID = T.ROLE_ID
+// LEFT JOIN CU_ROLE_MENU RM ON RM.ROLE_ID = T.ROLE_ID
+// LEFT JOIN CU_MENU_M M ON M.MENU_ID = RM.MENU_ID AND M.SYSTEM_ID = R.SYSTEM_ID
+// WHERE T.USER_LOGIN = '${Userlogin}'
+// AND T.ROLE_ID = '${Role}'
+// AND R.SYSTEM_ID = '65'
+// AND M.MENU_PARENT_ID IS NULL 
+// ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
+//     const result = await connect.execute(query);
+//     connect.release();
+//     console.log(result.rows);
+//     res.json(result.rows);
+    
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+//   }
+// };
 
 module.exports.mainmenu = async function (req, res) {
   try {
-    const  Userlogin  = req.query.userlogin;
-    const  Role  = req.query.role;
-    console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
     const query = 
     `SELECT DISTINCT M.MENU_ID,
@@ -87,8 +115,6 @@ FROM CU_ROLE_USER T
 INNER JOIN CU_ROLE_M R ON R.ROLE_ID = T.ROLE_ID
 LEFT JOIN CU_ROLE_MENU RM ON RM.ROLE_ID = T.ROLE_ID
 LEFT JOIN CU_MENU_M M ON M.MENU_ID = RM.MENU_ID AND M.SYSTEM_ID = R.SYSTEM_ID
-WHERE T.USER_LOGIN = '${Userlogin}'
-AND T.ROLE_ID = '${Role}'
 AND R.SYSTEM_ID = '65'
 AND M.MENU_PARENT_ID IS NULL 
 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
@@ -101,6 +127,7 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
 module.exports.submenu = async function (req, res) {
   try {
     const  Userlogin  = req.query.userlogin;
