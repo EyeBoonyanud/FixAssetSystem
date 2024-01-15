@@ -1,11 +1,15 @@
+.body{
+padding: 100px;
+  
+}
 .responsive-container {
-  padding: 20px;
+  /* padding: 20px; */
   max-width: 100%;
   overflow-x: auto;
+  margin-top: 30px;
 }
 .table {
   margin: 50px auto;
-
   width: 70%;
 }
 .table td {
@@ -54,6 +58,24 @@
   color: #40a9ff;
   width: 90%;
 }
+.BoxSearch {
+  margin-bottom: 50px;
+  padding-bottom: 10px;
+}
+.ButtonSearch{
+  width: 100px;
+
+}
+/* .Search{
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+ 
+} */
+
+
 /* #demo-simple-select-label{
   border: 1px solid red;
 } */

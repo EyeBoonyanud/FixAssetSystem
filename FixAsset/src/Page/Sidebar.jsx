@@ -5,22 +5,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
-import Collapse from "@mui/material/Collapse";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
-import StorageIcon from "@mui/icons-material/Storage";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
- 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import WorkIcon from "@mui/icons-material/Work";
-import BuildIcon from "@mui/icons-material/Build";
-import BuildOutlinedIcon from '@mui/icons-material/BuildOutlined';
-import SourceIcon from "@mui/icons-material/Source";
- 
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import SensorsOutlinedIcon from '@mui/icons-material/SensorsOutlined';
 import { DownOutlined, UpOutlined, MenuOutlined } from "@ant-design/icons";
 import Circle from '@mui/icons-material/CircleOutlined';
@@ -186,7 +173,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
  
         {/* Menu Transaction */}
-        <div>
+        <div style={{ display: Role === "214" ? 'none' : 'block' }} >
         <ListItem className="ListItem" onClick={toggleSubMenu2}>
           <ListItemIcon>
             <SensorsOutlinedIcon color="success" />
@@ -255,7 +242,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
  
         {/* Menu Master Data Function */}
-        <div>
+        <div style={{ display: Role === "214" ? 'none' : 'block' }}>
         <ListItem className="ListItem" onClick={toggleSubMenu4}>
           <ListItemIcon>
             <SensorsOutlinedIcon color="success" />
