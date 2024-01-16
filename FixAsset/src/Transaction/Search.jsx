@@ -19,12 +19,19 @@ import {
   Grid,
   TextField,
   Button,
+  InputLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function Issue() {
+  const Name = localStorage.getItem("Name");
+  const Lastname = localStorage.getItem("Lastname");
+  let UserLogin = Name + " " + Lastname;
+
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
 
@@ -37,26 +44,22 @@ function Issue() {
   const [ReType, setReType] = useState([]);
   const [selectReType, setselectReType] = useState("");
 
-  const [ReBy, setReBy] = useState([]);
-  const [selectReBy, setselectReBy] = useState("");
-
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
-    let idFactory = event.target.value
-    console.log(idFactory,"ถถถซ")
+    let idFactory = event.target.value;
+    // console.log(idFactory,"ถถถซ")
     try {
-      const response = await axios.get(`http://localhost:5000/getdept?idFactory=${idFactory}`);
-
+      const response = await axios.get(
+        `http://localhost:5000/getdept?idFactory=${idFactory}`
+      );
+      // console.log(response.data,"ID1 :")
       const data = await response.data;
-      console.log(data,"ID :")
+      // console.log(data,"ID2 :")
+      setdept(data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
- 
-
-  
-
   const handleDept = (event) => {
     setselectdept(event.target.value);
   };
@@ -75,54 +78,42 @@ function Issue() {
       const response = await axios.get(`http://localhost:5000/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
-      console.log(FactoryData, "Factory");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-  const Dept = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      console.log(FactoryData, "Factory");
+      // console.log(FactoryData, "Factory");
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const Costcenter = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      console.log(FactoryData, "Factory");
+      const response = await axios.get(`http://localhost:5000/getcost`);
+      const CostData = await response.data;
+      setcost(CostData);
+      // console.log(CostData, "CostData :");
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const RequestType = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      console.log(FactoryData, "Factory");
+      const response = await axios.get(`http://localhost:5000/gettype`);
+      const TypeData = await response.data;
+      setReType(TypeData);
+      // console.log(TypeData, "TypeData");
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
-  const RequestBy = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      console.log(FactoryData, "Factory");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+  
+  const navigate = useNavigate();
+  const New = () => {
+    navigate("/InsertIssue");
   };
 
   useEffect(() => {
+    
     Factory();
+    Costcenter();
+    RequestType();
   }, []);
 
   const Search = async () => {
@@ -151,9 +142,13 @@ function Issue() {
             </Grid>
             <Grid item xs={3}>
               <FormControl fullWidth>
+                <InputLabel size="small" id="demo-simple-select-label">
+                  Select
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="factorycbt"
+                  label="Select"
                   // className="factorycb"
                   value={selecteDatafac}
                   onChange={handleSelectChange}
@@ -171,6 +166,7 @@ function Issue() {
               </FormControl>
             </Grid>
           </Grid>
+
           {/* FamNo. and To. */}
           <Grid
             container
@@ -206,6 +202,7 @@ function Issue() {
               ></TextField>
             </Grid>
           </Grid>
+
           {/* Dept. and Cost */}
           <Grid
             container
@@ -217,20 +214,28 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
+              <InputLabel size="small" id="demo-simple-select-label">
+                  Select
+                </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  // labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  // className="factorycb"
+                  label="Select"
+                  value={selectdept}
+                  onChange={handleDept}
                   size="small"
                   style={{
                     width: "220px",
                   }}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {dept.map((option) => (
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
+
             <Grid
               item
               xs={1.1}
@@ -240,17 +245,24 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
+              <InputLabel size="small" id="demo-simple-select-label">
+                  Select
+                </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  // labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  // className="factorycb"
+                  label="Select"
+                  value={selectcost}
+                  onChange={handleCost}
                   size="small"
                   style={{
                     width: "220px",
                   }}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {cost.map((option) => (
+                    <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -267,17 +279,24 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
+              <InputLabel size="small" id="demo-simple-select-label">
+                  Select
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  // id="factorycbt"
+                  // className="factorycb"
+                  label="Select"
+                  value={selectReType}
+                  onChange={handleType}
                   size="small"
                   style={{
                     width: "220px",
                   }}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {ReType.map((option) => (
+                    <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -289,22 +308,10 @@ function Issue() {
               <Typography>Fix Asset Code :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <FormControl fullWidth>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
+              <TextField size="small"></TextField>
             </Grid>
           </Grid>
+
           {/* request Date and To */}
           <Grid
             container
@@ -347,6 +354,7 @@ function Issue() {
               ></TextField>
             </Grid>
           </Grid>
+
           {/* Request By */}
           <Grid
             container
@@ -357,22 +365,10 @@ function Issue() {
               <Typography>Request By :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <FormControl fullWidth>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  size="small"
-                  style={{
-                    width: "300px",
-                  }}
-                >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
+              <TextField size="small" value={UserLogin} disabled></TextField>
             </Grid>
           </Grid>
+
           {/* Search New Export */}
           <Grid
             container
@@ -405,6 +401,7 @@ function Issue() {
                   backgroundColor: "#391AFB",
                 }}
                 variant="contained"
+                onClick={New}
               >
                 <AddIcon />
                 New

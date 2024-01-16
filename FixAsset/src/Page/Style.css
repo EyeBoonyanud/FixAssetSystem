@@ -62,10 +62,15 @@ padding: 100px;
   margin-bottom: 50px;
   padding-bottom: 10px;
 }
-.ButtonSearch{
-  width: 100px;
-
+.Box-Insert{
+  height: 700px;
 }
+.Insert{
+  
+    max-height: 500px;
+ 
+}
+
 /* .Search{
   margin-bottom: 50px;
   display: flex;

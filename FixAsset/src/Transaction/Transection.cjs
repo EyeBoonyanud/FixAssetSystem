@@ -63,8 +63,7 @@ module.exports.dept = async function (req, res) {
       const query = `
       SELECT DISTINCT T.CC_CTR,
       T.CC_DESC FROM CUSR.CU_MFGPRO_CC_MSTR T 
-      WHERE  T.CC_ACTIVE = '1'
-      ORDER BY T.CC_CTR
+      WHERE  T.CC_ACTIVE = '1' ORDER BY T.CC_CTR
          `;
       const result = await connect.execute(query);
       connect.release();
@@ -81,10 +80,11 @@ module.exports.dept = async function (req, res) {
     try {
       const connect = await oracledb.getConnection(AVO);
       const query = `
-      SELECT DISTINCT T.CC_CTR,
-      T.CC_DESC FROM CUSR.CU_MFGPRO_CC_MSTR T 
-      WHERE  T.CC_ACTIVE = '1'
-      ORDER BY T.CC_CTR
+      SELECT T.FCM_CODE,T.FCM_DESC
+      FROM FAM_CODE_MASTER T 
+      WHERE T.FCM_GROUP_ID = 'GP01'
+      AND T.FCM_STATUS = 'A' 
+      ORDER BY T.FCM_SORT,T.FCM_DESC
          `;
       const result = await connect.execute(query);
       connect.release();

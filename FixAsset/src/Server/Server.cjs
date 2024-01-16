@@ -47,7 +47,7 @@ app.get("/getfactory",Transaction.factory);
 app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
-app.get("/gettype",Transaction.by);
+app.get("/getby",Transaction.by);
 
 
 // app.get("/checkconnect", async (req, res) => {

@@ -5,6 +5,7 @@ import Home from './Page/Homepage'
 import Login from "./Login/Login";
 import Search from './Transaction/Search'
 import Approve from "./Transaction/Approve";
+import InsertIssue from "./Transaction/InsertIssue";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -19,6 +20,8 @@ const App = () => {
         <Route path="/Home" element={<Home />} />
         <Route path="/Search" element={<Search />} />
         <Route path="/Approve" element={<Approve />} />
+        <Route path="/InsertIssue" element={<InsertIssue />} />
+
         </Routes>
       </BrowserRouter>
     </StrictMode>
