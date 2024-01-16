@@ -7,6 +7,7 @@ app.use(express.json());
 
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
+  //process.env.TNS_ADMIN
 });
 
 const AVO = {

@@ -1,8 +1,10 @@
 import React from 'react'
+import Header from "../Page/Hearder";
 
 function Approve() {
-  return (
-    <div>Approve</div>
+  return (<>
+ <Header/>
+    <div>Approve</div> </>
   )
 }
 

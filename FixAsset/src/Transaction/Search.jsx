@@ -73,7 +73,15 @@ function Issue() {
     setselectReBy(event.target.value);
   };
 
-  const Factory = async () => {
+ 
+  
+  const navigate = useNavigate();
+  const New = () => {
+    navigate("/InsertIssue");
+  };
+
+  useEffect(() => {
+     const Factory = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/getfactory`);
       const FactoryData = await response.data;
@@ -104,13 +112,6 @@ function Issue() {
     }
   };
   
-  const navigate = useNavigate();
-  const New = () => {
-    navigate("/InsertIssue");
-  };
-
-  useEffect(() => {
-    
     Factory();
     Costcenter();
     RequestType();
@@ -123,7 +124,7 @@ function Issue() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="body">
         <div className="BoxSearch">
           {/* Factiory  */}
