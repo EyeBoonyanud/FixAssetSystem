@@ -70,6 +70,18 @@ padding: 100px;
     max-height: 500px;
  
 }
+.ant-upload-list-item-name{
+  background-color: #40a9ff;
+  font-size: 18px;
+}
+.Modal{
+  width:600px ;
+  height: 500px;
+
+}
+.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root{
+  font-size: 12px;
+}
 /* .Radio{
   width: 105px;
 } */
@@ -92,3 +104,38 @@ padding: 100px;
 /* .MuiCardContent-root.css-46bh2p-MuiCardContent-root{
   border: 1px solid red;
 } */
+/* .Style1 {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  
+} */
+
+.Style2 {
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: left;
+    margin-left: 30px;
+    /* width: 100%; */
+}
+
+
+.Style3 {
+    text-align: right;
+    vertical-align: middle;
+    width: 170px;
+    
+}
+
+.Style4 {
+    text-align: center;
+    vertical-align: middle;
+    /* width: 100px; */
+}
+
+.StyleColspan {
+    text-align: right;
+    vertical-align: middle;
+    width: 146px;
+}
