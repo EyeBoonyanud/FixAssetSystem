@@ -4,7 +4,6 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -30,9 +29,9 @@ import {
   Paper,
   Checkbox,
   FormControl,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
-
+import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import { UploadOutlined } from "@ant-design/icons";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -40,7 +39,11 @@ import ClearIcon from "@mui/icons-material/Clear";
 export default function LabTabs() {
   const [value, setValue] = React.useState("1");
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [isTableOpen, setTableOpen] = useState(false); // เปิด ปิด Table Fixed Asset 
+  const [isTableOpen, setTableOpen] = useState(false); // เปิด ปิด Table Fixed Asset
+  const [dataFixcode, setdataFixCode] = useState([]);
+  // const Fixcode = document.getElementById("Fixcode").value;
+  const [Fixcode1, setFixcode1] = useState("");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -59,17 +62,38 @@ export default function LabTabs() {
 
     // เพิ่มโค้ดที่คุณต้องการทำต่อไป
   };
+
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
+
+  const ADD = async () => {
+    const Fixcode = document.getElementById("Fixcode").value;
+    setFixcode1(Fixcode);
+
+    try {
+      const row = await axios.get(
+        `http://localhost:5000/getfixcode?Fixcode=${Fixcode}`
+      );
+      const data = row.data;
+      setdataFixCode(data);
+
+      console.log(data, "FixCode: ");
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
   const [age, setAge] = React.useState("");
- 
+
   const handleChange1 = (event) => {
     setAge(event.target.value);
+  };
+  const handleDeleteFile = (index) => {
+    const updatedFiles = [...uploadedFiles];
+    updatedFiles.splice(index, 1);
+    setUploadedFiles(updatedFiles);
   };
 
   const Tab1 = () => {
@@ -250,12 +274,12 @@ export default function LabTabs() {
               </Grid>{" "}
               {/* ADD Modal */}
               <Grid xs={10}>
-                <TextField size="small"></TextField> &nbsp;&nbsp;
+                <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
                 <Button
                   style={{ marginTop: "3px" }}
                   type="primary"
                   variant="contained"
-                  onClick={handleClickOpen}
+                  onClick={ADD}
                 >
                   {" "}
                   ADD
@@ -263,7 +287,7 @@ export default function LabTabs() {
                 <Dialog open={open} onClose={handleClose}>
                   <div className="Modal">
                     {" "}
-                    <DialogTitle>Fixed Asset Code : XXXX </DialogTitle>
+                    <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
                     <DialogContent>
                       <DialogContentText>
                         <TableContainer component={Paper}>
@@ -340,7 +364,7 @@ export default function LabTabs() {
                         <Button
                           variant="contained"
                           style={{ backgroundColor: "green" }}
-                          onClick={handleOpenTable} 
+                          onClick={handleOpenTable}
                         >
                           ADD
                         </Button>
@@ -356,72 +380,58 @@ export default function LabTabs() {
                   </div>
                 </Dialog>
                 {isTableOpen && (
-                <div style={{ marginTop: "20px" }}>
-                  <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
-                      <TableHead
-                        sx={{ backgroundColor: "#22FF5E", fontSize: "10px" }}
-                      >
-                        <TableRow>
-                          <TableCell>
-                            <Checkbox />
-                          </TableCell>
-                          <TableCell>No.</TableCell>
-                          <TableCell>Fixed Asset Code</TableCell>
-                          <TableCell>Comp.</TableCell>
-                          <TableCell>CC.</TableCell>
-                          <TableCell>Fixed Assets Name</TableCell>
-                          <TableCell>BOI Project</TableCell>
-                          <TableCell>Qty</TableCell>
-                          <TableCell>Invoice No.</TableCell>
-                          <TableCell>Acquisition Cost(Baht)</TableCell>
-                          <TableCell>Book Value(Baht)</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": {
-                              border: 0,
-                            },
-                          }}
+                  <div style={{ marginTop: "20px" }}>
+                    <TableContainer component={Paper}>
+                      <Table aria-label="simple table">
+                        <TableHead
+                          sx={{ backgroundColor: "#22FF5E", fontSize: "10px" }}
                         >
-                          <TableCell>
-                            <Checkbox />
-                          </TableCell>{" "}
-                          <TableCell>1</TableCell>
-                          <TableCell>Mc0</TableCell>
-                          <TableCell>
-                          1
-                          </TableCell>
-                          <TableCell>
-                          R420
-                          </TableCell>
-                          <TableCell>
-                            WASHING DRYER MACHINE CODE W-41-51{" "}
-                          </TableCell>
-                          <TableCell>
-                           NAPK
-                          </TableCell>
-                          <TableCell>
-                          1
-                          </TableCell>
-                          <TableCell>
-                           3562820-1
-                          </TableCell>
-                          <TableCell>
-                            28900000
-                          </TableCell>
-                          <TableCell>
-                          1.0
-                          </TableCell>
-                        </TableRow>
-                    
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                 </div>
-              )} </Grid>
+                          <TableRow>
+                            <TableCell>
+                              <Checkbox />
+                            </TableCell>
+                            <TableCell>No.</TableCell>
+                            <TableCell>Fixed Asset Code</TableCell>
+                            <TableCell>Comp.</TableCell>
+                            <TableCell>CC.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
+                            <TableCell>BOI Project</TableCell>
+                            <TableCell>Qty</TableCell>
+                            <TableCell>Invoice No.</TableCell>
+                            <TableCell>Acquisition Cost(Baht)</TableCell>
+                            <TableCell>Book Value(Baht)</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell>
+                              <Checkbox />
+                            </TableCell>{" "}
+                            <TableCell>1</TableCell>
+                            <TableCell>Mc0</TableCell>
+                            <TableCell>1</TableCell>
+                            <TableCell>R420</TableCell>
+                            <TableCell>
+                              WASHING DRYER MACHINE CODE W-41-51{" "}
+                            </TableCell>
+                            <TableCell>NAPK</TableCell>
+                            <TableCell>1</TableCell>
+                            <TableCell>3562820-1</TableCell>
+                            <TableCell>28900000</TableCell>
+                            <TableCell>1.0</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                )}{" "}
+              </Grid>
             </Grid>
           </Card>
         </div>
@@ -471,7 +481,15 @@ export default function LabTabs() {
                       {uploadedFiles.map((file, index) => (
                         <li key={index}>
                           {file.name}
-                          <ClearIcon />
+                          <ClearIcon
+                            onClick={() => handleDeleteFile(index)}
+                            style={{
+                              fontSize: "16",
+                              marginTop: "15px",
+                              marginLeft: "10px",
+                              color: "red",
+                            }}
+                          />
                         </li>
                       ))}
                     </ul>
@@ -491,19 +509,18 @@ export default function LabTabs() {
       </div>
     );
   };
-  
 
   const Tab2 = () => {
     return (
       <>
-       <div className="Insert">
+        <div className="Insert">
           <Card>
             <Box sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}>
               {/* Owner and From  */}
               <Grid container spacing={3}>
                 <Grid xs={1.7}>
                   <Typography style={{ width: "100%", textAlign: "right" }}>
-                   Owner (Send from):
+                    Owner (Send from):
                   </Typography>
                 </Grid>
                 <Grid xs={3}>
@@ -541,19 +558,18 @@ export default function LabTabs() {
               <Grid container spacing={3}>
                 <Grid xs={1.7}>
                   <Typography style={{ width: "100%", textAlign: "right" }}>
-                  New BOI project :
+                    New BOI project :
                   </Typography>
                 </Grid>
                 <Grid xs={3}>
                   <TextField size="small" style={{ width: "100%" }}></TextField>
                 </Grid>
-            
               </Grid>
               {/* New Owner and Tel */}
               <Grid container spacing={3}>
                 <Grid xs={1.7}>
                   <Typography style={{ width: "100%", textAlign: "right" }}>
-                  New Owner :
+                    New Owner :
                   </Typography>
                 </Grid>
                 <Grid xs={3}>
@@ -568,17 +584,20 @@ export default function LabTabs() {
                   <TextField size="small" style={{ width: "100%" }}></TextField>
                 </Grid>
               </Grid>
-            {/* Plan Remove Date*/}
-            <Grid container spacing={3}>
+              {/* Plan Remove Date*/}
+              <Grid container spacing={3}>
                 <Grid xs={1.7}>
                   <Typography style={{ width: "100%", textAlign: "right" }}>
-                  Plan Remove Date :
+                    Plan Remove Date :
                   </Typography>
                 </Grid>
                 <Grid xs={3}>
-                  <TextField size="small" style={{ width: "100%" }} type="date"></TextField>
+                  <TextField
+                    size="small"
+                    style={{ width: "100%" }}
+                    type="date"
+                  ></TextField>
                 </Grid>
-                
               </Grid>
               {/* Transfer abnormal */}
               <Grid container spacing={3}>
@@ -590,12 +609,9 @@ export default function LabTabs() {
                 <Grid xs={5}>
                   <TextField size="small" style={{ width: "100%" }}></TextField>
                 </Grid>
-              
               </Grid>
             </Box>
           </Card>
- 
- 
         </div>
 
         <div>

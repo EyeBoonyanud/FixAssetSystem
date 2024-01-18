@@ -44,6 +44,8 @@ function Issue() {
   const [ReType, setReType] = useState([]);
   const [selectReType, setselectReType] = useState("");
 
+  const [dataSearch , setdataSearch] = useState([]);
+
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
@@ -68,13 +70,9 @@ function Issue() {
   };
   const handleType = (event) => {
     setselectReType(event.target.value);
+    // console.log(event.target.value,"Typeeee")
   };
-  const handleBy = (event) => {
-    setselectReBy(event.target.value);
-  };
-
  
-  
   const navigate = useNavigate();
   const New = () => {
     navigate("/InsertIssue");
@@ -118,13 +116,31 @@ function Issue() {
   }, []);
 
   const Search = async () => {
-    console.log("Selected Value:", selecteDatafac);
-    // ทำสิ่งที่คุณต้องการกับค่าที่ถูกเลือก
+    const FamNo = document.getElementById("FamNo").value;
+    const FamTo = document.getElementById("FamTo").value;
+    const FixAsset = document.getElementById("FixAsset").value;
+    const Date = document.getElementById("Date").value;
+    const DateTo = document.getElementById("DateTo").value;
+      try {
+        const rollNoSearch = await axios.get(
+          `http://localhost:5000/getsearch?FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        );
+        const data = rollNoSearch.data;
+        // console.log(rollNoSearch.data,"Search: ")
+        // console.log(selectdept,"DEPT:")
+        setdataSearch(data);
+       
+       ;
+
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
+    
   };
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <div className="body">
         <div className="BoxSearch">
           {/* Factiory  */}
@@ -179,6 +195,7 @@ function Issue() {
             </Grid>
             <Grid item xs={1.1} style={{ height: "10px" }}>
               <TextField
+              id="FamNo"
                 size="small"
                 style={{
                   backgroundColor: "white",
@@ -193,6 +210,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <TextField
+              id="FamTo"
                 size="small"
                 style={{
                   backgroundColor: "white",
@@ -262,7 +280,7 @@ function Issue() {
                   }}
                 >
                   {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -309,7 +327,9 @@ function Issue() {
               <Typography>Fix Asset Code :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <TextField size="small"></TextField>
+              <TextField 
+              id="FixAsset"
+              size="small"></TextField>
             </Grid>
           </Grid>
 
@@ -324,6 +344,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2} style={{ height: "10px" }}>
               <TextField
+                id="Date"
                 size="small"
                 type="date"
                 style={{
@@ -343,13 +364,13 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <TextField
+              id="DateTo"
                 size="small"
                 type="date"
                 style={{
                   backgroundColor: "white",
                   borderRadius: "4px",
                   width: "220px",
-
                   marginRight: "5px",
                 }}
               ></TextField>
@@ -430,8 +451,10 @@ function Issue() {
               <TableHead sx={{ backgroundColor: "#A7C9FA" }}>
                 <TableRow>
                   <TableCell>No</TableCell>
-                  <TableCell>Factory</TableCell>
+                  <TableCell>Factory</TableCell> 
                   <TableCell>Cost Center</TableCell>
+                  <TableCell>FAM No.</TableCell>
+                  <TableCell>Issue By</TableCell>
                   <TableCell>Issue Date</TableCell>
                   <TableCell>Type</TableCell>
                   <TableCell>Fixed Asset Code</TableCell>
@@ -439,6 +462,7 @@ function Issue() {
                 </TableRow>
               </TableHead>
               <TableBody>
+              {dataSearch.map ((item) => 
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
@@ -456,18 +480,22 @@ function Issue() {
                       />
                     </Tooltip>
                   </TableCell>
-                  <TableCell>1</TableCell>
-                  <TableCell>2</TableCell>
-                  <TableCell>3</TableCell>
-                  <TableCell>4</TableCell>
-                  <TableCell>5</TableCell>
-                  <TableCell>6</TableCell>
-                </TableRow>
+                  <TableCell>{item[0]}</TableCell>
+                  <TableCell>{item[1]}</TableCell>
+                  <TableCell>{item[2]}</TableCell>
+                  <TableCell>{item[3]}</TableCell>
+                  <TableCell>{item[4]}</TableCell>
+                  <TableCell>{item[5]}</TableCell>
+                  <TableCell>{item[6]}</TableCell>
+                  <TableCell>{item[7]}</TableCell>
+                </TableRow> )
+}
               </TableBody>
             </Table>
           </TableContainer>
         </div>
       </div>
+
     </>
   );
 }

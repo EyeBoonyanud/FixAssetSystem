@@ -60,7 +60,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       }
       setmenuId(datamenuid)
       setmenu(datamenu);
-      console.log("Maindata", data);
+      // console.log("Maindata", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -94,8 +94,8 @@ const SidebarMenu = ({ isOpen, onClose }) => {
  const navigate = useNavigate();
  
  const handleButtonClick = (id) => {
-  console.log("มาสิ")
-  console.log(id)
+  // console.log("มาสิ")
+  // console.log(id)
    if (id === "Issue FAM"){
      navigate("/Search");    
    }else if(id === "Approve FAM"){
@@ -108,7 +108,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
    navigate("/DataDept");
  };
  const Home = () => {
-   navigate("/Home");
+   navigate("/Homepage");
  };
   useEffect(() => {
     Menu();
@@ -124,8 +124,8 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     setIcondrop2(!Icondrop2);
     setSubMenuOpen2(!subMenuOpen2);
   };
-  console.log(menudataId,"///////////")
-  console.log(menuId,"-----------")
+  // console.log(menudataId,"///////////")
+  // console.log(menuId,"-----------")
  
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose} sx={{ border: "10" }}>
@@ -141,10 +141,10 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         {/* Menu Home */}
         <div>
         <ListItem className="ListItem" onClick={toggleSubMenu1}>
-          <ListItemIcon>
-            <SensorsOutlinedIcon color="success" />
+          <ListItemIcon >
+            <SensorsOutlinedIcon color="success"  />
           </ListItemIcon>
-          <ListItemText primary={menu[0]} />
+          <ListItemText primary={menu[0]} onClick={Home}/>
          
         </ListItem>
         {subMenuOpen1 && (
