@@ -18,6 +18,7 @@ function Login() {
   let Lastname =""; //สร้างตัวแปรที่รับค่ากลับมา 
   let Role=""; //สร้างตัวแปรที่รับค่ากลับมา
   let UserLogin="";
+  let Emp ="";
 
   
 
@@ -44,6 +45,7 @@ function Login() {
           Lastname =data[0][2]
           Role =data[0][0]
           UserLogin =data[0][3]
+          Emp =data[0][4]
           console.log("Login successful", data);
 
           if (data && data.length > 0) {
@@ -51,7 +53,8 @@ function Login() {
             localStorage.setItem("Lastname", Lastname);
             localStorage.setItem("Role", Role);
             localStorage.setItem("UserLogin", UserLogin);
-            window.location.href="/Home";
+            localStorage.setItem("EmpID", Emp);
+            window.location.href="/Homepage";
           } else {
             console.error("Login failed");
             alert("Invalid username or password");

@@ -24,7 +24,8 @@ module.exports.login = async function (req, res) {
     console.log(User,Password)
     const connect = await oracledb.getConnection(CUSR);
     const query = `
-        SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN
+        SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
+        ,T.USER_EMP_ID
         FROM CU_USER_M T
         INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
         INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID

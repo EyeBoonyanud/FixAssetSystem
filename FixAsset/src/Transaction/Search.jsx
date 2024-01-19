@@ -26,6 +26,9 @@ import AddIcon from "@mui/icons-material/Add";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Empty } from "antd";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function Issue() {
   const Name = localStorage.getItem("Name");
@@ -44,8 +47,16 @@ function Issue() {
   const [ReType, setReType] = useState([]);
   const [selectReType, setselectReType] = useState("");
 
-  const [dataSearch , setdataSearch] = useState([]);
+  const [dataSearch, setdataSearch] = useState([]);
+  const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
+  const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
+  const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
 
+  function formatDateString(rawDate) {
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    const date = new Date(rawDate);
+    return date.toLocaleDateString(undefined, options);
+  }
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
@@ -72,44 +83,44 @@ function Issue() {
     setselectReType(event.target.value);
     // console.log(event.target.value,"Typeeee")
   };
- 
+
   const navigate = useNavigate();
   const New = () => {
     navigate("/InsertIssue");
   };
 
   useEffect(() => {
-     const Factory = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      // console.log(FactoryData, "Factory");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-  const Costcenter = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getcost`);
-      const CostData = await response.data;
-      setcost(CostData);
-      // console.log(CostData, "CostData :");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-  const RequestType = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/gettype`);
-      const TypeData = await response.data;
-      setReType(TypeData);
-      // console.log(TypeData, "TypeData");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-  
+    const Factory = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/getfactory`);
+        const FactoryData = await response.data;
+        setdatafac(FactoryData);
+        // console.log(FactoryData, "Factory");
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    const Costcenter = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/getcost`);
+        const CostData = await response.data;
+        setcost(CostData);
+        // console.log(CostData, "CostData :");
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    const RequestType = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/gettype`);
+        const TypeData = await response.data;
+        setReType(TypeData);
+        // console.log(TypeData, "TypeData");
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+
     Factory();
     Costcenter();
     RequestType();
@@ -121,21 +132,41 @@ function Issue() {
     const FixAsset = document.getElementById("FixAsset").value;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
-      try {
-        const rollNoSearch = await axios.get(
-          `http://localhost:5000/getsearch?FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
-        );
-        const data = rollNoSearch.data;
-        // console.log(rollNoSearch.data,"Search: ")
-        // console.log(selectdept,"DEPT:")
-        setdataSearch(data);
-       
-       ;
-
-      } catch (error) {
-        console.error("Error requesting data:", error);
+    try {
+      const rollNoSearch = await axios.get(
+        `http://localhost:5000/getsearch?FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+      );
+      const data = rollNoSearch.data;
+      setCheckHead("visible");
+      setdataSearch(data);
+      if (data.length === 0) {
+        setCheckEmpty("visible");
+        setCheckData("hidden");
+      } else {
+        setCheckEmpty("hidden");
+        setCheckData("visible");
       }
-    
+      // console.log(rollNoSearch.data,"Search: ")
+      // console.log(selectdept,"DEPT:")
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+  };
+
+  const Reset = async () => {
+    document.getElementById("FamNo").value = "";
+    document.getElementById("FamTo").value = "";
+    document.getElementById("FixAsset").value = "";
+    document.getElementById("Date").value = "";
+    document.getElementById("DateTo").value = "";
+    setselectdept("");
+    setselecteDatafac("");
+    setselectcost("");
+    setselectReType("");
+    setdataSearch("");
+    setCheckHead("hidden");
+    setCheckEmpty("hidden");
+    setCheckData("visible");
   };
 
   return (
@@ -195,7 +226,7 @@ function Issue() {
             </Grid>
             <Grid item xs={1.1} style={{ height: "10px" }}>
               <TextField
-              id="FamNo"
+                id="FamNo"
                 size="small"
                 style={{
                   backgroundColor: "white",
@@ -210,7 +241,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <TextField
-              id="FamTo"
+                id="FamTo"
                 size="small"
                 style={{
                   backgroundColor: "white",
@@ -233,7 +264,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
-              <InputLabel size="small" id="demo-simple-select-label">
+                <InputLabel size="small" id="demo-simple-select-label">
                   Select
                 </InputLabel>
                 <Select
@@ -264,7 +295,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
-              <InputLabel size="small" id="demo-simple-select-label">
+                <InputLabel size="small" id="demo-simple-select-label">
                   Select
                 </InputLabel>
                 <Select
@@ -298,7 +329,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
-              <InputLabel size="small" id="demo-simple-select-label">
+                <InputLabel size="small" id="demo-simple-select-label">
                   Select
                 </InputLabel>
                 <Select
@@ -327,9 +358,7 @@ function Issue() {
               <Typography>Fix Asset Code :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <TextField 
-              id="FixAsset"
-              size="small"></TextField>
+              <TextField id="FixAsset" size="small"></TextField>
             </Grid>
           </Grid>
 
@@ -364,7 +393,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <TextField
-              id="DateTo"
+                id="DateTo"
                 size="small"
                 type="date"
                 style={{
@@ -442,16 +471,36 @@ function Issue() {
                 Export Excel
               </Button>
             </Grid>
+            <Grid style={{ marginLeft: "20px" }}>
+              <Button
+                className="ButtonSearch"
+                onClick={Reset}
+                style={{
+                  backgroundColor: "#E2E3DC",
+                  width: "100px",
+                  color: "black",
+                }}
+                variant="contained"
+              >
+                <RestartAltIcon />
+                Reset
+              </Button>
+            </Grid>
           </Grid>
         </div>
 
         <div className="responsive-container">
-          <TableContainer component={Paper}>
+          <TableContainer
+            style={{
+              visibility: checkHead,
+            }}
+            component={Paper}
+          >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead sx={{ backgroundColor: "#A7C9FA" }}>
                 <TableRow>
                   <TableCell>No</TableCell>
-                  <TableCell>Factory</TableCell> 
+                  <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
                   <TableCell>FAM No.</TableCell>
                   <TableCell>Issue By</TableCell>
@@ -462,40 +511,64 @@ function Issue() {
                 </TableRow>
               </TableHead>
               <TableBody>
-              {dataSearch.map ((item) => 
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>
-                    <Tooltip title="Edit">
-                      <EditNoteIcon
-                        style={{ color: "#F4D03F", fontSize: "30px" }}
-                        onClick={() => handleOpenEdit(item[0])}
+                {dataSearch.length > 0 ? (
+                  dataSearch.map((item) => (
+                    <TableRow
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>
+                        <Tooltip title="Edit">
+                          <EditNoteIcon
+                            style={{ color: "#F4D03F", fontSize: "30px" }}
+                            onClick={() => handleOpenEdit(item[0])}
+                          />
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                          <DeleteForeverIcon
+                            style={{ color: "red", fontSize: "30px" }}
+                            onClick={() => Delete(item[0])}
+                          />
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[2]}</TableCell>
+                      <TableCell>{formatDateString(item[3])}</TableCell>
+                      <TableCell>{item[4]}</TableCell>
+                      <TableCell>{item[5]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>{item[7]}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow style={{ visibility: checkEmpty }}>
+                    <TableCell colSpan={9}>
+                      <InfoCircleOutlined
+                        style={{
+                          visibility: checkData,
+                          fontSize: "30px",
+                          color: "#ffd580",
+                        }}
                       />
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <DeleteForeverIcon
-                        style={{ color: "red", fontSize: "30px" }}
-                        onClick={() => Delete(item[0])}
-                      />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>{item[0]}</TableCell>
-                  <TableCell>{item[1]}</TableCell>
-                  <TableCell>{item[2]}</TableCell>
-                  <TableCell>{item[3]}</TableCell>
-                  <TableCell>{item[4]}</TableCell>
-                  <TableCell>{item[5]}</TableCell>
-                  <TableCell>{item[6]}</TableCell>
-                  <TableCell>{item[7]}</TableCell>
-                </TableRow> )
-}
+                      <text
+                        style={{
+                          visibility: checkData,
+                          fontSize: "25px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {" "}
+                        Please fill in information{" "}
+                      </text>
+                      <Empty style={{ visibility: checkEmpty }} />
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
         </div>
       </div>
-
     </>
   );
 }

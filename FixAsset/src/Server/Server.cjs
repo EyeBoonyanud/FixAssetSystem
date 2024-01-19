@@ -23,6 +23,7 @@ app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
 app.get("/getsubmenu",Login.submenu);
+app.get("/getemp",Transaction.emp);
 app.get("/getfactory",Transaction.factory);
 app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);

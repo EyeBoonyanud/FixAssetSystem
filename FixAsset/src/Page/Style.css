@@ -1,6 +1,5 @@
-.body{
-padding: 100px;
-  
+.body {
+  padding: 100px;
 }
 .responsive-container {
   /* padding: 20px; */
@@ -18,24 +17,23 @@ padding: 100px;
   padding: 0;
   margin-bottom: 30px;
 }
-.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1ygcj2i-MuiTableCell-root{
+.MuiTableCell-root.MuiTableCell-head.MuiTableCell-sizeMedium.css-1ygcj2i-MuiTableCell-root {
   text-align: center;
 }
-.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root{
+.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root {
   text-align: center;
 }
-.txt-search{
+.txt-search {
   width: 318px;
- 
 }
 .ListItem {
   cursor: pointer;
- 
+
   color: rgb(119, 118, 118);
   width: 95%;
   margin-left: 5px;
 }
- 
+
 .ListItem:hover {
   background-color: #bae7ff; /* เมื่อโฮเวอร์ */
   border-radius: 10px;
@@ -43,15 +41,15 @@ padding: 100px;
   width: 95%;
   margin-left: 5px;
 }
- 
+
 /* สไตล์สำหรับรายการรายการย่อย */
 .SubMenuItem {
   cursor: pointer;
   margin-left: 20px;
- 
+
   width: 50%;
 }
- 
+
 .SubMenuItem:hover {
   background-color: #bae7ff; /* เมื่อโฮเวอร์ */
   border-radius: 10px;
@@ -62,80 +60,84 @@ padding: 100px;
   margin-bottom: 50px;
   padding-bottom: 10px;
 }
-.Box-Insert{
+.Box-Insert {
   height: 700px;
 }
-.Insert{
-  
-    max-height: 500px;
- 
+.Insert {
+  max-height: 500px;
 }
-.ant-upload-list-item-name{
+.ant-upload-list-item-name {
   background-color: #40a9ff;
   font-size: 18px;
 }
-.Modal{
-  width:600px ;
-  height: 500px;
+.Modal {
+  width: 900px;
+  min-height: 100px;
+  /* margin-left: 20px; */
+  padding:0px 20px 0px 20px
+}
 
+.Modal-Table th {
+  background-color: #acfe8b;
+  height: 1px;  
+  font-size: 15px ;
+  padding: 0px;
+  font-weight: bold ;
 }
-.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.css-1ex1afd-MuiTableCell-root{
-  font-size: 12px;
+.Modal-Table td {
+  padding: 0px;
+  font-size: 15px ;
+  font-size:12px ;
 }
-/* .Radio{
-  width: 105px;
-} */
-/* .Search{
-  margin-bottom: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.Style1 {
   width: 100%;
- 
-} */
-
-
-/* #demo-simple-select-label{
-  border: 1px solid red;
-} */
-/* .table tr{
- border: 1px solid red;
-} */
-/* .MuiCardContent-root.css-46bh2p-MuiCardContent-root{
-  border: 1px solid red;
-} */
-/* .Style1 {
   display: flex;
-  text-align: center;
   justify-content: center;
-  
-} */
+}
 
 .Style2 {
-    text-align: center;
-    vertical-align: middle;
-    display: flex;
-    justify-content: left;
-    margin-left: 30px;
-    /* width: 100%; */
+  width: 90%;
+  padding: 1%;
 }
-
 
 .Style3 {
-    text-align: right;
-    vertical-align: middle;
-    width: 170px;
-    
-}
+  width: 100%;
 
+}
 .Style4 {
-    text-align: center;
-    vertical-align: middle;
-    /* width: 100px; */
+    width: 15%;
+  text-align: right;
+  padding: 0.7%;
 }
 
-.StyleColspan {
-    text-align: right;
-    vertical-align: middle;
-    width: 146px;
+.Style5 {
+    width: 30%;
+  text-align: center;
 }
+.Style6 {
+  justify-content: center;
+}
+
+.Style7 {
+    width: 10%;
+  text-align: right;
+}
+
+.Style8 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 4%;
+    
+  }
+
+  .Style100 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+
+
+
