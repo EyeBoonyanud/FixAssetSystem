@@ -34,10 +34,14 @@ module.exports.emp = async function (req, res) {
     const EmpID = req.query.empID;
     const connect = await oracledb.getConnection(CUSR);
     const query = `
-    SELECT MU.ENAME , MU.ESURNAME , MU.FACTORY , MU.COST_CENTER,
-    MU.ENAME||' ' ||MU.ESURNAME AS USER_EMP
-     FROM CU_USER_HUMANTRIX MU 
-      WHERE MU.EMPCODE  = '${EmpID}' `;
+    SELECT M.FACTORY_NAME,
+    T.USER_FNAME,
+    T.USER_SURNAME,
+    T.USER_SITE ,
+    T.USER_FNAME||'  ' ||T.USER_SURNAME AS USER_LOGIN
+    FROM  CU_USER_M T 
+    INNER JOIN  CU_FACTORY_M M ON M.FACTORY_CODE  = T.USER_SITE
+     WHERE  T.USER_EMP_ID = '${EmpID}' `;
     const result = await connect.execute(query);
     connect.release();
     console.log(result.rows);
@@ -58,7 +62,7 @@ module.exports.factory = async function (req, res) {
            `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
@@ -77,7 +81,7 @@ module.exports.dept = async function (req, res) {
       ORDER BY T.FDM_SORT,T.FDM_DEPT_SHORT`;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
@@ -94,7 +98,7 @@ module.exports.cost = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
@@ -113,7 +117,7 @@ module.exports.type = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
@@ -131,15 +135,6 @@ module.exports.search = async function (req, res) {
     const type = req.query.ReType;
     const date = req.query.ReDate;
     const dateto = req.query.ReDateTo;
-    console.log(factory, "1");
-    console.log(dept, "2");
-    console.log(famno, "3");
-    console.log(famto, "4");
-    console.log(cost, "5");
-    console.log(asset, "6");
-    console.log(type, "7");
-    console.log(date, "8");
-    console.log(dateto, "9");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -172,10 +167,10 @@ module.exports.search = async function (req, res) {
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
          `;
-    console.log(query);
+    // console.log(query);
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
@@ -221,7 +216,7 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
 
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
+    // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);

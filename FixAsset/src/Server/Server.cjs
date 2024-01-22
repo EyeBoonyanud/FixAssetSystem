@@ -1,6 +1,7 @@
+
 const express = require("express");
 const oracledb = require("oracledb");
-
+require("dotenv").config();
 const app = express();
 const port = 5000;
 app.use(express.json());

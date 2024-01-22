@@ -30,11 +30,12 @@ import {
   Checkbox,
   FormControl,
   MenuItem,
+  InputLabel,
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
- 
+
 export default function LabTabs() {
   const Emp = localStorage.getItem("EmpID");
   const [value, setValue] = React.useState("1");
@@ -45,17 +46,29 @@ export default function LabTabs() {
   const [Fixcode1, setFixcode1] = useState("");
   const [open, setOpen] = useState(false);
   const [UserEmp, setUserEmp] = useState("");
-  
+  const [cost, setcost] = useState([]);
+  const [selectcost, setselectcost] = useState("");
+ 
   const [age, setAge] = React.useState("");
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const handleCost = (event) => {
+    setselectcost(event.target.value);
   };
   const handleOpenTable = () => {
     setTableOpen(true);
     setOpen(false);
   };
-  const handleCloseTable = () => {
-    setTableOpen(false);
+  const Costcenter = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getcost`);
+      const CostData = await response.data;
+      setcost(CostData);
+      // console.log(CostData, "CostData :");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
   const handleFileUpload = (event) => {
     // ทำอะไรกับไฟล์ที่ถูกเลือก
@@ -65,8 +78,6 @@ export default function LabTabs() {
 
     // เพิ่มโค้ดที่คุณต้องการทำต่อไป
   };
-
-  
 
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
@@ -88,7 +99,7 @@ export default function LabTabs() {
   const handleClose = () => {
     setOpen(false);
   };
- 
+
   const handleDeleteFile = (index) => {
     const updatedFiles = [...uploadedFiles];
     updatedFiles.splice(index, 1);
@@ -101,256 +112,406 @@ export default function LabTabs() {
     .getDate()
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  
-  useEffect (() => {
-    const EmployeeId  = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getemp?empID=${Emp}`);
-      const dataEmp = await response.data;
-      setUserEmp(dataEmp[0][4])
-       console.log(UserEmp, "Factory");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }}
 
-    EmployeeId()
- } , [] )
-  
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setCurrentDateTime(new Date());
-  //   }, 1000); // Update every second
-
-  //   return () => clearInterval(intervalId); // Cleanup on component unmount
-  // }, []);
-
-
+  useEffect(() => {
+    const EmployeeId = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getemp?empID=${Emp}`
+        );
+        const dataEmp = await response.data;
+        let DataEmp =dataEmp.flat();   // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+        setUserEmp(DataEmp);
+       
+        console.log(test, "test");
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+   
+    EmployeeId();
+    Costcenter();
+    
+  }, []);
+ 
   const Tab1 = () => {
     return (
       <div className="Box-Insert">
         <div className="Insert">
-          <Card>
-            <Box sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}>
-              {/* FAM Np and Request */}
-              <Grid container spacing={3}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    FAM No :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField
-                    size="small"
-                    style={{ width: "100%" }}
-                    disabled
-                  ></TextField>
-                </Grid>
-                <Grid xs={2}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Request Date :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField
-                    value={formattedDate}
-                    size="small"
-                    style={{ width: "100%"}}
-                    disabled
-                  ></TextField>
-                </Grid>
-              </Grid>
-              {/* Request BY(Owner) */}
-              <Grid container spacing={3}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Request By (Owner) :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField 
-                  size="small" disabled style={{ width: "100%"}} value={UserEmp}></TextField>
-                </Grid>
-                <Grid xs={2}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Tel :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField size="small" style={{ width: "100%" }}></TextField>
-                </Grid>
-              </Grid>
-              {/* Factory and Cost center */}
-              <Grid container spacing={3}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Factory :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField size="small" style={{ width: "100%" }}></TextField>
-                </Grid>
-                <Grid xs={2}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Cost Center :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <Select size="small" style={{ width: "100%" }}></Select>
-                </Grid>
-              </Grid>
-              {/* Dept and Status */}
-              <Grid container spacing={3}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Dept :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField size="small" style={{ width: "100%" }}></TextField>
-                </Grid>
-                <Grid xs={2}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Status :
-                  </Typography>
-                </Grid>
-                <Grid xs={3}>
-                  <TextField size="small" style={{ width: "100%" }}></TextField>
-                </Grid>
-              </Grid>
-              {/* Radio Button Type  */}
-              <Grid container spacing={3} style={{ width: "100%" }}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Tel :
-                  </Typography>
-                </Grid>
-                <Grid xs={10}>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="Transfer"
-                      control={<Radio />}
-                      label="Transfer"
-                      className="Radio"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Scrap"
-                      className="Radio"
-                    />
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
 
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Sales"
-                      className="Radio"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Lost"
-                      className="Radio"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Write off"
-                      className="Radio"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Landing to Third party"
-                      className="Radio"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Donation"
-                      className="Radio"
-                    />
-                  </RadioGroup>
+                  justifyContent: "center",
+                }}
+              >
+                Tranfer Detail
+              </Typography>
+              <Box
+                sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}
+              >
+                {/* FAM Np and Request */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      FAM No :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                      disabled
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request Date :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      value={formattedDate}
+                      size="small"
+                      style={{ width: "100%" }}
+                      disabled
+                    ></TextField>
+                  </Grid>
                 </Grid>
-              </Grid>
-              {/* Remark */}
-              <Grid container spacing={3}>
-                <Grid xs={1.7}>
-                  <Typography style={{ width: "100%", textAlign: "right" }}>
-                    FAM No :
-                  </Typography>
+                {/* Request BY(Owner) */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request By (Owner) :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled
+                      style={{ width: "100%" }}
+                      value={UserEmp[4]}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Tel :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                    ></TextField>
+                  </Grid>
                 </Grid>
-                <Grid xs={8}>
-                  <TextField size="small" style={{ width: "100%" }}></TextField>
+                {/* Factory and Cost center */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Factory :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                      value={UserEmp[0]}
+                      disabled
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Cost Center :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                  <FormControl fullWidth>
+                <InputLabel size="small" id="demo-simple-select-label">
+                  Select
+                </InputLabel>
+                <Select
+                  // labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  // className="factorycb"
+                  label="Select"
+                  value={selectcost}
+                  onChange={handleCost}
+                  size="small"
+                 
+                >
+                  {cost.map((option) => (
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
+                {/* Dept and Status */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Dept :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Status :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* Radio Button Type  */}
+                <Grid container spacing={3} style={{ width: "100%" }}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Tel :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={10}>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="Transfer"
+                        control={<Radio />}
+                        label="Transfer"
+                        className="Radio"
+                      />
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Scrap"
+                        className="Radio"
+                      />
+
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Sales"
+                        className="Radio"
+                      />
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Lost"
+                        className="Radio"
+                      />
+                      <FormControlLabel
+                        value="other"
+                        control={<Radio />}
+                        label="Write off"
+                        className="Radio"
+                      />
+                      <FormControlLabel
+                        value="other"
+                        control={<Radio />}
+                        label="Landing to Third party"
+                        className="Radio"
+                      />
+                      <FormControlLabel
+                        value="other"
+                        control={<Radio />}
+                        label="Donation"
+                        className="Radio"
+                      />
+                    </RadioGroup>
+                  </Grid>
+                </Grid>
+                {/* Remark */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      FAM No :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={8}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Card>
           </Card>
         </div>
         <div className="Fixed-Asset-Code">
-          <Card style={{ marginTop: "20px" }}>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
               }}
+              className="Style1"
             >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Fixed Assets Code :
-                </Typography>
-              </Grid>{" "}
-              {/* ADD Modal */}
-              <Grid xs={10}>
-                <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
-                <Button
-                  style={{ marginTop: "3px" }}
-                  type="primary"
-                  variant="contained"
-                  onClick={ADD}
-                >
-                  {" "}
-                  ADD
-                </Button>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  maxWidth="lg"
-                  fullWidth
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div className="Modal">
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Tranfer Detail
+              </Typography>
+              <Grid
+                container
+                spacing={3}
+                style={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                <Grid xs={1.6}>
+                  <Typography
+                    style={{
+                      textAlign: "right",
+                      marginTop: "7px",
+                    }}
+                  >
+                    Fixed Assets Code :
+                  </Typography>
+                </Grid>{" "}
+                {/* ADD Modal */}
+                <Grid xs={10}>
+                  <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
+                  <Button
+                    style={{ marginTop: "3px" }}
+                    type="primary"
+                    variant="contained"
+                    onClick={ADD}
+                  >
                     {" "}
-                    <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
-                    <TableContainer component={Paper}>
-                      <Table className="Modal-Table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>
-                              <Checkbox />
-                            </TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>Cc.</TableCell>
-                            <TableCell>Fixed Asset Name</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {dataFixcode.map((item) => (
+                    ADD
+                  </Button>
+                  <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    maxWidth="lg"
+                    fullWidth
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div className="Modal">
+                      {" "}
+                      <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
+                      <TableContainer component={Paper}>
+                        <Table className="Modal-Table">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>
+                                <Checkbox />
+                              </TableCell>
+                              <TableCell>Comp.</TableCell>
+                              <TableCell>Cc.</TableCell>
+                              <TableCell>Fixed Asset Name</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {dataFixcode.map((item) => (
+                              <TableRow
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell>
+                                  <Checkbox />
+                                </TableCell>{" "}
+                                <TableCell>{item[1]}</TableCell>
+                                <TableCell>{item[2]}</TableCell>
+                                <TableCell>{item[3]}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <DialogActions style={{ marginTop: "20px" }}>
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "green" }}
+                          onClick={handleOpenTable}
+                        >
+                          ADD
+                        </Button>
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: "gray" }}
+                          onClick={handleClose}
+                        >
+                          Close
+                        </Button>
+                      </DialogActions>
+                    </div>
+                  </Dialog>
+                  {isTableOpen && (
+                    <div style={{ marginTop: "20px" }}>
+                      <TableContainer component={Paper}>
+                        <Table aria-label="simple table">
+                          <TableHead
+                            sx={{
+                              backgroundColor: "#22FF5E",
+                              fontSize: "10px",
+                            }}
+                          >
+                            <TableRow>
+                              <TableCell>
+                                <Checkbox />
+                              </TableCell>
+                              <TableCell>No.</TableCell>
+                              <TableCell>Fixed Asset Code</TableCell>
+                              <TableCell>Comp.</TableCell>
+                              <TableCell>CC.</TableCell>
+                              <TableCell>Fixed Assets Name</TableCell>
+                              <TableCell>BOI Project</TableCell>
+                              <TableCell>Qty</TableCell>
+                              <TableCell>Invoice No.</TableCell>
+                              <TableCell>Acquisition Cost(Baht)</TableCell>
+                              <TableCell>Book Value(Baht)</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
                             <TableRow
                               sx={{
                                 "&:last-child td, &:last-child th": {
@@ -361,157 +522,123 @@ export default function LabTabs() {
                               <TableCell>
                                 <Checkbox />
                               </TableCell>{" "}
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
+                              <TableCell>1</TableCell>
+                              <TableCell>Mc0</TableCell>
+                              <TableCell>1</TableCell>
+                              <TableCell>R420</TableCell>
+                              <TableCell>
+                                WASHING DRYER MACHINE CODE W-41-51{" "}
+                              </TableCell>
+                              <TableCell>NAPK</TableCell>
+                              <TableCell>1</TableCell>
+                              <TableCell>3562820-1</TableCell>
+                              <TableCell>28900000</TableCell>
+                              <TableCell>1.0</TableCell>
                             </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <DialogActions style={{ marginTop: "20px" }}>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "green" }}
-                        onClick={handleOpenTable}
-                      >
-                        ADD
-                      </Button>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "gray" }}
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                    </DialogActions>
-                  </div>
-                </Dialog>
-                {isTableOpen && (
-                  <div style={{ marginTop: "20px" }}>
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table">
-                        <TableHead
-                          sx={{ backgroundColor: "#22FF5E", fontSize: "10px" }}
-                        >
-                          <TableRow>
-                            <TableCell>
-                              <Checkbox />
-                            </TableCell>
-                            <TableCell>No.</TableCell>
-                            <TableCell>Fixed Asset Code</TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>CC.</TableCell>
-                            <TableCell>Fixed Assets Name</TableCell>
-                            <TableCell>BOI Project</TableCell>
-                            <TableCell>Qty</TableCell>
-                            <TableCell>Invoice No.</TableCell>
-                            <TableCell>Acquisition Cost(Baht)</TableCell>
-                            <TableCell>Book Value(Baht)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          <TableRow
-                            sx={{
-                              "&:last-child td, &:last-child th": {
-                                border: 0,
-                              },
-                            }}
-                          >
-                            <TableCell>
-                              <Checkbox />
-                            </TableCell>{" "}
-                            <TableCell>1</TableCell>
-                            <TableCell>Mc0</TableCell>
-                            <TableCell>1</TableCell>
-                            <TableCell>R420</TableCell>
-                            <TableCell>
-                              WASHING DRYER MACHINE CODE W-41-51{" "}
-                            </TableCell>
-                            <TableCell>NAPK</TableCell>
-                            <TableCell>1</TableCell>
-                            <TableCell>3562820-1</TableCell>
-                            <TableCell>28900000</TableCell>
-                            <TableCell>1.0</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                )}{" "}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+                  )}{" "}
+                </Grid>
               </Grid>
-            </Grid>
+            </Card>
           </Card>
         </div>
         <div className="UploadFile">
-          <Card style={{ marginTop: "20px" }}>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
               }}
+              className="Style1"
             >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    width: "100%",
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Uplpad File :
-                </Typography>
-              </Grid>
-              <Grid xs={5}>
-                <input
-                  type="file"
-                  multiple
-                  onChange={handleFileUpload}
-                  style={{ display: "none" }}
-                  id="fileInput"
-                />
-                <label htmlFor="fileInput">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    style={{ marginTop: "3px" }}
-                    component="span"
-                  >
-                    Upload
-                  </Button>
-                </label>
-                {uploadedFiles.length > 0 && (
-                  <div>
-                    <ul>
-                      {uploadedFiles.map((file, index) => (
-                        <li key={index}>
-                          {file.name}
-                          <ClearIcon
-                            onClick={() => handleDeleteFile(index)}
-                            style={{
-                              fontSize: "16",
-                              marginTop: "15px",
-                              marginLeft: "10px",
-                              color: "red",
-                            }}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
 
-                {/* <Upload {...props}>
+                  justifyContent: "center",
+                }}
+              >
+                Tranfer Detail
+              </Typography>
+              <Grid
+                container
+                spacing={3}
+                style={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                <Grid xs={1.6}>
+                  <Typography
+                    style={{
+                      width: "100%",
+                      textAlign: "right",
+                      marginTop: "7px",
+                    }}
+                  >
+                    Uplpad File :
+                  </Typography>
+                </Grid>
+                <Grid xs={5}>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileUpload}
+                    style={{ display: "none" }}
+                    id="fileInput"
+                  />
+                  <label htmlFor="fileInput">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      style={{ marginTop: "3px" }}
+                      component="span"
+                    >
+                      Upload
+                    </Button>
+                  </label>
+                  {uploadedFiles.length > 0 && (
+                    <div>
+                      <ul>
+                        {uploadedFiles.map((file, index) => (
+                          <li key={index}>
+                            {file.name}
+                            <ClearIcon
+                              onClick={() => handleDeleteFile(index)}
+                              style={{
+                                fontSize: "16",
+                                marginTop: "15px",
+                                marginLeft: "10px",
+                                color: "red",
+                              }}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* <Upload {...props}>
                   <Button style={{width:'200px'}}
                   icon={<UploadOutlined />}>Choose File</Button>
                   &nbsp;&nbsp;
                   <Button type="primary"> Upload</Button>
                 </Upload> */}
+                </Grid>
               </Grid>
-            </Grid>
+            </Card>
           </Card>
         </div>
       </div>
@@ -521,8 +648,756 @@ export default function LabTabs() {
   const Tab2 = () => {
     return (
       <>
-        <div >
-        <Card className="Style100">
+        <div>
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Tranfer Detail
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Owner (Send from) :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl></FormControl>
+                    </td>
+                    <td className="Style7">From BOL Project :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Tranfer to Factory :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl></FormControl>
+                    </td>
+                    <td className="Style7">Tranfer to CC :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">New BOI Project :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">New Owner :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl></FormControl>
+                    </td>
+                    <td className="Style7">Tel :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Plan Remove Date :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          type="date"
+                          style={{ color: "red" }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Tranfer Abnormal :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Routing
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Department Manager :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Service Dept :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                    <td className="Style7">Tel :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Service By :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">BOI Staff :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">BOI Manager :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Factory Manager :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">ACC Check :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Owner :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+        </div>
+
+        <div>
+          <table>
+            <tr>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </>
+    );
+  };
+ 
+  const Tab3 = () => {
+    return (
+      <>
+   
+
+       <div>
+       <Card className="Style100">
                 <Card
                   sx={{
                     borderRadius: "8px",
@@ -540,153 +1415,72 @@ export default function LabTabs() {
                       marginRight: "85%",
                       width: "8%",
                       display: "flex",
-                      
-                      
+                      border: 1,
+                      borderColor: "rgba(64,131,65, 1.5)",
+                      boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
                       justifyContent: "center",
                     }}
                   >
-                    Tranfer Detail
+                    ...
                   </Typography>
                   <div className="Style2">
                     <table className="Style3">
                       <tr>
                         <th colSpan={5}></th>
-                        <td className="Style4">Owner (Send from) :</td>
+                        <td className="Style4">Receiver :</td>
                         <td>
                           <FormControl className="Style1">
                             <TextField
                               id="outlined-size-small"
                               defaultValue=""
                               size="small"
+                              disabled
+                              sx={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
                             />
                           </FormControl>
                         </td>
                         <td className="Style5">
-                          <FormControl></FormControl>
+                          <FormControl>
+                            <RadioGroup
+                              row
+                              aria-labelledby="demo-row-radio-buttons-group-label"
+                              name="row-radio-buttons-group"
+                              // style={{ marginLeft: "20px" }}
+                            >
+                              <FormControlLabel
+                                value="Approve"
+                                control={<Radio size="small" />}
+                                label="Approve"
+                              />
+                              <FormControlLabel
+                                value="Reject"
+                                // disabled
+                                control={<Radio size="small" />}
+                                label="Reject"
+                              />
+                            </RadioGroup>
+                          </FormControl>
                         </td>
-                        <td className="Style7">From BOL Project :</td>
+                        <td className="Style7">Action Date :</td>
                         <td className="Style6">
                           <FormControl className="Style1">
                             <TextField
                               id="outlined-size-small"
                               defaultValue=""
                               size="small"
+                              disabled
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
                             />
                           </FormControl>
                         </td>
                       </tr>
                       <tr>
                         <th colSpan={5}></th>
-                        <td className="Style4">Tranfer to Factory :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl></FormControl>
-                        </td>
-                        <td className="Style7">Tranfer to CC :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">New BOI Project :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                        <td className="Style5"></td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">New Owner :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl></FormControl>
-                        </td>
-                        <td className="Style7">Tel :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Plan Remove Date :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              type="date"
-                              style={{ color: "red" }}
-                            />
-                          </FormControl>
-                        </td>
-                        <td className="Style5"></td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Tranfer Abnormal :</td>
+                        <td className="Style4">Comment :</td>
                         <td colSpan={4}>
                           <FormControl className="Style1">
                             <TextField
@@ -705,7 +1499,7 @@ export default function LabTabs() {
                 <Card
                   sx={{
                     borderRadius: "8px",
-                  border:2,
+                    border: 2,
                     borderColor: "rgba(64,131,65, 1.5)",
                     boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
                     marginTop: 4,
@@ -720,88 +1514,19 @@ export default function LabTabs() {
                       marginRight: "85%",
                       width: "8%",
                       display: "flex",
-        
+                      border: 1,
+                      borderColor: "rgba(64,131,65, 1.5)",
+                      boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
                       justifyContent: "center",
                     }}
                   >
-                    Routing
+                    ...
                   </Typography>
                   <div className="Style2">
                     <table className="Style3">
                       <tr>
                         <th colSpan={5}></th>
-                        <td className="Style4">Department Manager :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Service Dept :</td>
+                        <td className="Style4">ACC Record :</td>
                         <td>
                           <FormControl className="Style1">
                             <TextField
@@ -815,9 +1540,47 @@ export default function LabTabs() {
                             />
                           </FormControl>
                         </td>
-                        <td className="Style5"></td>
-                        <td className="Style7">Tel :</td>
-                        <td>
+                        <td className="Style5">
+                          <FormControl>
+                            <RadioGroup
+                              row
+                              aria-labelledby="demo-row-radio-buttons-group-label"
+                              name="row-radio-buttons-group"
+                              // style={{ marginLeft: "20px" }}
+                            >
+                              <FormControlLabel
+                                value="Approve"
+                                control={<Radio size="small" />}
+                                label="Approve"
+                              />
+                              <FormControlLabel
+                                value="Reject"
+                                // disabled
+                                control={<Radio size="small" />}
+                                label="Reject"
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                        </td>
+                        <td className="Style7">Action Date :</td>
+                        <td className="Style6">
+                          <FormControl className="Style1">
+                            <TextField
+                              id="outlined-size-small"
+                              defaultValue=""
+                              size="small"
+                              disabled
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th colSpan={5}></th>
+                        <td className="Style4">Comment :</td>
+                        <td colSpan={4}>
                           <FormControl className="Style1">
                             <TextField
                               id="outlined-size-small"
@@ -829,7 +1592,7 @@ export default function LabTabs() {
                       </tr>
                       <tr>
                         <th colSpan={5}></th>
-                        <td className="Style4">Service By :</td>
+                        <td className="Style4">ACC Manager :</td>
                         <td>
                           <FormControl className="Style3">
                             <Select
@@ -900,299 +1663,15 @@ export default function LabTabs() {
                       </tr>
                       <tr>
                         <th colSpan={5}></th>
-                        <td className="Style4">BOI Staff :</td>
+                        <td className="Style4">Service Close By :</td>
                         <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
                           <FormControl className="Style1">
                             <TextField
                               id="outlined-size-small"
                               defaultValue=""
                               size="small"
                               disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">BOI Manager :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Factory Manager :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">ACC Check :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Owner :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
+                              sx={{
                                 backgroundColor: "rgba(169, 169, 169, 0.3)",
                               }}
                             />
@@ -1252,19 +1731,10 @@ export default function LabTabs() {
                   </div>
                 </Card>
               </Card>
-        </div>
-
-        <div>
-          <table>
-            <tr>
-              <td></td>
-            </tr>
-          </table>
-        </div>
+       </div>
       </>
     );
   };
-
   return (
     <div>
       <div style={{ marginTop: "100px" }}>
@@ -1285,6 +1755,9 @@ export default function LabTabs() {
           </TabPanel>
           <TabPanel value="2">
             <Tab2 />
+          </TabPanel>
+          <TabPanel value="3">
+            <Tab3 />
           </TabPanel>
         </TabContext>
       </Box>
