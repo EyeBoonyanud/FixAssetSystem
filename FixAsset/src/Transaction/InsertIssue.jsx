@@ -53,8 +53,9 @@ export default function LabTabs() {
   const [dept, setdept] = useState([]);
   const [selectdept, setselectdept] = useState("");
   const [Assetgroup, setAssetgroup] = useState([]);
+  const [AssetgroupID, setAssetgroupID] = useState([]);
   const [selectAssetgroup, setselectAssetgroup] = useState("");
-  const [idFac , setidFac] = useState("");
+  const [idFac, setidFac] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -76,21 +77,11 @@ export default function LabTabs() {
   const handleDept = (event) => {
     setselectdept(event.target.value);
   };
-  const handleAssetGroup = async (event) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getfix_group?Asset_group=${idFac}`
-      );
-
-      const dataFix_group = await response.data;
-
-      let Cost = dataCos_insert.flat();
-      // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
-      setCost_sert(Cost);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+  const handleAssetGroup = (event) => {
+    setselectAssetgroup(event.target.value);
+    console.log("/////////", event.target.value);
   };
+
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -134,13 +125,11 @@ export default function LabTabs() {
         const dataReby = await response.data;
         let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
         setUserEmp(DataBY);
-
-        console.log(test, "test");
       } catch (error) {
         console.error("Error during login:", error);
       }
     };
-    //หา Factory และเอา FAC ID ไปหา Dept 
+    //หา Factory และเอา FAC ID ไปหา Dept
     const Factory_UserLogin = async () => {
       try {
         const response = await axios.get(
@@ -186,10 +175,36 @@ export default function LabTabs() {
       }
     };
 
+    const AssetGroup = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getfix_group?Asset_group=${idFac}`
+        );
+        let dataFix_group_Text=[]
+        let dataFix_group_Value=[]
+        for( let i=0;i<response.data.length;i++){
+          console.log(response.data[i][1],"dataFix_group:")
+          dataFix_group_Text.push(response.data[i][1])
+
+          dataFix_group_Value.push(response.data[i][0])
+        }
+        // const ad = await response.data;
+        // console.log("for", ad);
+        setAssetgroup(dataFix_group_Text);
+        setAssetgroupID(dataFix_group_Value);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+
     BY();
     Factory_UserLogin();
-    Costcenter();
-  }, []);
+    Costcenter();  
+    if (idFac.length > 0) {
+      AssetGroup();
+    }
+
+  }, [idFac]);
 
   //หา EmpID
   // const EmployeeId = async () => {
@@ -441,7 +456,7 @@ export default function LabTabs() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                  <FormControl fullWidth>
+                    <FormControl fullWidth>
                       <InputLabel size="small" id="demo-simple-select-label">
                         Select
                       </InputLabel>
@@ -451,8 +466,10 @@ export default function LabTabs() {
                         onChange={handleAssetGroup}
                         size="small"
                       >
-                        {Assetgroup.map((option) => (
-                          <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                        {Assetgroup.map((option, index) => (
+                          <MenuItem value={AssetgroupID[index]}>
+                            {Assetgroup[index]}
+                          </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
