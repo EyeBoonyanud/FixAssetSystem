@@ -31,13 +31,15 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  Autocomplete,
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 
 export default function LabTabs() {
-  const Emp = localStorage.getItem("EmpID");
+  // const Emp = localStorage.getItem("EmpID");
+  const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
   const [value, setValue] = React.useState("1");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isTableOpen, setTableOpen] = useState(false); // เปิด ปิด Table Fixed Asset
@@ -46,30 +48,23 @@ export default function LabTabs() {
   const [Fixcode1, setFixcode1] = useState("");
   const [open, setOpen] = useState(false);
   const [UserEmp, setUserEmp] = useState("");
-  const [cost, setcost] = useState([]);
-  const [selectcost, setselectcost] = useState("");
- 
-  const [age, setAge] = React.useState("");
+  const [Factory, setFac] = useState("");
+  const [Cost_sert, setCost_sert] = useState("");
+  const [dept, setdept] = useState([]);
+  const [selectdept, setselectdept] = useState("");
+  const [Assetgroup, setAssetgroup] = useState([]);
+  const [selectAssetgroup, setselectAssetgroup] = useState("");
+  const [idFac , setidFac] = useState("");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleCost = (event) => {
-    setselectcost(event.target.value);
-  };
+
   const handleOpenTable = () => {
     setTableOpen(true);
     setOpen(false);
   };
-  const Costcenter = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getcost`);
-      const CostData = await response.data;
-      setcost(CostData);
-      // console.log(CostData, "CostData :");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
+
   const handleFileUpload = (event) => {
     // ทำอะไรกับไฟล์ที่ถูกเลือก
     const selectedFiles = event.target.files;
@@ -78,7 +73,24 @@ export default function LabTabs() {
 
     // เพิ่มโค้ดที่คุณต้องการทำต่อไป
   };
+  const handleDept = (event) => {
+    setselectdept(event.target.value);
+  };
+  const handleAssetGroup = async (event) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfix_group?Asset_group=${idFac}`
+      );
 
+      const dataFix_group = await response.data;
+
+      let Cost = dataCos_insert.flat();
+      // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+      setCost_sert(Cost);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -99,7 +111,6 @@ export default function LabTabs() {
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleDeleteFile = (index) => {
     const updatedFiles = [...uploadedFiles];
     updatedFiles.splice(index, 1);
@@ -114,26 +125,88 @@ export default function LabTabs() {
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   useEffect(() => {
-    const EmployeeId = async () => {
+    //หารหัส RequestBy
+    const BY = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getemp?empID=${Emp}`
+          `http://localhost:5000/getby?By=${UserLogin}`
         );
-        const dataEmp = await response.data;
-        let DataEmp =dataEmp.flat();   // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
-        setUserEmp(DataEmp);
-       
+        const dataReby = await response.data;
+        let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+        setUserEmp(DataBY);
+
         console.log(test, "test");
       } catch (error) {
         console.error("Error during login:", error);
       }
     };
-   
-    EmployeeId();
+    //หา Factory และเอา FAC ID ไปหา Dept 
+    const Factory_UserLogin = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getfac_insert?Fac_Login=${UserLogin}`
+        );
+
+        const dataFac_insert = await response.data;
+
+        let Fac = dataFac_insert.flat();
+        let idFactory = Fac[1];
+        setFac(Fac);
+        setidFac(idFactory);
+
+        if (idFactory.length >= 0) {
+          try {
+            const response = await axios.get(
+              `http://localhost:5000/getdept?idFactory=${idFactory}`
+            );
+            const DeptData = await response.data;
+            setdept(DeptData);
+          } catch (error) {
+            console.error("Error during login:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    //หาcost center โดยส่ง UserLogin
+    const Costcenter = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getcost_insert?Cost_Login=${UserLogin}`
+        );
+
+        const dataCos_insert = await response.data;
+
+        let Cost = dataCos_insert.flat();
+        // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+        setCost_sert(Cost);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+
+    BY();
+    Factory_UserLogin();
     Costcenter();
-    
   }, []);
- 
+
+  //หา EmpID
+  // const EmployeeId = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getemp?empID=${Emp}`
+  //     );
+  //     const dataEmp = await response.data;
+  //     let DataEmp = dataEmp.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+  //     setUserEmp(DataEmp);
+
+  //     console.log(test, "test");
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //   }
+  // };
+
   const Tab1 = () => {
     return (
       <div className="Box-Insert">
@@ -231,7 +304,7 @@ export default function LabTabs() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
-                      value={UserEmp[0]}
+                      value={Factory[0]}
                       disabled
                     ></TextField>
                   </Grid>
@@ -241,25 +314,36 @@ export default function LabTabs() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                  <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel>
-                <Select
-                  // labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  // className="factorycb"
-                  label="Select"
-                  value={selectcost}
-                  onChange={handleCost}
-                  size="small"
-                 
-                >
-                  {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                      value={Cost_sert[0]}
+                      disabled
+                    ></TextField>
+                    {/* <FormControl sx={{ width: "220px", marginRight: "5px" }}>
+                      <Autocomplete
+                        id="Cost"
+                        size="small"
+                        style={{
+                          backgroundColor: "white",
+                          borderRadius: "4px",
+                          width: "200px",
+                          // marginTop: "10px",
+                          // marginRight: "5px",
+                        }}
+                        options={cost}
+                        getOptionLabel={(item) => item[0]}
+                        value={
+                          cost.find((item) => item[0] === selectcost) || null
+                        }
+                        onChange={(e, newValue) => {
+                          setselectcost(newValue ? newValue[0] : "");
+                        }}
+                        renderInput={(params) => (
+                          <TextField {...params} label="Cost" />
+                        )}
+                      />
+                    </FormControl> */}
                   </Grid>
                 </Grid>
                 {/* Dept and Status */}
@@ -270,28 +354,31 @@ export default function LabTabs() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{ width: "100%" }}
-                    ></TextField>
-                  </Grid>
-                  <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Status :
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{ width: "100%" }}
-                    ></TextField>
+                    <FormControl fullWidth>
+                      <InputLabel size="small" id="demo-simple-select-label">
+                        Select
+                      </InputLabel>
+                      <Select
+                        // labelId="demo-simple-select-label"
+                        id="factorycbt"
+                        // className="factorycb"
+                        label="Select"
+                        value={selectdept}
+                        onChange={handleDept}
+                        size="small"
+                      >
+                        {dept.map((option) => (
+                          <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
                 {/* Radio Button Type  */}
                 <Grid container spacing={3} style={{ width: "100%" }}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Tel :
+                      Request Type :
                     </Typography>
                   </Grid>
                   <Grid xs={10}>
@@ -346,11 +433,47 @@ export default function LabTabs() {
                     </RadioGroup>
                   </Grid>
                 </Grid>
+                {/* FixAsset group / AssCost */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Fix Asset Group :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                  <FormControl fullWidth>
+                      <InputLabel size="small" id="demo-simple-select-label">
+                        Select
+                      </InputLabel>
+                      <Select
+                        label="Select"
+                        value={selectAssetgroup}
+                        onChange={handleAssetGroup}
+                        size="small"
+                      >
+                        {Assetgroup.map((option) => (
+                          <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Status :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{ width: "100%" }}
+                    ></TextField>
+                  </Grid>
+                </Grid>
                 {/* Remark */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      FAM No :
+                      Remark :
                     </Typography>
                   </Grid>
                   <Grid xs={8}>
@@ -1390,348 +1513,346 @@ export default function LabTabs() {
       </>
     );
   };
- 
+
   const Tab3 = () => {
     return (
       <>
-   
-
-       <div>
-       <Card className="Style100">
-                <Card
-                  sx={{
-                    borderRadius: "8px",
-                    border: 2,
-                    borderColor: "rgba(64,131,65, 1.5)",
-                    boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-                  }}
-                  className="Style1"
-                >
-                  <Typography
-                    sx={{
-                      position: "absolute",
-                      backgroundColor: "#fff",
-                      marginTop: "-0.5%",
-                      marginRight: "85%",
-                      width: "8%",
-                      display: "flex",
-                      border: 1,
-                      borderColor: "rgba(64,131,65, 1.5)",
-                      boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-                      justifyContent: "center",
-                    }}
-                  >
-                    ...
-                  </Typography>
-                  <div className="Style2">
-                    <table className="Style3">
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Receiver :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              sx={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </Card>
-              </Card>
-              <Card className="Style100">
-                <Card
-                  sx={{
-                    borderRadius: "8px",
-                    border: 2,
-                    borderColor: "rgba(64,131,65, 1.5)",
-                    boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-                    marginTop: 4,
-                  }}
-                  className="Style1"
-                >
-                  <Typography
-                    sx={{
-                      position: "absolute",
-                      backgroundColor: "#fff",
-                      marginTop: "-0.5%",
-                      marginRight: "85%",
-                      width: "8%",
-                      display: "flex",
-                      border: 1,
-                      borderColor: "rgba(64,131,65, 1.5)",
-                      boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-                      justifyContent: "center",
-                    }}
-                  >
-                    ...
-                  </Typography>
-                  <div className="Style2">
-                    <table className="Style3">
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">ACC Record :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              sx={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">ACC Manager :</td>
-                        <td>
-                          <FormControl className="Style3">
-                            <Select
-                              labelId="demo-simple-select-helper-label"
-                              id="demo-simple-select-helper"
-                              value={age}
-                              onChange={handleChange}
-                              size="small"
-                            >
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              <MenuItem value={10}>Pee Char</MenuItem>
-                              <MenuItem value={20}>Pee Tom</MenuItem>
-                              <MenuItem value={30}>Pee Pu</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Service Close By :</td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              sx={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                        <td className="Style5">
-                          <FormControl>
-                            <RadioGroup
-                              row
-                              aria-labelledby="demo-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              // style={{ marginLeft: "20px" }}
-                            >
-                              <FormControlLabel
-                                value="Approve"
-                                control={<Radio size="small" />}
-                                label="Approve"
-                              />
-                              <FormControlLabel
-                                value="Reject"
-                                // disabled
-                                control={<Radio size="small" />}
-                                label="Reject"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </td>
-                        <td className="Style7">Action Date :</td>
-                        <td className="Style6">
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                              disabled
-                              style={{
-                                backgroundColor: "rgba(169, 169, 169, 0.3)",
-                              }}
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th colSpan={5}></th>
-                        <td className="Style4">Comment :</td>
-                        <td colSpan={4}>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="outlined-size-small"
-                              defaultValue=""
-                              size="small"
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </Card>
-              </Card>
-       </div>
+        <div>
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 1,
+                  borderColor: "rgba(64,131,65, 1.5)",
+                  boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                  justifyContent: "center",
+                }}
+              >
+                ...
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Receiver :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 1,
+                  borderColor: "rgba(64,131,65, 1.5)",
+                  boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                  justifyContent: "center",
+                }}
+              >
+                ...
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">ACC Record :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">ACC Manager :</td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={age}
+                          onChange={handleChange}
+                          size="small"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Pee Char</MenuItem>
+                          <MenuItem value={20}>Pee Tom</MenuItem>
+                          <MenuItem value={30}>Pee Pu</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Service Close By :</td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <FormControlLabel
+                            value="Approve"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                          />
+                          <FormControlLabel
+                            value="Reject"
+                            // disabled
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td className="Style7">Action Date :</td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colSpan={5}></th>
+                    <td className="Style4">Comment :</td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          defaultValue=""
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+        </div>
       </>
     );
   };

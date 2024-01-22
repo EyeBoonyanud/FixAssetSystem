@@ -291,7 +291,7 @@ function Issue() {
               xs={1.1}
               style={{ marginTop: "2px", textAlign: "right" }}
             >
-              <Typography>Cost Center :</Typography>
+              <Typography> Asset Cost Center :</Typography>
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>

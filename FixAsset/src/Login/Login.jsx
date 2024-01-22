@@ -19,6 +19,7 @@ function Login() {
   let Role = ""; //สร้างตัวแปรที่รับค่ากลับมา
   let UserLogin = "";
   let Emp = "";
+  let Factory = "";
 
   const handleLogin = async () => {
     sessionStorage.setItem("isLoggedIn", "true");

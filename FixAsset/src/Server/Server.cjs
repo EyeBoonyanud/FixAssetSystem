@@ -29,8 +29,12 @@ app.get("/getfactory",Transaction.factory);
 app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
+app.get("/getby",Transaction.by);
 app.get("/getsearch",Transaction.search);
 app.get("/getfixcode",Transaction.fixcode);
+app.get("/getfac_insert",Transaction.fac_insert);
+app.get("/getcost_insert",Transaction.cost_insert);
+app.get("/getfix_group",Transaction.fix_group);
 
 
 // app.get("/checkconnect", async (req, res) => {

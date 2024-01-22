@@ -28,7 +28,7 @@ const CUSR = {
   connectString: "TCIX01",
 };
 
-//EmpID 
+//EmpID
 module.exports.emp = async function (req, res) {
   try {
     const EmpID = req.query.empID;
@@ -50,6 +50,7 @@ module.exports.emp = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
 // Factory
 module.exports.factory = async function (req, res) {
   try {
@@ -123,6 +124,26 @@ module.exports.type = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+// RequestBy
+module.exports.by = async function (req, res) {
+  try {
+    const By = req.query.By;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+    SELECT  H.EMPCODE,H.ENAME,H.ESURNAME,T.USER_LOGIN
+    ,H.EMPCODE || ' : ' || H.ENAME || ' ' || H.ESURNAME
+    FROM CU_USER_HUMANTRIX H 
+    LEFT JOIN  CU_USER_M T  ON  T.USER_EMP_ID = H.EMPCODE
+   WHERE  T.USER_LOGIN = '${By}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
 //Search
 module.exports.search = async function (req, res) {
   try {
@@ -214,6 +235,66 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     ( KFAD_DET.KFAD_SEQ = '0' ) )  
          `;
 
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+//FactoryForInsert
+module.exports.fac_insert = async function (req, res) {
+  try {
+    const UserLogin = req.query.Fac_Login;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+    SELECT
+    F.FACTORY_NAME,
+    T.USER_SITE
+  FROM CU_USER_M T
+  INNER JOIN CU_FACTORY_M F ON F.FACTORY_CODE = T.USER_SITE
+  WHERE T.USER_LOGIN = '${UserLogin}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//Costcenter
+module.exports.cost_insert = async function (req, res) {
+  try {
+    const User_cost = req.query.Cost_Login;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+    SELECT H.COST_CENTER 
+    FROM CU_USER_M T
+    INNER JOIN CU_USER_HUMANTRIX H
+    ON H.EMPCODE = T.USER_EMP_ID  
+    WHERE  T.USER_LOGIN ='${User_cost}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+// Fixed Asset Group 
+module.exports.fix_group = async function (req, res) {
+  try {
+    const Fixasset = req.query.Asset_group;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FRC_CHK_PREFIX AS inpCode,
+    T.FRC_CHK_PREFIX||' : '||T.FRC_GROUP AS ShowDesc 
+    FROM FAM_RUNNING_CONTROL T 
+    WHERE T.FRC_FACTORY = '${Fixasset}' 
+    ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP `;
     const result = await connect.execute(query);
     connect.release();
     // console.log(result.rows);
