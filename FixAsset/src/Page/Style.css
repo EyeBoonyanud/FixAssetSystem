@@ -74,20 +74,20 @@
   width: 900px;
   min-height: 100px;
   /* margin-left: 20px; */
-  padding:0px 20px 0px 20px
+  padding: 0px 20px 0px 20px;
 }
 
 .Modal-Table th {
   background-color: #acfe8b;
-  height: 1px;  
-  font-size: 15px ;
+  height: 1px;
+  font-size: 15px;
   padding: 0px;
-  font-weight: bold ;
+  font-weight: bold;
 }
 .Modal-Table td {
   padding: 0px;
-  font-size: 15px ;
-  font-size:12px ;
+  font-size: 15px;
+  font-size: 12px;
 }
 
 .Style1 {
@@ -103,16 +103,15 @@
 
 .Style3 {
   width: 100%;
-
 }
 .Style4 {
-    width: 15%;
+  width: 15%;
   text-align: right;
   padding: 0.7%;
 }
 
 .Style5 {
-    width: 30%;
+  width: 30%;
   text-align: center;
 }
 .Style6 {
@@ -120,24 +119,25 @@
 }
 
 .Style7 {
-    width: 10%;
+  width: 10%;
   text-align: right;
 }
 
 .Style8 {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 4%;
-    
-  }
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 4%;
+}
 
-  .Style100 {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-
-
-
+.Style100 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.Button_forGenNo {
+  display: flex;
+  justify-content: right;
+  margin-right: 300px;
+  margin-top: 10px;
+}

@@ -36,6 +36,9 @@ import {
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
+import "../Page/Style.css";
+import { CodepenOutlined } from "@ant-design/icons";
+import { genNoticeStyle } from "antd/es/notification/style";
 
 export default function LabTabs() {
   // const Emp = localStorage.getItem("EmpID");
@@ -56,16 +59,24 @@ export default function LabTabs() {
   const [AssetgroupID, setAssetgroupID] = useState([]);
   const [selectAssetgroup, setselectAssetgroup] = useState("");
   const [idFac, setidFac] = useState("");
-
+  const [cost, setcost] = useState([]);
+  const [selectcost, setselectcost] = useState("");
+  const [datafixgroup, setdatafixgroup] = useState("");
+  const [selectedType, setselectedType] = useState("");
+  const [status, setstatus] = useState([]);
+  // const [Tel, setTel] = useState([]);
+  // const [Remark, setRemark] = useState([]);
+  //ปีที่ 2 ตัวท้าย
+  const currentYear = new Date().getFullYear();
+  const Year = currentYear.toString().slice(-2);
+  // const Year = "23";
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   const handleOpenTable = () => {
     setTableOpen(true);
     setOpen(false);
   };
-
   const handleFileUpload = (event) => {
     // ทำอะไรกับไฟล์ที่ถูกเลือก
     const selectedFiles = event.target.files;
@@ -76,12 +87,12 @@ export default function LabTabs() {
   };
   const handleDept = (event) => {
     setselectdept(event.target.value);
+  
   };
-  const handleAssetGroup = (event) => {
-    setselectAssetgroup(event.target.value);
-    console.log("/////////", event.target.value);
+  const handleAssetGroup = async (event) => {
+    let FixIdGroup = event.target.value;
+    setselectAssetgroup(FixIdGroup);
   };
-
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -107,14 +118,63 @@ export default function LabTabs() {
     updatedFiles.splice(index, 1);
     setUploadedFiles(updatedFiles);
   };
-
+  const handleCost = async (event) => {
+    let Cost_value = event.target.value;
+    setselectcost(Cost_value);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
+      );
+      const Fixgroup_ID = await response.data;
+      console.log(Fixgroup_ID[0][0], "Fixgroup_ID::::::::");
+      if (Fixgroup_ID[0][0] === "EACH CC") {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
+          );
+          const Find_Service = await response.data;
+          setdatafixgroup(Find_Service[0][0]);
+          console.log(Find_Service, "Find_Service//////////////");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      } else {
+        setdatafixgroup(Fixgroup_ID[0][0]);
+        console.log(Fixgroup_ID[0][0], "Find_Service//////////////");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const CostforAsset = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getcost`);
+      const CostData = await response.data;
+      setcost(CostData);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const Status = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getstatus`);
+      const dataStatus = await response.data;
+      setstatus(dataStatus.flat());
+     console.log(dataStatus.flat(),"dataStatus::::::::")
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
   const formattedDate = `${(currentDate.getMonth() + 1)
     .toString()
     .padStart(2, "0")}/${currentDate
     .getDate()
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
-
+    
+  const handleRadio = (event) => {
+      setselectedType(event.target.value);
+    };
   useEffect(() => {
     //หารหัส RequestBy
     const BY = async () => {
@@ -145,6 +205,7 @@ export default function LabTabs() {
 
         if (idFactory.length >= 0) {
           try {
+            console.log("DEpt;;")
             const response = await axios.get(
               `http://localhost:5000/getdept?idFactory=${idFactory}`
             );
@@ -180,13 +241,13 @@ export default function LabTabs() {
         const response = await axios.get(
           `http://localhost:5000/getfix_group?Asset_group=${idFac}`
         );
-        let dataFix_group_Text=[]
-        let dataFix_group_Value=[]
-        for( let i=0;i<response.data.length;i++){
-          console.log(response.data[i][1],"dataFix_group:")
-          dataFix_group_Text.push(response.data[i][1])
+        let dataFix_group_Text = [];
+        let dataFix_group_Value = [];
+        for (let i = 0; i < response.data.length; i++) {
+          // console.log(response.data[i][1], "dataFix_group:");
+          dataFix_group_Text.push(response.data[i][1]);
 
-          dataFix_group_Value.push(response.data[i][0])
+          dataFix_group_Value.push(response.data[i][0]);
         }
         // const ad = await response.data;
         // console.log("for", ad);
@@ -198,13 +259,67 @@ export default function LabTabs() {
     };
 
     BY();
+
     Factory_UserLogin();
-    Costcenter();  
+    Costcenter();
     if (idFac.length > 0) {
       AssetGroup();
     }
-
+    CostforAsset();
   }, [idFac]);
+  
+
+  // const [tel1, settel1] = useState('')
+  // const onChangeLocation = (event) => {
+  //   settel1(event.target.value)
+  //  }
+
+  const Tranfer_ins = async (running_no) => {
+    // const Tel = document.getElementById("Tel").value;
+    const Remark = document.getElementById("Remark").value;
+    
+    console.log(Tel,"Tel")
+    console.log(Remark,"Remark")
+    // try {
+    //   const response = await axios.post(
+    //    `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${status[0]}&remark=${Remark}`
+    //   );
+      
+
+    // } catch (error) {
+    //   console.error("Error during login:", error);
+    // }
+  };
+
+  const Gen_No = async () => {
+    const Run = Factory[0] + "-" + datafixgroup + "-" + Year;
+    // console.log(Run,"lllllllllllllllllllllllllllll")
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfamno?famno=${Run}`
+      );
+      const get_runno = await response.data;
+
+      if (get_runno[0][0] != null) {
+       let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
+        // let FamNo_old = parseInt("0322");
+        let paddedFamNo_old = (FamNo_old+1).toString().padStart(4, '0');
+        console.log(Run+"-"+paddedFamNo_old);
+        Tranfer_ins(paddedFamNo_old)
+        Status();
+
+      } else {
+        let FamNo_new = Run + "-0001";
+        console.log(FamNo_new,"FamNo_new")
+        Tranfer_ins(FamNo_new)
+        Status();
+      }
+
+      // setcost(CostData);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
 
   //หา EmpID
   // const EmployeeId = async () => {
@@ -303,8 +418,11 @@ export default function LabTabs() {
                   </Grid>
                   <Grid xs={3}>
                     <TextField
+                      id="Tel"
                       size="small"
                       style={{ width: "100%" }}
+                      // onChange={onChangeLocation}
+                      // value={tel1}
                     ></TextField>
                   </Grid>
                 </Grid>
@@ -390,17 +508,20 @@ export default function LabTabs() {
                   </Grid>
                 </Grid>
                 {/* Radio Button Type  */}
-                <Grid container spacing={3} style={{ width: "100%" }}>
+                <Grid container spacing={3}>
                   <Grid xs={1.7}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                    <Typography style={{ textAlign: "right" }}>
                       Request Type :
                     </Typography>
                   </Grid>
-                  <Grid xs={10}>
+                  <Grid>
                     <RadioGroup
                       row
                       aria-labelledby="demo-row-radio-buttons-group-label"
                       name="row-radio-buttons-group"
+                      value={selectedType}
+                      onChange={handleRadio}
+
                     >
                       <FormControlLabel
                         value="Transfer"
@@ -409,38 +530,38 @@ export default function LabTabs() {
                         className="Radio"
                       />
                       <FormControlLabel
-                        value="male"
+                        value="Scrap"
                         control={<Radio />}
                         label="Scrap"
                         className="Radio"
                       />
 
                       <FormControlLabel
-                        value="female"
+                        value="Sales"
                         control={<Radio />}
                         label="Sales"
                         className="Radio"
                       />
                       <FormControlLabel
-                        value="male"
+                        value="Lost"
                         control={<Radio />}
                         label="Lost"
                         className="Radio"
                       />
                       <FormControlLabel
-                        value="other"
+                        value="Write off"
                         control={<Radio />}
                         label="Write off"
                         className="Radio"
                       />
                       <FormControlLabel
-                        value="other"
+                        value="Landing to Third party"
                         control={<Radio />}
                         label="Landing to Third party"
                         className="Radio"
                       />
                       <FormControlLabel
-                        value="other"
+                        value="Donation"
                         control={<Radio />}
                         label="Donation"
                         className="Radio"
@@ -476,13 +597,46 @@ export default function LabTabs() {
                   </Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Status :
+                      Asset Cost Center :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <FormControl fullWidth>
+                      <InputLabel size="small" id="demo-simple-select-label">
+                        Select
+                      </InputLabel>
+                      <Select
+                        // labelId="demo-simple-select-label"
+                        id="factorycbt"
+                        // className="factorycb"
+                        label="Select"
+                        value={selectcost}
+                        onChange={handleCost}
+                        size="small"
+                        style={{
+                          width: "220px",
+                        }}
+                      >
+                        {cost.map((option) => (
+                          <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                {/* Request status */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}></Grid>
+                  <Grid xs={3}></Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request status :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%" }} value={status[1]} disabled
                     ></TextField>
                   </Grid>
                 </Grid>
@@ -495,11 +649,28 @@ export default function LabTabs() {
                   </Grid>
                   <Grid xs={8}>
                     <TextField
+                      id="Remark"
                       size="small"
                       style={{ width: "100%" }}
                     ></TextField>
                   </Grid>
                 </Grid>
+
+                <div className="Button_forGenNo">
+                  <Button
+                    style={{ marginLeft: "5px", backgroundColor: "green" }}
+                    variant="contained"
+                    onClick={Gen_No}
+                  >
+                    Gen FAM No.
+                  </Button>
+                  <Button
+                    style={{ marginLeft: "5px", backgroundColor: "gray" }}
+                    variant="contained"
+                  >
+                    Reset
+                  </Button>
+                </div>
               </Box>
             </Card>
           </Card>
@@ -928,7 +1099,7 @@ export default function LabTabs() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          defaultValue=""
+                          
                           size="small"
                         />
                       </FormControl>

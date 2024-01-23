@@ -78,6 +78,7 @@ function Issue() {
   };
   const handleCost = (event) => {
     setselectcost(event.target.value);
+    console.log(event.target.value,"setselectcost")
   };
   const handleType = (event) => {
     setselectReType(event.target.value);

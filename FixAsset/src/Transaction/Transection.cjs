@@ -50,7 +50,6 @@ module.exports.emp = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
 // Factory
 module.exports.factory = async function (req, res) {
   try {
@@ -143,7 +142,6 @@ module.exports.by = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
 //Search
 module.exports.search = async function (req, res) {
   try {
@@ -243,7 +241,6 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
 //FactoryForInsert
 module.exports.fac_insert = async function (req, res) {
   try {
@@ -283,7 +280,6 @@ module.exports.cost_insert = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
 // Fixed Asset Group 
 module.exports.fix_group = async function (req, res) {
   try {
@@ -303,3 +299,124 @@ module.exports.fix_group = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+//Status
+module.exports.status = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FFM_CODE, T.FFM_DESC 
+    FROM FAM_FLOW_MASTER T 
+    WHERE T.FFM_TYPE = 'TRANSFER' 
+    AND T.FFM_SEQ = 1 AND T.FFM_STATUS = 'A' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+//หา Service  AssetGroup
+module.exports.id_service = async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const FixGroup = req.query.fixgroub;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT T.FRC_PIC_CC,
+    T.FRC_PIC_CC||' : '||T.FRC_SERVICE_DEPT 
+    FROM FAM_RUNNING_CONTROL T WHERE T.FRC_FACTORY = '${Fac}'
+    AND T.FRC_CHK_PREFIX = '${FixGroup}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//หา Service Find_asset Cost
+module.exports.find_service = async function (req, res) {
+  try {
+    const AssetCost = req.query.asset_find;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT T.CC_CTR ,
+    T.CC_CTR||' : '||T.CC_DESC 
+    FROM CUSR.CU_MFGPRO_CC_MSTR T 
+    WHERE  T.CC_ACTIVE = '1' 
+    AND T.CC_CTR = '${AssetCost}'  
+    ORDER BY T.CC_CTR `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+module.exports.fam_no = async function (req, res) {
+  try {
+    const FamNo = req.query.famno;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX (FRH_FAM_NO)  
+     FROM FAM_REQ_HEADER WHERE FRH_FAM_NO LIKE '${FamNo}-%'`;
+     console.log(query)
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+module.exports.insert_tranfer = async function (req, res) {
+  try {
+    const Tranfer_id = req.query.tranfer;
+    const ReqBy = req.query.reqby;
+    const ReTel = req.query.reTel;
+    const Factory = req.query.fac;
+    const CC = req.query.cc;
+    const Dept = req.query.dept;
+    const Type = req.query.type;
+    const Assetgroup = req.query.assetgroup;  
+    const AssetCC = req.query.assetcc;
+    const Status = req.query.status;
+    const Remark = req.query.remark;
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+      INSERT INTO FAM_REQ_HEADER 
+      (FRH_FAM_NO, FAM_REQ_DATE, FAM_REQ_BY, FAM_REQ_TEL, FAM_FACTORY, FAM_REQ_CC,
+      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC, FAM_REQ_STATUS, FAM_REQ_REMARK)
+      VALUES 
+      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC, :Status, :Remark)
+    `;
+
+    const data = {
+      Tranfer_id,
+      ReqBy,
+      ReTel,
+      Factory,
+      CC,
+      Dept,
+      Type,
+      Assetgroup,
+      AssetCC,
+      Status,
+      Remark
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+

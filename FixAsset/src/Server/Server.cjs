@@ -30,13 +30,16 @@ app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
 app.get("/getby",Transaction.by);
+app.get("/getstatus",Transaction.status);
 app.get("/getsearch",Transaction.search);
 app.get("/getfixcode",Transaction.fixcode);
 app.get("/getfac_insert",Transaction.fac_insert);
 app.get("/getcost_insert",Transaction.cost_insert);
 app.get("/getfix_group",Transaction.fix_group);
-
-
+app.get("/getid_service",Transaction.id_service);
+app.get("/getfind_service",Transaction.find_service);
+app.get("/getfamno",Transaction.fam_no);
+app.post("/get_gen_famno",Transaction.insert_tranfer);
 // app.get("/checkconnect", async (req, res) => {
 //   try {
 //     const oracleConnection = await oracledb.getConnection(CUSR);
