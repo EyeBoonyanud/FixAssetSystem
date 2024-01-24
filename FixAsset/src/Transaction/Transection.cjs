@@ -186,7 +186,7 @@ module.exports.search = async function (req, res) {
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
          `;
-    // console.log(query);
+    console.log(query);
     const result = await connect.execute(query);
     connect.release();
     // console.log(result.rows);
@@ -356,7 +356,7 @@ module.exports.find_service = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
+// หา FAM NO.
 module.exports.fam_no = async function (req, res) {
   try {
     const FamNo = req.query.famno;
@@ -373,6 +373,7 @@ module.exports.fam_no = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+// insert FAM NO.สำหรับ การได้ เอกสารครั้งแรก
 module.exports.insert_tranfer = async function (req, res) {
   try {
     const Tranfer_id = req.query.tranfer;
@@ -408,6 +409,34 @@ module.exports.insert_tranfer = async function (req, res) {
       AssetCC,
       Status,
       Remark
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.insert_asset_transfer = async function (req, res) {
+  try {
+    const Tranfer_id = req.query.tranfer;
+    const ReqBy = req.query.reqby;
+    const AssetCC = req.query.assetcc;
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+      INSERT INTO FAM_REQ_TRANSFER (FRT_FAM_NO, FRT_FROM_CC, FRT_CREATE_DATE, FRT_CREATE_BY)
+VALUES (:Tranfer_id,:AssetCC, SYSDATE,:ReqBy)
+    `;
+
+    const data = {
+      Tranfer_id,
+      ReqBy,
+      AssetCC,
+   
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
