@@ -280,7 +280,7 @@ module.exports.cost_insert = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// Fixed Asset Group 
+// Fixed Asset Group
 module.exports.fix_group = async function (req, res) {
   try {
     const Fixasset = req.query.Asset_group;
@@ -364,7 +364,7 @@ module.exports.fam_no = async function (req, res) {
     const query = `
     SELECT MAX (FRH_FAM_NO)  
      FROM FAM_REQ_HEADER WHERE FRH_FAM_NO LIKE '${FamNo}-%'`;
-     console.log(query)
+    console.log(query);
     const result = await connect.execute(query);
     connect.release();
     // console.log(result.rows);
@@ -383,7 +383,7 @@ module.exports.insert_tranfer = async function (req, res) {
     const CC = req.query.cc;
     const Dept = req.query.dept;
     const Type = req.query.type;
-    const Assetgroup = req.query.assetgroup;  
+    const Assetgroup = req.query.assetgroup;
     const AssetCC = req.query.assetcc;
     const Status = req.query.status;
     const Remark = req.query.remark;
@@ -408,7 +408,7 @@ module.exports.insert_tranfer = async function (req, res) {
       Assetgroup,
       AssetCC,
       Status,
-      Remark
+      Remark,
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -436,7 +436,6 @@ VALUES (:Tranfer_id,:AssetCC, SYSDATE,:ReqBy)
       Tranfer_id,
       ReqBy,
       AssetCC,
-   
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -448,4 +447,49 @@ VALUES (:Tranfer_id,:AssetCC, SYSDATE,:ReqBy)
   }
 };
 
-
+// insert_FAM_DETAIL
+module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
+  try {
+    const FRD_FAM_NO = req.query.famno;
+    const FRD_ASSET_CODE = req.query.assetcode;
+    const FRD_ASSET_NAME = req.query.assetname;
+    const FRD_COMP = req.query.comp;
+    const FRD_OWNER_CC = req.query.cc;
+    const FRD_BOI_PROJ = req.query.boi;
+    const FRD_QTY = req.query.qty;
+    const FRD_INV_NO = req.query.inv;
+    const FRD_ACQ_COST = req.query.cost;
+    const FRD_BOOK_VALUE = req.query.val;
+    const FRD_CREATE_BY = req.query.by;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    INSERT INTO AVO.FAM_REQ_DETAIL
+    (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
+	  FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
+    VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
+      :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
+      :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
+    `;
+    const data = {
+      FRD_FAM_NO,
+      FRD_ASSET_CODE,
+      FRD_ASSET_NAME,
+      FRD_COMP,
+      FRD_OWNER_CC,
+      FRD_BOI_PROJ,
+      FRD_QTY,
+      FRD_INV_NO,
+      FRD_ACQ_COST,
+      FRD_BOOK_VALUE,
+      FRD_CREATE_BY,
+    };
+console.log(query, data)
+    const result = await connect.execute(query, data, { autoCommit: true });
+    
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};

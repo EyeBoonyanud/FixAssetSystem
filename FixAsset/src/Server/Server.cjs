@@ -41,6 +41,7 @@ app.get("/getfind_service",Transaction.find_service);
 app.get("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
+app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
 // app.get("/checkconnect", async (req, res) => {
 //   try {
 //     const oracleConnection = await oracledb.getConnection(CUSR);

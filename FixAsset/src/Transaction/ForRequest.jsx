@@ -1,9 +1,4 @@
-import Header from "../Page/Hearder";
 import React, { useState, useEffect } from "react";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -12,12 +7,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Card,
-  CardHeader,
   Button,
   Dialog,
   DialogTitle,
-  DialogContent,
-  DialogContentText,
   DialogActions,
   TableRow,
   Table,
@@ -31,14 +23,11 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
-  Autocomplete,
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../Page/Style.css";
-import { CodepenOutlined } from "@ant-design/icons";
-import { genNoticeStyle } from "antd/es/notification/style";
 
 function ForRequest() {
   const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
@@ -64,6 +53,7 @@ function ForRequest() {
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
   const [Tel, setTel] = useState("");
+  const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
@@ -72,39 +62,31 @@ function ForRequest() {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
-  const [datatable, setdatatable] = useState([]); //สำหรับค่าที่ถูกเก็บตอนที่ได้จาก Dropdown
+  const [datatable, setdatatable] = useState([]); //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
 
-  const handleCheckboxChange = (index) => {
-    const newSelectedItems = [...selectedItems];
-    newSelectedItems[index] = !newSelectedItems[index];
-    //console.log(selectedData,"newSelectedItems:")
-    setSelectedItems(newSelectedItems);
-    //setSelectAll(newSelectedItems.every((item) => item));
-    //updateSelectedData(newSelectedItems);
-    //console.log(selectedData, "selectedData");   
-     const newData = dataFixcode.filter((item, index) => newSelectedItems[index]);
+  const updateSelectedData = (selectedItems) => {
+    const newData = dataFixcode.filter((item, index) => selectedItems[index]);
     console.log(newData, "....................");
     setSelectedData(newData);
   };
-
+  const handleCheckboxChange = (index) => {
+    const newSelectedItems = [...selectedItems];
+    newSelectedItems[index] = !newSelectedItems[index];
+    setSelectedItems(newSelectedItems);
+    updateSelectedData(newSelectedItems);
+  };
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
     setSelectAll(newSelectedAll);
     setSelectedItems(newSelectedAll ? dataFixcode.map(() => true) : []);
-  //  updateSelectedData(newSelectedAll ? dataFixcode.map(() => true) : []);
+    updateSelectedData(newSelectedAll ? dataFixcode.map(() => true) : []);
   };
-
-  const updateSelectedData = (selectedItems) => {
-
-   
-  };
-  const handleOpenTable = () => {
+  const handleAdd = () => {
     //console.log(selectedItems, "selectedItems");
-    const updatetable=[] 
-    updatetable.push(selectedData)
-    setdatatable(updatetable)
+    const newDataTable = [...datatable, ...selectedData];
+    setdatatable(newDataTable);
+
     setSelectedItems([]);
-    console.log(selectedItems, "selectedItems:::::::::");
     setTableOpen(true);
     setOpen(false);
   };
@@ -130,7 +112,7 @@ function ForRequest() {
       );
       const data = row.data;
       setdataFixCode(data);
-      console.log(data, "///////////");
+      console.log(data);
 
       //console.log(data, "FixCode: ");
     } catch (error) {
@@ -183,7 +165,19 @@ function ForRequest() {
       console.error("Error during login:", error);
     }
   };
+  const Reset = async () => {
+    document.getElementById("Txt_Famno").value = "";
+    document.getElementById("Tel").value = "";
+    document.getElementById("Remark").value = "";
+    setselectdept("");
+    setselectedType("");
+    setselectAssetgroup("");
+    setselectcost("");
+    setstatus("");
 
+    // document.getElementById("Txt_Famno").value=""
+    // document.getElementById("Txt_Famno").value=""
+  };
   const formattedDate = `${(currentDate.getMonth() + 1)
     .toString()
     .padStart(2, "0")}/${currentDate
@@ -288,7 +282,10 @@ function ForRequest() {
     //console.log('selectedAll:', selectAll);
     //console.log('dataFixcode:', dataFixcode);
   }, [idFac, selectedItems, selectAll, dataFixcode]);
+
   const Tranfer_ins = async (running_no, StatusId) => {
+    setFAM_run(running_no);
+    console.log(running_no, "setFAM_run");
     const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
 
@@ -366,7 +363,25 @@ function ForRequest() {
       }
     }
   };
+  const Insert_Fam_detail = async () => {
+    for (let i = 0; i < datatable.length; i++) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
+        );
+       
 
+       
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    }
+  };
+
+  const Next = async (value) => {
+    Insert_Fam_detail()
+    console.log(value, "value");
+  };
   //หา EmpID
   // const EmployeeId = async () => {
   //   try {
@@ -694,6 +709,7 @@ function ForRequest() {
                 <Button
                   style={{ marginLeft: "5px", backgroundColor: "gray" }}
                   variant="contained"
+                  onClick={Reset}
                 >
                   Reset
                 </Button>
@@ -816,7 +832,7 @@ function ForRequest() {
                       <Button
                         variant="contained"
                         style={{ backgroundColor: "green" }}
-                        onClick={handleOpenTable}
+                        onClick={handleAdd}
                       >
                         ADD
                       </Button>
@@ -886,6 +902,15 @@ function ForRequest() {
                   </div>
                 )}{" "}
               </Grid>
+              <div style={{ width: "85%", textAlign: "right" }}>
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "gray" }}
+                  onClick={() => Next("1")}
+                >
+                  Next
+                </Button>
+              </div>
             </Grid>
           </Card>
         </Card>
