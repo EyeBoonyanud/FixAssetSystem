@@ -1,0 +1,65 @@
+.heardinput {
+    margin-top: 0.5% !important;
+    text-align: right !important;
+    size: small !important;
+    width: 100% !important;
+  
+  }
+  .inputOne {
+    margin-top: 0.5% !important;
+    text-align: right !important;
+    size: small !important;
+    width: 100% !important;
+  
+  }
+  .inputOneC {
+    margin-top: 0.5% !important;
+    text-align: right !important;
+    size: small !important;
+    width: 100% !important;
+  
+  }
+  .inputTwo {
+    margin-top: 0.5% !important;
+    text-align: right !important;
+    size: small !important;
+    width: 100% !important;
+  
+  }
+  .inputTwoC {
+    margin-top: 0.5% !important;
+    text-align: right !important;
+    size: small !important;
+    width: 100% !important;
+  
+  }
+  
+  
+  
+  .heardinputALL {
+    width: 100%  !important;
+    /* margin-left: 5% !important; */
+    margin-top: 1% !important;
+    /* text-align: right !important; */
+  }
+  .heardinputOne {
+    width: 45%  !important;
+    margin-top: 1% !important;
+   
+  }
+  .heardinputTwo {
+    width: 55%  !important;
+    margin-top: 1% !important;
+    
+  }
+  
+  .select {
+    width: 100%;
+  }
+  .textfile {
+    background-color: white !important;
+    border-radius: 10% !important;
+    width: 100% !important;
+    margin-right: 10% !important;
+  }
+  

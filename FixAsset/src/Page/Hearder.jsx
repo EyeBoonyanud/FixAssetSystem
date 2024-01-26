@@ -13,8 +13,9 @@ import "./Style.css";
 import { useNavigate } from "react-router-dom";
 
 function ButtonAppBar({ isOpen, onClose }) {
-    const Name = localStorage.getItem("Name");
-    const Lastname = localStorage.getItem("Lastname");
+  const Name = localStorage.getItem("Name");
+  const Lastname = localStorage.getItem("Lastname");
+  const Rolename = localStorage.getItem("Rolename");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -63,14 +64,13 @@ function ButtonAppBar({ isOpen, onClose }) {
                 fontFamily: "Roboto, sans-serif",
               }}
             >
-              User: {Name} {Lastname}  &nbsp;| &nbsp; <text onClick={Logout}>Logout</text> 
+              User: {Name} {Lastname} Role: {Rolename} &nbsp;| &nbsp;{" "}
+              <text onClick={Logout}>Logout</text>
               <br />
-
             </Button>
           </Toolbar>
         </AppBar>
       </Box>
-     
     </>
   );
 }

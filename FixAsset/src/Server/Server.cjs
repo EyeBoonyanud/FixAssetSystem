@@ -1,15 +1,16 @@
-
 const express = require("express");
 const oracledb = require("oracledb");
-require("dotenv").config();
+// require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../../.env") });
 const app = express();
 const port = 5000;
 app.use(express.json());
-const Login =require("../Login/Login.cjs")
-const Transaction =require("../Transaction/Transection.cjs")
+const Login = require("../Login/Login.cjs");
+const Transaction = require("../Transaction/Transection.cjs");
+
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
-
 });
 
 app.use((req, res, next) => {
@@ -22,16 +23,15 @@ app.use(express.json());
 
 app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
-app.get("/getmainmenu",Login.mainmenu);
-app.get("/getsubmenu",Login.submenu);
-app.get("/getemp",Transaction.emp);
-app.get("/getfactory",Transaction.factory);
-app.get("/getdept",Transaction.dept);
-app.get("/getcost",Transaction.cost);
-app.get("/gettype",Transaction.type);
-app.get("/getsearch",Transaction.search);
-app.get("/getfixcode",Transaction.fixcode);
-
+app.get("/getmainmenu", Login.mainmenu);
+app.get("/getsubmenu", Login.submenu);
+app.get("/getemp", Transaction.emp);
+app.get("/getfactory", Transaction.factory);
+app.get("/getdept", Transaction.dept);
+app.get("/getcost", Transaction.cost);
+app.get("/gettype", Transaction.type);
+app.get("/getsearch", Transaction.search);
+app.get("/getfixcode", Transaction.fixcode);
 
 // app.get("/checkconnect", async (req, res) => {
 //   try {
@@ -47,9 +47,6 @@ app.get("/getfixcode",Transaction.fixcode);
 //     res.send("การเชื่อมต่อไม่สำเร็จ");
 //   }
 // });
-
- 
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

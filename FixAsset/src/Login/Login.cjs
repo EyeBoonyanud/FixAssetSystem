@@ -1,9 +1,7 @@
 const express = require("express");
 const oracledb = require("oracledb");
-
 const app = express();
 const port = 5000;
-
 
 app.use(express.json());
 
@@ -16,7 +14,10 @@ const CUSR = {
   password: process.env.PASS_CUSR,
   connectString: process.env.CON_CUSR,
 };
-console.log(CUSR,"-------------------------------------------------------------")
+console.log(
+  CUSR,
+  "-------------------------------------------------------------"
+);
 
 // const CUSR = {
 //   user: import.meta.env.VITE_USER_CUSR,
@@ -28,13 +29,13 @@ console.log(CUSR,"-------------------------------------------------------------"
 // Login
 module.exports.login = async function (req, res) {
   try {
-    const  User  = req.query.username;
-    const  Password  = req.query.password;
-    console.log(User,Password)
+    const User = req.query.username;
+    const Password = req.query.password;
+    console.log("รหัสกับชื่อผู้ใช้", User, Password);
     const connect = await oracledb.getConnection(CUSR);
     const query = `
         SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
-        ,T.USER_EMP_ID
+        ,T.USER_EMP_ID, REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW
         FROM CU_USER_M T
         INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
         INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
@@ -43,10 +44,10 @@ module.exports.login = async function (req, res) {
         AND R.SYSTEM_ID = '65'
        `;
     const result = await connect.execute(query);
+    console.log("แม่งงงงงงงงงงงงงออกมาสักทีไอสัส", result);
     connect.release();
-    // console.log(result.rows);
+
     res.json(result.rows);
-    
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -54,12 +55,11 @@ module.exports.login = async function (req, res) {
 //Menu
 module.exports.menu = async function (req, res) {
   try {
-    const  Userlogin  = req.query.userlogin;
-    const  Role  = req.query.role;
+    const Userlogin = req.query.userlogin;
+    const Role = req.query.role;
     // console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
-    const query = 
-    `SELECT DISTINCT M.MENU_ID,
+    const query = `SELECT DISTINCT M.MENU_ID,
                 M.MENU_NAME,
                 M.MENU_DESC,
                 M.MENU_PARENT_ID,
@@ -76,7 +76,6 @@ module.exports.menu = async function (req, res) {
     connect.release();
     // console.log(result.rows);
     res.json(result.rows);
-    
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -88,7 +87,7 @@ module.exports.menu = async function (req, res) {
 //     const  Role  = req.query.role;
 //     console.log(Userlogin,Role)
 //     const connect = await oracledb.getConnection(CUSR);
-//     const query = 
+//     const query =
 //     `SELECT DISTINCT M.MENU_ID,
 //     M.MENU_NAME,
 //     M.MENU_DESC,
@@ -101,13 +100,13 @@ module.exports.menu = async function (req, res) {
 // WHERE T.USER_LOGIN = '${Userlogin}'
 // AND T.ROLE_ID = '${Role}'
 // AND R.SYSTEM_ID = '65'
-// AND M.MENU_PARENT_ID IS NULL 
+// AND M.MENU_PARENT_ID IS NULL
 // ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
 //     const result = await connect.execute(query);
 //     connect.release();
 //     console.log(result.rows);
 //     res.json(result.rows);
-    
+
 //   } catch (error) {
 //     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
 //   }
@@ -116,8 +115,7 @@ module.exports.menu = async function (req, res) {
 module.exports.mainmenu = async function (req, res) {
   try {
     const connect = await oracledb.getConnection(CUSR);
-    const query = 
-    `SELECT DISTINCT M.MENU_ID,
+    const query = `SELECT DISTINCT M.MENU_ID,
     M.MENU_NAME,
     M.MENU_DESC,
     M.MENU_PARENT_ID,
@@ -133,7 +131,6 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
     connect.release();
     // console.log(result.rows);
     res.json(result.rows);
-    
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -141,12 +138,11 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
 
 module.exports.submenu = async function (req, res) {
   try {
-    const  Userlogin  = req.query.userlogin;
-    const  Role  = req.query.role;
+    const Userlogin = req.query.userlogin;
+    const Role = req.query.role;
     // console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
-    const query = 
-    `SELECT DISTINCT M.MENU_ID,
+    const query = `SELECT DISTINCT M.MENU_ID,
     M.MENU_NAME,
     M.MENU_DESC,
     M.MENU_PARENT_ID,
@@ -164,12 +160,10 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
     connect.release();
     // console.log(result.rows);
     res.json(result.rows);
-    
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
 
 // app.get("/getLogin", async (req, res) => {
 //     try {

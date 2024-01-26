@@ -6,6 +6,7 @@ import Login from "./Login/Login";
 import Search from './Transaction/Search'
 import Approve from "./Transaction/Approve";
 import InsertIssue from "./Transaction/InsertIssue";
+import Test from "./Page/test";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/Search" element={<Search />} />
         <Route path="/Approve" element={<Approve />} />
         <Route path="/InsertIssue" element={<InsertIssue />} />
+        <Route path="/Test" element={<Test />} />
 
         </Routes>
       </BrowserRouter>

@@ -19,6 +19,7 @@ function Login() {
   let Role = ""; //สร้างตัวแปรที่รับค่ากลับมา
   let UserLogin = "";
   let Emp = "";
+  let Rolename = "";
 
   const handleLogin = async () => {
     sessionStorage.setItem("isLoggedIn", "true");
@@ -31,16 +32,19 @@ function Login() {
 
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API}:5000/login?username=${user}&password=${password}`
+          `${
+            import.meta.env.VITE_API
+          }/login?username=${user}&password=${password}`
         );
-
-        if (response.ok) {
+        console.log("SHOW DATA LOGIN", response);
+        if (response) {
           const data = await response.json();
           Name = data[0][1];
           Lastname = data[0][2];
           Role = data[0][0];
           UserLogin = data[0][3];
           Emp = data[0][4];
+          Rolename = data[0][5];
           console.log("Login successful", data);
 
           if (data && data.length > 0) {
@@ -49,6 +53,7 @@ function Login() {
             localStorage.setItem("Role", Role);
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
+            localStorage.setItem("Rolename", Rolename);
             window.location.href = "/Homepage";
           } else {
             console.error("Login failed");
