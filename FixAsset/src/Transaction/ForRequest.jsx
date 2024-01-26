@@ -57,6 +57,8 @@ function ForRequest() {
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
   const [btnSave, setbtnSave] = useState("hidden");
+  const [visibityDetails , setvisibityDetails] = useState("hidden");
+  const [visibityFile , setvisibityFile] = useState("hidden");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -287,7 +289,7 @@ function ForRequest() {
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
-
+    localStorage.setItem("FAM_run", FAM_run);
     const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
     console.log(running_no, "setFAM_run");
@@ -301,6 +303,7 @@ function ForRequest() {
       document.getElementById("Txt_Famno").value = running_no;
       setcheckGenNo("hidden");
       setcheckReset("hidden");
+      setvisibityDetails("visible")
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -375,6 +378,7 @@ function ForRequest() {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
+        setvisibityFile("visible")
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -733,7 +737,7 @@ function ForRequest() {
               border: 2,
               borderColor: "rgba(64,131,65, 1.5)",
               boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-              marginTop: 4,
+              marginTop: 4,  visibility: visibityDetails,
             }}
             className="Style1"
           >
@@ -930,6 +934,7 @@ function ForRequest() {
         <Card className="Style100">
           <Card
             sx={{
+              visibility: visibityFile,
               borderRadius: "8px",
               border: 2,
               borderColor: "rgba(64,131,65, 1.5)",
