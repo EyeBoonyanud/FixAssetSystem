@@ -185,6 +185,9 @@ WHERE (T.FAM_FACTORY = :FACTORY OR :FACTORY IS NULL)
 	AND (R.FCM_CODE = :asset OR :asset IS NULL)
 	AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= :date OR :date IS NULL)
 	AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') <= :dateto OR :dateto IS NULL)
+	
+	
+	
 -- 
 
  

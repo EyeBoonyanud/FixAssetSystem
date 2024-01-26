@@ -55,6 +55,8 @@ function ForRequest() {
   const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
+  const [checkReset, setcheckReset] = useState("visible");
+  const [btnSave, setbtnSave] = useState("hidden");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -85,10 +87,10 @@ function ForRequest() {
     //console.log(selectedItems, "selectedItems");
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
-
     setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
+    setbtnSave("visible");
   };
   const handleFileUpload = (event) => {
     // ทำอะไรกับไฟล์ที่ถูกเลือก
@@ -285,15 +287,20 @@ function ForRequest() {
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
-    console.log(running_no, "setFAM_run");
+
     const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
+    console.log(running_no, "setFAM_run");
+    console.log(UserLogin);
+    console.log(Tel);
 
     try {
-      const response = await axios.post;
-      //`http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`();
+      const response = await axios.post(
+        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
+      );
       document.getElementById("Txt_Famno").value = running_no;
       setcheckGenNo("hidden");
+      setcheckReset("hidden");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -301,10 +308,9 @@ function ForRequest() {
     }
 
     try {
-      const response = await axios
-        .post
-        //`http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
-        ();
+      const response = await axios.post(
+        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+      );
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -335,13 +341,13 @@ function ForRequest() {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           // let FamNo_old = parseInt("0322");
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-          //console.log(Run + "-" + paddedFamNo_old);
+          console.log("//////1");
 
           Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0]);
         } else {
           let FamNo_new = Run + "-0001";
           //console.log(FamNo_new, "FamNo_new");
-
+          console.log("//////9");
           Tranfer_ins(FamNo_new, StatusId[0]);
         }
 
@@ -369,9 +375,6 @@ function ForRequest() {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
-       
-
-       
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -379,7 +382,7 @@ function ForRequest() {
   };
 
   const Next = async (value) => {
-    Insert_Fam_detail()
+    Insert_Fam_detail();
     console.log(value, "value");
   };
   //หา EmpID
@@ -423,7 +426,7 @@ function ForRequest() {
                 justifyContent: "center",
               }}
             >
-              Tranfer Detail
+              ForRequeater
             </Typography>
             <Box sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}>
               {/* FAM Np and Request */}
@@ -707,7 +710,11 @@ function ForRequest() {
                   Gen FAM No.
                 </Button>
                 <Button
-                  style={{ marginLeft: "5px", backgroundColor: "gray" }}
+                  style={{
+                    marginLeft: "5px",
+                    backgroundColor: "gray",
+                    visibility: checkReset,
+                  }}
                   variant="contained"
                   onClick={Reset}
                 >
@@ -736,13 +743,14 @@ function ForRequest() {
                 backgroundColor: "#fff",
                 marginTop: "-0.5%",
                 marginRight: "85%",
-                width: "8%",
+                width: "5%",
                 display: "flex",
 
                 justifyContent: "center",
               }}
             >
-              Tranfer Detail
+              {" "}
+              Details
             </Typography>
             <Grid
               container
@@ -831,7 +839,9 @@ function ForRequest() {
                     <DialogActions style={{ marginTop: "20px" }}>
                       <Button
                         variant="contained"
-                        style={{ backgroundColor: "green" }}
+                        style={{
+                          backgroundColor: "green",
+                        }}
                         onClick={handleAdd}
                       >
                         ADD
@@ -905,10 +915,11 @@ function ForRequest() {
               <div style={{ width: "85%", textAlign: "right" }}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "gray" }}
+                  style={{ backgroundColor: "",
+                  visibility: btnSave,}}
                   onClick={() => Next("1")}
                 >
-                  Next
+                  SAVE Details
                 </Button>
               </div>
             </Grid>
@@ -939,7 +950,7 @@ function ForRequest() {
                 justifyContent: "center",
               }}
             >
-              Tranfer Detail
+              File from request
             </Typography>
             <Grid
               container

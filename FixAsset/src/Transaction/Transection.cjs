@@ -172,10 +172,10 @@ module.exports.search = async function (req, res) {
     F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
-  INNER JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
-  INNER JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
-  INNER JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
-  INNER JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
+  LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
+  LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
+  LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
+  LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   WHERE (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
@@ -375,7 +375,8 @@ module.exports.fam_no = async function (req, res) {
 };
 // insert FAM NO.สำหรับ การได้ เอกสารครั้งแรก
 module.exports.insert_tranfer = async function (req, res) {
-  try {
+  
+  try {console.log("----")
     const Tranfer_id = req.query.tranfer;
     const ReqBy = req.query.reqby;
     const ReTel = req.query.reTel;
@@ -387,7 +388,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const AssetCC = req.query.assetcc;
     const Status = req.query.status;
     const Remark = req.query.remark;
-
+    console.log (Tranfer_id)
+    console.log (Remark)
+console.log("////")
     const connect = await oracledb.getConnection(AVO);
     const query = `
       INSERT INTO FAM_REQ_HEADER 
@@ -410,7 +413,8 @@ module.exports.insert_tranfer = async function (req, res) {
       Status,
       Remark,
     };
-
+   console.log(query)
+   console.log(data)
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
     res.json(result);
@@ -463,13 +467,71 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
     const FRD_CREATE_BY = req.query.by;
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    INSERT INTO AVO.FAM_REQ_DETAIL
-    (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
-	  FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
-    VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
-      :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
-      :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
+    MERGE INTO AVO.FAM_REQ_DETAIL dest
+    USING (
+        SELECT
+            :FRD_FAM_NO AS FRD_FAM_NO,
+            :FRD_ASSET_CODE AS FRD_ASSET_CODE,
+            :FRD_ASSET_NAME AS FRD_ASSET_NAME,
+            :FRD_COMP AS FRD_COMP,
+            :FRD_OWNER_CC AS FRD_OWNER_CC,
+            :FRD_BOI_PROJ AS FRD_BOI_PROJ,
+            :FRD_QTY AS FRD_QTY,
+            :FRD_INV_NO AS FRD_INV_NO,
+            :FRD_ACQ_COST AS FRD_ACQ_COST,
+            :FRD_BOOK_VALUE AS FRD_BOOK_VALUE,
+            :FRD_CREATE_BY AS FRD_CREATE_BY
+        FROM dual
+    ) src
+    ON (dest.FRD_FAM_NO = src.FRD_FAM_NO
+        AND dest.FRD_ASSET_CODE = src.FRD_ASSET_CODE
+        AND dest.FRD_COMP = src.FRD_COMP
+    ) 
+    WHEN MATCHED THEN
+        UPDATE SET
+            dest.FRD_ASSET_NAME = src.FRD_ASSET_NAME,
+            dest.FRD_OWNER_CC = src.FRD_OWNER_CC,
+            dest.FRD_BOI_PROJ = src.FRD_BOI_PROJ,
+            dest.FRD_QTY = src.FRD_QTY,
+            dest.FRD_INV_NO = src.FRD_INV_NO,
+            dest.FRD_ACQ_COST = src.FRD_ACQ_COST,
+            dest.FRD_BOOK_VALUE = src.FRD_BOOK_VALUE
+    WHEN NOT MATCHED THEN
+        INSERT (
+            FRD_FAM_NO,
+            FRD_ASSET_CODE,
+            FRD_ASSET_NAME,
+            FRD_COMP,
+            FRD_OWNER_CC,
+            FRD_BOI_PROJ,
+            FRD_QTY,
+            FRD_INV_NO,
+            FRD_ACQ_COST,
+            FRD_BOOK_VALUE,
+            FRD_CREATE_DATE,
+            FRD_CREATE_BY
+        ) VALUES (
+            src.FRD_FAM_NO,
+            src.FRD_ASSET_CODE,
+            src.FRD_ASSET_NAME,
+            src.FRD_COMP,
+            src.FRD_OWNER_CC,
+            src.FRD_BOI_PROJ,
+            src.FRD_QTY,
+            src.FRD_INV_NO,
+            src.FRD_ACQ_COST,
+            src.FRD_BOOK_VALUE,
+            SYSDATE,
+            src.FRD_CREATE_BY
+        )
+    
     `;
+    // INSERT INTO AVO.FAM_REQ_DETAIL
+    // (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
+	  // FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
+    // VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
+    //   :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
+    //   :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
     const data = {
       FRD_FAM_NO,
       FRD_ASSET_CODE,
