@@ -66,11 +66,11 @@ function ForRequest() {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
-  const [datatable, setdatatable] = useState([]); //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
-
+  const [datatable, setdatatable] = useState([]);
+   //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
-    console.log(newData, "....................");
+    //console.log(newData, "....................");
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {
@@ -116,7 +116,7 @@ function ForRequest() {
       );
       const data = row.data;
       setdataFixCode(data);
-      console.log(data);
+     //console.log(data);
 
       //console.log(data, "FixCode: ");
     } catch (error) {
@@ -245,6 +245,8 @@ function ForRequest() {
         const dataCos_insert = await response.data;
 
         let Cost = dataCos_insert.flat();
+        localStorage.setItem("CC_for_request", Cost);
+        
         // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
         setCost_sert(Cost);
       } catch (error) {
@@ -289,13 +291,9 @@ function ForRequest() {
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
-    localStorage.setItem("FAM_run", FAM_run);
+    localStorage.setItem("FAM_run", running_no);
     const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
-    console.log(running_no, "setFAM_run");
-    console.log(UserLogin);
-    console.log(Tel);
-
     try {
       const response = await axios.post(
         `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
@@ -327,7 +325,7 @@ function ForRequest() {
         const dataStatus = await response.data;
         setstatus(dataStatus.flat());
         StatusId = dataStatus.flat();
-        console.log(dataStatus.flat(), "dataStatus::::::::");
+        //console.log(dataStatus.flat(), "dataStatus::::::::");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -344,13 +342,12 @@ function ForRequest() {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           // let FamNo_old = parseInt("0322");
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-          console.log("//////1");
+          // console.log("//////1");
 
           Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0]);
         } else {
           let FamNo_new = Run + "-0001";
           //console.log(FamNo_new, "FamNo_new");
-          console.log("//////9");
           Tranfer_ins(FamNo_new, StatusId[0]);
         }
 
@@ -373,10 +370,20 @@ function ForRequest() {
     }
   };
   const Insert_Fam_detail = async () => {
+    
     for (let i = 0; i < datatable.length; i++) {
+     
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
+        );
+        setvisibityFile("visible")
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible")
       } catch (error) {
@@ -387,7 +394,6 @@ function ForRequest() {
 
   const Next = async (value) => {
     Insert_Fam_detail();
-    console.log(value, "value");
   };
   //หา EmpID
   // const EmployeeId = async () => {
@@ -521,7 +527,7 @@ function ForRequest() {
                   ></TextField>
                 </Grid>
               </Grid>
-              {/* Dept and Status */}
+              {/* Dept  */}
               <Grid container spacing={3}>
                 <Grid xs={1.7}>
                   <Typography style={{ width: "100%", textAlign: "right" }}>

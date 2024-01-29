@@ -375,8 +375,8 @@ module.exports.fam_no = async function (req, res) {
 };
 // insert FAM NO.สำหรับ การได้ เอกสารครั้งแรก
 module.exports.insert_tranfer = async function (req, res) {
-  
-  try {console.log("----")
+  try {
+    console.log("----");
     const Tranfer_id = req.query.tranfer;
     const ReqBy = req.query.reqby;
     const ReTel = req.query.reTel;
@@ -388,9 +388,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const AssetCC = req.query.assetcc;
     const Status = req.query.status;
     const Remark = req.query.remark;
-    console.log (Tranfer_id)
-    console.log (Remark)
-console.log("////")
+    console.log(Tranfer_id);
+    console.log(Remark);
+    console.log("////");
     const connect = await oracledb.getConnection(AVO);
     const query = `
       INSERT INTO FAM_REQ_HEADER 
@@ -413,8 +413,8 @@ console.log("////")
       Status,
       Remark,
     };
-   console.log(query)
-   console.log(data)
+    console.log(query);
+    console.log(data);
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
     res.json(result);
@@ -526,12 +526,6 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
         )
     
     `;
-    // INSERT INTO AVO.FAM_REQ_DETAIL
-    // (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
-	  // FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
-    // VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
-    //   :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
-    //   :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
     const data = {
       FRD_FAM_NO,
       FRD_ASSET_CODE,
@@ -545,13 +539,169 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
       FRD_BOOK_VALUE,
       FRD_CREATE_BY,
     };
-console.log(query, data)
+    console.log(query, data);
     const result = await connect.execute(query, data, { autoCommit: true });
-    
+
     connect.release();
     res.json(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+// FROM_BOI_PROJ (UPDATE ค่า From_BOI )
+module.exports.ins_from_Boi = async function (req, res) {
+  try {
+    const Tranfer_id = req.query.running_no;
+    const from = req.query.from_boi;
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_TRANSFER 
+    SET FRT_FROM_PROJ  = :boi_from 
+    WHERE FRT_FAM_NO = :running
+`;
+    const data = {
+      running: Tranfer_id,
+      boi_from: from,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//Select ข้อมูลส่วนของ Transfer Detail
+module.exports.select_BOI_from = async function (req, res) {
+  try {
+    const running = req.query.running_no;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT FRT_FROM_PROJ  FROM FAM_REQ_TRANSFER frt
+      WHERE FRT_FAM_NO = '${running}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// new Owner 
+module.exports.new_owner = async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const CC = req.query.cc;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    M.USER_EMP_ID ||' : ' ||T.FPM_USER_LOGIN  AS NEW_OWNER
+    FROM FAM_PERSON_MASTER T
+    INNER JOIN CUSR.CU_USER_M M ON 
+    M.USER_LOGIN = T.FPM_USER_LOGIN
+    WHERE T.FPM_LEVEL = 'GP02001'
+    AND T.FPM_FACTORY = '${Fac}'
+    AND T.FPM_CC = '${CC}'
+    AND T.FPM_PERSON_STS = 'A' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// cc มี ALL
+module.exports.cc = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT T.CC_CTR, T.CC_DESC,1
+    FROM CUSR.CU_MFGPRO_CC_MSTR T 
+    WHERE T.CC_ACTIVE = '1'
+    UNION ALL
+    SELECT 'ALL' AS CC_CTR, 'ALL' AS CC_DESC,0
+    FROM DUAL
+    ORDER BY  3
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// D7 Department Manager
+module.exports.level_mana = async function (req, res) {
+  try {
+    const Level = req.query.level;
+    const CC = req.query.cc;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02002'
+    AND T.FPM_FACTORY = '${Level}'
+    AND T.FPM_CC = '${CC}'
+    AND T.FPM_PERSON_STS = 'A'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// D8 Service By
+module.exports.service_by = async function (req, res) {
+  try {
+    const Level = req.query.level;
+    const CC = req.query.cc;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02003'
+    AND T.FPM_FACTORY = '${Level}'
+    AND T.FPM_CC = '${CC}'
+    AND T.FPM_PERSON_STS = 'A'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// D9 BOI Staff
+module.exports.boi_staff = async function (req, res) {
+  try {
+    const Level = req.query.level;
+    const CC = req.query.cc;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T
+     WHERE T.FPM_LEVEL = 'GP02004' 
+     AND T.FPM_FACTORY = :txtFactory 
+     AND T.FPM_CC = 'ALL' 
+     AND T.FPM_PERSON_STS = 'A'
+ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN;
+
+    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02003'
+    AND T.FPM_FACTORY = '${Level}'
+    AND T.FPM_CC = '${CC}'
+    AND T.FPM_PERSON_STS = 'A'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };

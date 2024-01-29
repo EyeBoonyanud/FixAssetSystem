@@ -42,6 +42,20 @@ app.get("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
 app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
+app.post("/ins_from_Boi",Transaction.ins_from_Boi);
+app.get("/select_BOI_from",Transaction.select_BOI_from);
+app.get("/new_owner",Transaction.new_owner);
+app.get("/cc_for_transfer",Transaction.cc);
+app.get("/level",Transaction.level_mana);
+app.get("/service_by",Transaction.service_by);
+app.get("/boi_staff",Transaction.boi_staff);
+
+
+
+
+
+
+
 // app.get("/checkconnect", async (req, res) => {
 //   try {
 //     const oracleConnection = await oracledb.getConnection(CUSR);
