@@ -375,8 +375,8 @@ module.exports.fam_no = async function (req, res) {
 };
 // insert FAM NO.สำหรับ การได้ เอกสารครั้งแรก
 module.exports.insert_tranfer = async function (req, res) {
-  
-  try {console.log("----")
+  try {
+    console.log("----");
     const Tranfer_id = req.query.tranfer;
     const ReqBy = req.query.reqby;
     const ReTel = req.query.reTel;
@@ -388,9 +388,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const AssetCC = req.query.assetcc;
     const Status = req.query.status;
     const Remark = req.query.remark;
-    console.log (Tranfer_id)
-    console.log (Remark)
-console.log("////")
+    console.log(Tranfer_id);
+    console.log(Remark);
+    console.log("////");
     const connect = await oracledb.getConnection(AVO);
     const query = `
       INSERT INTO FAM_REQ_HEADER 
@@ -413,8 +413,8 @@ console.log("////")
       Status,
       Remark,
     };
-   console.log(query)
-   console.log(data)
+    console.log(query);
+    console.log(data);
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
     res.json(result);
@@ -528,7 +528,7 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
     `;
     // INSERT INTO AVO.FAM_REQ_DETAIL
     // (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
-	  // FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
+    // FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
     // VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
     //   :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
     //   :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
@@ -545,13 +545,58 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
       FRD_BOOK_VALUE,
       FRD_CREATE_BY,
     };
-console.log(query, data)
+    console.log(query, data);
     const result = await connect.execute(query, data, { autoCommit: true });
-    
+
     connect.release();
     res.json(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+// get file upload
+module.exports.insertFile_from_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+    const fam_from = req.query.FAM_from;
+    const fam_file_seq = req.query.FAM_file_seq;
+    const fam_file_name = req.query.FAM_file_name;
+    const fam_file_server = req.query.FAM_file_server;
+    const fam_create = req.query.FAM_create;
+    
+    console.log(fam_no);
+    console.log(fam_from);
+    console.log(fam_file_seq);
+    console.log(fam_file_name);
+    console.log(fam_file_server);
+    console.log(fam_create);
+
+  
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    INSERT INTO FAM_FILE_ATTACH 
+    (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE) 
+VALUES 
+    (:fam_no, :fam_from, :fam_file_seq, :fam_file_name, :fam_file_server, :fam_create, SYSDATE, :fam_create, SYSDATE)
+
+
+         `;
+    const data = {
+      fam_no,
+      fam_from,
+      fam_file_seq,
+      fam_file_name,
+      fam_file_server,
+      fam_create,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };

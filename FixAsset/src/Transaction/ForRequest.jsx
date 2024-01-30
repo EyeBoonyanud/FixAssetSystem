@@ -293,27 +293,32 @@ function ForRequest() {
     console.log(running_no, "setFAM_run");
     console.log(UserLogin);
     console.log(Tel);
+    document.getElementById("Txt_Famno").value = running_no;
+    setcheckGenNo("hidden");
+    setcheckReset("hidden");
+    setread_fix_group(true);
+    setread_fix_cost(true);
 
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
-      );
-      document.getElementById("Txt_Famno").value = running_no;
-      setcheckGenNo("hidden");
-      setcheckReset("hidden");
-      setread_fix_group(true);
-      setread_fix_cost(true);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    // try {
+    //   const response = await axios.post(
+    //     `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
+    //   );
+    //   document.getElementById("Txt_Famno").value = running_no;
+    //   setcheckGenNo("hidden");
+    //   setcheckReset("hidden");
+    //   setread_fix_group(true);
+    //   setread_fix_cost(true);
+    // } catch (error) {
+    //   console.error("Error during login:", error);
+    // }
 
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
-      );
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    // try {
+    //   const response = await axios.post(
+    //     `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+    //   );
+    // } catch (error) {
+    //   console.error("Error during login:", error);
+    // }
   };
   const Gen_No = async () => {
     let StatusId = "";
@@ -399,7 +404,152 @@ function ForRequest() {
   //   } catch (error) {
   //     console.error("Error during login:", error);
   //   }
+  //   // };
+
+  //=========================================================upload=============================================//
+  //   const Timee = () => {
+  //     const currentDate = new Date();
+
+  //     const year = currentDate.getFullYear();
+  //     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+  //     const day = currentDate.getDate().toString().padStart(2, '0');
+
+  //     const hours = currentDate.getHours().toString().padStart(2, '0');
+  //     const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+  //     const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+  //     const formattedDateTime = `${year}${month}${day}${hours}:${minutes}:${seconds}`;
+
+  //     return formattedDateTime;
   // };
+  // const Timee = () => {
+  //   const currentDate = new Date();
+  //   const year = currentDate.getFullYear();
+  //   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+  //   const day = currentDate.getDate().toString().padStart(2, '0');
+  //   const formattedDateTime = `${year}${month}${day}`;
+  //   return formattedDateTime;
+  // };
+
+
+
+
+
+
+    // const handleDone = async () => {
+    //   const uploadedFileNames = uploadedFiles.map((file) => file.name);
+    //   const FAM_FORM = "REQUEST";
+    //   const famNo = document.getElementById("Txt_Famno").value;
+    //   const currentDateTime = new Date()
+    //     .toISOString()
+    //     .slice(0, 10)
+    //     .replace(/-/g, "");
+    //     // const file_server = famNo + "_" + FAM_FORM + "_" + currentDateTime+"."+fileExtensions;
+    //   // const currentDateTime = new Date().toISOString().slice(0, 19).replace("T", " ");
+    //   // const Time = Timee();
+    //   const fileExtensions = uploadedFileNames.map((fileName) => {
+    //     const lastDotIndex = fileName.lastIndexOf('.');
+    //     return fileName.slice(lastDotIndex + 1);
+    // });
+
+
+    //   try {
+    //     console.log("FAM_NO =", famNo);
+    //     console.log("FAM_FROM =", FAM_FORM);
+    //     console.log("FILE_NAME", uploadedFileNames);
+    //     console.log("TIME =", currentDateTime);
+    //     console.log("FILE_SERVER =", file_server);
+        
+    //     console.log(fileExtensions);
+    //     // console.log(Time);
+    //     for (let i = 0; i < uploadedFiles.length; i++) {
+    //       const file = uploadedFiles[i];
+    //       const fileSeq = i + 1;
+        
+
+    //       // await insertFileToDatabase(famNo, FAM_FORM, file.name, fileSeq);
+
+    //       console.log(
+    //         `ชื่อไฟล์ ${file.name} เลข(SEQ) ${fileSeq} เพิ่มลงในฐานข้อมูล`
+    //       );
+    //     }
+    //   } catch (error) {
+    //     console.error("Error committing files to the database:", error);
+    //   }
+    // };
+
+
+
+  //   const handleDone = async () => {
+  //     const uploadedFileNames = uploadedFiles.map((file) => file.name);
+  //     const FAM_FORM = "REQUEST";
+  //     const famNo = document.getElementById("Txt_Famno").value;
+  //     const currentDateTime = new Date()
+  //         .toISOString()
+  //         .slice(0, 10)
+  //         .replace(/-/g, "");
+  //     try {
+  //         console.log("FAM_NO =", famNo);
+  //         console.log("FAM_FROM =", FAM_FORM);
+  //         console.log("FILE_NAME", uploadedFileNames);
+  //         console.log("TIME =", currentDateTime);
+  //         console.log("USER LOGIN",UserLogin);
+  //         for (let i = 0; i < uploadedFiles.length; i++) {
+  //             const file = uploadedFiles[i];
+  //             const fileSeq = i + 1;
+  //             const lastDotIndex = file.name.lastIndexOf('.');
+  //             const fileExtension = file.name.slice(lastDotIndex + 1);
+  //             const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
+  //             console.log(
+  //                 `||${famNo}||${FAM_FORM}||${fileSeq}||${file.name}||${file_server}||${UserLogin}`
+  //             );
+  //             console.log("FILE_SERVER =", file_server);
+  //         }
+  //     } catch (error) {
+  //         console.error("Error committing files to the database:", error);
+  //     }
+  // };
+
+
+const handleDone = async () => {
+    const uploadedFileNames = uploadedFiles.map((file) => file.name);
+    const FAM_FORM = "REQUEST";
+    const famNo = document.getElementById("Txt_Famno").value;
+    const currentDateTime = new Date()
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, "");
+    try {
+        console.log("FAM_NO =", famNo);
+        console.log("FAM_FROM =", FAM_FORM);
+        console.log("FILE_NAME", uploadedFileNames);
+        console.log("TIME =", currentDateTime);
+        console.log("USER LOGIN",UserLogin);
+        for (let i = 0; i < uploadedFiles.length; i++) {
+            const file = uploadedFiles[i];
+            const fileSeq = i + 1;
+            const lastDotIndex = file.name.lastIndexOf('.');
+            const fileExtension = file.name.slice(lastDotIndex + 1);
+            const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
+            console.log(
+                `||${famNo}||${FAM_FORM}||${fileSeq}||${file.name}||${file_server}||${UserLogin}`
+            );
+            console.log("FILE_SERVER =", file_server);
+
+            try {
+              const response = await axios.post(
+                `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${fileSeq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+              );
+
+              console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+            } catch (error) {
+              console.error("Error Upload File Request:", error);
+            }
+        }
+    } catch (error) {
+        console.error("Error committing files to the database:", error);
+    }
+};
 
   return (
     <div className="Box-Insert">
@@ -915,8 +1065,7 @@ function ForRequest() {
               <div style={{ width: "85%", textAlign: "right" }}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "",
-                  visibility: btnSave,}}
+                  style={{ backgroundColor: "", visibility: btnSave }}
                   onClick={() => Next("1")}
                 >
                   SAVE Details
@@ -926,6 +1075,7 @@ function ForRequest() {
           </Card>
         </Card>
       </div>
+
       <div className="UploadFile">
         <Card className="Style100">
           <Card
@@ -952,6 +1102,7 @@ function ForRequest() {
             >
               File from request
             </Typography>
+
             <Grid
               container
               spacing={3}
@@ -987,7 +1138,7 @@ function ForRequest() {
                     style={{ marginTop: "3px" }}
                     component="span"
                   >
-                    Upload
+                    Choose File
                   </Button>
                 </label>
                 {uploadedFiles.length > 0 && (
@@ -1008,15 +1159,16 @@ function ForRequest() {
                         </li>
                       ))}
                     </ul>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleDone}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Done
+                    </Button>
                   </div>
                 )}
-
-                {/* <Upload {...props}>
-                  <Button style={{width:'200px'}}
-                  icon={<UploadOutlined />}>Choose File</Button>
-                  &nbsp;&nbsp;
-                  <Button type="primary"> Upload</Button>
-                </Upload> */}
               </Grid>
             </Grid>
           </Card>

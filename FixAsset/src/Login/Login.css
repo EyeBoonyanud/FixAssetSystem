@@ -1,0 +1,185 @@
+.PageAll {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.Table-Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Cardlogin {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  border: 1px solid #000;
+}
+
+.Grad {
+  height: 400px;
+  width: 900px;
+  /* background: linear-gradient(110deg, #62e6a5 50%, #9ae7ba 50%, #9ae7ba 52%, #d1f5de 52%, #d1f5de 0); */
+  background: linear-gradient(
+    34deg,
+    #62e6a5 20%,
+    #9ae7ba 35%,
+    #9ae7ba 35%,
+    #d1f5de 45%,
+    #e9fbf1 0
+  );
+  /* background: linear-gradient(
+        150deg,
+        #62e6a5 30%,
+        #9ae7ba 30%,
+        #9ae7ba 32%,
+        #d1f5de 32%,
+        #d1f5de 0
+      )
+      0 0/100% calc(100% - 10px) no-repeat,
+    linear-gradient(110deg, #62e6a5 52%, transparent 0) 0 100%/100% 100%
+      no-repeat; */
+}
+.Grad02 {
+  background: linear-gradient(
+    35deg,
+    #62e6a5 0%,
+    #9ae7ba 0%,
+    #9ae7ba 3%,
+    #d1f5de 17%,
+    #e9fbf1 0
+  );
+}
+
+.span01 {
+  background: linear-gradient(
+    34deg,
+    #ffffff 20%,
+    #e5ffe5 35%,
+    #d5ffe6 35%,
+    #f5fff8 45%,
+    #ffffff 0
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  
+}
+
+.span02 {
+  background: linear-gradient(
+    -145deg,
+    #62e6a5 40%,
+    #9ae7ba 35%,
+    #9ae7ba 35%,
+    #d1f5de 44%,
+    #ffffff 0
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+.span03 {
+  background: linear-gradient(
+    -145deg,
+    #62e6a5 40%,
+    #9ae7ba 35%,
+    #9ae7ba 35%,
+    #d1f5de 70%,
+    #ffffff 0
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+.span04 {
+  background: linear-gradient(
+    -145deg,
+    #5e5f5e 40%,
+    #838d87 35%,
+    #010202 35%,
+    #6d6d6d 70%,
+    #010202 0
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.span05 {
+  background: linear-gradient(
+    -145deg,
+    #5e5f5e 40%,
+    #838d87 35%,
+    #010202 35%,
+    #6d6d6d 70%,
+    #010202 0
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.Textlogin {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
+  color: rgb(116, 219, 159);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 500% !important;
+}
+
+.Logo {
+  margin: auto; /* ทำให้อยู่ตรงกลาง (horizontal centering) */
+  display: flex;
+  align-items: center; /* ทำให้อยู่ตรงกลาง (vertical centering) */
+  justify-content: center;
+  background-color: rgb(69, 217, 131) !important;
+  margin-top: 5%;
+  
+}
+
+.greenTextField {
+  & label {
+    color:   #6fcd96; 
+  }
+  & label.Mui-focused {
+    color: #737373;
+  }
+  & .MuiInput-underline:after {
+    border-bottom-color: #6fcd96; 
+  }
+  & .MuiInput-underline:before {
+    border-bottom-color:#737373; 
+  }
+  & .MuiInputAdornment-root svg {
+    color:#737373; 
+  }
+
+  &:hover .MuiInputAdornment-root svg {
+    color: #6fcd96; /* กำหนดสีของไอคอนเมื่อโฟกัส */
+  }
+  
+}
+
+.h1 {
+  padding-left: 30%;
+
+}
+
+.Card-Login {
+  width:90% ; 
+  height:50%;
+  background-color: #e9fbf1 !important;
+  box-shadow: 0px 0px 10px 0px rgba(156, 249, 207, 0.47) !important;
+}
+
