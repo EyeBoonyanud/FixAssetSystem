@@ -49,9 +49,10 @@ app.get("/cc_for_transfer",Transaction.cc);
 app.get("/level",Transaction.level_mana);
 app.get("/service_by",Transaction.service_by);
 app.get("/boi_staff",Transaction.boi_staff);
-
-
-
+app.get("/boi_manager",Transaction.boi_manager);
+app.get("/fac_manager",Transaction.fac_manager);
+app.get("/acc_check",Transaction.acc_check);
+app.get("/acc_manager",Transaction.acc_manager);
 
 
 

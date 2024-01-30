@@ -14,9 +14,17 @@ import axios from "axios";
 
 function TransFerDetail() {
   const ReqBy = localStorage.getItem("UserLogin");
-  const CC_for_request = localStorage.getItem("CC_for_request")
-  console.log("CC_for_request",CC_for_request)
+  const CC_for_request = localStorage.getItem("CC_for_request");
+  //console.log("CC_for_request",CC_for_request)
+  const Fac_to_request = localStorage.getItem("Factory"); //R180
+  //console.log(Fac_to_request,"Fac_to_request")
   // const Fam_no = localStorage.getItem("FAM_run");
+  //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
+  // console.log(FixAssetGroup,"FixAssetGroup:::")
+  const Service_ID = localStorage.getItem("datafixgroup");
+  console.log(Service_ID, "Service_ID:::");
+  const Service = localStorage.getItem("data_for_sevice");
+  // console.log(Service,"Service:::")
   const fam = "A1-R340-24-0001";
   const [dataBoi_from, setdataBoi_from] = useState([]);
 
@@ -29,24 +37,56 @@ function TransFerDetail() {
   const [newowner, setnewowner] = useState([]);
   const [selectnewowner, setselectnewowner] = useState("");
   const [result1, setresult1] = useState("");
-  // const Factory_UserLogin = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/getfac_insert?Fac_Login=${ReqBy}`
-  //     );
 
-  //     const dataFac_insert = await response.data;
+  const [department, setdepartment] = useState([]);
+  const [selectdepartment, setselectdepartment] = useState("");
 
-  //     let Fac = dataFac_insert.flat();
+  const [service_by, setservice_by] = useState([]);
+  const [selectservice_by, setselectservice_by] = useState("");
 
-  //     setdatafac(Fac);
-  //     console.log(Fac,"Fac")
+  const [boistaff, setboistaff] = useState([]);
+  const [selectboistaff, setselectboistaff] = useState("");
 
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //   }
-  // };
+  const [boimanager, setboimanager] = useState([]);
+  const [selectboimanager, setselectboimanager] = useState("");
 
+  const [fac_manager, setfac_manager] = useState([]);
+  const [selectfac_manager, setselectfac_manager] = useState("");
+
+  const [acc_check, setacc_check] = useState([]);
+  const [selectacc_check, setselectacc_check] = useState("");
+
+  const [acc_manager, setacc_manager] = useState([]);
+  const [selectacc_manager, setselectacc_manager] = useState("");
+
+  // From BOI PROJ
+  const BOI_FROM = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/select_BOI_from?running_no=${fam}`
+      );
+      const data = response.data;
+      setdataBoi_from(data[0][0]);
+      console.log(data[0][0], "มาจาก fromBOI :");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  // Transfer to Factory
+  const Factory = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getfactory`);
+      const FactoryData = await response.data;
+      setdatafac(FactoryData);
+      // console.log(FactoryData, "Factory");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleFactory = (event) => {
+    setselecteDatafac(event.target.value);
+  };
+  // Tranfer To CC
   const Costcenter = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
@@ -63,65 +103,105 @@ function TransFerDetail() {
     New_Owner(Cost);
     console.log(Cost, "setselectcost");
   };
-  const handleFactory = (event) => {
-    setselecteDatafac(event.target.value);
-    console.log(event.target.value, "setselecteDatafac");
-  };
-
-  const handleNew_owner = (event) => {
-    let New_own = event.target.value;
-    const parts = New_own.split(":");
-    let result = parts[1].trim();
-    setselectnewowner(New_own); // เก็บ select ของ new owner
-    setresult1(result); // เก็บค่า Supharat.D
-
-    console.log(result, "NEWWWWWWWWWWWWWWWWWWWWw");
-  };
-  const Factory = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
-      const FactoryData = await response.data;
-      setdatafac(FactoryData);
-      // console.log(FactoryData, "Factory");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-
+  // Newowner
   const New_Owner = async (cost) => {
     try {
       const response = await axios.get(
         `http://localhost:5000/new_owner?fac=${selecteDatafac}&cc=${cost}`
       );
-      const data1 =await response.data 
-      console.log("มาจาก New owner :", data1)
+      const data1 = await response.data;
+      console.log("มาจาก New owner :", data1);
       const data = response.data.flat();
-     ;
       setnewowner(data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
-
-  const BOI_FROM = async () => {
+  const handleNew_owner = (event) => {
+    let New_own = event.target.value;
+    const parts = New_own.split(":");
+    let result = parts[1].trim();
+    setselectnewowner(New_own); // เก็บ select ของ new owner
+    setresult1(result); // เก็บค่า Supharat.
+    //console.log(result, "NEWWWWWWWWWWWWWWWWWWWWw");
+  };
+  // Department Manager
+  const Department_Mana = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/select_BOI_from?running_no=${fam}`
+        `http://localhost:5000/level?level=${Fac_to_request}&cc=${CC_for_request}`
       );
-      const data = response.data;
-      setdataBoi_from(data[0][0]);
-      console.log(data[0][0], "มาจาก fromBOI :");
+      const data = response.data.flat();
+      setdepartment(data);
+      console.log("Department :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
+  const handleDepartment = (event) => {
+    setselectdepartment(event.target.value);
+  };
+  // ServiceBy
+  const Service_By = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
+      );
+      const data = response.data.flat();
+      setservice_by(data);
+      console.log("Department :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleService_By = (event) => {
+    setselectservice_by(event.target.value);
+    // console.log(event.target.value, "setselecteDatafac");
+  };
+  //BOI_Staff
+  const BOI_Staff = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/boi_staff?fac=${Fac_to_request}`
+      );
+      const data = response.data.flat();
+      setboistaff(data);
+      console.log("setboistaff :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleBOI_Staff = (event) => {
+    setselectboistaff(event.target.value);
+  };
+//BOI_Manager
+const BOI_Manager = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/boi_manager?fac=${Fac_to_request}`
+    );
+    const data = response.data.flat();
+    setboimanager(data);
+    console.log("setboimanager :", data);
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
+};
+const handleBOI_Manager = (event) => {
+  setselectboistaff(event.target.value);
+};
+
+
+
 
   useEffect(() => {
     Factory();
     BOI_FROM();
     Costcenter();
-
-    // Factory_UserLogin();
+    Department_Mana();
+    Service_By();
+    BOI_Staff();
+    BOI_Manager();
   }, []);
 
   return (
@@ -251,7 +331,6 @@ function TransFerDetail() {
                         onChange={handleNew_owner}
                         size="small"
                       >
-                        
                         {/* <MenuItem value={"ALL"}>ALL</MenuItem> */}
                         {newowner.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -343,16 +422,15 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        //  value={age}
-                        // onChange={handleChange}
+                        value={selectdepartment}
+                        onChange={handleDepartment}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {department.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -419,6 +497,7 @@ function TransFerDetail() {
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
+                        value={Service}
                       />
                     </FormControl>
                   </td>
@@ -442,16 +521,15 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        //  value={age}
-                        // onChange={handleChange}
+                        value={selectservice_by}
+                        onChange={handleService_By}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {service_by.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -513,16 +591,15 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        // // value={age}
-                        // onChange={handleChange}
+                        value={selectboistaff}
+                        onChange={handleBOI_Staff}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {boistaff.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>

@@ -50,6 +50,9 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
+  localStorage.setItem("datafixgroup",datafixgroup)
+  const [data_for_sevice , setdata_for_sevice] = useState("");
+  localStorage.setItem("data_for_sevice",data_for_sevice)
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
   const [Tel, setTel] = useState("");
@@ -105,6 +108,8 @@ function ForRequest() {
   const handleAssetGroup = async (event) => {
     let FixIdGroup = event.target.value;
     setselectAssetgroup(FixIdGroup);
+    localStorage.setItem("FixAssetGroup",FixIdGroup)
+    console.log("FixAssetGroup",FixIdGroup)
   };
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
@@ -147,14 +152,18 @@ function ForRequest() {
             `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
           );
           const Find_Service = await response.data;
+          console.log(response.data,"response.data")
           setdatafixgroup(Find_Service[0][0]);
-          //console.log(Find_Service, "Find_Service//////////////");
+          setdata_for_sevice(Find_Service[0][1])         
+          console.log(Find_Service[0][1], "Find_Service");
         } catch (error) {
           console.error("Error during login:", error);
         }
       } else {
+        console.log(response.data,"response.data----------")
         setdatafixgroup(Fixgroup_ID[0][0]);
-        //console.log(Fixgroup_ID[0][0], "Find_Service//////////////");
+        setdata_for_sevice(Fixgroup_ID[0][1])   
+        console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -215,9 +224,12 @@ function ForRequest() {
         const dataFac_insert = await response.data;
 
         let Fac = dataFac_insert.flat();
+        
         let idFactory = Fac[1];
+
         setFac(Fac);
         setidFac(idFactory);
+        localStorage.setItem("Factory", idFactory);
 
         if (idFactory.length >= 0) {
           try {

@@ -680,22 +680,105 @@ module.exports.service_by = async function (req, res) {
 // D9 BOI Staff
 module.exports.boi_staff = async function (req, res) {
   try {
-    const Level = req.query.level;
-    const CC = req.query.cc;
+    const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T
-     WHERE T.FPM_LEVEL = 'GP02004' 
-     AND T.FPM_FACTORY = :txtFactory 
+    SELECT T.FPM_USER_LOGIN 
+    FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02004'
+    AND T.FPM_FACTORY = '${Fac}' 
+    AND T.FPM_CC = 'ALL' 
+    AND T.FPM_PERSON_STS = 'A'
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
+    
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//D10 BOI Manager 
+module.exports.boi_manager= async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN 
+    FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02005'
+    AND T.FPM_FACTORY = '${Fac}'
+    AND T.FPM_CC = 'ALL' 
+    AND T.FPM_PERSON_STS = 'A'
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// D11 Factory Manager 
+module.exports.fac_manager= async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN 
+    FROM FAM_PERSON_MASTER T
+    WHERE T.FPM_LEVEL = 'GP02006' 
+    AND T.FPM_FACTORY =  '${Fac}'  
+    AND T.FPM_CC = 'ALL' AND T.FPM_PERSON_STS = 'A'
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// D12 ACC Check
+module.exports.acc_check= async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN 
+    FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02007'
+    AND T.FPM_FACTORY = ${Fac} 
+    AND T.FPM_CC = 'ALL' AND T.FPM_PERSON_STS = 'A'
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
+
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//D13 ACC Manager 
+module.exports.acc_manager= async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN 
+    FROM FAM_PERSON_MASTER T
+     WHERE T.FPM_LEVEL = 'GP02012' 
+     AND T.FPM_FACTORY = '${Fac}'
      AND T.FPM_CC = 'ALL' 
      AND T.FPM_PERSON_STS = 'A'
-ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN;
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
 
-    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
-    WHERE T.FPM_LEVEL = 'GP02003'
-    AND T.FPM_FACTORY = '${Level}'
-    AND T.FPM_CC = '${CC}'
-    AND T.FPM_PERSON_STS = 'A'
          `;
     const result = await connect.execute(query);
     connect.release();
