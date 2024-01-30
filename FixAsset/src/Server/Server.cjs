@@ -1,6 +1,7 @@
+
 const express = require("express");
 const oracledb = require("oracledb");
-
+require("dotenv").config();
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -28,8 +29,32 @@ app.get("/getfactory",Transaction.factory);
 app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
+app.get("/getby",Transaction.by);
+app.get("/getstatus",Transaction.status);
 app.get("/getsearch",Transaction.search);
 app.get("/getfixcode",Transaction.fixcode);
+app.get("/getfac_insert",Transaction.fac_insert);
+app.get("/getcost_insert",Transaction.cost_insert);
+app.get("/getfix_group",Transaction.fix_group);
+app.get("/getid_service",Transaction.id_service);
+app.get("/getfind_service",Transaction.find_service);
+app.get("/getfamno",Transaction.fam_no);
+app.post("/get_gen_famno",Transaction.insert_tranfer);
+app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
+app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
+app.post("/ins_from_Boi",Transaction.ins_from_Boi);
+app.get("/select_BOI_from",Transaction.select_BOI_from);
+app.get("/new_owner",Transaction.new_owner);
+app.get("/cc_for_transfer",Transaction.cc);
+app.get("/level",Transaction.level_mana);
+app.get("/service_by",Transaction.service_by);
+app.get("/boi_staff",Transaction.boi_staff);
+app.get("/boi_manager",Transaction.boi_manager);
+app.get("/fac_manager",Transaction.fac_manager);
+app.get("/acc_check",Transaction.acc_check);
+app.get("/acc_manager",Transaction.acc_manager);
+
+
 
 
 // app.get("/checkconnect", async (req, res) => {
