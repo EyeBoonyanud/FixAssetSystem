@@ -625,7 +625,7 @@ module.exports.cc = async function (req, res) {
     UNION ALL
     SELECT 'ALL' AS CC_CTR, 'ALL' AS CC_DESC,0
     FROM DUAL
-    ORDER BY  3
+    ORDER BY  1
          `;
     const result = await connect.execute(query);
     connect.release();
@@ -788,3 +788,62 @@ module.exports.acc_manager= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+//INSERT_TRANSFER_DETAILS
+module.exports.ins_transfer = async function (req, res) {
+  try {
+    const FAM_NO = req.query.running_no;
+    const Date_plan1 = req.query.date_plan;
+    const Factory = req.query.fac;
+    const CC = req.query.cc;
+    const Receive_By = req.query.by;
+    const Tel = req.query.tel;
+    const Status = req.query.status;
+
+    // Declare the connect variable
+    const connect = await oracledb.getConnection(AVO);
+
+    // Log values
+    console.log(FAM_NO);
+    console.log(Date_plan1);
+    console.log(Factory);
+    console.log(CC);
+    console.log(Receive_By);
+    console.log(Tel);
+    console.log(Status);
+
+    const query = `
+      UPDATE FAM_REQ_TRANSFER F
+      SET
+      F.FRT_PLAN_MOVE_DATE = TO_DATE(:date_plan1, 'YYYY-MM-DD'),
+        F.FRT_TO_FACTORY = :factory,
+        F.FRT_TO_CC = :cc,
+        F.FRT_RECEIVE_BY = :receive_by,
+        F.FRT_RECEIVE_DATE = SYSDATE,
+        F.FRT_RECEIVER_TEL = :tel,
+        F.FRT_ABNORMAL_STS = :status
+      WHERE F.FRT_FAM_NO = :fam_no
+    `;
+
+    const data = {
+      fam_no: FAM_NO,
+      date_plan1: Date_plan1,
+      factory: Factory,
+      cc: CC,
+      receive_by: Receive_By,
+      tel: Tel,
+      status: Status
+    };
+
+    // Execute the query
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log('Rows updated:', result.rowsAffected);
+
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+

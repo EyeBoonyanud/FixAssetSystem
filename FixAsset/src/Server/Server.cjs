@@ -53,7 +53,7 @@ app.get("/boi_manager",Transaction.boi_manager);
 app.get("/fac_manager",Transaction.fac_manager);
 app.get("/acc_check",Transaction.acc_check);
 app.get("/acc_manager",Transaction.acc_manager);
-
+app.post("/ins_transfer",Transaction.ins_transfer);
 
 
 
