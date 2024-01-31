@@ -32,7 +32,7 @@ function ButtonAppBar({ isOpen, onClose }) {
         <AppBar
           position="fixed"
           style={{
-            backgroundColor: "green",
+            backgroundImage: 'linear-gradient(-145deg, #62e6a5 40%, #9ae7ba 35%, #e5ffe5 35%, #d1f5de 70%, #62e6a5 0)',
           }}
         >
           <Toolbar>

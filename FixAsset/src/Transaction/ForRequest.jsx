@@ -431,54 +431,45 @@ function ForRequest() {
   //   return formattedDateTime;
   // };
 
+  // const handleDone = async () => {
+  //   const uploadedFileNames = uploadedFiles.map((file) => file.name);
+  //   const FAM_FORM = "REQUEST";
+  //   const famNo = document.getElementById("Txt_Famno").value;
+  //   const currentDateTime = new Date()
+  //     .toISOString()
+  //     .slice(0, 10)
+  //     .replace(/-/g, "");
+  //     // const file_server = famNo + "_" + FAM_FORM + "_" + currentDateTime+"."+fileExtensions;
+  //   // const currentDateTime = new Date().toISOString().slice(0, 19).replace("T", " ");
+  //   // const Time = Timee();
+  //   const fileExtensions = uploadedFileNames.map((fileName) => {
+  //     const lastDotIndex = fileName.lastIndexOf('.');
+  //     return fileName.slice(lastDotIndex + 1);
+  // });
 
+  //   try {
+  //     console.log("FAM_NO =", famNo);
+  //     console.log("FAM_FROM =", FAM_FORM);
+  //     console.log("FILE_NAME", uploadedFileNames);
+  //     console.log("TIME =", currentDateTime);
+  //     console.log("FILE_SERVER =", file_server);
 
+  //     console.log(fileExtensions);
+  //     // console.log(Time);
+  //     for (let i = 0; i < uploadedFiles.length; i++) {
+  //       const file = uploadedFiles[i];
+  //       const fileSeq = i + 1;
 
+  //       // await insertFileToDatabase(famNo, FAM_FORM, file.name, fileSeq);
 
-
-    // const handleDone = async () => {
-    //   const uploadedFileNames = uploadedFiles.map((file) => file.name);
-    //   const FAM_FORM = "REQUEST";
-    //   const famNo = document.getElementById("Txt_Famno").value;
-    //   const currentDateTime = new Date()
-    //     .toISOString()
-    //     .slice(0, 10)
-    //     .replace(/-/g, "");
-    //     // const file_server = famNo + "_" + FAM_FORM + "_" + currentDateTime+"."+fileExtensions;
-    //   // const currentDateTime = new Date().toISOString().slice(0, 19).replace("T", " ");
-    //   // const Time = Timee();
-    //   const fileExtensions = uploadedFileNames.map((fileName) => {
-    //     const lastDotIndex = fileName.lastIndexOf('.');
-    //     return fileName.slice(lastDotIndex + 1);
-    // });
-
-
-    //   try {
-    //     console.log("FAM_NO =", famNo);
-    //     console.log("FAM_FROM =", FAM_FORM);
-    //     console.log("FILE_NAME", uploadedFileNames);
-    //     console.log("TIME =", currentDateTime);
-    //     console.log("FILE_SERVER =", file_server);
-        
-    //     console.log(fileExtensions);
-    //     // console.log(Time);
-    //     for (let i = 0; i < uploadedFiles.length; i++) {
-    //       const file = uploadedFiles[i];
-    //       const fileSeq = i + 1;
-        
-
-    //       // await insertFileToDatabase(famNo, FAM_FORM, file.name, fileSeq);
-
-    //       console.log(
-    //         `ชื่อไฟล์ ${file.name} เลข(SEQ) ${fileSeq} เพิ่มลงในฐานข้อมูล`
-    //       );
-    //     }
-    //   } catch (error) {
-    //     console.error("Error committing files to the database:", error);
-    //   }
-    // };
-
-
+  //       console.log(
+  //         `ชื่อไฟล์ ${file.name} เลข(SEQ) ${fileSeq} เพิ่มลงในฐานข้อมูล`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error committing files to the database:", error);
+  //   }
+  // };
 
   //   const handleDone = async () => {
   //     const uploadedFileNames = uploadedFiles.map((file) => file.name);
@@ -488,11 +479,14 @@ function ForRequest() {
   //         .toISOString()
   //         .slice(0, 10)
   //         .replace(/-/g, "");
+  //     const currentDateTime_Test = new Date().toISOString().slice(0, 10);
+
   //     try {
   //         console.log("FAM_NO =", famNo);
   //         console.log("FAM_FROM =", FAM_FORM);
   //         console.log("FILE_NAME", uploadedFileNames);
   //         console.log("TIME =", currentDateTime);
+  //         console.log("TIME TEST =", currentDateTime_Test);
   //         console.log("USER LOGIN",UserLogin);
   //         for (let i = 0; i < uploadedFiles.length; i++) {
   //             const file = uploadedFiles[i];
@@ -504,52 +498,127 @@ function ForRequest() {
   //                 `||${famNo}||${FAM_FORM}||${fileSeq}||${file.name}||${file_server}||${UserLogin}`
   //             );
   //             console.log("FILE_SERVER =", file_server);
+
+  //             try {
+  //               const response = await axios.post(
+  //                 `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${fileSeq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+  //               );
+
+  //               console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+  //             } catch (error) {
+  //               console.error("Error Upload File Request:", error);
+  //             }
   //         }
   //     } catch (error) {
   //         console.error("Error committing files to the database:", error);
   //     }
   // };
 
+  // const handleDone = async () => {
+  //   const uploadedFileNames = uploadedFiles.map((file) => file.name);
+  //   const FAM_FORM = "REQUEST";
+  //   const famNo = document.getElementById("Txt_Famno").value;
+  //   const currentDateTime = new Date()
+  //     .toISOString()
+  //     .slice(0, 10)
+  //     .replace(/-/g, "");
+  //   // const currentDateTime_Test = new Date().toISOString().slice(0, 10);
 
-const handleDone = async () => {
-    const uploadedFileNames = uploadedFiles.map((file) => file.name);
+  //   try {
+  //     console.log("FAM_NO =", famNo);
+  //     console.log("FAM_FROM =", FAM_FORM);
+  //     console.log("FILE_NAME", uploadedFileNames);
+  //     console.log("TIME =", currentDateTime);
+  //     // console.log("TIME TEST =", currentDateTime_Test);
+  //     console.log("USER LOGIN", UserLogin);
+  //     for (let i = 0; i < uploadedFiles.length; i++) {
+  //       const file = uploadedFiles[i];
+  //       const fileSeq = i + 1;
+  //       const lastDotIndex = file.name.lastIndexOf(".");
+  //       const fileExtension = file.name.slice(lastDotIndex + 1);
+  //       const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
+  //       let new_run_seq = "";
+  //       console.log(
+  //         `||${famNo}||${FAM_FORM}||${fileSeq}||${file.name}||${file_server}||${UserLogin}`
+  //       );
+  //       console.log("FILE_SERVER =", file_server);
+  //       try {
+  //         const response_seq = await axios.get(
+  //           `http://localhost:5000/get_seq_request?FAM_no=${famNo}`
+  //         );
+  //         console.log("GET SEQ", response_seq);
+  //         const get_run_seq = await response_seq.data;
+  //         console.log("RUN SEQ", get_run_seq);
+
+  //         const lastValue =
+  //           get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
+  //         const incrementedValue = lastValue + 1;
+  //         new_run_seq = [[incrementedValue]];
+
+  //         console.log("New Array:", new_run_seq);
+  //       } catch (error) {
+  //         console.error("Error committing files to the database:", error);
+  //       }
+
+  //       try {
+
+  //         const response = await axios.post(
+  //           `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+  //         );
+
+  //         console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+  //       } catch (error) {
+  //         console.error("Error Upload File Request:", error);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error committing files to the database:", error);
+  //   }
+  // };
+
+  const handleDone = async () => {
     const FAM_FORM = "REQUEST";
     const famNo = document.getElementById("Txt_Famno").value;
     const currentDateTime = new Date()
-        .toISOString()
-        .slice(0, 10)
-        .replace(/-/g, "");
+      .toISOString()
+      .slice(0, 10)
+      .replace(/-/g, "");
     try {
-        console.log("FAM_NO =", famNo);
-        console.log("FAM_FROM =", FAM_FORM);
-        console.log("FILE_NAME", uploadedFileNames);
-        console.log("TIME =", currentDateTime);
-        console.log("USER LOGIN",UserLogin);
-        for (let i = 0; i < uploadedFiles.length; i++) {
-            const file = uploadedFiles[i];
-            const fileSeq = i + 1;
-            const lastDotIndex = file.name.lastIndexOf('.');
-            const fileExtension = file.name.slice(lastDotIndex + 1);
-            const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
-            console.log(
-                `||${famNo}||${FAM_FORM}||${fileSeq}||${file.name}||${file_server}||${UserLogin}`
-            );
-            console.log("FILE_SERVER =", file_server);
-
-            try {
-              const response = await axios.post(
-                `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${fileSeq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
-              );
-
-              console.log("อัฟโหลดไฟล์สำเร็จ =", response);
-            } catch (error) {
-              console.error("Error Upload File Request:", error);
-            }
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        const file = uploadedFiles[i];
+        const fileSeq = i + 1;
+        const lastDotIndex = file.name.lastIndexOf(".");
+        const fileExtension = file.name.slice(lastDotIndex + 1);
+        const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
+        let new_run_seq = "";
+        try {
+          const response_seq = await axios.get(
+            `http://localhost:5000/get_seq_request?FAM_no=${famNo}`
+          );
+          const get_run_seq = await response_seq.data;
+          console.log("RUN SEQ", get_run_seq);
+          const lastValue =
+            get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
+          const incrementedValue = lastValue + 1;
+          new_run_seq = [[incrementedValue]];
+          console.log("New Array:", new_run_seq);
+        } catch (error) {
+          console.error("Error committing files to the database:", error);
         }
+        try {
+          const response = await axios.post(
+            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+          );
+
+          console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+        } catch (error) {
+          console.error("Error Upload File Request:", error);
+        }
+      }
     } catch (error) {
-        console.error("Error committing files to the database:", error);
+      console.error("Error committing files to the database:", error);
     }
-};
+  };
 
   return (
     <div className="Box-Insert">

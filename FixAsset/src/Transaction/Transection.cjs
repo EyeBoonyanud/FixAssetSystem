@@ -565,7 +565,7 @@ module.exports.insertFile_from_request = async function (req, res) {
     const fam_file_name = req.query.FAM_file_name;
     const fam_file_server = req.query.FAM_file_server;
     const fam_create = req.query.FAM_create;
-    
+
     console.log(fam_no);
     console.log(fam_from);
     console.log(fam_file_seq);
@@ -573,13 +573,32 @@ module.exports.insertFile_from_request = async function (req, res) {
     console.log(fam_file_server);
     console.log(fam_create);
 
-  
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    INSERT INTO FAM_FILE_ATTACH 
-    (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE) 
-VALUES 
-    (:fam_no, :fam_from, :fam_file_seq, :fam_file_name, :fam_file_server, :fam_create, SYSDATE, :fam_create, SYSDATE)
+    
+MERGE INTO FAM_FILE_ATTACH T
+USING (SELECT :fam_no AS FFA_FAM_NO, 
+              :fam_from AS FFA_ATT_FROM, 
+              :fam_file_seq AS FFA_FILE_SEQ, 
+              :fam_file_name AS FFA_FILE_NAME, 
+              :fam_file_server AS FFA_FILE_SERVER, 
+              :fam_create AS FFA_CREATE_BY, 
+              SYSDATE AS FFA_CREATE_DATE, 
+              :fam_create AS FFA_UPDATE_BY, 
+              SYSDATE AS FFA_UPDATE_DATE 
+       FROM DUAL) S
+ON (T.FFA_FAM_NO = S.FFA_FAM_NO AND T.FFA_ATT_FROM = S.FFA_ATT_FROM  AND T.FFA_FILE_SEQ = S.FFA_FILE_SEQ)
+WHEN MATCHED THEN
+  UPDATE SET 
+             T.FFA_FILE_NAME = S.FFA_FILE_NAME,
+             T.FFA_FILE_SERVER = S.FFA_FILE_SERVER,
+             T.FFA_UPDATE_BY = S.FFA_UPDATE_BY,
+             T.FFA_UPDATE_DATE = S.FFA_UPDATE_DATE
+WHEN NOT MATCHED THEN
+  INSERT (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE)
+  VALUES (S.FFA_FAM_NO, S.FFA_ATT_FROM, S.FFA_FILE_SEQ, S.FFA_FILE_NAME, S.FFA_FILE_SERVER, S.FFA_CREATE_BY, S.FFA_CREATE_DATE, S.FFA_UPDATE_BY, S.FFA_UPDATE_DATE)
+
+
 
 
          `;
@@ -600,3 +619,64 @@ VALUES
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
+// get run seq request
+module.exports.get_run_seq_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+
+    console.log(fam_no);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :fam_no
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      fam_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+// // get run seq request
+// module.exports.get_run_seq_request = async function (req, res) {
+//   try {
+//     const fam_no = req.query.FAM_no;
+//     const fam_create_date = req.query.FAM_create_date;
+
+//     console.log(fam_no);
+//     console.log(fam_create_date);
+
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX
+//     FROM FAM_FILE_ATTACH T
+//     WHERE T.FFA_FAM_NO = :fam_no
+//         AND TRUNC(T.FFA_CREATE_DATE) = TO_DATE(:fam_create_date, 'YYYY-MM-DD')
+//     ORDER BY T.FFA_FILE_SEQ ASC
+
+//          `;
+//     const data = {
+//       fam_no,
+//       fam_create_date,
+
+//     };
+//     const result = await connect.execute(query, data, { autoCommit: true });
+//     console.log(query);
+//     connect.release();
+//     // console.log(result.rows);
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+//   }
+// };
