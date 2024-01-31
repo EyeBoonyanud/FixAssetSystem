@@ -581,15 +581,14 @@ function ForRequest() {
     const famNo = document.getElementById("Txt_Famno").value;
     const currentDateTime = new Date()
       .toISOString()
-      .slice(0, 10)
+      .slice(2, 10)
       .replace(/-/g, "");
     try {
       for (let i = 0; i < uploadedFiles.length; i++) {
         const file = uploadedFiles[i];
-        const fileSeq = i + 1;
+       
         const lastDotIndex = file.name.lastIndexOf(".");
         const fileExtension = file.name.slice(lastDotIndex + 1);
-        const file_server = `${famNo}_${FAM_FORM}_${currentDateTime}_${fileSeq}.${fileExtension}`;
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
@@ -605,6 +604,11 @@ function ForRequest() {
         } catch (error) {
           console.error("Error committing files to the database:", error);
         }
+        const file_server = `${famNo}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+        console.log("FAM_NO =", famNo);
+            console.log("FAM_FROM =", FAM_FORM);
+            console.log("TIME =", currentDateTime);
+            console.log("USER LOGIN", UserLogin);
         try {
           const response = await axios.post(
             `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
