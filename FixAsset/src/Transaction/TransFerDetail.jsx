@@ -40,7 +40,6 @@ function TransFerDetail() {
 
   const [department, setdepartment] = useState([]);
   const [selectdepartment, setselectdepartment] = useState("");
-  
 
   const [service_by, setservice_by] = useState([]);
   const [selectservice_by, setselectservice_by] = useState("");
@@ -60,9 +59,10 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
 
-  const [sts , setsts] = useState("");
-  const New_BOI = "NON BOI";
+  const [sts, setsts] = useState("");
+  const [abnormal, setabnormal] = useState("");
 
+  const New_BOI = "NON BOI";
 
   // From BOI PROJ
   const BOI_FROM = async () => {
@@ -90,7 +90,6 @@ function TransFerDetail() {
   };
   const handleFactory = (event) => {
     setselecteDatafac(event.target.value);
-    
   };
   // Tranfer To CC
   const Costcenter = async () => {
@@ -107,14 +106,15 @@ function TransFerDetail() {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
     setselectcost(Cost);
     New_Owner(Cost);
-    console.log(dataBoi_from,"jjjjjj")
-    if (dataBoi_from === New_BOI){
-      setsts("N")
-      console.log("เท่ากัน : ", sts)
-    }else{
-      setsts("Y")
-      console.log("ไม่เท่ากัน :" ,sts)
 
+    if (dataBoi_from === New_BOI) {
+      setsts("N");
+      setabnormal("");
+      console.log("เท่ากัน : ", sts);
+    } else {
+      setsts("Y");
+      setabnormal("Transfer to difference project");
+      console.log("ไม่เท่ากัน :", sts);
     }
 
     // console.log(Cost, "setselectcost");
@@ -255,18 +255,17 @@ function TransFerDetail() {
     setselectacc_manager(event.target.value);
   };
 
-  const SAVE = async () => {   
-     const  Plan_date = document.getElementById("Plan_Remove").value;
-     const Tel = document.getElementById("Tel").value;
+  const SAVE = async () => {
+    const Plan_date = document.getElementById("Plan_Remove").value;
+    const Tel = document.getElementById("Tel").value;
 
     // const Fixcode = document.getElementById("Fixcode").value;
     // setFixcode1(Fixcode);
 
-    
-
     try {
       const row = await axios.post(
-        `http://localhost:5000/ins_transfer?running_no=${fam}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&by=${result1}&tel=${Tel}&status=${sts}`
+        // console.log(New_BOI,"New_BOI")
+       `http://localhost:5000/ins_transfer?running_no=${fam}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
       );
       const data = row.data;
       setdataFixCode(data);
@@ -435,11 +434,7 @@ function TransFerDetail() {
                   <td className="Style7">Tel :</td>
                   <td className="Style6">
                     <FormControl className="Style1">
-                      <TextField
-                        id="Tel"
-                        defaultValue=""
-                        size="small"
-                      />
+                      <TextField id="Tel" defaultValue="" size="small" />
                     </FormControl>
                   </td>
                 </tr>
@@ -453,7 +448,7 @@ function TransFerDetail() {
                         // defaultValue=""
                         size="small"
                         type="date"
-                        style={{ color: "red" }}
+                       
                       />
                     </FormControl>
                   </td>
@@ -468,6 +463,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={abnormal}
+                       
                       />
                     </FormControl>
                   </td>
