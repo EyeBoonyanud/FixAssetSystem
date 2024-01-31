@@ -1,6 +1,7 @@
 const express = require("express");
 const oracledb = require("oracledb");
 
+
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -645,6 +646,40 @@ module.exports.get_run_seq_request = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+// up file to Project me
+const path = require("path");
+const uploadsPath = path.join(__dirname, "../UploadFile");
+const multer = require("multer");
+
+module.exports.insertFile_from_request_to_project_me = async function (req, res) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsPath);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname); // Use the original filename
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+  try {
+    // Handle the file upload logic here
+    await upload.array("files")(req, res, (err) => {
+      if (err) {
+        console.error("Error uploading files:", err);
+        res.status(500).send("Error uploading files");
+      } else {
+        console.log("Files uploaded:", req.files);
+        res.send("Files uploaded successfully");
+      }
+    });
+  } catch (error) {
+    console.error("Error handling file upload:", error);
+    res.status(500).send("Error handling file upload");
   }
 };
 

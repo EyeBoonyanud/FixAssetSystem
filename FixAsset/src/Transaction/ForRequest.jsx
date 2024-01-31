@@ -614,6 +614,20 @@ function ForRequest() {
         } catch (error) {
           console.error("Error Upload File Request:", error);
         }
+        try {
+          const formData = new FormData();
+          uploadedFiles.forEach((file) => {
+            formData.append('files', file);
+            // formData.append('filesname', file.name);
+          });
+     
+          await axios.post('http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME', formData);
+          
+     
+          console.log('Files saved successfully');
+        } catch (error) {
+          console.error('Error saving files:', error);
+        }
       }
     } catch (error) {
       console.error("Error committing files to the database:", error);

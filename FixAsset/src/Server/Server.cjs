@@ -1,15 +1,16 @@
-
 const express = require("express");
 const oracledb = require("oracledb");
 require("dotenv").config();
 const app = express();
 const port = 5000;
 app.use(express.json());
-const Login =require("../Login/Login.cjs")
-const Transaction =require("../Transaction/Transection.cjs")
+
+
+
+const Login = require("../Login/Login.cjs");
+const Transaction = require("../Transaction/Transection.cjs");
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
-
 });
 
 app.use((req, res, next) => {
@@ -22,28 +23,47 @@ app.use(express.json());
 
 app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
-app.get("/getmainmenu",Login.mainmenu);
-app.get("/getsubmenu",Login.submenu);
-app.get("/getemp",Transaction.emp);
-app.get("/getfactory",Transaction.factory);
-app.get("/getdept",Transaction.dept);
-app.get("/getcost",Transaction.cost);
-app.get("/gettype",Transaction.type);
-app.get("/getby",Transaction.by);
-app.get("/getstatus",Transaction.status);
-app.get("/getsearch",Transaction.search);
-app.get("/getfixcode",Transaction.fixcode);
-app.get("/getfac_insert",Transaction.fac_insert);
-app.get("/getcost_insert",Transaction.cost_insert);
-app.get("/getfix_group",Transaction.fix_group);
-app.get("/getid_service",Transaction.id_service);
-app.get("/getfind_service",Transaction.find_service);
-app.get("/getfamno",Transaction.fam_no);
-app.post("/get_gen_famno",Transaction.insert_tranfer);
-app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
-app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
-app.post("/ins_FILE_FROM_REQUEST",Transaction.insertFile_from_request);
-app.get("/get_seq_request",Transaction.get_run_seq_request);
+app.get("/getmainmenu", Login.mainmenu);
+app.get("/getsubmenu", Login.submenu);
+app.get("/getemp", Transaction.emp);
+app.get("/getfactory", Transaction.factory);
+app.get("/getdept", Transaction.dept);
+app.get("/getcost", Transaction.cost);
+app.get("/gettype", Transaction.type);
+app.get("/getby", Transaction.by);
+app.get("/getstatus", Transaction.status);
+app.get("/getsearch", Transaction.search);
+app.get("/getfixcode", Transaction.fixcode);
+app.get("/getfac_insert", Transaction.fac_insert);
+app.get("/getcost_insert", Transaction.cost_insert);
+app.get("/getfix_group", Transaction.fix_group);
+app.get("/getid_service", Transaction.id_service);
+app.get("/getfind_service", Transaction.find_service);
+app.get("/getfamno", Transaction.fam_no);
+app.post("/get_gen_famno", Transaction.insert_tranfer);
+app.post("/get_asset_transfer", Transaction.insert_asset_transfer);
+app.post("/ins_REQ_DETAIL", Transaction.insert_FAM_REQ_DETAIL);
+app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request);
+app.get("/get_seq_request", Transaction.get_run_seq_request);
+app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, uploadsPath);
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname); // ตั้งชื่อไฟล์ใหม่
+//   },
+// });
+// const upload = multer({ storage: storage });
+
+// app.post("/upload", upload.array("files"), (req, res) => {
+//   console.log("Files uploaded:", req.files);
+//   res.send("Files uploaded successfully");
+// });
+
+
+
 // app.get("/checkconnect", async (req, res) => {
 //   try {
 //     const oracleConnection = await oracledb.getConnection(CUSR);
@@ -58,9 +78,6 @@ app.get("/get_seq_request",Transaction.get_run_seq_request);
 //     res.send("การเชื่อมต่อไม่สำเร็จ");
 //   }
 // });
-
- 
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
