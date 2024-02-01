@@ -126,7 +126,7 @@ export default function SignInSide() {
           <span className="span02">e</span>
           <span className="span03">ts</span>
         </Typography>
-        <Typography variant="h2" sx={{ textAlign: "center", pl: ["5%", "10%", "15%"] }}>
+        <Typography variant="h2" sx={{ paddingLeft: "50%" }}>
           <span className="span04">Movement </span>
           <span className="span05">System</span>
         </Typography>
