@@ -56,6 +56,8 @@ app.get("/acc_manager",Transaction.acc_manager);
 app.post("/ins_transfer",Transaction.ins_transfer);
 app.post("/routing_tran",Transaction.routing_tran);
 app.post("/receiver_tranfer",Transaction.receiver_tranfer);
+app.get("/header",Transaction.header);
+app.post("/close_routing_tran",Transaction.close_routing_tran);
 
 
 // app.get("/checkconnect", async (req, res) => {

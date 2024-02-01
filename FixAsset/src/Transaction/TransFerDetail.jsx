@@ -13,6 +13,8 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
+import Swal from 'sweetalert2'
+
 import { SaveAlt } from "@mui/icons-material";
 
 function TransFerDetail() {
@@ -21,11 +23,13 @@ function TransFerDetail() {
   const CC_for_request = localStorage.getItem("CC_for_request");
   const Fac_to_request = localStorage.getItem("Factory"); //R180
   const Service_ID = localStorage.getItem("datafixgroup");
-  
-  // const Fam_no = localStorage.getItem("FAM_run");
+
+  const Fam_no = localStorage.getItem("FAM_run");
   // console.log(Service_ID, "Service_ID:::");
   const Service = localStorage.getItem("data_for_sevice");
-  const fam = "A1-R180-24-0001";
+  // const fam = "A1-R180-24-0001";
+  const [dataheader, setdataheader] = useState([]);
+
   const [dataBoi_from, setdataBoi_from] = useState([]);
 
   const [datafac, setdatafac] = useState([]);
@@ -37,7 +41,7 @@ function TransFerDetail() {
   const [newowner, setnewowner] = useState([]);
   const [selectnewowner, setselectnewowner] = useState("");
   const [result1, setresult1] = useState("");
-  console.log(result1,"result1")
+  console.log(result1, "result1");
 
   const [department, setdepartment] = useState([]);
   const [selectdepartment, setselectdepartment] = useState("");
@@ -63,14 +67,14 @@ function TransFerDetail() {
   const [sts, setsts] = useState("");
   const [abnormal, setabnormal] = useState("");
 
- // ตัวแปร Radio Routing
+  // ตัวแปร Radio Routing
   const [radio_dept, setradio_dept] = useState("");
-  const [radio_serviceby ,setradio_serviceby]= useState("");
+  const [radio_serviceby, setradio_serviceby] = useState("");
   const [radio_boistaff, setradio_boistaff] = useState("");
-  const [radio_boimanager ,setradio_boimanager]= useState("");
+  const [radio_boimanager, setradio_boimanager] = useState("");
   const [radio_facmanager, setradio_facmanager] = useState("");
-  const [radio_acc_check ,setradio_acc_check]= useState("");
-  const [radio_owner ,setradio_owner]= useState("");
+  const [radio_acc_check, setradio_acc_check] = useState("");
+  const [radio_owner, setradio_owner] = useState("");
 
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
@@ -84,20 +88,19 @@ function TransFerDetail() {
     setradio_boistaff(event.target.value);
     console.log("setradio_boistaff", event.target.value);
   };
-  
+
   const handleRadioFac_Manager = (event) => {
     setradio_facmanager(event.target.value);
     console.log("setradio_facmanager", event.target.value);
   };
-  const handleRadioACC_Check= (event) => {
+  const handleRadioACC_Check = (event) => {
     setradio_acc_check(event.target.value);
     console.log("setradio_serviceby", event.target.value);
   };
-  const handleRadioOwner= (event) => {
+  const handleRadioOwner = (event) => {
     setradio_owner(event.target.value);
     console.log("setradio_owner", event.target.value);
   };
-
 
   //ค่าสมมติ ของ To_PROJ
   const New_BOI = "NON BOI";
@@ -106,7 +109,7 @@ function TransFerDetail() {
   const BOI_FROM = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/select_BOI_from?running_no=${fam}`
+        `http://localhost:5000/select_BOI_from?running_no=${Fam_no}`
       );
       const data = response.data;
       setdataBoi_from(data[0][0]);
@@ -292,98 +295,91 @@ function TransFerDetail() {
   const handleACC_Manager = (event) => {
     setselectacc_manager(event.target.value);
   };
+  // Header
+  const Header = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/header?famno=${Fam_no}`
+      );
+      const data = response.data.flat();
+      setdataheader(data);
+      console.log("setdataheader :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
 
   const SAVE = async () => {
     const Plan_date = document.getElementById("Plan_Remove").value;
     const Tel = document.getElementById("Tel").value;
     const Tel_Service = document.getElementById("Tel_Service").value;
-    
 
     // const Fixcode = document.getElementById("Fixcode").value;
     // setFixcode1(Fixcode);
 
-    try { 
-      // const row = await axios.post("http://localhost:5000/routing_tran", {
-      //   running_no: fam,
-      //   m_dept: selectdepartment,
-      //   m_jud: PieceNo,
-      //   m_date: PieceNo,
-      //   m_cmmt: PieceNo,
-      //   s_dept: PieceNo,
-      //   s_tel: PieceNo,
-      //   s_by: PieceNo,
-      //   s_jud: PieceNo,
-      //   s_date: PieceNo,
-      //   s_cmmt: PieceNo,
-      //   chk_by: PieceNo,
-      //   chk_jud: PieceNo,
-      //   chk_date: PieceNo,
-      //   chk_cmmt: PieceNo,
-      //   boi_by: PieceNo,
-      //   boi_jud: PieceNo,
-      //   boi_cmmt: PieceNo,
-      //   fmby: PieceNo,
-      //   fmjud: PieceNo,
-      //   fmdate: PieceNo,
-      //   fmcmmt: PieceNo,
-      //   acc_by: PieceNo,
-      //   acc_jud: PieceNo,
-      //   acc_date: PieceNo,
-      //   acc_cmmt: PieceNo,
-      //   own_by: PieceNo,
-      //   own_jud: PieceNo,
-      //   own_date: PieceNo,
-      //   own_cmmt: PieceNo,
-      //   boi_date: PieceNo,
-      // });
-      
-      
-     const row = axios.post(
-              // console.log(New_BOI,"New_BOI")
-             `http://localhost:5000/ins_transfer?running_no=${fam}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
-            );
-   
-        const data = row.data;
-            setdataFixCode(data);
+    try {
+      const row = axios
+        .post
+        // console.log(New_BOI,"New_BOI")
+        ( //`http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+        );
+
+      const data = row.data;
+      setdataFixCode(data);
     } catch (error) {
       console.error("Error requesting data:", error);
     }
     try {
-    const row =  axios.post(
-              // console.log(New_BOI,"New_BOI")
-             `http://localhost:5000/routing_tran?running_no=${fam}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
-            );
-   
-        const data = row.data;
-        console.log(data,"data")
+      const row = axios
+        .post
+        // console.log(New_BOI,"New_BOI")
+        (//`http://localhost:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+        );
 
-            setdataFixCode(data);
+      const data = row.data;
+      console.log(data, "data");
+
+      setdataFixCode(data);
     } catch (error) {
       console.error("Error requesting data:", error);
     }
-    try { 
-      const receiver = await axios.post("http://localhost:5000/receiver_tranfer", {
-        famno: fam,
-        receiver: result1
-      });
+    try {
+      const receiver = await axios.post(
+       // "http://localhost:5000/receiver_tranfer",
+        {
+          famno: Fam_no,
+          receiver: result1,
+        }
+      );
 
-   
-        // const data = row.data;
-        //     setdataFixCode(data);
+      // const data = row.data;
+      //     setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    try {
+      const close_service = await axios.post(
+       // "http://localhost:5000/close_routing_tran",
+        { 
+          famno: Fam_no,
+          acc_record: selectacc_check,
+          acc_manager: selectacc_manager,
+          service_close_by: selectservice_by,
+        }
+      );
+     
+      // const data = row.data;
+      //     setdataFixCode(data);
     } catch (error) {
       console.error("Error requesting data:", error);
     }
 
+
+    Swal.fire({
+      title: "Save Succes",
+      icon: "success"
+    });
     
-
-
-
-
-
-
-
-
-
     setOpen(true);
   };
   useEffect(() => {
@@ -397,6 +393,7 @@ function TransFerDetail() {
     Fac_manager();
     ACC_Check();
     ACC_Manager();
+    Header();
   }, []);
 
   return (
@@ -634,9 +631,8 @@ function TransFerDetail() {
                         id="RadioDept_Manager"
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={radio_dept} 
-                        onChange={handleRadioDept_Mana} 
-                       
+                        value={radio_dept}
+                        onChange={handleRadioDept_Mana}
                       >
                         <FormControlLabel
                           value="Approve"
@@ -1089,7 +1085,7 @@ function TransFerDetail() {
                   <td>
                     <FormControl className="Style3">
                       <TextField
-                      value={ReqBy}
+                        value={ReqBy}
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
@@ -1299,6 +1295,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={selectacc_check}
                         disabled
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -1398,6 +1395,7 @@ function TransFerDetail() {
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1441,6 +1439,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={selectservice_by}
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}

@@ -395,9 +395,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const query = `
       INSERT INTO FAM_REQ_HEADER 
       (FRH_FAM_NO, FAM_REQ_DATE, FAM_REQ_BY, FAM_REQ_TEL, FAM_FACTORY, FAM_REQ_CC,
-      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC, FAM_REQ_STATUS, FAM_REQ_REMARK)
+      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC, FAM_REQ_STATUS, FAM_REQ_REMARK, FAM_CREATE_DATE)
       VALUES 
-      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC, :Status, :Remark)
+      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC, :Status, :Remark,SYSDATE)
     `;
 
     const data = {
@@ -590,7 +590,7 @@ module.exports.select_BOI_from = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// new Owner 
+// new Owner
 module.exports.new_owner = async function (req, res) {
   try {
     const Fac = req.query.fac;
@@ -700,8 +700,8 @@ module.exports.boi_staff = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-//D10 BOI Manager 
-module.exports.boi_manager= async function (req, res) {
+//D10 BOI Manager
+module.exports.boi_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -722,8 +722,8 @@ module.exports.boi_manager= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// D11 Factory Manager 
-module.exports.fac_manager= async function (req, res) {
+// D11 Factory Manager
+module.exports.fac_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -744,7 +744,7 @@ module.exports.fac_manager= async function (req, res) {
   }
 };
 // D12 ACC Check
-module.exports.acc_check= async function (req, res) {
+module.exports.acc_check = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -765,8 +765,8 @@ module.exports.acc_check= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-//D13 ACC Manager 
-module.exports.acc_manager= async function (req, res) {
+//D13 ACC Manager
+module.exports.acc_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -888,27 +888,25 @@ module.exports.ins_transfer = async function (req, res) {
       receive_by: Receive_By,
       tel_tran: Tel,
       status_tran: Status,
-      abnormal_remark: Abnormal
-     
+      abnormal_remark: Abnormal,
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
@@ -946,7 +944,7 @@ module.exports.ins_transfer = async function (req, res) {
 //     const OWNER_SEND_JUD= req.query.own_jud;
 //     const OWNER_SEND_DATE = req.query.own_date;
 //     const OWNER_SEND_CMMT= req.query.own_cmmt;
- 
+
 //     const connect = await oracledb.getConnection(AVO);
 //     const query = `
 //     UPDATE FAM_REQ_HEADER H
@@ -1016,11 +1014,10 @@ module.exports.ins_transfer = async function (req, res) {
 //       FAM_OWNER_SEND_JUD: OWNER_SEND_JUD,
 //       FAM_OWNER_SEND_DATE: OWNER_SEND_DATE,
 //       FAM_OWNER_SEND_CMMT: OWNER_SEND_CMMT
-     
+
 //     };
 //     console.log(query)
 //     console.log(data)
-    
 
 //     // Execute the query
 //     const result = await connect.execute(query, data, { autoCommit: true });
@@ -1054,7 +1051,6 @@ module.exports.routing_tran = async function (req, res) {
     const ACC_CHK_BY = req.query.acc_by;
     const OWNER_SEND_BY = req.query.own_by;
 
- 
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER H
@@ -1082,26 +1078,24 @@ module.exports.routing_tran = async function (req, res) {
       FAM_FM_BY: FM_BY,
       FAM_ACC_CHK_BY: ACC_CHK_BY,
       FAM_OWNER_SEND_BY: OWNER_SEND_BY,
-     
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
@@ -1109,10 +1103,10 @@ module.exports.routing_tran = async function (req, res) {
 //Receiver for Tranfers
 module.exports.receiver_tranfer = async function (req, res) {
   try {
-    console.log("g-hkkkkkkkkkkkkk")
-   const{ famno ,receiver} = req.body;
- console.log(famno,receiver)
- 
+    console.log("g-hkkkkkkkkkkkkk");
+    const { famno, receiver } = req.body;
+    console.log(famno, receiver);
+
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_TRANSFER  T
@@ -1125,27 +1119,84 @@ module.exports.receiver_tranfer = async function (req, res) {
       FRT_FAM_NO: famno,
       FRT_RECEIVE_BY: receiver,
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+
+    if (result) {
+      console.log("Rows updated:", result.rowsAffected);
+      res.json(result);
+    } else {
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
+    }
+
+    connect.release();
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+};
+// Close Routing
+module.exports.close_routing_tran = async function (req, res) {
+  try {
+    console.log("g-hkkkkkkkkkkkkk");
+    const { famno, acc_record, acc_manager, service_close_by } = req.body;
+    console.log(famno, acc_record, acc_manager, service_close_by);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+      UPDATE FAM_REQ_HEADER T
+      SET
+        T.FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
+        T.FAM_ACC_MGR_BY = :FAM_ACC_MGR_BY,
+        T.FAM_SERVICE_CLOSE_BY = :FAM_SERVICE_CLOSE_BY
+      WHERE T.FRH_FAM_NO = :FAM_NO
+    `;
+
+    const data = {
+      FAM_NO: famno,
+      FAM_ACC_REC_BY: acc_record,
+      FAM_ACC_MGR_BY: acc_manager,
+      FAM_SERVICE_CLOSE_BY: service_close_by,
+    };
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
 
 
-
+// HEADER
+module.exports.header = async function (req, res) {
+  try {
+    const FAM_NO = req.query.famno;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT * FROM FAM_REQ_HEADER 
+    WHERE FRH_FAM_NO = '${FAM_NO}'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
