@@ -21,10 +21,11 @@ function TransFerDetail() {
   const CC_for_request = localStorage.getItem("CC_for_request");
   const Fac_to_request = localStorage.getItem("Factory"); //R180
   const Service_ID = localStorage.getItem("datafixgroup");
+  
   // const Fam_no = localStorage.getItem("FAM_run");
-  console.log(Service_ID, "Service_ID:::");
+  // console.log(Service_ID, "Service_ID:::");
   const Service = localStorage.getItem("data_for_sevice");
-  const fam = "A1-R340-24-0001";
+  const fam = "A1-R180-24-0001";
   const [dataBoi_from, setdataBoi_from] = useState([]);
 
   const [datafac, setdatafac] = useState([]);
@@ -36,7 +37,7 @@ function TransFerDetail() {
   const [newowner, setnewowner] = useState([]);
   const [selectnewowner, setselectnewowner] = useState("");
   const [result1, setresult1] = useState("");
-  // console.log(result1,"result1")
+  console.log(result1,"result1")
 
   const [department, setdepartment] = useState([]);
   const [selectdepartment, setselectdepartment] = useState("");
@@ -62,6 +63,43 @@ function TransFerDetail() {
   const [sts, setsts] = useState("");
   const [abnormal, setabnormal] = useState("");
 
+ // ตัวแปร Radio Routing
+  const [radio_dept, setradio_dept] = useState("");
+  const [radio_serviceby ,setradio_serviceby]= useState("");
+  const [radio_boistaff, setradio_boistaff] = useState("");
+  const [radio_boimanager ,setradio_boimanager]= useState("");
+  const [radio_facmanager, setradio_facmanager] = useState("");
+  const [radio_acc_check ,setradio_acc_check]= useState("");
+  const [radio_owner ,setradio_owner]= useState("");
+
+  const handleRadioDept_Mana = (event) => {
+    setradio_dept(event.target.value);
+    console.log("ค่า", event.target.value);
+  };
+  const handleRadioService_By = (event) => {
+    setradio_serviceby(event.target.value);
+    console.log("setradio_serviceby", event.target.value);
+  };
+  const handleRadioBOI_Staff = (event) => {
+    setradio_boistaff(event.target.value);
+    console.log("setradio_boistaff", event.target.value);
+  };
+  
+  const handleRadioFac_Manager = (event) => {
+    setradio_facmanager(event.target.value);
+    console.log("setradio_facmanager", event.target.value);
+  };
+  const handleRadioACC_Check= (event) => {
+    setradio_acc_check(event.target.value);
+    console.log("setradio_serviceby", event.target.value);
+  };
+  const handleRadioOwner= (event) => {
+    setradio_owner(event.target.value);
+    console.log("setradio_owner", event.target.value);
+  };
+
+
+  //ค่าสมมติ ของ To_PROJ
   const New_BOI = "NON BOI";
 
   // From BOI PROJ
@@ -165,7 +203,7 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setservice_by(data);
-      console.log("Department :", data);
+      console.log("setservice_by :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -258,23 +296,94 @@ function TransFerDetail() {
   const SAVE = async () => {
     const Plan_date = document.getElementById("Plan_Remove").value;
     const Tel = document.getElementById("Tel").value;
+    const Tel_Service = document.getElementById("Tel_Service").value;
+    
 
     // const Fixcode = document.getElementById("Fixcode").value;
     // setFixcode1(Fixcode);
 
-    try {
-      const row = await axios.post(
-        // console.log(New_BOI,"New_BOI")
-       `http://localhost:5000/ins_transfer?running_no=${fam}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
-      );
-      const data = row.data;
-      setdataFixCode(data);
-      //console.log(data);
-
-      //console.log(data, "FixCode: ");
+    try { 
+      // const row = await axios.post("http://localhost:5000/routing_tran", {
+      //   running_no: fam,
+      //   m_dept: selectdepartment,
+      //   m_jud: PieceNo,
+      //   m_date: PieceNo,
+      //   m_cmmt: PieceNo,
+      //   s_dept: PieceNo,
+      //   s_tel: PieceNo,
+      //   s_by: PieceNo,
+      //   s_jud: PieceNo,
+      //   s_date: PieceNo,
+      //   s_cmmt: PieceNo,
+      //   chk_by: PieceNo,
+      //   chk_jud: PieceNo,
+      //   chk_date: PieceNo,
+      //   chk_cmmt: PieceNo,
+      //   boi_by: PieceNo,
+      //   boi_jud: PieceNo,
+      //   boi_cmmt: PieceNo,
+      //   fmby: PieceNo,
+      //   fmjud: PieceNo,
+      //   fmdate: PieceNo,
+      //   fmcmmt: PieceNo,
+      //   acc_by: PieceNo,
+      //   acc_jud: PieceNo,
+      //   acc_date: PieceNo,
+      //   acc_cmmt: PieceNo,
+      //   own_by: PieceNo,
+      //   own_jud: PieceNo,
+      //   own_date: PieceNo,
+      //   own_cmmt: PieceNo,
+      //   boi_date: PieceNo,
+      // });
+      
+      
+     const row = axios.post(
+              // console.log(New_BOI,"New_BOI")
+             `http://localhost:5000/ins_transfer?running_no=${fam}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+            );
+   
+        const data = row.data;
+            setdataFixCode(data);
     } catch (error) {
       console.error("Error requesting data:", error);
     }
+    try {
+    const row =  axios.post(
+              // console.log(New_BOI,"New_BOI")
+             `http://localhost:5000/routing_tran?running_no=${fam}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+            );
+   
+        const data = row.data;
+        console.log(data,"data")
+
+            setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    try { 
+      const receiver = await axios.post("http://localhost:5000/receiver_tranfer", {
+        famno: fam,
+        receiver: result1
+      });
+
+   
+        // const data = row.data;
+        //     setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+
+    
+
+
+
+
+
+
+
+
+
     setOpen(true);
   };
   useEffect(() => {
@@ -448,7 +557,6 @@ function TransFerDetail() {
                         // defaultValue=""
                         size="small"
                         type="date"
-                       
                       />
                     </FormControl>
                   </td>
@@ -464,7 +572,6 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         value={abnormal}
-                       
                       />
                     </FormControl>
                   </td>
@@ -524,20 +631,25 @@ function TransFerDetail() {
                     <FormControl>
                       <RadioGroup
                         row
+                        id="RadioDept_Manager"
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_dept} 
+                        onChange={handleRadioDept_Mana} 
+                       
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -566,6 +678,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -592,7 +705,7 @@ function TransFerDetail() {
                   <td>
                     <FormControl className="Style1">
                       <TextField
-                        id="outlined-size-small"
+                        id="Tel_Service"
                         defaultValue=""
                         size="small"
                       />
@@ -625,18 +738,22 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_serviceby}
+                        onChange={handleRadioService_By}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -665,6 +782,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -695,18 +813,21 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_boistaff}
+                        onChange={handleRadioBOI_Staff}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -735,6 +856,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -771,12 +893,14 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -805,6 +929,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -835,18 +960,21 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_facmanager}
+                        onChange={handleRadioFac_Manager}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -875,6 +1003,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -905,18 +1034,22 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_acc_check}
+                        onChange={handleRadioACC_Check}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -945,6 +1078,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -955,6 +1089,7 @@ function TransFerDetail() {
                   <td>
                     <FormControl className="Style3">
                       <TextField
+                      value={ReqBy}
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
@@ -971,18 +1106,22 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_owner}
+                        onChange={handleRadioOwner}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1011,6 +1150,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -1054,6 +1194,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={newowner}
                         disabled
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -1073,12 +1214,14 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1107,6 +1250,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -1174,12 +1318,14 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1208,6 +1354,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -1244,6 +1391,7 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
@@ -1278,6 +1426,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -1310,12 +1459,14 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1344,6 +1495,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>

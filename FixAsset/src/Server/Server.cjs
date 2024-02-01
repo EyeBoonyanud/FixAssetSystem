@@ -54,7 +54,8 @@ app.get("/fac_manager",Transaction.fac_manager);
 app.get("/acc_check",Transaction.acc_check);
 app.get("/acc_manager",Transaction.acc_manager);
 app.post("/ins_transfer",Transaction.ins_transfer);
-
+app.post("/routing_tran",Transaction.routing_tran);
+app.post("/receiver_tranfer",Transaction.receiver_tranfer);
 
 
 // app.get("/checkconnect", async (req, res) => {

@@ -913,110 +913,217 @@ module.exports.ins_transfer = async function (req, res) {
   }
 };
 // ROUTING
-module.exports.ins_transfer = async function (req, res) {
+// module.exports.routing_tran = async function (req, res) {
+//   try {
+//     const FAM_NO = req.query.running_no;
+//     const MGR_DEPT = req.query.m_dept;
+//     const MGR_JUD = req.query.m_jud;
+//     const MGR_DATE = req.query.m_date;
+//     const MGR_CMMT = req.query.m_cmmt;
+//     const SERVICE_DEPT = req.query.s_dept;
+//     const SERVICE_TEL = req.query.s_tel;
+//     const SERVICE_BY = req.query.s_by;
+//     const SERVICE_JUD = req.query.s_jud;
+//     const SERVICE_DATE = req.query.s_date;
+//     const SERVICE_CMMT = req.query.s_cmmt;
+//     const BOI_CHK_BY = req.query.chk_by;
+//     const BOI_CHK_JUD = req.query.chk_jud;
+//     const BOI_CHK_DATE = req.query.chk_date;
+//     const BOI_CHK_CMMT = req.query.chk_cmmt;
+//     const BOI_MGR_BY = req.query.boi_by;
+//     const BOI_MGR_JUD = req.query.boi_jud;
+//     const BOI_MGR_DATE = req.query.boi_date;
+//     const BOI_MGR_CMMT = req.query.boi_cmmt;
+//     const FM_BY = req.query.fmby;
+//     const FM_JUD = req.query.fmjud;
+//     const FM_DATE = req.query.fmdate;
+//     const FM_CMMT = req.query.fmcmmt;
+//     const ACC_CHK_BY = req.query.acc_by;
+//     const ACC_CHK_JUD = req.query.acc_jud;
+//     const ACC_CHK_DATE = req.query.acc_date;
+//     const ACC_CHK_CMMT = req.query.acc_cmmt;
+//     const OWNER_SEND_BY = req.query.own_by;
+//     const OWNER_SEND_JUD= req.query.own_jud;
+//     const OWNER_SEND_DATE = req.query.own_date;
+//     const OWNER_SEND_CMMT= req.query.own_cmmt;
+ 
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     UPDATE FAM_REQ_HEADER H
+//     SET
+//          H.FAM_MGR_DEPT  = :FAM_MGR_DEPT,
+//          H.FAM_MGR_JUD =:FAM_MGR_JUD,
+//          H.FAM_MGR_DATE  = :FAM_MGR_DATE,
+//          H.FAM_MGR_CMMT = :FAM_MGR_CMMT,
+//          H.FAM_SERVICE_DEPT = :FAM_SERVICE_DEPT,
+//          H.FAM_SERVICE_TEL =:FAM_SERVICE_TEL,
+//          H.FAM_SERVICE_BY =:FAM_SERVICE_BY ,
+//          H.FAM_SERVICE_JUD= :FAM_SERVICE_JUD,
+//          H.FAM_SERVICE_DATE = :FAM_SERVICE_DATE,
+//          H.FAM_SERVICE_CMMT = :FAM_SERVICE_CMMT,
+//          H.FAM_BOI_CHK_BY =:FAM_BOI_CHK_BY,
+//          H.FAM_BOI_CHK_JUD =:FAM_BOI_CHK_JUD,
+//          H.FAM_BOI_CHK_DATE =:FAM_BOI_CHK_DATE,
+//          H.FAM_BOI_CHK_CMMT =:FAM_BOI_CHK_CMMT,
+//          H.FAM_BOI_MGR_BY =:FAM_BOI_MGR_BY,
+//          H.FAM_BOI_MGR_JUD =:FAM_BOI_MGR_JUD,
+//          H.FAM_BOI_MGR_DATE =:FAM_BOI_MGR_DATE,
+//          H.FAM_BOI_MGR_CMMT =:FAM_BOI_MGR_CMMT,
+//          H.FAM_FM_BY =:FAM_FM_BY,
+//          H.FAM_FM_JUD =:FAM_FM_JUD,
+//          H.FAM_FM_DATE =:FAM_FM_DATE,
+//          H.FAM_FM_CMMT =:FAM_FM_CMMT,
+//          H.FAM_ACC_CHK_BY =:FAM_ACC_CHK_BY,
+//          H.FAM_ACC_CHK_JUD =:FAM_ACC_CHK_JUD,
+//          H.FAM_ACC_CHK_DATE =:FAM_ACC_CHK_DATE,
+//          H.FAM_ACC_CHK_CMMT =:FAM_ACC_CHK_CMMT,
+//          H.FAM_OWNER_SEND_BY =:FAM_OWNER_SEND_BY,
+//          H.FAM_OWNER_SEND_JUD =:FAM_OWNER_SEND_JUD,
+//          H.FAM_OWNER_SEND_DATE =:FAM_OWNER_SEND_DATE,
+//          H.FAM_OWNER_SEND_CMMT =:FAM_OWNER_SEND_CMMT
+//       WHERE H.FRH_FAM_NO= :FRH_FAM_NO
+//     `;
+
+//     const data = {
+//       FRH_FAM_NO: FAM_NO,
+//       FAM_MGR_DEPT: MGR_DEPT,
+//       FAM_MGR_JUD: MGR_JUD,
+//       FAM_MGR_DATE: MGR_DATE,
+//       FAM_MGR_CMMT: MGR_CMMT,
+//       FAM_SERVICE_DEPT: SERVICE_DEPT,
+//       FAM_SERVICE_TEL: SERVICE_TEL,
+//       FAM_SERVICE_BY: SERVICE_BY,
+//       FAM_SERVICE_JUD: SERVICE_JUD,
+//       FAM_SERVICE_DATE: SERVICE_DATE,
+//       FAM_SERVICE_CMMT: SERVICE_CMMT,
+//       FAM_BOI_CHK_BY: BOI_CHK_BY,
+//       FAM_BOI_CHK_JUD: BOI_CHK_JUD,
+//       FAM_BOI_CHK_DATE: BOI_CHK_DATE,
+//       FAM_BOI_CHK_CMMT: BOI_CHK_CMMT,
+//       FAM_BOI_MGR_BY: BOI_MGR_BY,
+//       FAM_BOI_MGR_JUD: BOI_MGR_JUD,
+//       FAM_BOI_MGR_DATE: BOI_MGR_DATE,
+//       FAM_BOI_MGR_CMMT: BOI_MGR_CMMT,
+//       FAM_FM_BY: FM_BY,
+//       FAM_FM_JUD: FM_JUD,
+//       FAM_FM_DATE: FM_DATE,
+//       FAM_FM_CMMT: FM_CMMT,
+//       FAM_ACC_CHK_BY: ACC_CHK_BY,
+//       FAM_ACC_CHK_JUD: ACC_CHK_JUD,
+//       FAM_ACC_CHK_DATE: ACC_CHK_DATE,
+//       FAM_ACC_CHK_CMMT: ACC_CHK_CMMT,
+//       FAM_OWNER_SEND_BY: OWNER_SEND_BY,
+//       FAM_OWNER_SEND_JUD: OWNER_SEND_JUD,
+//       FAM_OWNER_SEND_DATE: OWNER_SEND_DATE,
+//       FAM_OWNER_SEND_CMMT: OWNER_SEND_CMMT
+     
+//     };
+//     console.log(query)
+//     console.log(data)
+    
+
+//     // Execute the query
+//     const result = await connect.execute(query, data, { autoCommit: true });
+
+//     if (result) {
+//       console.log('Rows updated:', result.rowsAffected);
+//       res.json(result);
+//     } else {
+//       console.error('Error: Unexpected result from the database');
+//       res.status(500).send('Internal Server Error');
+//     }
+
+//     connect.release();
+//   } catch (error) {
+//     console.error('Error in querying data:', error.message);
+//     res.status(500).send(`Internal Server Error: ${error.message}`);
+//   }
+// };
+
+//ROUTING_For_request
+module.exports.routing_tran = async function (req, res) {
   try {
     const FAM_NO = req.query.running_no;
     const MGR_DEPT = req.query.m_dept;
-    const MGR_JUD = req.query.m_jud;
-    const MGR_DATE = req.query.m_date;
-    const MGR_CMMT = req.query.m_cmmt;
     const SERVICE_DEPT = req.query.s_dept;
     const SERVICE_TEL = req.query.s_tel;
     const SERVICE_BY = req.query.s_by;
-    const SERVICE_JUD = req.query.s_jud;
-    const SERVICE_DATE = req.query.s_date;
-    const SERVICE_CMMT = req.query.s_cmmt;
     const BOI_CHK_BY = req.query.chk_by;
-    const BOI_CHK_JUD = req.query.chk_jud;
-    const BOI_CHK_DATE = req.query.chk_date;
-    const BOI_CHK_CMMT = req.query.chk_cmmt;
     const BOI_MGR_BY = req.query.boi_by;
-    const BOI_MGR_JUD = req.query.boi_jud;
-    const BOI_MGR_DATE = req.query.boi_date;
-    const BOI_MGR_CMMT = req.query.boi_cmmt;
-    const FM_BY = req.query.s_cmmt;
-    const FM_JUD = req.query.chk_by;
-    const FM_DATE = req.query.chk_jud;
-    const FM_CMMT = req.query.chk_date;
-    const ACC_CHK_BY = req.query.chk_cmmt;
-    const ACC_CHK_JUD = req.query.boi_by;
-    const ACC_CHK_DATE = req.query.boi_jud;
-    const ACC_CHK_CMMT = req.query.boi_date;
-    const OWNER_SEND_BY = req.query.boi_cmmt;
-    const OWNER_SEND_JUD= req.query.chk_cmmt;
-    const OWNER_SEND_DATE = req.query.boi_by;
-    const OWNER_SEND_CMMT= req.query.boi_jud;
+    const FM_BY = req.query.fmby;
+    const ACC_CHK_BY = req.query.acc_by;
+    const OWNER_SEND_BY = req.query.own_by;
+
  
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER H
     SET
          H.FAM_MGR_DEPT  = :FAM_MGR_DEPT,
-         H.FAM_MGR_JUD =:FAM_MGR_JUD,
-         H.FAM_MGR_DATE  = :FAM_MGR_DATE,
-         H.FAM_MGR_CMMT = :FAM_MGR_CMMT,
          H.FAM_SERVICE_DEPT = :FAM_SERVICE_DEPT,
          H.FAM_SERVICE_TEL =:FAM_SERVICE_TEL,
          H.FAM_SERVICE_BY =:FAM_SERVICE_BY ,
-         H.FAM_SERVICE_JUD= :FAM_SERVICE_JUD,
-         H.FAM_SERVICE_DATE = :FAM_SERVICE_DATE,
-         H.FAM_SERVICE_CMMT = :FAM_SERVICE_CMMT,
          H.FAM_BOI_CHK_BY =:FAM_BOI_CHK_BY,
-         H.FAM_BOI_CHK_JUD =:FAM_BOI_CHK_JUD,
-         H.FAM_BOI_CHK_DATE =:FAM_BOI_CHK_DATE,
-         H.FAM_BOI_CHK_CMMT =:FAM_BOI_CHK_CMMT,
          H.FAM_BOI_MGR_BY =:FAM_BOI_MGR_BY,
-         H.FAM_BOI_MGR_JUD =:FAM_BOI_MGR_JUD,
-         H.FAM_BOI_MGR_DATE =:FAM_BOI_MGR_DATE,
-         H.FAM_BOI_MGR_CMMT =:FAM_BOI_MGR_CMMT,
          H.FAM_FM_BY =:FAM_FM_BY,
-         H.FAM_FM_JUD =:FAM_FM_JUD,
-         H.FAM_FM_DATE =:FAM_FM_DATE,
-         H.FAM_FM_CMMT =:FAM_FM_CMMT,
          H.FAM_ACC_CHK_BY =:FAM_ACC_CHK_BY,
-         H.FAM_ACC_CHK_JUD =:FAM_ACC_CHK_JUD,
-         H.FAM_ACC_CHK_DATE =:FAM_ACC_CHK_DATE,
-         H.FAM_ACC_CHK_CMMT =:FAM_ACC_CHK_CMMT,
-         H.FAM_OWNER_SEND_BY =:FAM_OWNER_SEND_BY,
-         H.FAM_OWNER_SEND_JUD =:FAM_OWNER_SEND_JUD,
-         H.FAM_OWNER_SEND_DATE =:FAM_OWNER_SEND_DATE,
-         H.FAM_OWNER_SEND_CMMT =:FAM_OWNER_SEND_CMMT
+         H.FAM_OWNER_SEND_BY =:FAM_OWNER_SEND_BY
       WHERE H.FRH_FAM_NO= :FRH_FAM_NO
     `;
 
     const data = {
       FRH_FAM_NO: FAM_NO,
       FAM_MGR_DEPT: MGR_DEPT,
-      FAM_MGR_JUD: MGR_JUD,
-      FAM_MGR_DATE: MGR_DATE,
-      FAM_MGR_CMMT: MGR_CMMT,
       FAM_SERVICE_DEPT: SERVICE_DEPT,
       FAM_SERVICE_TEL: SERVICE_TEL,
       FAM_SERVICE_BY: SERVICE_BY,
-      FAM_SERVICE_JUD: SERVICE_JUD,
-      FAM_SERVICE_DATE: SERVICE_DATE,
-      FAM_SERVICE_CMMT: SERVICE_CMMT,
       FAM_BOI_CHK_BY: BOI_CHK_BY,
-      FAM_BOI_CHK_JUD: BOI_CHK_JUD,
-      FAM_BOI_CHK_DATE: BOI_CHK_DATE,
-      FAM_BOI_CHK_CMMT: BOI_CHK_CMMT,
       FAM_BOI_MGR_BY: BOI_MGR_BY,
-      FAM_BOI_MGR_JUD: BOI_MGR_JUD,
-      FAM_BOI_MGR_DATE: BOI_MGR_DATE,
-      FAM_BOI_MGR_CMMT: BOI_MGR_CMMT,
       FAM_FM_BY: FM_BY,
-      FAM_FM_JUD: FM_JUD,
-      FAM_FM_DATE: FM_DATE,
-      FAM_FM_CMMT: FM_CMMT,
       FAM_ACC_CHK_BY: ACC_CHK_BY,
-      FAM_ACC_CHK_JUD: ACC_CHK_JUD,
-      FAM_ACC_CHK_DATE: ACC_CHK_DATE,
-      FAM_ACC_CHK_CMMT: ACC_CHK_CMMT,
       FAM_OWNER_SEND_BY: OWNER_SEND_BY,
-      FAM_OWNER_SEND_JUD: OWNER_SEND_JUD,
-      FAM_OWNER_SEND_DATE: OWNER_SEND_DATE,
-      FAM_OWNER_SEND_CMMT: OWNER_SEND_CMMT
      
+    };
+    console.log(query)
+    console.log(data)
+    
+
+    // Execute the query
+    const result = await connect.execute(query, data, { autoCommit: true });
+
+    if (result) {
+      console.log('Rows updated:', result.rowsAffected);
+      res.json(result);
+    } else {
+      console.error('Error: Unexpected result from the database');
+      res.status(500).send('Internal Server Error');
+    }
+
+    connect.release();
+  } catch (error) {
+    console.error('Error in querying data:', error.message);
+    res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+};
+
+//Receiver for Tranfers
+module.exports.receiver_tranfer = async function (req, res) {
+  try {
+    console.log("g-hkkkkkkkkkkkkk")
+   const{ famno ,receiver} = req.body;
+ console.log(famno,receiver)
+ 
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_TRANSFER  T
+    SET
+    T.FRT_RECEIVE_BY  = :FRT_RECEIVE_BY
+    WHERE T.FRT_FAM_NO= :FRT_FAM_NO
+    `;
+
+    const data = {
+      FRT_FAM_NO: famno,
+      FRT_RECEIVE_BY: receiver,
     };
     console.log(query)
     console.log(data)
