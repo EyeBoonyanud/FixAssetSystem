@@ -1,6 +1,8 @@
 const express = require("express");
 const oracledb = require("oracledb");
-
+const multer = require('multer');
+const path = require('path');
+const uploadsPath = path.join(__dirname, '../uploads');
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -788,3 +790,264 @@ module.exports.acc_manager= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
+// insert_FAM_DETAIL
+module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
+  try {
+    const FRD_FAM_NO = req.query.famno;
+    const FRD_ASSET_CODE = req.query.assetcode;
+    const FRD_ASSET_NAME = req.query.assetname;
+    const FRD_COMP = req.query.comp;
+    const FRD_OWNER_CC = req.query.cc;
+    const FRD_BOI_PROJ = req.query.boi;
+    const FRD_QTY = req.query.qty;
+    const FRD_INV_NO = req.query.inv;
+    const FRD_ACQ_COST = req.query.cost;
+    const FRD_BOOK_VALUE = req.query.val;
+    const FRD_CREATE_BY = req.query.by;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    MERGE INTO AVO.FAM_REQ_DETAIL dest
+    USING (
+        SELECT
+            :FRD_FAM_NO AS FRD_FAM_NO,
+            :FRD_ASSET_CODE AS FRD_ASSET_CODE,
+            :FRD_ASSET_NAME AS FRD_ASSET_NAME,
+            :FRD_COMP AS FRD_COMP,
+            :FRD_OWNER_CC AS FRD_OWNER_CC,
+            :FRD_BOI_PROJ AS FRD_BOI_PROJ,
+            :FRD_QTY AS FRD_QTY,
+            :FRD_INV_NO AS FRD_INV_NO,
+            :FRD_ACQ_COST AS FRD_ACQ_COST,
+            :FRD_BOOK_VALUE AS FRD_BOOK_VALUE,
+            :FRD_CREATE_BY AS FRD_CREATE_BY
+        FROM dual
+    ) src
+    ON (dest.FRD_FAM_NO = src.FRD_FAM_NO
+        AND dest.FRD_ASSET_CODE = src.FRD_ASSET_CODE
+        AND dest.FRD_COMP = src.FRD_COMP
+    ) 
+    WHEN MATCHED THEN
+        UPDATE SET
+            dest.FRD_ASSET_NAME = src.FRD_ASSET_NAME,
+            dest.FRD_OWNER_CC = src.FRD_OWNER_CC,
+            dest.FRD_BOI_PROJ = src.FRD_BOI_PROJ,
+            dest.FRD_QTY = src.FRD_QTY,
+            dest.FRD_INV_NO = src.FRD_INV_NO,
+            dest.FRD_ACQ_COST = src.FRD_ACQ_COST,
+            dest.FRD_BOOK_VALUE = src.FRD_BOOK_VALUE
+    WHEN NOT MATCHED THEN
+        INSERT (
+            FRD_FAM_NO,
+            FRD_ASSET_CODE,
+            FRD_ASSET_NAME,
+            FRD_COMP,
+            FRD_OWNER_CC,
+            FRD_BOI_PROJ,
+            FRD_QTY,
+            FRD_INV_NO,
+            FRD_ACQ_COST,
+            FRD_BOOK_VALUE,
+            FRD_CREATE_DATE,
+            FRD_CREATE_BY
+        ) VALUES (
+            src.FRD_FAM_NO,
+            src.FRD_ASSET_CODE,
+            src.FRD_ASSET_NAME,
+            src.FRD_COMP,
+            src.FRD_OWNER_CC,
+            src.FRD_BOI_PROJ,
+            src.FRD_QTY,
+            src.FRD_INV_NO,
+            src.FRD_ACQ_COST,
+            src.FRD_BOOK_VALUE,
+            SYSDATE,
+            src.FRD_CREATE_BY
+        )
+    
+    `;
+    // INSERT INTO AVO.FAM_REQ_DETAIL
+    // (FRD_FAM_NO,FRD_ASSET_CODE,FRD_ASSET_NAME,FRD_COMP,
+    // FRD_OWNER_CC,FRD_BOI_PROJ,FRD_QTY,FRD_INV_NO,FRD_ACQ_COST,FRD_BOOK_VALUE,FRD_CREATE_DATE,FRD_CREATE_BY)
+    // VALUES(:FRD_FAM_NO,:FRD_ASSET_CODE,:FRD_ASSET_NAME,:FRD_COMP,
+    //   :FRD_OWNER_CC,:FRD_BOI_PROJ,:FRD_QTY ,:FRD_INV_NO,:FRD_ACQ_COST,
+    //   :FRD_BOOK_VALUE,SYSDATE,:FRD_CREATE_BY)
+    const data = {
+      FRD_FAM_NO,
+      FRD_ASSET_CODE,
+      FRD_ASSET_NAME,
+      FRD_COMP,
+      FRD_OWNER_CC,
+      FRD_BOI_PROJ,
+      FRD_QTY,
+      FRD_INV_NO,
+      FRD_ACQ_COST,
+      FRD_BOOK_VALUE,
+      FRD_CREATE_BY,
+    };
+    console.log(query, data);
+    const result = await connect.execute(query, data, { autoCommit: true });
+
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// get file upload
+module.exports.insertFile_from_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+    const fam_from = req.query.FAM_from;
+    const fam_file_seq = req.query.FAM_file_seq;
+    const fam_file_name = req.query.FAM_file_name;
+    const fam_file_server = req.query.FAM_file_server;
+    const fam_create = req.query.FAM_create;
+
+    console.log(fam_no);
+    console.log(fam_from);
+    console.log(fam_file_seq);
+    console.log(fam_file_name);
+    console.log(fam_file_server);
+    console.log(fam_create);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    
+MERGE INTO FAM_FILE_ATTACH T
+USING (SELECT :fam_no AS FFA_FAM_NO, 
+              :fam_from AS FFA_ATT_FROM, 
+              :fam_file_seq AS FFA_FILE_SEQ, 
+              :fam_file_name AS FFA_FILE_NAME, 
+              :fam_file_server AS FFA_FILE_SERVER, 
+              :fam_create AS FFA_CREATE_BY, 
+              SYSDATE AS FFA_CREATE_DATE, 
+              :fam_create AS FFA_UPDATE_BY, 
+              SYSDATE AS FFA_UPDATE_DATE 
+       FROM DUAL) S
+ON (T.FFA_FAM_NO = S.FFA_FAM_NO AND T.FFA_ATT_FROM = S.FFA_ATT_FROM  AND T.FFA_FILE_SEQ = S.FFA_FILE_SEQ)
+WHEN MATCHED THEN
+  UPDATE SET 
+             T.FFA_FILE_NAME = S.FFA_FILE_NAME,
+             T.FFA_FILE_SERVER = S.FFA_FILE_SERVER,
+             T.FFA_UPDATE_BY = S.FFA_UPDATE_BY,
+             T.FFA_UPDATE_DATE = S.FFA_UPDATE_DATE
+WHEN NOT MATCHED THEN
+  INSERT (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE)
+  VALUES (S.FFA_FAM_NO, S.FFA_ATT_FROM, S.FFA_FILE_SEQ, S.FFA_FILE_NAME, S.FFA_FILE_SERVER, S.FFA_CREATE_BY, S.FFA_CREATE_DATE, S.FFA_UPDATE_BY, S.FFA_UPDATE_DATE)
+
+
+
+
+         `;
+    const data = {
+      fam_no,
+      fam_from,
+      fam_file_seq,
+      fam_file_name,
+      fam_file_server,
+      fam_create,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+// get run seq request
+module.exports.get_run_seq_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+
+    console.log(fam_no);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :fam_no
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      fam_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+
+
+module.exports.insertFile_from_request_to_project_me = async function (req, res) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsPath);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname); // Use the original filename
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+  try {
+    // Handle the file upload logic here
+    await upload.array("files")(req, res, (err) => {
+      if (err) {
+        console.error("Error uploading files:", err);
+        res.status(500).send("Error uploading files");
+      } else {
+        console.log("Files uploaded:", req.files);
+        res.send("Files uploaded successfully");
+      }
+    });
+  } catch (error) {
+    console.error("Error handling file upload:", error);
+    res.status(500).send("Error handling file upload");
+  }
+};
+
+// // get run seq request
+// module.exports.get_run_seq_request = async function (req, res) {
+//   try {
+//     const fam_no = req.query.FAM_no;
+//     const fam_create_date = req.query.FAM_create_date;
+
+//     console.log(fam_no);
+//     console.log(fam_create_date);
+
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX
+//     FROM FAM_FILE_ATTACH T
+//     WHERE T.FFA_FAM_NO = :fam_no
+//         AND TRUNC(T.FFA_CREATE_DATE) = TO_DATE(:fam_create_date, 'YYYY-MM-DD')
+//     ORDER BY T.FFA_FILE_SEQ ASC
+
+//          `;
+//     const data = {
+//       fam_no,
+//       fam_create_date,
+
+//     };
+//     const result = await connect.execute(query, data, { autoCommit: true });
+//     console.log(query);
+//     connect.release();
+//     // console.log(result.rows);
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+//   }
+// };

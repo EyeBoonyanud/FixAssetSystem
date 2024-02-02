@@ -53,8 +53,9 @@ app.get("/boi_manager",Transaction.boi_manager);
 app.get("/fac_manager",Transaction.fac_manager);
 app.get("/acc_check",Transaction.acc_check);
 app.get("/acc_manager",Transaction.acc_manager);
-
-
+app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request);
+app.get("/get_seq_request", Transaction.get_run_seq_request);
+app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 
 
 // app.get("/checkconnect", async (req, res) => {
