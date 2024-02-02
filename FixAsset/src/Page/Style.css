@@ -134,10 +134,69 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  border: 0 !important;
+ 
 }
 .Button_forGenNo {
   display: flex;
   justify-content: right;
   margin-right: 300px;
   margin-top: 10px;
+}
+.bt_ChooseFile{
+  /* margin-top: 3px !important;
+  height: 100px;
+  width:100% !important;
+  border: 1px dashed   gray !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important; */
+  background-color: #f7faff; 
+  display: block;
+  text-align: center;
+  padding: 20px;
+  border: 2px dashed #B4D4FF;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.BorderFile{
+  border: 2px solid #EEEEEE !important;
+  border-radius: 5px !important;
+  margin-bottom: 5px !important;
+  height: 70px !important;
+}
+
+.Font_File{
+  margin-top: 20px !important;
+  display: flex  !important;
+  justify-content: space-between !important;
+  align-items: center  !important;
+  font-size: 20px  !important;
+  justify-items: left  !important;
+}
+.Icon_DeleteFile{
+  color: #af959b ;
+  font-size: 20px !important;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.Icon_DeleteFile:hover{
+  color: #D80032 ;
+  font-size: 20px !important;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.Icon_file{
+font-size: 30px;
+width: 50px;
+margin-right: 10px;
+}
+.Img_file{
+  font-size: 30px;
+  width: 50px;
+  margin-right: 10px;
+  height: 100%;
 }

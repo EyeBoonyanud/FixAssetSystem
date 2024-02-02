@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef  } from "react";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -28,10 +28,21 @@ import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../Page/Style.css";
+import {
+  DeleteOutlined,
+  FileTextOutlined,
+  UploadOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
+  FileWordOutlined,
+  FileUnknownOutlined,
+  CloudUploadOutlined,
+} from "@ant-design/icons";
+import Swal from 'sweetalert2'
 
 function ForRequest() {
   const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
-
+  const fileInputRef = useRef();
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isTableOpen, setTableOpen] = useState(false); // เปิด ปิด Table Fixed Asset
   const [dataFixcode, setdataFixCode] = useState([]);
@@ -50,12 +61,11 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
-  localStorage.setItem("datafixgroup",datafixgroup)
   const [data_for_sevice , setdata_for_sevice] = useState("");
-  localStorage.setItem("data_for_sevice",data_for_sevice)
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
-  const [Tel, setTel] = useState("");
+ 
+  // const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
@@ -70,10 +80,24 @@ function ForRequest() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
+  
+  // Local Set 
+  localStorage.setItem("sts",status[0]);
+  localStorage.setItem("data_for_sevice",data_for_sevice);
+  localStorage.setItem("data_for_sevice",selectdept);
+
+  const  Tel = localStorage.getItem("Tel")
+  const  Fam_list = localStorage.getItem("FAM_run")
+  const  Dept = localStorage.getItem("Dept")
+  const  Type = localStorage.getItem("Type")
+  const  Fix_code = localStorage.getItem("Fix_Ass")
+  const  Asst_code = localStorage.getItem("Ass_code")
+  const  Re_sts = localStorage.getItem("Retype")
+  const mark = localStorage.getItem("re_mark")
+
    //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
-    //console.log(newData, "....................");
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {
@@ -98,19 +122,27 @@ function ForRequest() {
     setbtnSave("visible");
   };
   const handleFileUpload = (event) => {
-    // ทำอะไรกับไฟล์ที่ถูกเลือก
+    console.log("รับมา")
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
-    //console.log(selectedFiles);
-
-    // เพิ่มโค้ดที่คุณต้องการทำต่อไป
   };
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+const handleDrop = (event) => {
+  event.preventDefault();
+  const files = event.dataTransfer?.files;
+  
+  if (files) {
+    console.log("///////////////////////////////", files);
+    handleFileUpload({ target: { files } }); 
+  }
+};
   const handleAssetGroup = async (event) => {
     let FixIdGroup = event.target.value;
     setselectAssetgroup(FixIdGroup);
-    localStorage.setItem("FixAssetGroup",FixIdGroup)
-    console.log("FixAssetGroup",FixIdGroup)
-  };
+   localStorage.setItem("FixAssetGroup",FixIdGroup)
+  }; 
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -154,7 +186,8 @@ function ForRequest() {
           const Find_Service = await response.data;
           console.log(response.data,"response.data")
           setdatafixgroup(Find_Service[0][0]);
-          setdata_for_sevice(Find_Service[0][1])         
+          setdata_for_sevice(Find_Service[0][1])      
+          localStorage.setItem("datafixgroup",Find_Service[0][0])   
           console.log(Find_Service[0][1], "Find_Service");
         } catch (error) {
           console.error("Error during login:", error);
@@ -163,6 +196,7 @@ function ForRequest() {
         console.log(response.data,"response.data----------")
         setdatafixgroup(Fixgroup_ID[0][0]);
         setdata_for_sevice(Fixgroup_ID[0][1])   
+        localStorage.setItem("datafixgroup",Fixgroup_ID[0][0])
         console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
       }
     } catch (error) {
@@ -200,6 +234,74 @@ function ForRequest() {
   const handleRadio = (event) => {
     setselectedType(event.target.value);
   };
+
+  const handleSave = async () => {
+    const FAM_FORM = "REQUEST";
+    const famNo = document.getElementById("Txt_Famno").value;
+    const currentDateTime = new Date()
+      .toISOString()
+      .slice(2, 10)
+      .replace(/-/g, "");
+    try {
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        const file = uploadedFiles[i];
+
+        const lastDotIndex = file.name.lastIndexOf(".");
+        const fileExtension = file.name.slice(lastDotIndex + 1);
+        let new_run_seq = "";
+        try {
+          const response_seq = await axios.get(
+            `http://localhost:5000/get_seq_request?FAM_no=${famNo}`
+          );
+          const get_run_seq = await response_seq.data;
+          console.log("RUN SEQ", get_run_seq);
+          const lastValue =
+            get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
+          const incrementedValue = lastValue + 1;
+          new_run_seq = [[incrementedValue]];
+          console.log("New Array:", new_run_seq);
+        } catch (error) {
+          console.error("Error committing files to the database:", error);
+        }
+        const file_server = `${famNo}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+        console.log("FAM_NO =", famNo);
+        console.log("FAM_FROM =", FAM_FORM);
+        console.log("TIME =", currentDateTime);
+        console.log("USER LOGIN", UserLogin);
+        try {
+          const response = await axios.post(
+            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+          );
+
+          console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+        } catch (error) {
+          console.error("Error Upload File Request:", error);
+        }
+        try {
+          const formData = new FormData();
+          uploadedFiles.forEach((file) => {
+            formData.append("files", file);
+            // formData.append('filesname', file.name);
+          });
+
+          await axios.post(
+            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            formData
+          );
+          Swal.fire({
+            title: "Save Details Success",
+            icon: "success"
+          });
+          console.log("Files saved successfully");
+        } catch (error) {
+          console.error("Error saving files:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error committing files to the database:", error);
+    }
+  };
+
   useEffect(() => {
     //หารหัส RequestBy
     const BY = async () => {
@@ -214,26 +316,20 @@ function ForRequest() {
         console.error("Error during login:", error);
       }
     };
-    //หา Factory และเอา FAC ID ไปหา Dept
     const Factory_UserLogin = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5000/getfac_insert?Fac_Login=${UserLogin}`
         );
-
         const dataFac_insert = await response.data;
-
         let Fac = dataFac_insert.flat();
-        
         let idFactory = Fac[1];
-
         setFac(Fac);
         setidFac(idFactory);
         localStorage.setItem("Factory", idFactory);
 
         if (idFactory.length >= 0) {
           try {
-            //console.log("DEpt;;");
             const response = await axios.get(
               `http://localhost:5000/getdept?idFactory=${idFactory}`
             );
@@ -247,19 +343,14 @@ function ForRequest() {
         console.error("Error during login:", error);
       }
     };
-    //หาcost center โดยส่ง UserLogin
     const Costcenter = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5000/getcost_insert?Cost_Login=${UserLogin}`
         );
-
         const dataCos_insert = await response.data;
-
         let Cost = dataCos_insert.flat();
         localStorage.setItem("CC_for_request", Cost);
-        
-        // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
         setCost_sert(Cost);
       } catch (error) {
         console.error("Error during login:", error);
@@ -274,13 +365,9 @@ function ForRequest() {
         let dataFix_group_Text = [];
         let dataFix_group_Value = [];
         for (let i = 0; i < response.data.length; i++) {
-          // console.log(response.data[i][1], "dataFix_group:");
           dataFix_group_Text.push(response.data[i][1]);
-
           dataFix_group_Value.push(response.data[i][0]);
         }
-        // const ad = await response.data;
-        // console.log("for", ad);
         setAssetgroup(dataFix_group_Text);
         setAssetgroupID(dataFix_group_Value);
       } catch (error) {
@@ -296,16 +383,27 @@ function ForRequest() {
       AssetGroup();
     }
     CostforAsset();
-    //console.log('selectedItems:', selectedItems);
-    //console.log('selectedAll:', selectAll);
-    //console.log('dataFixcode:', dataFixcode);
   }, [idFac, selectedItems, selectAll, dataFixcode]);
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
-    localStorage.setItem("FAM_run", running_no);
-    const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
+
+    localStorage.setItem("FAM_run", running_no);
+    localStorage.setItem("Tel", Tel);
+    localStorage.setItem("Dept", selectdept);
+    localStorage.setItem("Type", selectedType);
+    localStorage.setItem("Fix_Ass", selectAssetgroup);
+    localStorage.setItem("Ass_code", selectcost);
+    localStorage.setItem("Retype",selectedType );
+    localStorage.setItem("re_mark", Remark );
+
+
+    // localStorage.setItem("Fix_Group", running_no);
+    // localStorage.setItem("FAM_run", running_no);
+    // localStorage.setItem("FAM_run", running_no);
+
+
     try {
       const response = await axios.post(
         `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
@@ -406,6 +504,10 @@ function ForRequest() {
 
   const Next = async (value) => {
     Insert_Fam_detail();
+    Swal.fire({
+      title: "Save Details Success",
+      icon: "success"
+    });
   };
   //หา EmpID
   // const EmployeeId = async () => {
@@ -431,8 +533,7 @@ function ForRequest() {
             sx={{
               borderRadius: "8px",
               border: 2,
-              borderColor: "rgba(64,131,65, 1.5)",
-              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              borderColor: "#88AB8E",
             }}
             className="Style1"
           >
@@ -463,6 +564,7 @@ function ForRequest() {
                     size="small"
                     style={{ width: "100%" }}
                     disabled
+                    value={Fam_list}
                     id="Txt_Famno"
                   ></TextField>
                 </Grid>
@@ -748,13 +850,12 @@ function ForRequest() {
         </Card>
       </div>
       <div className="Fixed-Asset-Code">
-        <Card className="Style100">
+        
           <Card
             sx={{
               borderRadius: "8px",
               border: 2,
-              borderColor: "rgba(64,131,65, 1.5)",
-              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              borderColor: "#88AB8E",
               marginTop: 4,  visibility: visibityDetails,
             }}
             className="Style1"
@@ -946,105 +1047,157 @@ function ForRequest() {
               </div>
             </Grid>
           </Card>
-        </Card>
+        
       </div>
       <div className="UploadFile">
-        <Card className="Style100">
-          <Card
+        
+        <Card
+          sx={{
+            visibility: visibityFile,
+            borderRadius: "8px",
+            border: 2,
+            borderColor: "#88AB8E",
+           
+            marginTop: 4,
+          }}
+          className="Style1"
+        >
+          <Typography
             sx={{
-              visibility: visibityFile,
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "rgba(64,131,65, 1.5)",
-              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-              marginTop: 4,
+              position: "absolute",
+              backgroundColor: "#fff",
+              marginTop: "-0.5%",
+              marginRight: "85%",
+              width: "10%",
+              display: "flex",
+
+              justifyContent: "center",
             }}
-            className="Style1"
           >
-            <Typography
-              sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "8%",
-                display: "flex",
-
-                justifyContent: "center",
-              }}
-            >
-              File from request
-            </Typography>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    width: "100%",
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Uplpad File :
-                </Typography>
-              </Grid>
-              <Grid xs={5}>
-                <input
-                  type="file"
-                  multiple
-                  onChange={handleFileUpload}
-                  style={{ display: "none" }}
-                  id="fileInput"
-                />
-                <label htmlFor="fileInput">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    style={{ marginTop: "3px" }}
-                    component="span"
-                  >
-                    Upload
-                  </Button>
-                </label>
-                {uploadedFiles.length > 0 && (
-                  <div>
-                    <ul>
-                      {uploadedFiles.map((file, index) => (
-                        <li key={index}>
-                          {file.name}
-                          <ClearIcon
-                            onClick={() => handleDeleteFile(index)}
-                            style={{
-                              fontSize: "16",
-                              marginTop: "15px",
-                              marginLeft: "10px",
-                              color: "red",
-                            }}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* <Upload {...props}>
-                  <Button style={{width:'200px'}}
-                  icon={<UploadOutlined />}>Choose File</Button>
-                  &nbsp;&nbsp;
-                  <Button type="primary"> Upload</Button>
-                </Upload> */}
-              </Grid>
+            File from request
+          </Typography>
+          <Grid
+            container
+            spacing={3}
+            style={{
+              width: "100%",
+              marginBottom: "20px",
+              marginTop: "20px",
+            }}
+          >
+            <Grid xs={1.6}>
+              <Typography
+                style={{
+                  width: "100%",
+                  textAlign: "right",
+                  marginTop: "7px",
+                }}
+              >
+                Uplpad File :
+              </Typography>
             </Grid>
-          </Card>
+            <Grid xs={5}>
+              <input
+                type="file"
+                multiple
+                onChange={handleFileUpload}
+                style={{ display: "none" }}
+                id="fileInput"
+                ref={fileInputRef}
+              />
+              <label
+                htmlFor="fileInput"
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                className="bt_ChooseFile"
+              >
+                <CloudUploadOutlined
+                  style={{ fontSize: "60px", color: "#86B6F6" }}
+                />
+                <br />
+                <span style={{ fontWeight: "bold" }}>
+                  Drop your files here
+                </span>
+                <br />
+            
+              
+                or
+                <br/>
+                <Button size="small" component="span">
+                 <b> Browse files</b>
+                </Button>
+              </label>
+              {uploadedFiles.length > 0 && (
+                <div>
+                  <ul>
+                    {uploadedFiles.map((file, index) => (
+                      <div key={index} className="BorderFile">
+                        <Typography className="Font_File">
+                          <span style={{ marginLeft: "10px" }}>
+                            {file.type.startsWith("image/") ? (
+                              <img
+                                src={URL.createObjectURL(file)}
+                                alt={file.name}
+                                className="Img_file"
+                              />
+                            ) : (
+                              <>
+                                {file.name.endsWith(".xlsx") ? (
+                                  <FileExcelOutlined
+                                    className="Icon_file"
+                                    style={{ color: "#65B741" }}
+                                  />
+                                ) : file.name.endsWith(".pdf") ? (
+                                  <FilePdfOutlined
+                                    className="Icon_file"
+                                    style={{ color: "#FF6347" }}
+                                  />
+                                ) : file.name.endsWith(".docx") ? (
+                                  <FileWordOutlined
+                                    className="Icon_file"
+                                    style={{ color: "#3468C0" }}
+                                  />
+                                ) : file.name.endsWith(".txt") ? (
+                                  <FileTextOutlined
+                                    className="Icon_file"
+                                    style={{ color: "#B6BBC4" }}
+                                  />
+                                ) : (
+                                  <FileUnknownOutlined
+                                    className="Icon_file"
+                                    style={{ color: "#FFD3A3" }}
+                                  />
+                                )}
+                              </>
+                            )}
+                            {index + 1}) {file.name}
+                          </span>
+                          <DeleteOutlined
+                            onClick={() => handleDeleteFile(index)}
+                            className="Icon_DeleteFile"
+                          />
+                        </Typography>
+                      </div>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div
+                style={{
+                  textAlign: "right",
+                  marginTop: "5px",
+                }}
+              >
+                <Button variant="contained" onClick={handleSave}>
+                  Save
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
         </Card>
-      </div>
+      
+    </div>
+ 
     </div>
   );
 }

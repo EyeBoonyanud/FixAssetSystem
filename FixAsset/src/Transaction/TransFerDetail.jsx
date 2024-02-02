@@ -13,7 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 import { SaveAlt } from "@mui/icons-material";
 
@@ -23,9 +23,11 @@ function TransFerDetail() {
   const CC_for_request = localStorage.getItem("CC_for_request");
   const Fac_to_request = localStorage.getItem("Factory"); //R180
   const Service_ID = localStorage.getItem("datafixgroup");
+  const Sts = localStorage.getItem("sts");
+  console.log(Sts, "......................");
 
   const Fam_no = localStorage.getItem("FAM_run");
-  // console.log(Service_ID, "Service_ID:::");
+  
   const Service = localStorage.getItem("data_for_sevice");
   // const fam = "A1-R180-24-0001";
   const [dataheader, setdataheader] = useState([]);
@@ -75,6 +77,8 @@ function TransFerDetail() {
   const [radio_facmanager, setradio_facmanager] = useState("");
   const [radio_acc_check, setradio_acc_check] = useState("");
   const [radio_owner, setradio_owner] = useState("");
+  // check radio button
+  const [mgr_chk, setmgr_chk] = useState("hidden");
 
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
@@ -200,10 +204,13 @@ function TransFerDetail() {
   };
   // ServiceBy
   const Service_By = async () => {
+    console.log("kkkkkkkk", Service_ID);
+
     try {
       const response = await axios.get(
         `http://localhost:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
       );
+      console.log(response, "hhhhhhhhhhhhhhhhhha");
       const data = response.data.flat();
       setservice_by(data);
       console.log("setservice_by :", data);
@@ -318,11 +325,10 @@ function TransFerDetail() {
     // setFixcode1(Fixcode);
 
     try {
-      const row = axios
-        .post
+      const row = axios.post(
         // console.log(New_BOI,"New_BOI")
-        ( //`http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
-        );
+        `http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+      );
 
       const data = row.data;
       setdataFixCode(data);
@@ -330,11 +336,10 @@ function TransFerDetail() {
       console.error("Error requesting data:", error);
     }
     try {
-      const row = axios
-        .post
+      const row = axios.post(
         // console.log(New_BOI,"New_BOI")
-        (//`http://localhost:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
-        );
+        `http://localhost:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+      );
 
       const data = row.data;
       console.log(data, "data");
@@ -345,7 +350,7 @@ function TransFerDetail() {
     }
     try {
       const receiver = await axios.post(
-       // "http://localhost:5000/receiver_tranfer",
+        "http://localhost:5000/receiver_tranfer",
         {
           famno: Fam_no,
           receiver: result1,
@@ -359,28 +364,52 @@ function TransFerDetail() {
     }
     try {
       const close_service = await axios.post(
-       // "http://localhost:5000/close_routing_tran",
-        { 
+        "http://localhost:5000/close_routing_tran",
+        {
           famno: Fam_no,
           acc_record: selectacc_check,
           acc_manager: selectacc_manager,
           service_close_by: selectservice_by,
         }
       );
-     
+
       // const data = row.data;
       //     setdataFixCode(data);
     } catch (error) {
       console.error("Error requesting data:", error);
     }
 
-
     Swal.fire({
-      title: "Save Succes",
-      icon: "success"
+      title: "Save Success",
+      icon: "success",
     });
-    
+
     setOpen(true);
+  };
+
+  const SUBMIT = async () => {
+    if (Sts === "FLTR001") {
+      const status_submit = "FLTR002";
+      console.log(status_submit, "status_submit");
+      console.log(Fam_no, "Fam_no");
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/update_submit",
+          {
+            famno: Fam_no,
+            sts_submit: status_submit,
+          }
+        );
+        Swal.fire({
+          title: "Submit Success",
+          icon: "success",
+        });
+
+        console.log(response.data, "Status submit successfully updated");
+      } catch (error) {
+        console.error("Error updating submit status:", error.message);
+      }
+    }
   };
   useEffect(() => {
     Factory();
@@ -638,14 +667,14 @@ function TransFerDetail() {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
-                          disabled
+                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
                         />
                         <FormControlLabel
                           value="Reject"
-                          // disabled
+                          // disable
                           control={<Radio size="small" />}
                           label="Reject"
-                          disabled
+                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1523,6 +1552,7 @@ function TransFerDetail() {
                   size="medium"
                   color="success"
                   className="Style9"
+                  onClick={SUBMIT}
                 >
                   Submit
                 </Button>

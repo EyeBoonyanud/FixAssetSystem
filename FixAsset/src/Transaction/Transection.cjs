@@ -1,6 +1,8 @@
 const express = require("express");
 const oracledb = require("oracledb");
-
+const multer = require('multer');
+const path = require('path');
+const uploadsPath = path.join(__dirname, '../uploads');
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -145,6 +147,7 @@ module.exports.by = async function (req, res) {
 //Search
 module.exports.search = async function (req, res) {
   try {
+    const userlogin = req.query.UserLogin;
     const factory = req.query.FacCode;
     const dept = req.query.DeptCode;
     const famno = req.query.FamNo;
@@ -176,7 +179,20 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
-  WHERE (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
+  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
+  WHERE  (T.FAM_REQ_BY = '${userlogin}'
+    OR (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002')
+    OR (T.FAM_SERVICE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
+    OR (T.FAM_BOI_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR004')
+    OR (T.FAM_BOI_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR005')
+    OR (T.FAM_FM_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR006')
+    OR (T.FAM_ACC_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR007')
+    OR (T.FAM_OWNER_SEND_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR008')
+    OR ( A.FRT_RECEIVE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR009')
+    OR (T.FAM_ACC_REC_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR010')
+    OR (T.FAM_ACC_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR011')
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR0012'))
+    AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
@@ -661,6 +677,7 @@ module.exports.service_by = async function (req, res) {
   try {
     const Level = req.query.level;
     const CC = req.query.cc;
+    console.log (Level,CC ,"%%%%%%%%%%%%")
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
@@ -897,10 +914,10 @@ module.exports.ins_transfer = async function (req, res) {
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log("Rows updated:", result.rowsAffected);
+      //console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error("Error: Unexpected result from the database");
+     // console.error("Error: Unexpected result from the database");
       res.status(500).send("Internal Server Error");
     }
 
@@ -1198,5 +1215,164 @@ module.exports.header = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//update submit 
+module.exports.update_submit = async function (req, res) {
+  try {
+   // console.log("g-hkkkkkkkkkkkkk");
+    const { famno , sts_submit } = req.body;
+   // console.log(famno, sts_submit);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+      UPDATE FAM_REQ_HEADER T
+      SET
+        T.FAM_REQ_STATUS = :FAM_REQ_STATUS
+      WHERE T.FRH_FAM_NO = :FAM_NO
+    `;
+
+    const data = {
+      FAM_NO: famno,
+      FAM_REQ_STATUS: sts_submit
+    };
+    //console.log(query);
+    //console.log(data);
+
+    // Execute the query
+    const result = await connect.execute(query, data, { autoCommit: true });
+
+    if (result) {
+    //  console.log("Rows updated:", result.rowsAffected);
+      res.json(result);
+    } else {
+    //  console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
+    }
+
+    connect.release();
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+};
+//upload 
+// get file upload
+module.exports.insertFile_from_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+    const fam_from = req.query.FAM_from;
+    const fam_file_seq = req.query.FAM_file_seq;
+    const fam_file_name = req.query.FAM_file_name;
+    const fam_file_server = req.query.FAM_file_server;
+    const fam_create = req.query.FAM_create;
+
+    console.log(fam_no);
+    console.log(fam_from);
+    console.log(fam_file_seq);
+    console.log(fam_file_name);
+    console.log(fam_file_server);
+    console.log(fam_create);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    
+MERGE INTO FAM_FILE_ATTACH T
+USING (SELECT :fam_no AS FFA_FAM_NO, 
+              :fam_from AS FFA_ATT_FROM, 
+              :fam_file_seq AS FFA_FILE_SEQ, 
+              :fam_file_name AS FFA_FILE_NAME, 
+              :fam_file_server AS FFA_FILE_SERVER, 
+              :fam_create AS FFA_CREATE_BY, 
+              SYSDATE AS FFA_CREATE_DATE, 
+              :fam_create AS FFA_UPDATE_BY, 
+              SYSDATE AS FFA_UPDATE_DATE 
+       FROM DUAL) S
+ON (T.FFA_FAM_NO = S.FFA_FAM_NO AND T.FFA_ATT_FROM = S.FFA_ATT_FROM  AND T.FFA_FILE_SEQ = S.FFA_FILE_SEQ)
+WHEN MATCHED THEN
+  UPDATE SET 
+             T.FFA_FILE_NAME = S.FFA_FILE_NAME,
+             T.FFA_FILE_SERVER = S.FFA_FILE_SERVER,
+             T.FFA_UPDATE_BY = S.FFA_UPDATE_BY,
+             T.FFA_UPDATE_DATE = S.FFA_UPDATE_DATE
+WHEN NOT MATCHED THEN
+  INSERT (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE)
+  VALUES (S.FFA_FAM_NO, S.FFA_ATT_FROM, S.FFA_FILE_SEQ, S.FFA_FILE_NAME, S.FFA_FILE_SERVER, S.FFA_CREATE_BY, S.FFA_CREATE_DATE, S.FFA_UPDATE_BY, S.FFA_UPDATE_DATE)
+
+
+
+
+         `;
+    const data = {
+      fam_no,
+      fam_from,
+      fam_file_seq,
+      fam_file_name,
+      fam_file_server,
+      fam_create,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+// get run seq request
+module.exports.get_run_seq_request = async function (req, res) {
+  try {
+    const fam_no = req.query.FAM_no;
+
+    console.log(fam_no);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :fam_no
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      fam_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//UPLOAD 
+module.exports.insertFile_from_request_to_project_me = async function (req, res) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsPath);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname); // Use the original filename
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+  try {
+    // Handle the file upload logic here
+    await upload.array("files")(req, res, (err) => {
+      if (err) {
+        console.error("Error uploading files:", err);
+        res.status(500).send("Error uploading files");
+      } else {
+        console.log("Files uploaded:", req.files);
+        res.send("Files uploaded successfully");
+      }
+    });
+  } catch (error) {
+    console.error("Error handling file upload:", error);
+    res.status(500).send("Error handling file upload");
   }
 };
