@@ -61,11 +61,14 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
+  localStorage.setItem("datafixgroup",datafixgroup)
   const [data_for_sevice , setdata_for_sevice] = useState("");
+  localStorage.setItem("data_for_sevice",data_for_sevice)
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
- 
-  // const [Tel, setTel] = useState("");
+  localStorage.setItem("sts",status[0])
+  //const  Tel = localStorage.getItem("")
+  const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
@@ -80,21 +83,11 @@ function ForRequest() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
+
+
+
+
   
-  // Local Set 
-  localStorage.setItem("sts",status[0]);
-  localStorage.setItem("data_for_sevice",data_for_sevice);
-  localStorage.setItem("data_for_sevice",selectdept);
-
-  const  Tel = localStorage.getItem("Tel")
-  const  Fam_list = localStorage.getItem("FAM_run")
-  const  Dept = localStorage.getItem("Dept")
-  const  Type = localStorage.getItem("Type")
-  const  Fix_code = localStorage.getItem("Fix_Ass")
-  const  Asst_code = localStorage.getItem("Ass_code")
-  const  Re_sts = localStorage.getItem("Retype")
-  const mark = localStorage.getItem("re_mark")
-
    //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
@@ -186,8 +179,7 @@ const handleDrop = (event) => {
           const Find_Service = await response.data;
           console.log(response.data,"response.data")
           setdatafixgroup(Find_Service[0][0]);
-          setdata_for_sevice(Find_Service[0][1])      
-          localStorage.setItem("datafixgroup",Find_Service[0][0])   
+          setdata_for_sevice(Find_Service[0][1])         
           console.log(Find_Service[0][1], "Find_Service");
         } catch (error) {
           console.error("Error during login:", error);
@@ -196,7 +188,6 @@ const handleDrop = (event) => {
         console.log(response.data,"response.data----------")
         setdatafixgroup(Fixgroup_ID[0][0]);
         setdata_for_sevice(Fixgroup_ID[0][1])   
-        localStorage.setItem("datafixgroup",Fixgroup_ID[0][0])
         console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
       }
     } catch (error) {
@@ -234,6 +225,7 @@ const handleDrop = (event) => {
   const handleRadio = (event) => {
     setselectedType(event.target.value);
   };
+
 
   const handleSave = async () => {
     const FAM_FORM = "REQUEST";
@@ -301,6 +293,7 @@ const handleDrop = (event) => {
       console.error("Error committing files to the database:", error);
     }
   };
+
 
   useEffect(() => {
     //หารหัส RequestBy
@@ -387,18 +380,13 @@ const handleDrop = (event) => {
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
+    const Tel = document.getElementById("Tel").value;
     const Remark = document.getElementById("Remark").value;
 
     localStorage.setItem("FAM_run", running_no);
-    localStorage.setItem("Tel", Tel);
-    localStorage.setItem("Dept", selectdept);
-    localStorage.setItem("Type", selectedType);
-    localStorage.setItem("Fix_Ass", selectAssetgroup);
-    localStorage.setItem("Ass_code", selectcost);
-    localStorage.setItem("Retype",selectedType );
-    localStorage.setItem("re_mark", Remark );
-
-
+    // localStorage.setItem("Tel", Tel);
+    // localStorage.setItem("Dept", running_no);
+    // localStorage.setItem("Trans", selectedType);
     // localStorage.setItem("Fix_Group", running_no);
     // localStorage.setItem("FAM_run", running_no);
     // localStorage.setItem("FAM_run", running_no);
@@ -564,7 +552,6 @@ const handleDrop = (event) => {
                     size="small"
                     style={{ width: "100%" }}
                     disabled
-                    value={Fam_list}
                     id="Txt_Famno"
                   ></TextField>
                 </Grid>

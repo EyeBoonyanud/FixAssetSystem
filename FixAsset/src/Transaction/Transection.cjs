@@ -590,6 +590,29 @@ module.exports.ins_from_Boi = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+
+module.exports.new_boi = async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const CC = req.query.cc;
+    console.log(Fac,CC)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FBMC_BOI_PROJ 
+    FROM FAM_BOIPROJ_MAP_CC T 
+    WHERE T.FBMC_FACTORY = '${Fac}' 
+    AND T.FBMC_COST_CENTER = '${CC}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+
 //Select ข้อมูลส่วนของ Transfer Detail
 module.exports.select_BOI_from = async function (req, res) {
   try {

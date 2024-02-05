@@ -63,22 +63,8 @@ app.post("/update_submit",Transaction.update_submit);
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
 app.get("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
-
-// app.get("/checkconnect", async (req, res) => {
-//   try {
-//     const oracleConnection = await oracledb.getConnection(CUSR);
-//     if (oracleConnection) {
-//       res.send("เชื่อมต่อสำเร็จ Oracle");
-//     } else {
-//       res.send("การเชื่อมต่อไม่สำเร็จ");
-//     }
-//     await oracleConnection.close();
-//   } catch (error) {
-//     console.error("เกิดข้อผิดพลาดในการเชื่อมต่อ:", error);
-//     res.send("การเชื่อมต่อไม่สำเร็จ");
-//   }
-// });
-
+//
+app.get("/new_boi",Transaction.new_boi);
  
 
 

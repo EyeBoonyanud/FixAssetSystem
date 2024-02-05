@@ -18,18 +18,19 @@ import Swal from "sweetalert2";
 import { SaveAlt } from "@mui/icons-material";
 
 function TransFerDetail() {
+  //Local Storage
   //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
   const ReqBy = localStorage.getItem("UserLogin");
   const CC_for_request = localStorage.getItem("CC_for_request");
-  const Fac_to_request = localStorage.getItem("Factory"); //R180
+  const Fac_to_request = localStorage.getItem("Factory");
   const Service_ID = localStorage.getItem("datafixgroup");
   const Sts = localStorage.getItem("sts");
   console.log(Sts, "......................");
-
   const Fam_no = localStorage.getItem("FAM_run");
-  
   const Service = localStorage.getItem("data_for_sevice");
   // const fam = "A1-R180-24-0001";
+
+  //  Const ตัวแปร
   const [dataheader, setdataheader] = useState([]);
 
   const [dataBoi_from, setdataBoi_from] = useState([]);
@@ -69,6 +70,7 @@ function TransFerDetail() {
   const [sts, setsts] = useState("");
   const [abnormal, setabnormal] = useState("");
 
+  const [newboi, setnewboi] = useState("");
   // ตัวแปร Radio Routing
   const [radio_dept, setradio_dept] = useState("");
   const [radio_serviceby, setradio_serviceby] = useState("");
@@ -105,9 +107,6 @@ function TransFerDetail() {
     setradio_owner(event.target.value);
     console.log("setradio_owner", event.target.value);
   };
-
-  //ค่าสมมติ ของ To_PROJ
-  const New_BOI = "NON BOI";
 
   // From BOI PROJ
   const BOI_FROM = async () => {
@@ -147,12 +146,24 @@ function TransFerDetail() {
       console.error("Error during login:", error);
     }
   };
-  const handleCost = (event) => {
+  const handleCost = async (event) => {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
     setselectcost(Cost);
     New_Owner(Cost);
+    console.log(selecteDatafac, "selecteDatafac");
+    console.log(selectcost, "selectcost");
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
+      );
+      const data = await response.data;
+      setnewboi(data);
+      console.log(data, "data :");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
 
-    if (dataBoi_from === New_BOI) {
+    if (dataBoi_from === newboi) {
       setsts("N");
       setabnormal("");
       console.log("เท่ากัน : ", sts);
@@ -327,7 +338,7 @@ function TransFerDetail() {
     try {
       const row = axios.post(
         // console.log(New_BOI,"New_BOI")
-        `http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+        `http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${newboi}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
       );
 
       const data = row.data;
@@ -388,6 +399,7 @@ function TransFerDetail() {
   };
 
   const SUBMIT = async () => {
+   
     if (Sts === "FLTR001") {
       const status_submit = "FLTR002";
       console.log(status_submit, "status_submit");
@@ -409,8 +421,31 @@ function TransFerDetail() {
       } catch (error) {
         console.error("Error updating submit status:", error.message);
       }
+    } else if (Sts === "FLTR002") {
+      const status_submit = "FLTR003";
+      setmgr_chk("visible");
+      console.log(status_submit, "status_submit");
+      console.log(Fam_no, "Fam_no");
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/update_submit",
+          {
+            famno: Fam_no,
+            sts_submit: status_submit,
+          }
+        );
+        Swal.fire({
+          title: "Submit Success",
+          icon: "success",
+        });
+
+        console.log(response.data, "Status submit successfully updated");
+      } catch (error) {
+        console.error("Error updating submit status:", error.message);
+      }
     }
   };
+
   useEffect(() => {
     Factory();
     BOI_FROM();
@@ -424,7 +459,8 @@ function TransFerDetail() {
     ACC_Manager();
     Header();
   }, []);
-
+  const A = "Sucha";
+  const B = "FLTR001";
   return (
     <>
       <div>
@@ -535,7 +571,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        value={New_BOI}
+                        value={newboi}
                         disabled
                       />
                     </FormControl>
@@ -633,9 +669,11 @@ function TransFerDetail() {
             </Typography>
             <div className="Style2">
               <table className="Style3">
+                {/* Department Manager */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Department Manager :</td>
+
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -653,61 +691,70 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        id="RadioDept_Manager"
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_dept}
-                        onChange={handleRadioDept_Mana}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disable
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {Sts != "FLTR001" &&  (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            id="RadioDept_Manager"
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_dept}
+                            onChange={handleRadioDept_Mana}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              //  disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disable
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
+                {/* Sevice Dept */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Service Dept :</td>
@@ -737,6 +784,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
+                {/* Servide By */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Service By :</td>
@@ -757,61 +805,70 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_serviceby}
-                        onChange={handleRadioService_By}
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {B != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_serviceby}
+                            onChange={handleRadioService_By}
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
+                {/* BOI Staff */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">BOI Staff :</td>
@@ -832,60 +889,70 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_boistaff}
-                        onChange={handleRadioBOI_Staff}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {B != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_boistaff}
+                            onChange={handleRadioBOI_Staff}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    {" "}
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>{" "}
+                  </>
+                )}
+                {/* BOI Manager */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">BOI Manager :</td>
@@ -906,59 +973,71 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {Sts != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+
+                {Sts != "FLTR001" && (
+                  <>
+                    {" "}
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
+                {/* Factory Manager */}
+
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Factory Manager :</td>
@@ -979,60 +1058,70 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_facmanager}
-                        onChange={handleRadioFac_Manager}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {B != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_facmanager}
+                            onChange={handleRadioFac_Manager}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
+                {/* ACC Check */}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">ACC Check :</td>
@@ -1053,61 +1142,71 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_acc_check}
-                        onChange={handleRadioACC_Check}
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {Sts != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_acc_check}
+                            onChange={handleRadioACC_Check}
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>{" "}
+                  </>
+                )}
+                {/* Owner */}
+
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Owner :</td>
@@ -1125,61 +1224,69 @@ function TransFerDetail() {
                       />
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={radio_owner}
-                        onChange={handleRadioOwner}
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {Sts != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={radio_owner}
+                            onChange={handleRadioOwner}
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>{" "}
+                  </>
+                )}
               </table>
             </div>
           </Card>
@@ -1214,7 +1321,7 @@ function TransFerDetail() {
                   <th colSpan={5}></th>
                   <td className="Style4">Receiver :</td>
                   <td>
-                    <FormControl className="Style1">
+                    <FormControl className="Style3">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
@@ -1227,45 +1334,60 @@ function TransFerDetail() {
                       />
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+
+                  {Sts != "FLTR001" ? (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td style={{width:'280px'}}></td>
+                      
+                      <td className="Style5"></td>
+                      <td className="Style7"></td>
+                      <td className="Style6">
+                        <FormControl className="Style1"></FormControl>
+                      </td>
+                    </>
+                  )}
                 </tr>
+                {Sts != "FLTR001" ? (
+                    <>
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Comment :</td>
@@ -1280,12 +1402,18 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
+                </>
+                  ) : (
+                    <>
+                
+                     
+                     
+                    </>
+                  )}
               </table>
             </div>
           </Card>
         </Card>
-      </div>
-      <div>
         <Card className="Style100">
           <Card
             sx={{
@@ -1332,33 +1460,35 @@ function TransFerDetail() {
                       />
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
+                  {Sts != "FLTR001" ? (
+                    <>
+                      <td className="Style5">
+                      <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                      <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
@@ -1369,22 +1499,42 @@ function TransFerDetail() {
                         }}
                       />
                     </FormControl>
-                  </td>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td style={{width:'280px'}}></td>
+                      
+                      <td className="Style5"></td>
+                      <td className="Style7"></td>
+                      <td className="Style6">
+                        <FormControl className="Style1"></FormControl>
+                      </td>
+                    </>
+                  )}
+                  
+
+             
+
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">ACC Manager :</td>
@@ -1405,59 +1555,67 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {Sts != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                )}
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">Service Close By :</td>
@@ -1475,63 +1633,73 @@ function TransFerDetail() {
                       />
                     </FormControl>
                   </td>
-                  <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
-                      >
-                        <FormControlLabel
-                          value="Approve"
-                          control={<Radio size="small" />}
-                          label="Approve"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="Reject"
-                          // disabled
-                          control={<Radio size="small" />}
-                          label="Reject"
-                          disabled
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7">Action Date :</td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
-                  </td>
+                  {B != "FLTR001" && (
+                    <>
+                      <td className="Style5">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            // style={{ marginLeft: "20px" }}
+                          >
+                            <FormControlLabel
+                              value="Approve"
+                              control={<Radio size="small" />}
+                              label="Approve"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="Reject"
+                              // disabled
+                              control={<Radio size="small" />}
+                              label="Reject"
+                              disabled
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td className="Style7">Action Date :</td>
+                      <td className="Style6">
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>{" "}
+                    </>
+                  )}
                 </tr>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
+                {Sts != "FLTR001" && (
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>{" "}
+                  </>
+                )}
               </table>
             </div>
           </Card>
         </Card>
+      </div>
+      <div>
         <div className="Style8">
           <Box>
             <tr>
