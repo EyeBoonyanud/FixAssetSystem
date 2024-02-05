@@ -53,10 +53,16 @@ app.get("/boi_manager",Transaction.boi_manager);
 app.get("/fac_manager",Transaction.fac_manager);
 app.get("/acc_check",Transaction.acc_check);
 app.get("/acc_manager",Transaction.acc_manager);
-app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request);
+app.post("/ins_transfer",Transaction.ins_transfer);
+app.post("/routing_tran",Transaction.routing_tran);
+app.post("/receiver_tranfer",Transaction.receiver_tranfer);
+app.get("/header",Transaction.header);
+app.post("/close_routing_tran",Transaction.close_routing_tran);
+app.post("/update_submit",Transaction.update_submit);
+//MAY 
+app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
 app.get("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
-
 
 // app.get("/checkconnect", async (req, res) => {
 //   try {

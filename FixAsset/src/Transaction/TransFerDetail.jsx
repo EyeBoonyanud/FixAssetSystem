@@ -9,23 +9,29 @@ import {
   Select,
   FormControl,
   MenuItem,
+  Box,
+  Button,
 } from "@mui/material";
 import axios from "axios";
+import Swal from "sweetalert2";
+
+import { SaveAlt } from "@mui/icons-material";
 
 function TransFerDetail() {
+  //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
   const ReqBy = localStorage.getItem("UserLogin");
   const CC_for_request = localStorage.getItem("CC_for_request");
-  //console.log("CC_for_request",CC_for_request)
   const Fac_to_request = localStorage.getItem("Factory"); //R180
-  //console.log(Fac_to_request,"Fac_to_request")
-  // const Fam_no = localStorage.getItem("FAM_run");
-  //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
-  // console.log(FixAssetGroup,"FixAssetGroup:::")
   const Service_ID = localStorage.getItem("datafixgroup");
-  console.log(Service_ID, "Service_ID:::");
+  const Sts = localStorage.getItem("sts");
+  console.log(Sts, "......................");
+
+  const Fam_no = localStorage.getItem("FAM_run");
+  
   const Service = localStorage.getItem("data_for_sevice");
-  // console.log(Service,"Service:::")
-  const fam = "A1-R340-24-0001";
+  // const fam = "A1-R180-24-0001";
+  const [dataheader, setdataheader] = useState([]);
+
   const [dataBoi_from, setdataBoi_from] = useState([]);
 
   const [datafac, setdatafac] = useState([]);
@@ -37,6 +43,7 @@ function TransFerDetail() {
   const [newowner, setnewowner] = useState([]);
   const [selectnewowner, setselectnewowner] = useState("");
   const [result1, setresult1] = useState("");
+  console.log(result1, "result1");
 
   const [department, setdepartment] = useState([]);
   const [selectdepartment, setselectdepartment] = useState("");
@@ -59,15 +66,58 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
 
+  const [sts, setsts] = useState("");
+  const [abnormal, setabnormal] = useState("");
+
+  // ตัวแปร Radio Routing
+  const [radio_dept, setradio_dept] = useState("");
+  const [radio_serviceby, setradio_serviceby] = useState("");
+  const [radio_boistaff, setradio_boistaff] = useState("");
+  const [radio_boimanager, setradio_boimanager] = useState("");
+  const [radio_facmanager, setradio_facmanager] = useState("");
+  const [radio_acc_check, setradio_acc_check] = useState("");
+  const [radio_owner, setradio_owner] = useState("");
+  // check radio button
+  const [mgr_chk, setmgr_chk] = useState("hidden");
+
+  const handleRadioDept_Mana = (event) => {
+    setradio_dept(event.target.value);
+    console.log("ค่า", event.target.value);
+  };
+  const handleRadioService_By = (event) => {
+    setradio_serviceby(event.target.value);
+    console.log("setradio_serviceby", event.target.value);
+  };
+  const handleRadioBOI_Staff = (event) => {
+    setradio_boistaff(event.target.value);
+    console.log("setradio_boistaff", event.target.value);
+  };
+
+  const handleRadioFac_Manager = (event) => {
+    setradio_facmanager(event.target.value);
+    console.log("setradio_facmanager", event.target.value);
+  };
+  const handleRadioACC_Check = (event) => {
+    setradio_acc_check(event.target.value);
+    console.log("setradio_serviceby", event.target.value);
+  };
+  const handleRadioOwner = (event) => {
+    setradio_owner(event.target.value);
+    console.log("setradio_owner", event.target.value);
+  };
+
+  //ค่าสมมติ ของ To_PROJ
+  const New_BOI = "NON BOI";
+
   // From BOI PROJ
   const BOI_FROM = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/select_BOI_from?running_no=${fam}`
+        `http://localhost:5000/select_BOI_from?running_no=${Fam_no}`
       );
       const data = response.data;
       setdataBoi_from(data[0][0]);
-      console.log(data[0][0], "มาจาก fromBOI :");
+      // console.log(data[0][0], "มาจาก fromBOI :");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -101,7 +151,18 @@ function TransFerDetail() {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
     setselectcost(Cost);
     New_Owner(Cost);
-    console.log(Cost, "setselectcost");
+
+    if (dataBoi_from === New_BOI) {
+      setsts("N");
+      setabnormal("");
+      console.log("เท่ากัน : ", sts);
+    } else {
+      setsts("Y");
+      setabnormal("Transfer to difference project");
+      console.log("ไม่เท่ากัน :", sts);
+    }
+
+    // console.log(Cost, "setselectcost");
   };
   // Newowner
   const New_Owner = async (cost) => {
@@ -110,7 +171,7 @@ function TransFerDetail() {
         `http://localhost:5000/new_owner?fac=${selecteDatafac}&cc=${cost}`
       );
       const data1 = await response.data;
-      console.log("มาจาก New owner :", data1);
+      // console.log("มาจาก New owner :", data1);
       const data = response.data.flat();
       setnewowner(data);
     } catch (error) {
@@ -143,13 +204,16 @@ function TransFerDetail() {
   };
   // ServiceBy
   const Service_By = async () => {
+    console.log("kkkkkkkk", Service_ID);
+
     try {
       const response = await axios.get(
         `http://localhost:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
       );
+      console.log(response, "hhhhhhhhhhhhhhhhhha");
       const data = response.data.flat();
       setservice_by(data);
-      console.log("Department :", data);
+      console.log("setservice_by :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -174,26 +238,179 @@ function TransFerDetail() {
   const handleBOI_Staff = (event) => {
     setselectboistaff(event.target.value);
   };
-//BOI_Manager
-const BOI_Manager = async () => {
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/boi_manager?fac=${Fac_to_request}`
-    );
-    const data = response.data.flat();
-    setboimanager(data);
-    console.log("setboimanager :", data);
-  } catch (error) {
-    console.error("Error during login:", error);
-  }
-};
-const handleBOI_Manager = (event) => {
-  setselectboistaff(event.target.value);
-};
+  //BOI_Manager
+  const BOI_Manager = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/boi_manager?fac=${Fac_to_request}`
+      );
+      const data = response.data.flat();
+      setboimanager(data);
+      console.log("setboimanager :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleBOI_Manager = (event) => {
+    setselectboimanager(event.target.value);
+  };
+  //Factory_Manager
+  const Fac_manager = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/fac_manager?fac=${Fac_to_request}`
+      );
+      const data = response.data.flat();
+      setfac_manager(data);
+      console.log("setboimanager :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleFac_manager = (event) => {
+    setselectfac_manager(event.target.value);
+  };
+  //ACC Check
+  const ACC_Check = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/acc_check?fac=${Fac_to_request}`
+      );
+      const data = response.data.flat();
+      setacc_check(data);
+      console.log("setboimanager :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleACC_Check = (event) => {
+    setselectacc_check(event.target.value);
+  };
+  // ACC_Manager
+  const ACC_Manager = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/acc_manager?fac=${Fac_to_request}`
+      );
+      const data = response.data.flat();
+      setacc_manager(data);
+      console.log("setboimanager :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const handleACC_Manager = (event) => {
+    setselectacc_manager(event.target.value);
+  };
+  // Header
+  const Header = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/header?famno=${Fam_no}`
+      );
+      const data = response.data.flat();
+      setdataheader(data);
+      console.log("setdataheader :", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
 
+  const SAVE = async () => {
+    const Plan_date = document.getElementById("Plan_Remove").value;
+    const Tel = document.getElementById("Tel").value;
+    const Tel_Service = document.getElementById("Tel_Service").value;
 
+    // const Fixcode = document.getElementById("Fixcode").value;
+    // setFixcode1(Fixcode);
 
+    try {
+      const row = axios.post(
+        // console.log(New_BOI,"New_BOI")
+        `http://localhost:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${New_BOI}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+      );
 
+      const data = row.data;
+      setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    try {
+      const row = axios.post(
+        // console.log(New_BOI,"New_BOI")
+        `http://localhost:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+      );
+
+      const data = row.data;
+      console.log(data, "data");
+
+      setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    try {
+      const receiver = await axios.post(
+        "http://localhost:5000/receiver_tranfer",
+        {
+          famno: Fam_no,
+          receiver: result1,
+        }
+      );
+
+      // const data = row.data;
+      //     setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    try {
+      const close_service = await axios.post(
+        "http://localhost:5000/close_routing_tran",
+        {
+          famno: Fam_no,
+          acc_record: selectacc_check,
+          acc_manager: selectacc_manager,
+          service_close_by: selectservice_by,
+        }
+      );
+
+      // const data = row.data;
+      //     setdataFixCode(data);
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+
+    Swal.fire({
+      title: "Save Success",
+      icon: "success",
+    });
+
+    setOpen(true);
+  };
+
+  const SUBMIT = async () => {
+    if (Sts === "FLTR001") {
+      const status_submit = "FLTR002";
+      console.log(status_submit, "status_submit");
+      console.log(Fam_no, "Fam_no");
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/update_submit",
+          {
+            famno: Fam_no,
+            sts_submit: status_submit,
+          }
+        );
+        Swal.fire({
+          title: "Submit Success",
+          icon: "success",
+        });
+
+        console.log(response.data, "Status submit successfully updated");
+      } catch (error) {
+        console.error("Error updating submit status:", error.message);
+      }
+    }
+  };
   useEffect(() => {
     Factory();
     BOI_FROM();
@@ -202,6 +419,10 @@ const handleBOI_Manager = (event) => {
     Service_By();
     BOI_Staff();
     BOI_Manager();
+    Fac_manager();
+    ACC_Check();
+    ACC_Manager();
+    Header();
   }, []);
 
   return (
@@ -314,6 +535,8 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={New_BOI}
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -346,11 +569,7 @@ const handleBOI_Manager = (event) => {
                   <td className="Style7">Tel :</td>
                   <td className="Style6">
                     <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                      />
+                      <TextField id="Tel" defaultValue="" size="small" />
                     </FormControl>
                   </td>
                 </tr>
@@ -360,11 +579,10 @@ const handleBOI_Manager = (event) => {
                   <td>
                     <FormControl className="Style1">
                       <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
+                        id="Plan_Remove"
+                        // defaultValue=""
                         size="small"
                         type="date"
-                        style={{ color: "red" }}
                       />
                     </FormControl>
                   </td>
@@ -379,6 +597,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={abnormal}
                       />
                     </FormControl>
                   </td>
@@ -438,20 +657,24 @@ const handleBOI_Manager = (event) => {
                     <FormControl>
                       <RadioGroup
                         row
+                        id="RadioDept_Manager"
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_dept}
+                        onChange={handleRadioDept_Mana}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
                         />
                         <FormControlLabel
                           value="Reject"
-                          // disabled
+                          // disable
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled //={!(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -480,6 +703,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -506,7 +730,7 @@ const handleBOI_Manager = (event) => {
                   <td>
                     <FormControl className="Style1">
                       <TextField
-                        id="outlined-size-small"
+                        id="Tel_Service"
                         defaultValue=""
                         size="small"
                       />
@@ -539,18 +763,22 @@ const handleBOI_Manager = (event) => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_serviceby}
+                        onChange={handleRadioService_By}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -579,6 +807,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -609,18 +838,21 @@ const handleBOI_Manager = (event) => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_boistaff}
+                        onChange={handleRadioBOI_Staff}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -649,6 +881,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -661,16 +894,15 @@ const handleBOI_Manager = (event) => {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        // value={age}
-                        // onChange={handleChange}
+                        value={selectboimanager}
+                        onChange={handleBOI_Manager}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {boimanager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -686,12 +918,14 @@ const handleBOI_Manager = (event) => {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -720,6 +954,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -732,16 +967,15 @@ const handleBOI_Manager = (event) => {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        // value={age}
-                        //// onChange={handleChange}
+                        value={selectfac_manager}
+                        onChange={handleFac_manager}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {fac_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -751,18 +985,21 @@ const handleBOI_Manager = (event) => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // style={{ marginLeft: "20px" }}
+                        value={radio_facmanager}
+                        onChange={handleRadioFac_Manager}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -791,6 +1028,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -803,16 +1041,15 @@ const handleBOI_Manager = (event) => {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        //  value={age}
-                        // onChange={handleChange}
+                        value={selectacc_check}
+                        onChange={handleACC_Check}
                         size="small"
                       >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Pee Char</MenuItem>
-                        <MenuItem value={20}>Pee Tom</MenuItem>
-                        <MenuItem value={30}>Pee Pu</MenuItem>
+                        {acc_check.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -822,18 +1059,22 @@ const handleBOI_Manager = (event) => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_acc_check}
+                        onChange={handleRadioACC_Check}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -862,6 +1103,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -872,6 +1114,7 @@ const handleBOI_Manager = (event) => {
                   <td>
                     <FormControl className="Style3">
                       <TextField
+                        value={ReqBy}
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
@@ -888,18 +1131,22 @@ const handleBOI_Manager = (event) => {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
+                        value={radio_owner}
+                        onChange={handleRadioOwner}
                         // style={{ marginLeft: "20px" }}
                       >
                         <FormControlLabel
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -928,6 +1175,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -971,6 +1219,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={newowner}
                         disabled
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -990,12 +1239,14 @@ const handleBOI_Manager = (event) => {
                           value="Approve"
                           control={<Radio size="small" />}
                           label="Approve"
+                          disabled
                         />
                         <FormControlLabel
                           value="Reject"
                           // disabled
                           control={<Radio size="small" />}
                           label="Reject"
+                          disabled
                         />
                       </RadioGroup>
                     </FormControl>
@@ -1024,6 +1275,7 @@ const handleBOI_Manager = (event) => {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -1032,6 +1284,287 @@ const handleBOI_Manager = (event) => {
             </div>
           </Card>
         </Card>
+      </div>
+      <div>
+        <Card className="Style100">
+          <Card
+            sx={{
+              borderRadius: "8px",
+              border: 2,
+              borderColor: "rgba(64,131,65, 1.5)",
+              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              marginTop: 4,
+            }}
+            className="Style1"
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                backgroundColor: "#fff",
+                marginTop: "-0.5%",
+                marginRight: "85%",
+                width: "8%",
+                display: "flex",
+                border: 1,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                justifyContent: "center",
+              }}
+            >
+              Close Routing
+            </Typography>
+            <div className="Style2">
+              <table className="Style3">
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">ACC Record :</td>
+                  <td>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        value={selectacc_check}
+                        disabled
+                        sx={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                  <td className="Style5">
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        // style={{ marginLeft: "20px" }}
+                      >
+                        <FormControlLabel
+                          value="Approve"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          disabled
+                        />
+                        <FormControlLabel
+                          value="Reject"
+                          // disabled
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          disabled
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </td>
+                  <td className="Style7">Action Date :</td>
+                  <td className="Style6">
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">Comment :</td>
+                  <td colSpan={4}>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">ACC Manager :</td>
+                  <td>
+                    <FormControl className="Style3">
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={selectacc_manager}
+                        onChange={handleACC_Manager}
+                        size="small"
+                      >
+                        {acc_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </td>
+                  <td className="Style5">
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        // style={{ marginLeft: "20px" }}
+                      >
+                        <FormControlLabel
+                          value="Approve"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          disabled
+                        />
+                        <FormControlLabel
+                          value="Reject"
+                          // disabled
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          disabled
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </td>
+                  <td className="Style7">Action Date :</td>
+                  <td className="Style6">
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">Comment :</td>
+                  <td colSpan={4}>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">Service Close By :</td>
+                  <td>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                        value={selectservice_by}
+                        sx={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                  <td className="Style5">
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        // style={{ marginLeft: "20px" }}
+                      >
+                        <FormControlLabel
+                          value="Approve"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          disabled
+                        />
+                        <FormControlLabel
+                          value="Reject"
+                          // disabled
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          disabled
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </td>
+                  <td className="Style7">Action Date :</td>
+                  <td className="Style6">
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <th colSpan={5}></th>
+                  <td className="Style4">Comment :</td>
+                  <td colSpan={4}>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        defaultValue=""
+                        size="small"
+                        disabled
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </Card>
+        </Card>
+        <div className="Style8">
+          <Box>
+            <tr>
+              <td>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  className="Style9"
+                  onClick={SAVE}
+                >
+                  Save
+                </Button>
+              </td>
+              <td>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="success"
+                  className="Style9"
+                  onClick={SUBMIT}
+                >
+                  Submit
+                </Button>
+              </td>
+              <td>
+                <Button variant="contained" size="medium" color="error">
+                  Reset
+                </Button>
+              </td>
+            </tr>
+          </Box>
+        </div>
       </div>
     </>
   );
