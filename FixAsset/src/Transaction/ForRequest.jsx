@@ -357,7 +357,11 @@ function ForRequest() {
   };
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
-
+  const ForDt = localStorage.getItem("forDetail");
+  
+  //console.log("////////////////////",ForDt)
+const For_detail= JSON.parse(ForDt);
+console.log(For_detail)
   useEffect(() => {
     if (For_Req == null) {
       console.log("Empty Array:", UserEmp);
@@ -370,8 +374,11 @@ function ForRequest() {
       setselectcost("");
       setstatus("");
       setTxt_Remark("");
+      setTableOpen(true);
+      setdatatable(For_detail)
     } else {
-      console.log("////////////////////",For_Req)
+      //console.log("////////////////////",ForDt)
+
       setFAM_run(For_Req[0]);
       setUserEmp(For_Req[2])
       setTel(For_Req[3]);
@@ -381,7 +388,8 @@ function ForRequest() {
       setselectcost(For_Req[9]);
       setstatus(For_Req[10]);
       setTxt_Remark(For_Req[11]);
-
+      setTableOpen(true)
+      //setdatatable(For_detail)
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
@@ -493,6 +501,9 @@ function ForRequest() {
   };
   const Insert_Fam_detail = async () => {
     for (let i = 0; i < datatable.length; i++) {
+     
+      const sentdata = JSON.stringify(datatable);
+      localStorage.setItem("forDetail",sentdata)
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
