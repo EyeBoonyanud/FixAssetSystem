@@ -145,6 +145,7 @@ module.exports.by = async function (req, res) {
 //Search
 module.exports.search = async function (req, res) {
   try {
+    const userlogin = req.query.UserLogin;
     const factory = req.query.FacCode;
     const dept = req.query.DeptCode;
     const famno = req.query.FamNo;
@@ -176,7 +177,20 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
-  WHERE (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
+  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO 
+  WHERE  (T.FAM_REQ_BY = '${userlogin}'
+    OR (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002')
+    OR (T.FAM_SERVICE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
+    OR (T.FAM_BOI_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR004')
+    OR (T.FAM_BOI_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR005')
+    OR (T.FAM_FM_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR006')
+    OR (T.FAM_ACC_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR007')
+    OR (T.FAM_OWNER_SEND_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR008')
+    OR ( A.FRT_RECEIVE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR009')
+    OR (T.FAM_ACC_REC_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR010')
+    OR (T.FAM_ACC_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR011')
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR0012'))
+    AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
@@ -185,6 +199,7 @@ module.exports.search = async function (req, res) {
     AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+    
          `;
     console.log(query);
     const result = await connect.execute(query);
@@ -590,7 +605,7 @@ module.exports.select_BOI_from = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// new Owner 
+// new Owner
 module.exports.new_owner = async function (req, res) {
   try {
     const Fac = req.query.fac;
@@ -700,8 +715,8 @@ module.exports.boi_staff = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-//D10 BOI Manager 
-module.exports.boi_manager= async function (req, res) {
+//D10 BOI Manager
+module.exports.boi_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -722,8 +737,8 @@ module.exports.boi_manager= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// D11 Factory Manager 
-module.exports.fac_manager= async function (req, res) {
+// D11 Factory Manager
+module.exports.fac_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -744,7 +759,7 @@ module.exports.fac_manager= async function (req, res) {
   }
 };
 // D12 ACC Check
-module.exports.acc_check= async function (req, res) {
+module.exports.acc_check = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -765,8 +780,8 @@ module.exports.acc_check= async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-//D13 ACC Manager 
-module.exports.acc_manager= async function (req, res) {
+//D13 ACC Manager
+module.exports.acc_manager = async function (req, res) {
   try {
     const Fac = req.query.fac;
     const connect = await oracledb.getConnection(AVO);
@@ -888,27 +903,25 @@ module.exports.ins_transfer = async function (req, res) {
       receive_by: Receive_By,
       tel_tran: Tel,
       status_tran: Status,
-      abnormal_remark: Abnormal
-     
+      abnormal_remark: Abnormal,
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
@@ -946,7 +959,7 @@ module.exports.ins_transfer = async function (req, res) {
 //     const OWNER_SEND_JUD= req.query.own_jud;
 //     const OWNER_SEND_DATE = req.query.own_date;
 //     const OWNER_SEND_CMMT= req.query.own_cmmt;
- 
+
 //     const connect = await oracledb.getConnection(AVO);
 //     const query = `
 //     UPDATE FAM_REQ_HEADER H
@@ -1016,11 +1029,10 @@ module.exports.ins_transfer = async function (req, res) {
 //       FAM_OWNER_SEND_JUD: OWNER_SEND_JUD,
 //       FAM_OWNER_SEND_DATE: OWNER_SEND_DATE,
 //       FAM_OWNER_SEND_CMMT: OWNER_SEND_CMMT
-     
+
 //     };
 //     console.log(query)
 //     console.log(data)
-    
 
 //     // Execute the query
 //     const result = await connect.execute(query, data, { autoCommit: true });
@@ -1054,7 +1066,6 @@ module.exports.routing_tran = async function (req, res) {
     const ACC_CHK_BY = req.query.acc_by;
     const OWNER_SEND_BY = req.query.own_by;
 
- 
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER H
@@ -1082,26 +1093,24 @@ module.exports.routing_tran = async function (req, res) {
       FAM_FM_BY: FM_BY,
       FAM_ACC_CHK_BY: ACC_CHK_BY,
       FAM_OWNER_SEND_BY: OWNER_SEND_BY,
-     
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
@@ -1109,10 +1118,10 @@ module.exports.routing_tran = async function (req, res) {
 //Receiver for Tranfers
 module.exports.receiver_tranfer = async function (req, res) {
   try {
-    console.log("g-hkkkkkkkkkkkkk")
-   const{ famno ,receiver} = req.body;
- console.log(famno,receiver)
- 
+    console.log("g-hkkkkkkkkkkkkk");
+    const { famno, receiver } = req.body;
+    console.log(famno, receiver);
+
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_TRANSFER  T
@@ -1125,27 +1134,60 @@ module.exports.receiver_tranfer = async function (req, res) {
       FRT_FAM_NO: famno,
       FRT_RECEIVE_BY: receiver,
     };
-    console.log(query)
-    console.log(data)
-    
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      console.log('Rows updated:', result.rowsAffected);
+      console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
-      console.error('Error: Unexpected result from the database');
-      res.status(500).send('Internal Server Error');
+      console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
     }
 
     connect.release();
   } catch (error) {
-    console.error('Error in querying data:', error.message);
+    console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
 
+// get show data edit request
+module.exports.getEdit_Request_Show = async function (req, res) {
+  try {
+    const fam_no = req.query.FamNo;
 
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FRH_FAM_NO ,
+           TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
+		       T.FAM_REQ_BY ,
+		       T.FAM_REQ_TEL ,
+           T.FAM_FACTORY ,
+           T.FAM_REQ_CC ,
+           T.FAM_REQ_DEPT ,
+           T.FAM_REQ_TYPE ,
+           T.FAM_ASSET_GROUP, 
+           T.FAM_ASSET_CC, 
+           T.FAM_REQ_STATUS, 
+           T.FAM_REQ_REMARK
+     FROM FAM_REQ_HEADER T 
+     WHERE T.FRH_FAM_NO = :fam_no
+    `;
+    const data = {
+      fam_no,
+    };
 
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    // res.json(result);
+    res.json(result.rows);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};

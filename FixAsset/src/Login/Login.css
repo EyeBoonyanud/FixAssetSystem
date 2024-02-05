@@ -1,0 +1,186 @@
+.PageAll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .Table-Login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Cardlogin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000;
+  }
+  
+  .Grad {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(
+      34deg,
+      #62e6a5 20vw,   /* approximately 20% + 18% converted to vw */
+      #9ae7ba 37.25vw, /* approximately 35% + 18% converted to vw */
+      #9ae7ba 37.25vw, /* approximately 35% + 18% converted to vw */
+      #d1f5de 42.75vw, /* approximately 45% + 18% converted to vw */
+      #e9fbf1 0
+    );
+  }
+  
+  
+  
+  .Grad02 {
+    background: linear-gradient(
+      35deg,
+      #62e6a5 0vw,
+      #9ae7ba 0vw,
+      #9ae7ba 3.75vw,
+      #d1f5de 10vw,
+      #e9fbf1 0
+    );
+  }
+  
+  
+  .span01 {
+    background: linear-gradient(
+      34deg,
+      #ffffff 20%,
+      #e5ffe5 35%,
+      #d5ffe6 35%,
+      #f5fff8 45%,
+      #ffffff 0
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    
+  }
+  
+  .span02 {
+    background: linear-gradient(
+      -145deg,
+      #62e6a5 40%,
+      #9ae7ba 35%,
+      #9ae7ba 35%,
+      #d1f5de 44%,
+      #ffffff 0
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  }
+  .span03 {
+    background: linear-gradient(
+      -145deg,
+      #62e6a5 40%,
+      #9ae7ba 35%,
+      #9ae7ba 35%,
+      #d1f5de 70%,
+      #ffffff 0
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  }
+  .span04 {
+    background: linear-gradient(
+      -145deg,
+      #5e5f5e 40%,
+      #838d87 35%,
+      #010202 35%,
+      #6d6d6d 70%,
+      #010202 0
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
+  
+  .span05 {
+    background: linear-gradient(
+      -145deg,
+      #5e5f5e 40%,
+      #838d87 35%,
+      #010202 35%,
+      #6d6d6d 70%,
+      #010202 0
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
+  
+  .h1 {
+    text-align: center;
+  }
+  
+  .Card-Login {
+    width: 90%;
+    height: 50%;
+    background-color: #e9fbf1 !important;
+    box-shadow: 0px 0px 30px 0px rgba(156, 249, 207, 0.57) !important;
+  }
+  
+  .Logo {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(69, 217, 131) !important;
+    margin-top: 5%;
+  }
+  
+  .greenTextField {
+    & label {
+      color: #6fcd96;
+    }
+    & label.Mui-focused {
+      color: #737373;
+    }
+    & .MuiInput-underline:after {
+      border-bottom-color: #6fcd96;
+    }
+    & .MuiInput-underline:before {
+      border-bottom-color: #737373;
+    }
+    & .MuiInputAdornment-root svg {
+      color: #737373;
+    }
+  
+    &:hover .MuiInputAdornment-root svg {
+      color: #6fcd96;
+    }
+  }
+  
+  .Textlogin {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
+    color: rgb(116, 219, 159);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5vw; /* Adjust the base font size as needed */
+  
+    @media (min-width: 600px) {
+      font-size: 3em; /* Adjust the font size for screens wider than 600px */
+    }
+  
+    @media (min-width: 900px) {
+      font-size: 2em; /* Adjust the font size for screens wider than 900px */
+    }
+  
+    @media (min-width: 1200px) {
+      font-size: 1.5em; /* Adjust the font size for screens wider than 1200px */
+    }
+  }

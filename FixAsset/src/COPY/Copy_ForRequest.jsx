@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef  } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -28,21 +28,10 @@ import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../Page/Style.css";
-import {
-  DeleteOutlined,
-  FileTextOutlined,
-  UploadOutlined,
-  FileExcelOutlined,
-  FilePdfOutlined,
-  FileWordOutlined,
-  FileUnknownOutlined,
-  CloudUploadOutlined,
-} from "@ant-design/icons";
-import Swal from 'sweetalert2'
 
 function ForRequest() {
   const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
-  const fileInputRef = useRef();
+
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isTableOpen, setTableOpen] = useState(false); // เปิด ปิด Table Fixed Asset
   const [dataFixcode, setdataFixCode] = useState([]);
@@ -61,18 +50,18 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
-  const [data_for_sevice , setdata_for_sevice] = useState("");
+  localStorage.setItem("datafixgroup", datafixgroup);
+  const [data_for_sevice, setdata_for_sevice] = useState("");
+  localStorage.setItem("data_for_sevice", data_for_sevice);
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
-  const [Txt_Remark,setTxt_Remark]= useState("");
- 
   const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
-  const [btnSave, setbtnSave] = useState("visible");
-  const [visibityDetails , setvisibityDetails] = useState("visible");
-  const [visibityFile , setvisibityFile] = useState("visible");
+  const [btnSave, setbtnSave] = useState("hidden");
+  const [visibityDetails, setvisibityDetails] = useState("hidden");
+  const [visibityFile, setvisibityFile] = useState("hidden");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -81,26 +70,10 @@ function ForRequest() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
-  
-  // Local Set 
-  // localStorage.setItem("sts",status[0]);
-  localStorage.setItem("data_for_sevice",data_for_sevice);
-  localStorage.setItem("data_for_sevice",selectdept);
-
-  
-
-
-  // const  Fam_list = localStorage.getItem("FAM_run")
-  // const  Dept = localStorage.getItem("Dept")
-  // const  Type = localStorage.getItem("Type")
-  // const  Fix_code = localStorage.getItem("Fix_Ass")
-  // const  Asst_code = localStorage.getItem("Ass_code")
-  // const  Re_sts = localStorage.getItem("Retype")
-  // const mark = localStorage.getItem("re_mark")
-
-   //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
+  //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
+    //console.log(newData, "....................");
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {
@@ -125,27 +98,14 @@ function ForRequest() {
     setbtnSave("visible");
   };
   const handleFileUpload = (event) => {
-    console.log("รับมา")
+    // ทำอะไรกับไฟล์ที่ถูกเลือก
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+    //console.log(selectedFiles);
+
+    // เพิ่มโค้ดที่คุณต้องการทำต่อไป
   };
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
-const handleDrop = (event) => {
-  event.preventDefault();
-  const files = event.dataTransfer?.files;
-  
-  if (files) {
-    console.log("///////////////////////////////", files);
-    handleFileUpload({ target: { files } }); 
-  }
-};
-  const handleAssetGroup = async (event) => {
-    let FixIdGroup = event.target.value;
-    setselectAssetgroup(FixIdGroup);
-   localStorage.setItem("FixAssetGroup",FixIdGroup)
-  }; 
+
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -156,7 +116,7 @@ const handleDrop = (event) => {
       );
       const data = row.data;
       setdataFixCode(data);
-     //console.log(data);
+      //console.log(data);
 
       //console.log(data, "FixCode: ");
     } catch (error) {
@@ -172,40 +132,7 @@ const handleDrop = (event) => {
     updatedFiles.splice(index, 1);
     setUploadedFiles(updatedFiles);
   };
-  const handleCost = async (event) => {
-    let Cost_value = event.target.value;
-    setselectcost(Cost_value);
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
-      );
-      const Fixgroup_ID = await response.data;
-      //console.log(Fixgroup_ID[0][0], "Fixgroup_ID::::::::");
-      if (Fixgroup_ID[0][0] === "EACH CC") {
-        try {
-          const response = await axios.get(
-            `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
-          );
-          const Find_Service = await response.data;
-          console.log(response.data,"response.data")
-          setdatafixgroup(Find_Service[0][0]);
-          setdata_for_sevice(Find_Service[0][1])      
-          localStorage.setItem("datafixgroup",Find_Service[0][0])   
-          console.log(Find_Service[0][1], "Find_Service");
-        } catch (error) {
-          console.error("Error during login:", error);
-        }
-      } else {
-        console.log(response.data,"response.data----------")
-        setdatafixgroup(Fixgroup_ID[0][0]);
-        setdata_for_sevice(Fixgroup_ID[0][1])   
-        localStorage.setItem("datafixgroup",Fixgroup_ID[0][0])
-        console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
+
   const CostforAsset = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/getcost`);
@@ -217,7 +144,7 @@ const handleDrop = (event) => {
   };
   const Reset = async () => {
     document.getElementById("Txt_Famno").value = "";
-    document.getElementById("Txt_Tel").value = "";
+    document.getElementById("Tel").value = "";
     document.getElementById("Remark").value = "";
     setselectdept("");
     setselectedType("");
@@ -228,192 +155,37 @@ const handleDrop = (event) => {
     // document.getElementById("Txt_Famno").value=""
     // document.getElementById("Txt_Famno").value=""
   };
-  const formattedDate = `${(currentDate.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}/${currentDate
-    .getDate()
-    .toString()
-    .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  const handleRadio = (event) => {
-    setselectedType(event.target.value);
-  };
 
-  const handleSave = async () => {
-    const FAM_FORM = "REQUEST";
-    const famNo = document.getElementById("Txt_Famno").value;
-    const currentDateTime = new Date()
-      .toISOString()
-      .slice(2, 10)
-      .replace(/-/g, "");
-    try {
-      for (let i = 0; i < uploadedFiles.length; i++) {
-        const file = uploadedFiles[i];
-
-        const lastDotIndex = file.name.lastIndexOf(".");
-        const fileExtension = file.name.slice(lastDotIndex + 1);
-        let new_run_seq = "";
-        try {
-          const response_seq = await axios.get(
-            `http://localhost:5000/get_seq_request?FAM_no=${famNo}`
-          );
-          const get_run_seq = await response_seq.data;
-          console.log("RUN SEQ", get_run_seq);
-          const lastValue =
-            get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
-          const incrementedValue = lastValue + 1;
-          new_run_seq = [[incrementedValue]];
-          console.log("New Array:", new_run_seq);
-        } catch (error) {
-          console.error("Error committing files to the database:", error);
-        }
-        const file_server = `${famNo}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
-        console.log("FAM_NO =", famNo);
-        console.log("FAM_FROM =", FAM_FORM);
-        console.log("TIME =", currentDateTime);
-        console.log("USER LOGIN", UserLogin);
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
-          );
-
-          console.log("อัฟโหลดไฟล์สำเร็จ =", response);
-        } catch (error) {
-          console.error("Error Upload File Request:", error);
-        }
-        try {
-          const formData = new FormData();
-          uploadedFiles.forEach((file) => {
-            formData.append("files", file);
-            // formData.append('filesname', file.name);
-          });
-
-          await axios.post(
-            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
-            formData
-          );
-          Swal.fire({
-            title: "Save Details Success",
-            icon: "success"
-          });
-          console.log("Files saved successfully");
-        } catch (error) {
-          console.error("Error saving files:", error);
-        }
-      }
-    } catch (error) {
-      console.error("Error committing files to the database:", error);
-    }
-  };
-  const  RQ = localStorage.getItem("ForRequester")
-  const For_Req = JSON.parse(RQ);
-  console.log("mayyyyyyyyyyyyyyyyyyyy",For_Req);
-  // const SHOW_DATA_EDIT = localStorage.getItem("DATAEDIT");
-  
 
   useEffect(() => {
-    if(For_Req==null){
-      console.log("Empty Array:", For_Req);
-     setFAM_run("")
-     setTel()
-    setselectdept("")
-    setselectedType("")
-    setselectAssetgroup("")
-    setselectcost("")
-    setstatus("")
-    setTxt_Remark("")
+    //หารหัส RequestBy
+
     
-    }
-     else  {
-      console.log("////////////////////",For_Req)
-        setFAM_run(For_Req[0])
-        setTel(For_Req[3])
-        setselectdept(For_Req[6])
-        setselectedType(For_Req[7])
-        setselectAssetgroup(For_Req[8])
-        setselectcost(For_Req[9])
-        setstatus(For_Req[10])
-        setTxt_Remark(For_Req[10])
-        
-        setcheckGenNo("hidden");
-        setcheckReset("hidden");
-        setvisibityDetails("visible")
-        setread_fix_group(true);
-        setread_fix_cost(true);
+  //หา Factory และเอา FAC ID ไปหา Dept
+  const AssetGroup = async () => {
+   
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfix_group?Asset_group=${idFac}`
+      );
+      let dataFix_group_Text = [];
+      let dataFix_group_Value = [];
+      for (let i = 0; i < response.data.length; i++) {
+        // console.log(response.data[i][1], "dataFix_group:");
+        dataFix_group_Text.push(response.data[i][1]);
+
+        dataFix_group_Value.push(response.data[i][0]);
+      }
+      // const ad = await response.data;
+      // console.log("for", ad);
+      setAssetgroup(dataFix_group_Text);
+      setAssetgroupID(dataFix_group_Value);
+    } catch (error) {
+      console.error("Error during login:", error);
     }
   
-   
+};
 
-    //หารหัส RequestBy
-    const BY = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getby?By=${UserLogin}`
-        );
-        const dataReby = await response.data;
-        let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
-        setUserEmp(DataBY);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const Factory_UserLogin = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${UserLogin}`
-        );
-        const dataFac_insert = await response.data;
-        let Fac = dataFac_insert.flat();
-        let idFactory = Fac[1];
-        setFac(Fac);
-        setidFac(idFactory);
-        localStorage.setItem("Factory", idFactory);
-
-        if (idFactory.length >= 0) {
-          try {
-            const response = await axios.get(
-              `http://localhost:5000/getdept?idFactory=${idFactory}`
-            );
-            const DeptData = await response.data;
-            setdept(DeptData);
-          } catch (error) {
-            console.error("Error during login:", error);
-          }
-        }
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getcost_insert?Cost_Login=${UserLogin}`
-        );
-        const dataCos_insert = await response.data;
-        let Cost = dataCos_insert.flat();
-        localStorage.setItem("CC_for_request", Cost);
-        setCost_sert(Cost);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-
-    const AssetGroup = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getfix_group?Asset_group=${idFac}`
-        );
-        let dataFix_group_Text = [];
-        let dataFix_group_Value = [];
-        for (let i = 0; i < response.data.length; i++) {
-          dataFix_group_Text.push(response.data[i][1]);
-          dataFix_group_Value.push(response.data[i][0]);
-        }
-        setAssetgroup(dataFix_group_Text);
-        setAssetgroupID(dataFix_group_Value);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
 
     BY();
 
@@ -423,44 +195,25 @@ const handleDrop = (event) => {
       AssetGroup();
     }
     CostforAsset();
+    //console.log('selectedItems:', selectedItems);
+    //console.log('selectedAll:', selectAll);
+    //console.log('dataFixcode:', dataFixcode);
   }, [idFac, selectedItems, selectAll, dataFixcode]);
 
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
-    const Remark = document.getElementById("Remark").value;
-
     localStorage.setItem("FAM_run", running_no);
-    // localStorage.setItem("Tel", Tel);
-    // localStorage.setItem("Dept", selectdept);
-    // localStorage.setItem("Type", selectedType);
-    // localStorage.setItem("Fix_Ass", selectAssetgroup);
-    // localStorage.setItem("Ass_code", selectcost);
-    // localStorage.setItem("Retype",selectedType );
-    // localStorage.setItem("re_mark", Remark );
-
-
-    // localStorage.setItem("Fix_Group", running_no);
-    // localStorage.setItem("FAM_run", running_no);
-    // localStorage.setItem("FAM_run", running_no);
-
-    const setData_ForRequester = [running_no, formattedDate, UserLogin, Tel, Factory[0], Cost_sert[0], selectdept, selectedType, selectAssetgroup, selectcost, "create", Remark];
-
-    // Convert the array to a JSON string
-    const sentdata = JSON.stringify(setData_ForRequester);
-    
-    // Store the JSON string in localStorage
-    localStorage.setItem("ForRequester", sentdata);
-    
-    console.log(setData_ForRequester, "kkkkkkkkkkkkkkkkkkkkkk");
-    
+    const Tel = document.getElementById("Tel").value;
+    const Remark = document.getElementById("Remark").value;
     try {
-      const response = await axios.post(
-      //  `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
-      );
+      const response = await axios
+        .post
+        //   `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
+        ();
       document.getElementById("Txt_Famno").value = running_no;
       setcheckGenNo("hidden");
       setcheckReset("hidden");
-      setvisibityDetails("visible")
+      setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -468,9 +221,10 @@ const handleDrop = (event) => {
     }
 
     try {
-      const response = await axios.post(
-      `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
-      );
+      const response = await axios
+        .post
+        //   `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+        ();
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -482,8 +236,7 @@ const handleDrop = (event) => {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
-        const data=dataStatus.flat();
-        setstatus(data[0])
+        setstatus(dataStatus.flat());
         StatusId = dataStatus.flat();
         //console.log(dataStatus.flat(), "dataStatus::::::::");
       } catch (error) {
@@ -530,14 +283,12 @@ const handleDrop = (event) => {
     }
   };
   const Insert_Fam_detail = async () => {
-    
     for (let i = 0; i < datatable.length; i++) {
-     
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -545,7 +296,7 @@ const handleDrop = (event) => {
         const response = await axios.post(
           `http://localhost:5000/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -554,11 +305,221 @@ const handleDrop = (event) => {
 
   const Next = async (value) => {
     Insert_Fam_detail();
-    Swal.fire({
-      title: "Save Details Success",
-      icon: "success"
-    });
   };
+
+  // =====================================================kkkkkkkk==========================================//
+
+  let PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
+  let EDIT_FAM_NO = localStorage.getItem("FAM_NO_EDIT");
+  let EDIT_REQUEST_DATE = localStorage.getItem("REQUEST_DATE_EDIT");
+  let EDIT_TEL = localStorage.getItem("TEL_EDIT");
+  let EDIT_FACTORY = localStorage.getItem("FACTORY_EDIT");
+  let EDIT_COST_CENTER = localStorage.getItem("COST_CENTER_EDIT");
+  let DEPT_EDIT = localStorage.getItem("DEPT_EDIT");
+  let EDIT_TYPE = localStorage.getItem("TYPE_EDIT");
+  let EDIT_ASSET_GROUP = localStorage.getItem("ASSET_GROUP_EDIT");
+  let EDIT_ASSET_COST_CENTER_EDIT = localStorage.getItem(
+    "ASSET_COST_CENTER_EDIT"
+  );
+  let EDIT_REQUEST_STATUS = localStorage.getItem("REQUEST_STATUS_EDIT");
+  let EDIT_USER_LOGIN = localStorage.getItem("USER_LOGIN_EDIT");
+  let EDIT_REMARK = localStorage.getItem("REMARK_EDIT");
+
+  // Tel
+  useEffect(() => {
+    const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
+    if (PAGE_STATUS === "EDIT") {
+      const EDIT_TEL = localStorage.getItem("TEL_EDIT");
+      setTel(EDIT_TEL);
+    } else {
+      setTel("");
+    }
+  }, []);
+
+  // Fam no
+  let text_fam_no = "";
+  if (PAGE_STATUS === "EDIT") {
+    const EDIT_FAM_NO = localStorage.getItem("FAM_NO_EDIT");
+    text_fam_no = EDIT_FAM_NO;
+  }
+
+  // request date
+  const formattedDate = `${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
+
+  let text_request_date = formattedDate;
+  if (PAGE_STATUS === "EDIT") {
+    const EDIT_REQUEST_DATE = localStorage.getItem("REQUEST_DATE_EDIT");
+    text_request_date = EDIT_REQUEST_DATE;
+  }
+
+  // request username
+  const BY = async () => {
+    const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
+    let USER_LOGIN_STATUS_USERNAME;
+    if (PAGE_STATUS === "EDIT") {
+      USER_LOGIN_STATUS_USERNAME = EDIT_USER_LOGIN;
+    } else {
+      USER_LOGIN_STATUS_USERNAME = UserLogin;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getby?By=${USER_LOGIN_STATUS_USERNAME}`
+      );
+      const dataReby = await response.data;
+      let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+      setUserEmp(DataBY);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  // factory
+  const Factory_UserLogin = async () => {
+    let USER_LOGIN_STATUS_FACTORY;
+    if (PAGE_STATUS === "EDIT") {
+      USER_LOGIN_STATUS_FACTORY = EDIT_USER_LOGIN ;
+    } else {
+      USER_LOGIN_STATUS_FACTORY = UserLogin ;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfac_insert?Fac_Login=${USER_LOGIN_STATUS_FACTORY}`
+      );
+
+      const dataFac_insert = await response.data;
+      let Fac = dataFac_insert.flat();
+      let idFactory = Fac[1];
+
+      setFac(Fac);
+      setidFac(idFactory);
+      localStorage.setItem("Factory", idFactory);
+
+      if (idFactory.length >= 0) {
+        try {
+          //console.log("DEpt;;");
+          const response = await axios.get(
+            `http://localhost:5000/getdept?idFactory=${idFactory}`
+          );
+          const DeptData = await response.data;
+          setdept(DeptData);
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  // cost center
+  const Costcenter = async () => {
+    let USER_LOGIN_STATUS_COST_CENTER;
+    if (PAGE_STATUS === "EDIT") {
+      USER_LOGIN_STATUS_COST_CENTER = EDIT_USER_LOGIN ;
+     
+    } else {
+      USER_LOGIN_STATUS_COST_CENTER = UserLogin ;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getcost_insert?Cost_Login=${USER_LOGIN_STATUS_COST_CENTER}`
+      );
+
+      const dataCos_insert = await response.data;
+
+      let Cost = dataCos_insert.flat();
+      localStorage.setItem("CC_for_request", Cost);
+
+      // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+      setCost_sert(Cost);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  // show dept
+  useEffect(() => {
+    if (PAGE_STATUS === "EDIT") {
+      setselectdept(DEPT_EDIT);
+    } else {
+      setselectdept("");
+    }
+  }, []);
+
+
+
+  // request type
+  useEffect(() => {
+    if (PAGE_STATUS === "EDIT") {
+      setselectedType(EDIT_TYPE);
+    
+    } else {
+      setselectedType("");
+    }
+  }, []);
+  const handleRadio = (event) => {
+    setselectedType(event.target.value);
+   
+  };
+
+// fix asset group
+useEffect(() => {
+  if (PAGE_STATUS === "EDIT") {
+    setselectAssetgroup(EDIT_ASSET_GROUP);
+  
+  } else {
+    setselectAssetgroup("");
+  }
+}, []);
+
+  const handleAssetGroup = async (event) => {
+    let FixIdGroup = event.target.value;
+    setselectAssetgroup(FixIdGroup);
+    localStorage.setItem("FixAssetGroup", FixIdGroup);
+    console.log("FixAssetGroup", FixIdGroup);
+  };
+
+
+  // Asset cost center 
+
+  const handleCost = async (event) => {
+    let Cost_value = event.target.value;
+    setselectcost(Cost_value);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
+      );
+      const Fixgroup_ID = await response.data;
+      if (Fixgroup_ID[0][0] === "EACH CC") {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
+          );
+          const Find_Service = await response.data;
+          console.log(response.data, "response.data");
+          setdatafixgroup(Find_Service[0][0]);
+          setdata_for_sevice(Find_Service[0][1]);
+          console.log(Find_Service[0][1], "Find_Service");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      } else {
+        console.log(response.data, "response.data----------");
+        setdatafixgroup(Fixgroup_ID[0][0]);
+        setdata_for_sevice(Fixgroup_ID[0][1]);
+        console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }; 
+
+
 
 
   return (
@@ -569,7 +530,8 @@ const handleDrop = (event) => {
             sx={{
               borderRadius: "8px",
               border: 2,
-              borderColor: "#88AB8E",
+              borderColor: "rgba(64,131,65, 1.5)",
+              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
             }}
             className="Style1"
           >
@@ -601,8 +563,7 @@ const handleDrop = (event) => {
                     style={{ width: "100%" }}
                     disabled
                     id="Txt_Famno"
-                    value={FAM_run}
-                    onChange={(e) => setFAM_run(e.target.value)}
+                    value={text_fam_no}
                   ></TextField>
                 </Grid>
                 <Grid xs={2}>
@@ -612,12 +573,10 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
-                    id="Txt_Date"
-                    value={formattedDate}
+                    value={text_request_date}
                     size="small"
                     style={{ width: "100%" }}
                     disabled
-                    
                   ></TextField>
                 </Grid>
               </Grid>
@@ -633,7 +592,6 @@ const handleDrop = (event) => {
                     size="small"
                     disabled
                     style={{ width: "100%" }}
-                    id="Txt_user"
                     value={UserEmp[4]}
                   ></TextField>
                 </Grid>
@@ -644,13 +602,11 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
-                  
+                    id="Tel"
                     size="small"
                     style={{ width: "100%" }}
-                    id="Txt_Tel"
                     value={Tel}
                     onChange={(e) => setTel(e.target.value)}
-
                   ></TextField>
                 </Grid>
               </Grid>
@@ -696,7 +652,9 @@ const handleDrop = (event) => {
                       Select
                     </InputLabel>
                     <Select
+                      // labelId="demo-simple-select-label"
                       id="factorycbt"
+                      // className="factorycb"
                       label="Select"
                       value={selectdept}
                       onChange={(e) => setselectdept(e.target.value)}
@@ -721,9 +679,8 @@ const handleDrop = (event) => {
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
-                    id="Radio_ReqType"
                     value={selectedType}
-                    onChange={(e) =>setselectedType(e.target.value)}
+                    onChange={handleRadio}
                   >
                     <FormControlLabel
                       value="GP01001"
@@ -739,31 +696,31 @@ const handleDrop = (event) => {
                     />
 
                     <FormControlLabel
-                      value="Sales"
+                      value="GP01003"
                       control={<Radio />}
                       label="Sales"
                       className="Radio"
                     />
                     <FormControlLabel
-                      value="Lost"
+                      value="GP01004"
                       control={<Radio />}
                       label="Lost"
                       className="Radio"
                     />
                     <FormControlLabel
-                      value="Write off"
+                      value="GP01005"
                       control={<Radio />}
                       label="Write off"
                       className="Radio"
                     />
                     <FormControlLabel
-                      value="Landing to Third party"
+                      value="GP01006"
                       control={<Radio />}
                       label="Landing to Third party"
                       className="Radio"
                     />
                     <FormControlLabel
-                      value="Donation"
+                      value="GP01007"
                       control={<Radio />}
                       label="Donation"
                       className="Radio"
@@ -785,10 +742,8 @@ const handleDrop = (event) => {
                     </InputLabel>
                     <Select
                       label="Select"
-                      id="SL_AssetGroup"
                       value={selectAssetgroup}
-                      // onChange={handleAssetGroup}
-                      onChange={(e) =>setselectAssetgroup(e.target.value)}
+                      onChange={handleAssetGroup}
                       size="small"
                       disabled={read_fix_group}
                     >
@@ -843,7 +798,7 @@ const handleDrop = (event) => {
                   <TextField
                     size="small"
                     style={{ width: "100%" }}
-                    value={status}
+                    value={status[1]}
                     disabled
                   ></TextField>
                 </Grid>
@@ -860,7 +815,6 @@ const handleDrop = (event) => {
                     id="Remark"
                     size="small"
                     style={{ width: "100%" }}
-                    value={Txt_Remark}
                   ></TextField>
                 </Grid>
               </Grid>
@@ -894,13 +848,15 @@ const handleDrop = (event) => {
         </Card>
       </div>
       <div className="Fixed-Asset-Code">
-        
+        <Card className="Style100">
           <Card
             sx={{
               borderRadius: "8px",
               border: 2,
-              borderColor: "#88AB8E",
-              marginTop: 4,  visibility: visibityDetails,
+              borderColor: "rgba(64,131,65, 1.5)",
+              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              marginTop: 4,
+              visibility: visibityDetails,
             }}
             className="Style1"
           >
@@ -1082,8 +1038,7 @@ const handleDrop = (event) => {
               <div style={{ width: "85%", textAlign: "right" }}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "",
-                  visibility: btnSave,}}
+                  style={{ backgroundColor: "", visibility: btnSave }}
                   onClick={() => Next("1")}
                 >
                   SAVE Details
@@ -1091,157 +1046,105 @@ const handleDrop = (event) => {
               </div>
             </Grid>
           </Card>
-        
+        </Card>
       </div>
       <div className="UploadFile">
-        
-        <Card
-          sx={{
-            visibility: visibityFile,
-            borderRadius: "8px",
-            border: 2,
-            borderColor: "#88AB8E",
-           
-            marginTop: 4,
-          }}
-          className="Style1"
-        >
-          <Typography
+        <Card className="Style100">
+          <Card
             sx={{
-              position: "absolute",
-              backgroundColor: "#fff",
-              marginTop: "-0.5%",
-              marginRight: "85%",
-              width: "10%",
-              display: "flex",
+              visibility: visibityFile,
+              borderRadius: "8px",
+              border: 2,
+              borderColor: "rgba(64,131,65, 1.5)",
+              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              marginTop: 4,
+            }}
+            className="Style1"
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                backgroundColor: "#fff",
+                marginTop: "-0.5%",
+                marginRight: "85%",
+                width: "8%",
+                display: "flex",
 
-              justifyContent: "center",
-            }}
-          >
-            File from request
-          </Typography>
-          <Grid
-            container
-            spacing={3}
-            style={{
-              width: "100%",
-              marginBottom: "20px",
-              marginTop: "20px",
-            }}
-          >
-            <Grid xs={1.6}>
-              <Typography
-                style={{
-                  width: "100%",
-                  textAlign: "right",
-                  marginTop: "7px",
-                }}
-              >
-                Uplpad File :
-              </Typography>
-            </Grid>
-            <Grid xs={5}>
-              <input
-                type="file"
-                multiple
-                onChange={handleFileUpload}
-                style={{ display: "none" }}
-                id="fileInput"
-                ref={fileInputRef}
-              />
-              <label
-                htmlFor="fileInput"
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                className="bt_ChooseFile"
-              >
-                <CloudUploadOutlined
-                  style={{ fontSize: "60px", color: "#86B6F6" }}
+                justifyContent: "center",
+              }}
+            >
+              File from request
+            </Typography>
+            <Grid
+              container
+              spacing={3}
+              style={{
+                width: "100%",
+                marginBottom: "20px",
+                marginTop: "20px",
+              }}
+            >
+              <Grid xs={1.6}>
+                <Typography
+                  style={{
+                    width: "100%",
+                    textAlign: "right",
+                    marginTop: "7px",
+                  }}
+                >
+                  Uplpad File :
+                </Typography>
+              </Grid>
+              <Grid xs={5}>
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileUpload}
+                  style={{ display: "none" }}
+                  id="fileInput"
                 />
-                <br />
-                <span style={{ fontWeight: "bold" }}>
-                  Drop your files here
-                </span>
-                <br />
-            
-              
-                or
-                <br/>
-                <Button size="small" component="span">
-                 <b> Browse files</b>
-                </Button>
-              </label>
-              {uploadedFiles.length > 0 && (
-                <div>
-                  <ul>
-                    {uploadedFiles.map((file, index) => (
-                      <div key={index} className="BorderFile">
-                        <Typography className="Font_File">
-                          <span style={{ marginLeft: "10px" }}>
-                            {file.type.startsWith("image/") ? (
-                              <img
-                                src={URL.createObjectURL(file)}
-                                alt={file.name}
-                                className="Img_file"
-                              />
-                            ) : (
-                              <>
-                                {file.name.endsWith(".xlsx") ? (
-                                  <FileExcelOutlined
-                                    className="Icon_file"
-                                    style={{ color: "#65B741" }}
-                                  />
-                                ) : file.name.endsWith(".pdf") ? (
-                                  <FilePdfOutlined
-                                    className="Icon_file"
-                                    style={{ color: "#FF6347" }}
-                                  />
-                                ) : file.name.endsWith(".docx") ? (
-                                  <FileWordOutlined
-                                    className="Icon_file"
-                                    style={{ color: "#3468C0" }}
-                                  />
-                                ) : file.name.endsWith(".txt") ? (
-                                  <FileTextOutlined
-                                    className="Icon_file"
-                                    style={{ color: "#B6BBC4" }}
-                                  />
-                                ) : (
-                                  <FileUnknownOutlined
-                                    className="Icon_file"
-                                    style={{ color: "#FFD3A3" }}
-                                  />
-                                )}
-                              </>
-                            )}
-                            {index + 1}) {file.name}
-                          </span>
-                          <DeleteOutlined
+                <label htmlFor="fileInput">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    style={{ marginTop: "3px" }}
+                    component="span"
+                  >
+                    Upload
+                  </Button>
+                </label>
+                {uploadedFiles.length > 0 && (
+                  <div>
+                    <ul>
+                      {uploadedFiles.map((file, index) => (
+                        <li key={index}>
+                          {file.name}
+                          <ClearIcon
                             onClick={() => handleDeleteFile(index)}
-                            className="Icon_DeleteFile"
+                            style={{
+                              fontSize: "16",
+                              marginTop: "15px",
+                              marginLeft: "10px",
+                              color: "red",
+                            }}
                           />
-                        </Typography>
-                      </div>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              <div
-                style={{
-                  textAlign: "right",
-                  marginTop: "5px",
-                }}
-              >
-                <Button variant="contained" onClick={handleSave}>
-                  Save
-                </Button>
-              </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* <Upload {...props}>
+                  <Button style={{width:'200px'}}
+                  icon={<UploadOutlined />}>Choose File</Button>
+                  &nbsp;&nbsp;
+                  <Button type="primary"> Upload</Button>
+                </Upload> */}
+              </Grid>
             </Grid>
-          </Grid>
+          </Card>
         </Card>
-      
-    </div>
- 
+      </div>
     </div>
   );
 }

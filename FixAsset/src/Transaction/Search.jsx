@@ -34,6 +34,7 @@ function Issue() {
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
+  const UserLoginn = localStorage.getItem("UserLogin");
 
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -78,7 +79,7 @@ function Issue() {
   };
   const handleCost = (event) => {
     setselectcost(event.target.value);
-    console.log(event.target.value,"setselectcost")
+    console.log(event.target.value, "setselectcost");
   };
   const handleType = (event) => {
     setselectReType(event.target.value);
@@ -87,6 +88,8 @@ function Issue() {
 
   const navigate = useNavigate();
   const New = () => {
+    const PAGE_STATUS = "NEW";
+    localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
     navigate("/InsertIssue");
   };
 
@@ -133,9 +136,10 @@ function Issue() {
     const FixAsset = document.getElementById("FixAsset").value;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
+
     try {
       const rollNoSearch = await axios.get(
-        `http://localhost:5000/getsearch?FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -168,6 +172,58 @@ function Issue() {
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
+  };
+
+  const handleOpenEdit = async (item_Fam_no) => {
+    console.log(item_Fam_no);
+
+    try {
+      const getEdit_show = await axios.get(
+        `http://localhost:5000/getEdit_request_show?FamNo=${item_Fam_no}`
+      );
+      const data = await getEdit_show.data;
+
+      console.log("Show data Edit =", data);
+      const DataEdit = data;
+      const PAGE_STATUS = "EDIT";
+      const FAM_NO_EDIT = data[0][0];
+      const REQUEST_DATE_EDIT = data[0][1];
+      const USER_LOGIN_EDIT = data[0][2];
+      const TEL_EDIT = data[0][3];
+      const FACTORY_EDIT = data[0][4];
+      const COST_CENTER_EDIT = data[0][5];
+      const DEPT_EDIT = data[0][6];
+      const TYPE_EDIT = data[0][7];
+      const ASSET_GROUP_EDIT = data[0][8];
+      const ASSET_COST_CENTER_EDIT = data[0][9];
+      const REQUEST_STATUS_EDIT = data[0][10];
+      const REMARK_EDIT = data[0][11];
+
+      if (data && data.length > 0) {
+        const sentdata = JSON.stringify(DataEdit);
+        localStorage.setItem("ForRequester", sentdata);
+        localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
+        localStorage.setItem("FAM_NO_EDIT", FAM_NO_EDIT);
+        localStorage.setItem("REQUEST_DATE_EDIT", REQUEST_DATE_EDIT);
+        localStorage.setItem("USER_LOGIN_EDIT", USER_LOGIN_EDIT);
+        localStorage.setItem("TEL_EDIT", TEL_EDIT);
+        localStorage.setItem("FACTORY_EDIT", FACTORY_EDIT);
+        localStorage.setItem("COST_CENTER_EDIT", COST_CENTER_EDIT);
+        localStorage.setItem("DEPT_EDIT", DEPT_EDIT);
+        localStorage.setItem("TYPE_EDIT", TYPE_EDIT);
+        localStorage.setItem("ASSET_GROUP_EDIT", ASSET_GROUP_EDIT);
+        localStorage.setItem("ASSET_COST_CENTER_EDIT", ASSET_COST_CENTER_EDIT);
+        localStorage.setItem("REQUEST_STATUS_EDIT", REQUEST_STATUS_EDIT);
+        localStorage.setItem("REMARK_EDIT", REMARK_EDIT);
+      } else {
+        console.error("Login failed");
+        alert("Invalid username or password");
+      }
+
+      navigate("/InsertIssue");
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
   };
 
   return (
@@ -504,8 +560,8 @@ function Issue() {
                   <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
                   <TableCell>FAM No.</TableCell>
-                  <TableCell>Issue By</TableCell>
                   <TableCell>Issue Date</TableCell>
+                  <TableCell>Issue By</TableCell>
                   <TableCell>Type</TableCell>
                   <TableCell>Fixed Asset Code</TableCell>
                   <TableCell>Request Status</TableCell>
@@ -521,13 +577,13 @@ function Issue() {
                         <Tooltip title="Edit">
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() => handleOpenEdit(item[0])}
+                            onClick={() => handleOpenEdit(item[2])}
                           />
                         </Tooltip>
                         <Tooltip title="Delete">
                           <DeleteForeverIcon
                             style={{ color: "red", fontSize: "30px" }}
-                            onClick={() => Delete(item[0])}
+                            onClick={() => Delete(item[2])}
                           />
                         </Tooltip>
                       </TableCell>
