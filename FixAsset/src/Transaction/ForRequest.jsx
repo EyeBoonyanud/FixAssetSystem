@@ -64,14 +64,15 @@ function ForRequest() {
   const [data_for_sevice , setdata_for_sevice] = useState("");
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
+  const [Txt_Remark,setTxt_Remark]= useState("");
  
-  // const [Tel, setTel] = useState("");
+  const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
-  const [btnSave, setbtnSave] = useState("hidden");
-  const [visibityDetails , setvisibityDetails] = useState("hidden");
-  const [visibityFile , setvisibityFile] = useState("hidden");
+  const [btnSave, setbtnSave] = useState("visible");
+  const [visibityDetails , setvisibityDetails] = useState("visible");
+  const [visibityFile , setvisibityFile] = useState("visible");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -86,14 +87,16 @@ function ForRequest() {
   localStorage.setItem("data_for_sevice",data_for_sevice);
   localStorage.setItem("data_for_sevice",selectdept);
 
-  const  Tel = localStorage.getItem("Tel")
-  const  Fam_list = localStorage.getItem("FAM_run")
-  const  Dept = localStorage.getItem("Dept")
-  const  Type = localStorage.getItem("Type")
-  const  Fix_code = localStorage.getItem("Fix_Ass")
-  const  Asst_code = localStorage.getItem("Ass_code")
-  const  Re_sts = localStorage.getItem("Retype")
-  const mark = localStorage.getItem("re_mark")
+  
+
+
+  // const  Fam_list = localStorage.getItem("FAM_run")
+  // const  Dept = localStorage.getItem("Dept")
+  // const  Type = localStorage.getItem("Type")
+  // const  Fix_code = localStorage.getItem("Fix_Ass")
+  // const  Asst_code = localStorage.getItem("Ass_code")
+  // const  Re_sts = localStorage.getItem("Retype")
+  // const mark = localStorage.getItem("re_mark")
 
    //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
@@ -214,7 +217,7 @@ const handleDrop = (event) => {
   };
   const Reset = async () => {
     document.getElementById("Txt_Famno").value = "";
-    document.getElementById("Tel").value = "";
+    document.getElementById("Txt_Tel").value = "";
     document.getElementById("Remark").value = "";
     setselectdept("");
     setselectedType("");
@@ -301,8 +304,42 @@ const handleDrop = (event) => {
       console.error("Error committing files to the database:", error);
     }
   };
+  const  RQ = localStorage.getItem("ForRequester")
+  const For_Req = JSON.parse(RQ);
 
   useEffect(() => {
+    if(For_Req==null){
+      console.log("Empty Array:", For_Req);
+     setFAM_run("")
+     setTel()
+    setselectdept("")
+    setselectedType("")
+    setselectAssetgroup("")
+    setselectcost("")
+    setstatus("")
+    setTxt_Remark("")
+    
+    }
+    else{
+      console.log("////////////////////",For_Req)
+        setFAM_run(For_Req[0])
+        setTel(For_Req[3])
+        setselectdept(For_Req[6])
+        setselectedType(For_Req[7])
+        setselectAssetgroup(For_Req[8])
+        setselectcost(For_Req[9])
+        setstatus(For_Req[10])
+        setTxt_Remark(For_Req[10])
+        
+        setcheckGenNo("hidden");
+        setcheckReset("hidden");
+        setvisibityDetails("visible")
+        setread_fix_group(true);
+        setread_fix_cost(true);
+    }
+  
+   
+
     //หารหัส RequestBy
     const BY = async () => {
       try {
@@ -390,23 +427,32 @@ const handleDrop = (event) => {
     const Remark = document.getElementById("Remark").value;
 
     localStorage.setItem("FAM_run", running_no);
-    localStorage.setItem("Tel", Tel);
-    localStorage.setItem("Dept", selectdept);
-    localStorage.setItem("Type", selectedType);
-    localStorage.setItem("Fix_Ass", selectAssetgroup);
-    localStorage.setItem("Ass_code", selectcost);
-    localStorage.setItem("Retype",selectedType );
-    localStorage.setItem("re_mark", Remark );
+    // localStorage.setItem("Tel", Tel);
+    // localStorage.setItem("Dept", selectdept);
+    // localStorage.setItem("Type", selectedType);
+    // localStorage.setItem("Fix_Ass", selectAssetgroup);
+    // localStorage.setItem("Ass_code", selectcost);
+    // localStorage.setItem("Retype",selectedType );
+    // localStorage.setItem("re_mark", Remark );
 
 
     // localStorage.setItem("Fix_Group", running_no);
     // localStorage.setItem("FAM_run", running_no);
     // localStorage.setItem("FAM_run", running_no);
 
+    const setData_ForRequester = [running_no, formattedDate, UserLogin, Tel, Factory[0], Cost_sert[0], selectdept, selectedType, selectAssetgroup, selectcost, "create", Remark];
 
+    // Convert the array to a JSON string
+    const sentdata = JSON.stringify(setData_ForRequester);
+    
+    // Store the JSON string in localStorage
+    localStorage.setItem("ForRequester", sentdata);
+    
+    console.log(setData_ForRequester, "kkkkkkkkkkkkkkkkkkkkkk");
+    
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
+      //  `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
       );
       document.getElementById("Txt_Famno").value = running_no;
       setcheckGenNo("hidden");
@@ -433,7 +479,8 @@ const handleDrop = (event) => {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
-        setstatus(dataStatus.flat());
+        const data=dataStatus.flat();
+        setstatus(data[0])
         StatusId = dataStatus.flat();
         //console.log(dataStatus.flat(), "dataStatus::::::::");
       } catch (error) {
@@ -509,21 +556,7 @@ const handleDrop = (event) => {
       icon: "success"
     });
   };
-  //หา EmpID
-  // const EmployeeId = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/getemp?empID=${Emp}`
-  //     );
-  //     const dataEmp = await response.data;
-  //     let DataEmp = dataEmp.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
-  //     setUserEmp(DataEmp);
 
-  //     console.log(test, "test");
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //   }
-  // };
 
   return (
     <div className="Box-Insert">
@@ -564,8 +597,9 @@ const handleDrop = (event) => {
                     size="small"
                     style={{ width: "100%" }}
                     disabled
-                    value={Fam_list}
                     id="Txt_Famno"
+                    value={FAM_run}
+                    onChange={(e) => setFAM_run(e.target.value)}
                   ></TextField>
                 </Grid>
                 <Grid xs={2}>
@@ -575,10 +609,12 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
+                    id="Txt_Date"
                     value={formattedDate}
                     size="small"
                     style={{ width: "100%" }}
                     disabled
+                    
                   ></TextField>
                 </Grid>
               </Grid>
@@ -594,6 +630,7 @@ const handleDrop = (event) => {
                     size="small"
                     disabled
                     style={{ width: "100%" }}
+                    id="Txt_user"
                     value={UserEmp[4]}
                   ></TextField>
                 </Grid>
@@ -604,11 +641,13 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
-                    id="Tel"
+                  
                     size="small"
                     style={{ width: "100%" }}
+                    id="Txt_Tel"
                     value={Tel}
                     onChange={(e) => setTel(e.target.value)}
+
                   ></TextField>
                 </Grid>
               </Grid>
@@ -654,9 +693,7 @@ const handleDrop = (event) => {
                       Select
                     </InputLabel>
                     <Select
-                      // labelId="demo-simple-select-label"
                       id="factorycbt"
-                      // className="factorycb"
                       label="Select"
                       value={selectdept}
                       onChange={(e) => setselectdept(e.target.value)}
@@ -681,8 +718,9 @@ const handleDrop = (event) => {
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    id="Radio_ReqType"
                     value={selectedType}
-                    onChange={handleRadio}
+                    onChange={(e) =>setselectedType(e.target.value)}
                   >
                     <FormControlLabel
                       value="GP01001"
@@ -691,7 +729,7 @@ const handleDrop = (event) => {
                       className="Radio"
                     />
                     <FormControlLabel
-                      value="Scrap"
+                      value="GP01002"
                       control={<Radio />}
                       label="Scrap"
                       className="Radio"
@@ -744,8 +782,10 @@ const handleDrop = (event) => {
                     </InputLabel>
                     <Select
                       label="Select"
+                      id="SL_AssetGroup"
                       value={selectAssetgroup}
-                      onChange={handleAssetGroup}
+                      // onChange={handleAssetGroup}
+                      onChange={(e) =>setselectAssetgroup(e.target.value)}
                       size="small"
                       disabled={read_fix_group}
                     >
@@ -800,7 +840,7 @@ const handleDrop = (event) => {
                   <TextField
                     size="small"
                     style={{ width: "100%" }}
-                    value={status[1]}
+                    value={status}
                     disabled
                   ></TextField>
                 </Grid>
@@ -817,6 +857,7 @@ const handleDrop = (event) => {
                     id="Remark"
                     size="small"
                     style={{ width: "100%" }}
+                    value={Txt_Remark}
                   ></TextField>
                 </Grid>
               </Grid>
