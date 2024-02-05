@@ -306,12 +306,14 @@ const handleDrop = (event) => {
   };
   const  RQ = localStorage.getItem("ForRequester")
   const For_Req = JSON.parse(RQ);
-  console.log("mayyyyyyyyyyyyyyyyyyyy",For_Req);
-  // const SHOW_DATA_EDIT = localStorage.getItem("DATAEDIT");
-  
+  const EDIT_DATA = localStorage.getItem("DATAEDIT");
+  const SHOW_DATA_EDIT = JSON.parse(EDIT_DATA);
+  const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
+  console.log("DAAAAAAAAA",SHOW_DATA_EDIT);
+  console.log("TAAAAAAAAAA",PAGE_STATUS); 
 
   useEffect(() => {
-    if(For_Req==null){
+    if(PAGE_STATUS === "NEW"){
       console.log("Empty Array:", For_Req);
      setFAM_run("")
      setTel()
@@ -323,7 +325,24 @@ const handleDrop = (event) => {
     setTxt_Remark("")
     
     }
-     else  {
+     else if (PAGE_STATUS === "EDIT"){
+      console.log("////////////////////",For_Req)
+        setFAM_run(SHOW_DATA_EDIT[0][0])
+        setTel(SHOW_DATA_EDIT[0][1])
+        setselectdept(SHOW_DATA_EDIT[0][2])
+        setselectedType(SHOW_DATA_EDIT[0][3])
+        setselectAssetgroup(SHOW_DATA_EDIT[0][4])
+        setselectcost(SHOW_DATA_EDIT[0][5])
+        setstatus(SHOW_DATA_EDIT[0][6])
+        setTxt_Remark(SHOW_DATA_EDIT[0][7])
+        
+        setcheckGenNo("hidden");
+        setcheckReset("hidden");
+        setvisibityDetails("visible")
+        setread_fix_group(true);
+        setread_fix_cost(true);
+    }
+    else if (PAGE_STATUS === "SAVE"){
       console.log("////////////////////",For_Req)
         setFAM_run(For_Req[0])
         setTel(For_Req[3])
@@ -340,7 +359,6 @@ const handleDrop = (event) => {
         setread_fix_group(true);
         setread_fix_cost(true);
     }
-  
    
 
     //หารหัส RequestBy
