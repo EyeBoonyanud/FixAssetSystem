@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef  } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -38,7 +38,7 @@ import {
   FileUnknownOutlined,
   CloudUploadOutlined,
 } from "@ant-design/icons";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function ForRequest() {
   const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
@@ -61,18 +61,18 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
-  const [data_for_sevice , setdata_for_sevice] = useState("");
+  const [data_for_sevice, setdata_for_sevice] = useState("");
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
-  const [Txt_Remark,setTxt_Remark]= useState("");
- 
+  const [Txt_Remark, setTxt_Remark] = useState("");
+
   const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
   const [btnSave, setbtnSave] = useState("visible");
-  const [visibityDetails , setvisibityDetails] = useState("visible");
-  const [visibityFile , setvisibityFile] = useState("visible");
+  const [visibityDetails, setvisibityDetails] = useState("visible");
+  const [visibityFile, setvisibityFile] = useState("visible");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -82,15 +82,13 @@ function ForRequest() {
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
 
-  
-  
-  // Local Set 
+  const [Date_show, setDate_show] = useState("");
+
+
+  // Local Set
   // localStorage.setItem("sts",status[0]);
-  localStorage.setItem("data_for_sevice",data_for_sevice);
-  localStorage.setItem("data_for_sevice",selectdept);
-
-  
-
+  localStorage.setItem("data_for_sevice", data_for_sevice);
+  localStorage.setItem("data_for_sevice", selectdept);
 
   // const  Fam_list = localStorage.getItem("FAM_run")
   // const  Dept = localStorage.getItem("Dept")
@@ -100,7 +98,7 @@ function ForRequest() {
   // const  Re_sts = localStorage.getItem("Retype")
   // const mark = localStorage.getItem("re_mark")
 
-   //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
+  //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
@@ -127,27 +125,27 @@ function ForRequest() {
     setbtnSave("visible");
   };
   const handleFileUpload = (event) => {
-    console.log("รับมา")
+    console.log("รับมา");
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
   };
   const handleDragOver = (event) => {
     event.preventDefault();
   };
-const handleDrop = (event) => {
-  event.preventDefault();
-  const files = event.dataTransfer?.files;
-  
-  if (files) {
-    console.log("///////////////////////////////", files);
-    handleFileUpload({ target: { files } }); 
-  }
-};
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+
+    if (files) {
+      console.log("///////////////////////////////", files);
+      handleFileUpload({ target: { files } });
+    }
+  };
   const handleAssetGroup = async (event) => {
     let FixIdGroup = event.target.value;
     setselectAssetgroup(FixIdGroup);
-   localStorage.setItem("FixAssetGroup",FixIdGroup)
-  }; 
+    localStorage.setItem("FixAssetGroup", FixIdGroup);
+  };
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
@@ -158,7 +156,7 @@ const handleDrop = (event) => {
       );
       const data = row.data;
       setdataFixCode(data);
-     //console.log(data);
+      //console.log(data);
 
       //console.log(data, "FixCode: ");
     } catch (error) {
@@ -189,19 +187,19 @@ const handleDrop = (event) => {
             `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
           );
           const Find_Service = await response.data;
-          console.log(response.data,"response.data")
+          console.log(response.data, "response.data");
           setdatafixgroup(Find_Service[0][0]);
-          setdata_for_sevice(Find_Service[0][1])      
-          localStorage.setItem("datafixgroup",Find_Service[0][0])   
+          setdata_for_sevice(Find_Service[0][1]);
+          localStorage.setItem("datafixgroup", Find_Service[0][0]);
           console.log(Find_Service[0][1], "Find_Service");
         } catch (error) {
           console.error("Error during login:", error);
         }
       } else {
-        console.log(response.data,"response.data----------")
+        console.log(response.data, "response.data----------");
         setdatafixgroup(Fixgroup_ID[0][0]);
-        setdata_for_sevice(Fixgroup_ID[0][1])   
-        localStorage.setItem("datafixgroup",Fixgroup_ID[0][0])
+        setdata_for_sevice(Fixgroup_ID[0][1]);
+        localStorage.setItem("datafixgroup", Fixgroup_ID[0][0]);
         console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
       }
     } catch (error) {
@@ -230,13 +228,8 @@ const handleDrop = (event) => {
     // document.getElementById("Txt_Famno").value=""
     // document.getElementById("Txt_Famno").value=""
   };
-  const formattedDate = `${(currentDate.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}/${currentDate
-    .getDate()
-    .toString()
-    .padStart(2, "0")}/${currentDate.getFullYear()}`;
-    
+
+
   const handleRadio = (event) => {
     setselectedType(event.target.value);
   };
@@ -296,7 +289,7 @@ const handleDrop = (event) => {
           );
           Swal.fire({
             title: "Save Details Success",
-            icon: "success"
+            icon: "success",
           });
           console.log("Files saved successfully");
         } catch (error) {
@@ -307,46 +300,51 @@ const handleDrop = (event) => {
       console.error("Error committing files to the database:", error);
     }
   };
-  const  RQ = localStorage.getItem("ForRequester")
-  console.log("ฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃ",RQ)
+  const RQ = localStorage.getItem("ForRequester");
+  console.log("ฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃ", RQ);
   const For_Req = JSON.parse(RQ);
-  console.log("111111111111111111111",For_Req[1])
+  console.log("111111111111111111111", For_Req[1]);
 
   useEffect(() => {
-    if(For_Req==null){
+    if (For_Req == null) {
+      const formattedDate = `${(currentDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}/${currentDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")}/${currentDate.getFullYear()}`;
+      setDate_show(formattedDate);
       console.log("Empty Array:", For_Req);
-     setFAM_run("")
-     setTel()
-    setselectdept("")
-    setselectedType("")
-    setselectAssetgroup("")
-    setselectcost("")
-    setstatus("")
-    setTxt_Remark("")
-    
+      setFAM_run("");
+      
+      setTel();
+      setselectdept("");
+      setselectedType("");
+      setselectAssetgroup("");
+      setselectcost("");
+      setstatus("");
+      setTxt_Remark("");
+    } else {
+      console.log("////////////////////", For_Req);
+      setFAM_run(For_Req[0]);
+      setDate_show(For_Req[1]);
+      setUserEmp(For_Req[2]);
+      setTel(For_Req[3]);
+      setFac(For_Req[4]);
+      setCost_sert(For_Req[5]);
+      setselectdept(For_Req[6]);
+      setselectedType(For_Req[7]);
+      setselectAssetgroup(For_Req[8]);
+      setselectcost(For_Req[9]);
+      setstatus(For_Req[11]);
+      setTxt_Remark(For_Req[12]);
+
+      setcheckGenNo("hidden");
+      setcheckReset("hidden");
+      setvisibityDetails("visible");
+      setread_fix_group(true);
+      setread_fix_cost(true);
     }
-    else {
-      console.log("////////////////////",For_Req)
-        setFAM_run(For_Req[0])
-
-
-        setTel(For_Req[3])
-
-        setselectdept(For_Req[6])
-        setselectedType(For_Req[7])
-        setselectAssetgroup(For_Req[8])
-        setselectcost(For_Req[9])
-        setstatus(For_Req[10])
-        setTxt_Remark(For_Req[11])
-        
-        setcheckGenNo("hidden");
-        setcheckReset("hidden");
-        setvisibityDetails("visible")
-        setread_fix_group(true);
-        setread_fix_cost(true);
-    }
-  
-   
 
     //หารหัส RequestBy
     const BY = async () => {
@@ -443,29 +441,42 @@ const handleDrop = (event) => {
     // localStorage.setItem("Retype",selectedType );
     // localStorage.setItem("re_mark", Remark );
 
-
     // localStorage.setItem("Fix_Group", running_no);
     // localStorage.setItem("FAM_run", running_no);
     // localStorage.setItem("FAM_run", running_no);
 
-    const setData_ForRequester = [running_no, formattedDate, UserLogin, Tel, Factory[0], Cost_sert[0], selectdept, selectedType, selectAssetgroup, selectcost, "create", Remark];
+    const setData_ForRequester = [
+      running_no,
+      formattedDate,
+      UserLogin,
+      Tel,
+      Factory[0],
+      Cost_sert[0],
+      selectdept,
+      selectedType,
+      selectAssetgroup,
+      selectcost,
+      "create",
+      Remark,
+    ];
 
     // Convert the array to a JSON string
     const sentdata = JSON.stringify(setData_ForRequester);
-    
+
     // Store the JSON string in localStorage
     localStorage.setItem("ForRequester", sentdata);
-    
+
     console.log(setData_ForRequester, "kkkkkkkkkkkkkkkkkkkkkk");
-    
+
     try {
-      const response = await axios.post(
-      //  `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
-      );
+      const response = await axios
+        .post
+        //  `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
+        ();
       document.getElementById("Txt_Famno").value = running_no;
       setcheckGenNo("hidden");
       setcheckReset("hidden");
-      setvisibityDetails("visible")
+      setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -474,7 +485,7 @@ const handleDrop = (event) => {
 
     try {
       const response = await axios.post(
-      `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
       );
     } catch (error) {
       console.error("Error during login:", error);
@@ -487,8 +498,8 @@ const handleDrop = (event) => {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
-        const data=dataStatus.flat();
-        setstatus(data[0])
+        const data = dataStatus.flat();
+        setstatus(data[0]);
         StatusId = dataStatus.flat();
         //console.log(dataStatus.flat(), "dataStatus::::::::");
       } catch (error) {
@@ -535,14 +546,12 @@ const handleDrop = (event) => {
     }
   };
   const Insert_Fam_detail = async () => {
-    
     for (let i = 0; i < datatable.length; i++) {
-     
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -550,7 +559,7 @@ const handleDrop = (event) => {
         const response = await axios.post(
           `http://localhost:5000/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -561,10 +570,9 @@ const handleDrop = (event) => {
     Insert_Fam_detail();
     Swal.fire({
       title: "Save Details Success",
-      icon: "success"
+      icon: "success",
     });
   };
-
 
   return (
     <div className="Box-Insert">
@@ -618,11 +626,10 @@ const handleDrop = (event) => {
                 <Grid xs={3}>
                   <TextField
                     id="Txt_Date"
-                    value={formattedDate}
+                    value={Date_show}
                     size="small"
                     style={{ width: "100%" }}
                     disabled
-                    
                   ></TextField>
                 </Grid>
               </Grid>
@@ -649,13 +656,11 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
-                  
                     size="small"
                     style={{ width: "100%" }}
                     id="Txt_Tel"
                     value={Tel}
                     onChange={(e) => setTel(e.target.value)}
-
                   ></TextField>
                 </Grid>
               </Grid>
@@ -728,7 +733,7 @@ const handleDrop = (event) => {
                     name="row-radio-buttons-group"
                     id="Radio_ReqType"
                     value={selectedType}
-                    onChange={(e) =>setselectedType(e.target.value)}
+                    onChange={(e) => setselectedType(e.target.value)}
                   >
                     <FormControlLabel
                       value="GP01001"
@@ -793,7 +798,7 @@ const handleDrop = (event) => {
                       id="SL_AssetGroup"
                       value={selectAssetgroup}
                       // onChange={handleAssetGroup}
-                      onChange={(e) =>setselectAssetgroup(e.target.value)}
+                      onChange={(e) => setselectAssetgroup(e.target.value)}
                       size="small"
                       disabled={read_fix_group}
                     >
@@ -899,214 +904,211 @@ const handleDrop = (event) => {
         </Card>
       </div>
       <div className="Fixed-Asset-Code">
-        
-          <Card
+        <Card
+          sx={{
+            borderRadius: "8px",
+            border: 2,
+            borderColor: "#88AB8E",
+            marginTop: 4,
+            visibility: visibityDetails,
+          }}
+          className="Style1"
+        >
+          <Typography
             sx={{
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "#88AB8E",
-              marginTop: 4,  visibility: visibityDetails,
-            }}
-            className="Style1"
-          >
-            <Typography
-              sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "5%",
-                display: "flex",
+              position: "absolute",
+              backgroundColor: "#fff",
+              marginTop: "-0.5%",
+              marginRight: "85%",
+              width: "5%",
+              display: "flex",
 
-                justifyContent: "center",
-              }}
-            >
-              {" "}
-              Details
-            </Typography>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Fixed Assets Code :
-                </Typography>
-              </Grid>{" "}
-              {/* ADD Modal */}
-              <Grid xs={10}>
-                <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
-                <Button
-                  style={{ marginTop: "3px" }}
-                  type="primary"
-                  variant="contained"
-                  onClick={ADD}
-                >
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            Details
+          </Typography>
+          <Grid
+            container
+            spacing={3}
+            style={{
+              width: "100%",
+              marginBottom: "20px",
+              marginTop: "20px",
+            }}
+          >
+            <Grid xs={1.6}>
+              <Typography
+                style={{
+                  textAlign: "right",
+                  marginTop: "7px",
+                }}
+              >
+                Fixed Assets Code :
+              </Typography>
+            </Grid>{" "}
+            {/* ADD Modal */}
+            <Grid xs={10}>
+              <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
+              <Button
+                style={{ marginTop: "3px" }}
+                type="primary"
+                variant="contained"
+                onClick={ADD}
+              >
+                {" "}
+                ADD
+              </Button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth="lg"
+                fullWidth
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="Modal">
                   {" "}
-                  ADD
-                </Button>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  maxWidth="lg"
-                  fullWidth
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div className="Modal">
-                    {" "}
-                    <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
-                    <TableContainer component={Paper}>
-                      <Table className="Modal-Table">
-                        <TableHead>
-                          <TableRow>
+                  <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
+                  <TableContainer component={Paper}>
+                    <Table className="Modal-Table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <Checkbox
+                              checked={selectAll}
+                              onChange={handleCheckboxAllChange}
+                            />
+                          </TableCell>
+                          <TableCell>Comp.</TableCell>
+                          <TableCell>Cc.</TableCell>
+                          <TableCell>Fixed Asset Name</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {dataFixcode.map((item, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
                             <TableCell>
                               <Checkbox
-                                checked={selectAll}
-                                onChange={handleCheckboxAllChange}
+                                checked={selectedItems[index] || false}
+                                onChange={() => handleCheckboxChange(index)}
                               />
                             </TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>Cc.</TableCell>
-                            <TableCell>Fixed Asset Name</TableCell>
+                            <TableCell>{item[1]}</TableCell>
+                            <TableCell>{item[2]}</TableCell>
+                            <TableCell>{item[3]}</TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {dataFixcode.map((item, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Checkbox
-                                  checked={selectedItems[index] || false}
-                                  onChange={() => handleCheckboxChange(index)}
-                                />
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <DialogActions style={{ marginTop: "20px" }}>
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <DialogActions style={{ marginTop: "20px" }}>
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: "green",
+                      }}
+                      onClick={handleAdd}
+                    >
+                      ADD
+                    </Button>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: "gray" }}
+                      onClick={handleClose}
+                    >
+                      Close
+                    </Button>
+                  </DialogActions>
+                </div>
+              </Dialog>
+              {isTableOpen && (
+                <div style={{ marginTop: "20px" }}>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableHead
+                        sx={{
+                          backgroundColor: "#22FF5E",
+                          fontSize: "10px",
                         }}
-                        onClick={handleAdd}
                       >
-                        ADD
-                      </Button>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "gray" }}
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                    </DialogActions>
-                  </div>
-                </Dialog>
-                {isTableOpen && (
-                  <div style={{ marginTop: "20px" }}>
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table">
-                        <TableHead
-                          sx={{
-                            backgroundColor: "#22FF5E",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <TableRow>
+                        <TableRow>
+                          <TableCell>
+                            <Checkbox />
+                          </TableCell>
+                          <TableCell>No.</TableCell>
+                          <TableCell>Fixed Asset Code</TableCell>
+                          <TableCell>Comp.</TableCell>
+                          <TableCell>CC.</TableCell>
+                          <TableCell>Fixed Assets Name</TableCell>
+                          <TableCell>BOI Project</TableCell>
+                          <TableCell>Qty</TableCell>
+                          <TableCell>Invoice No.</TableCell>
+                          <TableCell>Acquisition Cost(Baht)</TableCell>
+                          <TableCell>Book Value(Baht)</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {datatable.map((item, index) => (
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
                             <TableCell>
                               <Checkbox />
-                            </TableCell>
-                            <TableCell>No.</TableCell>
-                            <TableCell>Fixed Asset Code</TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>CC.</TableCell>
-                            <TableCell>Fixed Assets Name</TableCell>
-                            <TableCell>BOI Project</TableCell>
-                            <TableCell>Qty</TableCell>
-                            <TableCell>Invoice No.</TableCell>
-                            <TableCell>Acquisition Cost(Baht)</TableCell>
-                            <TableCell>Book Value(Baht)</TableCell>
+                            </TableCell>{" "}
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{item[0]}</TableCell>
+                            <TableCell>{item[1]}</TableCell>
+                            <TableCell>{item[2]}</TableCell>
+                            <TableCell>{item[3]}</TableCell>
+                            <TableCell>{item[5]} </TableCell>
+                            <TableCell>{item[6]}</TableCell>
+                            <TableCell>{item[7]}</TableCell>
+                            <TableCell>{item[9]}</TableCell>
+                            <TableCell>{item[10]}</TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {datatable.map((item, index) => (
-                            <TableRow
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Checkbox />
-                              </TableCell>{" "}
-                              <TableCell>{index + 1}</TableCell>
-                              <TableCell>{item[0]}</TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                              <TableCell>{item[5]} </TableCell>
-                              <TableCell>{item[6]}</TableCell>
-                              <TableCell>{item[7]}</TableCell>
-                              <TableCell>{item[9]}</TableCell>
-                              <TableCell>{item[10]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                )}{" "}
-              </Grid>
-              <div style={{ width: "85%", textAlign: "right" }}>
-                <Button
-                  variant="contained"
-                  style={{ backgroundColor: "",
-                  visibility: btnSave,}}
-                  onClick={() => Next("1")}
-                >
-                  SAVE Details
-                </Button>
-              </div>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              )}{" "}
             </Grid>
-          </Card>
-        
+            <div style={{ width: "85%", textAlign: "right" }}>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "", visibility: btnSave }}
+                onClick={() => Next("1")}
+              >
+                SAVE Details
+              </Button>
+            </div>
+          </Grid>
+        </Card>
       </div>
       <div className="UploadFile">
-        
         <Card
           sx={{
             visibility: visibityFile,
             borderRadius: "8px",
             border: 2,
             borderColor: "#88AB8E",
-           
+
             marginTop: 4,
           }}
           className="Style1"
@@ -1164,16 +1166,12 @@ const handleDrop = (event) => {
                   style={{ fontSize: "60px", color: "#86B6F6" }}
                 />
                 <br />
-                <span style={{ fontWeight: "bold" }}>
-                  Drop your files here
-                </span>
+                <span style={{ fontWeight: "bold" }}>Drop your files here</span>
                 <br />
-            
-              
                 or
-                <br/>
+                <br />
                 <Button size="small" component="span">
-                 <b> Browse files</b>
+                  <b> Browse files</b>
                 </Button>
               </label>
               {uploadedFiles.length > 0 && (
@@ -1244,9 +1242,7 @@ const handleDrop = (event) => {
             </Grid>
           </Grid>
         </Card>
-      
-    </div>
- 
+      </div>
     </div>
   );
 }

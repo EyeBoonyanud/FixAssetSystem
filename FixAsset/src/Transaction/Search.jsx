@@ -220,7 +220,7 @@ function Issue() {
         alert("Invalid username or password");
       }
 
-      navigate("/InsertIssue");
+      // navigate("/InsertIssue");
     } catch (error) {
       console.error("Error requesting data:", error);
     }
