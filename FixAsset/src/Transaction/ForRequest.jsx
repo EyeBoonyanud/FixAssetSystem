@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef  } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -38,7 +38,7 @@ import {
   FileUnknownOutlined,
   CloudUploadOutlined,
 } from "@ant-design/icons";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 function ForRequest() {
   const UserLogin = localStorage.getItem("UserLogin"); // UserLogin ที่เอาค่าของ Userloin ไปหา request by
@@ -61,18 +61,18 @@ function ForRequest() {
   const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [datafixgroup, setdatafixgroup] = useState("");
-  const [data_for_sevice , setdata_for_sevice] = useState("");
+  const [data_for_sevice, setdata_for_sevice] = useState("");
   const [selectedType, setselectedType] = useState("");
   const [status, setstatus] = useState([]);
-  const [Txt_Remark,setTxt_Remark]= useState("");
- 
+  const [Txt_Remark, setTxt_Remark] = useState("");
+  const [getUser ,setgetUser]= useState("");
   const [Tel, setTel] = useState("");
   const [FAM_run, setFAM_run] = useState("");
   const [checkGenNo, setcheckGenNo] = useState("visible");
   const [checkReset, setcheckReset] = useState("visible");
   const [btnSave, setbtnSave] = useState("visible");
-  const [visibityDetails , setvisibityDetails] = useState("visible");
-  const [visibityFile , setvisibityFile] = useState("visible");
+  const [visibityDetails, setvisibityDetails] = useState("visible");
+  const [visibityFile, setvisibityFile] = useState("visible");
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
   const currentYear = new Date().getFullYear();
@@ -81,24 +81,84 @@ function ForRequest() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
-  
-  // Local Set 
-  localStorage.setItem("sts",status[0]);
-  localStorage.setItem("data_for_sevice",data_for_sevice);
-  localStorage.setItem("data_for_sevice",selectdept);
 
-  
+  // Local Set
+  localStorage.setItem("sts", status[0]);
+  localStorage.setItem("data_for_sevice", data_for_sevice);
+  localStorage.setItem("data_for_sevice", selectdept);
 
 
-  // const  Fam_list = localStorage.getItem("FAM_run")
-  // const  Dept = localStorage.getItem("Dept")
-  // const  Type = localStorage.getItem("Type")
-  // const  Fix_code = localStorage.getItem("Fix_Ass")
-  // const  Asst_code = localStorage.getItem("Ass_code")
-  // const  Re_sts = localStorage.getItem("Retype")
-  // const mark = localStorage.getItem("re_mark")
+  const BY = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getby?By=${UserLogin}`
+      );
+      const dataReby = await response.data;
+      let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
+      setgetUser(DataBY);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const Factory_UserLogin = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfac_insert?Fac_Login=${UserLogin}`
+      );
+      const dataFac_insert = await response.data;
+      let Fac = dataFac_insert.flat();
+      let idFactory = Fac[1];
+      setFac(Fac);
+      setidFac(idFactory);
+      localStorage.setItem("Factory", idFactory);
 
-   //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
+      if (idFactory.length >= 0) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/getdept?idFactory=${idFactory}`
+          );
+          const DeptData = await response.data;
+          setdept(DeptData);
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const Costcenter = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getcost_insert?Cost_Login=${UserLogin}`
+      );
+      const dataCos_insert = await response.data;
+      let Cost = dataCos_insert.flat();
+      localStorage.setItem("CC_for_request", Cost);
+      setCost_sert(Cost);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const AssetGroup = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getfix_group?Asset_group=${idFac}`
+      );
+      let dataFix_group_Text = [];
+      let dataFix_group_Value = [];
+      for (let i = 0; i < response.data.length; i++) {
+        dataFix_group_Text.push(response.data[i][1]);
+        dataFix_group_Value.push(response.data[i][0]);
+      }
+      setAssetgroup(dataFix_group_Text);
+      setAssetgroupID(dataFix_group_Value);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  //สำหรับค่าที่ถูกเก็บตอนที่ได้จากModal
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
@@ -116,7 +176,8 @@ function ForRequest() {
     updateSelectedData(newSelectedAll ? dataFixcode.map(() => true) : []);
   };
   const handleAdd = () => {
-    //console.log(selectedItems, "selectedItems");
+    ////console.log(selectedItems, "selectedItems");
+  
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
     setSelectedItems([]);
@@ -125,40 +186,34 @@ function ForRequest() {
     setbtnSave("visible");
   };
   const handleFileUpload = (event) => {
-    console.log("รับมา")
+    //console.log("รับมา")
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
   };
   const handleDragOver = (event) => {
     event.preventDefault();
   };
-const handleDrop = (event) => {
-  event.preventDefault();
-  const files = event.dataTransfer?.files;
-  
-  if (files) {
-    console.log("///////////////////////////////", files);
-    handleFileUpload({ target: { files } }); 
-  }
-};
-  const handleAssetGroup = async (event) => {
-    let FixIdGroup = event.target.value;
-    setselectAssetgroup(FixIdGroup);
-   localStorage.setItem("FixAssetGroup",FixIdGroup)
-  }; 
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+
+    if (files) {
+      //console.log("///////////////////////////////", files);
+      handleFileUpload({ target: { files } });
+    }
+  };
   const ADD = async () => {
     const Fixcode = document.getElementById("Fixcode").value;
     setFixcode1(Fixcode);
-
     try {
       const row = await axios.get(
         `http://localhost:5000/getfixcode?Fixcode=${Fixcode}`
       );
       const data = row.data;
       setdataFixCode(data);
-     //console.log(data);
+      ////console.log(data);
 
-      //console.log(data, "FixCode: ");
+      ////console.log(data, "FixCode: ");
     } catch (error) {
       console.error("Error requesting data:", error);
     }
@@ -180,27 +235,27 @@ const handleDrop = (event) => {
         `http://localhost:5000/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
       );
       const Fixgroup_ID = await response.data;
-      //console.log(Fixgroup_ID[0][0], "Fixgroup_ID::::::::");
+      ////console.log(Fixgroup_ID[0][0], "Fixgroup_ID::::::::");
       if (Fixgroup_ID[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
             `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
           );
           const Find_Service = await response.data;
-          console.log(response.data,"response.data")
+          //console.log(response.data,"response.data")
           setdatafixgroup(Find_Service[0][0]);
-          setdata_for_sevice(Find_Service[0][1])      
-          localStorage.setItem("datafixgroup",Find_Service[0][0])   
-          console.log(Find_Service[0][1], "Find_Service");
+          setdata_for_sevice(Find_Service[0][1]);
+          localStorage.setItem("datafixgroup", Find_Service[0][0]);
+          //console.log(Find_Service[0][1], "Find_Service");
         } catch (error) {
           console.error("Error during login:", error);
         }
       } else {
-        console.log(response.data,"response.data----------")
+        //console.log(response.data,"response.data----------")
         setdatafixgroup(Fixgroup_ID[0][0]);
-        setdata_for_sevice(Fixgroup_ID[0][1])   
-        localStorage.setItem("datafixgroup",Fixgroup_ID[0][0])
-        console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
+        setdata_for_sevice(Fixgroup_ID[0][1]);
+        localStorage.setItem("datafixgroup", Fixgroup_ID[0][0]);
+        //console.log(Fixgroup_ID[0][1], "Find_Service//////////////");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -234,9 +289,6 @@ const handleDrop = (event) => {
     .getDate()
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  const handleRadio = (event) => {
-    setselectedType(event.target.value);
-  };
 
   const handleSave = async () => {
     const FAM_FORM = "REQUEST";
@@ -248,7 +300,6 @@ const handleDrop = (event) => {
     try {
       for (let i = 0; i < uploadedFiles.length; i++) {
         const file = uploadedFiles[i];
-
         const lastDotIndex = file.name.lastIndexOf(".");
         const fileExtension = file.name.slice(lastDotIndex + 1);
         let new_run_seq = "";
@@ -257,26 +308,26 @@ const handleDrop = (event) => {
             `http://localhost:5000/get_seq_request?FAM_no=${famNo}`
           );
           const get_run_seq = await response_seq.data;
-          console.log("RUN SEQ", get_run_seq);
+          //console.log("RUN SEQ", get_run_seq);
           const lastValue =
             get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
           const incrementedValue = lastValue + 1;
           new_run_seq = [[incrementedValue]];
-          console.log("New Array:", new_run_seq);
+          //console.log("New Array:", new_run_seq);
         } catch (error) {
           console.error("Error committing files to the database:", error);
         }
         const file_server = `${famNo}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
-        console.log("FAM_NO =", famNo);
-        console.log("FAM_FROM =", FAM_FORM);
-        console.log("TIME =", currentDateTime);
-        console.log("USER LOGIN", UserLogin);
+        //console.log("FAM_NO =", famNo);
+        //console.log("FAM_FROM =", FAM_FORM);
+        //console.log("TIME =", currentDateTime);
+        //console.log("USER LOGIN", UserLogin);
         try {
           const response = await axios.post(
             `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
           );
 
-          console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+          //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
         } catch (error) {
           console.error("Error Upload File Request:", error);
         }
@@ -293,9 +344,9 @@ const handleDrop = (event) => {
           );
           Swal.fire({
             title: "Save Details Success",
-            icon: "success"
+            icon: "success",
           });
-          console.log("Files saved successfully");
+          //console.log("Files saved successfully");
         } catch (error) {
           console.error("Error saving files:", error);
         }
@@ -304,116 +355,43 @@ const handleDrop = (event) => {
       console.error("Error committing files to the database:", error);
     }
   };
-  const  RQ = localStorage.getItem("ForRequester")
+  const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
 
   useEffect(() => {
-    if(For_Req==null){
-      console.log("Empty Array:", For_Req);
-     setFAM_run("")
-     setTel()
-    setselectdept("")
-    setselectedType("")
-    setselectAssetgroup("")
-    setselectcost("")
-    setstatus("")
-    setTxt_Remark("")
-    
-    }
-    else{
+    if (For_Req == null) {
+      console.log("Empty Array:", UserEmp);
+      setFAM_run("");
+      setTel();
+      setUserEmp(getUser[4])
+      setselectdept("");
+      setselectedType("");
+      setselectAssetgroup("");
+      setselectcost("");
+      setstatus("");
+      setTxt_Remark("");
+    } else {
       console.log("////////////////////",For_Req)
-        setFAM_run(For_Req[0])
-        setTel(For_Req[3])
-        setselectdept(For_Req[6])
-        setselectedType(For_Req[7])
-        setselectAssetgroup(For_Req[8])
-        setselectcost(For_Req[9])
-        setstatus(For_Req[10])
-        setTxt_Remark(For_Req[10])
-        
-        setcheckGenNo("hidden");
-        setcheckReset("hidden");
-        setvisibityDetails("visible")
-        setread_fix_group(true);
-        setread_fix_cost(true);
+      setFAM_run(For_Req[0]);
+      setUserEmp(For_Req[2])
+      setTel(For_Req[3]);
+      setselectdept(For_Req[6]);
+      setselectedType(For_Req[7]);
+      setselectAssetgroup(For_Req[8]);
+      setselectcost(For_Req[9]);
+      setstatus(For_Req[10]);
+      setTxt_Remark(For_Req[11]);
+
+      setcheckGenNo("hidden");
+      setcheckReset("hidden");
+      setvisibityDetails("visible");
+      setread_fix_group(true);
+      setread_fix_cost(true);
     }
-  
+    //หารหัส RequestBy
    
 
-    //หารหัส RequestBy
-    const BY = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getby?By=${UserLogin}`
-        );
-        const dataReby = await response.data;
-        let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
-        setUserEmp(DataBY);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const Factory_UserLogin = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${UserLogin}`
-        );
-        const dataFac_insert = await response.data;
-        let Fac = dataFac_insert.flat();
-        let idFactory = Fac[1];
-        setFac(Fac);
-        setidFac(idFactory);
-        localStorage.setItem("Factory", idFactory);
-
-        if (idFactory.length >= 0) {
-          try {
-            const response = await axios.get(
-              `http://localhost:5000/getdept?idFactory=${idFactory}`
-            );
-            const DeptData = await response.data;
-            setdept(DeptData);
-          } catch (error) {
-            console.error("Error during login:", error);
-          }
-        }
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getcost_insert?Cost_Login=${UserLogin}`
-        );
-        const dataCos_insert = await response.data;
-        let Cost = dataCos_insert.flat();
-        localStorage.setItem("CC_for_request", Cost);
-        setCost_sert(Cost);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-
-    const AssetGroup = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/getfix_group?Asset_group=${idFac}`
-        );
-        let dataFix_group_Text = [];
-        let dataFix_group_Value = [];
-        for (let i = 0; i < response.data.length; i++) {
-          dataFix_group_Text.push(response.data[i][1]);
-          dataFix_group_Value.push(response.data[i][0]);
-        }
-        setAssetgroup(dataFix_group_Text);
-        setAssetgroupID(dataFix_group_Value);
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-
     BY();
-
     Factory_UserLogin();
     Costcenter();
     if (idFac.length > 0) {
@@ -425,48 +403,39 @@ const handleDrop = (event) => {
   const Tranfer_ins = async (running_no, StatusId) => {
     setFAM_run(running_no);
     const Remark = document.getElementById("Remark").value;
+    const setData_ForRequester = [
+      running_no,
+      formattedDate,
+      getUser[4],
+      Tel,
+      Factory[0],
+      Cost_sert[0],
+      selectdept,
+      selectedType,
+      selectAssetgroup,
+      selectcost,
+      "create",
+      Txt_Remark,
+    ];
 
-    localStorage.setItem("FAM_run", running_no);
-    // localStorage.setItem("Tel", Tel);
-    // localStorage.setItem("Dept", selectdept);
-    // localStorage.setItem("Type", selectedType);
-    // localStorage.setItem("Fix_Ass", selectAssetgroup);
-    // localStorage.setItem("Ass_code", selectcost);
-    // localStorage.setItem("Retype",selectedType );
-    // localStorage.setItem("re_mark", Remark );
-
-
-    // localStorage.setItem("Fix_Group", running_no);
-    // localStorage.setItem("FAM_run", running_no);
-    // localStorage.setItem("FAM_run", running_no);
-
-    const setData_ForRequester = [running_no, formattedDate, UserLogin, Tel, Factory[0], Cost_sert[0], selectdept, selectedType, selectAssetgroup, selectcost, "create", Remark];
-
-    // Convert the array to a JSON string
     const sentdata = JSON.stringify(setData_ForRequester);
-    
-    // Store the JSON string in localStorage
     localStorage.setItem("ForRequester", sentdata);
-    
-    console.log(setData_ForRequester, "kkkkkkkkkkkkkkkkkkkkkk");
-    
     try {
-      const response = await axios.post(
-      //  `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Remark}`
-      );
-      document.getElementById("Txt_Famno").value = running_no;
+      const response = await axios
+        .post
+          `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Txt_Remark}`
+        ();
       setcheckGenNo("hidden");
       setcheckReset("hidden");
-      setvisibityDetails("visible")
+      setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
       console.error("Error during login:", error);
     }
-
     try {
       const response = await axios.post(
-      `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
       );
     } catch (error) {
       console.error("Error during login:", error);
@@ -474,21 +443,18 @@ const handleDrop = (event) => {
   };
   const Gen_No = async () => {
     let StatusId = "";
-
     if (selectAssetgroup.length > 0 && selectcost.length > 0) {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
-        const data=dataStatus.flat();
-        setstatus(data[0])
+        const data = dataStatus.flat();
+        setstatus(data[0]);
         StatusId = dataStatus.flat();
-        //console.log(dataStatus.flat(), "dataStatus::::::::");
       } catch (error) {
         console.error("Error during login:", error);
       }
 
       const Run = Factory[0] + "-" + datafixgroup + "-" + Year;
-      // console.log(Run,"lllllllllllllllllllllllllllll")
       try {
         const response = await axios.get(
           `http://localhost:5000/getfamno?famno=${Run}`
@@ -497,18 +463,14 @@ const handleDrop = (event) => {
 
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
-          // let FamNo_old = parseInt("0322");
+         
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-          // console.log("//////1");
-
+         
           Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0]);
         } else {
           let FamNo_new = Run + "-0001";
-          //console.log(FamNo_new, "FamNo_new");
           Tranfer_ins(FamNo_new, StatusId[0]);
         }
-
-        // setcost(CostData);
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -527,14 +489,12 @@ const handleDrop = (event) => {
     }
   };
   const Insert_Fam_detail = async () => {
-    
     for (let i = 0; i < datatable.length; i++) {
-     
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -542,21 +502,19 @@ const handleDrop = (event) => {
         const response = await axios.post(
           `http://localhost:5000/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
         );
-        setvisibityFile("visible")
+        setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
     }
   };
-
   const Next = async (value) => {
     Insert_Fam_detail();
     Swal.fire({
       title: "Save Details Success",
-      icon: "success"
+      icon: "success",
     });
   };
-
 
   return (
     <div className="Box-Insert">
@@ -614,7 +572,6 @@ const handleDrop = (event) => {
                     size="small"
                     style={{ width: "100%" }}
                     disabled
-                    
                   ></TextField>
                 </Grid>
               </Grid>
@@ -631,7 +588,7 @@ const handleDrop = (event) => {
                     disabled
                     style={{ width: "100%" }}
                     id="Txt_user"
-                    value={UserEmp[4]}
+                    value={UserEmp}
                   ></TextField>
                 </Grid>
                 <Grid xs={2}>
@@ -641,13 +598,11 @@ const handleDrop = (event) => {
                 </Grid>
                 <Grid xs={3}>
                   <TextField
-                  
                     size="small"
                     style={{ width: "100%" }}
                     id="Txt_Tel"
                     value={Tel}
                     onChange={(e) => setTel(e.target.value)}
-
                   ></TextField>
                 </Grid>
               </Grid>
@@ -720,7 +675,7 @@ const handleDrop = (event) => {
                     name="row-radio-buttons-group"
                     id="Radio_ReqType"
                     value={selectedType}
-                    onChange={(e) =>setselectedType(e.target.value)}
+                    onChange={(e) => setselectedType(e.target.value)}
                   >
                     <FormControlLabel
                       value="GP01001"
@@ -785,7 +740,7 @@ const handleDrop = (event) => {
                       id="SL_AssetGroup"
                       value={selectAssetgroup}
                       // onChange={handleAssetGroup}
-                      onChange={(e) =>setselectAssetgroup(e.target.value)}
+                      onChange={(e) => setselectAssetgroup(e.target.value)}
                       size="small"
                       disabled={read_fix_group}
                     >
@@ -858,6 +813,7 @@ const handleDrop = (event) => {
                     size="small"
                     style={{ width: "100%" }}
                     value={Txt_Remark}
+                    onChange={(e) => setTxt_Remark(e.target.value)}
                   ></TextField>
                 </Grid>
               </Grid>
@@ -891,214 +847,211 @@ const handleDrop = (event) => {
         </Card>
       </div>
       <div className="Fixed-Asset-Code">
-        
-          <Card
+        <Card
+          sx={{
+            borderRadius: "8px",
+            border: 2,
+            borderColor: "#88AB8E",
+            marginTop: 4,
+            visibility: visibityDetails,
+          }}
+          className="Style1"
+        >
+          <Typography
             sx={{
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "#88AB8E",
-              marginTop: 4,  visibility: visibityDetails,
-            }}
-            className="Style1"
-          >
-            <Typography
-              sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "5%",
-                display: "flex",
+              position: "absolute",
+              backgroundColor: "#fff",
+              marginTop: "-0.5%",
+              marginRight: "85%",
+              width: "5%",
+              display: "flex",
 
-                justifyContent: "center",
-              }}
-            >
-              {" "}
-              Details
-            </Typography>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Fixed Assets Code :
-                </Typography>
-              </Grid>{" "}
-              {/* ADD Modal */}
-              <Grid xs={10}>
-                <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
-                <Button
-                  style={{ marginTop: "3px" }}
-                  type="primary"
-                  variant="contained"
-                  onClick={ADD}
-                >
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            Details
+          </Typography>
+          <Grid
+            container
+            spacing={3}
+            style={{
+              width: "100%",
+              marginBottom: "20px",
+              marginTop: "20px",
+            }}
+          >
+            <Grid xs={1.6}>
+              <Typography
+                style={{
+                  textAlign: "right",
+                  marginTop: "7px",
+                }}
+              >
+                Fixed Assets Code :
+              </Typography>
+            </Grid>{" "}
+            {/* ADD Modal */}
+            <Grid xs={10}>
+              <TextField id="Fixcode" size="small"></TextField> &nbsp;&nbsp;
+              <Button
+                style={{ marginTop: "3px" }}
+                type="primary"
+                variant="contained"
+                onClick={ADD}
+              >
+                {" "}
+                ADD
+              </Button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                maxWidth="lg"
+                fullWidth
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="Modal">
                   {" "}
-                  ADD
-                </Button>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  maxWidth="lg"
-                  fullWidth
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div className="Modal">
-                    {" "}
-                    <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
-                    <TableContainer component={Paper}>
-                      <Table className="Modal-Table">
-                        <TableHead>
-                          <TableRow>
+                  <DialogTitle>Fixed Asset Code : {Fixcode1}</DialogTitle>
+                  <TableContainer component={Paper}>
+                    <Table className="Modal-Table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <Checkbox
+                              checked={selectAll}
+                              onChange={handleCheckboxAllChange}
+                            />
+                          </TableCell>
+                          <TableCell>Comp.</TableCell>
+                          <TableCell>Cc.</TableCell>
+                          <TableCell>Fixed Asset Name</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {dataFixcode.map((item, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
                             <TableCell>
                               <Checkbox
-                                checked={selectAll}
-                                onChange={handleCheckboxAllChange}
+                                checked={selectedItems[index] || false}
+                                onChange={() => handleCheckboxChange(index)}
                               />
                             </TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>Cc.</TableCell>
-                            <TableCell>Fixed Asset Name</TableCell>
+                            <TableCell>{item[1]}</TableCell>
+                            <TableCell>{item[2]}</TableCell>
+                            <TableCell>{item[3]}</TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {dataFixcode.map((item, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Checkbox
-                                  checked={selectedItems[index] || false}
-                                  onChange={() => handleCheckboxChange(index)}
-                                />
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <DialogActions style={{ marginTop: "20px" }}>
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <DialogActions style={{ marginTop: "20px" }}>
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: "green",
+                      }}
+                      onClick={handleAdd}
+                    >
+                      ADD
+                    </Button>
+                    <Button
+                      variant="contained"
+                      style={{ backgroundColor: "gray" }}
+                      onClick={handleClose}
+                    >
+                      Close
+                    </Button>
+                  </DialogActions>
+                </div>
+              </Dialog>
+              {isTableOpen && (
+                <div style={{ marginTop: "20px" }}>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableHead
+                        sx={{
+                          backgroundColor: "#22FF5E",
+                          fontSize: "10px",
                         }}
-                        onClick={handleAdd}
                       >
-                        ADD
-                      </Button>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "gray" }}
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                    </DialogActions>
-                  </div>
-                </Dialog>
-                {isTableOpen && (
-                  <div style={{ marginTop: "20px" }}>
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table">
-                        <TableHead
-                          sx={{
-                            backgroundColor: "#22FF5E",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <TableRow>
+                        <TableRow>
+                          <TableCell>
+                            <Checkbox />
+                          </TableCell>
+                          <TableCell>No.</TableCell>
+                          <TableCell>Fixed Asset Code</TableCell>
+                          <TableCell>Comp.</TableCell>
+                          <TableCell>CC.</TableCell>
+                          <TableCell>Fixed Assets Name</TableCell>
+                          <TableCell>BOI Project</TableCell>
+                          <TableCell>Qty</TableCell>
+                          <TableCell>Invoice No.</TableCell>
+                          <TableCell>Acquisition Cost(Baht)</TableCell>
+                          <TableCell>Book Value(Baht)</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {datatable.map((item, index) => (
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
                             <TableCell>
                               <Checkbox />
-                            </TableCell>
-                            <TableCell>No.</TableCell>
-                            <TableCell>Fixed Asset Code</TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>CC.</TableCell>
-                            <TableCell>Fixed Assets Name</TableCell>
-                            <TableCell>BOI Project</TableCell>
-                            <TableCell>Qty</TableCell>
-                            <TableCell>Invoice No.</TableCell>
-                            <TableCell>Acquisition Cost(Baht)</TableCell>
-                            <TableCell>Book Value(Baht)</TableCell>
+                            </TableCell>{" "}
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>{item[0]}</TableCell>
+                            <TableCell>{item[1]}</TableCell>
+                            <TableCell>{item[2]}</TableCell>
+                            <TableCell>{item[3]}</TableCell>
+                            <TableCell>{item[5]} </TableCell>
+                            <TableCell>{item[6]}</TableCell>
+                            <TableCell>{item[7]}</TableCell>
+                            <TableCell>{item[9]}</TableCell>
+                            <TableCell>{item[10]}</TableCell>
                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {datatable.map((item, index) => (
-                            <TableRow
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Checkbox />
-                              </TableCell>{" "}
-                              <TableCell>{index + 1}</TableCell>
-                              <TableCell>{item[0]}</TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                              <TableCell>{item[5]} </TableCell>
-                              <TableCell>{item[6]}</TableCell>
-                              <TableCell>{item[7]}</TableCell>
-                              <TableCell>{item[9]}</TableCell>
-                              <TableCell>{item[10]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                )}{" "}
-              </Grid>
-              <div style={{ width: "85%", textAlign: "right" }}>
-                <Button
-                  variant="contained"
-                  style={{ backgroundColor: "",
-                  visibility: btnSave,}}
-                  onClick={() => Next("1")}
-                >
-                  SAVE Details
-                </Button>
-              </div>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              )}{" "}
             </Grid>
-          </Card>
-        
+            <div style={{ width: "85%", textAlign: "right" }}>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "", visibility: btnSave }}
+                onClick={() => Next("1")}
+              >
+                SAVE Details
+              </Button>
+            </div>
+          </Grid>
+        </Card>
       </div>
       <div className="UploadFile">
-        
         <Card
           sx={{
             visibility: visibityFile,
             borderRadius: "8px",
             border: 2,
             borderColor: "#88AB8E",
-           
+
             marginTop: 4,
           }}
           className="Style1"
@@ -1156,16 +1109,12 @@ const handleDrop = (event) => {
                   style={{ fontSize: "60px", color: "#86B6F6" }}
                 />
                 <br />
-                <span style={{ fontWeight: "bold" }}>
-                  Drop your files here
-                </span>
+                <span style={{ fontWeight: "bold" }}>Drop your files here</span>
                 <br />
-            
-              
                 or
-                <br/>
+                <br />
                 <Button size="small" component="span">
-                 <b> Browse files</b>
+                  <b> Browse files</b>
                 </Button>
               </label>
               {uploadedFiles.length > 0 && (
@@ -1236,9 +1185,7 @@ const handleDrop = (event) => {
             </Grid>
           </Grid>
         </Card>
-      
-    </div>
- 
+      </div>
     </div>
   );
 }
