@@ -357,6 +357,7 @@ function ForRequest() {
   };
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
+
   const ForDt = localStorage.getItem("forDetail");
   
   //console.log("////////////////////",ForDt)
@@ -377,8 +378,6 @@ console.log(For_detail)
       setTableOpen(true);
       setdatatable(For_detail)
     } else {
-      //console.log("////////////////////",ForDt)
-
       setFAM_run(For_Req[0]);
       setUserEmp(For_Req[2])
       setTel(For_Req[3]);
@@ -389,7 +388,7 @@ console.log(For_detail)
       setstatus(For_Req[10]);
       setTxt_Remark(For_Req[11]);
       setTableOpen(true)
-      //setdatatable(For_detail)
+      setdatatable(For_detail)
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
@@ -406,7 +405,7 @@ console.log(For_detail)
       AssetGroup();
     }
     CostforAsset();
-  }, [idFac, selectedItems, selectAll, dataFixcode]);
+  }, [idFac, dataFixcode]);
 
   const Tranfer_ins = async (running_no, StatusId,statustxt) => {
     setFAM_run(running_no);
