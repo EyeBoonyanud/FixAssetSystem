@@ -83,9 +83,9 @@ function ForRequest() {
   const [datatable, setdatatable] = useState([]);
 
   // Local Set
-  localStorage.setItem("sts", status[0]);
-  localStorage.setItem("data_for_sevice", data_for_sevice);
-  localStorage.setItem("data_for_sevice", selectdept);
+  // localStorage.setItem("sts", status[0]);
+  // localStorage.setItem("data_for_sevice", data_for_sevice);
+  // localStorage.setItem("data_for_sevice", selectdept);
 
 
   const BY = async () => {
@@ -400,8 +400,9 @@ function ForRequest() {
     CostforAsset();
   }, [idFac, selectedItems, selectAll, dataFixcode]);
 
-  const Tranfer_ins = async (running_no, StatusId) => {
+  const Tranfer_ins = async (running_no, StatusId,statustxt) => {
     setFAM_run(running_no);
+    console.log(statustxt)
     const Remark = document.getElementById("Remark").value;
     const setData_ForRequester = [
       running_no,
@@ -414,7 +415,7 @@ function ForRequest() {
       selectedType,
       selectAssetgroup,
       selectcost,
-      "create",
+      statustxt,
       Txt_Remark,
     ];
 
@@ -422,9 +423,9 @@ function ForRequest() {
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios
-        .post
+        .post(
           `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&status=${StatusId}&remark=${Txt_Remark}`
-        ();
+        );
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
@@ -443,12 +444,15 @@ function ForRequest() {
   };
   const Gen_No = async () => {
     let StatusId = "";
+    let statustxt ="";
     if (selectAssetgroup.length > 0 && selectcost.length > 0) {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
-        setstatus(data[0]);
+        setstatus(data[1]);
+        statustxt=data[1]
+       
         StatusId = dataStatus.flat();
       } catch (error) {
         console.error("Error during login:", error);
@@ -465,11 +469,12 @@ function ForRequest() {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
          
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-         
-          Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0]);
+          console.log("...................>",statustxt)
+          Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0],statustxt);
         } else {
           let FamNo_new = Run + "-0001";
-          Tranfer_ins(FamNo_new, StatusId[0]);
+          console.log("...................<",statustxt)
+          Tranfer_ins(FamNo_new, StatusId[0],statustxt);
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -482,9 +487,7 @@ function ForRequest() {
       } else if (selectcost.length === 0) {
         alert("กรุณาเลือก Fix Asset Code");
       } else {
-        // กรณีที่ทั้งคู่ไม่ว่าง
-        // ตรงนี้คุณสามารถเพิ่มโค้ดที่ต้องการให้ทำเมื่อทั้งคู่ไม่ว่าง
-        // เช่น เรียกฟังก์ชันหรือทำการส่งข้อมูลไปที่เซิร์ฟเวอร์
+       
       }
     }
   };
