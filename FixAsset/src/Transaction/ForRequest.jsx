@@ -81,6 +81,8 @@ function ForRequest() {
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
   const [datatable, setdatatable] = useState([]);
+
+  
   
   // Local Set 
   // localStorage.setItem("sts",status[0]);
@@ -234,6 +236,7 @@ const handleDrop = (event) => {
     .getDate()
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
+    
   const handleRadio = (event) => {
     setselectedType(event.target.value);
   };
@@ -305,15 +308,12 @@ const handleDrop = (event) => {
     }
   };
   const  RQ = localStorage.getItem("ForRequester")
+  console.log("ฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃ",RQ)
   const For_Req = JSON.parse(RQ);
-  const EDIT_DATA = localStorage.getItem("DATAEDIT");
-  const SHOW_DATA_EDIT = JSON.parse(EDIT_DATA);
-  const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
-  console.log("DAAAAAAAAA",SHOW_DATA_EDIT);
-  console.log("TAAAAAAAAAA",PAGE_STATUS); 
+  console.log("111111111111111111111",For_Req[1])
 
   useEffect(() => {
-    if(PAGE_STATUS === "NEW"){
+    if(For_Req==null){
       console.log("Empty Array:", For_Req);
      setFAM_run("")
      setTel()
@@ -325,33 +325,19 @@ const handleDrop = (event) => {
     setTxt_Remark("")
     
     }
-     else if (PAGE_STATUS === "EDIT"){
-      console.log("////////////////////",For_Req)
-        setFAM_run(SHOW_DATA_EDIT[0][0])
-        setTel(SHOW_DATA_EDIT[0][1])
-        setselectdept(SHOW_DATA_EDIT[0][2])
-        setselectedType(SHOW_DATA_EDIT[0][3])
-        setselectAssetgroup(SHOW_DATA_EDIT[0][4])
-        setselectcost(SHOW_DATA_EDIT[0][5])
-        setstatus(SHOW_DATA_EDIT[0][6])
-        setTxt_Remark(SHOW_DATA_EDIT[0][7])
-        
-        setcheckGenNo("hidden");
-        setcheckReset("hidden");
-        setvisibityDetails("visible")
-        setread_fix_group(true);
-        setread_fix_cost(true);
-    }
-    else if (PAGE_STATUS === "SAVE"){
+    else {
       console.log("////////////////////",For_Req)
         setFAM_run(For_Req[0])
+
+
         setTel(For_Req[3])
+
         setselectdept(For_Req[6])
         setselectedType(For_Req[7])
         setselectAssetgroup(For_Req[8])
         setselectcost(For_Req[9])
         setstatus(For_Req[10])
-        setTxt_Remark(For_Req[10])
+        setTxt_Remark(For_Req[11])
         
         setcheckGenNo("hidden");
         setcheckReset("hidden");
@@ -359,6 +345,7 @@ const handleDrop = (event) => {
         setread_fix_group(true);
         setread_fix_cost(true);
     }
+  
    
 
     //หารหัส RequestBy

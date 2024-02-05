@@ -1184,8 +1184,13 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
     // res.json(result);
-    res.json(result.rows);
+    // res.json(result.rows);
+    // console.log(result);
+
+    const flatArray = result.rows.map(item => Object.values(item)).flat();
+    res.json(flatArray);
     console.log(result);
+    
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
