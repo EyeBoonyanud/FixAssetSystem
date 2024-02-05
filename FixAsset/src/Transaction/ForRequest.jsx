@@ -303,9 +303,15 @@ function ForRequest() {
   const RQ = localStorage.getItem("ForRequester");
   console.log("ฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃฃ", RQ);
   const For_Req = JSON.parse(RQ);
+  const combinedArray = [For_Req.slice(10, 12)];
+  // const resultArray = For_Req.concat(combinedArray);
+  const resultArray = For_Req.slice(0, 10).concat(combinedArray, For_Req.slice(12));
+  console.log("++++++++++++++++++++++++++++", resultArray);
+  console.log(combinedArray);
   console.log("111111111111111111111", For_Req[1]);
 
   useEffect(() => {
+    let StatusId = "";
     if (For_Req == null) {
       const formattedDate = `${(currentDate.getMonth() + 1)
         .toString()
@@ -336,6 +342,7 @@ function ForRequest() {
       setselectedType(For_Req[7]);
       setselectAssetgroup(For_Req[8]);
       setselectcost(For_Req[9]);
+      StatusId(For_Req[10]);
       setstatus(For_Req[11]);
       setTxt_Remark(For_Req[12]);
 

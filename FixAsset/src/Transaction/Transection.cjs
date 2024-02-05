@@ -1162,26 +1162,22 @@ module.exports.getEdit_Request_Show = async function (req, res) {
 
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT
-    T.FRH_FAM_NO,
-    TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
-    T.FAM_REQ_BY,
-    T.FAM_REQ_TEL,
-    T.FAM_FACTORY,
-    T.FAM_REQ_CC,
-    T.FAM_REQ_DEPT,
-    T.FAM_REQ_TYPE,
-    T.FAM_ASSET_GROUP,
-    T.FAM_ASSET_CC,
-    T.FAM_REQ_STATUS || ',' || F.FFM_DESC AS STATUS,
-    T.FAM_REQ_REMARK
-FROM
-    FAM_REQ_HEADER T
-LEFT JOIN
-    FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
-WHERE
-    T.FRH_FAM_NO = :fam_no
-
+    SELECT T.FRH_FAM_NO ,
+           TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
+		       T.FAM_REQ_BY ,
+		       T.FAM_REQ_TEL ,
+           T.FAM_FACTORY ,
+           T.FAM_REQ_CC ,
+           T.FAM_REQ_DEPT ,
+           T.FAM_REQ_TYPE ,
+           T.FAM_ASSET_GROUP, 
+           T.FAM_ASSET_CC, 
+           T.FAM_REQ_STATUS,
+           F.FFM_DESC, 
+           T.FAM_REQ_REMARK
+     FROM FAM_REQ_HEADER T 
+     LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
+     WHERE T.FRH_FAM_NO = :fam_no
     `;
     const data = {
       fam_no,
