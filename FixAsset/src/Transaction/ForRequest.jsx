@@ -388,7 +388,6 @@ console.log(For_detail)
       setselectcost(For_Req[9]);
       setstatus(For_Req[10][1]);
       setTxt_Remark(For_Req[11]);
-     
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");

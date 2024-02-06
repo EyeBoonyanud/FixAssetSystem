@@ -15,31 +15,24 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { SaveAlt } from "@mui/icons-material";
+import { LocalActivity, SaveAlt } from "@mui/icons-material";
 
 function TransFerDetail() {
   //Local Storage
-  //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
   const ReqBy = localStorage.getItem("UserLogin");
-
   const Fac_to_request = localStorage.getItem("Factory");
   const Service_ID = localStorage.getItem("datafixgroup");
-
+  // LocalStorage สำหรับการรับค่าแบบ table
   const RQ = localStorage.getItem("ForRequester");
-
   const For_Req = JSON.parse(RQ);
-  console.log(For_Req,"For_ReqFor_ReqFor_ReqFor_ReqFor_Req")
-  const Fam_no = For_Req[0] 
-  const Service = For_Req[6]  
-  const CC_for_request = For_Req[9] ;
-  const Sts = For_Req[10][0] ;
-   
-  console.log(CC_for_request,"CC_for_request")
-  const DATA = localStorage.getItem("forDetail")
+  //console.log(For_Req, "For_ReqFor_ReqFor_ReqFor_ReqFor_Req");
+  const Fam_no = For_Req[0];
+  const Service = For_Req[6];
+  const CC_for_request = For_Req[9];
+  const Sts = For_Req[10][0];
+  const FixAssetGroup = For_Req[8];
+  const DATA = localStorage.getItem("forDetail");
   const DATA_FOR = JSON.parse(DATA);
-  console.log("DADAD",DATA_FOR)
-
-
 
   const [dataheader, setdataheader] = useState([]);
 
@@ -80,6 +73,9 @@ function TransFerDetail() {
   const [sts, setsts] = useState("");
   const [abnormal, setabnormal] = useState("");
 
+  const [Tel_text, setTel_text] = useState("");
+  
+
   const [newboi, setnewboi] = useState("");
   // ตัวแปร Radio Routing
   const [radio_dept, setradio_dept] = useState("");
@@ -92,30 +88,32 @@ function TransFerDetail() {
   // check radio button
   const [mgr_chk, setmgr_chk] = useState("hidden");
 
+ const Telephone = (event) => {
+  setTel_text(event.target.value);
+  localStorage.setItem("Tel_text" ,event.target.value)
+};
+
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
     // console.log("ค่า", event.target.value);
   };
   const handleRadioService_By = (event) => {
     setradio_serviceby(event.target.value);
-    console.log("setradio_serviceby", event.target.value);
+  
   };
   const handleRadioBOI_Staff = (event) => {
     setradio_boistaff(event.target.value);
-    console.log("setradio_boistaff", event.target.value);
+  
   };
 
   const handleRadioFac_Manager = (event) => {
     setradio_facmanager(event.target.value);
-    console.log("setradio_facmanager", event.target.value);
   };
   const handleRadioACC_Check = (event) => {
     setradio_acc_check(event.target.value);
-    console.log("setradio_serviceby", event.target.value);
   };
   const handleRadioOwner = (event) => {
     setradio_owner(event.target.value);
-    console.log("setradio_owner", event.target.value);
   };
 
   // From BOI PROJ
@@ -144,6 +142,7 @@ function TransFerDetail() {
   };
   const handleFactory = (event) => {
     setselecteDatafac(event.target.value);
+    localStorage.setItem("FACTORY_TRANS", event.target.value);
   };
   // Tranfer To CC
   const Costcenter = async () => {
@@ -151,6 +150,7 @@ function TransFerDetail() {
       const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
       const CostData = await response.data;
       setcost(CostData);
+
       // console.log(CostData, "CostData :");
     } catch (error) {
       console.error("Error during login:", error);
@@ -158,17 +158,19 @@ function TransFerDetail() {
   };
   const handleCost = async (event) => {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
+    localStorage.setItem("COST_TRANS", Cost);
     setselectcost(Cost);
     New_Owner(Cost);
-    console.log(selecteDatafac, "selecteDatafac");
-    console.log(selectcost, "selectcost");
+    //console.log(selecteDatafac, "selecteDatafac");
+    //console.log(selectcost, "selectcost");
     try {
       const response = await axios.get(
         `http://localhost:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
       );
       const data = await response.data;
       setnewboi(data);
-      console.log(data, "data :");
+      localStorage.setItem("NewBoi",data)
+      //console.log(data, "data :");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -176,11 +178,11 @@ function TransFerDetail() {
     if (dataBoi_from === newboi) {
       setsts("N");
       setabnormal("");
-      console.log("เท่ากัน : ", sts);
+      //console.log("เท่ากัน : ", sts);
     } else {
       setsts("Y");
       setabnormal("Transfer to difference project");
-      console.log("ไม่เท่ากัน :", sts);
+      //console.log("ไม่เท่ากัน :", sts);
     }
 
     // console.log(Cost, "setselectcost");
@@ -200,11 +202,14 @@ function TransFerDetail() {
     }
   };
   const handleNew_owner = (event) => {
+   
     let New_own = event.target.value;
     const parts = New_own.split(":");
     let result = parts[1].trim();
     setselectnewowner(New_own); // เก็บ select ของ new owner
-    setresult1(result); // เก็บค่า Supharat.
+    setresult1(result);
+   // localStorage.setItem("NEW_OWNER", New_own);
+    localStorage.setItem("NEW_OWNER", event.target.value); // เก็บค่า Supharat.
     //console.log(result, "NEWWWWWWWWWWWWWWWWWWWWw");
   };
   // Department Manager
@@ -215,32 +220,34 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment(data);
-      console.log("Department :", data);
+      //console.log("Department :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleDepartment = (event) => {
     setselectdepartment(event.target.value);
+    localStorage.setItem("DEPT_MANAGER", event.target.value);
   };
   // ServiceBy
   const Service_By = async () => {
-    console.log("kkkkkkkk", Service_ID);
+    ////console.log("kkkkkkkk", Service_ID);
 
     try {
       const response = await axios.get(
         `http://localhost:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
       );
-      console.log(response, "hhhhhhhhhhhhhhhhhha");
+      //console.log(response, "hhhhhhhhhhhhhhhhhha");
       const data = response.data.flat();
       setservice_by(data);
-      console.log("setservice_by :", data);
+      //console.log("setservice_by :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleService_By = (event) => {
     setselectservice_by(event.target.value);
+    localStorage.setItem("SERVICE_BY", event.target.value);
     // console.log(event.target.value, "setselecteDatafac");
   };
   //BOI_Staff
@@ -251,13 +258,14 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setboistaff(data);
-      console.log("setboistaff :", data);
+      //console.log("setboistaff :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleBOI_Staff = (event) => {
     setselectboistaff(event.target.value);
+    localStorage.setItem("BOI_STAFF", event.target.value);
   };
   //BOI_Manager
   const BOI_Manager = async () => {
@@ -267,13 +275,14 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setboimanager(data);
-      console.log("setboimanager :", data);
+      //console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleBOI_Manager = (event) => {
     setselectboimanager(event.target.value);
+    localStorage.setItem("BOI_MANAGER", event.target.value);
   };
   //Factory_Manager
   const Fac_manager = async () => {
@@ -283,13 +292,14 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setfac_manager(data);
-      console.log("setboimanager :", data);
+      //console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleFac_manager = (event) => {
     setselectfac_manager(event.target.value);
+    localStorage.setItem("FAC_MANAGER", event.target.value);
   };
   //ACC Check
   const ACC_Check = async () => {
@@ -299,13 +309,14 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setacc_check(data);
-      console.log("setboimanager :", data);
+      //console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleACC_Check = (event) => {
     setselectacc_check(event.target.value);
+    localStorage.setItem("ACC_Check", event.target.value);
   };
   // ACC_Manager
   const ACC_Manager = async () => {
@@ -315,13 +326,14 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setacc_manager(data);
-      console.log("setboimanager :", data);
+      //console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
   const handleACC_Manager = (event) => {
     setselectacc_manager(event.target.value);
+    localStorage.setItem("ACC_Manager", event.target.value);
   };
   // Header
   const Header = async () => {
@@ -331,7 +343,7 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdataheader(data);
-      console.log("setdataheader :", data);
+      //console.log("setdataheader :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -341,6 +353,19 @@ function TransFerDetail() {
     const Plan_date = document.getElementById("Plan_Remove").value;
     const Tel = document.getElementById("Tel").value;
     const Tel_Service = document.getElementById("Tel_Service").value;
+    const setData_TransDetail = [
+      Fam_no,
+      Plan_date,
+      selecteDatafac,
+      newboi,
+      result1,
+      Tel,
+      sts,
+      abnormal,
+    ];
+    const data_for_detail = JSON.stringify(setData_TransDetail);
+    localStorage.setItem("TransDetails", data_for_detail);
+    //console.log("data_for_detail", data_for_detail);
 
     // const Fixcode = document.getElementById("Fixcode").value;
     // setFixcode1(Fixcode);
@@ -358,16 +383,16 @@ function TransFerDetail() {
     }
     try {
       const row = axios.post(
-        // console.log(New_BOI,"New_BOI")
+        // //console.log(New_BOI,"New_BOI")
         `http://localhost:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
       );
 
       const data = row.data;
-      console.log(data, "data");
+      //console.log(data, "data");
 
       setdataFixCode(data);
     } catch (error) {
-      console.error("Error requesting data:", error);
+      //console.error("Error requesting data:", error);
     }
     try {
       const receiver = await axios.post(
@@ -381,7 +406,7 @@ function TransFerDetail() {
       // const data = row.data;
       //     setdataFixCode(data);
     } catch (error) {
-      console.error("Error requesting data:", error);
+      //console.error("Error requesting data:", error);
     }
     try {
       const close_service = await axios.post(
@@ -397,7 +422,7 @@ function TransFerDetail() {
       // const data = row.data;
       //     setdataFixCode(data);
     } catch (error) {
-      console.error("Error requesting data:", error);
+      //console.error("Error requesting data:", error);
     }
 
     Swal.fire({
@@ -409,11 +434,10 @@ function TransFerDetail() {
   };
 
   const SUBMIT = async () => {
-   
     if (Sts === "FLTR001") {
       const status_submit = "FLTR002";
-      console.log(status_submit, "status_submit");
-      console.log(Fam_no, "Fam_no");
+      //console.log(status_submit, "status_submit");
+      //console.log(Fam_no, "Fam_no");
       try {
         const response = await axios.post(
           "http://localhost:5000/update_submit",
@@ -427,15 +451,15 @@ function TransFerDetail() {
           icon: "success",
         });
 
-        console.log(response.data, "Status submit successfully updated");
+        //console.log(response.data, "Status submit successfully updated");
       } catch (error) {
         console.error("Error updating submit status:", error.message);
       }
     } else if (Sts === "FLTR002") {
       const status_submit = "FLTR003";
       setmgr_chk("visible");
-      console.log(status_submit, "status_submit");
-      console.log(Fam_no, "Fam_no");
+      //console.log(status_submit, "status_submit");
+      //console.log(Fam_no, "Fam_no");
       try {
         const response = await axios.post(
           "http://localhost:5000/update_submit",
@@ -449,13 +473,39 @@ function TransFerDetail() {
           icon: "success",
         });
 
-        console.log(response.data, "Status submit successfully updated");
+        //console.log(response.data, "Status submit successfully updated");
       } catch (error) {
         console.error("Error updating submit status:", error.message);
       }
     }
   };
 
+  
+const tel = localStorage.getItem("Tel_text");
+  console.log(tel,"tel")
+  const fac_trans = localStorage.getItem("FACTORY_TRANS");
+  console.log(fac_trans,"fac_trans")
+  const trans_cc = localStorage.getItem("COST_TRANS");
+  console.log(trans_cc,"trans_cc")
+  const new_boi = localStorage.getItem("NewBoi");
+  console.log(new_boi,"new_boi")
+  const New_own = localStorage.getItem("NEW_OWNER");
+  console.log(New_own,"New_own")
+
+  const keep  = async () => {
+    console.log("????")
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>",new_boi)
+      setTel_text(tel);
+      setselecteDatafac(fac_trans);
+      setselectcost(trans_cc);
+      setselectnewowner(New_own);
+      setnewboi(new_boi);
+  
+   // if (tel || fac_trans || trans_cc || new_boi || New_own) {
+      
+   /// }
+  }
+  
   useEffect(() => {
     Factory();
     BOI_FROM();
@@ -468,6 +518,8 @@ function TransFerDetail() {
     ACC_Check();
     ACC_Manager();
     Header();
+    keep();
+   
   }, []);
   const A = "Sucha";
   const B = "FLTR001";
@@ -532,7 +584,7 @@ function TransFerDetail() {
                 </tr>
                 <tr>
                   <th colSpan={5}></th>
-                  <td className="Style4">Tranfer to Factory :</td>
+                  <td className="Style4">Transfer to Factory :</td>
                   <td>
                     <FormControl className="Style1">
                       <Select
@@ -578,10 +630,10 @@ function TransFerDetail() {
                   <td>
                     <FormControl className="Style1">
                       <TextField
-                        id="outlined-size-small"
                         defaultValue=""
                         size="small"
                         value={newboi}
+                        onChange={(e) => setnewboi(e.target.value)}
                         disabled
                       />
                     </FormControl>
@@ -615,7 +667,12 @@ function TransFerDetail() {
                   <td className="Style7">Tel :</td>
                   <td className="Style6">
                     <FormControl className="Style1">
-                      <TextField id="Tel" defaultValue="" size="small" />
+                      <TextField
+                        id="Tel"
+                        onChange={Telephone}
+                        value={Tel_text}
+                        size="small"
+                      />
                     </FormControl>
                   </td>
                 </tr>
@@ -701,7 +758,7 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" &&  (
+                  {Sts != "FLTR001" && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1386,8 +1443,8 @@ function TransFerDetail() {
                     </>
                   ) : (
                     <>
-                      <td style={{width:'280px'}}></td>
-                      
+                      <td style={{ width: "280px" }}></td>
+
                       <td className="Style5"></td>
                       <td className="Style7"></td>
                       <td className="Style6">
@@ -1397,29 +1454,25 @@ function TransFerDetail() {
                   )}
                 </tr>
                 {Sts != "FLTR001" ? (
-                    <>
-                <tr>
-                  <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
-                  <td colSpan={4}>
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
-                </>
-                  ) : (
-                    <>
-                
-                     
-                     
-                    </>
-                  )}
+                  <>
+                    <tr>
+                      <th colSpan={5}></th>
+                      <td className="Style4">Comment :</td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </>
+                ) : (
+                  <></>
+                )}
               </table>
             </div>
           </Card>
@@ -1473,7 +1526,7 @@ function TransFerDetail() {
                   {Sts != "FLTR001" ? (
                     <>
                       <td className="Style5">
-                      <FormControl>
+                        <FormControl>
                           <RadioGroup
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
@@ -1498,23 +1551,23 @@ function TransFerDetail() {
                       </td>
                       <td className="Style7">Action Date :</td>
                       <td className="Style6">
-                      <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        defaultValue=""
-                        size="small"
-                        disabled
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                      />
-                    </FormControl>
+                        <FormControl className="Style1">
+                          <TextField
+                            id="outlined-size-small"
+                            defaultValue=""
+                            size="small"
+                            disabled
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
                       </td>
                     </>
                   ) : (
                     <>
-                      <td style={{width:'280px'}}></td>
-                      
+                      <td style={{ width: "280px" }}></td>
+
                       <td className="Style5"></td>
                       <td className="Style7"></td>
                       <td className="Style6">
@@ -1522,10 +1575,6 @@ function TransFerDetail() {
                       </td>
                     </>
                   )}
-                  
-
-             
-
                 </tr>
                 {Sts != "FLTR001" && (
                   <>
