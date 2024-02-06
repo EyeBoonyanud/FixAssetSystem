@@ -21,16 +21,26 @@ function TransFerDetail() {
   //Local Storage
   //const FixAssetGroup = localStorage.getItem("FixAssetGroup")
   const ReqBy = localStorage.getItem("UserLogin");
-  const CC_for_request = localStorage.getItem("CC_for_request");
+
   const Fac_to_request = localStorage.getItem("Factory");
   const Service_ID = localStorage.getItem("datafixgroup");
-  const Sts = localStorage.getItem("sts");
-  console.log(Sts, "......................");
-  const Fam_no = localStorage.getItem("FAM_run");
-  const Service = localStorage.getItem("data_for_sevice");
-  // const fam = "A1-R180-24-0001";
 
-  //  Const ตัวแปร
+  const RQ = localStorage.getItem("ForRequester");
+
+  const For_Req = JSON.parse(RQ);
+  console.log(For_Req,"For_ReqFor_ReqFor_ReqFor_ReqFor_Req")
+  const Fam_no = For_Req[0] 
+  const Service = For_Req[6]  
+  const CC_for_request = For_Req[9] ;
+  const Sts = For_Req[10][0] ;
+   
+  console.log(CC_for_request,"CC_for_request")
+  // const DATA = localStorage.getItem("DETAILS")
+  // const DATA_FOR = JSON.parse(DATA);
+  // console.log("DADAD",DATA_FOR)
+
+
+
   const [dataheader, setdataheader] = useState([]);
 
   const [dataBoi_from, setdataBoi_from] = useState([]);
@@ -84,7 +94,7 @@ function TransFerDetail() {
 
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
-    console.log("ค่า", event.target.value);
+    // console.log("ค่า", event.target.value);
   };
   const handleRadioService_By = (event) => {
     setradio_serviceby(event.target.value);

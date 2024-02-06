@@ -23,8 +23,12 @@ function ButtonAppBar({ isOpen, onClose }) {
 
   const navigate = useNavigate();
   const Logout = () => {
-    navigate("/");
-  };
+    localStorage.removeItem("ForRequester");
+    localStorage.removeItem("forDetail");
+    //   localStorage.removeItem("Lastname");
+    // localStorage.removeItem("NameRole");
+      navigate("/");
+    };
 
   return (
     <>
