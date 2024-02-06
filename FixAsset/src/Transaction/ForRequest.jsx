@@ -162,7 +162,6 @@ function ForRequest() {
   const updateSelectedData = (selectedItems) => {
     const newData = dataFixcode.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
-    
   };
   const handleCheckboxChange = (index) => {
     const newSelectedItems = [...selectedItems];
@@ -185,7 +184,6 @@ function ForRequest() {
     setTableOpen(true);
     setOpen(false);
     setbtnSave("visible");
-    localStorage.setItem("forDetail", JSON.stringify(newDataTable));
   };
   const handleFileUpload = (event) => {
     //console.log("รับมา")
@@ -359,8 +357,11 @@ function ForRequest() {
   };
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
-
-// console.log(For_detail)
+  const ForDt = localStorage.getItem("forDetail");
+  
+  //console.log("////////////////////",ForDt)
+const For_detail= JSON.parse(ForDt);
+console.log(For_detail)
   useEffect(() => {
     if (For_Req == null) {
       console.log("Empty Array:", UserEmp);
@@ -377,13 +378,7 @@ function ForRequest() {
       // setdatatable(For_detail)
     } else {
       //console.log("////////////////////",ForDt)
-      const storedForDetail = localStorage.getItem("forDetail");
-      if (storedForDetail) {
-        const parsedForDetail = JSON.parse(storedForDetail);
-        setTableOpen(true)
-        setdatatable(parsedForDetail);
-        localStorage.setItem("DETAILS",parsedForDetail)
-      }
+
       setFAM_run(For_Req[0]);
       setUserEmp(For_Req[2])
       setTel(For_Req[3]);
@@ -393,15 +388,16 @@ function ForRequest() {
       setselectcost(For_Req[9]);
       setstatus(For_Req[10][1]);
       setTxt_Remark(For_Req[11]);
-      // setTableOpen(true)
-      // setdatatable(For_detail)
+     
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
-      // const ForDt = localStorage.getItem("forDetail");
-      // const For_detail= JSON.parse(ForDt);
+      if(For_detail!=null){
+        setTableOpen(true)
+        setdatatable(For_detail)
+      }
     }
     //หารหัส RequestBy
    
@@ -413,7 +409,7 @@ function ForRequest() {
       AssetGroup();
     }
     CostforAsset();
-  }, [idFac,  dataFixcode ,selectedItems ,selectAll ]);
+  }, [idFac,  dataFixcode ]);
 
   const Tranfer_ins = async (running_no, StatusId,datastatus) => {
     setFAM_run(running_no);

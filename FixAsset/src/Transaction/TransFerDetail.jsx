@@ -35,9 +35,9 @@ function TransFerDetail() {
   const Sts = For_Req[10][0] ;
    
   console.log(CC_for_request,"CC_for_request")
-  // const DATA = localStorage.getItem("DETAILS")
-  // const DATA_FOR = JSON.parse(DATA);
-  // console.log("DADAD",DATA_FOR)
+  const DATA = localStorage.getItem("forDetail")
+  const DATA_FOR = JSON.parse(DATA);
+  console.log("DADAD",DATA_FOR)
 
 
 
