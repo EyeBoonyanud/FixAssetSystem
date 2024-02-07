@@ -179,7 +179,7 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
-  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO 
+  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   WHERE  (T.FAM_REQ_BY = '${userlogin}'
     OR (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002')
     OR (T.FAM_SERVICE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
@@ -201,7 +201,6 @@ module.exports.search = async function (req, res) {
     AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
-    
          `;
     console.log(query);
     const result = await connect.execute(query);
@@ -210,44 +209,6 @@ module.exports.search = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-  }
-};
-
-// get show data edit request
-module.exports.getEdit_Request_Show = async function (req, res) {
-  try {
-    const fam_no = req.query.FamNo;
-
-    const connect = await oracledb.getConnection(AVO);
-    const query = `
-    SELECT T.FRH_FAM_NO ,
-           TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
-		       T.FAM_REQ_BY ,
-		       T.FAM_REQ_TEL ,
-           T.FAM_FACTORY ,
-           T.FAM_REQ_CC ,
-           T.FAM_REQ_DEPT ,
-           T.FAM_REQ_TYPE ,
-           T.FAM_ASSET_GROUP, 
-           T.FAM_ASSET_CC, 
-           T.FAM_REQ_STATUS, 
-           T.FAM_REQ_REMARK
-     FROM FAM_REQ_HEADER T 
-     WHERE T.FRH_FAM_NO = :fam_no
-    `;
-    const data = {
-      fam_no,
-    };
-
-    const result = await connect.execute(query, data, { autoCommit: true });
-    connect.release();
-    // res.json(result);
-    const flatArray = result.rows.map(item => Object.values(item)).flat();
-    res.json(flatArray);
-    console.log(result);
-  } catch (error) {
-    console.error("Error in querying data:", error.message);
-    res.status(500).send("Internal Server Error");
   }
 };
 //Fixed Asset Code
@@ -629,6 +590,29 @@ module.exports.ins_from_Boi = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+
+module.exports.new_boi = async function (req, res) {
+  try {
+    const Fac = req.query.fac;
+    const CC = req.query.cc;
+    console.log(Fac,CC)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FBMC_BOI_PROJ 
+    FROM FAM_BOIPROJ_MAP_CC T 
+    WHERE T.FBMC_FACTORY = '${Fac}' 
+    AND T.FBMC_COST_CENTER = '${CC}' `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+
 //Select ข้อมูลส่วนของ Transfer Detail
 module.exports.select_BOI_from = async function (req, res) {
   try {

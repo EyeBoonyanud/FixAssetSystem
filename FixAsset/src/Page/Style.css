@@ -352,3 +352,14 @@ margin-right: 10px;
   margin-right: 10px;
   height: 100%;
 }
+.SearchReport{
+ /* border: 1px solid red; */
+ width: 80% !important;
+  display: block;
+}
+
+.SearchReport td{
+  border: 0  !important;;
+  padding: 0  !important;;
+margin: 0 !important;
+}

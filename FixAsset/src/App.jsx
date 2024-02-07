@@ -8,6 +8,7 @@ import Approve from "./Transaction/Approve";
 import InsertIssue from "./Transaction/InsertIssue";
 import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
+import Report from "./Transaction/Report"
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -25,7 +26,7 @@ const App = () => {
         <Route path="/InsertIssue" element={<InsertIssue />} />
         <Route path="/ForRe" element={<ForRe />} />
         <Route path="/TransDetail" element={<TransDetail />} />
-
+        <Route path="/Report" element={<Report />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

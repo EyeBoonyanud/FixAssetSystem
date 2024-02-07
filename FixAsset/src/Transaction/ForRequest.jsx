@@ -357,7 +357,6 @@ function ForRequest() {
   };
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
-
   const ForDt = localStorage.getItem("forDetail");
   
   //console.log("////////////////////",ForDt)
@@ -375,9 +374,11 @@ console.log(For_detail)
       setselectcost("");
       setstatus("");
       setTxt_Remark("");
-      setTableOpen(true);
-      setdatatable(For_detail)
+      // setTableOpen(true);
+      // setdatatable(For_detail)
     } else {
+      //console.log("////////////////////",ForDt)
+
       setFAM_run(For_Req[0]);
       setUserEmp(For_Req[2])
       setTel(For_Req[3]);
@@ -385,15 +386,17 @@ console.log(For_detail)
       setselectedType(For_Req[7]);
       setselectAssetgroup(For_Req[8]);
       setselectcost(For_Req[9]);
-      setstatus(For_Req[10]);
+      setstatus(For_Req[10][1]);
       setTxt_Remark(For_Req[11]);
-      setTableOpen(true)
-      setdatatable(For_detail)
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
+      if(For_detail!=null){
+        setTableOpen(true)
+        setdatatable(For_detail)
+      }
     }
     //หารหัส RequestBy
    
@@ -405,11 +408,11 @@ console.log(For_detail)
       AssetGroup();
     }
     CostforAsset();
-  }, [idFac, dataFixcode]);
+  }, [idFac,  dataFixcode ]);
 
-  const Tranfer_ins = async (running_no, StatusId,statustxt) => {
+  const Tranfer_ins = async (running_no, StatusId,datastatus) => {
     setFAM_run(running_no);
-    console.log(statustxt)
+    console.log(datastatus)
     const Remark = document.getElementById("Remark").value;
     const setData_ForRequester = [
       running_no,
@@ -422,7 +425,7 @@ console.log(For_detail)
       selectedType,
       selectAssetgroup,
       selectcost,
-      statustxt,
+      datastatus,
       Txt_Remark,
     ];
 
@@ -451,14 +454,14 @@ console.log(For_detail)
   };
   const Gen_No = async () => {
     let StatusId = "";
-    let statustxt ="";
+    let datastatus ="";
     if (selectAssetgroup.length > 0 && selectcost.length > 0) {
       try {
         const response = await axios.get(`http://localhost:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setstatus(data[1]);
-        statustxt=data[1]
+        datastatus=data
        
         StatusId = dataStatus.flat();
       } catch (error) {
@@ -476,12 +479,12 @@ console.log(For_detail)
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
          
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-          console.log("...................>",statustxt)
-          Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0],statustxt);
+         
+          Tranfer_ins(Run + "-" + paddedFamNo_old, StatusId[0],datastatus);
         } else {
           let FamNo_new = Run + "-0001";
-          console.log("...................<",statustxt)
-          Tranfer_ins(FamNo_new, StatusId[0],statustxt);
+        
+          Tranfer_ins(FamNo_new, StatusId[0],datastatus);
         }
       } catch (error) {
         console.error("Error during login:", error);
