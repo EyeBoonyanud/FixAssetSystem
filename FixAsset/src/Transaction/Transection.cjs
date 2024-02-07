@@ -662,6 +662,9 @@ module.exports.insertFile_from_request_to_project_me = async function (req, res)
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname); // Use the original filename
+    //   const file_server = req.body.file_server; // หรือจะดึงค่าจากอื่นๆ ก็ได้ตามที่คุณกำหนด
+    // const fileName = `${file.originalname}_${file_server}`;
+    // cb(null, fileName);
     },
   });
   

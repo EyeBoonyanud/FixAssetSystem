@@ -623,6 +623,7 @@ function ForRequest() {
           const formData = new FormData();
           uploadedFiles.forEach((file) => {
             formData.append('files', file);
+            // formData.append('file_server', file_server);
             // formData.append('filesname', file.name);
           });
      
