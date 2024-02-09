@@ -14,28 +14,41 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
-
 import { LocalActivity, SaveAlt } from "@mui/icons-material";
-
+import Header from "../Page/Hearder";
 function TransFerDetail() {
   //Local Storage
+  const EditFam = localStorage.getItem("EDIT")
   const ReqBy = localStorage.getItem("UserLogin");
   const Fac_to_request = localStorage.getItem("Factory");
   const Service_ID = localStorage.getItem("datafixgroup");
+  // const Service = localStorage.getItem("data_for_sevice");
   // LocalStorage สำหรับการรับค่าแบบ table
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
-  //console.log(For_Req, "For_ReqFor_ReqFor_ReqFor_ReqFor_Req");
+  console.log(For_Req, "For_ReqFor_ReqFor_ReqFor_ReqFor_Req");
   const Fam_no = For_Req[0];
-  const Service = For_Req[6];
+  
+  const Service = For_Req[13];
   const CC_for_request = For_Req[9];
-  const Sts = For_Req[10][0];
-  const FixAssetGroup = For_Req[8];
-  const DATA = localStorage.getItem("forDetail");
+  const Sts = For_Req[10];
+   console.log(Sts,"SSSSSSSS")
+  const DATA = localStorage.getItem("forDetail"); // list สำหรับ Detail AssetCode หน้า Forrequest
   const DATA_FOR = JSON.parse(DATA);
+  const fromdatatable = localStorage.getItem("TransForDetail"); //list สำหรับ TransferDetails
+  const For_Trans = JSON.parse(fromdatatable);
+  console.log(For_Trans, "For_Trans");
+  const fromrouting = localStorage.getItem("Routing"); //list สำหรับ TransferDetails
+  const For_Rou = JSON.parse(fromrouting);
+//  console.log(For_Rou, "For_Rou");
 
-  const [dataheader, setdataheader] = useState([]);
 
+
+const [user_login , setuser_login] = useState("");
+const [Owner_Send, setOwner_Send] = useState("");
+
+  // const [dataheader, setdataheader] = useState([]);
+  const [datePlan, setdatePlan] = useState("");
   const [dataBoi_from, setdataBoi_from] = useState([]);
 
   const [datafac, setdatafac] = useState([]);
@@ -47,7 +60,6 @@ function TransFerDetail() {
   const [newowner, setnewowner] = useState([]);
   const [selectnewowner, setselectnewowner] = useState("");
   const [result1, setresult1] = useState("");
-  console.log(result1, "result1");
 
   const [department, setdepartment] = useState([]);
   const [selectdepartment, setselectdepartment] = useState("");
@@ -74,7 +86,7 @@ function TransFerDetail() {
   const [abnormal, setabnormal] = useState("");
 
   const [Tel_text, setTel_text] = useState("");
-  
+  const [tel_service, settel_service] = useState("");
 
   const [newboi, setnewboi] = useState("");
   // ตัวแปร Radio Routing
@@ -88,22 +100,179 @@ function TransFerDetail() {
   // check radio button
   const [mgr_chk, setmgr_chk] = useState("hidden");
 
- const Telephone = (event) => {
-  setTel_text(event.target.value);
-  localStorage.setItem("Tel_text" ,event.target.value)
-};
+  // console.log(New_own, "New_own");
 
+  const Acc_mana = localStorage.getItem("ACC_Manager"); // เก็บแยก ไม่เก็บdata
+  
+
+  const keep = async () => {
+   
+   if (For_Req != null){
+      if(For_Trans==null){
+        console.log("เข้าสาาา1",For_Trans)
+        setuser_login(ReqBy);
+        setOwner_Send(ReqBy);
+       setselecteDatafac("");
+       setselectcost("");
+       setnewboi("");
+       New_Owner("");
+       setselectnewowner("");
+       setresult1("");
+       setTel_text("");
+        setdatePlan("");
+       setabnormal("");
+       setsts("");
+       setselectdepartment("");
+       settel_service("");
+       setselectservice_by("");
+       setselectboistaff("");
+       setselectboimanager("");
+       setselectfac_manager("");
+       setselectacc_check("");
+       
+       setselectacc_manager("");
+      }
+else{
+  console.log("เข้าสาาา2",For_Trans)
+  setuser_login(For_Req[2])
+  setOwner_Send(For_Req[2]);
+setselecteDatafac(For_Trans[2]);
+setselectcost(For_Trans[3]);
+setnewboi(For_Trans[4]);
+New_Owner(For_Trans[3], For_Trans[2]);
+setselectnewowner(For_Trans[5]);
+setresult1(For_Trans[6]);
+setTel_text(For_Trans[7]); 
+ setdatePlan(For_Trans[8]);
+setabnormal(For_Trans[9]);
+setsts(For_Trans[10]);
+
+setselectdepartment(For_Rou[0]);
+settel_service(For_Rou[1]);
+setselectservice_by(For_Rou[2]);
+setselectboistaff(For_Rou[3]);
+setselectboimanager(For_Rou[4]);
+setselectfac_manager(For_Rou[5]);
+setselectacc_check(For_Rou[6]);
+
+setselectacc_manager(Acc_mana);
+}
+
+      // เก็บแยก ไม่เก็บdata
+   } 
+  
+  // else {
+  //   console.log("เข้าสาาา3",)
+  //   setOwner_Send("");
+  //   setselecteDatafac(For_Trans[2]);
+  //   setselectcost(For_Trans[3]);
+  //   setnewboi(For_Trans[4]);
+  //   New_Owner(For_Trans[3], For_Trans[2]);
+  //   setselectnewowner(For_Trans[5]);
+  //   setresult1(For_Trans[6]);
+  //   setTel_text(For_Trans[7]); 
+  //    setdatePlan(For_Trans[8]);
+  //   setabnormal(For_Trans[9]);
+  //   setsts(For_Trans[10]);  
+  //   setselectdepartment(For_Rou[0]);
+  //   settel_service(For_Rou[1]);
+  //   setselectservice_by(For_Rou[2]);
+  //   setselectboistaff(For_Rou[3]);
+  //   setselectboimanager(For_Rou[4]);
+  //   setselectfac_manager(For_Rou[5]);
+  //   setselectacc_check(For_Rou[6]);
+    
+  //   setselectacc_manager(Acc_mana); 
+  // }
+  };
+
+  useEffect(() => {
+    if(EditFam!=null){
+      console.log("-------------------------------")
+      EditTrans();
+      // EditUpload();
+     }
+    console.log(">>>>>>>>>>>>>>>>>>", For_Trans);
+    Factory();
+    BOI_FROM();
+    Costcenter();
+    Department_Mana();
+    Service_By();
+    BOI_Staff();
+    BOI_Manager();
+    Fac_manager();
+    ACC_Check();
+    ACC_Manager();
+    keep();
+  }, []);
+
+  const Telephone = (event) => {
+    setTel_text(event.target.value);
+    const dataTable = [
+      ReqBy,
+      dataBoi_from,
+      selecteDatafac,
+      selectcost,
+      newboi,
+      selectnewowner,
+      result1,
+      event.target.value,
+      datePlan,
+      abnormal,
+      sts,
+
+    ];
+    
+    const sentdata = JSON.stringify(dataTable);
+    // console.log(sentdata)
+    localStorage.setItem("TransForDetail", sentdata);
+  };
+
+  const Tel_service = (event) => {
+    settel_service(event.target.value);
+    const data_Routing = [
+      selectdepartment,    
+      event.target.value,
+      selectservice_by,
+      selectboistaff,
+      selectboimanager,
+      selectfac_manager,
+      selectacc_check,
+    ];
+
+    const sentdata = JSON.stringify(data_Routing);
+    // ////console.log(sentdata)
+    localStorage.setItem("Routing", sentdata);
+  };
+  const handleDatePlan = (event) => {  
+  setdatePlan(event.target.value);
+  const dataTable = [
+    ReqBy,
+    dataBoi_from,
+    selecteDatafac,
+    selectcost,
+    newboi,
+    selectnewowner,
+    result1,
+    Tel_text,
+    event.target.value,
+    abnormal,
+    sts,
+
+  ];
+  const sentdata = JSON.stringify(dataTable);
+    // console.log(sentdata)
+    localStorage.setItem("TransForDetail", sentdata);
+};
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
     // console.log("ค่า", event.target.value);
   };
   const handleRadioService_By = (event) => {
     setradio_serviceby(event.target.value);
-  
   };
   const handleRadioBOI_Staff = (event) => {
     setradio_boistaff(event.target.value);
-  
   };
 
   const handleRadioFac_Manager = (event) => {
@@ -142,7 +311,23 @@ function TransFerDetail() {
   };
   const handleFactory = (event) => {
     setselecteDatafac(event.target.value);
-    localStorage.setItem("FACTORY_TRANS", event.target.value);
+    const dataTable = [
+      ReqBy,
+      dataBoi_from,
+      event.target.value,
+      selectcost,
+      newboi,
+      selectnewowner,
+      result1,
+      Tel_text,
+      datePlan,
+      abnormal,
+      sts,
+
+    ];
+
+    const sentdata = JSON.stringify(dataTable);
+    localStorage.setItem("TransForDetail", sentdata);
   };
   // Tranfer To CC
   const Costcenter = async () => {
@@ -156,45 +341,80 @@ function TransFerDetail() {
       console.error("Error during login:", error);
     }
   };
+
+  // Newowner
   const handleCost = async (event) => {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
-    localStorage.setItem("COST_TRANS", Cost);
+    //////console.log(newboi,"<<<<<<<<<<<<<<")
     setselectcost(Cost);
-    New_Owner(Cost);
-    //console.log(selecteDatafac, "selecteDatafac");
-    //console.log(selectcost, "selectcost");
+    New_Owner(Cost, selecteDatafac);
+
     try {
       const response = await axios.get(
         `http://localhost:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
       );
-      const data = await response.data;
-      setnewboi(data);
-      localStorage.setItem("NewBoi",data)
-      //console.log(data, "data :");
+      const data = response.data;
+      const boi = data.flat();
+      console.log(boi,"gggggggggggg")
+      if (!boi || boi.length === 0) {
+        setnewboi("NON BOI");
+      } else {
+        setnewboi(boi);
+      }
+      if (dataBoi_from == boi) {
+        ////console.log("เข้า1");
+        setsts("N");
+        setabnormal("");
+        const dataTable = [
+          ReqBy,
+          dataBoi_from,
+          selecteDatafac,
+          event.target.value,
+          boi,
+          selectnewowner,
+          result1,
+          Tel_text,
+          datePlan,
+          "N",
+
+        ];
+        const sentdata = JSON.stringify(dataTable);
+
+        localStorage.setItem("TransForDetail", sentdata);
+      } else {
+        ////console.log("เข้า2");
+        setsts("Y");
+        const txt_abnormal = "Transfer to difference project";
+        setabnormal(txt_abnormal);
+        const dataTable = [
+          ReqBy,
+          dataBoi_from,
+          selecteDatafac,
+          event.target.value,
+          boi,
+          selectnewowner,
+          result1,
+          Tel_text,
+          datePlan,
+          txt_abnormal,
+          "Y",
+
+        ];
+        const sentdata = JSON.stringify(dataTable);
+
+        localStorage.setItem("TransForDetail", sentdata);
+      }
     } catch (error) {
       console.error("Error during login:", error);
     }
-
-    if (dataBoi_from === newboi) {
-      setsts("N");
-      setabnormal("");
-      //console.log("เท่ากัน : ", sts);
-    } else {
-      setsts("Y");
-      setabnormal("Transfer to difference project");
-      //console.log("ไม่เท่ากัน :", sts);
-    }
-
-    // console.log(Cost, "setselectcost");
   };
-  // Newowner
-  const New_Owner = async (cost) => {
+
+  const New_Owner = async (cost, selectFac) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/new_owner?fac=${selecteDatafac}&cc=${cost}`
+        `http://localhost:5000/new_owner?fac=${selectFac}&cc=${cost}`
       );
       const data1 = await response.data;
-      // console.log("มาจาก New owner :", data1);
       const data = response.data.flat();
       setnewowner(data);
     } catch (error) {
@@ -202,15 +422,28 @@ function TransFerDetail() {
     }
   };
   const handleNew_owner = (event) => {
-   
     let New_own = event.target.value;
     const parts = New_own.split(":");
     let result = parts[1].trim();
     setselectnewowner(New_own); // เก็บ select ของ new owner
     setresult1(result);
-   // localStorage.setItem("NEW_OWNER", New_own);
-    localStorage.setItem("NEW_OWNER", event.target.value); // เก็บค่า Supharat.
-    //console.log(result, "NEWWWWWWWWWWWWWWWWWWWWw");
+    const dataTable = [
+      ReqBy,
+      dataBoi_from,
+      selecteDatafac,
+      selectcost,
+      newboi,
+      New_own,
+      result,
+      Tel_text,
+      datePlan,
+      abnormal,
+      sts,
+
+    ];
+    const sentdata = JSON.stringify(dataTable);
+    console.log(sentdata);
+    localStorage.setItem("TransForDetail", sentdata);
   };
   // Department Manager
   const Department_Mana = async () => {
@@ -227,12 +460,22 @@ function TransFerDetail() {
   };
   const handleDepartment = (event) => {
     setselectdepartment(event.target.value);
-    localStorage.setItem("DEPT_MANAGER", event.target.value);
+    const data_Routing = [
+      event.target.value,
+      selectservice_by,
+      tel_service,
+      selectboistaff,
+      selectboimanager,
+      selectfac_manager,
+      selectacc_check,
+    ];
+
+    const sentdata = JSON.stringify(data_Routing);
+    // ////console.log(sentdata)
+    localStorage.setItem("Routing", sentdata);
   };
   // ServiceBy
   const Service_By = async () => {
-    ////console.log("kkkkkkkk", Service_ID);
-
     try {
       const response = await axios.get(
         `http://localhost:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
@@ -247,8 +490,18 @@ function TransFerDetail() {
   };
   const handleService_By = (event) => {
     setselectservice_by(event.target.value);
-    localStorage.setItem("SERVICE_BY", event.target.value);
-    // console.log(event.target.value, "setselecteDatafac");
+    const data_Routing = [
+      selectdepartment,
+      tel_service,    
+      event.target.value,
+      selectboistaff,
+      selectboimanager,
+      selectfac_manager,
+      selectacc_check,
+    ];
+
+    const sentdata = JSON.stringify(data_Routing);
+    localStorage.setItem("Routing", sentdata);
   };
   //BOI_Staff
   const BOI_Staff = async () => {
@@ -265,7 +518,17 @@ function TransFerDetail() {
   };
   const handleBOI_Staff = (event) => {
     setselectboistaff(event.target.value);
-    localStorage.setItem("BOI_STAFF", event.target.value);
+    const data_Routing = [
+      selectdepartment,
+      tel_service,
+      selectservice_by,
+      event.target.value,
+      selectboimanager,
+      selectfac_manager,
+      selectacc_check,
+    ];
+    const sentdata = JSON.stringify(data_Routing);
+    localStorage.setItem("Routing", sentdata);
   };
   //BOI_Manager
   const BOI_Manager = async () => {
@@ -282,7 +545,17 @@ function TransFerDetail() {
   };
   const handleBOI_Manager = (event) => {
     setselectboimanager(event.target.value);
-    localStorage.setItem("BOI_MANAGER", event.target.value);
+    const data_Routing = [
+      selectdepartment,
+      tel_service,
+      selectservice_by,
+      selectboistaff,
+      event.target.value,
+      selectfac_manager,
+      selectacc_check,
+    ];
+    const sentdata = JSON.stringify(data_Routing);
+    localStorage.setItem("Routing", sentdata);
   };
   //Factory_Manager
   const Fac_manager = async () => {
@@ -299,7 +572,17 @@ function TransFerDetail() {
   };
   const handleFac_manager = (event) => {
     setselectfac_manager(event.target.value);
-    localStorage.setItem("FAC_MANAGER", event.target.value);
+    const data_Routing = [
+      selectdepartment,
+      tel_service,
+      selectservice_by,
+      selectboistaff,
+      selectboimanager,
+      event.target.value,
+      selectacc_check,
+    ];
+    const sentdata = JSON.stringify(data_Routing);
+    localStorage.setItem("Routing", sentdata);
   };
   //ACC Check
   const ACC_Check = async () => {
@@ -316,7 +599,17 @@ function TransFerDetail() {
   };
   const handleACC_Check = (event) => {
     setselectacc_check(event.target.value);
-    localStorage.setItem("ACC_Check", event.target.value);
+    const data_Routing = [
+      selectdepartment,
+      tel_service,
+      selectservice_by,
+      selectboistaff,
+      selectboimanager,
+      selectfac_manager,
+      event.target.value,
+    ];
+    const sentdata = JSON.stringify(data_Routing);
+    localStorage.setItem("Routing", sentdata);
   };
   // ACC_Manager
   const ACC_Manager = async () => {
@@ -335,36 +628,26 @@ function TransFerDetail() {
     setselectacc_manager(event.target.value);
     localStorage.setItem("ACC_Manager", event.target.value);
   };
-  // Header
-  const Header = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/header?famno=${Fam_no}`
-      );
-      const data = response.data.flat();
-      setdataheader(data);
-      //console.log("setdataheader :", data);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
+ 
+
 
   const SAVE = async () => {
     const Plan_date = document.getElementById("Plan_Remove").value;
     const Tel = document.getElementById("Tel").value;
     const Tel_Service = document.getElementById("Tel_Service").value;
-    const setData_TransDetail = [
-      Fam_no,
-      Plan_date,
-      selecteDatafac,
-      newboi,
-      result1,
-      Tel,
-      sts,
-      abnormal,
-    ];
-    const data_for_detail = JSON.stringify(setData_TransDetail);
-    localStorage.setItem("TransDetails", data_for_detail);
+    console.log(sts, "ssssssssssssssssssssssssss");
+    // const setData_TransDetail = [
+    //   Fam_no,
+    //   Plan_date,
+    //   selecteDatafac,
+    //   newboi,
+    //   result1,
+    //   Tel,
+    //   sts,
+    //   abnormal,
+    // ];
+    // const data_for_detail = JSON.stringify(setData_TransDetail);
+    // localStorage.setItem("TransDetails", data_for_detail);
     //console.log("data_for_detail", data_for_detail);
 
     // const Fixcode = document.getElementById("Fixcode").value;
@@ -434,97 +717,150 @@ function TransFerDetail() {
   };
 
   const SUBMIT = async () => {
-    if (Sts === "FLTR001") {
-      const status_submit = "FLTR002";
-      //console.log(status_submit, "status_submit");
-      //console.log(Fam_no, "Fam_no");
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/update_submit",
-          {
-            famno: Fam_no,
-            sts_submit: status_submit,
-          }
-        );
-        Swal.fire({
-          title: "Submit Success",
-          icon: "success",
-        });
+    // if (Sts === "FLTR001") {
+    //   const status_submit = "FLTR002";
+    //   //console.log(status_submit, "status_submit");
+    //   //console.log(Fam_no, "Fam_no");
+    //   try {
+    //     const response = await axios.post(
+    //       "http://localhost:5000/update_submit",
+    //       {
+    //         famno: Fam_no,
+    //         sts_submit: status_submit,
+    //       }
+    //     );
+    //     Swal.fire({
+    //       title: "Submit Success",
+    //       icon: "success",
+    //     });
 
-        //console.log(response.data, "Status submit successfully updated");
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-    } else if (Sts === "FLTR002") {
-      const status_submit = "FLTR003";
-      setmgr_chk("visible");
-      //console.log(status_submit, "status_submit");
-      //console.log(Fam_no, "Fam_no");
-      try {
-        const response = await axios.post(
-          "http://localhost:5000/update_submit",
-          {
-            famno: Fam_no,
-            sts_submit: status_submit,
-          }
-        );
-        Swal.fire({
-          title: "Submit Success",
-          icon: "success",
-        });
+    //     //console.log(response.data, "Status submit successfully updated");
+    //   } catch (error) {
+    //     console.error("Error updating submit status:", error.message);
+    //   }
+    // } else if (Sts === "FLTR002") {
+    //   const status_submit = "FLTR003";
+    //   setmgr_chk("visible");
+    //   //console.log(status_submit, "status_submit");
+    //   //console.log(Fam_no, "Fam_no");
+    //   try {
+    //     const response = await axios.post(
+    //       "http://localhost:5000/update_submit",
+    //       {
+    //         famno: Fam_no,
+    //         sts_submit: status_submit,
+    //       }
+    //     );
+    //     Swal.fire({
+    //       title: "Submit Success",
+    //       icon: "success",
+    //     });
 
-        //console.log(response.data, "Status submit successfully updated");
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
+    //     //console.log(response.data, "Status submit successfully updated");
+    //   } catch (error) {
+    //     console.error("Error updating submit status:", error.message);
+    //   }
+    // }
+    if (ReqBy == "") {
+      // ส่ง error หรือทำอย่างอื่นที่ต้องการเมื่อมีค่าใน array ที่ส่งมาเป็น null
+      console.error("Error: One or more arrays contain null values.");
+      // ตัวอย่างการแสดงข้อความ error ด้วย Swal
+      Swal.fire({
+        title: "Error",
+        text: "One or more arrays contain null values.",
+        icon: "error",
+      });
+    } else {
+      // ทำงานตามปกติเมื่อไม่มีค่าใน array ที่ส่งมาเป็น null
+      console.log(Sts,"")
+      if (Sts === "FLTR001") {
+        const status_submit = "FLTR002";
+        try {
+              const response = await axios.post(
+                "http://localhost:5000/update_submit",
+                {
+                  famno: Fam_no,
+                  sts_submit: status_submit,
+                }
+              );
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+      
+              //console.log(response.data, "Status submit successfully updated");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+      } else if (Sts === "FLTR002") {
+        const status_submit = "FLTR003";
+        
       }
     }
   };
+  //getEdit_Trans
+  const EditTrans = async () => {
+    console.log(EditFam,"EditFamKHUNNNN")
+      try {
+        const response = await axios
+          .get(
+            `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+          );
+          const data = await response.data;
+          console.log(data,"dataaaaaaaaSSSSSSSSSSSS")
+          const date = new Date(data[0][8]); // สร้างวัตถุ Date จากวันที่
+          const month = date.getMonth() + 1;
+          const formattedMonth = month < 10 ? '0' + month : month; // เดือน (จำนวนเดือนเริ่มจาก 0)
+          const day = date.getDate(); // วัน
+          const formattedDay = day < 10 ? '0' + day : day;
+          const year = date.getFullYear(); // ปี
+          const formattedDate = `${formattedMonth}/${formattedDay}/${year}`;
+          const DataTrans = [
+            data[0][1], 
+            data[0][2],
+            data[0][3],
+            data[0][4],
+            data[0][5],
+            data[0][6],
+            data[0][7],
+            data[0][8],
+            formattedDate,
+            data[0][10],
+            data[0][11],
+     
+          ]
+          const DataRouting = [
+            data[0][12],
+            data[0][17],
+            data[0][18],
+            data[0][22],
+            data[0][26],
+            data[0][30],
+            data[0][34],
+            data[0][38],
+            data[0][42]
+     
+          ]
+          console.log(DataTrans,"<<<<<<<<<<<<<")
+          const data_trans = JSON.stringify(DataTrans);
+          localStorage.setItem("TransForDetail", data_trans);
+          const data_routing = JSON.stringify(DataRouting);
+          localStorage.setItem("Routing", data_routing);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
 
-  
-const tel = localStorage.getItem("Tel_text");
-  console.log(tel,"tel")
-  const fac_trans = localStorage.getItem("FACTORY_TRANS");
-  console.log(fac_trans,"fac_trans")
-  const trans_cc = localStorage.getItem("COST_TRANS");
-  console.log(trans_cc,"trans_cc")
-  const new_boi = localStorage.getItem("NewBoi");
-  console.log(new_boi,"new_boi")
-  const New_own = localStorage.getItem("NEW_OWNER");
-  console.log(New_own,"New_own")
-
-  const keep  = async () => {
-    console.log("????")
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>",new_boi)
-      setTel_text(tel);
-      setselecteDatafac(fac_trans);
-      setselectcost(trans_cc);
-      setselectnewowner(New_own);
-      setnewboi(new_boi);
-  
-   // if (tel || fac_trans || trans_cc || new_boi || New_own) {
-      
-   /// }
-  }
-  
-  useEffect(() => {
-    Factory();
-    BOI_FROM();
-    Costcenter();
-    Department_Mana();
-    Service_By();
-    BOI_Staff();
-    BOI_Manager();
-    Fac_manager();
-    ACC_Check();
-    ACC_Manager();
-    Header();
-    keep();
-   
-  }, []);
   const A = "Sucha";
-  const B = "FLTR001";
+  // const B = "FLTR001";
   return (
-    <>
+    
+    <> 
+    
+    <div style={{ marginTop: "100px" }}>
+        <Header />
+      </div>
+
       <div>
         <Card className="Style100">
           <Card
@@ -561,7 +897,7 @@ const tel = localStorage.getItem("Tel_text");
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        value={ReqBy}
+                        value={user_login}
                         disabled
                       />
                     </FormControl>
@@ -686,6 +1022,8 @@ const tel = localStorage.getItem("Tel_text");
                         // defaultValue=""
                         size="small"
                         type="date"
+                        onChange={handleDatePlan}
+                        value={datePlan}
                       />
                     </FormControl>
                   </td>
@@ -698,9 +1036,9 @@ const tel = localStorage.getItem("Tel_text");
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={abnormal}
+                        disabled
                       />
                     </FormControl>
                   </td>
@@ -758,7 +1096,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept !== ReqBy && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -803,7 +1141,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" && radio_dept == ReqBy && (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -836,6 +1174,7 @@ const tel = localStorage.getItem("Tel_text");
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                         value={Service}
+                        // onChange={handleService}
                       />
                     </FormControl>
                   </td>
@@ -847,6 +1186,8 @@ const tel = localStorage.getItem("Tel_text");
                         id="Tel_Service"
                         defaultValue=""
                         size="small"
+                        onChange={Tel_service}
+                        value={tel_service}
                       />
                     </FormControl>
                   </td>
@@ -872,7 +1213,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {B != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -885,16 +1226,16 @@ const tel = localStorage.getItem("Tel_text");
                             // style={{ marginLeft: "20px" }}
                           >
                             <FormControlLabel
-                              value="Approve"
+                              value="Accept"
                               control={<Radio size="small" />}
-                              label="Approve"
+                              label="Accept"
                               disabled
                             />
                             <FormControlLabel
-                              value="Reject"
+                              value="Not Accept"
                               // disabled
                               control={<Radio size="small" />}
-                              label="Reject"
+                              label="Not Accept"
                               disabled
                             />
                           </RadioGroup>
@@ -917,7 +1258,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" && radio_dept == ReqBy && (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -956,7 +1297,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {B != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -968,16 +1309,16 @@ const tel = localStorage.getItem("Tel_text");
                             onChange={handleRadioBOI_Staff}
                           >
                             <FormControlLabel
-                              value="Approve"
+                              value="Accept"
                               control={<Radio size="small" />}
-                              label="Approve"
+                              label="Accept"
                               disabled
                             />
                             <FormControlLabel
-                              value="Reject"
+                              value="Not Accept"
                               // disabled
                               control={<Radio size="small" />}
-                              label="Reject"
+                              label="Not Accept"
                               disabled
                             />
                           </RadioGroup>
@@ -1000,7 +1341,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" && radio_dept == ReqBy && (
                   <>
                     {" "}
                     <tr>
@@ -1040,7 +1381,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy &&  (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1084,7 +1425,7 @@ const tel = localStorage.getItem("Tel_text");
                   )}
                 </tr>
 
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" && radio_dept == ReqBy &&  (
                   <>
                     {" "}
                     <tr>
@@ -1125,7 +1466,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {B != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy &&  (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1170,7 +1511,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" &&  radio_dept == ReqBy && (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -1209,7 +1550,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1222,16 +1563,16 @@ const tel = localStorage.getItem("Tel_text");
                             // style={{ marginLeft: "20px" }}
                           >
                             <FormControlLabel
-                              value="Approve"
+                              value="Accept"
                               control={<Radio size="small" />}
-                              label="Approve"
+                              label="Accept"
                               disabled
                             />
                             <FormControlLabel
-                              value="Reject"
+                              value="Not Accept"
                               // disabled
                               control={<Radio size="small" />}
-                              label="Reject"
+                              label="Not Accept"
                               disabled
                             />
                           </RadioGroup>
@@ -1254,7 +1595,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" && radio_dept == ReqBy && (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -1280,7 +1621,7 @@ const tel = localStorage.getItem("Tel_text");
                   <td>
                     <FormControl className="Style3">
                       <TextField
-                        value={ReqBy}
+                        value={Owner_Send}
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
@@ -1291,7 +1632,7 @@ const tel = localStorage.getItem("Tel_text");
                       />
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" && (
+                  {Sts != "FLTR001" && radio_dept == ReqBy && (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1336,7 +1677,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" &&  radio_dept == ReqBy && (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -1393,7 +1734,7 @@ const tel = localStorage.getItem("Tel_text");
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        value={newowner}
+                        value={result1}
                         disabled
                         sx={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -1402,7 +1743,7 @@ const tel = localStorage.getItem("Tel_text");
                     </FormControl>
                   </td>
 
-                  {Sts != "FLTR001" ? (
+                  {Sts != "FLTR001" ?  (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1576,7 +1917,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" &&  radio_dept == ReqBy &&  (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -1614,7 +1955,7 @@ const tel = localStorage.getItem("Tel_text");
                       </Select>
                     </FormControl>
                   </td>
-                  {Sts != "FLTR001" && (
+                  {Sts != "FLTR001" &&  radio_dept == ReqBy &&  (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1657,7 +1998,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" &&  radio_dept == ReqBy &&  (
                   <>
                     <tr>
                       <th colSpan={5}></th>
@@ -1692,7 +2033,7 @@ const tel = localStorage.getItem("Tel_text");
                       />
                     </FormControl>
                   </td>
-                  {B != "FLTR001" && (
+                  {Sts != "FLTR001" &&  radio_dept == ReqBy &&  (
                     <>
                       <td className="Style5">
                         <FormControl>
@@ -1735,7 +2076,7 @@ const tel = localStorage.getItem("Tel_text");
                     </>
                   )}
                 </tr>
-                {Sts != "FLTR001" && (
+                {Sts != "FLTR001" &&  radio_dept == ReqBy &&  (
                   <>
                     <tr>
                       <th colSpan={5}></th>

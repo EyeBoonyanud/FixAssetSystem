@@ -52,6 +52,8 @@ function Issue() {
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
+  
+
 
   function formatDateString(rawDate) {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -128,6 +130,11 @@ function Issue() {
     RequestType();
   }, []);
 
+ //
+ const  handleEdit = async (edit) => {
+  localStorage.setItem("EDIT",edit)
+  navigate("/ForRe");
+};
   const Search = async () => {
     const FamNo = document.getElementById("FamNo").value;
     const FamTo = document.getElementById("FamTo").value;
@@ -522,7 +529,7 @@ function Issue() {
                         <Tooltip title="Edit">
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() => handleOpenEdit(item[0])}
+                            onClick={() => handleEdit(item[2])}
                           />
                         </Tooltip>
                         <Tooltip title="Delete">

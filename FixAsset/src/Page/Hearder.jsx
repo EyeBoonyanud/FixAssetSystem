@@ -13,9 +13,9 @@ import "./Style.css";
 import { useNavigate } from "react-router-dom";
 
 function ButtonAppBar({ isOpen, onClose }) {
-    const Name = localStorage.getItem("Name");
-    const Lastname = localStorage.getItem("Lastname");
-    const NameRole = localStorage.getItem("NameRole");
+  const Name = localStorage.getItem("Name");
+  const Lastname = localStorage.getItem("Lastname");
+  const NameRole = localStorage.getItem("NameRole");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -25,10 +25,19 @@ function ButtonAppBar({ isOpen, onClose }) {
   const Logout = () => {
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
+    localStorage.removeItem("TransForDetail")
+    localStorage.removeItem("DEPT_MANAGER");
+    localStorage.removeItem("SERVICE_BY");
+    localStorage.removeItem("BOI_STAFF");
+    localStorage.removeItem("BOI_MANAGER");
+    localStorage.removeItem("FAC_MANAGER");
+    localStorage.removeItem("ACC_Check");
+    localStorage.removeItem("ACC_Manager");
+    localStorage.removeItem("EDIT")
     //   localStorage.removeItem("Lastname");
     // localStorage.removeItem("NameRole");
-      navigate("/");
-    };
+    navigate("/");
+  };
 
   return (
     <>
@@ -68,14 +77,13 @@ function ButtonAppBar({ isOpen, onClose }) {
                 fontFamily: "Roboto, sans-serif",
               }}
             >
-              User: {Name} {Lastname}  &nbsp; &nbsp;  Role : {NameRole} &nbsp; | &nbsp; <text onClick={Logout}>Logout</text> 
+              User: {Name} {Lastname} &nbsp; &nbsp; Role : {NameRole} &nbsp; |
+              &nbsp; <text onClick={Logout}>Logout</text>
               <br />
-
             </Button>
           </Toolbar>
         </AppBar>
       </Box>
-     
     </>
   );
 }

@@ -100,7 +100,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
      navigate("/Search");    
    }else if(id === "Approve FAM"){
    
-    navigate("/Approve");
+    navigate("/Search");
    }
  
  };

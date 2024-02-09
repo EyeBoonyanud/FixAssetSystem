@@ -24,21 +24,8 @@ function LabTabs() {
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Requester / Details / Fileupload" value="1" />
-              <Tab label="Item Two" value="2" />
-              {/* <Tab label="Item Three" value="3" /> */}
-            </TabList>
+           <Tab1/>
           </Box>
-          <TabPanel value="1">
-            <Tab1 />
-          </TabPanel>
-          <TabPanel value="2">
-            <Tab2 />
-          </TabPanel>
-          {/* <TabPanel value="3">
-            <Tab3 />
-          </TabPanel> */}
         </TabContext>
       </Box>
     </div>

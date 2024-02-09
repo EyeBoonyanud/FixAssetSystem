@@ -65,8 +65,11 @@ app.get("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 //
 app.get("/new_boi",Transaction.new_boi);
- 
-
+//
+app.get("/getEdit_request_show",Transaction.getEdit_Request_Show);
+app.get("/getEdit_FixAsset",Transaction.getEdit_FixAsset);
+app.get("/getEdit_FileUpload",Transaction.getEdit_FileUpload);
+app.get("/getEdit_Trans",Transaction.getEdit_Trans);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
