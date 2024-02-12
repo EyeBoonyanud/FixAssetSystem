@@ -20,6 +20,9 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
+
+
+//------------------------get------------------------------------//
 app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
@@ -39,10 +42,6 @@ app.get("/getfix_group",Transaction.fix_group);
 app.get("/getid_service",Transaction.id_service);
 app.get("/getfind_service",Transaction.find_service);
 app.get("/getfamno",Transaction.fam_no);
-app.post("/get_gen_famno",Transaction.insert_tranfer);
-app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
-app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
-app.post("/ins_from_Boi",Transaction.ins_from_Boi);
 app.get("/select_BOI_from",Transaction.select_BOI_from);
 app.get("/new_owner",Transaction.new_owner);
 app.get("/cc_for_transfer",Transaction.cc);
@@ -53,10 +52,24 @@ app.get("/boi_manager",Transaction.boi_manager);
 app.get("/fac_manager",Transaction.fac_manager);
 app.get("/acc_check",Transaction.acc_check);
 app.get("/acc_manager",Transaction.acc_manager);
+app.get("/getEdit_request_show",Transaction.getEdit_Request_Show);
+app.get("/getlevel",Transaction.level_person_maintain);
+app.get("/getData_UserLogin_Person",Transaction.getData_UserLogin_Person);
+app.get("/Search_Person_Maintain",Transaction.search_person_maintain);
+app.get("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
+// ----------------------------------post-----------------------------------//
+app.post("/get_gen_famno",Transaction.insert_tranfer);
+app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
+app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
+app.post("/ins_from_Boi",Transaction.ins_from_Boi);
 app.post("/ins_transfer",Transaction.ins_transfer);
 app.post("/routing_tran",Transaction.routing_tran);
 app.post("/receiver_tranfer",Transaction.receiver_tranfer);
-app.get("/getEdit_request_show",Transaction.getEdit_Request_Show);
+app.post("/ins_PERSON_MAINTAIN",Transaction.insertPerson_Maintain);
+app.post("/update_PERSON_MAINTAIN",Transaction.updatePerson_Maintain);
+app.post("/dlt_PERSON_MAINTAIN",Transaction.deletePerson_Maintain);
+
+
 
 
 

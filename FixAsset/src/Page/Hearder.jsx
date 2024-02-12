@@ -32,7 +32,7 @@ function ButtonAppBar({ isOpen, onClose }) {
         <AppBar
           position="fixed"
           style={{
-            backgroundColor: "green",
+            background: 'radial-gradient(circle,#E1ECC8 ,#88AB8E)',
           }}
         >
           <Toolbar>
@@ -48,7 +48,7 @@ function ButtonAppBar({ isOpen, onClose }) {
             </IconButton>
             <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Fix Asset System
+              FIX ASSET SYSTEM
             </Typography>
             <Avatar
               sx={{ bgcolor: deepOrange[500], marginRight: "10px" }}

@@ -1189,12 +1189,359 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     // res.json(result.rows);
     // console.log(result);
 
-    const flatArray = result.rows.map(item => Object.values(item)).flat();
+    const flatArray = result.rows.map((item) => Object.values(item)).flat();
     res.json(flatArray);
     console.log(result);
-    
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+// get level
+module.exports.level_person_maintain = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FCM_CODE,t.fcm_desc 
+    FROM FAM_CODE_MASTER T 
+    WHERE T.FCM_GROUP_ID = 'GP02' 
+    AND T.FCM_STATUS = 'A' 
+    ORDER BY T.FCM_SORT,T.FCM_DESC
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+// get show data user login Person maintain
+module.exports.getData_UserLogin_Person = async function (req, res) {
+  try {
+    const User_login = req.query.User_Login;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+    SELECT '(' || H.EMPCODE || ') ' || H.ENAME || ' ' || H.ESURNAME AS ENAME,T.USER_EMAIL
+    FROM CUSR.CU_USER_HUMANTRIX H, CUSR.CU_USER_M T
+    WHERE H.EMPCODE = T.USER_EMP_ID
+    AND UPPER(T.USER_LOGIN) = UPPER(:User_login)
+    `;
+    const data = {
+      User_login,
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    // res.json(result);
+    res.json(result.rows);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// insert person maintian
+// module.exports.insertPerson_Maintain = async function (req, res) {
+//   try {
+//     const fam_person_fctory = req.query.FPM_factory;
+//     const fam_person_level = req.query.FPM_level;
+//     const fam_person_cost_center = req.query.FPM_cost_center;
+//     const fam_person_user_login = req.query.FPM_user_login;
+//     const fam_person_email = req.query.FPM_email;
+//     const fam_person_status = req.query.FPM_status;
+//     const fam_person_create_by = req.query.FPM_create_by;
+//     const fam_person_update_by = req.query.FPM_update_by;
+
+//     console.log(fam_person_fctory);
+//     console.log(fam_person_level);
+//     console.log(fam_person_cost_center);
+//     console.log(fam_person_user_login);
+//     console.log(fam_person_email);
+//     console.log(fam_person_status);
+//     console.log(fam_person_create_by);
+//     console.log(fam_person_update_by);
+
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+
+//     MERGE INTO FAM_PERSON_MASTER T
+//     USING (SELECT :fam_person_fctory AS FPM_FACTORY,
+//                   :fam_person_level AS FPM_LEVEL,
+//                   :fam_person_cost_center AS FPM_CC,
+//                   :fam_person_user_login AS FPM_USER_LOGIN,
+//                   :fam_person_status AS FPM_PERSON_STS,
+//                   :fam_person_email AS FPM_EMAIL,
+//                   :fam_person_create_by AS FPM_CREATE_BY,
+//                   SYSDATE AS FPM_CREATE_DATE,
+//                   :fam_person_update_by AS FPM_UPDATE_BY,
+//                   SYSDATE AS FPM_UPDATE_DATE
+//            FROM DUAL) S
+//     ON (T.FPM_FACTORY = S.FPM_FACTORY AND T.FPM_LEVEL = S.FPM_LEVEL  AND T.FPM_CC = S.FPM_CC AND T.FPM_USER_LOGIN = S.FPM_USER_LOGIN)
+//     WHEN MATCHED THEN
+//       UPDATE SET
+//                  T.FPM_EMAIL = S.FPM_EMAIL,
+//                  T.FPM_PERSON_STS = S.FPM_PERSON_STS,
+//                  T.FPM_UPDATE_BY = S.FPM_UPDATE_BY,
+//                  T.FPM_UPDATE_DATE = S.FPM_UPDATE_DATE
+//     WHEN NOT MATCHED THEN
+//       INSERT (FPM_FACTORY, FPM_LEVEL, FPM_CC, FPM_USER_LOGIN, FPM_PERSON_STS, FPM_EMAIL, FPM_CREATE_BY, FPM_CREATE_DATE, FPM_UPDATE_BY,FPM_UPDATE_DATE)
+//       VALUES (S.FPM_FACTORY, S.FPM_LEVEL, S.FPM_CC, S.FPM_USER_LOGIN, S.FPM_PERSON_STS, S.FPM_EMAIL, S.FPM_CREATE_BY, S.FPM_CREATE_DATE, S.FPM_UPDATE_BY, S.FPM_UPDATE_DATE)
+//          `;
+//     const data = {
+//       fam_person_fctory,
+//       fam_person_level,
+//       fam_person_cost_center,
+//       fam_person_user_login,
+//       fam_person_status,
+//       fam_person_email,
+//       fam_person_create_by,
+//       fam_person_update_by,
+//     };
+//     const result = await connect.execute(query, data, { autoCommit: true });
+//     console.log(query);
+//     connect.release();
+//     // console.log(result.rows);
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
+//   }
+// };
+module.exports.insertPerson_Maintain = async function (req, res) {
+  try {
+    const fam_person_fctory = req.query.FPM_factory;
+    const fam_person_level = req.query.FPM_level;
+    const fam_person_cost_center = req.query.FPM_cost_center;
+    const fam_person_user_login = req.query.FPM_user_login;
+    const fam_person_email = req.query.FPM_email;
+    const fam_person_status = req.query.FPM_status;
+    const fam_person_create_by = req.query.FPM_create_by;
+    const fam_person_update_by = req.query.FPM_update_by;
+
+    console.log(fam_person_fctory);
+    console.log(fam_person_level);
+    console.log(fam_person_cost_center);
+    console.log(fam_person_user_login);
+    console.log(fam_person_email);
+    console.log(fam_person_status);
+    console.log(fam_person_create_by);
+    console.log(fam_person_update_by);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    
+    INSERT INTO FAM_PERSON_MASTER (FPM_FACTORY, FPM_LEVEL, FPM_CC, FPM_USER_LOGIN, FPM_PERSON_STS, FPM_EMAIL, FPM_CREATE_BY, FPM_CREATE_DATE, FPM_UPDATE_BY, FPM_UPDATE_DATE)
+    VALUES (:fam_person_fctory, :fam_person_level, :fam_person_cost_center, :fam_person_user_login, :fam_person_status, :fam_person_email, :fam_person_create_by, SYSDATE, :fam_person_update_by, SYSDATE)
+
+         `;
+    const data = {
+      fam_person_fctory,
+      fam_person_level,
+      fam_person_cost_center,
+      fam_person_user_login,
+      fam_person_status,
+      fam_person_email,
+      fam_person_create_by,
+      fam_person_update_by,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
+  }
+};
+
+// update person maintian
+module.exports.updatePerson_Maintain = async function (req, res) {
+  try {
+    const fam_person_fctory = req.query.FPM_factory;
+    const fam_person_level = req.query.FPM_level;
+    const fam_person_cost_center = req.query.FPM_cost_center;
+    const fam_person_user_login = req.query.FPM_user_login;
+    const fam_person_email = req.query.FPM_email;
+    const fam_person_status = req.query.FPM_status;
+    const fam_person_update_by = req.query.FPM_update_by;
+
+    console.log(fam_person_fctory);
+    console.log(fam_person_level);
+    console.log(fam_person_cost_center);
+    console.log(fam_person_user_login);
+    console.log(fam_person_email);
+    console.log(fam_person_status);
+    console.log(fam_person_update_by);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_PERSON_MASTER
+  SET
+    FPM_EMAIL = :fam_person_email,
+    FPM_PERSON_STS = :fam_person_status,
+    FPM_UPDATE_BY = :fam_person_update_by,
+    FPM_UPDATE_DATE = SYSDATE
+  WHERE
+    FPM_FACTORY = :fam_person_fctory
+    AND FPM_LEVEL = :fam_person_level
+    AND FPM_CC = :fam_person_cost_center
+    AND FPM_USER_LOGIN = :fam_person_user_login
+         `;
+    const data = {
+      fam_person_fctory,
+      fam_person_level,
+      fam_person_cost_center,
+      fam_person_user_login,
+      fam_person_status,
+      fam_person_email,
+      fam_person_update_by,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
+  }
+};
+
+//Search person maintain
+module.exports.search_person_maintain = async function (req, res) {
+  try {
+    const factory = req.query.FPM_factory;
+    const level = req.query.FPM_level;
+    const cost_center = req.query.FPM_cost_center;
+    const user_login = req.query.FPM_user_login;
+    console.log("F", factory);
+    console.log("L", level);
+    console.log("C", cost_center);
+    console.log("U", user_login);
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT 
+      C.FACTORY_NAME AS FACTORY, 
+      T.FPM_FACTORY AS FACTORY_CC,	
+   		CM.FCM_DESC AS LEVEL_DESC ,
+   		T.FPM_LEVEL  AS LEVEL_CC,
+   		CMCC.CC_DESC  AS COST_CENTER,
+   		T.FPM_CC AS COST_CENTER_CC,
+   		T.FPM_USER_LOGIN , 
+      (SELECT
+        '(' || HH.EMPCODE || ') ' || HH.ENAME || ' ' || HH.ESURNAME AS ENAME
+        FROM CUSR.CU_USER_HUMANTRIX HH, CUSR.CU_USER_M TE 		
+        WHERE HH.EMPCODE = TE.USER_EMP_ID
+          AND UPPER(TE.USER_LOGIN) = UPPER(T.FPM_USER_LOGIN)) AS NAME_SURNAME,
+      T.FPM_EMAIL, 
+      CASE 
+        WHEN T.FPM_PERSON_STS = 'A' THEN 'Active'
+        WHEN T.FPM_PERSON_STS = 'I' THEN 'In Active'
+        ELSE T.FPM_PERSON_STS 
+      END AS PERSON_STATUS,
+      T.FPM_UPDATE_BY, 
+      TO_CHAR(T.FPM_UPDATE_DATE, 'DD/MM/YYYY') AS UPDATE_DATE
+    FROM 
+      FAM_PERSON_MASTER T
+    LEFT JOIN 
+      CUSR.CU_FACTORY_M C ON C.FACTORY_CODE = T.FPM_FACTORY 
+    LEFT JOIN 
+      FAM_CODE_MASTER CM ON CM.FCM_CODE = T.FPM_LEVEL 
+    LEFT JOIN 
+      CUSR.CU_MFGPRO_CC_MSTR CMCC ON CMCC.CC_CTR = T.FPM_CC 
+    WHERE 
+      (T.FPM_FACTORY = '${factory}' OR '${factory}' IS NULL)
+      AND (T.FPM_LEVEL = '${level}' OR '${level}' IS NULL)
+      AND (TRIM(T.FPM_CC) = '${cost_center}' OR '${cost_center}' IS NULL)
+      AND (UPPER(T.FPM_USER_LOGIN) = UPPER('${user_login}') OR UPPER('${user_login}') IS NULL)
+      ORDER BY  C.FACTORY_NAME,CM.FCM_DESC,CMCC.CC_DESC,T.FPM_USER_LOGIN DESC
+    `;
+
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// get show data edit person
+module.exports.getEdit_Person_Show = async function (req, res) {
+  try {
+    const factory = req.query.FPM_factory;
+    const level = req.query.FPM_level;
+    const cost_center = req.query.FPM_cost_center;
+    const user_login = req.query.FPM_user_login;
+    console.log("F", factory);
+    console.log("L", level);
+    console.log("C", cost_center);
+    console.log("U", user_login);
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT  T.FPM_FACTORY,
+    T.FPM_LEVEL,
+    T.FPM_CC ,
+    T.FPM_USER_LOGIN,
+     T.FPM_EMAIL,
+    T.FPM_PERSON_STS,
+    T.FPM_CREATE_BY,
+    TO_CHAR(T.FPM_CREATE_DATE , 'DD/MM/YYYY') AS FPM_CREATE_DATE_E,
+    T.FPM_UPDATE_BY,
+    TO_CHAR(T.FPM_UPDATE_DATE , 'DD/MM/YYYY') AS FPM_UPDATE_DATE_E
+FROM FAM_PERSON_MASTER T 
+WHERE T.FPM_FACTORY = '${factory}'
+AND T.FPM_LEVEL = '${level}'
+AND T.FPM_CC = '${cost_center}'
+AND T.FPM_USER_LOGIN = '${user_login}'
+    `;
+    const result = await connect.execute(query);
+    connect.release();
+    const flatArray = result.rows.map((item) => Object.values(item)).flat();
+    res.json(flatArray);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// Delete Person Maintain
+module.exports.deletePerson_Maintain = async function (req, res) {
+  try {
+    const fam_person_fctory_delete = req.query.FPM_factory_delete;
+    const fam_person_level_delete = req.query.FPM_level_delete;
+    const fam_person_cost_center_delete = req.query.FPM_cost_center_delete;
+    const fam_person_user_login_delete = req.query.FPM_user_login_delete;
+
+    console.log(fam_person_fctory_delete);
+    console.log(fam_person_level_delete);
+    console.log(fam_person_cost_center_delete);
+    console.log(fam_person_user_login_delete);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_PERSON_MASTER T
+    WHERE T.FPM_FACTORY = :fam_person_fctory_delete
+      AND T.FPM_LEVEL = :fam_person_level_delete 
+      AND T.FPM_CC = :fam_person_cost_center_delete
+      AND T.FPM_USER_LOGIN = :fam_person_user_login_delete
+         `;
+    const data = {
+      fam_person_fctory_delete,
+      fam_person_level_delete,
+      fam_person_cost_center_delete,
+      fam_person_user_login_delete,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
   }
 };

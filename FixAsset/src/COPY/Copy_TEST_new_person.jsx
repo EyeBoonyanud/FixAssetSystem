@@ -30,13 +30,17 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-function Issue() {
+function person_maintain() {
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
 
   const [datafac, setdatafac] = useState([]);
+
+  const [datalevel, setdatalevel] = useState([]);
+  const [selecteDatalevel, setselecteDatalevel] = useState("");
+
   const [selecteDatafac, setselecteDatafac] = useState("");
 
   const [dept, setdept] = useState([]);
@@ -74,6 +78,9 @@ function Issue() {
       console.error("Error during login:", error);
     }
   };
+  const handlelevel = (event) => {
+    setselecteDatalevel(event.target.value);
+  };
   const handleDept = (event) => {
     setselectdept(event.target.value);
   };
@@ -90,7 +97,7 @@ function Issue() {
   const New = () => {
     const PAGE_STATUS = "NEW";
     localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
-    navigate("/InsertIssue");
+    navigate("/PersonNew");
   };
 
   useEffect(() => {
@@ -100,6 +107,17 @@ function Issue() {
         const FactoryData = await response.data;
         setdatafac(FactoryData);
         // console.log(FactoryData, "Factory");
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    // get level
+    const Level = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/getlevel`);
+        const LevelData = await response.data;
+        setdatalevel(LevelData);
+        console.log(setdatalevel, "Level Data eiei");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -124,7 +142,7 @@ function Issue() {
         console.error("Error during login:", error);
       }
     };
-
+    Level();
     Factory();
     Costcenter();
     RequestType();
@@ -185,8 +203,6 @@ function Issue() {
 
       console.log("Show data Edit =", data);
       const DataEdit = data;
-
-      
       const PAGE_STATUS = "EDIT";
       const FAM_NO_EDIT = data[0][0];
       const REQUEST_DATE_EDIT = data[0][1];
@@ -204,9 +220,6 @@ function Issue() {
       if (data && data.length > 0) {
         const sentdata = JSON.stringify(DataEdit);
         localStorage.setItem("ForRequester", sentdata);
-
-
-
         localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
         localStorage.setItem("FAM_NO_EDIT", FAM_NO_EDIT);
         localStorage.setItem("REQUEST_DATE_EDIT", REQUEST_DATE_EDIT);
@@ -236,20 +249,38 @@ function Issue() {
       <Header />
       <div className="body">
         <div className="BoxSearch">
-          {/* Factiory  */}
           <Grid
             container
             spacing={1}
             style={{
               width: "100%",
               marginLeft: "20px",
-              marginTop: "20px",
-              textAlign: "right",
+              marginTop: "4px",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Grid item xs={3} style={{ marginTop: "2px" }}>
-              <Typography>Factory :</Typography>
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography>Factory</Typography>
             </Grid>
+
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography>Level</Typography>
+            </Grid>
+          </Grid>
+
+          {/* Factiory and Level */}
+          <Grid
+            container
+            spacing={1}
+            style={{
+              width: "100%",
+              marginLeft: "20px",
+              marginTop: "5px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel size="small" id="demo-simple-select-label">
@@ -275,121 +306,65 @@ function Issue() {
                 </Select>
               </FormControl>
             </Grid>
-          </Grid>
 
-          {/* FamNo. and To. */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>FAM No :</Typography>
-            </Grid>
-            <Grid item xs={1.1} style={{ height: "10px" }}>
-              <TextField
-                id="FamNo"
-                size="small"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-            <Grid item xs={2} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>To :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                id="FamTo"
-                size="small"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
-
-          {/* Dept. and Cost */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right" }}>
-              <Typography>Dept :</Typography>
-            </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel size="small" id="demo-simple-select-label">
                   Select
                 </InputLabel>
                 <Select
-                  // labelId="demo-simple-select-label"
+                  labelId="demo-simple-select-label"
                   id="factorycbt"
-                  // className="factorycb"
                   label="Select"
-                  value={selectdept}
-                  onChange={handleDept}
+                  // className="factorycb"
+                  value={selecteDatalevel}
+                  onChange={handlelevel}
                   size="small"
                   style={{
                     width: "220px",
                   }}
                 >
-                  {dept.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "2px", textAlign: "right" }}
-            >
-              <Typography> Asset Cost Center :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel>
-                <Select
-                  // labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  // className="factorycb"
-                  label="Select"
-                  value={selectcost}
-                  onChange={handleCost}
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  {datalevel.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[1]}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
           </Grid>
-
-          {/* request and Fix */}
           <Grid
             container
             spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            style={{
+              width: "100%",
+              marginLeft: "20px",
+              marginTop: "4px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right" }}>
-              <Typography>Request Type :</Typography>
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography>Cost Center</Typography>
             </Grid>
-            <Grid item xs={2}>
+
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography>User Login</Typography>
+            </Grid>
+          </Grid>
+          {/* Cost Center  and User Login */}
+          <Grid
+            container
+            spacing={1}
+            style={{
+              width: "100%",
+              marginLeft: "20px",
+              marginTop: "5px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel size="small" id="demo-simple-select-label">
                   Select
@@ -406,79 +381,54 @@ function Issue() {
                     width: "220px",
                   }}
                 >
-                  {ReType.map((option) => (
+                  {cost.map((option) => (
                     <MenuItem value={option[0]}>{option[1]}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "5px", textAlign: "right" }}
-            >
-              <Typography>Fix Asset Code :</Typography>
-            </Grid>
-            <Grid item xs={2}>
+
+            <Grid item xs={3}>
               <TextField id="FixAsset" size="small"></TextField>
             </Grid>
           </Grid>
-
-          {/* request Date and To */}
           <Grid
             container
             spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            style={{
+              width: "100%",
+              marginLeft: "20px",
+              marginTop: "4px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>Request Date :</Typography>
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography>User Login</Typography>
             </Grid>
-            <Grid item xs={2} style={{ height: "10px" }}>
-              <TextField
-                id="Date"
-                size="small"
-                type="date"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "10px", textAlign: "right" }}
-            >
-              <Typography>To :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                id="DateTo"
-                size="small"
-                type="date"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
+
+            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "left" }}>
+              <Typography></Typography>
             </Grid>
           </Grid>
-
-          {/* Request By */}
+          {/* Cost Center  and User Login */}
           <Grid
             container
             spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            style={{
+              width: "100%",
+              marginLeft: "5.5%",
+              marginTop: "5px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>Request By :</Typography>
+            <Grid item xs={3}>
+              <TextField id="FixAsset" size="small"></TextField>
             </Grid>
-            <Grid item xs={2}>
-              <TextField size="small" value={UserLogin} disabled></TextField>
+
+            <Grid item xs={4}>
+              <TextField id="FixAsset" size="small" style={{width: "100%"}}></TextField>
             </Grid>
           </Grid>
 
@@ -504,35 +454,10 @@ function Issue() {
               >
                 {" "}
                 <SearchIcon />
-                Search
+                Save
               </Button>
             </Grid>
-            <Grid style={{ marginLeft: "20px" }}>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#391AFB",
-                }}
-                variant="contained"
-                onClick={New}
-              >
-                <AddIcon />
-                New
-              </Button>
-            </Grid>
-            <Grid style={{ marginLeft: "20px" }}>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#00C344",
-                  width: "180px",
-                }}
-                variant="contained"
-              >
-                <FileDownloadIcon />
-                Export Excel
-              </Button>
-            </Grid>
+
             <Grid style={{ marginLeft: "20px" }}>
               <Button
                 className="ButtonSearch"
@@ -550,89 +475,9 @@ function Issue() {
             </Grid>
           </Grid>
         </div>
-
-        <div className="responsive-container">
-          <TableContainer
-            style={{
-              visibility: checkHead,
-            }}
-            component={Paper}
-          >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead sx={{ backgroundColor: "#A7C9FA" }}>
-                <TableRow>
-                  <TableCell>No</TableCell>
-                  <TableCell>Factory</TableCell>
-                  <TableCell>Cost Center</TableCell>
-                  <TableCell>FAM No.</TableCell>
-                  <TableCell>Issue Date</TableCell>
-                  <TableCell>Issue By</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Fixed Asset Code</TableCell>
-                  <TableCell>Request Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataSearch.length > 0 ? (
-                  dataSearch.map((item) => (
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>
-                        <Tooltip title="Edit">
-                          <EditNoteIcon
-                            style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() => handleOpenEdit(item[2])}
-                          />
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <DeleteForeverIcon
-                            style={{ color: "red", fontSize: "30px" }}
-                            onClick={() => Delete(item[2])}
-                          />
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>{item[0]}</TableCell>
-                      <TableCell>{item[1]}</TableCell>
-                      <TableCell>{item[2]}</TableCell>
-                      <TableCell>{formatDateString(item[3])}</TableCell>
-                      <TableCell>{item[4]}</TableCell>
-                      <TableCell>{item[5]}</TableCell>
-                      <TableCell>{item[6]}</TableCell>
-                      <TableCell>{item[7]}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={9}>
-                      <InfoCircleOutlined
-                        style={{
-                          visibility: checkData,
-                          fontSize: "30px",
-                          color: "#ffd580",
-                        }}
-                      />
-                      <text
-                        style={{
-                          visibility: checkData,
-                          fontSize: "25px",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {" "}
-                        Please fill in information{" "}
-                      </text>
-                      <Empty style={{ visibility: checkEmpty }} />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
       </div>
     </>
   );
 }
 
-export default Issue;
+export default person_maintain;

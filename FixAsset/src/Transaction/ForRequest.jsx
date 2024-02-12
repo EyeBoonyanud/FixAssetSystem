@@ -331,20 +331,18 @@ function ForRequest() {
       setTxt_Remark("");
     } else {
       console.log("////////////////////", For_Req);
-      setFAM_run(For_Req[0]);
-      setDate_show(For_Req[1]);
-      setUserEmp(For_Req[2]);
-      setTel(For_Req[3]);
-      setFac(For_Req[4]);
-      setCost_sert(For_Req[5]);
-      setselectdept(For_Req[6]);
-      setselectedType(For_Req[7]);
-      setselectAssetgroup(For_Req[8]);
-      setselectcost(For_Req[9]);
-      setstatus(For_Req[11]);
-  
-      setTxt_Remark(For_Req[12]);
-
+      setFAM_run(resultArray[0]);
+      setDate_show(resultArray[1]);
+      setUserEmp(resultArray[2]);
+      setTel(resultArray[3]);
+      setFac(resultArray[4]);
+      setCost_sert(resultArray[5]);
+      setselectdept(resultArray[6]);
+      setselectedType(resultArray[7]);
+      setselectAssetgroup(resultArray[8]);
+      setselectcost(resultArray[9]);
+      setstatus(resultArray[10]);
+      setTxt_Remark(resultArray[11]);
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");

@@ -8,6 +8,8 @@ import Approve from "./Transaction/Approve";
 import InsertIssue from "./Transaction/InsertIssue";
 import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
+import Person_maintain_search from "./Person_Maintain/Search_person";
+import Person_maintain_new from "./Person_Maintain/New_person";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -25,7 +27,8 @@ const App = () => {
         <Route path="/InsertIssue" element={<InsertIssue />} />
         <Route path="/ForRe" element={<ForRe />} />
         <Route path="/TransDetail" element={<TransDetail />} />
-
+        <Route path="/PersonSearch" element={<Person_maintain_search />} />
+        <Route path="/PersonNew" element={<Person_maintain_new />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>
