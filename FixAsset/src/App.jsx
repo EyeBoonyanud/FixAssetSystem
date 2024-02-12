@@ -9,6 +9,7 @@ import InsertIssue from "./Transaction/InsertIssue";
 import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
 
+
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 

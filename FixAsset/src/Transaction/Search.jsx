@@ -128,8 +128,15 @@ function Issue() {
     Factory();
     Costcenter();
     RequestType();
+    // Remove();
+ 
   }, []);
-
+ 
+  // const Remove = () =>{
+  //   localStorage.removeItem("ForRequester");
+  //   localStorage.removeItem("forDetail");
+  //   localStorage.removeItem("EDIT")
+  // }
  //
  const  handleEdit = async (edit) => {
   localStorage.setItem("EDIT",edit)

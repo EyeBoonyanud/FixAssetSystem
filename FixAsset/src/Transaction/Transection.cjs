@@ -623,8 +623,8 @@ module.exports.select_BOI_from = async function (req, res) {
     const running = req.query.running_no;
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT FRT_FROM_PROJ  FROM FAM_REQ_TRANSFER frt
-      WHERE FRT_FAM_NO = '${running}' `;
+    SELECT FRD_BOI_PROJ  FROM FAM_REQ_DETAIL frd 
+      WHERE FRD_FAM_NO = '${running}' `;
     const result = await connect.execute(query);
     connect.release();
     // console.log(result.rows);
@@ -1415,25 +1415,25 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     const query = `
     
     SELECT T.FRH_FAM_NO ,
-          TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
-          T.FAM_REQ_BY ,
-          T.FAM_REQ_TEL ,
-          T.FAM_FACTORY ,
-          T.FAM_REQ_CC ,
-          T.FAM_REQ_DEPT ,
-          T.FAM_REQ_TYPE ,
-          T.FAM_ASSET_GROUP, 
-          T.FAM_ASSET_CC, 
-          T.FAM_REQ_STATUS,
-          F.FFM_DESC, 
-          T.FAM_REQ_REMARK,
-          T.FAM_ASSET_CC||' : '||T.FAM_ASSET_CC_NAME,
-          M.FACTORY_NAME
-          
-      FROM FAM_REQ_HEADER T 
-      LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
-      LEFT JOIN CUSR.CU_FACTORY_M M ON  M.FACTORY_CODE  =  T.FAM_FACTORY 
-      WHERE T.FRH_FAM_NO = :fam_no
+    TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
+    U.USER_EMP_ID||' : ' || U.USER_FNAME||' ' ||U.USER_SURNAME AS USER_LOGIN,
+    T.FAM_REQ_TEL ,
+    M.FACTORY_NAME ,
+    T.FAM_REQ_CC ,
+    T.FAM_REQ_DEPT ,
+    T.FAM_REQ_TYPE ,
+    T.FAM_ASSET_GROUP, 
+    T.FAM_ASSET_CC, 
+    T.FAM_REQ_STATUS,
+    F.FFM_DESC, 
+    T.FAM_REQ_REMARK
+   
+    
+FROM FAM_REQ_HEADER T 
+LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
+LEFT JOIN CUSR.CU_FACTORY_M M ON  M.FACTORY_CODE  =  T.FAM_FACTORY 
+LEFT JOIN CUSR.CU_USER_M U ON   U.USER_LOGIN  = T.FAM_REQ_BY 
+WHERE T.FRH_FAM_NO = :fam_no
           `;
     const data = {
       fam_no,
