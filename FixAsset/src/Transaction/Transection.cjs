@@ -1548,7 +1548,7 @@ module.exports.deletePerson_Maintain = async function (req, res) {
 
 
 //BOI Project 
-module.exports.search_BOI_project = async function (req, res) {
+module.exports.get_BOI_project = async function (req, res) {
   try {
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -1564,5 +1564,216 @@ module.exports.search_BOI_project = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+//Search BOI Project
+module.exports.search_BOI_project = async function (req, res) {
+  try {
+    const factory = req.query.FBMC_factory;
+    const cost_center = req.query.FBMC_cost_center;
+    const BOI_Project = req.query.FBMC_BOI_project;
+    console.log("F", factory);
+    console.log("C", cost_center);
+    console.log("B", BOI_Project);
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+      SELECT
+	DISTINCT 
+   				   T.FBMC_FACTORY AS FACTORY_CC,
+	C.FACTORY_NAME AS FACTORY ,
+	CMCC.CC_DESC AS COST_CENTER,
+	T.FBMC_COST_CENTER AS COST_CENTER_CC,
+	T.FBMC_BOI_PROJ,
+  CASE
+      WHEN T.FBMC_STATUS = 'A' THEN 'Active'
+      WHEN T.FBMC_STATUS = 'I' THEN 'In Active'
+      ELSE T.FBMC_STATUS
+  END AS BOI_STATUS,
+	T.FBMC_UPDATE_BY,
+  TO_CHAR(T.FBMC_UPDATE_DATE, 'DD/MM/YYYY') AS UPDATE_DATE
+FROM
+	FAM_BOIPROJ_MAP_CC T
+LEFT JOIN CUSR.CU_FACTORY_M C ON
+	C.FACTORY_CODE = T.FBMC_FACTORY
+LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CMCC ON
+	CMCC.CC_CTR = T.FBMC_COST_CENTER
+WHERE
+	(T.FBMC_FACTORY = '${factory}'
+		OR '${factory}' IS NULL)
+	AND (TRIM(T.FBMC_COST_CENTER) = '${cost_center}'
+		OR '${cost_center}' IS NULL)
+	AND (T.FBMC_BOI_PROJ = UPPER('${BOI_Project}')
+		OR UPPER('${BOI_Project}') IS NULL)
+ORDER BY
+	C.FACTORY_NAME,
+	CMCC.CC_DESC,
+	T.FBMC_BOI_PROJ DESC
+    `;
+
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// insert BOI project  
+module.exports.insertBOI_Maintain = async function (req, res) {
+  try {
+    const  fbmc_person_cost_center= req.query.FBMC_cost_center;
+    const  fbmc_factory= req.query.FBMC_factory;
+    const fbmc_boiproject = req.query.FBMC_BOI_Project;
+    const fbmc_status = req.query.FBMC_status;
+    const fbmc_comment = req.query.FBMC_comment;
+    const fbmc_create_by = req.query.FBMC_create_by;
+    const fbmc_update_by = req.query.FBMC_update_by;
+
+    console.log(fbmc_person_cost_center);
+    console.log(fbmc_factory);
+    console.log(fbmc_boiproject);
+    console.log(fbmc_status);
+    console.log(fbmc_comment);
+    console.log(fbmc_create_by);
+    console.log(fbmc_update_by);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    INSERT INTO FAM_BOIPROJ_MAP_CC (FBMC_COST_CENTER,FBMC_FACTORY,FBMC_BOI_PROJ,FBMC_STATUS,FBMC_COMMENT,FBMC_CREATE_DATE,FBMC_CREATE_BY,FBMC_UPDATE_DATE,FBMC_UPDATE_BY)
+    VALUES (:fbmc_person_cost_center,:fbmc_factory,:fbmc_boiproject,:fbmc_status,:fbmc_comment,SYSDATE,:fbmc_create_by,SYSDATE,:fbmc_update_by)
+
+         `;
+    const data = {
+      fbmc_person_cost_center,
+      fbmc_factory,
+      fbmc_boiproject,
+      fbmc_status,
+      fbmc_comment,
+      fbmc_create_by,
+      fbmc_update_by,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
+  }
+};
+
+
+// update BOI maintian
+module.exports.updateBOI_Maintain = async function (req, res) {
+  try {
+    const  fbmc_cost_center_a= req.query.FBMC_cost_center;
+    const  fbmc_factory_a= req.query.FBMC_factory;
+    const fbmc_boi_project_a = req.query.FBMC_BOI_Project;
+    const fbmc_status_a = req.query.FBMC_status;
+    const fbmc_comment_a = req.query.FBMC_comment;
+    const fbmc_update_by_a = req.query.FBMC_update_by;
+
+    console.log(fbmc_cost_center_a);
+    console.log(fbmc_factory_a);
+    console.log(fbmc_boi_project_a);
+    console.log(fbmc_status_a);
+    console.log(fbmc_comment_a);
+    console.log(fbmc_update_by_a);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+        FAM_BOIPROJ_MAP_CC
+    SET
+        FBMC_FACTORY = :fbmc_factory_a,
+        FBMC_BOI_PROJ = :fbmc_boi_project_a,
+        FBMC_STATUS = :fbmc_status_a,
+        FBMC_COMMENT = :fbmc_comment_a,
+        FBMC_UPDATE_DATE = SYSDATE,
+        FBMC_UPDATE_BY = :fbmc_update_by_a
+    WHERE
+        FBMC_COST_CENTER = :fbmc_cost_center_a
+         `;
+    const data = {
+      fbmc_cost_center_a,
+      fbmc_factory_a,
+      fbmc_boi_project_a,
+      fbmc_status_a,
+      fbmc_comment_a,
+      fbmc_update_by_a,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
+  }
+};
+
+
+
+// get show data edit BOI
+module.exports.getEdit_BOI_Show = async function (req, res) {
+  try {
+    const cost_center = req.query.FBMC_cost_center;
+    console.log("C", cost_center);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    T.FBMC_COST_CENTER,
+    T.FBMC_FACTORY,
+    T.FBMC_BOI_PROJ,
+    T.FBMC_STATUS,
+    T.FBMC_COMMENT,
+     TO_CHAR(T.FBMC_CREATE_DATE , 'DD/MM/YYYY') AS CREATE_E,
+    T.FBMC_CREATE_BY,
+    TO_CHAR(T.FBMC_UPDATE_DATE , 'DD/MM/YYYY') AS UPDATE_E,
+    T.FBMC_UPDATE_BY
+  FROM
+    FAM_BOIPROJ_MAP_CC T
+  WHERE
+    T.FBMC_COST_CENTER = '${cost_center}'
+    `;
+    const result = await connect.execute(query);
+    connect.release();
+    const flatArray = result.rows.map((item) => Object.values(item)).flat();
+    res.json(flatArray);
+    console.log(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+// Delete BOI Maintain
+module.exports.deleteBOI_Maintain = async function (req, res) {
+  try {
+    const cost_center_a = req.query.FBMC_cost_center_delete;
+    console.log(cost_center_a);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE
+    FROM
+      FAM_BOIPROJ_MAP_CC T
+    WHERE
+      T.FBMC_COST_CENTER = :cost_center_a 
+         `;
+    const data = {
+      cost_center_a,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
   }
 };

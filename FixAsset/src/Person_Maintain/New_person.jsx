@@ -445,7 +445,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                   }}
                 >
                   {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
