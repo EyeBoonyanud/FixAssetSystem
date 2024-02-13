@@ -1545,3 +1545,24 @@ module.exports.deletePerson_Maintain = async function (req, res) {
     console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
   }
 };
+
+
+//BOI Project 
+module.exports.search_BOI_project = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+        DISTINCT T.FBMC_BOI_PROJ
+    FROM
+        FAM_BOIPROJ_MAP_CC T
+    ORDER BY
+        T.FBMC_BOI_PROJ
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};

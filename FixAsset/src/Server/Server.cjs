@@ -57,6 +57,7 @@ app.get("/getlevel",Transaction.level_person_maintain);
 app.get("/getData_UserLogin_Person",Transaction.getData_UserLogin_Person);
 app.get("/Search_Person_Maintain",Transaction.search_person_maintain);
 app.get("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
+app.get("/search_BOI_project",Transaction.search_BOI_project);
 // ----------------------------------post-----------------------------------//
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
