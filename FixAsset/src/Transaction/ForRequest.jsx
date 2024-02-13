@@ -290,7 +290,13 @@ function ForRequest() {
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
+    
+
+   
+
   const handleSave = async () => {
+
+    console.log("/////",uploadedFiles)
     const FAM_FORM = "REQUEST";
     const famNo = document.getElementById("Txt_Famno").value;
     const currentDateTime = new Date()

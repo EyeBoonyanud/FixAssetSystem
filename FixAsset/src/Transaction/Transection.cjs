@@ -1281,13 +1281,14 @@ module.exports.update_submit = async function (req, res) {
 };
 //upload 
 // get file upload
+let fam_file_server=""
 module.exports.insertFile_from_request = async function (req, res) {
   try {
     const fam_no = req.query.FAM_no;
     const fam_from = req.query.FAM_from;
     const fam_file_seq = req.query.FAM_file_seq;
     const fam_file_name = req.query.FAM_file_name;
-    const fam_file_server = req.query.FAM_file_server;
+     fam_file_server = req.query.FAM_file_server;
     const fam_create = req.query.FAM_create;
 
     console.log(fam_no);
@@ -1348,9 +1349,7 @@ WHEN NOT MATCHED THEN
 module.exports.get_run_seq_request = async function (req, res) {
   try {
     const fam_no = req.query.FAM_no;
-
     console.log(fam_no);
-
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
@@ -1363,7 +1362,7 @@ module.exports.get_run_seq_request = async function (req, res) {
       fam_no,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
-    console.log(query);
+   // console.log(query);
     connect.release();
     // console.log(result.rows);
     res.json(result.rows);
@@ -1378,7 +1377,7 @@ module.exports.insertFile_from_request_to_project_me = async function (req, res)
       cb(null, uploadsPath);
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname); // Use the original filename
+      cb(null, fam_file_server); // Use the original filename
     },
   });
   
@@ -1399,3 +1398,69 @@ module.exports.insertFile_from_request_to_project_me = async function (req, res)
     res.status(500).send("Error handling file upload");
   }
 };
+
+/// May
+module.exports.getFamDetailReport = async function (req, res) {
+  try {
+    // console.log("g-hllll")
+    const{ RequestType,FAMNo }=  req.body;
+   // console.log(RequestType,FAMNo)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+          SELECT CF.FACTORY_NAME AS FACTORY ,H.FAM_REQ_CC,H.FRH_FAM_NO,1 AS iSEQ,D.FRD_ASSET_CODE,D.FRD_COMP,D.FRD_OWNER_CC,D.FRD_ASSET_NAME,D.FRD_CODE_NO,																		
+          D.FRD_BOI_PROJ,D.FRD_QTY,D.FRD_INV_NO,D.FRD_INV_DATE,D.FRD_ACQ_COST,D.FRD_BOOK_VALUE,D.FRD_NEW_CC,D.FRD_NEW_BOI_PROJ,D.FRD_REMARK																		
+          FROM  FAM_REQ_DETAIL D ,FAM_REQ_HEADER H
+          LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
+          WHERE H.FRH_FAM_NO = D.FRD_FAM_NO																		
+          AND H.FAM_REQ_TYPE = '${RequestType}'																			
+          AND H.FRH_FAM_NO IN (
+              SELECT TRIM(REGEXP_SUBSTR('${FAMNo}', '[^,]+', 1, LEVEL))
+              FROM DUAL
+              CONNECT BY LEVEL <= REGEXP_COUNT('${FAMNo}', ',') + 1
+          )
+          ORDER BY H.FRH_FAM_NO,D.FRD_ASSET_CODE,D.FRD_COMP
+     `;
+    const result = await connect.execute(query);
+   // console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+module.exports.getRequstType = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FCM_CODE,T.FCM_DESC FROM FAM_CODE_MASTER T WHERE T.FCM_GROUP_ID = 'GP01' AND T.FCM_STATUS = 'A' ORDER BY T.FCM_SORT,T.FCM_DESC
+     `;
+    const result = await connect.execute(query);
+    
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+module.exports.getFAM_FILE_ATTACH = async function (req, res) {
+  try {
+     console.log("g-hllll")
+     const{FamNo}=  req.body;
+    console.log(FamNo)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER 																																			
+    FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}'																																				
+    ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME	
+     `;
+    const result = await connect.execute(query);
+    console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+

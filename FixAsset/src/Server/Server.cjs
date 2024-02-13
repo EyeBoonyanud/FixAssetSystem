@@ -2,9 +2,12 @@
 const express = require("express");
 const oracledb = require("oracledb");
 require("dotenv").config();
+const path = require('path');
+const fs = require('fs');
 const app = express();
 const port = 5000;
 app.use(express.json());
+
 const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
 oracledb.initOracleClient({
@@ -65,6 +68,29 @@ app.get("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 //
 app.get("/new_boi",Transaction.new_boi);
+
+app.post("/FamDetailReport",Transaction.getFamDetailReport)
+app.post("/RequstType",Transaction.getRequstType)
+app.post("/FAM_FILE_ATTACH",Transaction.getFAM_FILE_ATTACH)
+app.use('/downloads', express.static(path.join(__dirname, '../uploads')));
+//getFAM_FILE_ATTACH
+app.get('/downloads', (req, res) => {
+  const fileName = req.query.filename;
+  const filePath = path.join(__dirname, '../uploads', fileName);
+
+  // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+  if (fs.existsSync(filePath)) {
+    // ส่งไฟล์กลับไปยังผู้ใช้
+    res.sendFile(filePath);
+    console.log(filePath)
+    res.sendFile(filePath);
+  } else {
+    // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน
+    res.status(404).send('File not found');
+  }
+});
+ 
+
  
 
 
