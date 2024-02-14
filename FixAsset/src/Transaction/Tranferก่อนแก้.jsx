@@ -2139,3 +2139,6 @@ setselectacc_manager(Acc_mana);
 }
 
 export default TransFerDetail;
+
+
+

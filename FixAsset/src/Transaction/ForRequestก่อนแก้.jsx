@@ -1324,3 +1324,46 @@ const keep = async () => {
 }
 
 export default ForRequest;
+
+
+        // setownersend(For_Req[1]);
+        // setowner_roting(For_Req[1]);
+        // if (For_Rou !== null) {
+        //   setselectdepartment_mana(For_Rou[1]);
+        //   setTel_service(For_Rou[3]);
+        //   setselectservice_by(For_Rou[4]);
+        //   setselectboi_staff(For_Rou[5]);
+        //   setselectboi_manager(For_Rou[6]);
+        //   setselectfac_manager(For_Rou[7]);
+        //   setselectacc_check(For_Rou[8]);
+        //   setowner_roting(For_Rou[9]);
+        //   setselectacc_manager(For_Rou[10]);
+        // }
+      
+      // } else if (For_Req !== null) {
+      //   console.log("มีข้อมูลของ For_Req")
+      //   setownersend(For_Req[1]);
+      //   setowner_roting(For_Req[1]); // สำหรับ routing
+      //   if( For_Trans !== null){
+      //     console.log("มีข้อมูลของ forTrans")
+      //     setownersend(For_Trans[1]);
+      //     setdata_fromboi(For_Trans[2]);
+      //     setselecttrans_factory(For_Trans[3]);
+      //     setselecttrans_cc(For_Trans[4]);
+      //     setselectnew_owner(For_Trans[6]);
+      //     setTel_for_trans(For_Trans[7]);
+      //     setplan_date(For_Trans[8]);
+  
+      //   }
+      //   
+      //     setdata_fromboi("");
+      //     setselecttrans_factory("");
+      //     setselecttrans_cc("");
+      //     setnew_boi("");
+      //     setselectnew_owner("");
+      //     setTel_for_trans("");
+      //     setplan_date("");
+      //     setabnormal("");
+      //     setreceiver("")
+  
+      // }

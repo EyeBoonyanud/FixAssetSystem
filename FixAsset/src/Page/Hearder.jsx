@@ -26,16 +26,13 @@ function ButtonAppBar({ isOpen, onClose }) {
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
     localStorage.removeItem("TransForDetail")
-    localStorage.removeItem("DEPT_MANAGER");
-    localStorage.removeItem("SERVICE_BY");
-    localStorage.removeItem("BOI_STAFF");
-    localStorage.removeItem("BOI_MANAGER");
-    localStorage.removeItem("FAC_MANAGER");
-    localStorage.removeItem("ACC_Check");
-    localStorage.removeItem("ACC_Manager");
     localStorage.removeItem("EDIT")
-    //   localStorage.removeItem("Lastname");
-    // localStorage.removeItem("NameRole");
+    localStorage.removeItem("For_Transfer")
+    localStorage.removeItem("For_Routing")
+    localStorage.removeItem("For_Req_Edit")
+    localStorage.removeItem("Edit_Trans")
+    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
+    localStorage.removeItem("Edit_routing") 
     navigate("/");
   };
 

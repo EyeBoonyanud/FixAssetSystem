@@ -88,11 +88,14 @@ function ForRequest() {
   
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req, "ข้อมูลสำคัญมาก");
+  ////console.log(For_Req, "ข้อมูลสำคัญมาก");
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
+  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
+  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  
   const navigate = useNavigate();
   const NextPage = async () => {
     navigate("/TransDetail");
@@ -101,82 +104,103 @@ function ForRequest() {
 
   useEffect(() => {
    
+    Edit();
+    EditFixAsset();
     request_by();
     factory();
     costcenter();
     CostforAsset();
-    Edit();
-    EditFixAsset();
+    
     
     keep();
 
-    // console.log(For_Req,"Edit ค่าาาาาาาาาาาาาาาาาา");
+    // //console.log(For_Req,"Edit ค่าาาาาาาาาาาาาาาาาา");
   }, []);
   const keep = () => {
 
-    //console.log(EditFam, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-    if (EditFam != null) {
-      console.log(For_Rq_Edit,"ข้อมูลตอนกด edit มาดู");
-
-      setGen_Fam_No(For_Rq_Edit[0]);
-      setRequest_date(For_Rq_Edit[1]);
-      setdataUserLogin1(For_Rq_Edit[2]);
-      setTel1(For_Rq_Edit[3]);
-      setFactory1(For_Rq_Edit[4]);
-      setCostcenter1(For_Rq_Edit[5]);
-      setselectDept1(For_Rq_Edit[6]);
-      setRequest_type1(For_Rq_Edit[7]);
-      setselectFixAssetgroup1(For_Rq_Edit[8]);
-      setselectFixAsset_cost1(For_Rq_Edit[9]);
-      setRequest_sts1(For_Rq_Edit[11]);
-      setRemark(For_Rq_Edit[12]);
-      setcheckGenNo("hidden");
-  
-
-  
-      handleCost();
-      if (For_detail != null) {
-        console.log(For_detail, "iiiiiiiiiii");
-        setdatatable(For_detail);
-        setTableOpen(true);
-        setvisibityDetails("visible");
-        setvisibityFile("visible");
+//console.log("///////////////////",EditFam)
+    ////console.log(EditFam, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+    if(EditFam != null){
+      if (For_Rq_Edit != null){
+        //console.log(For_Rq_Edit,"ข้อมูลตอนกด edit มาดู");
+        setGen_Fam_No(For_Rq_Edit[0]);
+        setRequest_date(For_Rq_Edit[1]);
+        setdataUserLogin1(For_Rq_Edit[2]);
+        setTel1(For_Rq_Edit[3]);
+        setRequest_type1(For_Rq_Edit[7]);
+        setRequest_sts1(For_Rq_Edit[11]);
+        setRemark(For_Rq_Edit[12]);
+        setcheckGenNo("hidden");
+        setcheckReset("hidden");
+        if(For_Ed_FixCode != null){
+          setdatatable(For_Ed_FixCode);
+          setTableOpen(true);
+          setvisibityDetails("visible");
+          setvisibityFile("visible");
+          setbtnSave("visible")
+        }
+    
       }
-    } else {
-      if (For_Req != null) {
-        console.log("แล้ว");
-        console.log(For_Req, "ข้อมูลตอนกด save มาดู");
+    }else {
+      if(For_Req !=null){
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
         setdataUserLogin1(For_Req[1]);
         setTel1(For_Req[2]);
-        setFactory1(For_Req[3]);
-        setCostcenter1(For_Req[4]);
-        setselectDept1(For_Req[5]);
         setRequest_type1(For_Req[6]);
-        setselectFixAssetgroup1(For_Req[13]);
-        setselectFixAsset_cost1(For_Req[8]);
         setdataFix_Asset_Cost(For_Req[9]);
-        setRequest_sts1(For_Req[11]);
+        setRequest_sts1(For_Req[11])
         setRemark(For_Req[12]);
         setcheckGenNo("hidden");
-
-  
-        if (For_detail != null) {
+        setcheckReset("hidden");
+        
+        if(For_detail !=null){
           setdatatable(For_detail);
           setTableOpen(true);
           setvisibityDetails("visible");
           setvisibityFile("visible");
         }
-      } else {
-        console.log( For_Req,"ข้อมูลตอนกด new มาดู");
-        console.log(For_detail, "rrrrrrrrr");
-        setGen_Fam_No("");
+        
+      }else{
         setRequest_date(formattedDate);
-        setTel1("");
-        setFactory1(Factory1[0]);
+
       }
     }
+
+    ////////////////////////
+    // if (EditFam != null) {
+   
+     
+
+    //  // handleCost();
+     
+    //   if (For_detail != null) {
+    //     //console.log(For_detail, "iiiiiiiiiii");
+    //     setdatatable(For_detail);
+    //     setTableOpen(true);
+    //     setvisibityDetails("visible");
+    //     setvisibityFile("visible");
+    //   }
+    // } 
+    // else {
+    //   if (For_Req != null) {
+    //     //console.log("แล้ว");
+    //     //console.log(For_Req, "ข้อมูลตอนกด save มาดู");
+  
+
+  
+    //     if (For_detail != null) {
+    //       setdatatable(For_detail);
+    //       setTableOpen(true);
+    //       setvisibityDetails("visible");
+    //       setvisibityFile("visible");
+    //     }
+    //   } else {
+    //     //console.log( For_Req,"ข้อมูลตอนกด new มาดู");
+    //     //console.log(For_detail, "rrrrrrrrr");
+       
+    //   }
+    // }
   };
 
   const formattedDate = `${(currentDate.getMonth() + 1)
@@ -198,11 +222,11 @@ function ForRequest() {
       if (For_Req != null) {
         setdataUserLogin1(data_insert[4]);
       } else {
-        console.log("/////////");
+        //console.log("/////////");
         setdataUserLogin1(data_insert[4]);
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   //Request_Factory
@@ -214,12 +238,21 @@ function ForRequest() {
       const data = await response.data;
       const data_Fac = data.flat();
       setFactory(data_Fac);
-      if (For_Req != null) {
+      if(EditFam !=null){
+       
+        if(For_Rq_Edit != null){
+          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          setFactory1(For_Rq_Edit[4])
+        }
+      }else{
+        if (For_Req != null) {
         setFactory1(data_Fac[0]);
       } else {
-        console.log("/////////");
+        //console.log("/////////");
         setFactory1(data_Fac[0]);
       }
+      }
+      
       if (data_Fac.length >= 0) {
         try {
           const response = await axios.get(
@@ -229,14 +262,29 @@ function ForRequest() {
           const data = await response.data;
           const data_dept = data.flat();
           setDept(data_dept);
-          console.log(data_dept, "data_dept");
+          if(EditFam !=null){
+       
+            if(For_Rq_Edit != null){
+              //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+              setselectDept1(For_Rq_Edit[6])
+            }
+          }else{
+            if (For_Req != null) {
+              //console.log(For_Req,"DDDDDDDeptttttt")
+              setselectDept1(For_Req[5]);
+          } else {
+            //console.log("/////////");
+            setselectDept1("");
+          }
+          }
+          //console.log(data_dept, "data_dept");
         } catch (error) {
-          console.error("Error during login:", error);
+          //console.error("Error during login:", error);
         }
       }
       fixasset_group(data_Fac[1]);
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   //Cost Center
@@ -247,17 +295,26 @@ function ForRequest() {
       );
       const data = await response.data;
       const data_insert = data.flat();
-      console.log(data_insert, "data_insert");
+      //console.log(data_insert, "data_insert");
       setCostcenter(data_insert);
-      console.log(For_Req);
-      if (For_Req != null) {
-        setCostcenter1(data_insert[0]);
+      //console.log(For_Req);
+      if(EditFam !=null){
+       
+        if(For_Rq_Edit != null){
+          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          setCostcenter1(For_Rq_Edit[5])
+        }
+      }else{
+        if (For_Req != null) {
+          setCostcenter1(data_insert[0]);
       } else {
-        console.log("/////////");
+      
         setCostcenter1(data_insert[0]);
       }
+      }
+    
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   //AssetGroup
@@ -268,17 +325,31 @@ function ForRequest() {
       );
       const data = await response.data;
 
-      console.log(data, "data_fixgroup");
+      //console.log(data, "data_fixgroup");
       setFixAssetgroup(data);
+      
+    
+      if(EditFam !=null){
+       
+        if(For_Rq_Edit != null){
+          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
-      if (For_Req != null) {
-        setselectFixAssetgroup1(data);
+          setselectFixAssetgroup1(For_Rq_Edit[8])
+        }
+      }else{
+        if (For_Req != null) {
+          setselectFixAssetgroup1(For_Req[7]);
       } else {
-        console.log("/////////");
-        setselectFixAssetgroup1(data);
+      
+        setselectFixAssetgroup1("");
       }
+      }
+
+
+
+
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   //AssetCost
@@ -287,8 +358,23 @@ function ForRequest() {
       const response = await axios.get(`http://localhost:5000/getcost`);
       const CostData = await response.data;
       setFixAsset_cost(CostData);
+      if(EditFam !=null){
+       
+        if(For_Rq_Edit != null){
+          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+
+          setselectFixAsset_cost1(For_Rq_Edit[9])
+        }
+      }else{
+        if (For_Req != null) {
+          setselectFixAsset_cost1(For_Req[8]);
+      } else {
+      
+        setselectFixAsset_cost1("");
+      }
+      }
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   // HandleFixAssetCost
@@ -307,16 +393,16 @@ function ForRequest() {
           );
           const data_for_servicedept = await response.data;
           setdataFix_Asset_Cost(data_for_servicedept);
-          console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+          //console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
         } catch (error) {
-          console.error("Error during login:", error);
+          //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-        console.log(data, "ServiceDept---------------------");
+        //console.log(data, "ServiceDept---------------------");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   //Gen Fam No
@@ -330,10 +416,11 @@ function ForRequest() {
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
         DataStatus = data;
-
+          setRequest_sts1(data[1]);
+         
         // StatusId = dataStatus.flat();
       } catch (error) {
-        console.error("Error during login:", error);
+        //console.error("Error during login:", error);
       }
 
       const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
@@ -354,7 +441,7 @@ function ForRequest() {
           Tranfer_ins(FamNo_new, DataStatus);
         }
       } catch (error) {
-        console.error("Error during login:", error);
+        //console.error("Error during login:", error);
       }
     } else {
       if (
@@ -389,7 +476,7 @@ function ForRequest() {
       selectFixAssetgroup1[1],
 
     ];
-    console.log(setData_ForRequester, "datadata");
+    //console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
@@ -397,21 +484,21 @@ function ForRequest() {
         `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}`
       );
       const data = await response.data;
-      console.log(data, "data");
+      //console.log(data, "data");
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
       );
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
 
@@ -423,9 +510,9 @@ function ForRequest() {
       );
       const data = row.data;
       setfind_fixasset(data);
-      console.log(data, "1111111111111111");
+      //console.log(data, "1111111111111111");
     } catch (error) {
-      console.error("Error requesting data:", error);
+      //console.error("Error requesting data:", error);
     }
     setOpen(true);
   };
@@ -449,28 +536,31 @@ function ForRequest() {
     updateSelectedData(newSelectedAll ? dataFixcode.map(() => true) : []);
   };
   const handleAdd = () => {
-    ////console.log(selectedItems, "selectedItems");
+    //////console.log(selectedItems, "selectedItems");
 
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
-    console.log(newDataTable, "newDataTablenewDataTable");
+    //console.log(newDataTable, "newDataTablenewDataTable");
 
     setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
     setbtnSave("visible");
+   
+    
   };
   const Insert_Fam_detail = async () => {
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       localStorage.setItem("forDetail", sentdata);
+      console.log(Gen_Fam_No,"///////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>")
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
         );
         setvisibityFile("visible");
       } catch (error) {
-        console.error("Error during login:", error);
+        //console.error("Error during login:", error);
       }
       try {
         const response = await axios.post(
@@ -478,7 +568,7 @@ function ForRequest() {
         );
         setvisibityFile("visible");
       } catch (error) {
-        console.error("Error during login:", error);
+        //console.error("Error during login:", error);
       }
     }
   };
@@ -498,28 +588,28 @@ function ForRequest() {
       );
       const data = await response.data;
 
-      console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
+      //console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
 
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("For_Req_Edit", data_edit);
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
   const EditFixAsset = async () => {
-    console.log(EditFam, "EditFamKHUNNNN");
+    //console.log(EditFam, "EditFamKHUNNNN");
     try {
       const response = await axios.get(
         `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
       );
       const data = await response.data;
-      console.log(data, "dataaaaaaaa");
+      console.log(data, "FIXEDDDDDDDDDDDDDDDd");
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
-      localStorage.setItem("forDetail", data_edit);
+      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
     } catch (error) {
-      console.error("Error during login:", error);
+      //console.error("Error during login:", error);
     }
   };
 
@@ -855,7 +945,7 @@ function ForRequest() {
                     style={{
                       marginLeft: "5px",
                       backgroundColor: "gray",
-                      // visibility: checkReset,
+                      visibility: checkReset,
                     }}
                     variant="contained"
                     // onClick={Reset}
@@ -1048,11 +1138,11 @@ function ForRequest() {
                               <TableCell>{item[1]}</TableCell>
                               <TableCell>{item[2]}</TableCell>
                               <TableCell>{item[3]}</TableCell>
-                              <TableCell>{item[4]} </TableCell>
-                              <TableCell>{item[5]}</TableCell>
+                              <TableCell>{item[5]} </TableCell>
                               <TableCell>{item[6]}</TableCell>
                               <TableCell>{item[7]}</TableCell>
                               <TableCell>{item[9]}</TableCell>
+                              <TableCell>{item[10]}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -1064,7 +1154,7 @@ function ForRequest() {
               <div style={{ width: "85%", textAlign: "right" }}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "" }} //visibility: btnSave
+                  style={{ backgroundColor: "" , visibility: btnSave}} 
                   onClick={() => Next("1")}
                 >
                   SAVE Details
