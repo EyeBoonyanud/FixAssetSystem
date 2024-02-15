@@ -40,6 +40,8 @@ app.get("/getid_service",Transaction.id_service);
 app.get("/getfind_service",Transaction.find_service);
 app.get("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
+app.post("/create_date",Transaction.create_date);
+app.post("/update_date",Transaction.update_date);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
 app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
 app.post("/ins_from_Boi",Transaction.ins_from_Boi);

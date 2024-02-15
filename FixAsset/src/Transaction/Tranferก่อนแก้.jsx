@@ -90,14 +90,14 @@ const [Owner_Send, setOwner_Send] = useState("");
 
   const [newboi, setnewboi] = useState("");
   // ตัวแปร Radio Routing
-  const [radio_dept, setradio_dept] = useState("");
-  const [radio_serviceby, setradio_serviceby] = useState("");
-  const [radio_boistaff, setradio_boistaff] = useState("");
-  const [radio_boimanager, setradio_boimanager] = useState("");
-  const [radio_facmanager, setradio_facmanager] = useState("");
-  const [radio_acc_check, setradio_acc_check] = useState("");
-  const [radio_owner, setradio_owner] = useState("");
-  // check radio button
+  // const [radio_dept, setradio_dept] = useState("");
+  // const [radio_serviceby, setradio_serviceby] = useState("");
+  // const [radio_boistaff, setradio_boistaff] = useState("");
+  // const [radio_boimanager, setradio_boimanager] = useState("");
+  // const [radio_facmanager, setradio_facmanager] = useState("");
+  // const [radio_acc_check, setradio_acc_check] = useState("");
+  // const [radio_owner, setradio_owner] = useState("");
+
   const [mgr_chk, setmgr_chk] = useState("hidden");
 
   // console.log(New_own, "New_own");
@@ -2142,3 +2142,8 @@ export default TransFerDetail;
 
 
 
+// const [radio_dept, setradio_dept] = useState("");
+// const [radio_serviceby, setradio_serviceby] = useState("");
+
+
+ //onChange={(e) => setownersend(e.target.value)}

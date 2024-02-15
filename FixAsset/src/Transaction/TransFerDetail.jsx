@@ -16,22 +16,23 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { LocalActivity, SaveAlt } from "@mui/icons-material";
 import Header from "../Page/Hearder";
+import moment from "moment";
 
 function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-
-  // //console.log(For_Req,"For_Req")
+  //  console.log(For_Req,"For_Req")
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
 
   const Edit_trans = localStorage.getItem("Edit_Trans");
   const For_edit_trans = JSON.parse(Edit_trans);
+  //console.log(For_edit_trans,"For_edit_trans")
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log(For_Rq_Edit, "For_Rq_EditFor_Rq_EditFor_Rq_Edit");
+  // console(For_Rq_Edit, "For_Req_Edit");
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -41,14 +42,15 @@ function TransFerDetail() {
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
+  // console(For_Edit_Rou,"For_Edit_Rou")
 
   let Fam_list = "";
   let servivedept = "";
   const SERVICEDEPT = () => {
     setservice_dept(servivedept);
   };
-  ////console.log("servivedept", servivedept);
-  ////console.log(For_Req, "For_Rq_Edit");
+  ////// console("servivedept", servivedept);
+  ////// console(For_Req, "For_Rq_Edit");
 
   // const owner_send = For_Req[1];
   if (ForRequester !== null) {
@@ -58,7 +60,7 @@ function TransFerDetail() {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-  ////console.log(For_Req, "For_Req");
+  ////// console(For_Req, "For_Req");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
@@ -90,6 +92,35 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
+  // radio button
+  const [radio_dept, setradio_dept] = useState("");
+  const [radio_serviceby, setradio_serviceby] = useState("");
+  const [radio_boistaff, setradio_boistaff] = useState("");
+  const [radio_boimanager, setradio_boimanager] = useState("");
+  const [radio_facmanager, setradio_facmanager] = useState("");
+  const [radio_acc_check, setradio_acc_check] = useState("");
+  const [radio_owner, setradio_owner] = useState("");
+  const [radio_receiver, setradio_receiver] = useState("");
+  const [radio_record, setradio_record] = useState("");
+  const [radio_acc_manager, setradio_acc_manager] = useState("");
+  const [radio_service_close_by, setradio_service_close_by] = useState("");
+  // select button
+  const [selectradio_dept, setselectradio_dept] = useState("");
+  const [selectradio_serviceby, setselectradio_serviceby] = useState("");
+  const [selectradio_boistaff, setselectradio_boistaff] = useState("");
+  const [selectradio_boimanager, setselectradio_boimanager] = useState("");
+  const [selectradio_facmanager, setselectradio_facmanager] = useState("");
+  const [selectradio_acc_check, setselectradio_acc_check] = useState("");
+  const [selectradio_owner, setselectradio_owner] = useState("");
+  const [selectradio_receiver, setselectradio_receiver] = useState("");
+  const [selectradio_record, setselectradio_record] = useState("");
+  const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] =
+    useState("");
+  //Error
+  const [ErrorTel, setErrorTel] = useState(false); //
+  const [ErrorFac, setErrorFac] = useState(false);
+  const [ErrorCC, setErrorCC] = useState(false);
 
   useEffect(() => {
     FactoryCC();
@@ -109,9 +140,10 @@ function TransFerDetail() {
     if (EditFam != null) {
       Edit_Trans();
       Edit_Routing();
+      // console("มาจ้าาาาา9999999",For_Rq_Edit[0])
       if (For_Rq_Edit != null) {
         setownersend(For_Rq_Edit[2]);
-        
+        // console.log(For_edit_trans[0][4]);
         if (For_edit_trans != null) {
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
@@ -122,17 +154,18 @@ function TransFerDetail() {
           setplan_date(For_edit_trans[0][5]);
           // setของ Edit Trans
           if (For_Edit_Rou != null) {
-            console.log("Edit Routingggggggggggggg", For_Edit_Rou[0][0]);
+            // console("Edit Routingggggggggggggg", For_Edit_Rou[0][0]);
             setowner_roting(For_Rq_Edit[2]);
+            setTel_service(For_Edit_Rou[0][7]);
           }
         }
       }
     } else {
-      //console.log("LLLLLLLLLLLLLLLLLLLLLLL",For_Trans);
+      //// console("LLLLLLLLLLLLLLLLLLLLLLL",For_Trans);
       if (For_Trans != null) {
         //กรณี new หลังจากกด save แล้ว
         // setownersend(For_Trans[1]);
-        //console.log("มีข้อมูลแล้วนะคะะะะะะะะะะะะะะะะะะะะะ");
+        //// console("มีข้อมูลแล้วนะคะะะะะะะะะะะะะะะะะะะะะ");
         setownersend(For_Req[1]);
         setowner_roting(For_Req[1]);
         setdata_fromboi(For_Trans[2]);
@@ -147,20 +180,20 @@ function TransFerDetail() {
         setreceiver(For_Trans[10]);
 
         if (For_Rou != null) {
-          //console.log("Rotingggggggggggggggg");
+          //// console("Rotingggggggggggggggg");
           //setselectdepartment_mana(For_Rou[1]);
           setTel_service(For_Rou[3]);
-         // setselectservice_by(For_Rou[4]);
-         // setselectboi_staff(For_Rou[5]);
-         // setselectboi_manager(For_Rou[6]);
-         // setselectfac_manager(For_Rou[7]);
-         // setselectacc_check(For_Rou[8]);
+          // setselectservice_by(For_Rou[4]);
+          // setselectboi_staff(For_Rou[5]);
+          // setselectboi_manager(For_Rou[6]);
+          // setselectfac_manager(For_Rou[7]);
+          // setselectacc_check(For_Rou[8]);
           setowner_roting(For_Rou[9]);
-         // setselectacc_manager(For_Rou[10]);
+          // setselectacc_manager(For_Rou[10]);
         }
       } else {
         if (For_Req != null) {
-          //console.log(For_Req, "มาแล้ววววววววววววววววววววววว");
+          //// console(For_Req, "มาแล้ววววววววววววววววววววววว");
           //กรณี new โดยที่ไม่มีค่าอะไรเลย
           setownersend(For_Req[1]);
           setowner_roting(For_Req[1]);
@@ -205,9 +238,9 @@ function TransFerDetail() {
 
   const useef = () => {
     if (EditFam !== null) {
-      //console.log(EditFam, "EditFamแก้ไขมาแล้วจ้า");
+      //// console(EditFam, "EditFamแก้ไขมาแล้วจ้า");
       if (For_edit_trans !== null) {
-        //console.log("7777777777777777777777777", For_edit_trans[0][0]);
+        //// console("7777777777777777777777777", For_edit_trans[0][0]);
       } else {
         // setownersend(For_Req[1]);
         // setowner_roting(For_Req[1]);
@@ -224,11 +257,11 @@ function TransFerDetail() {
         // }
       }
       // } else if (For_Req !== null) {
-      //   //console.log("มีข้อมูลของ For_Req")
+      //   //// console("มีข้อมูลของ For_Req")
       //   setownersend(For_Req[1]);
       //   setowner_roting(For_Req[1]); // สำหรับ routing
       //   if( For_Trans !== null){
-      //     //console.log("มีข้อมูลของ forTrans")
+      //     //// console("มีข้อมูลของ forTrans")
       //     setownersend(For_Trans[1]);
       //     setdata_fromboi(For_Trans[2]);
       //     setselecttrans_factory(For_Trans[3]);
@@ -238,7 +271,7 @@ function TransFerDetail() {
       //     setplan_date(For_Trans[8]);
 
       //   }
-      //   //console.log("มีข้อมูลเลยจ้าาาาาาาาาาาาาาาาาาา")
+      //   //// console("มีข้อมูลเลยจ้าาาาาาาาาาาาาาาาาาา")
       //     setdata_fromboi("");
       //     setselecttrans_factory("");
       //     setselecttrans_cc("");
@@ -272,6 +305,15 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
+  const handleFactoryCC = async (event) => {
+    setselecttrans_factory(event.target.value);
+   
+    
+     
+
+
+  };
+
   const TransCC = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
@@ -279,8 +321,8 @@ function TransFerDetail() {
       settrans_cc(data);
       if (EditFam != null) {
         if (For_edit_trans != null)
-          console.log(For_edit_trans[0][1], "For_edit_trans[0][1]");
-        setselecttrans_cc(For_edit_trans[0][1]);
+          // console(For_edit_trans[0][1], "For_edit_trans[0][1]");
+          setselecttrans_cc(For_edit_trans[0][1]);
       } else {
         if (For_Req != null) {
           setselecttrans_cc(For_Trans[4]);
@@ -293,15 +335,15 @@ function TransFerDetail() {
     }
   };
   const BOI_FROM = async () => {
-    //console.log(Fam_list, "Fam_no");
+    //// console(Fam_list, "Fam_no");
     try {
       const response = await axios.get(
         `http://localhost:5000/select_BOI_from?running_no=${Fam_list}`
       );
       const data = response.data;
-      //console.log(data, "fROM boi");
+      //// console(data, "fROM boi");
       setdata_fromboi(data[0][0]);
-      //console.log(data[0][0], "fROM boi");
+      //// console(data[0][0], "fROM boi");
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -311,7 +353,7 @@ function TransFerDetail() {
     setselecttrans_cc(event.target.value);
     New_Owner(transCC, selecttrans_factory);
 
-    //console.log(transCC, "CC ข้อมูล", selecttrans_factory, "Fac มา");
+    //// console(transCC, "CC ข้อมูล", selecttrans_factory, "Fac มา");
     try {
       const response = await axios.get(
         `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
@@ -319,7 +361,7 @@ function TransFerDetail() {
       const data = response.data;
       const boi = data.flat();
       setnew_boi(boi);
-      //console.log("jjjjjjj", boi);
+      //// console("jjjjjjj", boi);
 
       if (!boi || boi.length === 0) {
         setnew_boi("NON BOI");
@@ -327,7 +369,7 @@ function TransFerDetail() {
         setnew_boi(boi);
       }
       if (data_fromboi == boi) {
-        //////console.log("เข้า1");
+        //////// console("เข้า1");
         setsts("N");
         setabnormal("");
       } else {
@@ -339,14 +381,14 @@ function TransFerDetail() {
     }
   };
   const New_Owner = async (selecttrans_cc, selecttrans_factory) => {
-    //console.log(selecttrans_cc, "selecttrans_cc", selecttrans_factory);
+    //// console(selecttrans_cc, "selecttrans_cc", selecttrans_factory);
     try {
       const response = await axios.get(
         `http://localhost:5000/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
       );
       const data = response.data.flat();
       setnew_owner(data);
-      //console.log("dataaa>>>", data, "''''''''", [For_Trans[6]]);
+      //// console("dataaa>>>", data, "''''''''", [For_Trans[6]]);
       // if (For_Req != null) {
       //   setnew_owner([For_Trans[6]])
       // } else {
@@ -358,22 +400,20 @@ function TransFerDetail() {
   };
 
   const handleNewOwner = (event) => {
-    //console.log(event.target.value, "iiiiiiiiiiiiiiiiiiii");
+    //// console(event.target.value, "iiiiiiiiiiiiiiiiiiii");
     let New_own = event.target.value;
     const parts = New_own.split(":");
     let result = parts[1].trim();
     setselectnew_owner(New_own); // เก็บ select ของ new owner
     setreceiver(result);
-    //console.log(result, "result");
+    //// console(result, "result");
   };
   //Department Manager
   const Department_Mana = async () => {
     let level = "";
     let cc = "";
-     if (EditFam != null) {
-
+    if (EditFam != null) {
       if (For_edit_trans != null) {
-       
         level = For_Rq_Edit[14];
         cc = For_Rq_Edit[5];
       }
@@ -381,7 +421,6 @@ function TransFerDetail() {
       level = For_Req[3];
       cc = For_Req[4];
     }
-
 
     try {
       const response = await axios.get(
@@ -402,7 +441,7 @@ function TransFerDetail() {
         }
       }
     } catch (error) {
-      //console.log("Department :", data);
+      //// console("Department :", data);
       //console.error("Error during login:", error);
     }
   };
@@ -414,11 +453,11 @@ function TransFerDetail() {
   //     );
   //     const data = response.data.flat();
   //     setdepartment_mana(data);
-  //     console.log(EditFam,"setdepartment_mana",data)
+  //     // console(EditFam,"setdepartment_mana",data)
   //    if(EditFam != null){
-  //     console.log(EditFam,"มาแล้วจ้าแก้เนี่ย",For_Edit_Rou[0][0])
+  //     // console(EditFam,"มาแล้วจ้าแก้เนี่ย",For_Edit_Rou[0][0])
   //     if(For_Edit_Rou != null){
-  //       console.log(EditFam,"มาแล้วจ้าแก้เนี่ย55555555555",For_Edit_Rou[0][0])
+  //       // console(EditFam,"มาแล้วจ้าแก้เนี่ย55555555555",For_Edit_Rou[0][0])
   //       setselectdepartment_mana([For_Edit_Rou[0][0]]);
   //        }
   //    }
@@ -433,7 +472,7 @@ function TransFerDetail() {
   //    }
 
   //     }
-  //     //console.log("Department :", data);
+  //     //// console("Department :", data);
   //    catch (error) {
   //     //console.error("Error during login:", error);
   //   }
@@ -443,9 +482,7 @@ function TransFerDetail() {
     let level = "";
     let cc = "";
     if (EditFam != null) {
-
       if (For_edit_trans != null) {
-       
         level = For_Rq_Edit[14];
         cc = For_Rq_Edit[5];
       }
@@ -483,7 +520,7 @@ function TransFerDetail() {
   //     );
   //     const data = response.data.flat();
   //     setboi_staff(data);
-  //     ////console.log("setboistaff :", data);
+  //     ////// console("setboistaff :", data);
   //   } catch (error) {
   //     //console.error("Error during login:", error);
   //   }
@@ -496,7 +533,7 @@ function TransFerDetail() {
   //     );
   //     const data = response.data.flat();
   //     setboi_manager(data);
-  //     ////console.log("setboimanager :", data);
+  //     ////// console("setboimanager :", data);
   //   } catch (error) {
   //     //console.error("Error during login:", error);
   //   }
@@ -509,7 +546,7 @@ function TransFerDetail() {
   //     );
   //     const data = response.data.flat();
   //     setfac_manager(data);
-  //     ////console.log("setboimanager :", data);
+  //     ////// console("setboimanager :", data);
   //   } catch (error) {
   //     //console.error("Error during login:", error);
   //   }
@@ -522,7 +559,7 @@ function TransFerDetail() {
   //     );
   //     const data = response.data.flat();
   //     setacc_check(data);
-  //     //console.log("setboimanager :", data);
+  //     //// console("setboimanager :", data);
   //   } catch (error) {
   //     //console.error("Error during login:", error);
   //   }
@@ -543,8 +580,7 @@ function TransFerDetail() {
   const BOI_Staff = async () => {
     let level = "";
     if (EditFam != null) {
-
-      if (For_edit_trans != null) { 
+      if (For_edit_trans != null) {
         level = For_Rq_Edit[14];
       }
     } else {
@@ -695,10 +731,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-  const handleRadioDept_Mana = (event) => {
-    setradio_dept(event.target.value);
-    // console.log("ค่า", event.target.value);
-  };
 
   const SAVE = async () => {
     // tablelist จากตาง Req_Tranfer_Details
@@ -710,7 +742,7 @@ function TransFerDetail() {
     } else {
       ServiceDept = For_Req[8];
     }
-    //console.log(ServiceDept,"ServiceDeptServiceDept")
+    //// console(ServiceDept,"ServiceDeptServiceDept")
     const setData_forTranfer_Req_Tranfer_Details = [
       Fam_list,
       ownersend,
@@ -743,13 +775,33 @@ function TransFerDetail() {
     ];
     const sendheader = JSON.stringify(set_data_for_req_details);
     localStorage.setItem("For_Routing", sendheader);
-    // //console.log(
+    // //// console(
     //   setData_forTranfer_Req_Tranfer_Details,
     //   "setData_forTranfer_Req_Tranfer_Details"
     // );
+    if (EditFam != null) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/update_date?tranfer=${Fam_list}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          `http://localhost:5000/create_date?tranfer=${Fam_list}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    }
+
     try {
       const row = axios.post(
-        // //console.log(New_BOI,"New_BOI")
+        // //// console(New_BOI,"New_BOI")
         `http://localhost:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
       );
     } catch (error) {
@@ -757,7 +809,7 @@ function TransFerDetail() {
     }
     try {
       const row = axios.post(
-        // ////console.log(New_BOI,"New_BOI")
+        // ////// console(New_BOI,"New_BOI")
         `http://localhost:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${owner_roting}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
       );
     } catch (error) {
@@ -768,54 +820,263 @@ function TransFerDetail() {
       title: "Save Success",
       icon: "success",
     });
-
+    window.location.reload();
     setOpen(true);
   };
 
   const SUBMIT = async () => {
-    if (
-      For_Req[0] &&
-      For_Req[2] &&
-      For_Req[5] &&
-      For_Req[6] &&
-      For_Req[7] &&
-      For_Req[8] &&
-      For_Req[9] &&
-      For_Req[10] &&
-      For_Trans[0] &&
-      For_Trans[3] &&
-      For_Trans[4] &&
-      For_Trans[5] &&
-      // For_Trans[7] &&
-      For_Trans[8] &&
-      For_Trans[9] &&
-      For_Trans[10] &&
-      For_Rou[1] &&
-      For_Rou[3] &&
-      For_Rou[4] &&
-      For_Rou[5] &&
-      For_Rou[7] &&
-      For_Rou[8] &&
-      For_Rou[9] &&
-      For_Rou[10]
-    ) {
-      Swal.fire({
-        title: "Submit Success",
-        icon: "success",
-      });
-    } else {
-      try {
-        const row = axios.post(
-          // ////console.log(New_BOI,"New_BOI")
-          `http://localhost:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${For_Req[8]}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${owner_roting}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
-        );
-      } catch (error) {
-        ////console.error("Error requesting data:", error);
+    if (EditFam != null) {
+      console.log(
+        "ค่าที่เข้ามาเพื่อเช้ค Edit",
+        For_Edit_Rou[0][7],
+        "",
+        For_Rq_Edit[3],
+        "Tel_service",
+        Tel_service
+      );
+      //  if( selecttrans_factory )
+      if (
+        selecttrans_factory === null ||
+        selecttrans_factory === undefined ||
+        selecttrans_factory.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorFac(true);
+      }
+      if (
+        selecttrans_cc === null ||
+        selecttrans_cc === undefined ||
+        selecttrans_cc.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        Tel_for_trans === null ||
+        Tel_for_trans === undefined ||
+        Tel_for_trans.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectnew_owner === null ||
+        selectnew_owner === undefined ||
+        selectnew_owner.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectboi_staff === null ||
+        selectboi_staff === undefined ||
+        selectboi_staff.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectboi_manager === null ||
+        selectboi_manager === undefined ||
+        selectboi_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectfac_manager === null ||
+        selectfac_manager === undefined ||
+        selectfac_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectacc_check === null ||
+        selectacc_check === undefined ||
+        selectacc_check.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectacc_manager === null ||
+        selectacc_manager === undefined ||
+        selectacc_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
       }
       Swal.fire({
         title: "ใส่ข้อมูลไม่ครบ",
         icon: "Error",
       });
+
+      // if (
+      //   //Edit Req
+      //   For_Rq_Edit[3] &&
+      //   For_Rq_Edit[6] &&
+      //   For_Rq_Edit[7] &&
+      //   For_Rq_Edit[8] &&
+      //   For_Rq_Edit[9] &&
+      //   For_Rq_Edit[12] &&
+      //   //  EditTrans
+      //   For_edit_trans[0][0] &&
+      //   For_edit_trans[0][1] &&
+      //   For_edit_trans[0][3] &&
+      //   For_edit_trans[0][4] &&
+      //   For_edit_trans[0][6] &&
+      //   For_Edit_Rou[0][0] &&
+      //   For_Edit_Rou[0][5] &&
+      //   For_Edit_Rou[0][8] &&
+      //   For_Edit_Rou[0][12] &&
+      //   For_Edit_Rou[0][16] &&
+      //   For_Edit_Rou[0][20] &&
+      //   For_Edit_Rou[0][28] &&
+      //   For_Edit_Rou[0][7]
+      // )
+      // {
+      //   Swal.fire({
+      //     title: "Submit Success",
+      //     icon: "success",
+      //   });
+      // }
+      // else {
+      //   Swal.fire({
+      //     title: "ใส่ข้อมูลไม่ครบ",
+      //     icon: "Error",
+      //   });
+      // }
+    } else {
+      if (
+        selecttrans_factory === null ||
+        selecttrans_factory === undefined ||
+        selecttrans_factory.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorFac(true);
+      }
+      if (
+        selecttrans_cc === null ||
+        selecttrans_cc === undefined ||
+        selecttrans_cc.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorCC(true);
+      }
+      if (
+        Tel_for_trans === null ||
+        Tel_for_trans === undefined ||
+        Tel_for_trans.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectnew_owner === null ||
+        selectnew_owner === undefined ||
+        selectnew_owner.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectboi_staff === null ||
+        selectboi_staff === undefined ||
+        selectboi_staff.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectboi_manager === null ||
+        selectboi_manager === undefined ||
+        selectboi_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectfac_manager === null ||
+        selectfac_manager === undefined ||
+        selectfac_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectacc_check === null ||
+        selectacc_check === undefined ||
+        selectacc_check.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      if (
+        selectacc_manager === null ||
+        selectacc_manager === undefined ||
+        selectacc_manager.trim() === ""
+      ) {
+        console.log("Erorrrrrrrrrrrr");
+        //   setErrorTel(true);
+      }
+      Swal.fire({
+        title: "ใส่ข้อมูลไม่ครบ",
+        icon: "Error",
+      });
+      // if (
+      //   For_Req[0] &&
+      //   For_Req[2] &&
+      //   For_Req[5] &&
+      //   For_Req[6] &&
+      //   For_Req[7] &&
+      //   For_Req[8] &&
+      //   For_Req[9] &&
+      //   For_Req[10] &&
+      //   For_Trans[0] &&
+      //   For_Trans[3] &&
+      //   For_Trans[4] &&
+      //   For_Trans[5] &&
+      //   // For_Trans[7] &&
+      //   For_Trans[8] &&
+      //   For_Trans[9] &&
+      //   For_Trans[10] &&
+      //   For_Rou[1] &&
+      //   For_Rou[3] &&
+      //   For_Rou[4] &&
+      //   For_Rou[5] &&
+      //   For_Rou[7] &&
+      //   For_Rou[8] &&
+      //   For_Rou[9] &&
+      //   For_Rou[10]
+      //) {
+      //  Swal.fire({
+      //     title: "Submit Success",
+      //     icon: "success",
+      //   });
+      // } else {
+      //   Swal.fire({
+      //     title: "ใส่ข้อมูลไม่ครบ",
+      //     icon: "Error",
+      //   });
+      //   window.location.reload();
+      //}
     }
   };
   const Edit_Trans = async () => {
@@ -825,7 +1086,7 @@ function TransFerDetail() {
       );
       const data = await response.data;
 
-      // console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
+      // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
 
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
@@ -841,7 +1102,7 @@ function TransFerDetail() {
       );
       const data = await response.data;
 
-      console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
+      // console(data, "dataaaaaaaaSSSSSSSSSSSS");
 
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
@@ -926,6 +1187,15 @@ function TransFerDetail() {
                         value={selecttrans_factory}
                         onChange={(e) => setselecttrans_factory(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorFac ? "red" : undefined,
+                        }}
+                        error={ErrorFac}
+                        helperText={
+                          ErrorFac
+                            ? "กรุณาเลือก Transfer To factory"
+                            : undefined
+                        }
                       >
                         {trans_factory.map((option, index) => (
                           <MenuItem key={index} value={option[0]}>
@@ -947,6 +1217,10 @@ function TransFerDetail() {
                         value={selecttrans_cc}
                         onChange={handleNew_BOI}
                         size="small"
+                        style={{
+                          borderColor: ErrorCC ? "red" : undefined,
+                        }}
+                        error={ErrorCC}
                       >
                         {trans_cc.map((option, index) => (
                           <MenuItem key={index} value={option[0]}>
@@ -956,7 +1230,10 @@ function TransFerDetail() {
                       </Select>
                     </FormControl>
                   </td>
+                  <tr></tr>
                 </tr>
+                <tr></tr>
+
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">New BOI Project :</td>
@@ -1000,7 +1277,7 @@ function TransFerDetail() {
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
-                        id="Tel"
+                        // id="Tel"
                         value={Tel_for_trans}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
@@ -1015,10 +1292,10 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="Plan_Remove"
-                        // defaultValue=""
+                        defaultValue={plan_date}
                         size="small"
                         type="date"
-                        value={plan_date}
+                        //value={plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
                       />
                     </FormControl>
@@ -1100,11 +1377,10 @@ function TransFerDetail() {
                     <FormControl>
                       <RadioGroup
                         row
-                        id="RadioDept_Manager"
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        // value={radio_dept}
-                        onChange={handleRadioDept_Mana}
+                        value={selectradio_dept}
+                        onChange={(e) => setselectradio_dept(e.target.value)}
                       >
                         <FormControlLabel
                           value="Approve"
@@ -1180,6 +1456,11 @@ function TransFerDetail() {
                         size="small"
                         value={Tel_service}
                         onChange={(e) => setTel_service(e.target.value)}
+                        style={{
+                          borderColor: ErrorTel ? "red" : undefined,
+                        }}
+                        error={ErrorTel}
+                        helperText={ErrorTel ? "กรูณาใส่เบอร์โทร" : undefined}
                       />
                     </FormControl>
                   </td>
@@ -1207,28 +1488,29 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                           value={radio_serviceby}
-                           onChange={handleRadioService_By}
-                            // style={{ marginLeft: "20px" }}
-                          >
-                            <FormControlLabel
-                              value="Accept"
-                              control={<Radio size="small" />}
-                              label="Accept"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Not Accept"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Not Accept"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_serviceby}
+                        onChange={(e) =>
+                          setselectradio_serviceby(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="Not Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1283,27 +1565,29 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={radio_boistaff}
-                            onChange={handleRadioBOI_Staff}
-                          >
-                            <FormControlLabel
-                              value="Accept"
-                              control={<Radio size="small" />}
-                              label="Accept"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Not Accept"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Not Accept"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_boistaff}
+                        onChange={(e) =>
+                          setselectradio_boistaff(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1358,26 +1642,29 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            // style={{ marginLeft: "20px" }}
-                          >
-                            <FormControlLabel
-                              value="Approve"
-                              control={<Radio size="small" />}
-                              label="Approve"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Reject"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Reject"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_boimanager}
+                        onChange={(e) =>
+                          setselectradio_boimanager(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1433,27 +1720,29 @@ function TransFerDetail() {
 
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            // value={radio_facmanager}
-                            // onChange={handleRadioFac_Manager}
-                          >
-                            <FormControlLabel
-                              value="Approve"
-                              control={<Radio size="small" />}
-                              label="Approve"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Reject"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Reject"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_facmanager}
+                        onChange={(e) =>
+                          setselectradio_facmanager(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
 
@@ -1512,28 +1801,28 @@ function TransFerDetail() {
 
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            // value={radio_acc_check}
-                            // onChange={handleRadioACC_Check}
-                            // style={{ marginLeft: "20px" }}
-                          >
-                            <FormControlLabel
-                              value="Accept"
-                              control={<Radio size="small" />}
-                              label="Accept"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Not Accept"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Not Accept"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_acc_check}
+                        onChange={(e) =>
+                          setselectradio_acc_check(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1572,7 +1861,6 @@ function TransFerDetail() {
                   <td>
                     <FormControl className="Style3">
                       <TextField
-                        //value={Owner_Send}
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
@@ -1587,28 +1875,27 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            // value={radio_owner}
-                            // onChange={handleRadioOwner}
-                            // style={{ marginLeft: "20px" }}
-                          >
-                            <FormControlLabel
-                              value="Approve"
-                              control={<Radio size="small" />}
-                              label="Approve"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Reject"
-                              // disabled
-                              control={<Radio size="small" />}
-                              label="Reject"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_owner}
+                        onChange={(e) => setselectradio_owner(e.target.value)}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1691,24 +1978,29 @@ function TransFerDetail() {
 
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                          >
-                            <FormControlLabel
-                              value="Approve"
-                              control={<Radio size="small" />}
-                              label="Approve"
-                              disabled
-                            />
-                            <FormControlLabel
-                              value="Reject"
-                              control={<Radio size="small" />}
-                              label="Reject"
-                              disabled
-                            />
-                          </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_receiver}
+                        onChange={(e) =>
+                          setselectradio_receiver(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1794,24 +2086,27 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                           style={{ marginLeft: "20px" }}
-                        >
-                          <FormControlLabel
-                            value="Approve"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                          />
-                          <FormControlLabel
-                            value="Reject"
-                             disabled
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_record}
+                        onChange={(e) => setselectradio_record(e.target.value)}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1864,24 +2159,29 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                           style={{ marginLeft: "20px" }}
-                        >
-                          <FormControlLabel
-                            value="Approve"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                          />
-                          <FormControlLabel
-                            value="Reject"
-                            disabled
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_acc_manager}
+                        onChange={(e) =>
+                          setselectradio_acc_manager(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>
@@ -1932,24 +2232,29 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5">
                     <FormControl>
-                      {/* <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                           style={{ marginLeft: "20px" }}
-                        >
-                          <FormControlLabel
-                            value="Approve"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                          />
-                          <FormControlLabel
-                            value="Reject"
-                             disabled
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup> */}
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_service_close_by}
+                        onChange={(e) =>
+                          setselectradio_service_close_by(e.target.value)
+                        }
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disable
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                        />
+                      </RadioGroup>
                     </FormControl>
                   </td>
                   <td className="Style7">Action Date :</td>

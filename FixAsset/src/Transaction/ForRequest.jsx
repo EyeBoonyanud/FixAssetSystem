@@ -100,15 +100,16 @@ function ForRequest() {
     navigate("/TransDetail");
   };
   
-     const For_edit_request = localStorage.getItem("For_Req_Edit");
-    const For_Rq_Edit = JSON.parse(For_edit_request);
+    let For_edit_request = localStorage.getItem("For_Req_Edit");
+    let For_Rq_Edit =JSON.parse(For_edit_request);
     const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
     const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
   useEffect(() => {
-   
+
     Edit();
 
     EditFixAsset();  
+
 
     request_by();
     factory();
@@ -497,6 +498,7 @@ function ForRequest() {
     } catch (error) {
       //console.error("Error during login:", error);
     }
+    
     try {
       const response = await axios.post(
         `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
@@ -616,6 +618,265 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
+const handleTel = async (event) => {
+  setTel1(event.target.value)
+   console.log("/////")
+    
+  
+  if(EditFam != null){
+    console.log(">>>>>>>>..", For_Rq_Edit)
+    const setData_ForRequester = [
+      For_Rq_Edit[0],
+      For_Rq_Edit[1],
+      For_Rq_Edit[2],
+      event.target.value,
+      For_Rq_Edit[4],
+      For_Rq_Edit[5],
+      For_Rq_Edit[6],
+      For_Rq_Edit[7],
+      For_Rq_Edit[8],
+      For_Rq_Edit[9],
+      For_Rq_Edit[10],
+      For_Rq_Edit[11],
+      For_Rq_Edit[12],
+      For_Rq_Edit[13],
+      For_Rq_Edit[14],
+
+   
+
+  ];
+    console.log("/////////////////")
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("For_Req_Edit", sentdata);
+    //edit
+  }else{
+    //insert
+    console.log("------bbbbbb---------")
+   
+    if( For_Req[0] =="" && For_Req[0]==null){
+      // ยังไม่genfam
+      console.log("------>>>>>>>>>>>>>>>>---------")
+      const setData_ForRequester = [
+        "",
+        LocalUserLogin,
+        event.target.value,
+        Factory[1],
+        Costcenter1,
+        selectDept1,
+        Request_type1,
+        selectFixAssetgroup1,
+        selectFixAsset_cost1,
+        "",
+        "",
+        "",
+        Remark,
+        "",
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }else{
+      console.log("------///////////----------",For_Req)
+      const setData_ForRequester = [
+        For_Req[0],
+        For_Req[1],
+        event.target.value,
+        For_Req[3],
+        For_Req[4],
+        For_Req[5],
+        For_Req[6],
+        For_Req[7],
+        For_Req[8],
+        For_Req[9],
+        For_Req[10],
+        For_Req[11],
+        For_Req[12],
+        For_Req[13]
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }
+    
+    
+  }
+}
+
+const handleDept = async (event) => {
+  setselectDept1(event.target.value)
+   console.log("/////")
+    
+  
+  if(EditFam != null){
+    console.log(">>>>>>>>..", For_Rq_Edit)
+    const setData_ForRequester = [
+      For_Rq_Edit[0],
+      For_Rq_Edit[1],
+      For_Rq_Edit[2],
+      For_Rq_Edit[3],
+      For_Rq_Edit[4],
+      For_Rq_Edit[5],
+      event.target.value,
+      For_Rq_Edit[7],
+      For_Rq_Edit[8],
+      For_Rq_Edit[9],
+      For_Rq_Edit[10],
+      For_Rq_Edit[11],
+      For_Rq_Edit[12],
+      For_Rq_Edit[13],
+      For_Rq_Edit[14],
+
+   
+
+  ];
+    console.log("/////////////////")
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("For_Req_Edit", sentdata);
+    //edit
+  }else{
+    //insert
+    console.log("------bbbbbb---------")
+   
+    if( For_Req[0] =="" && For_Req[0]==null){
+      // ยังไม่genfam
+      console.log("------>>>>>>>>>>>>>>>>---------")
+      const setData_ForRequester = [
+        "",
+        LocalUserLogin,
+        "",
+        Factory[1],
+        Costcenter1,
+        selectDept1,
+        Request_type1,
+        selectFixAssetgroup1,
+        selectFixAsset_cost1,
+        "",
+        "",
+        "",
+        Remark,
+        "",
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }else{
+      console.log("------///////////----------",For_Req)
+      const setData_ForRequester = [
+        For_Req[0],
+        For_Req[1],
+        For_Req[2],
+        For_Req[3],
+        For_Req[4],
+        event.target.value,
+        For_Req[6],
+        For_Req[7],
+        For_Req[8],
+        For_Req[9],
+        For_Req[10],
+        For_Req[11],
+        For_Req[12],
+        For_Req[13]
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }
+    
+    
+  }
+}
+
+const handleRemark = async (event) => {
+  setRemark(event.target.value)
+   console.log("/////")
+    
+  
+  if(EditFam != null){
+    console.log(">>>>>>>>..", For_Rq_Edit)
+    const setData_ForRequester = [
+      For_Rq_Edit[0],
+      For_Rq_Edit[1],
+      For_Rq_Edit[2],
+      For_Rq_Edit[3],
+      For_Rq_Edit[4],
+      For_Rq_Edit[5],
+      For_Rq_Edit[6],
+      For_Rq_Edit[7],
+      For_Rq_Edit[8],
+      For_Rq_Edit[9],
+      For_Rq_Edit[10],
+      For_Rq_Edit[11],
+      event.target.value,
+      For_Rq_Edit[13],
+      For_Rq_Edit[14],
+
+   
+
+  ];
+    console.log("/////////////////")
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("For_Req_Edit", sentdata);
+    //edit
+  }else{
+    //insert
+    console.log("------bbbbbb---------")
+   
+    if( For_Req[0] =="" && For_Req[0]==null){
+      // ยังไม่genfam
+      console.log("------>>>>>>>>>>>>>>>>---------")
+      const setData_ForRequester = [
+        "",
+        LocalUserLogin,
+        "",
+        Factory[1],
+        Costcenter1,
+        selectDept1,
+        Request_type1,
+        selectFixAssetgroup1,
+        selectFixAsset_cost1,
+        "",
+        "",
+        "",
+        Remark,
+        "",
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }else{
+      console.log("------///////////----------",For_Req)
+      const setData_ForRequester = [
+        For_Req[0],
+        For_Req[1],
+        For_Req[2],
+        For_Req[3],
+        For_Req[4],
+        For_Req[5],
+        For_Req[6],
+        For_Req[7],
+        For_Req[8],
+        For_Req[9],
+        For_Req[10],
+        For_Req[11],
+        event.target.value,
+        For_Req[13]
+    
+      ];
+      //console.log(setData_ForRequester, "datadata");
+    const sentdata = JSON.stringify(setData_ForRequester);
+    localStorage.setItem("ForRequester", sentdata);
+    }
+    
+    
+  }
+}
+
+
 
   return (
     <>
@@ -711,7 +972,7 @@ function ForRequest() {
                       style={{ width: "100%" }}
                       id="Txt_Tel"
                       value={Tel1}
-                      onChange={(e) => setTel1(e.target.value)}
+                     onChange={handleTel}
                     ></TextField>
                   </Grid>
                 </Grid>
@@ -763,7 +1024,8 @@ function ForRequest() {
                         label="Select"
                         size="small"
                         value={selectDept1}
-                        onChange={(e) => setselectDept1(e.target.value)}
+                        //onChange={(e) => setselectDept1(e.target.value)}
+                        onChange={handleDept}
                       >
                         {/* <MenuItem value="test">test</MenuItem> */}
                         {Dept.map((option) => (
@@ -928,7 +1190,8 @@ function ForRequest() {
                       size="small"
                       style={{ width: "100%" }}
                       value={Remark}
-                      onChange={(e) => setRemark(e.target.value)}
+                      //onChange={(e) => setRemark(e.target.value)}
+                      onChange={handleRemark}
                     ></TextField>
                   </Grid>
                 </Grid>

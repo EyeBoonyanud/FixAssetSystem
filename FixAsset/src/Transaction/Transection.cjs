@@ -416,9 +416,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const query = `
       INSERT INTO FAM_REQ_HEADER 
       (FRH_FAM_NO, FAM_REQ_DATE, FAM_REQ_BY, FAM_REQ_TEL, FAM_FACTORY, FAM_REQ_CC,
-      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK, FAM_CREATE_DATE)
+      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK)
       VALUES 
-      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark,SYSDATE)
+      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark)
     `;
 
     const data = {
@@ -445,6 +445,61 @@ module.exports.insert_tranfer = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+module.exports.create_date = async function (req, res) {
+  try {
+    console.log("----");
+    const Tranfer_id = req.query.tranfer;
+
+    console.log(Tranfer_id);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_HEADER 
+    SET FAM_CREATE_DATE = SYSDATE
+    WHERE FRH_FAM_NO = :Tranfer_id
+  `;
+
+  const data = {
+    Tranfer_id,
+  };
+    console.log(query);
+    console.log(data);
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_date = async function (req, res) {
+  try {
+    console.log("----");
+    const Tranfer_id = req.query.tranfer;
+
+    console.log(Tranfer_id);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_HEADER 
+    SET FAM_UPDATE_DATE = SYSDATE
+    WHERE FRH_FAM_NO = :Tranfer_id
+  `;
+
+  const data = {
+    Tranfer_id,
+  };
+    console.log(query);
+    console.log(data);
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 
 module.exports.insert_asset_transfer = async function (req, res) {
   try {
@@ -1494,7 +1549,7 @@ module.exports.getEdit_Trans = async function (req, res) {
     F.FRT_TO_PROJ ,
     F.FRT_RECEIVE_BY AS NEW_OWNER ,
     F.FRT_RECEIVER_TEL,
-    F.FRT_PLAN_MOVE_DATE ,
+    TO_CHAR(F.FRT_PLAN_MOVE_DATE, 'MM/DD/YYYY') AS FRT_PLAN_MOVE_DATE,
     F.FRT_ABNORMAL_REASON,
     F.FRT_RECEIVE_BY AS RECEIVER,
     F.FRT_FAM_NO,
