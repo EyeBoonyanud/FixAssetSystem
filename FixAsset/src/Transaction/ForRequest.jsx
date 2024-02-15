@@ -89,23 +89,27 @@ function ForRequest() {
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
   ////console.log(For_Req, "ข้อมูลสำคัญมาก");
-  const For_edit_request = localStorage.getItem("For_Req_Edit");
-  const For_Rq_Edit = JSON.parse(For_edit_request);
+
   const ForDt = localStorage.getItem("forDetail");
-  const For_detail = JSON.parse(ForDt);
-  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
-  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  const For_detail = JSON.parse(ForDt); 
+
+
   
   const navigate = useNavigate();
   const NextPage = async () => {
     navigate("/TransDetail");
   };
- 
-
+  
+     const For_edit_request = localStorage.getItem("For_Req_Edit");
+    const For_Rq_Edit = JSON.parse(For_edit_request);
+    const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
+    const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
   useEffect(() => {
    
     Edit();
-    EditFixAsset();
+
+    EditFixAsset();  
+
     request_by();
     factory();
     costcenter();

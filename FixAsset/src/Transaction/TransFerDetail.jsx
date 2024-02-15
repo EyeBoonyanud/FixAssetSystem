@@ -111,6 +111,7 @@ function TransFerDetail() {
       Edit_Routing();
       if (For_Rq_Edit != null) {
         setownersend(For_Rq_Edit[2]);
+        
         if (For_edit_trans != null) {
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
@@ -122,6 +123,7 @@ function TransFerDetail() {
           // setของ Edit Trans
           if (For_Edit_Rou != null) {
             console.log("Edit Routingggggggggggggg", For_Edit_Rou[0][0]);
+            setowner_roting(For_Rq_Edit[2]);
           }
         }
       }
@@ -148,13 +150,13 @@ function TransFerDetail() {
           //console.log("Rotingggggggggggggggg");
           //setselectdepartment_mana(For_Rou[1]);
           setTel_service(For_Rou[3]);
-          setselectservice_by(For_Rou[4]);
-          setselectboi_staff(For_Rou[5]);
-          setselectboi_manager(For_Rou[6]);
-          setselectfac_manager(For_Rou[7]);
-          setselectacc_check(For_Rou[8]);
+         // setselectservice_by(For_Rou[4]);
+         // setselectboi_staff(For_Rou[5]);
+         // setselectboi_manager(For_Rou[6]);
+         // setselectfac_manager(For_Rou[7]);
+         // setselectacc_check(For_Rou[8]);
           setowner_roting(For_Rou[9]);
-          setselectacc_manager(For_Rou[10]);
+         // setselectacc_manager(For_Rou[10]);
         }
       } else {
         if (For_Req != null) {
@@ -541,11 +543,11 @@ function TransFerDetail() {
   const BOI_Staff = async () => {
     let level = "";
     if (EditFam != null) {
-      if (For_edit_trans != null) {
-        level = For_Rq_Edit[0][14];
+
+      if (For_edit_trans != null) { 
+        level = For_Rq_Edit[14];
       }
     } else {
-      console.log("เช้าใหม่นะคะ BOI ค่ะ");
       level = For_Req[3];
     }
     try {
@@ -554,7 +556,17 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setboi_staff(data);
-      ////console.log("setboistaff :", data);
+      if (EditFam != null) {
+        if (For_Edit_Rou != null) {
+          setselectboi_staff([For_Edit_Rou[0][8]]);
+        }
+      } else {
+        if (For_Req != null) {
+          setselectboi_staff(For_Rou[5]);
+        } else {
+          setselectboi_staff("");
+        }
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -564,7 +576,7 @@ function TransFerDetail() {
     let level = "";
     if (EditFam != null) {
       if (For_edit_trans != null) {
-        level = For_Rq_Edit[0][14];
+        level = For_Rq_Edit[14];
       }
     } else {
       level = For_Req[3];
@@ -575,7 +587,17 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setboi_manager(data);
-      ////console.log("setboimanager :", data);
+      if (EditFam != null) {
+        if (For_Edit_Rou != null) {
+          setselectboi_manager([For_Edit_Rou[0][12]]);
+        }
+      } else {
+        if (For_Req != null) {
+          setselectboi_manager(For_Rou[6]);
+        } else {
+          setselectboi_manager("");
+        }
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -585,7 +607,7 @@ function TransFerDetail() {
     let level = "";
     if (EditFam != null) {
       if (For_edit_trans != null) {
-        level = For_Rq_Edit[0][14];
+        level = For_Rq_Edit[14];
       }
     } else {
       level = For_Req[3];
@@ -596,7 +618,17 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setfac_manager(data);
-      ////console.log("setboimanager :", data);
+      if (EditFam != null) {
+        if (For_Edit_Rou != null) {
+          setselectfac_manager([For_Edit_Rou[0][16]]);
+        }
+      } else {
+        if (For_Req != null) {
+          setselectfac_manager(For_Rou[7]);
+        } else {
+          setselectfac_manager("");
+        }
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -606,7 +638,7 @@ function TransFerDetail() {
     let level = "";
     if (EditFam != null) {
       if (For_edit_trans != null) {
-        level = For_Rq_Edit[0][14];
+        level = For_Rq_Edit[14];
       }
     } else {
       level = For_Req[3];
@@ -617,7 +649,17 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setacc_check(data);
-      //console.log("setboimanager :", data);
+      if (EditFam != null) {
+        if (For_Edit_Rou != null) {
+          setselectacc_check([For_Edit_Rou[0][20]]);
+        }
+      } else {
+        if (For_Req != null) {
+          setselectacc_check(For_Rou[8]);
+        } else {
+          setselectacc_check("");
+        }
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -627,7 +669,7 @@ function TransFerDetail() {
     let level = "";
     if (EditFam != null) {
       if (For_edit_trans != null) {
-        level = For_Rq_Edit[0][14];
+        level = For_Rq_Edit[14];
       }
     } else {
       level = For_Req[3];
@@ -638,6 +680,17 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setacc_manager(data);
+      if (EditFam != null) {
+        if (For_Edit_Rou != null) {
+          setselectacc_manager([For_Edit_Rou[0][28]]);
+        }
+      } else {
+        if (For_Req != null) {
+          setselectacc_manager(For_Rou[10]);
+        } else {
+          setselectacc_manager("");
+        }
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
