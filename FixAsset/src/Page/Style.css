@@ -405,24 +405,28 @@ margin: 0 !important;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   width: 60%; /* Adjust the width as needed */
+  height: 70%;
   text-align: center;
+  overflow: auto;
+
 }
+
  
 
 .FamFilePopUp{
- 
   justify-content: center;
   display: flex;
+  overflow: auto; /* Add this line for scroll */
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
  }
  .FamFilePopUp th {
   background-color: #436850;
   white-space: nowrap;
   color: rgb(253, 251, 251);
-  padding: 2;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+
 }
 
 

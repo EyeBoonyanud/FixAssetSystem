@@ -23,13 +23,19 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { Empty } from "antd";
-import Popup from "./Popup_FamFileAttach"
+import Popup from "./Popup_FamFileAttach";
+import * as XLSX from "xlsx";
+import { InfoCircleOutlined } from '@ant-design/icons';
+
 
 function Report() {
   const [selectRequestType, setselectRequestType] = useState("");
   const [Txt_FamNo, setTxt_FamNo] = useState("");
   const [TableSearch, setTableSearch] = useState([]);
   const [TypeRequest, setTypeRequest] = useState([]);
+  const [checkHead, setCheckHead] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
+  const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
+  const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
 
   useEffect(() => {
     Type();
@@ -47,6 +53,9 @@ function Report() {
     setselectRequestType("");
     setTxt_FamNo("");
     setTableSearch([]);
+    setCheckHead("hidden");
+    setCheckEmpty("hidden");
+    setCheckData("visible");
   };
   const Search = () => {
     if (selectRequestType === "" || Txt_FamNo === "") {
@@ -99,10 +108,15 @@ function Report() {
                 sumBookvalue.toLocaleString(),
               ]);
               dataTablesByFamno[Famno] = currentDataTable;
-            }
+              setCheckHead("visible");
+            }        
+            setCheckEmpty("visible");
+            setCheckData("hidden");
             setTableSearch(dataTablesByFamno);
           } else {
             setTableSearch(res.data);
+            setCheckEmpty("hidden");
+            setCheckData("visible");
           }
         })
         .catch((error) => {
@@ -111,30 +125,69 @@ function Report() {
     }
   };
   // Object.keys(TableSearch).map((famno, famnoIndex) => (
-    const [selectedFamNo, setSelectedFamNo] = useState("");
+  const [selectedFamNo, setSelectedFamNo] = useState("");
   const [isPopupOpen, setPopupOpen] = useState(false);
   const openPopup = (Famno) => {
-   const selectedRow =Famno
-     if (selectedRow) {
-      console.log("FamNo",selectedRow)
+    const selectedRow = Famno;
+    if (selectedRow) {
+      console.log("FamNo", selectedRow);
       setSelectedFamNo(Famno);
       setPopupOpen(true);
-     }
-
+    }
   };
 
   const closePopup = () => {
     setPopupOpen(false);
   };
 
+  const dataTable1export = [];
+  const sortedTableFirst = Object.keys(TableSearch).flatMap((famno) =>
+    TableSearch[famno].map((row) => [
+      row[0],
+      row[1],
+      row[2],
+      row[3],
+      row[4],
+      row[5],
+      row[6],
+      row[7],
+      row[8],
+      row[9],
+      row[10],
+      row[11],
+      row[12],
+      row[13],
+      row[14],
+      row[15],
+      row[16],
+      row[17],
+    ])
+  );
+
+  dataTable1export.push(...sortedTableFirst);
+  const exportToExcelTable1 = () => {
+    const ws = XLSX.utils.aoa_to_sheet([
+      [
+        "Material Code",
+        "Material Name",
+        "Category",
+        "Vender Lot",
+        "Sub Lot",
+        "Expired Date",
+        "Invoice No.",
+        "Vender Name",
+      ],
+      ...dataTable1export,
+    ]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `MAT_Test.xlsx`);
+  };
+
   return (
     <>
       <Header />
-      <Popup
-        isOpen={isPopupOpen}
-        onClose={closePopup}
-        FamNo={selectedFamNo}
-      />
+      <Popup isOpen={isPopupOpen} onClose={closePopup} FamNo={selectedFamNo} />
       <div
         style={{
           marginTop: "60px",
@@ -202,7 +255,7 @@ function Report() {
           <Button
             variant="contained"
             style={{ backgroundColor: "#1A5D1A" }}
-            onClick={Search}
+            onClick={exportToExcelTable1}
           >
             <FileExcelOutlined style={{ fontSize: "20px" }} /> &nbsp; Export
           </Button>
@@ -212,7 +265,7 @@ function Report() {
       <div className="DivTableFam">
         <TableContainer
           component={Paper}
-          style={{ width: "96%", marginBottom: "10px", maxHeight: "450px" }}
+          style={{ width: "96%", marginBottom: "10px", maxHeight: "450px", visibility : checkHead }}
         >
           <Table
             sx={{ minWidth: 650 }}
@@ -267,7 +320,9 @@ function Report() {
                           <TableCell>{row[4]}</TableCell>
                           <TableCell>{row[5]}</TableCell>
                           <TableCell>{row[6]}</TableCell>
-                          <TableCell style={{textAlign:"left"}}>{row[7]}</TableCell>
+                          <TableCell style={{ textAlign: "left" }}>
+                            {row[7]}
+                          </TableCell>
                           <TableCell>{row[8]}</TableCell>
                           <TableCell>{row[9]}</TableCell>
                           <TableCell>{row[10]}</TableCell>
@@ -280,9 +335,10 @@ function Report() {
                           <TableCell>{row[17]}</TableCell>
                           <TableCell>
                             {rowIndex === 0 ? (
-                             <Button onClick={() => openPopup(row[2])}> File</Button>
-                               
-                             
+                              <Button onClick={() => openPopup(row[2])}>
+                                {" "}
+                                File
+                              </Button>
                             ) : (
                               ""
                             )}
@@ -305,9 +361,31 @@ function Report() {
                   </React.Fragment>
                 ))
               ) : (
-                <TableRow>
-                  <TableCell colSpan={24}>
-                    <Empty description="No data" />
+                // <TableRow>
+                //   <TableCell colSpan={24}>
+                //     <Empty description="No data" />
+                //   </TableCell>
+                // </TableRow>
+                <TableRow style={{ visibility: checkEmpty }}>
+                  <TableCell colSpan={16}>
+                    <InfoCircleOutlined
+                      style={{
+                        visibility: checkData,
+                        fontSize: "30px",
+                        color: "#ffd580",
+                      }}
+                    />
+                    <text
+                      style={{
+                        visibility: checkData,
+                        fontSize: "25px",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      {" "}
+                      Please fill in information{" "}
+                    </text>
+                    <Empty style={{ visibility: checkEmpty }} />
                   </TableCell>
                 </TableRow>
               )}
