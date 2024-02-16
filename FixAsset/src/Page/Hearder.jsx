@@ -41,9 +41,8 @@ function ButtonAppBar({ isOpen, onClose }) {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="fixed"
-          style={{
-            backgroundColor: "green",
-          }}
+          style={{ background: 'radial-gradient(circle,#E1ECC8 ,#88AB8E)',
+        }}
         >
           <Toolbar>
             <IconButton

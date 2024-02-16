@@ -129,8 +129,19 @@ function Issue() {
     Costcenter();
     RequestType();
     // Remove();
+  
  
   }, []);
+
+  const Edit = async (EditFam) => {
+    console.log(EditFam, "XXXXXXXXXXXXXXXxx");
+   
+    //reload_edit();
+  };
+  const EditFixAsset = async (EditFam) => {
+    console.log(EditFam, "TTTTTTTTTTTTT");
+   
+  };
  
   // const Remove = () =>{
   //   localStorage.removeItem("ForRequester");
@@ -138,9 +149,71 @@ function Issue() {
   //   localStorage.removeItem("EDIT")
   // }
  //
- const  handleEdit = async (edit) => {
-  localStorage.setItem("EDIT",edit)
-  navigate("/ForRe");
+ const  handleEdit = async (EditFam) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
+    );
+    const data = await response.data;
+
+   
+    // const DataEdit = data;
+    const data_edit = JSON.stringify(data);
+    console.log(data_edit, "data_edit");
+
+    localStorage.setItem("For_Req_Edit", data_edit);
+    
+  } catch (error) {
+    //console.error("Error during login:", error);
+  }
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+    );
+    const data = await response.data;
+    // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+    const DataEdit = data;
+    const data_edit = JSON.stringify(DataEdit);
+    console.log(data_edit, "data_editdata_editdata_editdata_edit");
+    localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+  } catch (error) {
+    //console.error("Error during login:", error);
+  }
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+    );
+    const data = await response.data;
+
+    // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+
+    // const DataEdit = data;
+    const data_edit = JSON.stringify(data);
+    localStorage.setItem("Edit_Trans", data_edit);
+  } catch (error) {
+    //console.error("Error during login:", error);
+  }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
+      );
+      const data = await response.data;
+
+      // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+
+      // const DataEdit = data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_routing", data_edit);
+    } catch (error) {
+      //console.error("Error during login:", error);
+    }
+
+
+
+
+  localStorage.setItem("EDIT",EditFam)
+
+  window.location.href = "/ForRe";
 };
   const Search = async () => {
     const FamNo = document.getElementById("FamNo").value;

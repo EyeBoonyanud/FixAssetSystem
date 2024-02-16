@@ -22,7 +22,7 @@ function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  //  console.log(For_Req,"For_Req")
+  console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
 
@@ -32,7 +32,7 @@ function TransFerDetail() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  // console(For_Rq_Edit, "For_Req_Edit");
+  //console.log(For_Rq_Edit, "For_Req_Edit");
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -42,10 +42,11 @@ function TransFerDetail() {
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  // console(For_Edit_Rou,"For_Edit_Rou")
+  //console.log("For_Edit_Rou",For_Edit_Rou)
 
   let Fam_list = "";
   let servivedept = "";
+
   const SERVICEDEPT = () => {
     setservice_dept(servivedept);
   };
@@ -121,6 +122,17 @@ function TransFerDetail() {
   const [ErrorTel, setErrorTel] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
+  const [ErrorNewOwn, setErrorNewOwn] = useState(false);
+  const [ErrorManager, setErrorManager] = useState(false);
+  const [ErrorService_by, setErrorService_by] = useState(false);
+  const [ErrorBoi_Staff, setErrorBoi_Staff] = useState(false);
+  const [ErrorBoi_manager, setErrorBoi_manager] = useState(false);
+  const [ErrorMana_Fac, setErrorMana_Fac] = useState(false);
+  const [ErrorAcc_check, setErrorAcc_check] = useState(false);
+  const [ErrorAcc_Mana, setErrorAcc_Mana] = useState(false);
+  const [ErrorTel_service, setErrorTel_service] = useState(false);
+
+  const [checkrdo, setcheckrdo] = useState("hidden");
 
   useEffect(() => {
     FactoryCC();
@@ -138,8 +150,8 @@ function TransFerDetail() {
     ACC_Manager();
 
     if (EditFam != null) {
-      Edit_Trans();
-      Edit_Routing();
+      // Edit_Trans();
+      // Edit_Routing();
       // console("มาจ้าาาาา9999999",For_Rq_Edit[0])
       if (For_Rq_Edit != null) {
         setownersend(For_Rq_Edit[2]);
@@ -149,6 +161,7 @@ function TransFerDetail() {
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
           setabnormal(For_edit_trans[0][6]);
+
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
           setplan_date(For_edit_trans[0][5]);
@@ -163,14 +176,9 @@ function TransFerDetail() {
     } else {
       //// console("LLLLLLLLLLLLLLLLLLLLLLL",For_Trans);
       if (For_Trans != null) {
-        //กรณี new หลังจากกด save แล้ว
-        // setownersend(For_Trans[1]);
-        //// console("มีข้อมูลแล้วนะคะะะะะะะะะะะะะะะะะะะะะ");
         setownersend(For_Req[1]);
         setowner_roting(For_Req[1]);
         setdata_fromboi(For_Trans[2]);
-        // setselecttrans_factory(For_Trans[3]);
-        //setselecttrans_cc(For_Trans[4]);
         setnew_boi(For_Trans[5]);
         New_Owner(For_Trans[4], For_Trans[3]);
         setselectnew_owner(For_Trans[6]);
@@ -180,26 +188,14 @@ function TransFerDetail() {
         setreceiver(For_Trans[10]);
 
         if (For_Rou != null) {
-          //// console("Rotingggggggggggggggg");
-          //setselectdepartment_mana(For_Rou[1]);
           setTel_service(For_Rou[3]);
-          // setselectservice_by(For_Rou[4]);
-          // setselectboi_staff(For_Rou[5]);
-          // setselectboi_manager(For_Rou[6]);
-          // setselectfac_manager(For_Rou[7]);
-          // setselectacc_check(For_Rou[8]);
           setowner_roting(For_Rou[9]);
-          // setselectacc_manager(For_Rou[10]);
         }
       } else {
         if (For_Req != null) {
-          //// console(For_Req, "มาแล้ววววววววววววววววววววววว");
-          //กรณี new โดยที่ไม่มีค่าอะไรเลย
           setownersend(For_Req[1]);
           setowner_roting(For_Req[1]);
           setdata_fromboi("");
-          // setselecttrans_factory("");
-          // setselecttrans_cc("");
           setnew_boi("");
           setselectnew_owner("");
           setTel_for_trans("");
@@ -209,84 +205,60 @@ function TransFerDetail() {
         }
       }
     }
-
-    // if (For_Trans !== null) {
-
-    //   // setownersend(For_Trans[1]);
-    //   // setnew_boi(For_Trans[5]);
-    //   // New_Owner(For_Trans[4], For_Trans[3]);
-    //   // setselectnew_owner(For_Trans[6]);
-    //   // setreceiver(For_Trans[10]);
-    //   // setabnormal(For_Trans[9]);
-    //   // setTel_for_trans(For_Trans[7]);
-    // }
-    // // setownersend(For_Req[1]);
-    // // setowner_roting(For_Req[1]);
-
-    // if (For_Rou !== null) {
-    //   setselectdepartment_mana(For_Rou[1]);
-    //   setTel_service(For_Rou[3]);
-    //   setselectservice_by(For_Rou[4]);
-    //   setselectboi_staff(For_Rou[5]);
-    //   setselectboi_manager(For_Rou[6]);
-    //   setselectfac_manager(For_Rou[7]);
-    //   setselectacc_check(For_Rou[8]);
-    //   setowner_roting(For_Rou[9]);
-    //   setselectacc_manager(For_Rou[10]);
-    // }
   }, []);
 
-  const useef = () => {
-    if (EditFam !== null) {
-      //// console(EditFam, "EditFamแก้ไขมาแล้วจ้า");
-      if (For_edit_trans !== null) {
-        //// console("7777777777777777777777777", For_edit_trans[0][0]);
-      } else {
-        // setownersend(For_Req[1]);
-        // setowner_roting(For_Req[1]);
-        // if (For_Rou !== null) {
-        //   setselectdepartment_mana(For_Rou[1]);
-        //   setTel_service(For_Rou[3]);
-        //   setselectservice_by(For_Rou[4]);
-        //   setselectboi_staff(For_Rou[5]);
-        //   setselectboi_manager(For_Rou[6]);
-        //   setselectfac_manager(For_Rou[7]);
-        //   setselectacc_check(For_Rou[8]);
-        //   setowner_roting(For_Rou[9]);
-        //   setselectacc_manager(For_Rou[10]);
-        // }
-      }
-      // } else if (For_Req !== null) {
-      //   //// console("มีข้อมูลของ For_Req")
-      //   setownersend(For_Req[1]);
-      //   setowner_roting(For_Req[1]); // สำหรับ routing
-      //   if( For_Trans !== null){
-      //     //// console("มีข้อมูลของ forTrans")
-      //     setownersend(For_Trans[1]);
-      //     setdata_fromboi(For_Trans[2]);
-      //     setselecttrans_factory(For_Trans[3]);
-      //     setselecttrans_cc(For_Trans[4]);
-      //     setselectnew_owner(For_Trans[6]);
-      //     setTel_for_trans(For_Trans[7]);
-      //     setplan_date(For_Trans[8]);
+  // const useef = () => {
+  //   if (EditFam !== null) {
 
-      //   }
-      //   //// console("มีข้อมูลเลยจ้าาาาาาาาาาาาาาาาาาา")
-      //     setdata_fromboi("");
-      //     setselecttrans_factory("");
-      //     setselecttrans_cc("");
-      //     setnew_boi("");
-      //     setselectnew_owner("");
-      //     setTel_for_trans("");
-      //     setplan_date("");
-      //     setabnormal("");
-      //     setreceiver("")
+  //     if (For_edit_trans !== null) {
 
-      // }
-    }
-  };
+  //     } else {
+  //       // setownersend(For_Req[1]);
+  //       // setowner_roting(For_Req[1]);
+  //       // if (For_Rou !== null) {
+  //       //   setselectdepartment_mana(For_Rou[1]);
+  //       //   setTel_service(For_Rou[3]);
+  //       //   setselectservice_by(For_Rou[4]);
+  //       //   setselectboi_staff(For_Rou[5]);
+  //       //   setselectboi_manager(For_Rou[6]);
+  //       //   setselectfac_manager(For_Rou[7]);
+  //       //   setselectacc_check(For_Rou[8]);
+  //       //   setowner_roting(For_Rou[9]);
+  //       //   setselectacc_manager(For_Rou[10]);
+  //       // }
+  //     }
+  //     // } else if (For_Req !== null) {
+  //     //   //// console("มีข้อมูลของ For_Req")
+  //     //   setownersend(For_Req[1]);
+  //     //   setowner_roting(For_Req[1]); // สำหรับ routing
+  //     //   if( For_Trans !== null){
+  //     //     //// console("มีข้อมูลของ forTrans")
+  //     //     setownersend(For_Trans[1]);
+  //     //     setdata_fromboi(For_Trans[2]);
+  //     //     setselecttrans_factory(For_Trans[3]);
+  //     //     setselecttrans_cc(For_Trans[4]);
+  //     //     setselectnew_owner(For_Trans[6]);
+  //     //     setTel_for_trans(For_Trans[7]);
+  //     //     setplan_date(For_Trans[8]);
+
+  //     //   }
+  //     //   //// console("มีข้อมูลเลยจ้าาาาาาาาาาาาาาาาาาา")
+  //     //     setdata_fromboi("");
+  //     //     setselecttrans_factory("");
+  //     //     setselecttrans_cc("");
+  //     //     setnew_boi("");
+  //     //     setselectnew_owner("");
+  //     //     setTel_for_trans("");
+  //     //     setplan_date("");
+  //     //     setabnormal("");
+  //     //     setreceiver("")
+
+  //     // }
+  //   }
+  // };
 
   const FactoryCC = async () => {
+    setErrorFac(false);
     try {
       const response = await axios.get(`http://localhost:5000/getfactory`);
       const FactoryData = await response.data;
@@ -302,16 +274,72 @@ function TransFerDetail() {
         }
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
   const handleFactoryCC = async (event) => {
     setselecttrans_factory(event.target.value);
-   
-    
-     
 
+    console.log(For_edit_trans, "rrrrr");
+    if (EditFam != null) {
+      if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
+      const data = [
+        event.target.value,
+        For_edit_trans[1],
+        For_edit_trans[2],
+        For_edit_trans[4],
+        For_edit_trans[5],
+        For_edit_trans[6],
+        For_edit_trans[7],
+        For_edit_trans[8],
+        For_edit_trans[9],
+      ];
 
+      const data_edit = JSON.stringify(data);
+      console.log("/////////////////");
+      localStorage.setItem("Edit_Trans", data_edit);
+      //edit
+    } else {
+      //insert
+      console.log("------bbbbbb---------");
+
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_forTranfer_Req_Tranfer_Details = [
+          Fam_list,
+          ownersend,
+          data_fromboi,
+          "",
+          "",
+          new_boi,
+          [selectnew_owner],
+          "",
+          plan_date,
+          abnormal,
+          receiver,
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata);
+      } else {
+        console.log("------///////////----------", For_Trans);
+        const setData_forTranfer_Req_Tranfer_Details = [
+          For_Trans[0],
+          For_Trans[1],
+          For_Trans[2],
+          event.target.value,
+          For_Trans[4],
+          For_Trans[5],
+          For_Trans[6],
+          For_Trans[7],
+          For_Trans[8],
+          For_Trans[9],
+          For_Trans[10],
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata); //  insert Tranfer
+      }
+    }
   };
 
   const TransCC = async () => {
@@ -320,9 +348,7 @@ function TransFerDetail() {
       const data = await response.data;
       settrans_cc(data);
       if (EditFam != null) {
-        if (For_edit_trans != null)
-          // console(For_edit_trans[0][1], "For_edit_trans[0][1]");
-          setselecttrans_cc(For_edit_trans[0][1]);
+        if (For_edit_trans != null) setselecttrans_cc(For_edit_trans[0][1]);
       } else {
         if (For_Req != null) {
           setselecttrans_cc(For_Trans[4]);
@@ -330,9 +356,7 @@ function TransFerDetail() {
           setselecttrans_cc("");
         }
       }
-    } catch (error) {
-      //console.error("Error during login:", error);
-    }
+    } catch (error) {}
   };
   const BOI_FROM = async () => {
     //// console(Fam_list, "Fam_no");
@@ -350,10 +374,10 @@ function TransFerDetail() {
   };
   const handleNew_BOI = async (event) => {
     let transCC = event.target.value;
+    setErrorCC(false);
     setselecttrans_cc(event.target.value);
     New_Owner(transCC, selecttrans_factory);
 
-    //// console(transCC, "CC ข้อมูล", selecttrans_factory, "Fac มา");
     try {
       const response = await axios.get(
         `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
@@ -361,7 +385,6 @@ function TransFerDetail() {
       const data = response.data;
       const boi = data.flat();
       setnew_boi(boi);
-      //// console("jjjjjjj", boi);
 
       if (!boi || boi.length === 0) {
         setnew_boi("NON BOI");
@@ -369,7 +392,6 @@ function TransFerDetail() {
         setnew_boi(boi);
       }
       if (data_fromboi == boi) {
-        //////// console("เข้า1");
         setsts("N");
         setabnormal("");
       } else {
@@ -377,11 +399,12 @@ function TransFerDetail() {
         setabnormal("Transfer to difference project");
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
   const New_Owner = async (selecttrans_cc, selecttrans_factory) => {
     //// console(selecttrans_cc, "selecttrans_cc", selecttrans_factory);
+
     try {
       const response = await axios.get(
         `http://localhost:5000/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
@@ -400,13 +423,11 @@ function TransFerDetail() {
   };
 
   const handleNewOwner = (event) => {
-    //// console(event.target.value, "iiiiiiiiiiiiiiiiiiii");
     let New_own = event.target.value;
     const parts = New_own.split(":");
     let result = parts[1].trim();
     setselectnew_owner(New_own); // เก็บ select ของ new owner
     setreceiver(result);
-    //// console(result, "result");
   };
   //Department Manager
   const Department_Mana = async () => {
@@ -742,7 +763,7 @@ function TransFerDetail() {
     } else {
       ServiceDept = For_Req[8];
     }
-    //// console(ServiceDept,"ServiceDeptServiceDept")
+
     const setData_forTranfer_Req_Tranfer_Details = [
       Fam_list,
       ownersend,
@@ -775,14 +796,25 @@ function TransFerDetail() {
     ];
     const sendheader = JSON.stringify(set_data_for_req_details);
     localStorage.setItem("For_Routing", sendheader);
-    // //// console(
-    //   setData_forTranfer_Req_Tranfer_Details,
-    //   "setData_forTranfer_Req_Tranfer_Details"
-    // );
+
     if (EditFam != null) {
       try {
+        const row = axios.post(
+          `http://localhost:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+        );
+      } catch (error) {
+        //console.error("Error requesting data:", error);
+      }
+      try {
+        const row = axios.post(
+          `http://localhost:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${owner_roting}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+        );
+      } catch (error) {
+        //console.error("Error requesting data:", error);
+      }
+      try {
         const response = await axios.post(
-          `http://localhost:5000/update_date?tranfer=${Fam_list}`
+          `http://localhost:5000/update_date?tranfer=${EditFam}`
         );
         //// console(data, "data");
       } catch (error) {
@@ -793,7 +825,6 @@ function TransFerDetail() {
         const response = await axios.post(
           `http://localhost:5000/create_date?tranfer=${Fam_list}`
         );
-        //// console(data, "data");
       } catch (error) {
         //console.error("Error during login:", error);
       }
@@ -820,226 +851,269 @@ function TransFerDetail() {
       title: "Save Success",
       icon: "success",
     });
-    window.location.reload();
+
     setOpen(true);
   };
 
   const SUBMIT = async () => {
     if (EditFam != null) {
-      console.log(
-        "ค่าที่เข้ามาเพื่อเช้ค Edit",
-        For_Edit_Rou[0][7],
-        "",
-        For_Rq_Edit[3],
-        "Tel_service",
-        Tel_service
-      );
-      //  if( selecttrans_factory )
-      if (
-        selecttrans_factory === null ||
-        selecttrans_factory === undefined ||
-        selecttrans_factory.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorFac(true);
-      }
-      if (
-        selecttrans_cc === null ||
-        selecttrans_cc === undefined ||
-        selecttrans_cc.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        Tel_for_trans === null ||
-        Tel_for_trans === undefined ||
-        Tel_for_trans.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectnew_owner === null ||
-        selectnew_owner === undefined ||
-        selectnew_owner.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectservice_by === null ||
-        selectservice_by === undefined ||
-        selectservice_by.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectboi_staff === null ||
-        selectboi_staff === undefined ||
-        selectboi_staff.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectboi_manager === null ||
-        selectboi_manager === undefined ||
-        selectboi_manager.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectfac_manager === null ||
-        selectfac_manager === undefined ||
-        selectfac_manager.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectacc_check === null ||
-        selectacc_check === undefined ||
-        selectacc_check.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      if (
-        selectacc_manager === null ||
-        selectacc_manager === undefined ||
-        selectacc_manager.trim() === ""
-      ) {
-        console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
-      }
-      Swal.fire({
-        title: "ใส่ข้อมูลไม่ครบ",
-        icon: "Error",
-      });
 
-      // if (
-      //   //Edit Req
-      //   For_Rq_Edit[3] &&
-      //   For_Rq_Edit[6] &&
-      //   For_Rq_Edit[7] &&
-      //   For_Rq_Edit[8] &&
-      //   For_Rq_Edit[9] &&
-      //   For_Rq_Edit[12] &&
-      //   //  EditTrans
-      //   For_edit_trans[0][0] &&
-      //   For_edit_trans[0][1] &&
-      //   For_edit_trans[0][3] &&
-      //   For_edit_trans[0][4] &&
-      //   For_edit_trans[0][6] &&
-      //   For_Edit_Rou[0][0] &&
-      //   For_Edit_Rou[0][5] &&
-      //   For_Edit_Rou[0][8] &&
-      //   For_Edit_Rou[0][12] &&
-      //   For_Edit_Rou[0][16] &&
-      //   For_Edit_Rou[0][20] &&
-      //   For_Edit_Rou[0][28] &&
-      //   For_Edit_Rou[0][7]
-      // )
-      // {
-      //   Swal.fire({
-      //     title: "Submit Success",
-      //     icon: "success",
-      //   });
-      // }
-      // else {
-      //   Swal.fire({
-      //     title: "ใส่ข้อมูลไม่ครบ",
-      //     icon: "Error",
-      //   });
-      // }
-    } else {
-      if (
-        selecttrans_factory === null ||
-        selecttrans_factory === undefined ||
-        selecttrans_factory.trim() === ""
-      ) {
+
+
+
+      
+      if (selecttrans_factory === null || selecttrans_factory === undefined) {
         console.log("Erorrrrrrrrrrrr");
         setErrorFac(true);
+      } else {
+        setErrorFac(false);
       }
-      if (
-        selecttrans_cc === null ||
-        selecttrans_cc === undefined ||
-        selecttrans_cc.trim() === ""
-      ) {
+      if (selecttrans_cc === null || selecttrans_cc === undefined) {
         console.log("Erorrrrrrrrrrrr");
         setErrorCC(true);
+      } else {
+        setErrorCC(false);
       }
+      if (Tel_for_trans === null || Tel_for_trans === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorTel(true);
+      } else {
+        setErrorTel(false);
+      }
+      if (selectnew_owner === null || selectnew_owner === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorNewOwn(true);
+      } else {
+        setErrorNewOwn(false);
+      }
+
       if (
-        Tel_for_trans === null ||
-        Tel_for_trans === undefined ||
-        Tel_for_trans.trim() === ""
+        selectdepartment_mana === null ||
+        selectdepartment_mana === undefined
       ) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorManager(true);
+      } else {
+        setErrorManager(false);
+      }
+
+      if (selectservice_by[0] === null || selectservice_by[0] === undefined) {
+        // console.log("YYYYYYYYYYYYYYY",selectservice_by)
+        setErrorService_by(true);
+      } else {
+        setErrorService_by(false);
       }
       if (
-        selectnew_owner === null ||
-        selectnew_owner === undefined ||
-        selectnew_owner.trim() === ""
+        Tel_service === "null" ||
+        Tel_service === undefined ||
+        Tel_service === null
       ) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorTel_service(true);
+      } else {
+        setErrorTel_service(false);
+      }
+      if (selectboi_staff[0] === null || selectboi_staff[0] === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorBoi_Staff(true);
+      } else {
+        setErrorBoi_Staff(false);
+      }
+      if (selectboi_manager[0] === null || selectboi_manager[0] === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorBoi_manager(true);
+      } else {
+        setErrorBoi_manager(false);
+      }
+      if (selectfac_manager[0] === null || selectfac_manager[0] === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorMana_Fac(true);
+      } else {
+        setErrorMana_Fac(false);
+      }
+      if (selectacc_check[0] === null || selectacc_check[0] === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorAcc_check(true);
+      } else {
+        setErrorAcc_check(false);
+      }
+      if (selectacc_manager[0] === null || selectacc_manager[0] === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorAcc_Mana(true);
+      } else {
+        setErrorAcc_Mana(false);
+      }
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+        );
+     
+    }catch (error) {
+      //console.error("Error during login:", error);
+    }
+    
+  }
+    
+    else {
+      if (selecttrans_factory === null || selecttrans_factory === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorFac(true);
+      } else {
+        setErrorFac(false);
+      }
+      if (selecttrans_cc === null || selecttrans_cc === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorCC(true);
+      } else {
+        setErrorCC(false);
+      }
+      if (Tel_for_trans === null || Tel_for_trans === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorTel(true);
+      } else {
+        setErrorTel(false);
+      }
+      if (selectnew_owner === null || selectnew_owner === undefined) {
+        setErrorNewOwn(true);
+      } else {
+        setErrorNewOwn(false);
       }
       if (
-        selectservice_by === null ||
-        selectservice_by === undefined ||
-        selectservice_by.trim() === ""
+        selectdepartment_mana === null ||
+        selectdepartment_mana === undefined
       ) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorManager(true);
+      } else {
+        setErrorManager(false);
       }
-      if (
-        selectboi_staff === null ||
-        selectboi_staff === undefined ||
-        selectboi_staff.trim() === ""
-      ) {
+      if (selectservice_by === null || selectservice_by === undefined) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorService_by(true);
+      } else {
+        setErrorService_by(false);
       }
-      if (
-        selectboi_manager === null ||
-        selectboi_manager === undefined ||
-        selectboi_manager.trim() === ""
-      ) {
+      if (Tel_service === null || Tel_service === undefined) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorTel_service(true);
+      } else {
+        setErrorTel_service(false);
       }
-      if (
-        selectfac_manager === null ||
-        selectfac_manager === undefined ||
-        selectfac_manager.trim() === ""
-      ) {
+      if (selectboi_staff === null || selectboi_staff === undefined) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorBoi_Staff(true);
+      } else {
+        setErrorBoi_Staff(false);
       }
-      if (
-        selectacc_check === null ||
-        selectacc_check === undefined ||
-        selectacc_check.trim() === ""
-      ) {
+      if (selectboi_manager === null || selectboi_manager === undefined) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorBoi_manager(true);
+      } else {
+        setErrorBoi_manager(false);
       }
-      if (
-        selectacc_manager === null ||
-        selectacc_manager === undefined ||
-        selectacc_manager.trim() === ""
-      ) {
+      if (selectfac_manager === null || selectfac_manager === undefined) {
         console.log("Erorrrrrrrrrrrr");
-        //   setErrorTel(true);
+        setErrorMana_Fac(true);
+      } else {
+        setErrorMana_Fac(false);
       }
-      Swal.fire({
-        title: "ใส่ข้อมูลไม่ครบ",
-        icon: "Error",
-      });
+      if (selectacc_check === null || selectacc_check === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorAcc_check(true);
+      } else {
+        setErrorAcc_check(false);
+      }
+      if (selectacc_manager === null || selectacc_manager === undefined) {
+        console.log("Erorrrrrrrrrrrr");
+        setErrorAcc_Mana(true);
+      } else {
+        setErrorAcc_Mana(false);
+      }
+
+      // if (
+      //   selecttrans_factory === null ||
+      //   selecttrans_factory === undefined ||
+      //   selecttrans_factory.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   setErrorFac(true);
+      // }
+      // if (
+      //   selecttrans_cc === null ||
+      //   selecttrans_cc === undefined ||
+      //   selecttrans_cc.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   setErrorCC(true);
+      // }
+      // if (
+      //   Tel_for_trans === null ||
+      //   Tel_for_trans === undefined ||
+      //   Tel_for_trans.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectnew_owner === null ||
+      //   selectnew_owner === undefined ||
+      //   selectnew_owner.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectservice_by === null ||
+      //   selectservice_by === undefined ||
+      //   selectservice_by.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectboi_staff === null ||
+      //   selectboi_staff === undefined ||
+      //   selectboi_staff.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectboi_manager === null ||
+      //   selectboi_manager === undefined ||
+      //   selectboi_manager.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectfac_manager === null ||
+      //   selectfac_manager === undefined ||
+      //   selectfac_manager.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectacc_check === null ||
+      //   selectacc_check === undefined ||
+      //   selectacc_check.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // if (
+      //   selectacc_manager === null ||
+      //   selectacc_manager === undefined ||
+      //   selectacc_manager.trim() === ""
+      // ) {
+      //   console.log("Erorrrrrrrrrrrr");
+      //   //   setErrorTel(true);
+      // }
+      // Swal.fire({
+      //   title: "ใส่ข้อมูลไม่ครบ",
+      //   icon: "Error",
+      // });
       // if (
       //   For_Req[0] &&
       //   For_Req[2] &&
@@ -1078,39 +1152,77 @@ function TransFerDetail() {
       //   window.location.reload();
       //}
     }
-  };
-  const Edit_Trans = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
-      );
-      const data = await response.data;
 
-      // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-      // const DataEdit = data;
-      const data_edit = JSON.stringify(data);
-      localStorage.setItem("Edit_Trans", data_edit);
-    } catch (error) {
-      //console.error("Error during login:", error);
+    if (EditFam != null) {
+      if (For_Rq_Edit != null) {
+        console.log("ไม่มาาาาาาาาาาาา", For_Rq_Edit[10]);
+        if (For_Rq_Edit[10] === "FLTR001") {
+          console.log("Vkppppppppppppppppppp");
+          let Status = "FLTR002";
+          try {
+            const response = await axios.post(
+              "http://localhost:5000/update_submit",
+              {
+                famno: EditFam,
+                sts_submit: Status,
+              }
+            );
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        } else {
+        }
+      }
+    } else {
+      if (For_Req[10] === "FLTR001") {
+        console.log(For_Req[10], "Vkppppppppppppppppppp");
+        let Status = "FLTR002";
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/update_submit",
+            {
+              famno: EditFam,
+              sts_submit: Status,
+            }
+          );
+        } catch (error) {
+          //     console.error("Error updating submit status:", error.message);
+        }
+      }
     }
   };
-  const Edit_Routing = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
-      );
-      const data = await response.data;
+  // const Edit_Trans = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
 
-      // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+  //     // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
 
-      // const DataEdit = data;
-      const data_edit = JSON.stringify(data);
-      localStorage.setItem("Edit_routing", data_edit);
-    } catch (error) {
-      //console.error("Error during login:", error);
-    }
-  };
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+  //     localStorage.setItem("Edit_Trans", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  // };
+  // const Edit_Routing = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+
+  //     // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+  //     localStorage.setItem("Edit_routing", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -1185,7 +1297,8 @@ function TransFerDetail() {
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         value={selecttrans_factory}
-                        onChange={(e) => setselecttrans_factory(e.target.value)}
+                        //onChange={(e) => setselecttrans_factory(e.target.value)}
+                        onChange={handleFactoryCC}
                         size="small"
                         style={{
                           borderColor: ErrorFac ? "red" : undefined,
@@ -1261,6 +1374,10 @@ function TransFerDetail() {
                         value={selectnew_owner}
                         onChange={handleNewOwner}
                         size="small"
+                        style={{
+                          borderColor: ErrorNewOwn ? "red" : undefined,
+                        }}
+                        error={ErrorNewOwn}
                       >
                         {new_owner.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1281,6 +1398,11 @@ function TransFerDetail() {
                         value={Tel_for_trans}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorTel ? "red" : undefined,
+                        }}
+                        error={ErrorTel}
+                        helperText={ErrorTel ? "กรูณาใส่เบอร์โทร" : undefined}
                       />
                     </FormControl>
                   </td>
@@ -1297,6 +1419,10 @@ function TransFerDetail() {
                         type="date"
                         //value={plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
+                        // style={{
+                        //   borderColor: Error ? "red" : undefined,
+                        // }}
+                        // error={ErrorCC}
                       />
                     </FormControl>
                   </td>
@@ -1363,6 +1489,10 @@ function TransFerDetail() {
                           setselectdepartment_mana(e.target.value)
                         }
                         size="small"
+                        style={{
+                          borderColor: ErrorManager ? "red" : undefined,
+                        }}
+                        error={ErrorManager}
                       >
                         {department_mana.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1381,6 +1511,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="Approve"
@@ -1398,7 +1529,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1408,14 +1541,17 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -1423,6 +1559,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1457,10 +1594,12 @@ function TransFerDetail() {
                         value={Tel_service}
                         onChange={(e) => setTel_service(e.target.value)}
                         style={{
-                          borderColor: ErrorTel ? "red" : undefined,
+                          borderColor: ErrorTel_service ? "red" : undefined,
                         }}
-                        error={ErrorTel}
-                        helperText={ErrorTel ? "กรูณาใส่เบอร์โทร" : undefined}
+                        error={ErrorTel_service}
+                        helperText={
+                          ErrorTel_service ? "กรูณาใส่เบอร์โทร" : undefined
+                        }
                       />
                     </FormControl>
                   </td>
@@ -1476,6 +1615,10 @@ function TransFerDetail() {
                         id="demo-simple-select-helper"
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
+                        style={{
+                          borderColor: ErrorService_by ? "red" : undefined,
+                        }}
+                        error={ErrorService_by}
                         size="small"
                       >
                         {service_by.map((option, index) => (
@@ -1496,6 +1639,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_serviceby(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1513,7 +1657,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1523,14 +1669,17 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -1538,6 +1687,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1553,6 +1703,10 @@ function TransFerDetail() {
                         id="demo-simple-select-helper"
                         value={selectboi_staff}
                         onChange={(e) => setselectboi_staff(e.target.value)}
+                        style={{
+                          borderColor: ErrorBoi_Staff ? "red" : undefined,
+                        }}
+                        error={ErrorBoi_Staff}
                         size="small"
                       >
                         {boi_staff.map((option, index) => (
@@ -1573,6 +1727,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_boistaff(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1590,7 +1745,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1600,14 +1757,17 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -1615,6 +1775,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1631,6 +1792,10 @@ function TransFerDetail() {
                         value={selectboi_manager}
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorBoi_manager ? "red" : undefined,
+                        }}
+                        error={ErrorBoi_manager}
                       >
                         {boi_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1650,6 +1815,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_boimanager(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1667,7 +1833,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1677,14 +1845,17 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -1692,6 +1863,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1708,6 +1880,10 @@ function TransFerDetail() {
                         value={selectfac_manager}
                         onChange={(e) => setselectfac_manager(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorMana_Fac ? "red" : undefined,
+                        }}
+                        error={ErrorMana_Fac}
                       >
                         {fac_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1728,6 +1904,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_facmanager(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1746,7 +1923,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
 
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1756,15 +1935,18 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
                 <>
-                  <tr>
+                  <tr style={{ display: "none" }}>
                     <th colSpan={5}></th>
-                    <td className="Style4">Comment :</td>
+                    <td className="Style4" style={{ visibility: checkrdo }}>
+                      Comment :
+                    </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
                         <TextField
@@ -1772,6 +1954,7 @@ function TransFerDetail() {
                           defaultValue=""
                           size="small"
                           disabled
+                          style={{ visibility: checkrdo }}
                         />
                       </FormControl>
                     </td>
@@ -1789,6 +1972,10 @@ function TransFerDetail() {
                         value={selectacc_check}
                         onChange={(e) => setselectacc_check(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorAcc_check ? "red" : undefined,
+                        }}
+                        error={ErrorAcc_check}
                       >
                         {acc_check.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1809,6 +1996,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_acc_check(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1825,7 +2013,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1835,12 +2025,13 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
                   <td className="Style4">Comment :</td>
                   <td colSpan={4}>
@@ -1881,6 +2072,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_owner}
                         onChange={(e) => setselectradio_owner(e.target.value)}
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1898,7 +2090,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -1908,14 +2102,17 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -1923,6 +2120,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1986,6 +2184,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_receiver(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2003,7 +2202,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2013,15 +2214,18 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
 
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -2029,6 +2233,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -2092,6 +2297,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_record}
                         onChange={(e) => setselectradio_record(e.target.value)}
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2109,7 +2315,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2119,20 +2327,24 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -2148,6 +2360,10 @@ function TransFerDetail() {
                         value={selectacc_manager}
                         onChange={(e) => setselectacc_manager(e.target.value)}
                         size="small"
+                        style={{
+                          borderColor: ErrorAcc_Mana ? "red" : undefined,
+                        }}
+                        error={ErrorAcc_Mana}
                       >
                         {acc_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -2167,6 +2383,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_acc_manager(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2184,7 +2401,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2194,20 +2413,24 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -2240,6 +2463,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_service_close_by(e.target.value)
                         }
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2257,7 +2481,9 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">Action Date :</td>
+                  <td className="Style7" style={{ visibility: checkrdo }}>
+                    Action Date :
+                  </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2267,20 +2493,24 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr>
+                <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -2332,11 +2562,13 @@ function TransFerDetail() {
                 style={{
                   width: "200px",
                   display: "inline-block",
+                  marginLeft: "400px",
+                  marginTop: "30px",
                 }}
                 variant="contained"
                 onClick={() => window.history.back()}
               >
-                Back
+                BACK PAGE
               </Button>
             </td>
             <td>
@@ -2345,6 +2577,8 @@ function TransFerDetail() {
                 style={{
                   width: "200px",
                   display: "inline-block",
+                  marginLeft: "300px",
+                  marginTop: "30px",
                 }}
                 variant="contained"
                 // onClick={NextPage}

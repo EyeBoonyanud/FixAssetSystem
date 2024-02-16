@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef , } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import {
   Typography,
@@ -85,49 +85,50 @@ function ForRequest() {
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
 
-  
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  ////console.log(For_Req, "ข้อมูลสำคัญมาก");
 
   const ForDt = localStorage.getItem("forDetail");
-  const For_detail = JSON.parse(ForDt); 
+  const For_detail = JSON.parse(ForDt);
 
+  const handleReload = () => {
+    window.location.reload();
+  };
 
-  
   const navigate = useNavigate();
   const NextPage = async () => {
     navigate("/TransDetail");
   };
+
   
-    let For_edit_request = localStorage.getItem("For_Req_Edit");
-    let For_Rq_Edit =JSON.parse(For_edit_request);
-    const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
-    const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+
+  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
+  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  
+
+  const For_edit_request = localStorage.getItem("For_Req_Edit");
+  const  For_Rq_Edit = JSON.parse(For_edit_request);
+  console.log( For_Rq_Edit,"อัพเดทค่าาาาาาาาาาาาาาาาาาาา")
+
   useEffect(() => {
-
-    Edit();
-
-    EditFixAsset();  
-
-
+    
+    // Edit();
+    // EditFixAsset();
+    console.log(">>>>>>>>>>>>>>>>>>",For_Rq_Edit,EditFam)
+    //handleReload();
     request_by();
     factory();
     costcenter();
     CostforAsset();
-    
-    
     keep();
-
-    // //console.log(For_Req,"Edit ค่าาาาาาาาาาาาาาาาาา");
   }, []);
-  const keep = () => {
 
-//console.log("///////////////////",EditFam)
-    ////console.log(EditFam, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-    if(EditFam != null){
-      if (For_Rq_Edit != null){
-        //console.log(For_Rq_Edit,"ข้อมูลตอนกด edit มาดู");
+
+  const keep = () => {
+   
+    if (EditFam != null) {
+      console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ")
+      if (For_Rq_Edit != null) {
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
         setdataUserLogin1(For_Rq_Edit[2]);
@@ -137,48 +138,45 @@ function ForRequest() {
         setRemark(For_Rq_Edit[12]);
         setcheckGenNo("hidden");
         setcheckReset("hidden");
-        if(For_Ed_FixCode != null){
+        setread_fix_group(true);
+        setread_fix_cost(true);
+        if (For_Ed_FixCode != null) {
           setdatatable(For_Ed_FixCode);
           setTableOpen(true);
           setvisibityDetails("visible");
           setvisibityFile("visible");
-          setbtnSave("visible")
+          setbtnSave("visible");
         }
-    
       }
-    }else {
-      if(For_Req !=null){
+    } else {
+      if (For_Req != null) {
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
         setdataUserLogin1(For_Req[1]);
         setTel1(For_Req[2]);
         setRequest_type1(For_Req[6]);
         setdataFix_Asset_Cost(For_Req[9]);
-        setRequest_sts1(For_Req[11])
+        setRequest_sts1(For_Req[11]);
         setRemark(For_Req[12]);
         setcheckGenNo("hidden");
         setcheckReset("hidden");
-        
-        if(For_detail !=null){
+
+        if (For_detail != null) {
           setdatatable(For_detail);
           setTableOpen(true);
           setvisibityDetails("visible");
           setvisibityFile("visible");
         }
-        
-      }else{
+      } else {
         setRequest_date(formattedDate);
-
       }
     }
 
     ////////////////////////
     // if (EditFam != null) {
-   
-     
 
     //  // handleCost();
-     
+
     //   if (For_detail != null) {
     //     //console.log(For_detail, "iiiiiiiiiii");
     //     setdatatable(For_detail);
@@ -186,14 +184,12 @@ function ForRequest() {
     //     setvisibityDetails("visible");
     //     setvisibityFile("visible");
     //   }
-    // } 
+    // }
     // else {
     //   if (For_Req != null) {
     //     //console.log("แล้ว");
     //     //console.log(For_Req, "ข้อมูลตอนกด save มาดู");
-  
 
-  
     //     if (For_detail != null) {
     //       setdatatable(For_detail);
     //       setTableOpen(true);
@@ -203,7 +199,7 @@ function ForRequest() {
     //   } else {
     //     //console.log( For_Req,"ข้อมูลตอนกด new มาดู");
     //     //console.log(For_detail, "rrrrrrrrr");
-       
+
     //   }
     // }
   };
@@ -214,8 +210,8 @@ function ForRequest() {
     .getDate()
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  // UseEffect
-  //Request_By
+
+  //Request By /////////////////////////////////////////
   const request_by = async () => {
     try {
       const response = await axios.get(
@@ -234,7 +230,7 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
-  //Request_Factory
+  //Request_Factory//////////////////////////////////////
   const factory = async () => {
     try {
       const response = await axios.get(
@@ -243,21 +239,20 @@ function ForRequest() {
       const data = await response.data;
       const data_Fac = data.flat();
       setFactory(data_Fac);
-      if(EditFam !=null){
-       
-        if(For_Rq_Edit != null){
+      if (EditFam != null) {
+        if (For_Rq_Edit != null) {
           //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-          setFactory1(For_Rq_Edit[4])
+          setFactory1(For_Rq_Edit[4]);
         }
-      }else{
-        if (For_Req != null) {
-        setFactory1(data_Fac[0]);
       } else {
-        //console.log("/////////");
-        setFactory1(data_Fac[0]);
+        if (For_Req != null) {
+          setFactory1(data_Fac[0]);
+        } else {
+          //console.log("/////////");
+          setFactory1(data_Fac[0]);
+        }
       }
-      }
-      
+
       if (data_Fac.length >= 0) {
         try {
           const response = await axios.get(
@@ -267,20 +262,19 @@ function ForRequest() {
           const data = await response.data;
           const data_dept = data.flat();
           setDept(data_dept);
-          if(EditFam !=null){
-       
-            if(For_Rq_Edit != null){
+          if (EditFam != null) {
+            if (For_Rq_Edit != null) {
               //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-              setselectDept1(For_Rq_Edit[6])
+              setselectDept1(For_Rq_Edit[6]);
             }
-          }else{
+          } else {
             if (For_Req != null) {
               //console.log(For_Req,"DDDDDDDeptttttt")
               setselectDept1(For_Req[5]);
-          } else {
-            //console.log("/////////");
-            setselectDept1("");
-          }
+            } else {
+              //console.log("/////////");
+              setselectDept1("");
+            }
           }
           //console.log(data_dept, "data_dept");
         } catch (error) {
@@ -292,7 +286,7 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
-  //Cost Center
+  //Cost Center/////////////////////////////////////////
   const costcenter = async () => {
     try {
       const response = await axios.get(
@@ -303,26 +297,23 @@ function ForRequest() {
       //console.log(data_insert, "data_insert");
       setCostcenter(data_insert);
       //console.log(For_Req);
-      if(EditFam !=null){
-       
-        if(For_Rq_Edit != null){
+      if (EditFam != null) {
+        if (For_Rq_Edit != null) {
           //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-          setCostcenter1(For_Rq_Edit[5])
+          setCostcenter1(For_Rq_Edit[5]);
         }
-      }else{
+      } else {
         if (For_Req != null) {
           setCostcenter1(data_insert[0]);
-      } else {
-      
-        setCostcenter1(data_insert[0]);
+        } else {
+          setCostcenter1(data_insert[0]);
+        }
       }
-      }
-    
     } catch (error) {
       //console.error("Error during login:", error);
     }
   };
-  //AssetGroup
+  //AssetGroup //////////////////////////////////////
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.get(
@@ -332,27 +323,20 @@ function ForRequest() {
 
       //console.log(data, "data_fixgroup");
       setFixAssetgroup(data);
-      
-    
-      if(EditFam !=null){
-       
-        if(For_Rq_Edit != null){
+
+      if (EditFam != null) {
+        if (For_Rq_Edit != null) {
           //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
-          setselectFixAssetgroup1(For_Rq_Edit[8])
+          setselectFixAssetgroup1(For_Rq_Edit[8]);
         }
-      }else{
+      } else {
         if (For_Req != null) {
           setselectFixAssetgroup1(For_Req[7]);
-      } else {
-      
-        setselectFixAssetgroup1("");
+        } else {
+          setselectFixAssetgroup1("");
+        }
       }
-      }
-
-
-
-
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -363,20 +347,18 @@ function ForRequest() {
       const response = await axios.get(`http://localhost:5000/getcost`);
       const CostData = await response.data;
       setFixAsset_cost(CostData);
-      if(EditFam !=null){
-       
-        if(For_Rq_Edit != null){
+      if (EditFam != null) {
+        if (For_Rq_Edit != null) {
           //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
-          setselectFixAsset_cost1(For_Rq_Edit[9])
+          setselectFixAsset_cost1(For_Rq_Edit[9]);
         }
-      }else{
+      } else {
         if (For_Req != null) {
           setselectFixAsset_cost1(For_Req[8]);
-      } else {
-      
-        setselectFixAsset_cost1("");
-      }
+        } else {
+          setselectFixAsset_cost1("");
+        }
       }
     } catch (error) {
       //console.error("Error during login:", error);
@@ -421,8 +403,8 @@ function ForRequest() {
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
         DataStatus = data;
-          setRequest_sts1(data[1]);
-         
+        setRequest_sts1(data[1]);
+
         // StatusId = dataStatus.flat();
       } catch (error) {
         //console.error("Error during login:", error);
@@ -479,7 +461,6 @@ function ForRequest() {
       DataStatus[1],
       Remark,
       selectFixAssetgroup1[1],
-
     ];
     //console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
@@ -498,7 +479,7 @@ function ForRequest() {
     } catch (error) {
       //console.error("Error during login:", error);
     }
-    
+
     try {
       const response = await axios.post(
         `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
@@ -507,7 +488,6 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
-
   //Find FixAsset Group
   const ADD = async () => {
     try {
@@ -522,9 +502,11 @@ function ForRequest() {
     }
     setOpen(true);
   };
+  // ADD ลง Table REQ_DETAILS
   const handleClose = () => {
     setOpen(false);
   };
+
   const updateSelectedData = (selectedItems) => {
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
@@ -552,14 +534,15 @@ function ForRequest() {
     setTableOpen(true);
     setOpen(false);
     setbtnSave("visible");
-   
-    
   };
   const Insert_Fam_detail = async () => {
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       localStorage.setItem("forDetail", sentdata);
-      console.log(Gen_Fam_No,"///////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>")
+      console.log(
+        Gen_Fam_No,
+        "///////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>"
+      );
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
@@ -585,298 +568,276 @@ function ForRequest() {
       icon: "success",
     });
   };
+  
 
-  const Edit = async () => {
-    console.log(EditFam, "EditFamKHUNNNN");
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
-      );
-      const data = await response.data;
+  // const Edit = async () => {
+  //   console.log(EditFam, "EditFamKHUNNNN");
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
 
-      //console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
+  //     //console.log(data, "dataaaaaaaaSSSSSSSSSSSS");
 
-      // const DataEdit = data;
-      const data_edit = JSON.stringify(data);
-      localStorage.setItem("For_Req_Edit", data_edit);
-    } catch (error) {
-      //console.error("Error during login:", error);
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+  //     localStorage.setItem("For_Req_Edit", data_edit);
+
+  //     console.log( "UUUUUUUUUUUUUU<>><><><><><><><><><>",For_Rq_Edit)
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  //   //reload_edit();
+  // };
+  // const EditFixAsset = async () => {
+  //   //console.log(EditFam, "EditFamKHUNNNN");
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+  //     console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+  //     const DataEdit = data;
+  //     const data_edit = JSON.stringify(DataEdit);
+  //     localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  // };
+  const handleTel = async (event) => {
+    setTel1(event.target.value);
+    console.log("/////");
+
+    if (EditFam != null) {
+      console.log(">>>>>>>>..", For_Rq_Edit);
+      const setData_ForRequester = [
+        For_Rq_Edit[0],
+        For_Rq_Edit[1],
+        For_Rq_Edit[2],
+        event.target.value,
+        For_Rq_Edit[4],
+        For_Rq_Edit[5],
+        For_Rq_Edit[6],
+        For_Rq_Edit[7],
+        For_Rq_Edit[8],
+        For_Rq_Edit[9],
+        For_Rq_Edit[10],
+        For_Rq_Edit[11],
+        For_Rq_Edit[12],
+        For_Rq_Edit[13],
+        For_Rq_Edit[14],
+      ];
+      console.log("/////////////////");
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("For_Req_Edit", sentdata);
+      //edit
+    } else {
+      //insert
+      console.log("------bbbbbb---------");
+
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_ForRequester = [
+          "",
+          LocalUserLogin,
+          event.target.value,
+          Factory[1],
+          Costcenter1,
+          selectDept1,
+          Request_type1,
+          selectFixAssetgroup1,
+          selectFixAsset_cost1,
+          "",
+          "",
+          "",
+          Remark,
+          "",
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      } else {
+        console.log("------///////////----------", For_Req);
+        const setData_ForRequester = [
+          For_Req[0],
+          For_Req[1],
+          event.target.value,
+          For_Req[3],
+          For_Req[4],
+          For_Req[5],
+          For_Req[6],
+          For_Req[7],
+          For_Req[8],
+          For_Req[9],
+          For_Req[10],
+          For_Req[11],
+          For_Req[12],
+          For_Req[13],
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      }
     }
   };
-  const EditFixAsset = async () => {
-    //console.log(EditFam, "EditFamKHUNNNN");
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
-      );
-      const data = await response.data;
-      console.log(data, "FIXEDDDDDDDDDDDDDDDd");
-      const DataEdit = data;
-      const data_edit = JSON.stringify(DataEdit);
-      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-    } catch (error) {
-      //console.error("Error during login:", error);
+
+  const handleDept = async (event) => {
+    setselectDept1(event.target.value);
+    console.log("/////");
+
+    if (EditFam != null) {
+      console.log(">>>>>>>>..", For_Rq_Edit);
+      const setData_ForRequester = [
+        For_Rq_Edit[0],
+        For_Rq_Edit[1],
+        For_Rq_Edit[2],
+        For_Rq_Edit[3],
+        For_Rq_Edit[4],
+        For_Rq_Edit[5],
+        event.target.value,
+        For_Rq_Edit[7],
+        For_Rq_Edit[8],
+        For_Rq_Edit[9],
+        For_Rq_Edit[10],
+        For_Rq_Edit[11],
+        For_Rq_Edit[12],
+        For_Rq_Edit[13],
+        For_Rq_Edit[14],
+      ];
+      console.log("/////////////////");
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("For_Req_Edit", sentdata);
+      //edit
+    } else {
+      //insert
+      console.log("------bbbbbb---------");
+
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_ForRequester = [
+          "",
+          LocalUserLogin,
+          "",
+          Factory[1],
+          Costcenter1,
+          selectDept1,
+          Request_type1,
+          selectFixAssetgroup1,
+          selectFixAsset_cost1,
+          "",
+          "",
+          "",
+          Remark,
+          "",
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      } else {
+        console.log("------///////////----------", For_Req);
+        const setData_ForRequester = [
+          For_Req[0],
+          For_Req[1],
+          For_Req[2],
+          For_Req[3],
+          For_Req[4],
+          event.target.value,
+          For_Req[6],
+          For_Req[7],
+          For_Req[8],
+          For_Req[9],
+          For_Req[10],
+          For_Req[11],
+          For_Req[12],
+          For_Req[13],
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      }
     }
   };
-const handleTel = async (event) => {
-  setTel1(event.target.value)
-   console.log("/////")
-    
-  
-  if(EditFam != null){
-    console.log(">>>>>>>>..", For_Rq_Edit)
-    const setData_ForRequester = [
-      For_Rq_Edit[0],
-      For_Rq_Edit[1],
-      For_Rq_Edit[2],
-      event.target.value,
-      For_Rq_Edit[4],
-      For_Rq_Edit[5],
-      For_Rq_Edit[6],
-      For_Rq_Edit[7],
-      For_Rq_Edit[8],
-      For_Rq_Edit[9],
-      For_Rq_Edit[10],
-      For_Rq_Edit[11],
-      For_Rq_Edit[12],
-      For_Rq_Edit[13],
-      For_Rq_Edit[14],
 
-   
+  const handleRemark = async (event) => {
+    setRemark(event.target.value);
+    console.log("/////");
 
-  ];
-    console.log("/////////////////")
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("For_Req_Edit", sentdata);
-    //edit
-  }else{
-    //insert
-    console.log("------bbbbbb---------")
-   
-    if( For_Req[0] =="" && For_Req[0]==null){
-      // ยังไม่genfam
-      console.log("------>>>>>>>>>>>>>>>>---------")
+    if (EditFam != null) {
+      console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
-        "",
-        LocalUserLogin,
+        For_Rq_Edit[0],
+        For_Rq_Edit[1],
+        For_Rq_Edit[2],
+        For_Rq_Edit[3],
+        For_Rq_Edit[4],
+        For_Rq_Edit[5],
+        For_Rq_Edit[6],
+        For_Rq_Edit[7],
+        For_Rq_Edit[8],
+        For_Rq_Edit[9],
+        For_Rq_Edit[10],
+        For_Rq_Edit[11],
         event.target.value,
-        Factory[1],
-        Costcenter1,
-        selectDept1,
-        Request_type1,
-        selectFixAssetgroup1,
-        selectFixAsset_cost1,
-        "",
-        "",
-        "",
-        Remark,
-        "",
-    
+        For_Rq_Edit[13],
+        For_Rq_Edit[14],
       ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
-    }else{
-      console.log("------///////////----------",For_Req)
-      const setData_ForRequester = [
-        For_Req[0],
-        For_Req[1],
-        event.target.value,
-        For_Req[3],
-        For_Req[4],
-        For_Req[5],
-        For_Req[6],
-        For_Req[7],
-        For_Req[8],
-        For_Req[9],
-        For_Req[10],
-        For_Req[11],
-        For_Req[12],
-        For_Req[13]
-    
-      ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
+      console.log("/////////////////");
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("For_Req_Edit", sentdata);
+      //edit
+    } else {
+      //insert
+      console.log("------bbbbbb---------");
+
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_ForRequester = [
+          "",
+          LocalUserLogin,
+          "",
+          Factory[1],
+          Costcenter1,
+          selectDept1,
+          Request_type1,
+          selectFixAssetgroup1,
+          selectFixAsset_cost1,
+          "",
+          "",
+          "",
+          Remark,
+          "",
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      } else {
+        console.log("------///////////----------", For_Req);
+        const setData_ForRequester = [
+          For_Req[0],
+          For_Req[1],
+          For_Req[2],
+          For_Req[3],
+          For_Req[4],
+          For_Req[5],
+          For_Req[6],
+          For_Req[7],
+          For_Req[8],
+          For_Req[9],
+          For_Req[10],
+          For_Req[11],
+          event.target.value,
+          For_Req[13],
+        ];
+        //console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      }
     }
-    
-    
-  }
-}
-
-const handleDept = async (event) => {
-  setselectDept1(event.target.value)
-   console.log("/////")
-    
-  
-  if(EditFam != null){
-    console.log(">>>>>>>>..", For_Rq_Edit)
-    const setData_ForRequester = [
-      For_Rq_Edit[0],
-      For_Rq_Edit[1],
-      For_Rq_Edit[2],
-      For_Rq_Edit[3],
-      For_Rq_Edit[4],
-      For_Rq_Edit[5],
-      event.target.value,
-      For_Rq_Edit[7],
-      For_Rq_Edit[8],
-      For_Rq_Edit[9],
-      For_Rq_Edit[10],
-      For_Rq_Edit[11],
-      For_Rq_Edit[12],
-      For_Rq_Edit[13],
-      For_Rq_Edit[14],
-
-   
-
-  ];
-    console.log("/////////////////")
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("For_Req_Edit", sentdata);
-    //edit
-  }else{
-    //insert
-    console.log("------bbbbbb---------")
-   
-    if( For_Req[0] =="" && For_Req[0]==null){
-      // ยังไม่genfam
-      console.log("------>>>>>>>>>>>>>>>>---------")
-      const setData_ForRequester = [
-        "",
-        LocalUserLogin,
-        "",
-        Factory[1],
-        Costcenter1,
-        selectDept1,
-        Request_type1,
-        selectFixAssetgroup1,
-        selectFixAsset_cost1,
-        "",
-        "",
-        "",
-        Remark,
-        "",
-    
-      ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
-    }else{
-      console.log("------///////////----------",For_Req)
-      const setData_ForRequester = [
-        For_Req[0],
-        For_Req[1],
-        For_Req[2],
-        For_Req[3],
-        For_Req[4],
-        event.target.value,
-        For_Req[6],
-        For_Req[7],
-        For_Req[8],
-        For_Req[9],
-        For_Req[10],
-        For_Req[11],
-        For_Req[12],
-        For_Req[13]
-    
-      ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
-    }
-    
-    
-  }
-}
-
-const handleRemark = async (event) => {
-  setRemark(event.target.value)
-   console.log("/////")
-    
-  
-  if(EditFam != null){
-    console.log(">>>>>>>>..", For_Rq_Edit)
-    const setData_ForRequester = [
-      For_Rq_Edit[0],
-      For_Rq_Edit[1],
-      For_Rq_Edit[2],
-      For_Rq_Edit[3],
-      For_Rq_Edit[4],
-      For_Rq_Edit[5],
-      For_Rq_Edit[6],
-      For_Rq_Edit[7],
-      For_Rq_Edit[8],
-      For_Rq_Edit[9],
-      For_Rq_Edit[10],
-      For_Rq_Edit[11],
-      event.target.value,
-      For_Rq_Edit[13],
-      For_Rq_Edit[14],
-
-   
-
-  ];
-    console.log("/////////////////")
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("For_Req_Edit", sentdata);
-    //edit
-  }else{
-    //insert
-    console.log("------bbbbbb---------")
-   
-    if( For_Req[0] =="" && For_Req[0]==null){
-      // ยังไม่genfam
-      console.log("------>>>>>>>>>>>>>>>>---------")
-      const setData_ForRequester = [
-        "",
-        LocalUserLogin,
-        "",
-        Factory[1],
-        Costcenter1,
-        selectDept1,
-        Request_type1,
-        selectFixAssetgroup1,
-        selectFixAsset_cost1,
-        "",
-        "",
-        "",
-        Remark,
-        "",
-    
-      ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
-    }else{
-      console.log("------///////////----------",For_Req)
-      const setData_ForRequester = [
-        For_Req[0],
-        For_Req[1],
-        For_Req[2],
-        For_Req[3],
-        For_Req[4],
-        For_Req[5],
-        For_Req[6],
-        For_Req[7],
-        For_Req[8],
-        For_Req[9],
-        For_Req[10],
-        For_Req[11],
-        event.target.value,
-        For_Req[13]
-    
-      ];
-      //console.log(setData_ForRequester, "datadata");
-    const sentdata = JSON.stringify(setData_ForRequester);
-    localStorage.setItem("ForRequester", sentdata);
-    }
-    
-    
-  }
-}
-
-
+  };
 
   return (
     <>
@@ -914,12 +875,15 @@ const handleRemark = async (event) => {
                 {/* FAM Np and Request */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
+                    
                     <Typography style={{ width: "100%", textAlign: "right" }}>
                       FAM No :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
+                  
                     <TextField
+                    
                       size="small"
                       style={{ width: "100%" }}
                       disabled
@@ -972,7 +936,7 @@ const handleRemark = async (event) => {
                       style={{ width: "100%" }}
                       id="Txt_Tel"
                       value={Tel1}
-                     onChange={handleTel}
+                      onChange={handleTel}
                     ></TextField>
                   </Grid>
                 </Grid>
@@ -1225,14 +1189,16 @@ const handleRemark = async (event) => {
           </Card>
         </div>
 
-        <div className="Fixed-Asset-Code" style={ {visibility: visibityDetails,}}>
+        <div
+          className="Fixed-Asset-Code"
+          style={{ visibility: visibityDetails }}
+        >
           <Card
             sx={{
               borderRadius: "8px",
               border: 2,
               borderColor: "#88AB8E",
               marginTop: 4,
-             
             }}
             className="Style1"
           >
@@ -1421,7 +1387,7 @@ const handleRemark = async (event) => {
               <div style={{ width: "85%", textAlign: "right" }}>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "" , visibility: btnSave}} 
+                  style={{ backgroundColor: "", visibility: btnSave }}
                   onClick={() => Next("1")}
                 >
                   SAVE Details
@@ -1431,10 +1397,9 @@ const handleRemark = async (event) => {
           </Card>
         </div>
 
-        <div className="UploadFile" style={{   visibility: visibityFile,}}>
+        <div className="UploadFile" style={{ visibility: visibityFile }}>
           <Card
             sx={{
-           
               borderRadius: "8px",
               border: 2,
               borderColor: "#88AB8E",
@@ -1572,49 +1537,46 @@ const handleRemark = async (event) => {
                   Save
                 </Button> */}
                 </div>
-
-               
-              
               </Grid>
             </Grid>
           </Card>
-     
         </div>
-        <div>       
-           <table>
-                  <tr>
-                    <td >
-                      {" "}
-                      <Button
-                        style={{
-                        
-                          width: "200px",
-                          display: "inline-block",
-                        }}
-                        variant="contained"
-                        onClick={() => window.history.back()}
-                      >
-                        Next Page
-                      </Button>
-                    </td>
-                    <td>
-                      {" "}
-                      <Button
-                        style={{
-                      
-                          width: "200px",
-                          display: "inline-block",
-                        }}
-                        variant="contained"
-                        onClick={NextPage}
-                      >
-                        Next Page
-                      </Button>
-                    </td>
-                  </tr>
-                </table>
-                
-</div>
+        <div>
+          <table>
+            <tr>
+              <td>
+                {" "}
+                <Button
+                  style={{
+                    width: "200px",
+                    display: "inline-block",
+                    marginLeft: "400px",
+                    marginTop: "20px",
+                  }}
+                  variant="contained"
+                  onClick={() => window.history.back()}
+                >
+                  BACK PAGE
+                </Button>
+              </td>
+              <td>
+                {" "}
+                <Button
+                  style={{
+                    width: "200px",
+                    display: "inline-block",
+                    marginLeft: "300px",
+                    marginTop: "20px",
+                  }}
+                  variant="contained"
+                  onClick={NextPage}
+                >
+                  Next Page
+                </Button>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </>
   );

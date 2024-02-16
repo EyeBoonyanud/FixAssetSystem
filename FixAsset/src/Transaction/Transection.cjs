@@ -955,7 +955,7 @@ module.exports.acc_manager = async function (req, res) {
 // };
 module.exports.ins_transfer = async function (req, res) {
   try {
-    console.log("มาแล้ววววววววววววววววว")
+   
     const FAM_NO = req.query.running_no;
     const Date_plan1 = req.query.date_plan;
     const Factory = req.query.fac;
@@ -966,6 +966,7 @@ module.exports.ins_transfer = async function (req, res) {
     const Status = req.query.status;
     const Abnormal = req.query.abnormal;
     console.log("FAM_NO",FAM_NO )
+    console.log("มาแล้ววววววววววววววววว",CC ,Tel )
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_TRANSFER F
@@ -993,8 +994,8 @@ module.exports.ins_transfer = async function (req, res) {
       status_tran: Status,
       abnormal_remark: Abnormal,
     };
-    // console.log(query);
-    // console.log(data);
+    console.log(query);
+    console.log(data);
 
     // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -1187,9 +1188,9 @@ module.exports.header = async function (req, res) {
 //update submit
 module.exports.update_submit = async function (req, res) {
   try {
-    // console.log("g-hkkkkkkkkkkkkk");
-    const { famno, fac } = req.body;
-    // console.log(famno, sts_submit);
+     console.log("g-hkkkkkkkkkkkkk");
+    const { famno ,sts_submit} = req.body;
+    console.log(famno, sts_submit);
 
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -1203,14 +1204,11 @@ module.exports.update_submit = async function (req, res) {
       FAM_NO: famno,
       FAM_REQ_STATUS: sts_submit,
     };
-    //console.log(query);
-    //console.log(data);
 
-    // Execute the query
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      //  console.log("Rows updated:", result.rowsAffected);
+    
       res.json(result);
     } else {
       //  console.error("Error: Unexpected result from the database");
