@@ -73,6 +73,7 @@ app.get("/getEdit_FixAsset",Transaction.getEdit_FixAsset);
 app.get("/getEdit_FileUpload",Transaction.getEdit_FileUpload);
 app.get("/getEdit_Trans",Transaction.getEdit_Trans);
 app.get("/getEdit_routing",Transaction.getEdit_routing);
+app.post("/Update_For_Req_All",Transaction.Update_For_Req_All);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -11,18 +11,22 @@ import {
   MenuItem,
   Box,
   Button,
+  FormHelperText
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { LocalActivity, SaveAlt } from "@mui/icons-material";
 import Header from "../Page/Hearder";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
+  const navigate = useNavigate();
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req, "For_Req");
+ // console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
 
@@ -32,7 +36,7 @@ function TransFerDetail() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  //console.log(For_Rq_Edit, "For_Req_Edit");
+  console.log(For_Rq_Edit, "For_Req_Edit");
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -131,7 +135,15 @@ function TransFerDetail() {
   const [ErrorAcc_check, setErrorAcc_check] = useState(false);
   const [ErrorAcc_Mana, setErrorAcc_Mana] = useState(false);
   const [ErrorTel_service, setErrorTel_service] = useState(false);
+  const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
+  const [ErrorDept, setErrorDept] = useState(false);
 
+  // check button 
+  const [btnsave , setbtnsave] = useState("visible")
+
+
+
+  
   const [checkrdo, setcheckrdo] = useState("hidden");
 
   useEffect(() => {
@@ -466,38 +478,7 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-  //  const Data_Deptment = async (level,cc) =>{
-
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/level?level=${level}&cc=${cc}`
-  //     );
-  //     const data = response.data.flat();
-  //     setdepartment_mana(data);
-  //     // console(EditFam,"setdepartment_mana",data)
-  //    if(EditFam != null){
-  //     // console(EditFam,"มาแล้วจ้าแก้เนี่ย",For_Edit_Rou[0][0])
-  //     if(For_Edit_Rou != null){
-  //       // console(EditFam,"มาแล้วจ้าแก้เนี่ย55555555555",For_Edit_Rou[0][0])
-  //       setselectdepartment_mana([For_Edit_Rou[0][0]]);
-  //        }
-  //    }
-  //    else{
-  //     if (For_Req != null) {
-
-  //       setselectdepartment_mana(For_Rou[1]);
-
-  //     } else {
-  //       setselectdepartment_mana("");
-  //     }
-  //    }
-
-  //     }
-  //     //// console("Department :", data);
-  //    catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  //  }
+  
 
   const Service_By = async () => {
     let level = "";
@@ -754,7 +735,7 @@ function TransFerDetail() {
   };
 
   const SAVE = async () => {
-    // tablelist จากตาง Req_Tranfer_Details
+
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -857,89 +838,138 @@ function TransFerDetail() {
 
   const SUBMIT = async () => {
     if (EditFam != null) {
-
-
-
-
-      
-      if (selecttrans_factory === null || selecttrans_factory === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorFac(true);
-      } else {
-        setErrorFac(false);
-      }
-      if (selecttrans_cc === null || selecttrans_cc === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorCC(true);
-      } else {
-        setErrorCC(false);
-      }
-      if (Tel_for_trans === null || Tel_for_trans === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorTel(true);
-      } else {
-        setErrorTel(false);
-      }
-      if (selectnew_owner === null || selectnew_owner === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorNewOwn(true);
-      } else {
-        setErrorNewOwn(false);
+      if (
+        For_Rq_Edit[3] === null ||
+        For_Rq_Edit[3] === undefined ||
+        For_Rq_Edit[3] === ""
+      ) 
+      {
+        
+        setErrorTel_Rq(true);
+        alert("ข้อมูลไม่สมบูรณ์: Tel For Requester"); 
+        navigate("/ForRe");
+        return;
+       
+      } 
+      else {
+        setErrorTel_Rq(false);
       }
 
       if (
-        selectdepartment_mana === null ||
-        selectdepartment_mana === undefined
+        For_Rq_Edit[6] === null ||
+        For_Rq_Edit[6] === undefined ||
+        For_Rq_Edit[6] === ""
       ) {
-        console.log("Erorrrrrrrrrrrr");
+        
+        alert("ข้อมูลไม่สมบูรณ์: Dept ");
+        setErrorDept(true); 
+        navigate("/ForRe");
+        return; 
+       
+      }
+      console.log(selecttrans_factory, "selecttrans_factory");
+      if (
+        selecttrans_factory === null ||
+        selecttrans_factory === undefined ||
+        selecttrans_factory === ""
+      ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Factory");
+        setErrorFac(true);
+        return;
+      } else {
+        console.log("YYYYYYYY111111111111111");
+      }
+      if (
+        selecttrans_cc === null ||
+        selecttrans_cc === undefined ||
+        selecttrans_cc === ""
+      ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: CC");
+        setErrorCC(true);
+        return;
+
+      } else {
+        setErrorCC(false);
+      }
+      if (Tel_for_trans === null || Tel_for_trans === undefined || Tel_for_trans === ""  ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Tel ");
+        setErrorTel(true);
+        return;
+      } else { 
+        setErrorTel(false);
+      }
+
+      if (selectnew_owner === null || selectnew_owner === undefined || selectnew_owner === "") {
+        setErrorNewOwn(true);
+        alert("ข้อมูลไม่สมบูรณ์: New Owner ");
+        return;
+      } else {
+        setErrorNewOwn(false);
+      }
+      if (
+        selectdepartment_mana === null ||
+        selectdepartment_mana === undefined ||
+        selectdepartment_mana === ""
+      ) {
         setErrorManager(true);
+        alert("ข้อมูลไม่สมบูรณ์: Department Manager ");
+        return;
       } else {
         setErrorManager(false);
       }
 
-      if (selectservice_by[0] === null || selectservice_by[0] === undefined) {
-        // console.log("YYYYYYYYYYYYYYY",selectservice_by)
+      if (selectservice_by[0] === null || selectservice_by[0] === undefined || selectservice_by[0] === "" ) {
         setErrorService_by(true);
+        alert("ข้อมูลไม่สมบูรณ์: Service By");
+        return;
       } else {
         setErrorService_by(false);
       }
       if (
-        Tel_service === "null" ||
+        Tel_service === "" ||
         Tel_service === undefined ||
         Tel_service === null
       ) {
-        console.log("Erorrrrrrrrrrrr");
         setErrorTel_service(true);
+        alert("ข้อมูลไม่สมบูรณ์: Tel_Service By");
+        return;
       } else {
         setErrorTel_service(false);
       }
-      if (selectboi_staff[0] === null || selectboi_staff[0] === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectboi_staff[0] === null || selectboi_staff[0] === undefined || selectboi_staff[0] === "") {
         setErrorBoi_Staff(true);
+        alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
+        return;
       } else {
         setErrorBoi_Staff(false);
       }
-      if (selectboi_manager[0] === null || selectboi_manager[0] === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectboi_manager[0] === null || selectboi_manager[0] === undefined || selectboi_manager[0] === "") {
         setErrorBoi_manager(true);
+        alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
+        return;
       } else {
         setErrorBoi_manager(false);
       }
-      if (selectfac_manager[0] === null || selectfac_manager[0] === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectfac_manager[0] === null || selectfac_manager[0] === undefined || selectfac_manager[0] === "" ) {
         setErrorMana_Fac(true);
+        alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
+        return;
       } else {
         setErrorMana_Fac(false);
       }
-      if (selectacc_check[0] === null || selectacc_check[0] === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectacc_check[0] === null || selectacc_check[0] === undefined || selectacc_check[0] === "" ) {
+        alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
       } else {
         setErrorAcc_check(false);
       }
-      if (selectacc_manager[0] === null || selectacc_manager[0] === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectacc_manager[0] === null || selectacc_manager[0] === undefined || selectacc_manager[0] === "") {
+        alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
+        return;
       } else {
         setErrorAcc_Mana(false);
       }
@@ -947,218 +977,187 @@ function TransFerDetail() {
         const response = await axios.get(
           `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
         );
-     
-    }catch (error) {
-      //console.error("Error during login:", error);
-    }
-    
-  }
-    
-    else {
-      if (selecttrans_factory === null || selecttrans_factory === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorFac(true);
-      } else {
-        setErrorFac(false);
+      } catch (error) {
+        //console.error("Error during login:", error);
       }
-      if (selecttrans_cc === null || selecttrans_cc === undefined) {
-        console.log("Erorrrrrrrrrrrr");
-        setErrorCC(true);
+    } else {
+      
+      if (
+        For_Req[2] === null ||
+        For_Req[2] === undefined ||
+        For_Req[2] === ""
+      ) 
+      {
+        
+        setErrorTel_Rq(true);
+        alert("ข้อมูลไม่สมบูรณ์: กรุณากรอกข้อมูล Requester");
+        let ErrorTel_Req = "true";
+        console.log();
+        navigate("/ForRe", ErrorTel_Req);
+        return;
+        
+      } 
+      else {
+        setErrorTel_Rq(false);
+      }
+
+      if (
+        For_Req[5] === null ||
+        For_Req[5] === undefined ||
+        For_Req[5] === ""
+      ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: กรุณาเลือกแผนก");
+        setErrorDept(true);
+        return;
+      }
+      if (
+        selecttrans_factory === null ||
+        selecttrans_factory === undefined ||
+        selecttrans_factory === ""
+      ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Factory");
+        setErrorFac(true);
+        return;
       } else {
+        console.log("YYYYYYYY111111111111111");
+      }
+      if (
+        selecttrans_cc === null ||
+        selecttrans_cc === undefined ||
+        selecttrans_cc === ""
+      ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: CC");
+        setErrorCC(true);
+        return;
+
+      } else {
+        console.log("YYYYYYYY");
         setErrorCC(false);
       }
-      if (Tel_for_trans === null || Tel_for_trans === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (Tel_for_trans === null || Tel_for_trans === undefined || Tel_for_trans === ""  ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Tel ");
         setErrorTel(true);
-      } else {
+        return;
+      } else { 
         setErrorTel(false);
       }
-      if (selectnew_owner === null || selectnew_owner === undefined) {
+
+      if (selectnew_owner === null || selectnew_owner === undefined || selectnew_owner === "") {
         setErrorNewOwn(true);
+        alert("ข้อมูลไม่สมบูรณ์: New Owner ");
+        return;
       } else {
         setErrorNewOwn(false);
       }
       if (
         selectdepartment_mana === null ||
-        selectdepartment_mana === undefined
+        selectdepartment_mana === undefined ||
+        selectdepartment_mana === ""
       ) {
-        console.log("Erorrrrrrrrrrrr");
+        
+        alert("ข้อมูลไม่สมบูรณ์: Department Manager");
         setErrorManager(true);
+        return;
       } else {
         setErrorManager(false);
       }
-      if (selectservice_by === null || selectservice_by === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectservice_by === null || selectservice_by === undefined || selectservice_by === "" ) {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Service By");
         setErrorService_by(true);
+        return;
       } else {
         setErrorService_by(false);
       }
-      if (Tel_service === null || Tel_service === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (Tel_service === null || Tel_service === undefined || Tel_service === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Tel_Service By");
         setErrorTel_service(true);
+        return;
       } else {
         setErrorTel_service(false);
       }
-      if (selectboi_staff === null || selectboi_staff === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectboi_staff === null || selectboi_staff === undefined || selectboi_staff === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
         setErrorBoi_Staff(true);
+        return;
       } else {
         setErrorBoi_Staff(false);
       }
-      if (selectboi_manager === null || selectboi_manager === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectboi_manager === null || selectboi_manager === undefined || selectboi_manager === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
         setErrorBoi_manager(true);
+        return;
       } else {
         setErrorBoi_manager(false);
       }
-      if (selectfac_manager === null || selectfac_manager === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectfac_manager === null || selectfac_manager === undefined || selectfac_manager === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
         setErrorMana_Fac(true);
+        return;
       } else {
         setErrorMana_Fac(false);
       }
-      if (selectacc_check === null || selectacc_check === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectacc_check === null || selectacc_check === undefined|| selectacc_check === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
+        return;
       } else {
         setErrorAcc_check(false);
       }
-      if (selectacc_manager === null || selectacc_manager === undefined) {
-        console.log("Erorrrrrrrrrrrr");
+      if (selectacc_manager === null || selectacc_manager === undefined  || selectacc_manager === "") {
+        
+        alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
       } else {
         setErrorAcc_Mana(false);
       }
-
-      // if (
-      //   selecttrans_factory === null ||
-      //   selecttrans_factory === undefined ||
-      //   selecttrans_factory.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   setErrorFac(true);
-      // }
-      // if (
-      //   selecttrans_cc === null ||
-      //   selecttrans_cc === undefined ||
-      //   selecttrans_cc.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   setErrorCC(true);
-      // }
-      // if (
-      //   Tel_for_trans === null ||
-      //   Tel_for_trans === undefined ||
-      //   Tel_for_trans.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectnew_owner === null ||
-      //   selectnew_owner === undefined ||
-      //   selectnew_owner.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectservice_by === null ||
-      //   selectservice_by === undefined ||
-      //   selectservice_by.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectboi_staff === null ||
-      //   selectboi_staff === undefined ||
-      //   selectboi_staff.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectboi_manager === null ||
-      //   selectboi_manager === undefined ||
-      //   selectboi_manager.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectfac_manager === null ||
-      //   selectfac_manager === undefined ||
-      //   selectfac_manager.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectacc_check === null ||
-      //   selectacc_check === undefined ||
-      //   selectacc_check.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // if (
-      //   selectacc_manager === null ||
-      //   selectacc_manager === undefined ||
-      //   selectacc_manager.trim() === ""
-      // ) {
-      //   console.log("Erorrrrrrrrrrrr");
-      //   //   setErrorTel(true);
-      // }
-      // Swal.fire({
-      //   title: "ใส่ข้อมูลไม่ครบ",
-      //   icon: "Error",
-      // });
-      // if (
-      //   For_Req[0] &&
-      //   For_Req[2] &&
-      //   For_Req[5] &&
-      //   For_Req[6] &&
-      //   For_Req[7] &&
-      //   For_Req[8] &&
-      //   For_Req[9] &&
-      //   For_Req[10] &&
-      //   For_Trans[0] &&
-      //   For_Trans[3] &&
-      //   For_Trans[4] &&
-      //   For_Trans[5] &&
-      //   // For_Trans[7] &&
-      //   For_Trans[8] &&
-      //   For_Trans[9] &&
-      //   For_Trans[10] &&
-      //   For_Rou[1] &&
-      //   For_Rou[3] &&
-      //   For_Rou[4] &&
-      //   For_Rou[5] &&
-      //   For_Rou[7] &&
-      //   For_Rou[8] &&
-      //   For_Rou[9] &&
-      //   For_Rou[10]
-      //) {
-      //  Swal.fire({
-      //     title: "Submit Success",
-      //     icon: "success",
-      //   });
-      // } else {
-      //   Swal.fire({
-      //     title: "ใส่ข้อมูลไม่ครบ",
-      //     icon: "Error",
-      //   });
-      //   window.location.reload();
-      //}
+      //   <ForRequester
+      //   errorTelRq={ErrorTel_Rq}
+      //   errorDept={ErrorDept}
+      // />
     }
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
-        console.log("ไม่มาาาาาาาาาาาา", For_Rq_Edit[10]);
-        if (For_Rq_Edit[10] === "FLTR001") {
-          console.log("Vkppppppppppppppppppp");
+        console.log("ไม่มาาาาาาาาาาาา");
+       if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
+          try {
+            console.log("For_Rq_Edit",For_Rq_Edit[0])
+            const response = await axios.post(
+              "http://localhost:5000/Update_For_Req_All",
+              {
+                famno : For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3] ,
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana[0],
+                serviceby: selectservice_by[0] ,
+                servicetel: Tel_service , 
+                boisff: selectboi_staff[0] ,
+                boimrg: selectboi_manager[0],
+                fmby: selectfac_manager[0],
+                accchk: selectacc_check[0],
+                accmrg: selectacc_manager[0],
+                updateby: For_Rq_Edit[2] ,
+
+              }
+           );
+           setbtnsave("hidden")
+          
+         
+        } catch (error) {
+          //     console.error("Error updating submit status:", error.message);
+        }
           try {
             const response = await axios.post(
               "http://localhost:5000/update_submit",
@@ -1166,14 +1165,22 @@ function TransFerDetail() {
                 famno: EditFam,
                 sts_submit: Status,
               }
+              
             );
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
+         
         } else {
         }
       }
-    } else {
+   } 
+   else {
       if (For_Req[10] === "FLTR001") {
         console.log(For_Req[10], "Vkppppppppppppppppppp");
         let Status = "FLTR002";
@@ -1181,48 +1188,61 @@ function TransFerDetail() {
           const response = await axios.post(
             "http://localhost:5000/update_submit",
             {
-              famno: EditFam,
+              famno: For_Req[0],
               sts_submit: Status,
             }
           );
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
+          try {
+            const response = await axios.post(
+              "http://localhost:5000/Update_For_Req_All",
+              {
+                famno : For_Req[0],
+                dept: For_Req[5],
+                tel: For_Req[2] ,
+                remark: For_Req[12],
+                mrg_dept: selectdepartment_mana ,
+                serviceby: selectservice_by ,
+                servicetel: Tel_service , 
+                boisff: selectboi_staff ,
+                boimrg: selectboi_manager ,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager ,
+                updateby: For_Req[1] ,
+
+              }
+           );
+           setbtnsave("hidden")
+          Swal.fire({
+            title: "Save Success",
+            icon: "success",
+          });
+        } catch (error) {
+          //     console.error("Error updating submit status:", error.message);
+        }
       }
     }
   };
-  // const Edit_Trans = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
+  const Reset  = async () => {
+    setselecttrans_factory([]);
+    setselecttrans_cc([]);
+    setnew_boi("");
+    setnew_owner([]);
+    setplan_date("");
+    setTel_for_trans("");
+    setabnormal("");
+    setselectdepartment_mana([]);
+    setselectservice_by([]);
+    setselectboi_staff([]);
+    setselectboi_manager([]);
+    setselectfac_manager([]);
+    setselectacc_check([]);
+    setselectacc_manager([]);
+  }
 
-  //     // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-  //     // const DataEdit = data;
-  //     const data_edit = JSON.stringify(data);
-  //     localStorage.setItem("Edit_Trans", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
-  // const Edit_Routing = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
-
-  //     // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-  //     // const DataEdit = data;
-  //     const data_edit = JSON.stringify(data);
-  //     localStorage.setItem("Edit_routing", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
 
   return (
     <>
@@ -1316,6 +1336,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorFac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To factory</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1341,6 +1362,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorCC && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To CC</FormHelperText>}
                     </FormControl>
                   </td>
                   <tr></tr>
@@ -1414,15 +1436,11 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="Plan_Remove"
-                        defaultValue={plan_date}
+              
                         size="small"
                         type="date"
-                        //value={plan_date}
+                        value={plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
-                        // style={{
-                        //   borderColor: Error ? "red" : undefined,
-                        // }}
-                        // error={ErrorCC}
                       />
                     </FormControl>
                   </td>
@@ -1499,7 +1517,8 @@ function TransFerDetail() {
                             {option}
                           </MenuItem>
                         ))}
-                      </Select>
+                      </Select>     {ErrorManager && <FormHelperText style={{color : "red"}}>กรุณาเลือก Department Manager</FormHelperText>}
+                 
                     </FormControl>
                   </td>
 
@@ -1627,6 +1646,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorService_by && <FormHelperText style={{color : "red"}}>กรุณาเลือก Service By</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1715,6 +1735,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorBoi_Staff && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Staff</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1803,6 +1824,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1891,6 +1913,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorMana_Fac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Factory Manager</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -1983,6 +2006,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorAcc_check && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Check</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -2371,6 +2395,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {ErrorAcc_Mana && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -2530,6 +2555,7 @@ function TransFerDetail() {
                   size="medium"
                   color="primary"
                   className="Style9"
+                  style={{visibility: btnsave}}
                   onClick={SAVE}
                 >
                   Save
@@ -2547,7 +2573,7 @@ function TransFerDetail() {
                 </Button>
               </td>
               <td>
-                <Button variant="contained" size="medium" color="error">
+                <Button variant="contained" size="medium" color="error" onClick={Reset}>
                   Reset
                 </Button>
               </td>

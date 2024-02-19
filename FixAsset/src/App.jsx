@@ -10,8 +10,6 @@ import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
 // process.env.NODE_ENV = 'production';
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
 
 const App = () => {
   
@@ -32,6 +30,8 @@ const App = () => {
     </StrictMode>
   );
 };
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
 
 root.render(<App />);
 
