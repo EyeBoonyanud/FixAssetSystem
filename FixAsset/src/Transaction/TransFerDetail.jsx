@@ -11,7 +11,7 @@ import {
   MenuItem,
   Box,
   Button,
-  FormHelperText
+  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -26,7 +26,7 @@ function TransFerDetail() {
   const navigate = useNavigate();
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
- // console.log(For_Req, "For_Req");
+  // console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
 
@@ -120,8 +120,7 @@ function TransFerDetail() {
   const [selectradio_receiver, setselectradio_receiver] = useState("");
   const [selectradio_record, setselectradio_record] = useState("");
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] =
-    useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] = useState("");
   //Error
   const [ErrorTel, setErrorTel] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
@@ -138,13 +137,20 @@ function TransFerDetail() {
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
 
-  // check button 
-  const [btnsave , setbtnsave] = useState("visible")
+  // check button
+  const [btnsave, setbtnsave] = useState("visible");
 
-
-
-  
+  //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
+  const [chkservice_by, setchkservice_by] = useState("hidden");
+  const [chkboistaff, setchkboistaff] = useState("hidden");
+  const [chkboimanager, setchkboimanager] = useState("hidden");
+  const [chkfacmanager, setchkfacmanager] = useState("hidden");
+  const [chkowner, setchkowner] = useState("hidden");
+  const [chkreceiver, setchkreceiver] = useState("hidden");
+  const [chkacc_record, setchkacc_record] = useState("hidden");
+  const [chkacc_manager, setchkacc_manager] = useState("hidden");
+  const [chkservice_close, setchkservice_close] = useState("hidden");
 
   useEffect(() => {
     FactoryCC();
@@ -162,9 +168,6 @@ function TransFerDetail() {
     ACC_Manager();
 
     if (EditFam != null) {
-      // Edit_Trans();
-      // Edit_Routing();
-      // console("มาจ้าาาาา9999999",For_Rq_Edit[0])
       if (For_Rq_Edit != null) {
         setownersend(For_Rq_Edit[2]);
         // console.log(For_edit_trans[0][4]);
@@ -177,9 +180,13 @@ function TransFerDetail() {
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
           setplan_date(For_edit_trans[0][5]);
+          console.log("//////////////////////", For_Rq_Edit[10]);
+          if (For_Rq_Edit[10] === "FLTR002") {
+            console.log("--------------------------------------");
+            setcheckrdo("visible");
+          }
           // setของ Edit Trans
           if (For_Edit_Rou != null) {
-            // console("Edit Routingggggggggggggg", For_Edit_Rou[0][0]);
             setowner_roting(For_Rq_Edit[2]);
             setTel_service(For_Edit_Rou[0][7]);
           }
@@ -478,7 +485,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-  
 
   const Service_By = async () => {
     let level = "";
@@ -735,7 +741,6 @@ function TransFerDetail() {
   };
 
   const SAVE = async () => {
-
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -842,16 +847,12 @@ function TransFerDetail() {
         For_Rq_Edit[3] === null ||
         For_Rq_Edit[3] === undefined ||
         For_Rq_Edit[3] === ""
-      ) 
-      {
-        
+      ) {
         setErrorTel_Rq(true);
-        alert("ข้อมูลไม่สมบูรณ์: Tel For Requester"); 
+        alert("ข้อมูลไม่สมบูรณ์: Tel For Requester");
         navigate("/ForRe");
         return;
-       
-      } 
-      else {
+      } else {
         setErrorTel_Rq(false);
       }
 
@@ -860,49 +861,51 @@ function TransFerDetail() {
         For_Rq_Edit[6] === undefined ||
         For_Rq_Edit[6] === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: Dept ");
-        setErrorDept(true); 
+        setErrorDept(true);
         navigate("/ForRe");
-        return; 
-       
+        return;
       }
-      console.log(selecttrans_factory, "selecttrans_factory");
+
       if (
         selecttrans_factory === null ||
         selecttrans_factory === undefined ||
         selecttrans_factory === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: Factory");
         setErrorFac(true);
         return;
       } else {
-        console.log("YYYYYYYY111111111111111");
+        setErrorFac(false);
       }
       if (
         selecttrans_cc === null ||
         selecttrans_cc === undefined ||
         selecttrans_cc === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: CC");
         setErrorCC(true);
         return;
-
       } else {
         setErrorCC(false);
       }
-      if (Tel_for_trans === null || Tel_for_trans === undefined || Tel_for_trans === ""  ) {
-        
+      if (
+        Tel_for_trans === null ||
+        Tel_for_trans === undefined ||
+        Tel_for_trans === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: Tel ");
         setErrorTel(true);
         return;
-      } else { 
+      } else {
         setErrorTel(false);
       }
 
-      if (selectnew_owner === null || selectnew_owner === undefined || selectnew_owner === "") {
+      if (
+        selectnew_owner === null ||
+        selectnew_owner === undefined ||
+        selectnew_owner === ""
+      ) {
         setErrorNewOwn(true);
         alert("ข้อมูลไม่สมบูรณ์: New Owner ");
         return;
@@ -921,7 +924,11 @@ function TransFerDetail() {
         setErrorManager(false);
       }
 
-      if (selectservice_by[0] === null || selectservice_by[0] === undefined || selectservice_by[0] === "" ) {
+      if (
+        selectservice_by[0] === null ||
+        selectservice_by[0] === undefined ||
+        selectservice_by[0] === ""
+      ) {
         setErrorService_by(true);
         alert("ข้อมูลไม่สมบูรณ์: Service By");
         return;
@@ -939,34 +946,54 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
-      if (selectboi_staff[0] === null || selectboi_staff[0] === undefined || selectboi_staff[0] === "") {
+      if (
+        selectboi_staff[0] === null ||
+        selectboi_staff[0] === undefined ||
+        selectboi_staff[0] === ""
+      ) {
         setErrorBoi_Staff(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
         return;
       } else {
         setErrorBoi_Staff(false);
       }
-      if (selectboi_manager[0] === null || selectboi_manager[0] === undefined || selectboi_manager[0] === "") {
+      if (
+        selectboi_manager[0] === null ||
+        selectboi_manager[0] === undefined ||
+        selectboi_manager[0] === ""
+      ) {
         setErrorBoi_manager(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
         return;
       } else {
         setErrorBoi_manager(false);
       }
-      if (selectfac_manager[0] === null || selectfac_manager[0] === undefined || selectfac_manager[0] === "" ) {
+      if (
+        selectfac_manager[0] === null ||
+        selectfac_manager[0] === undefined ||
+        selectfac_manager[0] === ""
+      ) {
         setErrorMana_Fac(true);
         alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
         return;
       } else {
         setErrorMana_Fac(false);
       }
-      if (selectacc_check[0] === null || selectacc_check[0] === undefined || selectacc_check[0] === "" ) {
+      if (
+        selectacc_check[0] === null ||
+        selectacc_check[0] === undefined ||
+        selectacc_check[0] === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
       } else {
         setErrorAcc_check(false);
       }
-      if (selectacc_manager[0] === null || selectacc_manager[0] === undefined || selectacc_manager[0] === "") {
+      if (
+        selectacc_manager[0] === null ||
+        selectacc_manager[0] === undefined ||
+        selectacc_manager[0] === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
         return;
@@ -981,23 +1008,18 @@ function TransFerDetail() {
         //console.error("Error during login:", error);
       }
     } else {
-      
       if (
         For_Req[2] === null ||
         For_Req[2] === undefined ||
         For_Req[2] === ""
-      ) 
-      {
-        
+      ) {
         setErrorTel_Rq(true);
         alert("ข้อมูลไม่สมบูรณ์: กรุณากรอกข้อมูล Requester");
         let ErrorTel_Req = "true";
         console.log();
         navigate("/ForRe", ErrorTel_Req);
         return;
-        
-      } 
-      else {
+      } else {
         setErrorTel_Rq(false);
       }
 
@@ -1006,9 +1028,9 @@ function TransFerDetail() {
         For_Req[5] === undefined ||
         For_Req[5] === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: กรุณาเลือกแผนก");
         setErrorDept(true);
+        navigate("/ForRe");
         return;
       }
       if (
@@ -1016,7 +1038,6 @@ function TransFerDetail() {
         selecttrans_factory === undefined ||
         selecttrans_factory === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: Factory");
         setErrorFac(true);
         return;
@@ -1028,25 +1049,30 @@ function TransFerDetail() {
         selecttrans_cc === undefined ||
         selecttrans_cc === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: CC");
         setErrorCC(true);
         return;
-
       } else {
         console.log("YYYYYYYY");
         setErrorCC(false);
       }
-      if (Tel_for_trans === null || Tel_for_trans === undefined || Tel_for_trans === ""  ) {
-        
+      if (
+        Tel_for_trans === null ||
+        Tel_for_trans === undefined ||
+        Tel_for_trans === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: Tel ");
         setErrorTel(true);
         return;
-      } else { 
+      } else {
         setErrorTel(false);
       }
 
-      if (selectnew_owner === null || selectnew_owner === undefined || selectnew_owner === "") {
+      if (
+        selectnew_owner === null ||
+        selectnew_owner === undefined ||
+        selectnew_owner === ""
+      ) {
         setErrorNewOwn(true);
         alert("ข้อมูลไม่สมบูรณ์: New Owner ");
         return;
@@ -1058,63 +1084,83 @@ function TransFerDetail() {
         selectdepartment_mana === undefined ||
         selectdepartment_mana === ""
       ) {
-        
         alert("ข้อมูลไม่สมบูรณ์: Department Manager");
         setErrorManager(true);
         return;
       } else {
         setErrorManager(false);
       }
-      if (selectservice_by === null || selectservice_by === undefined || selectservice_by === "" ) {
-        
+      if (
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: Service By");
         setErrorService_by(true);
         return;
       } else {
         setErrorService_by(false);
       }
-      if (Tel_service === null || Tel_service === undefined || Tel_service === "") {
-        
+      if (
+        Tel_service === null ||
+        Tel_service === undefined ||
+        Tel_service === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: Tel_Service By");
         setErrorTel_service(true);
         return;
       } else {
         setErrorTel_service(false);
       }
-      if (selectboi_staff === null || selectboi_staff === undefined || selectboi_staff === "") {
-        
+      if (
+        selectboi_staff === null ||
+        selectboi_staff === undefined ||
+        selectboi_staff === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
         setErrorBoi_Staff(true);
         return;
       } else {
         setErrorBoi_Staff(false);
       }
-      if (selectboi_manager === null || selectboi_manager === undefined || selectboi_manager === "") {
-        
+      if (
+        selectboi_manager === null ||
+        selectboi_manager === undefined ||
+        selectboi_manager === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
         setErrorBoi_manager(true);
         return;
       } else {
         setErrorBoi_manager(false);
       }
-      if (selectfac_manager === null || selectfac_manager === undefined || selectfac_manager === "") {
-        
+      if (
+        selectfac_manager === null ||
+        selectfac_manager === undefined ||
+        selectfac_manager === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
         setErrorMana_Fac(true);
         return;
       } else {
         setErrorMana_Fac(false);
       }
-      if (selectacc_check === null || selectacc_check === undefined|| selectacc_check === "") {
-        
+      if (
+        selectacc_check === null ||
+        selectacc_check === undefined ||
+        selectacc_check === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
         return;
       } else {
         setErrorAcc_check(false);
       }
-      if (selectacc_manager === null || selectacc_manager === undefined  || selectacc_manager === "") {
-        
+      if (
+        selectacc_manager === null ||
+        selectacc_manager === undefined ||
+        selectacc_manager === ""
+      ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
       } else {
@@ -1129,35 +1175,32 @@ function TransFerDetail() {
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         console.log("ไม่มาาาาาาาาาาาา");
-       if (For_Rq_Edit[10] === "FLTR001") {
+        if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
           try {
-            console.log("For_Rq_Edit",For_Rq_Edit[0])
+            console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
               "http://localhost:5000/Update_For_Req_All",
               {
-                famno : For_Rq_Edit[0],
+                famno: For_Rq_Edit[0],
                 dept: For_Rq_Edit[6],
-                tel: For_Rq_Edit[3] ,
+                tel: For_Rq_Edit[3],
                 remark: For_Rq_Edit[12],
                 mrg_dept: selectdepartment_mana[0],
-                serviceby: selectservice_by[0] ,
-                servicetel: Tel_service , 
-                boisff: selectboi_staff[0] ,
+                serviceby: selectservice_by[0],
+                servicetel: Tel_service,
+                boisff: selectboi_staff[0],
                 boimrg: selectboi_manager[0],
                 fmby: selectfac_manager[0],
                 accchk: selectacc_check[0],
                 accmrg: selectacc_manager[0],
-                updateby: For_Rq_Edit[2] ,
-
+                updateby: For_Rq_Edit[2],
               }
-           );
-           setbtnsave("hidden")
-          
-         
-        } catch (error) {
-          //     console.error("Error updating submit status:", error.message);
-        }
+            );
+            setbtnsave("hidden");
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
           try {
             const response = await axios.post(
               "http://localhost:5000/update_submit",
@@ -1165,22 +1208,39 @@ function TransFerDetail() {
                 famno: EditFam,
                 sts_submit: Status,
               }
-              
             );
+            setbtnsave("hidden");
+
             Swal.fire({
               title: "Save Success",
               icon: "success",
             });
-
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-         
-        } else {
+        } else if(For_Rq_Edit[10] === "FLTR002")
+         {
+          let Status = "FLTR003";
+          try {
+            const response = await axios.post(
+              "http://localhost:5000/update_submit",
+              {
+                famno: EditFam,
+                sts_submit: Status,
+              }
+            );
+            setbtnsave("hidden");
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
         }
       }
-   } 
-   else {
+    } else {
       if (For_Req[10] === "FLTR001") {
         console.log(For_Req[10], "Vkppppppppppppppppppp");
         let Status = "FLTR002";
@@ -1195,27 +1255,26 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-          try {
-            const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
-              {
-                famno : For_Req[0],
-                dept: For_Req[5],
-                tel: For_Req[2] ,
-                remark: For_Req[12],
-                mrg_dept: selectdepartment_mana ,
-                serviceby: selectservice_by ,
-                servicetel: Tel_service , 
-                boisff: selectboi_staff ,
-                boimrg: selectboi_manager ,
-                fmby: selectfac_manager,
-                accchk: selectacc_check,
-                accmrg: selectacc_manager ,
-                updateby: For_Req[1] ,
-
-              }
-           );
-           setbtnsave("hidden")
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/Update_For_Req_All",
+            {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+            }
+          );
+          setbtnsave("hidden");
           Swal.fire({
             title: "Save Success",
             icon: "success",
@@ -1225,8 +1284,19 @@ function TransFerDetail() {
         }
       }
     }
+    localStorage.removeItem("ForRequester");
+    localStorage.removeItem("forDetail");
+    localStorage.removeItem("TransForDetail");
+    localStorage.removeItem("EDIT");
+    localStorage.removeItem("For_Transfer");
+    localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Req_Edit");
+    localStorage.removeItem("Edit_Trans");
+    localStorage.removeItem("Edit_Dteail_for_FixedCode");
+    localStorage.removeItem("Edit_routing");
+    navigate("/Search");
   };
-  const Reset  = async () => {
+  const Reset = async () => {
     setselecttrans_factory([]);
     setselecttrans_cc([]);
     setnew_boi("");
@@ -1241,8 +1311,7 @@ function TransFerDetail() {
     setselectfac_manager([]);
     setselectacc_check([]);
     setselectacc_manager([]);
-  }
-
+  };
 
   return (
     <>
@@ -1320,12 +1389,9 @@ function TransFerDetail() {
                         //onChange={(e) => setselecttrans_factory(e.target.value)}
                         onChange={handleFactoryCC}
                         size="small"
-                        style={{
-                          borderColor: ErrorFac ? "red" : undefined,
-                        }}
-                        error={ErrorFac}
+                        error={ErrorFac && !selecttrans_factory}
                         helperText={
-                          ErrorFac
+                          ErrorFac && !selecttrans_factory
                             ? "กรุณาเลือก Transfer To factory"
                             : undefined
                         }
@@ -1336,7 +1402,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorFac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To factory</FormHelperText>}
+                      {/* {ErrorFac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To factory</FormHelperText>} */}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1351,10 +1417,12 @@ function TransFerDetail() {
                         value={selecttrans_cc}
                         onChange={handleNew_BOI}
                         size="small"
-                        style={{
-                          borderColor: ErrorCC ? "red" : undefined,
-                        }}
-                        error={ErrorCC}
+                        error={ErrorCC && !selecttrans_cc}
+                        helperText={
+                          ErrorCC && !selecttrans_cc
+                            ? "กรุณาเลือก Transfer To CC"
+                            : undefined
+                        }
                       >
                         {trans_cc.map((option, index) => (
                           <MenuItem key={index} value={option[0]}>
@@ -1362,7 +1430,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorCC && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To CC</FormHelperText>}
+                      {/* {ErrorCC && !selecttrans_cc &&<FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To CC</FormHelperText>} */}
                     </FormControl>
                   </td>
                   <tr></tr>
@@ -1396,10 +1464,10 @@ function TransFerDetail() {
                         value={selectnew_owner}
                         onChange={handleNewOwner}
                         size="small"
-                        style={{
-                          borderColor: ErrorNewOwn ? "red" : undefined,
-                        }}
-                        error={ErrorNewOwn}
+                        // style={{
+                        //   borderColor: ErrorNewOwn ? "red" : undefined,
+                        // }}
+                        // error={ErrorNewOwn && !selectnew_owner}
                       >
                         {new_owner.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1420,11 +1488,12 @@ function TransFerDetail() {
                         value={Tel_for_trans}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
-                        style={{
-                          borderColor: ErrorTel ? "red" : undefined,
-                        }}
-                        error={ErrorTel}
-                        helperText={ErrorTel ? "กรูณาใส่เบอร์โทร" : undefined}
+                        error={ErrorTel && !Tel_for_trans}
+                        helperText={
+                          ErrorTel && !Tel_for_trans
+                            ? "กรูณาใส่เบอร์โทร"
+                            : undefined
+                        }
                       />
                     </FormControl>
                   </td>
@@ -1436,7 +1505,6 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="Plan_Remove"
-              
                         size="small"
                         type="date"
                         value={plan_date}
@@ -1510,15 +1578,19 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorManager ? "red" : undefined,
                         }}
-                        error={ErrorManager}
+                        error={ErrorManager && !selectdepartment_mana}
+                        helperText={
+                          ErrorManager && !selectdepartment_mana
+                            ? "Department Manager"
+                            : undefined
+                        }
                       >
                         {department_mana.map((option, index) => (
                           <MenuItem key={index} value={option}>
                             {option}
                           </MenuItem>
                         ))}
-                      </Select>     {ErrorManager && <FormHelperText style={{color : "red"}}>กรุณาเลือก Department Manager</FormHelperText>}
-                 
+                      </Select>
                     </FormControl>
                   </td>
 
@@ -1533,13 +1605,13 @@ function TransFerDetail() {
                         style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
-                          value="Approve"
+                          value="A"
                           control={<Radio size="small" />}
                           label="Approve"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
                         />
                         <FormControlLabel
-                          value="Reject"
+                          value="R"
                           disable
                           control={<Radio size="small" />}
                           label="Reject"
@@ -1566,19 +1638,15 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr style={{ visibility: checkrdo }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
-                    Comment :
-                  </td>
+                  <td className="Style4">Comment :</td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        disabled
-                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1612,12 +1680,14 @@ function TransFerDetail() {
                         size="small"
                         value={Tel_service}
                         onChange={(e) => setTel_service(e.target.value)}
-                        style={{
-                          borderColor: ErrorTel_service ? "red" : undefined,
-                        }}
-                        error={ErrorTel_service}
+                        // style={{
+                        //   borderColor: ErrorTel_service ? "red" : undefined,
+                        // }}
+                        error={ErrorTel_service && !Tel_service}
                         helperText={
-                          ErrorTel_service ? "กรูณาใส่เบอร์โทร" : undefined
+                          ErrorTel_service && !Tel_service
+                            ? "กรูณาใส่เบอร์โทร"
+                            : undefined
                         }
                       />
                     </FormControl>
@@ -1637,8 +1707,13 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorService_by ? "red" : undefined,
                         }}
-                        error={ErrorService_by}
+                        error={ErrorService_by && !selectservice_by}
                         size="small"
+                        helperText={
+                          ErrorService_by && !selectservice_by
+                            ? "Service By"
+                            : undefined
+                        }
                       >
                         {service_by.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1646,7 +1721,11 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorService_by && <FormHelperText style={{color : "red"}}>กรุณาเลือก Service By</FormHelperText>}
+                      {ErrorService_by && (
+                        <FormHelperText style={{ color: "red" }}>
+                          กรุณาเลือก Service By
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1659,7 +1738,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_serviceby(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkservice_by }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1677,7 +1756,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkservice_by }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1689,7 +1768,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkservice_by,
                         }}
                       />
                     </FormControl>
@@ -1697,7 +1776,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkservice_by }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -1707,7 +1786,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkservice_by }}
                       />
                     </FormControl>
                   </td>
@@ -1726,8 +1805,13 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined,
                         }}
-                        error={ErrorBoi_Staff}
+                        error={ErrorBoi_Staff && !selectboi_staff}
                         size="small"
+                        helperText={
+                          ErrorBoi_Staff && !selectboi_staff
+                            ? "BOI Staff"
+                            : undefined
+                        }
                       >
                         {boi_staff.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1735,7 +1819,6 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorBoi_Staff && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Staff</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1748,7 +1831,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_boistaff(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkboistaff }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1766,7 +1849,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkboistaff }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1778,7 +1861,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkboistaff,
                         }}
                       />
                     </FormControl>
@@ -1786,7 +1869,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkboistaff }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -1796,7 +1879,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkboistaff }}
                       />
                     </FormControl>
                   </td>
@@ -1816,7 +1899,12 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorBoi_manager ? "red" : undefined,
                         }}
-                        error={ErrorBoi_manager}
+                        error={ErrorBoi_manager && !selectboi_manager}
+                        helperText={
+                          ErrorBoi_manager && !selectboi_manager
+                            ? "BOI Manager"
+                            : undefined
+                        }
                       >
                         {boi_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1824,7 +1912,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Manager</FormHelperText>}
+                      {/* {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Manager</FormHelperText>} */}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1837,7 +1925,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_boimanager(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkboimanager }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1855,7 +1943,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkboimanager }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1867,7 +1955,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkboimanager,
                         }}
                       />
                     </FormControl>
@@ -1875,7 +1963,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkboimanager }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -1885,7 +1973,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkboimanager }}
                       />
                     </FormControl>
                   </td>
@@ -1905,7 +1993,12 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorMana_Fac ? "red" : undefined,
                         }}
-                        error={ErrorMana_Fac}
+                        error={ErrorMana_Fac && !selectfac_manager}
+                        helperText={
+                          ErrorMana_Fac && !selectfac_manager
+                            ? "BOI Manager"
+                            : undefined
+                        }
                       >
                         {fac_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -1913,7 +2006,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorMana_Fac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Factory Manager</FormHelperText>}
+                      {/* {ErrorMana_Fac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Factory Manager</FormHelperText>} */}
                     </FormControl>
                   </td>
 
@@ -1927,7 +2020,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_facmanager(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkfacmanager }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1946,7 +2039,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
 
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkfacmanager }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1958,7 +2051,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkfacmanager,
                         }}
                       />
                     </FormControl>
@@ -1967,7 +2060,10 @@ function TransFerDetail() {
                 <>
                   <tr style={{ display: "none" }}>
                     <th colSpan={5}></th>
-                    <td className="Style4" style={{ visibility: checkrdo }}>
+                    <td
+                      className="Style4"
+                      style={{ visibility: chkfacmanager }}
+                    >
                       Comment :
                     </td>
                     <td colSpan={4}>
@@ -1977,7 +2073,7 @@ function TransFerDetail() {
                           defaultValue=""
                           size="small"
                           disabled
-                          style={{ visibility: checkrdo }}
+                          style={{ visibility: chkfacmanager }}
                         />
                       </FormControl>
                     </td>
@@ -1998,7 +2094,12 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorAcc_check ? "red" : undefined,
                         }}
-                        error={ErrorAcc_check}
+                        error={ErrorAcc_check && !selectacc_check}
+                        helperText={
+                          ErrorAcc_check && !selectacc_check
+                            ? "BOI Manager"
+                            : undefined
+                        }
                       >
                         {acc_check.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -2006,7 +2107,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorAcc_check && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Check</FormHelperText>}
+                      {/* {ErrorAcc_check && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Check</FormHelperText>} */}
                     </FormControl>
                   </td>
 
@@ -2020,7 +2121,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_acc_check(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkowner }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2037,7 +2138,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkowner }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2049,13 +2150,13 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkowner,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr style={{ visibility: chkowner }}>
                   <th colSpan={5}></th>
                   <td className="Style4">Comment :</td>
                   <td colSpan={4}>
@@ -2096,7 +2197,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_owner}
                         onChange={(e) => setselectradio_owner(e.target.value)}
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkowner }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2114,7 +2215,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkowner }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2126,7 +2227,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkowner,
                         }}
                       />
                     </FormControl>
@@ -2134,7 +2235,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkowner }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2144,7 +2245,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkowner }}
                       />
                     </FormControl>
                   </td>
@@ -2208,7 +2309,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_receiver(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkreceiver }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2226,7 +2327,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkreceiver }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2238,7 +2339,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkreceiver,
                         }}
                       />
                     </FormControl>
@@ -2247,7 +2348,7 @@ function TransFerDetail() {
 
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkreceiver }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2257,7 +2358,7 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkreceiver }}
                       />
                     </FormControl>
                   </td>
@@ -2321,7 +2422,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_record}
                         onChange={(e) => setselectradio_record(e.target.value)}
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkacc_record }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2339,7 +2440,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkacc_record }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2351,7 +2452,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkacc_record,
                         }}
                       />
                     </FormControl>
@@ -2359,7 +2460,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkacc_record }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2368,7 +2469,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkacc_record }}
                       />
                     </FormControl>
                   </td>
@@ -2387,7 +2488,12 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorAcc_Mana ? "red" : undefined,
                         }}
-                        error={ErrorAcc_Mana}
+                        error={ErrorAcc_Mana && !selectacc_manager}
+                        helperText={
+                          ErrorAcc_Mana && !selectacc_manager
+                            ? "BOI Manager"
+                            : undefined
+                        }
                       >
                         {acc_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -2395,7 +2501,11 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorAcc_Mana && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Manager</FormHelperText>}
+                      {ErrorAcc_Mana && (
+                        <FormHelperText style={{ color: "red" }}>
+                          กรุณาเลือก ACC Manager
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -2408,7 +2518,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_acc_manager(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkacc_manager }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2426,7 +2536,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7" style={{ visibility: chkacc_manager }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2438,7 +2548,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkacc_manager,
                         }}
                       />
                     </FormControl>
@@ -2446,7 +2556,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: chkacc_manager }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2455,7 +2565,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkacc_manager }}
                       />
                     </FormControl>
                   </td>
@@ -2488,7 +2598,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_service_close_by(e.target.value)
                         }
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkservice_close }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2506,7 +2616,10 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td
+                    className="Style7"
+                    style={{ visibility: chkservice_close }}
+                  >
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2518,7 +2631,7 @@ function TransFerDetail() {
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          visibility: chkservice_close,
                         }}
                       />
                     </FormControl>
@@ -2526,7 +2639,10 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: "none" }}>
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td
+                    className="Style4"
+                    style={{ visibility: chkservice_close }}
+                  >
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2535,7 +2651,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        style={{ visibility: checkrdo }}
+                        style={{ visibility: chkservice_close }}
                       />
                     </FormControl>
                   </td>
@@ -2555,7 +2671,7 @@ function TransFerDetail() {
                   size="medium"
                   color="primary"
                   className="Style9"
-                  style={{visibility: btnsave}}
+                  style={{ visibility: btnsave }}
                   onClick={SAVE}
                 >
                   Save
@@ -2573,7 +2689,12 @@ function TransFerDetail() {
                 </Button>
               </td>
               <td>
-                <Button variant="contained" size="medium" color="error" onClick={Reset}>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="error"
+                  onClick={Reset}
+                >
                   Reset
                 </Button>
               </td>

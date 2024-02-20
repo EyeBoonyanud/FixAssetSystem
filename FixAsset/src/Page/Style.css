@@ -200,3 +200,16 @@ margin-right: 10px;
   margin-right: 10px;
   height: 100%;
 }
+.Fix-Style{
+  padding: 20px;
+
+}
+
+.TableFix th {
+  color: #EEEEEE;
+  white-space: nowrap;
+}
+.TableFix td {
+
+  white-space: nowrap;
+}

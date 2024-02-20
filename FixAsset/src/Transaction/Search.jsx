@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import Swal from "sweetalert2";
 
 function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
@@ -52,8 +53,6 @@ function Issue() {
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
-  
-
 
   function formatDateString(rawDate) {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -81,7 +80,7 @@ function Issue() {
   };
   const handleCost = (event) => {
     setselectcost(event.target.value);
-    console.log(event.target.value,"setselectcost")
+    console.log(event.target.value, "setselectcost");
   };
   const handleType = (event) => {
     setselectReType(event.target.value);
@@ -129,70 +128,65 @@ function Issue() {
     Costcenter();
     RequestType();
     // Remove();
-  
- 
   }, []);
 
   const Edit = async (EditFam) => {
     console.log(EditFam, "XXXXXXXXXXXXXXXxx");
-   
+
     //reload_edit();
   };
   const EditFixAsset = async (EditFam) => {
     console.log(EditFam, "TTTTTTTTTTTTT");
-   
   };
- 
+
   // const Remove = () =>{
   //   localStorage.removeItem("ForRequester");
   //   localStorage.removeItem("forDetail");
   //   localStorage.removeItem("EDIT")
   // }
- //
- const  handleEdit = async (EditFam) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
-    );
-    const data = await response.data;
+  //
+  const handleEdit = async (EditFam) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
+      );
+      const data = await response.data;
 
-   
-    // const DataEdit = data;
-    const data_edit = JSON.stringify(data);
-    console.log(data_edit, "data_edit");
+      // const DataEdit = data;
+      const data_edit = JSON.stringify(data);
+      console.log(data_edit, "data_edit");
 
-    localStorage.setItem("For_Req_Edit", data_edit);
-    
-  } catch (error) {
-    //console.error("Error during login:", error);
-  }
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
-    );
-    const data = await response.data;
-    // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
-    const DataEdit = data;
-    const data_edit = JSON.stringify(DataEdit);
-    console.log(data_edit, "data_editdata_editdata_editdata_edit");
-    localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-  } catch (error) {
-    //console.error("Error during login:", error);
-  }
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
-    );
-    const data = await response.data;
+      localStorage.setItem("For_Req_Edit", data_edit);
+    } catch (error) {
+      //console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+      );
+      const data = await response.data;
+      // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+      const DataEdit = data;
+      const data_edit = JSON.stringify(DataEdit);
+      console.log(data_edit, "data_editdata_editdata_editdata_edit");
+      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+    } catch (error) {
+      //console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+      );
+      const data = await response.data;
 
-    // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+      // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
 
-    // const DataEdit = data;
-    const data_edit = JSON.stringify(data);
-    localStorage.setItem("Edit_Trans", data_edit);
-  } catch (error) {
-    //console.error("Error during login:", error);
-  }
+      // const DataEdit = data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Trans", data_edit);
+    } catch (error) {
+      //console.error("Error during login:", error);
+    }
     try {
       const response = await axios.get(
         `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
@@ -208,13 +202,10 @@ function Issue() {
       //console.error("Error during login:", error);
     }
 
+    localStorage.setItem("EDIT", EditFam);
 
-
-
-  localStorage.setItem("EDIT",EditFam)
-
-  window.location.href = "/ForRe";
-};
+    window.location.href = "/ForRe";
+  };
   const Search = async () => {
     const FamNo = document.getElementById("FamNo").value;
     const FamTo = document.getElementById("FamTo").value;
@@ -258,6 +249,39 @@ function Issue() {
     setCheckData("visible");
   };
 
+  const Delete = async (item) => {
+    // แสดง SweetAlert เพื่อยืนยันการลบ
+    Swal.fire({
+      title: "Are you sure you want to delete?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // ลบข้อมูลทั้งหมดที่เกี่ยวข้อง
+          await axios.post(`http://localhost:5000/delect_all_fam_transfer?famno=${item}`);
+          await axios.post(`http://localhost:5000/delect_all_fam_details?famno=${item}`);
+          await axios.post(`http://localhost:5000/delect_all_fam_header?famno=${item}`);
+          // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
+          Swal.fire("Deleted!", "Your data has been deleted.", "success");
+          // โหลดข้อมูลใหม่หลังจากลบข้อมูล
+          Search();
+        } catch (error) {
+          console.error("Error deleting data:", error);
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // ถ้าผู้ใช้ยกเลิกการลบ
+        Swal.fire("Cancelled", "Your data is safe :)", "info");
+      }
+    });
+    
+};
+
+  
   return (
     <>
       <Header />
@@ -588,7 +612,7 @@ function Issue() {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead sx={{ backgroundColor: "#A7C9FA" }}>
                 <TableRow>
-                  <TableCell>No</TableCell>
+                  <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
                   <TableCell>FAM No.</TableCell>
@@ -613,17 +637,23 @@ function Issue() {
                           />
                         </Tooltip>
                         <Tooltip title="Delete">
-                          <DeleteForeverIcon
+                          {/* <DeleteForeverIcon
                             style={{ color: "red", fontSize: "30px" }}
                             onClick={() => Delete(item[0])}
-                          />
+                          /> */}
+                          {item[7] === "Create" && (
+                            <DeleteForeverIcon
+                              style={{ color: "red", fontSize: "30px" }}
+                              onClick={() => Delete(item[2])}
+                            />
+                          )}
                         </Tooltip>
                       </TableCell>
                       <TableCell>{item[0]}</TableCell>
                       <TableCell>{item[1]}</TableCell>
                       <TableCell>{item[2]}</TableCell>
-                      <TableCell>{formatDateString(item[3])}</TableCell>
                       <TableCell>{item[4]}</TableCell>
+                      <TableCell>{formatDateString(item[3])}</TableCell>
                       <TableCell>{item[5]}</TableCell>
                       <TableCell>{item[6]}</TableCell>
                       <TableCell>{item[7]}</TableCell>

@@ -180,7 +180,7 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  WHERE  (T.FAM_REQ_BY = '${userlogin}'
+  WHERE  (T.FAM_REQ_BY = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR001'
     OR (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002')
     OR (T.FAM_SERVICE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
     OR (T.FAM_BOI_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR004')
@@ -201,6 +201,7 @@ module.exports.search = async function (req, res) {
     AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+  
          `;
     console.log(query);
     const result = await connect.execute(query);
@@ -625,6 +626,30 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
   }
 };
 
+//Delete  Fixed Assets Code
+module.exports.delete_FAM_REQ_DETAIL = async function (req, res) {
+  try {
+    const FRD_FAM_NO = req.query.famno;
+    const FRD_ASSET_CODE = req.query.fixcode;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_REQ_DETAIL 
+     WHERE FRD_FAM_NO = :fam
+     AND FRD_ASSET_CODE = :code 
+    `;
+    const data = {
+      fam: FRD_FAM_NO,
+      code: FRD_ASSET_CODE,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 // FROM_BOI_PROJ (UPDATE ค่า From_BOI )
 module.exports.ins_from_Boi = async function (req, res) {
   try {
@@ -886,70 +911,7 @@ module.exports.acc_manager = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-//INSERT_TRANSFER_DETAILS
-// module.exports.ins_transfer = async function (req, res) {
-//   try {
-//     const FAM_NO = req.query.running_no;
-//     const Date_plan1 = req.query.date_plan;
-//     const Factory = req.query.fac;
-//     const CC = req.query.cc;
-//     const To = req.query.to_proj;
-//     const Receive_By = req.query.by;
-//     const Tel = req.query.tel;
-//     const Status = req.query.status;
-//     const Abnormal = req.query.abnormal;
 
-//     // Declare the connect variable
-//     const connect = await oracledb.getConnection(AVO);
-
-//     // Log values
-//     console.log(FAM_NO);
-//     console.log(Date_plan1);
-//     console.log(Factory);
-//     console.log(CC);
-//     console.log(To);
-//     console.log(Receive_By);
-//     console.log(Tel);
-//     console.log(Status);
-
-//     const query = `
-//       UPDATE FAM_REQ_TRANSFER F
-//       SET
-//       F.FRT_PLAN_MOVE_DATE = TO_DATE(:date_plan1, 'YYYY-MM-DD'),
-//         F.FRT_TO_FACTORY = :factory,
-//         F.FRT_TO_CC = :cc_tran,
-//         F.FRT_TO_PROJ = :to,
-//         F.FRT_RECEIVE_BY = :receive_by,
-//         F.FRT_RECEIVE_DATE = SYSDATE,
-//         F.FRT_RECEIVER_TEL = :tel_tran,
-//         F.FRT_ABNORMAL_STS = :status_tran,
-//         F.FRT_ABNORMAL_REASON = :abnormal_remark
-//       WHERE F.FRT_FAM_NO = :fam_no
-//     `;
-
-//     const data = {
-//       fam_no: FAM_NO,
-//       date_plan1: Date_plan1,
-//       factory: Factory,
-//       cc_tran: CC,
-//       to:To,
-//       receive_by: Receive_By,
-//       tel_tran: Tel,
-//       status_tran: Status,
-//       abnormal_remark: Abnormal
-//     };
-
-//     // Execute the query
-//     const result = await connect.execute(query, data, { autoCommit: true });
-//     console.log('Rows updated:', result.rowsAffected);
-
-//     connect.release();
-//     res.json(result);
-//   } catch (error) {
-//     console.error("Error in querying data:", error.message);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 module.exports.ins_transfer = async function (req, res) {
   try {
     const FAM_NO = req.query.running_no;
@@ -1638,10 +1600,23 @@ module.exports.Update_For_Req_All = async function (req, res) {
       accmrg,
       updateby,
     } = req.body;
-    
-    console.log(famno, dept, tel, remark , mrg_dept ,serviceby ,servicetel,boisff,
-      boimrg,fmby,accchk,accmrg,updateby);
-    
+
+    console.log(
+      famno,
+      dept,
+      tel,
+      remark,
+      mrg_dept,
+      serviceby,
+      servicetel,
+      boisff,
+      boimrg,
+      fmby,
+      accchk,
+      accmrg,
+      updateby
+    );
+
     const connect = await oracledb.getConnection(AVO);
     const query = `
       UPDATE
@@ -1664,7 +1639,7 @@ module.exports.Update_For_Req_All = async function (req, res) {
       WHERE
         FRH_FAM_NO = :FAM_NO
     `;
-    
+
     const data = {
       FAM_NO: famno,
       FAM_REQ_DEPT: dept,
@@ -1680,7 +1655,6 @@ module.exports.Update_For_Req_All = async function (req, res) {
       FAM_ACC_MGR_BY: accmrg,
       FAM_UPDATE_BY: updateby,
     };
-    
 
     const result = await connect.execute(query, data, { autoCommit: true });
 
@@ -1695,5 +1669,100 @@ module.exports.Update_For_Req_All = async function (req, res) {
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+};
+//
+module.exports.getFixcode = async function (req, res) {
+  try {
+    const fam_no = req.query.Fam;
+    console.log(fam_no,"fam_no")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT 
+    FRD_ASSET_CODE AS FRD_ASSET_CODE,
+    FRD_COMP AS FRD_COMP, 
+    FRD_OWNER_CC AS FRD_OWNER_CC,
+    FRD_ASSET_NAME AS FRD_ASSET_NAME, 
+    FRD_CREATE_BY AS FRD_CREATE_BY,
+    FRD_BOI_PROJ AS FRD_BOI_PROJ,
+    FRD_QTY AS FRD_QTY,
+    FRD_INV_NO AS FRD_INV_NO,
+    FRD_CREATE_BY AS FRD_CREATE_BY,
+    FRD_ACQ_COST AS FRD_ACQ_COST,
+    FRD_BOOK_VALUE AS FRD_BOOK_VALUE 
+    FROM FAM_REQ_DETAIL  WHERE FRD_FAM_NO = '${fam_no}'`;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// DELETE ALL 
+module.exports.delect_all_fam_header = async function (req, res) {
+  try {
+    console.log("????????")
+    const FRH_FAM_NO = req.query.famno;
+    console.log("FRH_FAM_NO",FRH_FAM_NO)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_REQ_HEADER 
+     WHERE FRH_FAM_NO = :fam
+     
+    `;
+    const data = {
+      fam: FRH_FAM_NO
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.delect_all_fam_details = async function (req, res) {
+  try {
+    console.log("{}{}{}{}{}}}")
+    const FRD_FAM_NO = req.query.famno;
+    console.log("FRD_FAM_NO",FRD_FAM_NO)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_REQ_DETAIL 
+     WHERE FRD_FAM_NO = :fam
+     
+    `;
+    const data = {
+      fam: FRD_FAM_NO
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.delect_all_fam_transfer = async function (req, res) {
+  try {
+    console.log("JJJJJJJ")
+    const FRT_FAM_NO = req.query.famno;
+    console.log(FRT_FAM_NO,"FRT_FAM_NO")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_REQ_TRANSFER 
+     WHERE FRT_FAM_NO = :fam
+     
+    `;
+    const data = {
+      fam: FRT_FAM_NO
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
