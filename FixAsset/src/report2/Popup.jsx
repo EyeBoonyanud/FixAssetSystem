@@ -19,16 +19,28 @@ import {
 
   import axios from "axios";
 
-function Popup() {
+function Popup({isOpen, onClose, FamNo }) {
 
     const [Data, setData] = useState([]);
     
-    if (!isopen) {
+    if (!isOpen) {
         return null;
     }
 
     const Filedata = () => {
-        axios.post("")
+        axios.post("http://localhost:5000/FAM_FILE_ATTACH", {
+            FamNo: FamNo,
+        })
+        .then(res => {
+            
+            if (res.data.length > 0) {
+                setData(res.data);
+                console.log(res.data);
+            } 
+          })
+          .catch(error => {
+            console.error('Error fetching FAM files:', error);
+          });
     }
 
 
@@ -45,7 +57,6 @@ function Popup() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-
                 </TableBody>
             </Table>
         </div>

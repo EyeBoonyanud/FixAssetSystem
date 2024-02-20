@@ -23,7 +23,7 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { Empty } from "antd";
-//import Popup from "./Popup_FamFileAttach";
+import Popup from "./Popup";
 import * as XLSX from "xlsx";
 import { InfoCircleOutlined } from "@ant-design/icons";
 
@@ -140,10 +140,8 @@ function Report2() {
     
     const dataToExport = TbSearch; // ข้อมูลที่จะ export
     const flattenedData = Object.values(dataToExport).flatMap((famno) => famno); // แปลง Object เป็น Array และใช้ .flatMap()
-    //flattenedData.unshift(headerRow);
-  console.log(flattenedData,"///////////")
-    // ลบ Column ที่ 18 และ 19 จาก flattenedData
 
+    console.log(flattenedData,"///////////")
     
     const ws = XLSX.utils.aoa_to_sheet([
       [
@@ -168,42 +166,32 @@ function Report2() {
       ],
       ...flattenedData
     ]);
-    // const headerRow = [
-    //   "Factory",
-    //   "Cost Center",
-    //   "Fam No.",
-    //   "No.",
-    //   "Asset Code",
-    //   "Comp.",
-    //   "From CC",
-    //   "Descriptions",
-    //   "code No.",
-    //   "Project BOI",
-    //   "Qty",
-    //   "Inv.No.",
-    //   "Inv. Date",
-    //   "Acquisition Cost",
-    //   "Book value",
-    //   "New CC",
-    //   "Project BOI",
-    //   "Remark",
-    // ];
-  
    
-
-    
   
-    // const ws = XLSX.utils.json_to_sheet(flattenedData); // แปลงข้อมูลเป็น worksheet
     const wb = XLSX.utils.book_new(); // สร้าง workbook
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // เพิ่ม worksheet เข้า workbook
     XLSX.writeFile(wb, "exported_data.xlsx"); // บันทึกไฟล์ Excel
   };
   
-  
+  const [ClickFileFam, setClickFileFam] = useState("")
+  const [OpenPopup, setOpenPopup] = useState(false)
+
+  const PopupOpen = (Famno) => {
+    const selectRow = Famno;
+    if (selectRow) {
+      setClickFileFam(Famno);
+      setOpenPopup(true);
+    }
+  };
+
+  const PopupClose = () => {
+    setOpenPopup(false);
+  }
 
   return (
     <>
       <Header />
+      <Popup isOpen={OpenPopup} onClose={PopupClose} Famno={ClickFileFam} />
       <div
         style={{
           marginTop: "60px",
@@ -346,7 +334,8 @@ function Report2() {
                           <TableCell>{row[16]}</TableCell>
                           <TableCell>{row[17]}</TableCell>
                           <TableCell>
-                            {rowIndex === 0 && <Button> File</Button>}
+                            {rowIndex === 0 && 
+                            <Button onClick={() => PopupOpen(row[2])}> File</Button>}
                           </TableCell>
                         </TableRow>
                         {rowIndex === TbSearch[famno].length - 1 && (
