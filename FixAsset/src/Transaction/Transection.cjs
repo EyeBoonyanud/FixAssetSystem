@@ -1482,9 +1482,13 @@ module.exports.getEdit_Person_Show = async function (req, res) {
     console.log("U", user_login);
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT  T.FPM_FACTORY,
+    SELECT DISTINCT   
+    T.FPM_FACTORY,
+    CU.FACTORY_NAME,
     T.FPM_LEVEL,
+    FCM.FCM_DESC ,
     T.FPM_CC ,
+    CTM.CC_DESC ,
     T.FPM_USER_LOGIN,
      T.FPM_EMAIL,
     T.FPM_PERSON_STS,
@@ -1493,6 +1497,9 @@ module.exports.getEdit_Person_Show = async function (req, res) {
     T.FPM_UPDATE_BY,
     TO_CHAR(T.FPM_UPDATE_DATE , 'DD/MM/YYYY') AS FPM_UPDATE_DATE_E
 FROM FAM_PERSON_MASTER T 
+	LEFT JOIN CUSR.CU_FACTORY_M CU ON CU.FACTORY_CODE = T.FPM_FACTORY 
+	LEFT JOIN FAM_CODE_MASTER FCM ON FCM.FCM_CODE = T.FPM_LEVEL 
+	LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CTM ON CTM.CC_CTR =  T.FPM_CC 
 WHERE T.FPM_FACTORY = '${factory}'
 AND T.FPM_LEVEL = '${level}'
 AND T.FPM_CC = '${cost_center}'
@@ -1502,7 +1509,8 @@ AND T.FPM_USER_LOGIN = '${user_login}'
     connect.release();
     const flatArray = result.rows.map((item) => Object.values(item)).flat();
     res.json(flatArray);
-    console.log(result);
+    console.log("เช็คดูรอบที่ 1",result);
+    console.log("เช็คดูรอบที่ 2",flatArray);
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
@@ -1604,8 +1612,8 @@ WHERE
 		OR '${factory}' IS NULL)
 	AND (TRIM(T.FBMC_COST_CENTER) = '${cost_center}'
 		OR '${cost_center}' IS NULL)
-	AND (T.FBMC_BOI_PROJ = UPPER('${BOI_Project}')
-		OR UPPER('${BOI_Project}') IS NULL)
+	AND (T.FBMC_BOI_PROJ = '${BOI_Project}'
+		OR '${BOI_Project}' IS NULL)
 ORDER BY
 	C.FACTORY_NAME,
 	CMCC.CC_DESC,
@@ -1725,19 +1733,23 @@ module.exports.getEdit_BOI_Show = async function (req, res) {
 
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT
-    T.FBMC_COST_CENTER,
-    T.FBMC_FACTORY,
-    T.FBMC_BOI_PROJ,
-    T.FBMC_STATUS,
-    T.FBMC_COMMENT,
-     TO_CHAR(T.FBMC_CREATE_DATE , 'DD/MM/YYYY') AS CREATE_E,
-    T.FBMC_CREATE_BY,
-    TO_CHAR(T.FBMC_UPDATE_DATE , 'DD/MM/YYYY') AS UPDATE_E,
-    T.FBMC_UPDATE_BY
-  FROM
-    FAM_BOIPROJ_MAP_CC T
-  WHERE
+    SELECT DISTINCT 
+	T.FBMC_COST_CENTER,
+	CTM.CC_DESC, 
+	T.FBMC_FACTORY,
+	CU.FACTORY_NAME,
+	T.FBMC_BOI_PROJ,
+	T.FBMC_STATUS,
+	T.FBMC_COMMENT,
+	 TO_CHAR(T.FBMC_CREATE_DATE , 'DD/MM/YYYY') AS CREATE_E,
+	T.FBMC_CREATE_BY,
+	TO_CHAR(T.FBMC_UPDATE_DATE , 'DD/MM/YYYY') AS UPDATE_E,
+	T.FBMC_UPDATE_BY
+FROM
+	FAM_BOIPROJ_MAP_CC T
+	LEFT JOIN CUSR.CU_FACTORY_M CU ON CU.FACTORY_CODE = T.FBMC_FACTORY 
+	LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CTM ON CTM.CC_CTR = T.FBMC_COST_CENTER 
+WHERE
     T.FBMC_COST_CENTER = '${cost_center}'
     `;
     const result = await connect.execute(query);
@@ -1777,3 +1789,72 @@ module.exports.deleteBOI_Maintain = async function (req, res) {
     console.error("ข้อผิดพลาดในการบันทึกข้อมูล:", error.message);
   }
 };
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++may+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+module.exports.getFamDetailReport = async function (req, res) {
+  try {
+    // console.log("g-hllll")
+    const{ RequestType,FAMNo }=  req.body;
+   // console.log(RequestType,FAMNo)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+          SELECT CF.FACTORY_NAME AS FACTORY ,H.FAM_REQ_CC,H.FRH_FAM_NO,1 AS iSEQ,D.FRD_ASSET_CODE,D.FRD_COMP,D.FRD_OWNER_CC,D.FRD_ASSET_NAME,D.FRD_CODE_NO,																		
+          D.FRD_BOI_PROJ,D.FRD_QTY,D.FRD_INV_NO,D.FRD_INV_DATE,D.FRD_ACQ_COST,D.FRD_BOOK_VALUE,D.FRD_NEW_CC,D.FRD_NEW_BOI_PROJ,D.FRD_REMARK																		
+          FROM  FAM_REQ_DETAIL D ,FAM_REQ_HEADER H
+          LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
+          WHERE H.FRH_FAM_NO = D.FRD_FAM_NO																		
+          AND H.FAM_REQ_TYPE = '${RequestType}'																			
+          AND H.FRH_FAM_NO IN (
+              SELECT TRIM(REGEXP_SUBSTR('${FAMNo}', '[^,]+', 1, LEVEL))
+              FROM DUAL
+              CONNECT BY LEVEL <= REGEXP_COUNT('${FAMNo}', ',') + 1
+          )
+          ORDER BY H.FRH_FAM_NO,D.FRD_ASSET_CODE,D.FRD_COMP
+     `;
+    const result = await connect.execute(query);
+   // console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+module.exports.getRequstType = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FCM_CODE,T.FCM_DESC FROM FAM_CODE_MASTER T WHERE T.FCM_GROUP_ID = 'GP01' AND T.FCM_STATUS = 'A' ORDER BY T.FCM_SORT,T.FCM_DESC
+     `;
+    const result = await connect.execute(query);
+    
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+module.exports.getFAM_FILE_ATTACH = async function (req, res) {
+  try {
+     console.log("g-hllll")
+     const{FamNo}=  req.body;
+    console.log(FamNo)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER 																																			
+    FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}'																																				
+    ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME	
+     `;
+    const result = await connect.execute(query);
+    console.log(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++may+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -11,6 +11,8 @@ import TransDetail from "./Transaction/TransFerDetail";
 import Person_maintain_search from "./Person_Maintain/Search_person";
 import Person_maintain_new from "./Person_Maintain/New_person";
 import Boi_project_MCC from "./BOI_Project_Mpping_CC/Boi_project_mcc";
+import Report from "./report/Report"
+import Popup from "./report/Popup_FamFileAttach"
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -31,6 +33,8 @@ const App = () => {
         <Route path="/PersonSearch" element={<Person_maintain_search />} />
         <Route path="/PersonNew" element={<Person_maintain_new />} />
         <Route path="/BoiMcc" element={<Boi_project_MCC />} />
+        <Route path="/Report" element={<Report />} />
+        <Route path="/Pupup" element={<Popup />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

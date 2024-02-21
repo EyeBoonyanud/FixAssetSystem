@@ -51,11 +51,11 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [BOI_Project, setBOI_Project] = useState("");
   const [Comment, setComment] = useState("");
-  const [status, setStatus] = useState("A");
   const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
   const [ErrorBOI_P, setErrorBOI_P] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCost, setErrorCost] = useState(false);
+  const [ErrorComment, setErrorComment] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
   console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
@@ -82,7 +82,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setselectcost("");
       setBOI_Project("");
       setComment("");
-      setStatus("A");
+      setStatus("");
       setuser_create(UserLoginn);
       setuser_update(UserLoginn);
     } else {
@@ -123,11 +123,10 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     Costcenter();
   }, []);
 
-  const handleSelectChange = async (event, newValue) => {
-    setselecteDatafac(newValue);
-    let idFactory = newValue[0];
-    console.log(newValue,"XXXXXXXXXXXXXXXXXXXXXXXXXXXx");
-    console.log(newValue[0]);
+  const handleSelectChange = async (event) => {
+    setselecteDatafac(event.target.value);
+    let idFactory = event.target.value;
+    console.log(idFactory,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx")
     setErrorFac(false);
     try {
       const response = await axios.get(
@@ -139,8 +138,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     }
   };
 
-  const handleCost = (event, newValue) => {
-    setselectcost(newValue);
+
+  const handleCost = (event) => {
+    setselectcost(event.target.value);
     console.log(event.target.value, "setselectcost");
     setErrorCost(false);
   };
@@ -148,24 +148,24 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const navigate = useNavigate();
 
   const Save = async () => {
-    if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
-      setErrorFac(true);
-    } 
-    if (selectcost.toString().trim() === "") {
-      setErrorCost(true);
-    } if (BOI_Project.trim() === "") {
-      setErrorBOI_P(true);
-    }  if (status.trim() === "") {
-      setErrorStatus(true);
-    }
-
-    console.log("FACTORY CHECK", selecteDatafac[0]);
-    console.log("COST CENTER CHECK", selectcost[0]);
+    console.log("FACTORY CHECK", selecteDatafac);
+    console.log("COST CENTER CHECK", selectcost);
     console.log("BOI PROJECT CHECK", BOI_Project);
     console.log("STATUS CHECK", status);
     console.log("COMMENT CHECK", Comment);
     console.log("CREATE BY CHECK", UserLoginn);
     console.log("CREATE DATE CHECK", Date_show);
+    if (selecteDatafac.trim() === "") {
+      setErrorFac(true);
+    } else if (selectcost.trim() === "") {
+      setErrorCost(true);
+    } else if (BOI_Project.trim() === "") {
+      setErrorBOI_P(true);
+    } else if (Comment.trim() === "") {
+      setErrorComment(true);
+    } else if (status.trim() === "") {
+      setErrorStatus(true);
+    }
 
     if (PAGE_STATUS === "NEW") {
       if (
@@ -178,11 +178,11 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       ) {
         try {
           const response = await axios.post(
-            `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+            `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost}&FBMC_factory=${selecteDatafac}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
           );
           console.log("[บันทึกข้อมูลสำเร็จ] =", response);
           swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, BOI_Project];
           const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
           console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
@@ -211,12 +211,12 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       ) {
         try {
           const response = await axios.post(
-            `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+            `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost}&FBMC_factory=${selecteDatafac}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
           );
 
           console.log("[บันทึกข้อมูลสำเร็จ] =", response);
           swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, BOI_Project];
           const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
           console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
@@ -238,35 +238,22 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   };
 
   // check status New and Edit
-  // const EDIT = localStorage.getItem("BOI_Edit");
-  // console.log("show data edit", EDIT);
-  // const DATA_EDIT = JSON.parse(EDIT);
-  // console.log("show data DATA_EDIT ", DATA_EDIT);
   const EDIT = localStorage.getItem("BOI_Edit");
   console.log("show data edit", EDIT);
-  const DATA_EDIT_M = JSON.parse(EDIT);
-  console.log("show data DATA_EDIT ", DATA_EDIT_M);
-  const combinedArray01 = [DATA_EDIT_M.slice(0,2)];
-  const DATA_EDIT_02 = DATA_EDIT_M.slice(0,0).concat(combinedArray01, DATA_EDIT_M.slice(2));
-  const combinedArray02= [DATA_EDIT_02.slice(1,3)];
-  const DATA_EDIT = DATA_EDIT_02.slice(0,1).concat(combinedArray02, DATA_EDIT_02.slice(3));
-  console.log("อยากเห็นข้อมูลที่ออกมามากกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก", DATA_EDIT);
+  const DATA_EDIT = JSON.parse(EDIT);
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
-      setErrorFac(false);
-      setErrorBOI_P(false);
-      setErrorCost(false);
       setselecteDatafac("");
       setselectcost("");
       setBOI_Project("");
       setComment("");
-      setStatus("A");
-
-    } else {
+      setStatus("");
       setErrorFac(false);
       setErrorBOI_P(false);
       setErrorCost(false);
+      setErrorComment(false);
+    } else {
       setselecteDatafac(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[0]);
       setBOI_Project(DATA_EDIT[2]);
@@ -276,7 +263,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setuser_update(UserLoginn);
       setDate_show(DATA_EDIT[5]);
       setDate_show_update(formattedDate);
-
     }
   };
 
@@ -285,16 +271,23 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     const dataBoi_P = event.target.value;
     setBOI_Project(dataBoi_P);
     setErrorBOI_P(false);
+    // const dataBoi_P = event.target.value;
+    // if (dataBoi_P.length <= 50) {
+    //   setBOI_Project(dataBoi_P);
+    // } else {
+    //   alert("ขนาดตัวอักษรเกิน (ไม่ควรเกิน 50 ตัวอักษร)");
+    // }
   };
 
   // Check Comment
   const handleComment = (event) => {
     const dataComment = event.target.value;
     setComment(dataComment);
+    setErrorComment(false);
   };
 
   // Status
-
+  const [status, setStatus] = useState("");
   const handleChange = (event) => {
     const value = event.target.value;
     setStatus(value);
@@ -308,44 +301,60 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
-              <Typography>Factory <span class="red-star">*</span></Typography>
+              <Typography>Factory</Typography>
             </TableCell>
             <TableCell>
-              <Typography>Cost Center <span class="red-star">*</span></Typography>
+              <Typography>Cost Center</Typography>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               {" "}
               <FormControl fullWidth>
-                <Autocomplete
-                  options={datafac}
-                  getOptionLabel={(option) =>
-                    typeof option[1] !== "undefined" ? option[1] : ""
-                  }
-                  value={selecteDatafac || null}
+                {!selecteDatafac ? (
+                  <InputLabel size="small" id="demo-simple-select-label">
+                    Select
+                  </InputLabel>
+                ) : null}
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  label={!selecteDatafac ? "Select" : undefined}
+                  value={selecteDatafac}
                   onChange={handleSelectChange}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={!selecteDatafac ? "Select" : undefined}
-                      size="small"
-                      variant="outlined"
-                      error={ErrorFac}
-                    />
-                  )}
-                />
+                  size="small"
+                  style={{
+                    width: "100%",
+                    borderColor: ErrorFac ? "red" : undefined,
+                  }}
+                  // errorText={ErrorFac ? errorText : ""}
+                  error={ErrorFac}
+                  helperText={
+                    ErrorFac ? "กรุณาใส่ค่าใน Factory ก่อนกด Save" : undefined
+                  }
+                >
+                  {datafac.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[1]}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
+            
+              
             </TableCell>
             <TableCell>
               {" "}
               <FormControl fullWidth>
-                <Autocomplete
-                  options={cost}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={selectcost || null}
+                {!selectcost ? (
+                  <InputLabel size="small" id="demo-simple-select-label">
+                    Select
+                  </InputLabel>
+                ) : null}
+                <Select
+                  labelId="demo-simple-select-label"
+                  label={!selectcost ? "Select" : undefined}
+                  value={selectcost}
                   onChange={handleCost}
                   disabled={PAGE_STATUS === "EDIT"}
                   sx={{
@@ -354,37 +363,28 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                         ? "rgba(169, 169, 169, 0.3)"
                         : "inherit",
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={!selectcost ? "Select" : undefined}
-                      size="small"
-                      variant="outlined"
-                      error={ErrorCost}
-                    />
-                  )}
-                />
+                  size="small"
+                  style={{
+                    width: "100%",
+                    borderColor: ErrorCost ? "red" : undefined,
+                  }}
+                  error={ErrorCost}
+                  helperText={
+                    ErrorCost ? "กรุณาใส่ค่าใน Factory ก่อนกด Save" : undefined
+                  }
+                >
+                  {cost.map((option) => (
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  ))}
+                </Select>
               </FormControl>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorFac ? "Please key value in factory" : null}
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorCost ? "Please key value in cost center" : null}
-              </Typography>
             </TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>BOI Project <span class="red-star">*</span></Typography>
+              <Typography>BOI Project</Typography>
             </TableCell>
           </TableRow>
 
@@ -401,15 +401,12 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   borderColor: ErrorBOI_P ? "red" : undefined,
                 }}
                 error={ErrorBOI_P}
+                // helperText={
+                //   ErrorBOI_P
+                //     ? "กรุณาใส่ค่าใน BOI Project ก่อนกด Save"
+                //     : undefined
+                // }
               ></TextField>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorBOI_P ? "Please key value in BOI project" : null}
-              </Typography>
             </TableCell>
           </TableRow>
 
@@ -430,19 +427,20 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                 onChange={handleComment}
                 style={{
                   width: "100%",
-                 
+                  borderColor: ErrorComment ? "red" : undefined,
                 }}
+                error={ErrorComment}
+                // helperText={
+                //   ErrorComment ? "กรุณาใส่ค่าใน Factory ก่อนกด Save" : undefined
+                // }
               ></TextField>
             </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
           </TableRow>
 
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>Status <span class="red-star">*</span></Typography>
+              <Typography>Status</Typography>
             </TableCell>
           </TableRow>
 
@@ -477,14 +475,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   <MenuItem value="I">In Active</MenuItem>
                 </Select>
               </FormControl>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
             </TableCell>
           </TableRow>
 
@@ -527,18 +517,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               ></TextField>
             </TableCell>
           </TableRow>
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-   
-              </Typography>
-            </TableCell>
-          </TableRow>
           {PAGE_STATUS !== "NEW" && (
             <>
               <TableRow>
@@ -579,19 +557,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               </TableRow>
             </>
           )}
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
 
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-   
-              </Typography>
-            </TableCell>
-          </TableRow>
-          
           <TableRow>
             <TableCell colSpan={2} style={{ textAlign: "center" }}>
               {" "}

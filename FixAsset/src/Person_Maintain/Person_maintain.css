@@ -40,8 +40,9 @@
   text-align: center;
 }
 
-.PopupEditPerson {
+/* .PopupEditPerson {
   display: flex;
+
 }
 
 .PopupEditPerson td{
@@ -49,8 +50,24 @@
   padding-left: 10px ;
   padding-top: 5px;
   border: 0;
-}
+
+} */
 
 .TexttableA {
   text-align: left !important;
+}
+
+.PopupEditPerson {
+  display: flex;
+/* height: 100%; */
+}
+
+.PopupEditPerson td{
+  padding: 0px;
+  border: 0;
+  padding-left: 10px ;
+
+}
+.red-star {
+  color: red;
 }

@@ -36,15 +36,13 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
 import "./Person_maintain.css";
 import Popup from "../Person_Maintain/New_person";
+import Autocomplete from "@mui/material/Autocomplete";
 
 function person_maintain() {
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
-  // ======================================================================================================//
-
-  // ======================================================================================================//
   const [datafac, setdatafac] = useState([]);
   const [datalevel, setdatalevel] = useState([]);
   const [cost, setcost] = useState([]);
@@ -65,37 +63,23 @@ function person_maintain() {
     const date = new Date(rawDate);
     return date.toLocaleDateString(undefined, options);
   }
-  const handleSelectChange = async (event) => {
-    setselecteDatafac(event.target.value);
-    let idFactory = event.target.value;
-    // console.log(idFactory,"ถถถซ")
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getdept?idFactory=${idFactory}`
-      );
-      // console.log(response.data,"ID1 :")
-      const data = await response.data;
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+  const handleSelectChange = async (event, newValue) => {
+    setselecteDatafac(newValue);
   };
-  const handlelevel = (event) => {
-    setselecteDatalevel(event.target.value);
+  const handlelevel = (event, newValue) => {
+    setselecteDatalevel(newValue);
+    // setselecteDatalevel(event.target.value);
   };
-  const handleCost = (event) => {
-    setselectcost(event.target.value);
-    console.log(event.target.value, "setselectcost");
+  const handleCost = (event, newValue) => {
+    setselectcost(newValue);
   };
 
   const navigate = useNavigate();
   const New = () => {
-    // ======================================================================================================//
     localStorage.removeItem("DATA_BACK_SEARCH");
-    // ======================================================================================================//
     const PAGE_STATUS = "NEW";
     localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
     openPopup();
-    // navigate("/PersonNew");
   };
 
   useEffect(() => {
@@ -135,8 +119,7 @@ function person_maintain() {
     Factory();
     Costcenter();
     Search_back();
-  },  [selecteDatafac, selecteDatalevel, selectcost, User_Login]);
-
+  }, [selecteDatafac[0], selecteDatalevel[0], selectcost[0], User_Login[0]]);
 
   const Search_back = async () => {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
@@ -146,25 +129,33 @@ function person_maintain() {
       setselecteDatalevel(DATA_SEARCH_S_E[1]);
       setselectcost(DATA_SEARCH_S_E[2]);
       setUser_Login(DATA_SEARCH_S_E[3]);
-      console.log("มีข้อมูลที่กลับมาค้นหา", DATA_SEARCH_S_E[0], DATA_SEARCH_S_E[1], DATA_SEARCH_S_E[2], DATA_SEARCH_S_E[3]);
+      console.log(
+        "มีข้อมูลที่กลับมาค้นหา",
+        DATA_SEARCH_S_E[0],
+        DATA_SEARCH_S_E[1],
+        DATA_SEARCH_S_E[2],
+        DATA_SEARCH_S_E[3]
+      );
       // เรียกใช้งาน Search โดยตรง
-     Search();
+      Search();
     } else {
       console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
     }
   };
-  
-  
 
   const Search = async () => {
-    
-    console.log("F", selecteDatafac);
-    console.log("L", selecteDatalevel);
-    console.log("C", selectcost);
-    console.log("U", User_Login);
+    console.log("F", selecteDatafac[0]);
+    console.log("L", selecteDatalevel[0]);
+    console.log("C", selectcost[0]);
+    console.log("U", User_Login[0]);
     try {
+      const factoryValue =
+      selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
+      const levelValue = selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
+      const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
+      const User_LoginValue = User_Login[0] !== undefined ? User_Login[0] : "";
       const rollNoSearch = await axios.get(
-        `http://localhost:5000/Search_Person_Maintain?FPM_factory=${selecteDatafac}&FPM_level=${selecteDatalevel}&FPM_cost_center=${selectcost}&FPM_user_login=${User_Login}`
+        `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -176,16 +167,14 @@ function person_maintain() {
         setCheckEmpty("hidden");
         setCheckData("visible");
       }
-    localStorage.removeItem("DATA_BACK_SEARCH");
+      localStorage.removeItem("DATA_BACK_SEARCH");
     } catch (error) {
       console.error("Error requesting data:", error);
     }
   };
 
   const Reset = async () => {
-    // ======================================================================================================//
     localStorage.removeItem("DATA_BACK_SEARCH");
-    // ======================================================================================================//
     setselecteDatafac("");
     setselectcost("");
     setselecteDatalevel("");
@@ -202,10 +191,10 @@ function person_maintain() {
     user_login,
     name_surname
   ) => {
-    console.log(factory);
-    console.log(level);
-    console.log(cost_center);
-    console.log(user_login);
+    console.log(" อยากเห็น =",factory);
+    console.log(" อยากเห็น =",level);
+    console.log(" อยากเห็น =",cost_center);
+    console.log(" อยากเห็น =",user_login);
 
     swal("Do you want to edit information", name_surname, {
       buttons: {
@@ -225,7 +214,7 @@ function person_maintain() {
               `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
             );
             const data = await getEdit_show.data;
-            console.log("Show data Edit =", data);
+            console.log("Show data Edit อยากเห็น =", data);
             const DataEdit = data;
             const PAGE_STATUS = "EDIT";
 
@@ -331,94 +320,66 @@ function person_maintain() {
           >
             <Grid item xs={1.3} style={{ height: "10px" }}>
               <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Factory
-                </InputLabel>
-
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  label="Factory"
-                  value={selecteDatafac}
+                <Autocomplete
+                  options={datafac}
+                  getOptionLabel={(option) =>
+                    typeof option[1] !== "undefined" ? option[1] : ""
+                  }
+                  value={selecteDatafac || null}
                   onChange={handleSelectChange}
-                  size="small"
-                >
-                  {datafac.map((option, index) => (
-                    <MenuItem key={index} value={option[0]}>
-                      {option[1]}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Factory"
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={1.3}>
+ 
               <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Cost Center
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  label="Cost Center"
-                  value={selectcost}
+                <Autocomplete
+                  options={cost}
+                  getOptionLabel={(option) =>
+                    typeof option[0] !== "undefined" ? option[0] : ""
+                  }
+                  value={selectcost || null}
                   onChange={handleCost}
-                  size="small"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select>
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Cost Center"
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={2.2}>
-              <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Level
-                </InputLabel>
-
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  label="Level"
-                  value={selecteDatalevel}
+            <FormControl fullWidth>
+                <Autocomplete
+                  options={datalevel}
+                  getOptionLabel={(option) =>
+                    typeof option[1] !== "undefined" ? option[1] : ""
+                  }
+                  value={selecteDatalevel || null}
                   onChange={handlelevel}
-                  size="small"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {datalevel.map((option, index) => (
-                    <MenuItem key={index} value={option[0]}>
-                      {option[1]}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Level"
+                      size="small"
+                      variant="outlined"
+                    />
+                  )}
+                />
               </FormControl>
+              
             </Grid>
-            {/* <Grid item xs={2.8}>
-              <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Cost Center
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  label="Cost Center"
-                  value={selectcost}
-                  onChange={handleCost}
-                  size="small"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid> */}
-                        
             <Grid item xs={2.2}>
               <FormControl fullWidth>
                 <TextField

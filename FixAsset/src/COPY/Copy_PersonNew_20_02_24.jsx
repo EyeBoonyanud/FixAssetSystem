@@ -55,14 +55,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const [user_update, setuser_update] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [User_Login, setUser_Login] = useState("");
-  const [status, setStatus] = useState("A");
   const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorLevel, setErrorLevel] = useState(false);
-  const [ErrorCost, setErrorCost] = useState(false);
-  const [ErrorUserLogin, setErrorUserLogin] = useState(false);
-  const [ErrorEmail, setErrorEmail] = useState(false);
-  const [ErrorStatus, setErrorStatus] = useState(false);
   console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
   // Popup
@@ -89,7 +84,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setUser_Login("");
       setusername("");
       setemail("");
-      setStatus("A");
+      setStatus("");
       setuser_create(UserLoginn);
       setuser_update(UserLoginn);
     } else {
@@ -133,7 +128,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     Costcenter();
   }, []);
 
-  const handleSelectChange = async (event, newValue) => {
+  const handleSelectChange = async (event , newValue) => {
     setselecteDatafac(newValue);
     setErrorFac(false);
     // setselecteDatafac(event.target.value);
@@ -148,15 +143,13 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     // }
   };
 
-  const handlelevel = (event, newValue) => {
-    setselecteDatalevel(newValue);
-    setErrorLevel(false);
+  const handlelevel = (event) => {
+    setselecteDatalevel(event.target.value);
   };
 
-  const handleCost = (event, newValue) => {
-    setselectcost(newValue);
-    setErrorCost(false);
-    // console.log(event.target.value, "setselectcost");
+  const handleCost = (event) => {
+    setselectcost(event.target.value);
+    console.log(event.target.value, "setselectcost");
   };
 
   const navigate = useNavigate();
@@ -172,23 +165,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     console.log("CREATE DATE CHECK", Date_show);
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
-    }
-    if (!selecteDatalevel || selecteDatalevel.toString().trim() === "") {
-      setErrorLevel(true);
-    }
-    if (!selectcost || selectcost.toString().trim() === "") {
-      setErrorCost(true);
-    }
-    if (!User_Login || User_Login.toString().trim() === "") {
-      setErrorUserLogin(true);
-    }
-    if (!email || email.toString().trim() === "") {
-      setErrorEmail(true);
-    }
-    if (!status || status.toString().trim() === "") {
-      setErrorStatus(true);
-    }
-
+    } 
     if (PAGE_STATUS === "NEW") {
       if (
         selecteDatafac &&
@@ -202,7 +179,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       ) {
         try {
           const response = await axios.post(
-            `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
+            `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac}&FPM_level=${selecteDatalevel}&FPM_cost_center=${selectcost}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
           );
           console.log("[บันทึกข้อมูลสำเร็จ] =", response);
           swal("success", "You save data success", "success");
@@ -210,7 +187,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             selecteDatafac,
             selecteDatalevel,
             selectcost,
-            [User_Login]
+            User_Login,
           ];
           const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
@@ -242,7 +219,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       ) {
         try {
           const response = await axios.post(
-            `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
+            `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac}&FPM_level=${selecteDatalevel}&FPM_cost_center=${selectcost}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
           );
 
           console.log("[บันทึกข้อมูลสำเร็จ] =", response);
@@ -251,7 +228,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             selecteDatafac,
             selecteDatalevel,
             selectcost,
-            [User_Login],
+            User_Login,
           ];
           const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
@@ -287,37 +264,22 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   // check status New and Edit
   const EDIT = localStorage.getItem("Person_Edit");
   console.log("show data edit", EDIT);
-  const DATA_EDIT_M = JSON.parse(EDIT);
-  const combinedArray01 = [DATA_EDIT_M.slice(0,2)];
-  const DATA_EDIT_02 = DATA_EDIT_M.slice(0,0).concat(combinedArray01, DATA_EDIT_M.slice(2));
-  const combinedArray02= [DATA_EDIT_02.slice(1,3)];
-  const DATA_EDIT_03 = DATA_EDIT_02.slice(0,1).concat(combinedArray02, DATA_EDIT_02.slice(3));
-  const combinedArray03= [DATA_EDIT_03.slice(2,4)];
-  const DATA_EDIT = DATA_EDIT_03.slice(0,2).concat(combinedArray03, DATA_EDIT_03.slice(4));
-  console.log("show data edit TTTTTTTTTTTTTTTTTTTTTT", DATA_EDIT);
-
+  const DATA_EDIT = JSON.parse(EDIT);
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
       setErrorFac(false);
-      setErrorLevel(false);
-      setErrorCost(false);
-      setErrorUserLogin(false);
-      setErrorEmail(false);
-      setErrorStatus(false);
       setselecteDatafac("");
       setselecteDatalevel("");
       setselectcost("");
       setUser_Login("");
       setusername("");
       setemail("");
-      setStatus("A");
+      setStatus("");
       UserLoginn("");
       setDate_show("");
       setDate_show_update("");
     } else {
-      setErrorEmail(false);
-      setErrorStatus(false);
       setemail(DATA_EDIT[4]);
       setStatus(DATA_EDIT[5]);
     }
@@ -329,14 +291,12 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     const user_login = event.target.value;
     Check_Username_Email(user_login);
     setUser_Login(user_login);
-    setErrorUserLogin(false);
   };
 
   // Email
   const handleEmail = (event) => {
     const Email = event.target.value;
     setemail(Email);
-    setErrorEmail(false);
   };
 
   const Check_Username_Email = async (user_login) => {
@@ -371,10 +331,10 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   };
 
   // Status
+  const [status, setStatus] = useState("");
   const handleChange = (event) => {
     const value = event.target.value;
     setStatus(value);
-    setErrorStatus(false);
   };
 
   return (
@@ -384,26 +344,26 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
-              <Typography>
-                Factory <span class="red-star">*</span>
-              </Typography>
+              <Typography>Factory <span class="red-star">*</span></Typography>
             </TableCell>
             <TableCell>
-              <Typography>
-                Level <span class="red-star">*</span>
-              </Typography>
+              <Typography>Level <span class="red-star">*</span></Typography>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               {" "}
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={datafac}
-                  getOptionLabel={(option) =>
-                    typeof option[1] !== "undefined" ? option[1] : ""
-                  }
-                  value={selecteDatafac || null}
+              {/* <FormControl fullWidth>
+                {!selecteDatafac ? (
+                  <InputLabel size="small" id="demo-simple-select-label">
+                    Select
+                  </InputLabel>
+                ) : null}
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  label={!selecteDatafac ? "Select" : undefined}
+                  value={selecteDatafac}
                   onChange={handleSelectChange}
                   disabled={PAGE_STATUS === "EDIT"}
                   sx={{
@@ -412,6 +372,24 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                         ? "rgba(169, 169, 169, 0.3)"
                         : "inherit",
                   }}
+                  size="small"
+                  style={{ width: "100%" }}
+                >
+                  {datafac.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[1]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl> */}
+              <FormControl fullWidth>
+                <Autocomplete
+                  options={datafac}
+                  getOptionLabel={(option) =>
+                    typeof option[1] !== "undefined" ? option[1] : ""
+                  }
+                  value={selecteDatafac || null}
+                  onChange={handleSelectChange}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -426,13 +404,18 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             </TableCell>
             <TableCell>
               {" "}
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={datalevel}
-                  getOptionLabel={(option) =>
-                    typeof option[1] !== "undefined" ? option[1] : ""
-                  }
-                  value={selecteDatalevel || null}
+              {/* <FormControl fullWidth>
+                {!selecteDatalevel ? (
+                  <InputLabel size="small" id="demo-simple-select-label">
+                    Select
+                  </InputLabel>
+                ) : null}
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="levelcbt"
+                  label={!selecteDatalevel ? "Select" : undefined}
+                  // className="factorycb"
+                  value={selecteDatalevel}
                   onChange={handlelevel}
                   disabled={PAGE_STATUS === "EDIT"}
                   sx={{
@@ -441,13 +424,33 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                         ? "rgba(169, 169, 169, 0.3)"
                         : "inherit",
                   }}
+                  size="small"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  {datalevel.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[1]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl> */}
+              <FormControl fullWidth>
+                <Autocomplete
+                  options={datalevel}
+                  getOptionLabel={(option) =>
+                    typeof option[1] !== "undefined" ? option[1] : ""
+                  }
+                  value={selecteDatalevel || null}
+                  onChange={handlelevel}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       label={!selecteDatalevel ? "Select" : undefined}
                       size="small"
                       variant="outlined"
-                      error={ErrorLevel}
+                      error={ErrorFac}
                     />
                   )}
                 />
@@ -463,7 +466,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             </TableCell>
             <TableCell>
               <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorLevel ? "Please key value in level" : null}
+                {ErrorLevel ? "Please key value in cost center" : null}
               </Typography>
             </TableCell>
           </TableRow>
@@ -471,21 +474,21 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
           <TableRow>
             <TableCell colSpan={2}>
               {" "}
-              <Typography>
-                Cost Center <span class="red-star">*</span>
-              </Typography>
+              <Typography>Cost Center <span class="red-star">*</span></Typography>
             </TableCell>
           </TableRow>
-
           <TableRow>
             <TableCell colSpan={2}>
               <FormControl fullWidth>
-                <Autocomplete
-                  options={cost}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={selectcost || null}
+                {!selectcost ? (
+                  <InputLabel size="small" id="demo-simple-select-label">
+                    Select
+                  </InputLabel>
+                ) : null}
+                <Select
+                  labelId="demo-simple-select-label"
+                  label={!selectcost ? "Select" : undefined}
+                  value={selectcost}
                   onChange={handleCost}
                   disabled={PAGE_STATUS === "EDIT"}
                   sx={{
@@ -494,34 +497,23 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                         ? "rgba(169, 169, 169, 0.3)"
                         : "inherit",
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={!selectcost ? "Select" : undefined}
-                      size="small"
-                      variant="outlined"
-                      error={ErrorCost}
-                    />
-                  )}
-                />
+                  size="small"
+                  style={{
+                    width: "49%",
+                  }}
+                >
+                  {cost.map((option) => (
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  ))}
+                </Select>
               </FormControl>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorCost ? "Please key value in cost center" : null}
-              </Typography>
             </TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>
-                User Login <span class="red-star">*</span>
-              </Typography>
+              <Typography>User Login <span class="red-star">*</span></Typography>
             </TableCell>
           </TableRow>
 
@@ -540,7 +532,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                       ? "rgba(169, 169, 169, 0.3)"
                       : "inherit",
                 }}
-                error={ErrorUserLogin}
                 style={{ width: "100%" }}
               ></TextField>
             </TableCell>
@@ -559,26 +550,14 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             </TableCell>
           </TableRow>
 
-          <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorUserLogin ? "Please key value in user login" : null}
-              </Typography>
-            </TableCell>
-          </TableRow>
-
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>
-                Email <span class="red-star">*</span>
-              </Typography>
+              <Typography>Email <span class="red-star">*</span></Typography>
             </TableCell>
             <TableCell>
               {" "}
-              <Typography>
-                Status <span class="red-star">*</span>
-              </Typography>
+              <Typography>Status <span class="red-star">*</span></Typography>
             </TableCell>
           </TableRow>
 
@@ -591,7 +570,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                 value={email}
                 onChange={handleEmail}
                 style={{ width: "100%" }}
-                error={ErrorEmail}
               ></TextField>
             </TableCell>
             <TableCell>
@@ -612,25 +590,11 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                   }}
                   value={status} // Set the value from state
                   onChange={handleChange}
-                  error={ErrorStatus}
                 >
                   <MenuItem value="A">Active</MenuItem>
                   <MenuItem value="I">In Active</MenuItem>
                 </Select>
               </FormControl>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorEmail ? "Please key value in email" : null}
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorStatus ? "Please key value in status" : null}
-              </Typography>
             </TableCell>
           </TableRow>
 
@@ -673,20 +637,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               ></TextField>
             </TableCell>
           </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
-            </TableCell>
-            <TableCell>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
-            </TableCell>
-          </TableRow>
-
           {PAGE_STATUS !== "NEW" && (
             <>
               <TableRow>
@@ -727,19 +677,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               </TableRow>
             </>
           )}
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
-            </TableCell>
-            <TableCell>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
-            </TableCell>
-          </TableRow>
 
           <TableRow>
             <TableCell colSpan={2} style={{ textAlign: "center" }}>

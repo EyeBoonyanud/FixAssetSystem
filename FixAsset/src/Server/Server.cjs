@@ -7,6 +7,9 @@ const port = 5000;
 app.use(express.json());
 const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
+const path = require('path');
+const fs = require('fs');
+
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
 
@@ -77,24 +80,28 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 
 
 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++ may ++++++++++++++++++++++++++++++++++++++++++++++++++
+app.post("/FamDetailReport",Transaction.getFamDetailReport)
+app.post("/RequstType",Transaction.getRequstType)
+app.post("/FAM_FILE_ATTACH",Transaction.getFAM_FILE_ATTACH)
+app.use('/downloads', express.static(path.join(__dirname, '../Uploads')));
+//getFAM_FILE_ATTACH
+app.get('/downloads', (req, res) => {
+  const fileName = req.query.filename;
+  const filePath = path.join(__dirname, '../Uploads', fileName);
 
-
-// app.get("/checkconnect", async (req, res) => {
-//   try {
-//     const oracleConnection = await oracledb.getConnection(CUSR);
-//     if (oracleConnection) {
-//       res.send("เชื่อมต่อสำเร็จ Oracle");
-//     } else {
-//       res.send("การเชื่อมต่อไม่สำเร็จ");
-//     }
-//     await oracleConnection.close();
-//   } catch (error) {
-//     console.error("เกิดข้อผิดพลาดในการเชื่อมต่อ:", error);
-//     res.send("การเชื่อมต่อไม่สำเร็จ");
-//   }
-// });
-
- 
+  // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+  if (fs.existsSync(filePath)) {
+    // ส่งไฟล์กลับไปยังผู้ใช้
+    res.sendFile(filePath);
+    console.log(filePath)
+    res.sendFile(filePath);
+  } else {
+    // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน
+    res.status(404).send('File not found');
+  }
+});
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 app.listen(port, () => {

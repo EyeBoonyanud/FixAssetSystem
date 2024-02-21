@@ -38,6 +38,7 @@ import "../Person_Maintain/Person_maintain.css";
 import Popup from "../BOI_Project_Mpping_CC/Boi_maintain";
 import Autocomplete from "@mui/material/Autocomplete";
 
+
 function Boi_project_mcc() {
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
@@ -57,17 +58,29 @@ function Boi_project_mcc() {
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
-  const handleSelectChange = async (event, newValue) => {
+  const handleSelectChange = async (event , newValue) => {
+    // setselecteDatafac(event.target.value);
+    // let idFactory = event.target.value;
     setselecteDatafac(newValue);
+    let idFactory = newValue[0];
+    console.log(newValue,"newValuenewValuenewValue");
+    console.log(newValue[0],"newValue[0]newValue[0]newValue[0]newValue[0]newValue[0]");
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/getdept?idFactory=${idFactory}`
+      );
+      // console.log(response.data,"ID1 :")
+      const data = await response.data;
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
-  const handleBOI = (event, newValue) => {
-    // setselecteDataBOI(event.target.value);
-    setselecteDataBOI(newValue);
+  const handleBOI = (event) => {
+    setselecteDataBOI(event.target.value);
   };
-  const handleCost = (event, newValue) => {
-    // setselectcost(event.target.value);
-    // console.log(event.target.value, "setselectcost");
-    setselectcost(newValue);
+  const handleCost = (event) => {
+    setselectcost(event.target.value);
+    console.log(event.target.value, "setselectcost");
   };
 
   const navigate = useNavigate();
@@ -79,7 +92,6 @@ function Boi_project_mcc() {
   };
 
   useEffect(() => {
-    console.log("ออกมาสักทีดิวะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะ")
     const Factory = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getfactory`);
@@ -92,7 +104,6 @@ function Boi_project_mcc() {
     };
     // get BOI Project
     const BOI_Project = async () => {
-
       try {
         const response = await axios.get(
           `http://localhost:5000/get_BOI_project`
@@ -114,16 +125,13 @@ function Boi_project_mcc() {
         console.error("Error during login:", error);
       }
     };
-
     Factory();
     Costcenter();
     BOI_Project();
     Search_back();
-    
-  }, [selecteDatafac[0], selecteDataBOI[0], selectcost[0]]);
-  
+  }, [selecteDatafac, selecteDataBOI, selectcost, User_Login]);
 
-  const Search_back =  async () => {
+  const Search_back = async () => {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
     const DATA_SEARCH_S_E = JSON.parse(DATA_SAVE_EDIT);
     if (DATA_SEARCH_S_E !== null) {
@@ -146,14 +154,15 @@ function Boi_project_mcc() {
 
   const Search = async () => {
     console.log("F", selecteDatafac[0]);
-    console.log("C", selectcost[0]);
-    console.log("L", selecteDataBOI[0]);
-    console.log("LL", selecteDataBOI);
+    console.log("C", selectcost);
+    console.log("L", selecteDataBOI);
+    if( selecteDatafac[0]  === undefined) {
+      console.log("undefinedundefinedundefinedundefinedundefinedundefinedundefined");
+    }
     try {
-      const factoryValue =
-        selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
-      const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
-      const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : "";
+      const factoryValue = selecteDatafac[0] !== undefined ? selecteDatafac[0] : '';
+      const costValue = selectcost[0] !== undefined ? selectcost[0] : '';
+      const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : '';
       const rollNoSearch = await axios.get(
         `http://localhost:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
       );
@@ -185,24 +194,24 @@ function Boi_project_mcc() {
     setCheckData("visible");
   };
 
-  const handleOpenEdit = async (factory, cost_center, boi_project) => {
+  const handleOpenEdit = async (
+    factory,
+    cost_center,
+    boi_project
+  ) => {
     console.log(factory);
     console.log(cost_center);
     console.log(boi_project);
 
-    swal(
-      "Do you want to edit information",
-      `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`,
-      {
-        buttons: {
-          cancel: "Cancel",
-          ok: {
-            text: "OK",
-            value: "ok",
-          },
+    swal("Do you want to edit information",  `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`, {
+      buttons: {
+        cancel: "Cancel",
+        ok: {
+          text: "OK",
+          value: "ok",
         },
-      }
-    ).then(async (value) => {
+      },
+    }).then(async (value) => {
       switch (value) {
         case "cancel":
           break;
@@ -236,7 +245,12 @@ function Boi_project_mcc() {
     });
   };
 
-  const handleOpenDelete = async (factory, cost_center, boi_project) => {
+
+  const handleOpenDelete = async (
+    factory,
+    cost_center,
+    boi_project
+  ) => {
     console.log(factory);
     console.log(cost_center);
     console.log(boi_project);
@@ -309,8 +323,9 @@ function Boi_project_mcc() {
             style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
           >
             <Grid item xs={1.3} style={{ height: "10px" }}>
-              <FormControl fullWidth>
+            <FormControl fullWidth>
                 <Autocomplete
+                
                   options={datafac}
                   getOptionLabel={(option) =>
                     typeof option[1] !== "undefined" ? option[1] : ""
@@ -323,13 +338,34 @@ function Boi_project_mcc() {
                       label="Factory"
                       size="small"
                       variant="outlined"
+
                     />
                   )}
                 />
               </FormControl>
+              {/* <FormControl fullWidth>
+                <InputLabel size="small" id="demo-simple-select-label">
+                  Factory
+                </InputLabel>
+
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="factorycbt"
+                  label="Factory"
+                  value={selecteDatafac}
+                  onChange={handleSelectChange}
+                  size="small"
+                >
+                  {datafac.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[1]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl> */}
             </Grid>
             <Grid item xs={1.3}>
-              <FormControl fullWidth>
+            <FormControl fullWidth>
                 <Autocomplete
                   options={cost}
                   getOptionLabel={(option) =>
@@ -347,28 +383,47 @@ function Boi_project_mcc() {
                   )}
                 />
               </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={dataBOI}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={selecteDataBOI || null}
-                  onChange={handleBOI}
+              {/* <FormControl fullWidth>
+                <InputLabel size="small" id="demo-simple-select-label">
+                  Cost Center
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  label="Cost Center"
+                  value={selectcost}
+                  onChange={handleCost}
+                  size="small"
                   style={{
                     width: "100%",
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="BOI Project"
-                      size="small"
-                      variant="outlined"
-                    />
-                  )}
-                />
+                >
+                  {cost.map((option) => (
+                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl> */}
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel size="small" id="demo-simple-select-label">
+                  BOI Project
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  label="BOI Project"
+                  value={selecteDataBOI}
+                  onChange={handleBOI}
+                  size="small"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  {dataBOI.map((option, index) => (
+                    <MenuItem key={index} value={option[0]}>
+                      {option[0]}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
             </Grid>
             <Grid item xs={1} style={{ margin: "0 5px" }}>
@@ -452,7 +507,11 @@ function Boi_project_mcc() {
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
                             onClick={() =>
-                              handleOpenEdit(item[1], item[3], item[4])
+                              handleOpenEdit(
+                                item[1],
+                                item[3],
+                                item[4]
+                              )
                             }
                           />
                         </Tooltip>
@@ -461,7 +520,11 @@ function Boi_project_mcc() {
                           <DeleteForeverIcon
                             style={{ color: "red", fontSize: "30px" }}
                             onClick={() =>
-                              handleOpenDelete(item[1], item[3], item[4])
+                              handleOpenDelete(
+                                item[1],
+                                item[3],
+                                item[4]
+                              )
                             }
                           />
                         </Tooltip>
