@@ -18,6 +18,7 @@ function ButtonAppBar({ isOpen, onClose }) {
   const NameRole = localStorage.getItem("NameRole");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
+
     setIsSidebarOpen(!isSidebarOpen);
   };
 

@@ -80,6 +80,22 @@ app.post("/getFixcode",Transaction.getFixcode);
 app.post("/delect_all_fam_header",Transaction.delect_all_fam_header);
 app.post("/delect_all_fam_details",Transaction.delect_all_fam_details);
 app.post("/delect_all_fam_transfer",Transaction.delect_all_fam_transfer);
+// Update For Radio 
+app.post("/update_manager_dept",Transaction.update_manager_dept);
+app.post("/update_service_by",Transaction.update_service_by);
+app.post("/update_boi_staff",Transaction.update_boi_staff);
+app.post("/update_boi_mana",Transaction.update_boi_mana);
+app.post("/update_facmanager",Transaction.update_facmanager);
+app.post("/update_acccheck",Transaction.update_facmanager);
+app.post("/update_acccheck",Transaction.update_facmanager);
+app.post("/update_owner",Transaction.update_owner);
+app.post("/update_recode",Transaction.update_recode);
+app.post("/update_accmanager",Transaction.update_accmanager);
+app.post("/update_service_close",Transaction.update_service_close);
+app.post("/update_receiver",Transaction.update_receiver);
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

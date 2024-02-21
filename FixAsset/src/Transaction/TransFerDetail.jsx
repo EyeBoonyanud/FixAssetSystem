@@ -36,7 +36,8 @@ function TransFerDetail() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log(For_Rq_Edit, "For_Req_Edit");
+  //console.log(For_Rq_Edit, "For_Req_Edit");
+  let STS = For_Rq_Edit[10];
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -46,7 +47,7 @@ function TransFerDetail() {
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  //console.log("For_Edit_Rou",For_Edit_Rou)
+  //console.log("For_Edit_Rou", For_Edit_Rou);
 
   let Fam_list = "";
   let servivedept = "";
@@ -54,10 +55,7 @@ function TransFerDetail() {
   const SERVICEDEPT = () => {
     setservice_dept(servivedept);
   };
-  ////// console("servivedept", servivedept);
-  ////// console(For_Req, "For_Rq_Edit");
 
-  // const owner_send = For_Req[1];
   if (ForRequester !== null) {
     Fam_list = For_Req[0];
     servivedept = For_Req[8] + ":" + For_Req[9];
@@ -65,7 +63,7 @@ function TransFerDetail() {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-  ////// console(For_Req, "For_Req");
+
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
@@ -98,17 +96,17 @@ function TransFerDetail() {
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
   // radio button
-  const [radio_dept, setradio_dept] = useState("");
-  const [radio_serviceby, setradio_serviceby] = useState("");
-  const [radio_boistaff, setradio_boistaff] = useState("");
-  const [radio_boimanager, setradio_boimanager] = useState("");
-  const [radio_facmanager, setradio_facmanager] = useState("");
-  const [radio_acc_check, setradio_acc_check] = useState("");
-  const [radio_owner, setradio_owner] = useState("");
-  const [radio_receiver, setradio_receiver] = useState("");
-  const [radio_record, setradio_record] = useState("");
-  const [radio_acc_manager, setradio_acc_manager] = useState("");
-  const [radio_service_close_by, setradio_service_close_by] = useState("");
+  // const [radio_dept, setradio_dept] = useState("");
+  // const [radio_serviceby, setradio_serviceby] = useState("");
+  // const [radio_boistaff, setradio_boistaff] = useState("");
+  // const [radio_boimanager, setradio_boimanager] = useState("");
+  // const [radio_facmanager, setradio_facmanager] = useState("");
+  // const [radio_acc_check, setradio_acc_check] = useState("");
+  // const [radio_owner, setradio_owner] = useState("");
+  // const [radio_receiver, setradio_receiver] = useState("");
+  // const [radio_record, setradio_record] = useState("");
+  // const [radio_acc_manager, setradio_acc_manager] = useState("");
+  // const [radio_service_close_by, setradio_service_close_by] = useState("");
   // select button
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
@@ -120,7 +118,33 @@ function TransFerDetail() {
   const [selectradio_receiver, setselectradio_receiver] = useState("");
   const [selectradio_record, setselectradio_record] = useState("");
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] = useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] =
+    useState("");
+  // CMMT
+  const [cmmtradio_dept, setcmmtradio_dept] = useState("");
+  const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
+  const [cmmtradio_boistaff, setcmmtradio_boistaff] = useState("");
+  const [cmmtradio_boimanager, setcmmtradio_boimanager] = useState("");
+  const [cmmtradio_facmanager, setcmmtradio_facmanager] = useState("");
+  const [cmmtradio_acc_check, setcmmtradio_acc_check] = useState("");
+  const [cmmtradio_owner, setcmmtradio_owner] = useState("");
+  const [cmmtradio_receiver, setcmmtradio_receiver] = useState("");
+  const [cmmtradio_record, setcmmtradio_record] = useState("");
+  const [cmmtradio_acc_manager, setcmmtradio_acc_manager] = useState("");
+  const [cmmtradio_service_close_by, setcmmtradio_service_close_by] =
+    useState("");
+  //Date For Action Date
+  const [action_dept, setaction__dept] = useState("");
+  const [action__serviceby, setaction__serviceby] = useState("");
+  const [action__boistaff, setaction__boistaff] = useState("");
+  const [action__boimanager, setaction__boimanager] = useState("");
+  const [action__facmanager, setaction__facmanager] = useState("");
+  const [action__acc_check, setaction__acc_check] = useState("");
+  const [action__owner, setaction__owner] = useState("");
+  const [action__receiver, setaction__receiver] = useState("");
+  const [action__record, setaction__record] = useState("");
+  const [action__acc_manager, setaction__acc_manager] = useState("");
+  const [action__service_close_by, setaction__service_close_by] = useState("");
   //Error
   const [ErrorTel, setErrorTel] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
@@ -151,6 +175,13 @@ function TransFerDetail() {
   const [chkacc_record, setchkacc_record] = useState("hidden");
   const [chkacc_manager, setchkacc_manager] = useState("hidden");
   const [chkservice_close, setchkservice_close] = useState("hidden");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const formattedDate = `${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   useEffect(() => {
     FactoryCC();
@@ -176,24 +207,234 @@ function TransFerDetail() {
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
           setabnormal(For_edit_trans[0][6]);
-
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
           setplan_date(For_edit_trans[0][5]);
-          console.log("//////////////////////", For_Rq_Edit[10]);
           if (For_Rq_Edit[10] === "FLTR002") {
-            console.log("--------------------------------------");
             setcheckrdo("visible");
+          } else  if (For_Rq_Edit[10] === "FLTR003") {
+            setchkservice_by("visible");
           }
           // setของ Edit Trans
           if (For_Edit_Rou != null) {
+            //เช็ค Submit
+            console.log(
+              For_Edit_Rou[0],
+              ">>>>>>>>>>>>>>>PPPPPP>>>>>>>>>>>>>>>>"
+            );
             setowner_roting(For_Rq_Edit[2]);
-            setTel_service(For_Edit_Rou[0][7]);
+            setTel_service(For_Edit_Rou[0][7]); 
+            if (STS!='FLTR001' ) {
+              //Depat Mana
+              setaction__dept(For_Edit_Rou[0][1]);
+              setselectradio_dept(For_Edit_Rou[0][2]);
+              setcmmtradio_dept(For_Edit_Rou[0][3]);
+              // Serviceby
+              setaction__serviceby(For_Edit_Rou[0][6]);
+              setselectradio_serviceby(For_Edit_Rou[0][41]);
+              setcmmtradio_serviceby(For_Edit_Rou[0][42]);
+              // BOI STAFF
+              setaction__boistaff(For_Edit_Rou[0][9]);
+              setselectradio_boistaff(For_Edit_Rou[0][10]);
+              setcmmtradio_boistaff(For_Edit_Rou[0][11]);
+              // BOI Manager
+              setaction__boimanager(For_Edit_Rou[0][13]);
+              setselectradio_facmanager(For_Edit_Rou[0][14]);
+              setcmmtradio_boimanager(For_Edit_Rou[0][15]);
+              // FAC_mana
+              setaction__facmanager(For_Edit_Rou[0][17]);
+              setselectradio_facmanager(For_Edit_Rou[0][18]);
+              setcmmtradio_facmanager(For_Edit_Rou[0][19]);
+              // ACC Check 
+              setaction__acc_check(For_Edit_Rou[0][21]);
+              setselectradio_acc_check(For_Edit_Rou[0][22]);
+              setcmmtradio_acc_check(For_Edit_Rou[0][23]);
+              //Owner
+              setaction__owner(For_Edit_Rou[0][33]);
+              setselectradio_owner(For_Edit_Rou[0][34]);
+              setcmmtradio_owner(For_Edit_Rou[0][35]);
+              // Receiver 
+              setaction__receiver(Edit_trans[0][11]);
+              setselectradio_receiver(Edit_trans[0][10]);
+              setcmmtradio_receiver(Edit_trans[0][12]);
+              // Record 
+              setaction__record(For_Edit_Rou[0][25]);
+              setselectradio_record(For_Edit_Rou[0][26]);
+              setcmmtradio_record(For_Edit_Rou[0][27]);
+              // Acc manager
+              setaction__acc_manager(For_Edit_Rou[0][29]);
+              setselectradio_acc_manager(For_Edit_Rou[0][30]);
+              setcmmtradio_acc_manager(For_Edit_Rou[0][31]);
+              // Service Close By
+              setaction__service_close_by(For_Edit_Rou[0][37]);
+              setselectradio_service_close_by(For_Edit_Rou[0][43]);
+              setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
+
+
+
+          
+              
+              // Wait Dept
+              if(STS=='FLTR002'){
+                setaction__dept(formattedDate);
+              }
+              else if(STS=='FLTR003'){
+                setaction__serviceby(formattedDate)
+              }
+              else if(STS=='FLTR004'){
+                setaction__boistaff(formattedDate)
+              }
+              else if(STS=='FLTR005'){
+                setaction__boimanager(formattedDate)
+              }
+              else if(STS=='FLTR006'){
+                setaction__facmanager(formattedDate)
+              }
+              else if(STS=='FLTR007'){
+                setaction__acc_check(formattedDate)
+              }
+              else if(STS=='FLTR008'){
+                setaction__owner(formattedDate)
+              }
+              else if(STS=='FLTR009'){
+                setaction__receiver(formattedDate)
+              }
+              else if(STS=='FLTR0010'){
+                setaction__record(formattedDate)
+              }
+              else if(STS=='FLTR0011'){
+                setaction__acc_manager(formattedDate)
+              }
+              else if(STS=='FLTR0012'){
+                setaction__service_close_by(formattedDate)
+              }
+              
+
+
+
+              // setselectradio_dept(For_Edit_Rou[0][2]);
+              // setcmmtradio_dept(For_Edit_Rou[0][3]); 
+              // setselectradio_serviceby(For_Edit_Rou[0][41]);
+              // setcmmtradio_serviceby(For_Edit_Rou[0][42]);
+                
+             
+            
+            // if (STS === "FLTR003") {
+            //   setaction__dept(For_Edit_Rou[0][1]);
+            //   setaction__serviceby(formattedDate); 
+            // } else if (STS === "FLTR004") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            // }
+            // else if (STS === "FLTR005") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(formattedDate)
+            // }
+            // else if (STS === "FLTR006") {
+             
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(formattedDate)
+            // }
+            // else if (STS === "FLTR007") {
+              
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(formattedDate)
+            // }
+            // else if (STS === "FLTR008") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(formattedDate)
+
+            // }
+            //  else if (STS === "FLTR009") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(formattedDate)
+            // }
+            // else if (STS === "FLTR009") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(For_Edit_Rou[0][21])
+            //   setaction__owner(formattedDate)
+            // }
+            // else if (STS === "FLTR009") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(For_Edit_Rou[0][21])
+            //   setaction__owner(For_Edit_Rou[0][25])
+            //   setaction__receiver(formattedDate)
+            //   setaction__record(formattedDate)
+            // }
+            // else if (STS === "FLTR010") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(For_Edit_Rou[0][21])
+            //   setaction__owner(For_Edit_Rou[0][25])
+            //   setaction__receiver(For_edit_trans[0][11])
+            //   setaction__record(For_Edit_Rou[0][21])
+            //   setaction__acc_manager(formattedDate)
+            // }
+            // else if (STS === "FLTR011") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(For_Edit_Rou[0][21])
+            //   setaction__owner(For_Edit_Rou[0][25])
+            //   setaction__record(For_Edit_Rou[0][21])
+            //   setaction__acc_manager(For_Edit_Rou[0][29])
+            //   action__service_close_by(formattedDate)
+            // }
+            // else if (STS === "FLTR012") {
+            
+            //   setaction__dept(For_Edit_Rou[0][1]);         
+            //   setaction__serviceby(For_Edit_Rou[0][6]);
+            //   setaction__boistaff(For_Edit_Rou[0][8])
+            //   setaction__boimanager(For_Edit_Rou[0][13])
+            //   setaction__facmanager(For_Edit_Rou[0][17])
+            //   setaction__acc_check(For_Edit_Rou[0][21])
+            //   setaction__owner(For_Edit_Rou[0][25])
+            //   setaction__record(For_Edit_Rou[0][21])
+            //   setaction__acc_manager(For_Edit_Rou[0][29])
+            //   action__service_close_by(formattedDate)
+            // }
+          
+          }
+            } else {
+               ///////////// else //////////////
+           
           }
         }
       }
     } else {
-      //// console("LLLLLLLLLLLLLLLLLLLLLLL",For_Trans);
       if (For_Trans != null) {
         setownersend(For_Req[1]);
         setowner_roting(For_Req[1]);
@@ -225,56 +466,6 @@ function TransFerDetail() {
       }
     }
   }, []);
-
-  // const useef = () => {
-  //   if (EditFam !== null) {
-
-  //     if (For_edit_trans !== null) {
-
-  //     } else {
-  //       // setownersend(For_Req[1]);
-  //       // setowner_roting(For_Req[1]);
-  //       // if (For_Rou !== null) {
-  //       //   setselectdepartment_mana(For_Rou[1]);
-  //       //   setTel_service(For_Rou[3]);
-  //       //   setselectservice_by(For_Rou[4]);
-  //       //   setselectboi_staff(For_Rou[5]);
-  //       //   setselectboi_manager(For_Rou[6]);
-  //       //   setselectfac_manager(For_Rou[7]);
-  //       //   setselectacc_check(For_Rou[8]);
-  //       //   setowner_roting(For_Rou[9]);
-  //       //   setselectacc_manager(For_Rou[10]);
-  //       // }
-  //     }
-  //     // } else if (For_Req !== null) {
-  //     //   //// console("มีข้อมูลของ For_Req")
-  //     //   setownersend(For_Req[1]);
-  //     //   setowner_roting(For_Req[1]); // สำหรับ routing
-  //     //   if( For_Trans !== null){
-  //     //     //// console("มีข้อมูลของ forTrans")
-  //     //     setownersend(For_Trans[1]);
-  //     //     setdata_fromboi(For_Trans[2]);
-  //     //     setselecttrans_factory(For_Trans[3]);
-  //     //     setselecttrans_cc(For_Trans[4]);
-  //     //     setselectnew_owner(For_Trans[6]);
-  //     //     setTel_for_trans(For_Trans[7]);
-  //     //     setplan_date(For_Trans[8]);
-
-  //     //   }
-  //     //   //// console("มีข้อมูลเลยจ้าาาาาาาาาาาาาาาาาาา")
-  //     //     setdata_fromboi("");
-  //     //     setselecttrans_factory("");
-  //     //     setselecttrans_cc("");
-  //     //     setnew_boi("");
-  //     //     setselectnew_owner("");
-  //     //     setTel_for_trans("");
-  //     //     setplan_date("");
-  //     //     setabnormal("");
-  //     //     setreceiver("")
-
-  //     // }
-  //   }
-  // };
 
   const FactoryCC = async () => {
     setErrorFac(false);
@@ -440,7 +631,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const handleNewOwner = (event) => {
     let New_own = event.target.value;
     const parts = New_own.split(":");
@@ -448,7 +638,6 @@ function TransFerDetail() {
     setselectnew_owner(New_own); // เก็บ select ของ new owner
     setreceiver(result);
   };
-  //Department Manager
   const Department_Mana = async () => {
     let level = "";
     let cc = "";
@@ -485,7 +674,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const Service_By = async () => {
     let level = "";
     let cc = "";
@@ -520,70 +708,6 @@ function TransFerDetail() {
     }
   };
 
-  //////////////////////////////////  แก้ไขขขข //////////////////////////////
-  // const BOI_Staff = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/boi_staff?fac=${For_Req[3]}`
-  //     );
-  //     const data = response.data.flat();
-  //     setboi_staff(data);
-  //     ////// console("setboistaff :", data);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
-  //////////////////////////////////////////////////
-  // const BOI_Manager = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/boi_manager?fac=${For_Req[3]}`
-  //     );
-  //     const data = response.data.flat();
-  //     setboi_manager(data);
-  //     ////// console("setboimanager :", data);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
-  ///////////////////////////////////////////////////
-  // const Fac_manager = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/fac_manager?fac=${For_Req[3]}`
-  //     );
-  //     const data = response.data.flat();
-  //     setfac_manager(data);
-  //     ////// console("setboimanager :", data);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
-  ////////////////////////////
-  // const ACC_Check = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/acc_check?fac=${For_Req[3]}`
-  //     );
-  //     const data = response.data.flat();
-  //     setacc_check(data);
-  //     //// console("setboimanager :", data);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
-  ////////////////////////
-  // const ACC_Manager = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/acc_manager?fac=${For_Req[3]}`
-  //     );
-  //     const data = response.data.flat();
-  //     setacc_manager(data);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
   ///////////////// แก้ไข ///////////////////////////////////////////////////////////////
   const BOI_Staff = async () => {
     let level = "";
@@ -615,7 +739,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const BOI_Manager = async () => {
     let level = "";
     if (EditFam != null) {
@@ -646,7 +769,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const Fac_manager = async () => {
     let level = "";
     if (EditFam != null) {
@@ -677,7 +799,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const ACC_Check = async () => {
     let level = "";
     if (EditFam != null) {
@@ -708,7 +829,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
   const ACC_Manager = async () => {
     let level = "";
     if (EditFam != null) {
@@ -740,6 +860,7 @@ function TransFerDetail() {
     }
   };
 
+  // Handle Save Submit Reset
   const SAVE = async () => {
     let ServiceDept = "";
     if (EditFam != null) {
@@ -1218,17 +1339,37 @@ function TransFerDetail() {
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        } else if(For_Rq_Edit[10] === "FLTR002")
-         {
+        } 
+        else
+         if (For_Rq_Edit[10] === "FLTR002") {
+          console.log("เข้ามาทำไมมมมมมมมมมมมมมมมม")
           let Status = "FLTR003";
           try {
-            const response = await axios.post(
-              "http://localhost:5000/update_submit",
-              {
-                famno: EditFam,
-                sts_submit: Status,
-              }
+            const row = axios.post(
+              // //// console(New_BOI,"New_BOI")
+              `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrdept=${selectdepartment_mana}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
             );
+
+            setbtnsave("hidden");
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR003") {
+          console.log("เข้าแล้วววววววววววววววววววว")
+          let Status = "FLTR004";
+          try {
+            const row = axios.post(
+              // //// console(New_BOI,"New_BOI")
+              `http://localhost:5000/update_manager_dept?famno=${EditFam}&serby=${selectservice_by}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
+            );
+
             setbtnsave("hidden");
 
             Swal.fire({
@@ -1602,7 +1743,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
-                        style={{ visibility: checkrdo }}
+                        // style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1620,33 +1761,42 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: checkrdo }}>
+                  <td className="Style7"
+                   //style={{ visibility: checkrdo }}
+                   > 
+                 
                     Action Date :
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
+                        value={action_dept}
+                        onChange={(e) => setaction__dept(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: checkrdo,
+                          // visibility: checkrdo,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ visibility: checkrdo }}>
+                <tr>
                   <th colSpan={5}></th>
-                  <td className="Style4">Comment :</td>
+                  <td className="Style4" style={{ visibility: checkrdo }}>
+                    Comment :
+                  </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
+                        value={cmmtradio_dept}
+                        onChange={(e) => setcmmtradio_dept(e.target.value)}
+                        //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
+                        //style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1766,6 +1916,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__serviceby}
+                        onChange={(e) => setaction__serviceby(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkservice_by,
@@ -1785,7 +1937,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_serviceby}
+                        onChange={(e) => setcmmtradio_serviceby(e.target.value)}
                         style={{ visibility: chkservice_by }}
                       />
                     </FormControl>
@@ -1859,6 +2012,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__boistaff}
+                        onChange={(e) => setaction__boistaff(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkboistaff,
@@ -1878,7 +2033,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_boistaff}
+                        onChange={(e) => setcmmtradio_boistaff(e.target.value)}
                         style={{ visibility: chkboistaff }}
                       />
                     </FormControl>
@@ -1953,6 +2109,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__boimanager}
+                        onChange={(e) => setaction__boimanager(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkboimanager,
@@ -1970,9 +2128,11 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_boimanager}
+                        onChange={(e) =>
+                          setcmmtradio_boimanager(e.target.value)
+                        }
                         style={{ visibility: chkboimanager }}
                       />
                     </FormControl>
@@ -2049,6 +2209,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__facmanager}
+                        onChange={(e) => setaction__facmanager(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkfacmanager,
@@ -2072,7 +2234,10 @@ function TransFerDetail() {
                           id="outlined-size-small"
                           defaultValue=""
                           size="small"
-                          disabled
+                          value={cmmtradio_facmanager}
+                          onChange={(e) =>
+                            setcmmtradio_facmanager(e.target.value)
+                          }
                           style={{ visibility: chkfacmanager }}
                         />
                       </FormControl>
@@ -2148,6 +2313,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__acc_check}
+                        onChange={(e) => setaction__acc_check(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkowner,
@@ -2165,7 +2332,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_acc_check}
+                        onChange={(e) => setcmmtradio_acc_check(e.target.value)}
                       />
                     </FormControl>
                   </td>
@@ -2224,6 +2392,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={action__owner}
+                        onChange={(e) => setaction__owner(e.target.value)}
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -2244,7 +2414,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_owner}
+                        onChange={(e) => setcmmtradio_owner(e.target.value)}
                         style={{ visibility: chkowner }}
                       />
                     </FormControl>
@@ -2336,6 +2507,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={action__receiver}
+                        onChange={(e) => setaction__receiver(e.target.value)}
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -2355,9 +2528,9 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
-                        disabled
+                        value={cmmtradio_receiver}
+                        onChange={(e) => setcmmtradio_receiver(e.target.value)}
                         style={{ visibility: chkreceiver }}
                       />
                     </FormControl>
@@ -2449,6 +2622,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultValue=""
                         size="small"
+                        value={action__record}
+                        onChange={(e) => setaction__record(e.target.value)}
                         disabled
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -2467,7 +2642,8 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        value={cmmtradio_record}
+                        onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
                         style={{ visibility: chkacc_record }}
                       />
@@ -2546,6 +2722,8 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__acc_manager}
+                        onChange={(e) => setaction__acc_manager(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkacc_manager,
@@ -2563,7 +2741,10 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        value={cmmtradio_acc_manager}
+                        onChange={(e) =>
+                          setcmmtradio_acc_manager(e.target.value)
+                        }
                         size="small"
                         style={{ visibility: chkacc_manager }}
                       />
@@ -2629,6 +2810,10 @@ function TransFerDetail() {
                         defaultValue=""
                         size="small"
                         disabled
+                        value={action__service_close_by}
+                        onChange={(e) =>
+                          setaction__service_close_by(e.target.value)
+                        }
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                           visibility: chkservice_close,
@@ -2649,7 +2834,8 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        value={cmmtradio_service_close_by}
+                        onChange={(e) => setcmmtradio_serviceby(e.target.value)}
                         size="small"
                         style={{ visibility: chkservice_close }}
                       />

@@ -934,7 +934,6 @@ module.exports.ins_transfer = async function (req, res) {
       F.FRT_TO_CC = :cc_tran,
       F.FRT_TO_PROJ = :to_tran,
       F.FRT_RECEIVE_BY = :receive_by,
-      F.FRT_RECEIVE_DATE = SYSDATE,
       F.FRT_RECEIVER_TEL = :tel_tran,
       F.FRT_ABNORMAL_STS = :status_tran,
       F.FRT_ABNORMAL_REASON = :abnormal_remark
@@ -1497,7 +1496,11 @@ module.exports.getEdit_Trans = async function (req, res) {
     F.FRT_ABNORMAL_REASON,
     F.FRT_RECEIVE_BY AS RECEIVER,
     F.FRT_FAM_NO,
-    M.USER_EMP_ID ||' : ' ||F.FRT_RECEIVE_BY  AS NEW_OWNER
+    M.USER_EMP_ID ||' : ' ||F.FRT_RECEIVE_BY  AS NEW_OWNER,
+    F.FRT_RECEIVER_JUD,
+    F.FRT_RECEIVE_DATE,
+    F.FRT_RECEIVE_CMMT
+
   FROM
     FAM_REQ_TRANSFER F 
     LEFT JOIN  CUSR.CU_USER_M M ON 
@@ -1523,43 +1526,43 @@ module.exports.getEdit_routing = async function (req, res) {
     const query = `
     SELECT
 	FAM_MGR_DEPT,
-	FAM_MGR_DATE,
+	TO_CHAR(FAM_MGR_DATE, 'MM/DD/YYYY') AS FAM_MGR_DATE,
 	FAM_MGR_JUD,
 	FAM_MGR_CMMT,
 	FAM_SERVICE_DEPT,
 	FAM_SERVICE_BY,
-	FAM_SERVICE_DATE,
+	TO_CHAR(FAM_SERVICE_DATE, 'MM/DD/YYYY') AS FAM_SERVICE_DATE,
 	FAM_SERVICE_TEL,
 	FAM_BOI_CHK_BY,
-	FAM_BOI_CHK_DATE,
+	TO_CHAR(FAM_BOI_CHK_DATE, 'MM/DD/YYYY') AS FAM_BOI_CHK_DATE,
 	FAM_BOI_CHK_JUD,
 	FAM_BOI_CHK_CMMT,
 	FAM_BOI_MGR_BY,
-	FAM_BOI_MGR_DATE,
+	TO_CHAR(FAM_BOI_MGR_DATE, 'MM/DD/YYYY') AS FAM_BOI_MGR_DATE,
 	FAM_BOI_MGR_JUD,
 	FAM_BOI_MGR_CMMT,
 	FAM_FM_BY,
-	FAM_FM_DATE,
+	TO_CHAR(FAM_FM_DATE, 'MM/DD/YYYY') AS FAM_FM_DATE,
 	FAM_FM_JUD,
 	FAM_FM_CMMT,
 	FAM_ACC_CHK_BY,
-	FAM_ACC_CHK_DATE,
+	TO_CHAR(FAM_ACC_CHK_DATE, 'MM/DD/YYYY') AS FAM_ACC_CHK_DATE,
 	FAM_ACC_CHK_JUD,
 	FAM_ACC_CHK_CMMT,
 	FAM_ACC_REC_BY,
-	FAM_ACC_REC_DATE,
+	TO_CHAR(FAM_ACC_REC_DATE, 'MM/DD/YYYY') AS FAM_ACC_REC_DATE,
 	FAM_ACC_REC_JUD,
 	FAM_ACC_REC_CMMT,
 	FAM_ACC_MGR_BY,
-	FAM_ACC_MGR_DATE,
+	TO_CHAR(FAM_ACC_MGR_DATE, 'MM/DD/YYYY') AS FAM_ACC_MGR_DATE,
 	FAM_ACC_MGR_JUD,
 	FAM_ACC_MGR_CMMT,
 	FAM_OWNER_SEND_BY,
-	FAM_OWNER_SEND_DATE,
+	TO_CHAR(FAM_OWNER_SEND_DATE, 'MM/DD/YYYY') AS FAM_OWNER_SEND_DATE,
 	FAM_OWNER_SEND_JUD,
 	FAM_OWNER_SEND_CMMT,
 	FAM_SERVICE_CLOSE_BY,
-	FAM_SERVICE_CLOSE_DATE,
+	TO_CHAR(FAM_SERVICE_CLOSE_DATE, 'MM/DD/YYYY') AS FAM_SERVICE_CLOSE_DATE,
 	FAM_SERVICE_CLOSE_CMMT,
 	FAM_CREATE_BY,
 	FAM_UPDATE_BY,
@@ -1675,7 +1678,7 @@ module.exports.Update_For_Req_All = async function (req, res) {
 module.exports.getFixcode = async function (req, res) {
   try {
     const fam_no = req.query.Fam;
-    console.log(fam_no,"fam_no")
+    console.log(fam_no, "fam_no");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT 
@@ -1699,12 +1702,12 @@ module.exports.getFixcode = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// DELETE ALL 
+// DELETE ALL
 module.exports.delect_all_fam_header = async function (req, res) {
   try {
-    console.log("????????")
+    console.log("????????");
     const FRH_FAM_NO = req.query.famno;
-    console.log("FRH_FAM_NO",FRH_FAM_NO)
+    console.log("FRH_FAM_NO", FRH_FAM_NO);
     const connect = await oracledb.getConnection(AVO);
     const query = `
     DELETE FROM FAM_REQ_HEADER 
@@ -1712,7 +1715,7 @@ module.exports.delect_all_fam_header = async function (req, res) {
      
     `;
     const data = {
-      fam: FRH_FAM_NO
+      fam: FRH_FAM_NO,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1724,9 +1727,9 @@ module.exports.delect_all_fam_header = async function (req, res) {
 };
 module.exports.delect_all_fam_details = async function (req, res) {
   try {
-    console.log("{}{}{}{}{}}}")
+    console.log("{}{}{}{}{}}}");
     const FRD_FAM_NO = req.query.famno;
-    console.log("FRD_FAM_NO",FRD_FAM_NO)
+    console.log("FRD_FAM_NO", FRD_FAM_NO);
     const connect = await oracledb.getConnection(AVO);
     const query = `
     DELETE FROM FAM_REQ_DETAIL 
@@ -1734,7 +1737,7 @@ module.exports.delect_all_fam_details = async function (req, res) {
      
     `;
     const data = {
-      fam: FRD_FAM_NO
+      fam: FRD_FAM_NO,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1746,9 +1749,9 @@ module.exports.delect_all_fam_details = async function (req, res) {
 };
 module.exports.delect_all_fam_transfer = async function (req, res) {
   try {
-    console.log("JJJJJJJ")
+    console.log("JJJJJJJ");
     const FRT_FAM_NO = req.query.famno;
-    console.log(FRT_FAM_NO,"FRT_FAM_NO")
+    console.log(FRT_FAM_NO, "FRT_FAM_NO");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     DELETE FROM FAM_REQ_TRANSFER 
@@ -1756,7 +1759,418 @@ module.exports.delect_all_fam_transfer = async function (req, res) {
      
     `;
     const data = {
-      fam: FRT_FAM_NO
+      fam: FRT_FAM_NO,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// Update Manager Department
+module.exports.update_manager_dept = async function (req, res) {
+  try {
+    console.log("UPDATE for Manager");
+    const Fam_no = req.query.famno;
+    const FAM_MGR_DEPT = req.query.mgrdept;
+    const FAM_MGR_JUD = req.query.mgrjud;
+    const FAM_MGR_CMMT = req.query.mgrcmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    console.log(
+      Fam_no,
+      FAM_MGR_DEPT,
+      FAM_MGR_JUD,
+      FAM_MGR_CMMT,
+      FAM_REQ_STATUS
+    );
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_HEADER
+    SET 
+        FAM_MGR_DEPT = :FAM_MGR_DEPT,
+        FAM_MGR_DATE = SYSDATE ,
+        FAM_MGR_JUD = :FAM_MGR_JUD,
+        FAM_MGR_CMMT = :FAM_MGR_CMMT,
+        FAM_REQ_STATUS = :FAM_REQ_STATUS
+    WHERE FRH_FAM_NO = :Fam_no
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_MGR_DEPT,
+      FAM_MGR_JUD,
+      FAM_MGR_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// Update Service_by
+module.exports.update_service_by = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_SERVICE_BY = req.query.serby;
+    const FAM_SERVICE_JUD = req.query.serjud;
+    const FAM_SERVICE_CMMT = req.query.sercmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_HEADER
+SET 
+    FAM_SERVICE_BY  = :FAM_SERVICE_BY,
+    FAM_SERVICE_DATE  = SYSDATE ,
+    FAM_SERVICE_JUD  = :FAM_SERVICE_JUD,
+    FAM_SERVICE_CMMT  = :FAM_SERVICE_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+WHERE FRH_FAM_NO = :Fam_no
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_SERVICE_BY,
+      FAM_SERVICE_JUD,
+      FAM_SERVICE_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// Update BOI staff
+module.exports.update_boi_staff = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_BOI_CHK_BY = req.query.stff_by;
+    const FAM_BOI_CHK_JUD = req.query.stff_jud;
+    const FAM_BOI_CHK_CMMT = req.query.stff_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_HEADER
+    SET 
+        FAM_BOI_CHK_BY   = :FAM_BOI_CHK_BY ,
+        FAM_BOI_CHK_DATE   = SYSDATE ,
+        FAM_BOI_CHK_JUD   = :FAM_SERVICE_JUD,
+        FAM_BOI_CHK_CMMT   = :FAM_SERVICE_CMMT,
+        FAM_REQ_STATUS = :FAM_REQ_STATUS
+    WHERE FRH_FAM_NO =  :FRH_FAM_NO
+    
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_BOI_CHK_BY,
+      FAM_BOI_CHK_JUD,
+      FAM_BOI_CHK_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//uUpdate BOI manager
+module.exports.update_boi_mana = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_BOI_MGR_BY = req.query.boimana_by;
+    const FAM_BOI_MGR_JUD = req.query.boimana_jud;
+    const FAM_BOI_MGR_CMMT = req.query.boimana_jud;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_BOI_MGR_BY = :FAM_BOI_MGR_BY,
+    FAM_BOI_MGR_DATE = SYSDATE,
+    FAM_BOI_MGR_JUD = :FAM_BOI_MGR_JUD,
+    FAM_BOI_MGR_CMMT = :FAM_BOI_MGR_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_BOI_MGR_BY,
+      FAM_BOI_MGR_JUD,
+      FAM_BOI_MGR_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update fac_manager
+module.exports.update_facmanager = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_FM_BY = req.query.fm_by;
+    const FAM_FM_JUD = req.query.fm_jud;
+    const FAM_FM_CMMT = req.query.fm_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_FM_BY  = :FAM_FM_BY,
+    FAM_FM_DATE  = SYSDATE,
+    FAM_FM_JUD  = :FAM_FM_JUD,
+    FAM_FM_CMMT  = :FAM_FM_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_FM_BY,
+      FAM_FM_JUD,
+      FAM_FM_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update acc check
+module.exports.update_acccheck = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_ACC_CHK_BY = req.query.chk_by;
+    const FAM_ACC_CHK_JUD = req.query.chk_jud;
+    const FAM_ACC_CHK_CMMT = req.query.chk_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_ACC_CHK_BY   = :FAM_ACC_CHK_BY,
+    FAM_ACC_CHK_DATE   = SYSDATE,
+    FAM_ACC_CHK_JUD   = :FAM_ACC_CHK_JUD,
+    FAM_ACC_CHK_CMMT   = :FAM_ACC_CHK_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_ACC_CHK_BY,
+      FAM_ACC_CHK_JUD,
+      FAM_ACC_CHK_CMMT,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update owner 
+module.exports.update_owner = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_OWNER_SEND_BY  = req.query.owner_by;
+    const FAM_OWNER_SEND_JUD  = req.query.owner_jud;
+    const FAM_OWNER_SEND_CMMT  = req.query.owner_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_OWNER_SEND_BY    = :FAM_OWNER_SEND_BY,
+    FAM_OWNER_SEND_DATE    = SYSDATE,
+    FAM_OWNER_SEND_JUD    = :FAM_OWNER_SEND_JUD,
+    FAM_OWNER_SEND_CMMT    = :FAM_OWNER_SEND_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_OWNER_SEND_BY ,
+      FAM_OWNER_SEND_JUD ,
+      FAM_OWNER_SEND_CMMT ,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update Recode
+module.exports.update_recode = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_ACC_REC_BY   = req.query.rec_by;
+    const FAM_ACC_REC_JUD   = req.query.rec_jud;
+    const FAM_ACC_REC_CMMT   = req.query.rec_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
+    FAM_ACC_REC_DATE  = SYSDATE,
+    FAM_ACC_REC_JUD  = :FAM_OWNER_SEND_JUD,
+    FAM_ACC_REC_CMMT  = :FAM_ACC_REC_CMMT,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_ACC_REC_BY  ,
+      FAM_ACC_REC_JUD ,
+      FAM_ACC_REC_CMMT  ,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// update Acc Manager 
+module.exports.update_accmanager = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_ACC_MGR_BY    = req.query.acc_manaby;
+    const FAM_ACC_MGR_JUD    = req.query.acc_manajud;
+    const FAM_ACC_MGR_CMMT    = req.query.acc_manacmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+    FAM_ACC_MGR_BY  = :FAM_ACC_MGR_BY ,
+    FAM_ACC_MGR_DATE   = SYSDATE,
+    FAM_ACC_MGR_JUD   = :FAM_ACC_MGR_JUD ,
+    FAM_ACC_MGR_CMMT   = :FAM_ACC_MGR_CMMT ,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_ACC_MGR_BY  ,
+      FAM_ACC_MGR_JUD  ,
+      FAM_ACC_MGR_CMMT   ,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update service close by
+module.exports.update_service_close = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FAM_SERVICE_CLOSE_BY     = req.query.cls_by;
+    const FAM_SERVICE_CLOSE_JUD     = req.query.cls_jud;
+    const FAM_SERVICE_CLOSE_CMMT     = req.query.cls_cmmt;
+    const FAM_REQ_STATUS = req.query.sts;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+  FAM_SERVICE_CLOSE_BY   = :FAM_SERVICE_CLOSE_BY  ,
+  FAM_SERVICE_CLOSE_DATE    = SYSDATE,
+  FAM_SERVICE_CLOSE_JUD    = :FAM_SERVICE_CLOSE_JUD  ,
+  FAM_SERVICE_CLOSE_CMMT    = :FAM_SERVICE_CLOSE_CMMT  ,
+    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_SERVICE_CLOSE_BY   ,
+      FAM_SERVICE_CLOSE_JUD   ,
+      FAM_SERVICE_CLOSE_CMMT    ,
+      FAM_REQ_STATUS,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// update receiver 
+module.exports.update_receiver = async function (req, res) {
+  try {
+    const Fam_no = req.query.famno;
+    const FRT_RECEIVE_BY     = req.query.cls_by;
+    const FRT_RECEIVER_JUD     = req.query.cls_jud;
+    const FRT_RECEIVE_CMMT     = req.query.cls_cmmt;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+	FAM_REQ_TRANSFER T
+SET
+	T.FRT_RECEIVE_BY  = :FRT_RECEIVE_BY,
+	T.FRT_RECEIVE_DATE  = SYSDATE,
+	T.FRT_RECEIVER_JUD  = :FRT_RECEIVER_JUD,
+	T.FRT_RECEIVE_CMMT  = :FRT_RECEIVE_CMMT,
+WHERE
+	T.FRT_FAM_NO  = :FRT_FAM_NO
+
+  `;
+
+    const data = {
+      Fam_no,
+      FRT_RECEIVE_BY,
+      FRT_RECEIVER_JUD,
+      FRT_RECEIVE_CMMT,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();

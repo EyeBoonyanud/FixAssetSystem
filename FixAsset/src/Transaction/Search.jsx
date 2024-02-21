@@ -89,6 +89,16 @@ function Issue() {
 
   const navigate = useNavigate();
   const New = () => {
+    localStorage.removeItem("ForRequester");
+    localStorage.removeItem("forDetail");
+    localStorage.removeItem("TransForDetail")
+    localStorage.removeItem("EDIT")
+    localStorage.removeItem("For_Transfer")
+    localStorage.removeItem("For_Routing")
+    localStorage.removeItem("For_Req_Edit")
+    localStorage.removeItem("Edit_Trans")
+    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
+    localStorage.removeItem("Edit_routing") 
     navigate("/InsertIssue");
   };
 
