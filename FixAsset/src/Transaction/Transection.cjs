@@ -191,7 +191,7 @@ module.exports.search = async function (req, res) {
     OR ( A.FRT_RECEIVE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR009')
     OR (T.FAM_ACC_REC_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR010')
     OR (T.FAM_ACC_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR011')
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR0012'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR012'))
     AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
@@ -409,6 +409,8 @@ module.exports.insert_tranfer = async function (req, res) {
     const AssetName = req.query.assetname;
     const Status = req.query.status;
     const Remark = req.query.remark;
+    const User_FAM = req.query.user;
+
     console.log(Tranfer_id);
     console.log(Remark);
     console.log("////");
@@ -416,9 +418,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const query = `
       INSERT INTO FAM_REQ_HEADER 
       (FRH_FAM_NO, FAM_REQ_DATE, FAM_REQ_BY, FAM_REQ_TEL, FAM_FACTORY, FAM_REQ_CC,
-      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK)
+      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK,FAM_CREATE_BY,FAM_CREATE_DATE)
       VALUES 
-      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark)
+      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark ,:User_FAM ,SYSDATE)
     `;
 
     const data = {
@@ -434,6 +436,7 @@ module.exports.insert_tranfer = async function (req, res) {
       AssetName,
       Status,
       Remark,
+      User_FAM
     };
     console.log(query);
     console.log(data);
@@ -1774,22 +1777,13 @@ module.exports.update_manager_dept = async function (req, res) {
   try {
     console.log("UPDATE for Manager");
     const Fam_no = req.query.famno;
-    const FAM_MGR_DEPT = req.query.mgrdept;
     const FAM_MGR_JUD = req.query.mgrjud;
     const FAM_MGR_CMMT = req.query.mgrcmmt;
     const FAM_REQ_STATUS = req.query.sts;
-    console.log(
-      Fam_no,
-      FAM_MGR_DEPT,
-      FAM_MGR_JUD,
-      FAM_MGR_CMMT,
-      FAM_REQ_STATUS
-    );
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER
     SET 
-        FAM_MGR_DEPT = :FAM_MGR_DEPT,
         FAM_MGR_DATE = SYSDATE ,
         FAM_MGR_JUD = :FAM_MGR_JUD,
         FAM_MGR_CMMT = :FAM_MGR_CMMT,
@@ -1799,7 +1793,6 @@ module.exports.update_manager_dept = async function (req, res) {
 
     const data = {
       Fam_no,
-      FAM_MGR_DEPT,
       FAM_MGR_JUD,
       FAM_MGR_CMMT,
       FAM_REQ_STATUS,
@@ -1816,7 +1809,6 @@ module.exports.update_manager_dept = async function (req, res) {
 module.exports.update_service_by = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_SERVICE_BY = req.query.serby;
     const FAM_SERVICE_JUD = req.query.serjud;
     const FAM_SERVICE_CMMT = req.query.sercmmt;
     const FAM_REQ_STATUS = req.query.sts;
@@ -1824,7 +1816,6 @@ module.exports.update_service_by = async function (req, res) {
     const query = `
     UPDATE FAM_REQ_HEADER
 SET 
-    FAM_SERVICE_BY  = :FAM_SERVICE_BY,
     FAM_SERVICE_DATE  = SYSDATE ,
     FAM_SERVICE_JUD  = :FAM_SERVICE_JUD,
     FAM_SERVICE_CMMT  = :FAM_SERVICE_CMMT,
@@ -1834,7 +1825,6 @@ WHERE FRH_FAM_NO = :Fam_no
 
     const data = {
       Fam_no,
-      FAM_SERVICE_BY,
       FAM_SERVICE_JUD,
       FAM_SERVICE_CMMT,
       FAM_REQ_STATUS,
@@ -1851,26 +1841,24 @@ WHERE FRH_FAM_NO = :Fam_no
 module.exports.update_boi_staff = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_BOI_CHK_BY = req.query.stff_by;
     const FAM_BOI_CHK_JUD = req.query.stff_jud;
     const FAM_BOI_CHK_CMMT = req.query.stff_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
+   
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER
     SET 
-        FAM_BOI_CHK_BY   = :FAM_BOI_CHK_BY ,
-        FAM_BOI_CHK_DATE   = SYSDATE ,
-        FAM_BOI_CHK_JUD   = :FAM_SERVICE_JUD,
-        FAM_BOI_CHK_CMMT   = :FAM_SERVICE_CMMT,
+        FAM_BOI_CHK_DATE = SYSDATE,
+        FAM_BOI_CHK_JUD = :FAM_BOI_CHK_JUD,
+        FAM_BOI_CHK_CMMT = :FAM_BOI_CHK_CMMT,
         FAM_REQ_STATUS = :FAM_REQ_STATUS
-    WHERE FRH_FAM_NO =  :FRH_FAM_NO
+    WHERE FRH_FAM_NO = :Fam_no
     
   `;
 
     const data = {
       Fam_no,
-      FAM_BOI_CHK_BY,
       FAM_BOI_CHK_JUD,
       FAM_BOI_CHK_CMMT,
       FAM_REQ_STATUS,
@@ -1886,28 +1874,27 @@ module.exports.update_boi_staff = async function (req, res) {
 //uUpdate BOI manager
 module.exports.update_boi_mana = async function (req, res) {
   try {
+    
     const Fam_no = req.query.famno;
-    const FAM_BOI_MGR_BY = req.query.boimana_by;
     const FAM_BOI_MGR_JUD = req.query.boimana_jud;
-    const FAM_BOI_MGR_CMMT = req.query.boimana_jud;
+    const FAM_BOI_MGR_CMMT = req.query.boimana_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
+
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_BOI_MGR_BY = :FAM_BOI_MGR_BY,
     FAM_BOI_MGR_DATE = SYSDATE,
     FAM_BOI_MGR_JUD = :FAM_BOI_MGR_JUD,
     FAM_BOI_MGR_CMMT = :FAM_BOI_MGR_CMMT,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   `;
 
     const data = {
       Fam_no,
-      FAM_BOI_MGR_BY,
       FAM_BOI_MGR_JUD,
       FAM_BOI_MGR_CMMT,
       FAM_REQ_STATUS,
@@ -1924,7 +1911,6 @@ module.exports.update_boi_mana = async function (req, res) {
 module.exports.update_facmanager = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_FM_BY = req.query.fm_by;
     const FAM_FM_JUD = req.query.fm_jud;
     const FAM_FM_CMMT = req.query.fm_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
@@ -1933,19 +1919,17 @@ module.exports.update_facmanager = async function (req, res) {
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_FM_BY  = :FAM_FM_BY,
     FAM_FM_DATE  = SYSDATE,
     FAM_FM_JUD  = :FAM_FM_JUD,
     FAM_FM_CMMT  = :FAM_FM_CMMT,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   
   `;
 
     const data = {
       Fam_no,
-      FAM_FM_BY,
       FAM_FM_JUD,
       FAM_FM_CMMT,
       FAM_REQ_STATUS,
@@ -1961,29 +1945,28 @@ module.exports.update_facmanager = async function (req, res) {
 //update acc check
 module.exports.update_acccheck = async function (req, res) {
   try {
+   console.log("MAAAAAAA")
     const Fam_no = req.query.famno;
-    const FAM_ACC_CHK_BY = req.query.chk_by;
     const FAM_ACC_CHK_JUD = req.query.chk_jud;
     const FAM_ACC_CHK_CMMT = req.query.chk_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
+    console.log(Fam_no,FAM_ACC_CHK_JUD,FAM_ACC_CHK_CMMT,FAM_REQ_STATUS)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_ACC_CHK_BY   = :FAM_ACC_CHK_BY,
-    FAM_ACC_CHK_DATE   = SYSDATE,
-    FAM_ACC_CHK_JUD   = :FAM_ACC_CHK_JUD,
-    FAM_ACC_CHK_CMMT   = :FAM_ACC_CHK_CMMT,
+    FAM_ACC_CHK_DATE = SYSDATE,
+    FAM_ACC_CHK_JUD = :FAM_ACC_CHK_JUD,
+    FAM_ACC_CHK_CMMT = :FAM_ACC_CHK_CMMT,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   
   `;
 
     const data = {
       Fam_no,
-      FAM_ACC_CHK_BY,
       FAM_ACC_CHK_JUD,
       FAM_ACC_CHK_CMMT,
       FAM_REQ_STATUS,
@@ -2000,7 +1983,6 @@ module.exports.update_acccheck = async function (req, res) {
 module.exports.update_owner = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_OWNER_SEND_BY  = req.query.owner_by;
     const FAM_OWNER_SEND_JUD  = req.query.owner_jud;
     const FAM_OWNER_SEND_CMMT  = req.query.owner_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
@@ -2009,19 +1991,17 @@ module.exports.update_owner = async function (req, res) {
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_OWNER_SEND_BY    = :FAM_OWNER_SEND_BY,
     FAM_OWNER_SEND_DATE    = SYSDATE,
     FAM_OWNER_SEND_JUD    = :FAM_OWNER_SEND_JUD,
     FAM_OWNER_SEND_CMMT    = :FAM_OWNER_SEND_CMMT,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   
   `;
 
     const data = {
       Fam_no,
-      FAM_OWNER_SEND_BY ,
       FAM_OWNER_SEND_JUD ,
       FAM_OWNER_SEND_CMMT ,
       FAM_REQ_STATUS,
@@ -2038,7 +2018,6 @@ module.exports.update_owner = async function (req, res) {
 module.exports.update_recode = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_ACC_REC_BY   = req.query.rec_by;
     const FAM_ACC_REC_JUD   = req.query.rec_jud;
     const FAM_ACC_REC_CMMT   = req.query.rec_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
@@ -2047,18 +2026,16 @@ module.exports.update_recode = async function (req, res) {
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
     FAM_ACC_REC_DATE  = SYSDATE,
-    FAM_ACC_REC_JUD  = :FAM_OWNER_SEND_JUD,
+    FAM_ACC_REC_JUD  = :FAM_ACC_REC_JUD,
     FAM_ACC_REC_CMMT  = :FAM_ACC_REC_CMMT,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   `;
 
     const data = {
       Fam_no,
-      FAM_ACC_REC_BY  ,
       FAM_ACC_REC_JUD ,
       FAM_ACC_REC_CMMT  ,
       FAM_REQ_STATUS,
@@ -2075,7 +2052,6 @@ module.exports.update_recode = async function (req, res) {
 module.exports.update_accmanager = async function (req, res) {
   try {
     const Fam_no = req.query.famno;
-    const FAM_ACC_MGR_BY    = req.query.acc_manaby;
     const FAM_ACC_MGR_JUD    = req.query.acc_manajud;
     const FAM_ACC_MGR_CMMT    = req.query.acc_manacmmt;
     const FAM_REQ_STATUS = req.query.sts;
@@ -2084,18 +2060,16 @@ module.exports.update_accmanager = async function (req, res) {
     UPDATE
     FAM_REQ_HEADER
   SET
-    FAM_ACC_MGR_BY  = :FAM_ACC_MGR_BY ,
     FAM_ACC_MGR_DATE   = SYSDATE,
     FAM_ACC_MGR_JUD   = :FAM_ACC_MGR_JUD ,
     FAM_ACC_MGR_CMMT   = :FAM_ACC_MGR_CMMT ,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   `;
 
     const data = {
       Fam_no,
-      FAM_ACC_MGR_BY  ,
       FAM_ACC_MGR_JUD  ,
       FAM_ACC_MGR_CMMT   ,
       FAM_REQ_STATUS,
@@ -2111,30 +2085,28 @@ module.exports.update_accmanager = async function (req, res) {
 //update service close by
 module.exports.update_service_close = async function (req, res) {
   try {
+    console.log()
     const Fam_no = req.query.famno;
-    const FAM_SERVICE_CLOSE_BY     = req.query.cls_by;
-    const FAM_SERVICE_CLOSE_JUD     = req.query.cls_jud;
-    const FAM_SERVICE_CLOSE_CMMT     = req.query.cls_cmmt;
+    const FAM_SERVICE_CLOSE_JUD  = req.query.cls_jud;
+    const FAM_SERVICE_CLOSE_CMMT = req.query.cls_cmmt;
     const FAM_REQ_STATUS = req.query.sts;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
-  FAM_SERVICE_CLOSE_BY   = :FAM_SERVICE_CLOSE_BY  ,
   FAM_SERVICE_CLOSE_DATE    = SYSDATE,
   FAM_SERVICE_CLOSE_JUD    = :FAM_SERVICE_CLOSE_JUD  ,
   FAM_SERVICE_CLOSE_CMMT    = :FAM_SERVICE_CLOSE_CMMT  ,
     FAM_REQ_STATUS = :FAM_REQ_STATUS
   WHERE
-    FRH_FAM_NO = :FRH_FAM_NO
+    FRH_FAM_NO = :Fam_no
   `;
 
     const data = {
       Fam_no,
-      FAM_SERVICE_CLOSE_BY   ,
-      FAM_SERVICE_CLOSE_JUD   ,
-      FAM_SERVICE_CLOSE_CMMT    ,
+      FAM_SERVICE_CLOSE_JUD,
+      FAM_SERVICE_CLOSE_CMMT,
       FAM_REQ_STATUS,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -2148,27 +2120,26 @@ module.exports.update_service_close = async function (req, res) {
 // update receiver 
 module.exports.update_receiver = async function (req, res) {
   try {
+
     const Fam_no = req.query.famno;
-    const FRT_RECEIVE_BY     = req.query.cls_by;
-    const FRT_RECEIVER_JUD     = req.query.cls_jud;
-    const FRT_RECEIVE_CMMT     = req.query.cls_cmmt;
+    const FRT_RECEIVER_JUD  = req.query.receiver_jud;
+    const FRT_RECEIVE_CMMT = req.query.receiver_cmmt;
+
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
-	FAM_REQ_TRANSFER T
-SET
-	T.FRT_RECEIVE_BY  = :FRT_RECEIVE_BY,
-	T.FRT_RECEIVE_DATE  = SYSDATE,
-	T.FRT_RECEIVER_JUD  = :FRT_RECEIVER_JUD,
-	T.FRT_RECEIVE_CMMT  = :FRT_RECEIVE_CMMT,
+	FAM_REQ_TRANSFER 
+  SET
+	FRT_RECEIVE_DATE  = SYSDATE,
+	FRT_RECEIVER_JUD  = :FRT_RECEIVER_JUD,
+	FRT_RECEIVE_CMMT  = :FRT_RECEIVE_CMMT
 WHERE
-	T.FRT_FAM_NO  = :FRT_FAM_NO
+	FRT_FAM_NO  = :Fam_no
 
   `;
 
     const data = {
       Fam_no,
-      FRT_RECEIVE_BY,
       FRT_RECEIVER_JUD,
       FRT_RECEIVE_CMMT,
     };

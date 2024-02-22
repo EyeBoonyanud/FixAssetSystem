@@ -37,7 +37,16 @@ function TransFerDetail() {
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
   //console.log(For_Rq_Edit, "For_Req_Edit");
-  let STS = For_Rq_Edit[10];
+
+let STS ="";
+  
+  if (ForRequester !== null) {
+   STS = For_Req[10];
+  } else {
+    STS = For_Rq_Edit[10];
+  }
+
+
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -47,7 +56,7 @@ function TransFerDetail() {
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  //console.log("For_Edit_Rou", For_Edit_Rou);
+
 
   let Fam_list = "";
   let servivedept = "";
@@ -95,18 +104,6 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
-  // radio button
-  // const [radio_dept, setradio_dept] = useState("");
-  // const [radio_serviceby, setradio_serviceby] = useState("");
-  // const [radio_boistaff, setradio_boistaff] = useState("");
-  // const [radio_boimanager, setradio_boimanager] = useState("");
-  // const [radio_facmanager, setradio_facmanager] = useState("");
-  // const [radio_acc_check, setradio_acc_check] = useState("");
-  // const [radio_owner, setradio_owner] = useState("");
-  // const [radio_receiver, setradio_receiver] = useState("");
-  // const [radio_record, setradio_record] = useState("");
-  // const [radio_acc_manager, setradio_acc_manager] = useState("");
-  // const [radio_service_close_by, setradio_service_close_by] = useState("");
   // select button
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
@@ -170,6 +167,7 @@ function TransFerDetail() {
   const [chkboistaff, setchkboistaff] = useState("hidden");
   const [chkboimanager, setchkboimanager] = useState("hidden");
   const [chkfacmanager, setchkfacmanager] = useState("hidden");
+  const [chkacc_check, setchkacc_check] = useState("hidden");
   const [chkowner, setchkowner] = useState("hidden");
   const [chkreceiver, setchkreceiver] = useState("hidden");
   const [chkacc_record, setchkacc_record] = useState("hidden");
@@ -199,9 +197,9 @@ function TransFerDetail() {
     ACC_Manager();
 
     if (EditFam != null) {
+
       if (For_Rq_Edit != null) {
         setownersend(For_Rq_Edit[2]);
-        // console.log(For_edit_trans[0][4]);
         if (For_edit_trans != null) {
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
@@ -210,18 +208,10 @@ function TransFerDetail() {
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
           setplan_date(For_edit_trans[0][5]);
-          if (For_Rq_Edit[10] === "FLTR002") {
-            setcheckrdo("visible");
-          } else  if (For_Rq_Edit[10] === "FLTR003") {
-            setchkservice_by("visible");
-          }
           // setของ Edit Trans
+
           if (For_Edit_Rou != null) {
-            //เช็ค Submit
-            console.log(
-              For_Edit_Rou[0],
-              ">>>>>>>>>>>>>>>PPPPPP>>>>>>>>>>>>>>>>"
-            );
+            //set Submit
             setowner_roting(For_Rq_Edit[2]);
             setTel_service(For_Edit_Rou[0][7]); 
             if (STS!='FLTR001' ) {
@@ -238,8 +228,9 @@ function TransFerDetail() {
               setselectradio_boistaff(For_Edit_Rou[0][10]);
               setcmmtradio_boistaff(For_Edit_Rou[0][11]);
               // BOI Manager
+            
               setaction__boimanager(For_Edit_Rou[0][13]);
-              setselectradio_facmanager(For_Edit_Rou[0][14]);
+              setselectradio_boimanager(For_Edit_Rou[0][14]);
               setcmmtradio_boimanager(For_Edit_Rou[0][15]);
               // FAC_mana
               setaction__facmanager(For_Edit_Rou[0][17]);
@@ -269,6 +260,8 @@ function TransFerDetail() {
               setaction__service_close_by(For_Edit_Rou[0][37]);
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
+              setbtnsave("hidden")
+              
 
 
 
@@ -277,155 +270,49 @@ function TransFerDetail() {
               // Wait Dept
               if(STS=='FLTR002'){
                 setaction__dept(formattedDate);
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR003'){
                 setaction__serviceby(formattedDate)
+                setchkservice_by("visible");
               }
               else if(STS=='FLTR004'){
                 setaction__boistaff(formattedDate)
+                setchkboistaff("visible");
               }
               else if(STS=='FLTR005'){
                 setaction__boimanager(formattedDate)
+                setchkboimanager("visible");
               }
               else if(STS=='FLTR006'){
                 setaction__facmanager(formattedDate)
+                setchkfacmanager("visible");
               }
               else if(STS=='FLTR007'){
                 setaction__acc_check(formattedDate)
+                setchkacc_check("visible");
               }
               else if(STS=='FLTR008'){
                 setaction__owner(formattedDate)
+                setchkowner("visible");
               }
               else if(STS=='FLTR009'){
                 setaction__receiver(formattedDate)
+                setchkreceiver("visible");
               }
-              else if(STS=='FLTR0010'){
+              else if(STS=='FLTR010'){
                 setaction__record(formattedDate)
+                setchkacc_record("visible");
               }
-              else if(STS=='FLTR0011'){
+              else if(STS=='FLTR011'){
                 setaction__acc_manager(formattedDate)
+                setchkacc_manager("visible");
               }
-              else if(STS=='FLTR0012'){
+              else if(STS=='FLTR012'){
                 setaction__service_close_by(formattedDate)
+                setchkservice_close("visible");
               }
               
-
-
-
-              // setselectradio_dept(For_Edit_Rou[0][2]);
-              // setcmmtradio_dept(For_Edit_Rou[0][3]); 
-              // setselectradio_serviceby(For_Edit_Rou[0][41]);
-              // setcmmtradio_serviceby(For_Edit_Rou[0][42]);
-                
-             
-            
-            // if (STS === "FLTR003") {
-            //   setaction__dept(For_Edit_Rou[0][1]);
-            //   setaction__serviceby(formattedDate); 
-            // } else if (STS === "FLTR004") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            // }
-            // else if (STS === "FLTR005") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(formattedDate)
-            // }
-            // else if (STS === "FLTR006") {
-             
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(formattedDate)
-            // }
-            // else if (STS === "FLTR007") {
-              
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(formattedDate)
-            // }
-            // else if (STS === "FLTR008") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(formattedDate)
-
-            // }
-            //  else if (STS === "FLTR009") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(formattedDate)
-            // }
-            // else if (STS === "FLTR009") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(For_Edit_Rou[0][21])
-            //   setaction__owner(formattedDate)
-            // }
-            // else if (STS === "FLTR009") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(For_Edit_Rou[0][21])
-            //   setaction__owner(For_Edit_Rou[0][25])
-            //   setaction__receiver(formattedDate)
-            //   setaction__record(formattedDate)
-            // }
-            // else if (STS === "FLTR010") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(For_Edit_Rou[0][21])
-            //   setaction__owner(For_Edit_Rou[0][25])
-            //   setaction__receiver(For_edit_trans[0][11])
-            //   setaction__record(For_Edit_Rou[0][21])
-            //   setaction__acc_manager(formattedDate)
-            // }
-            // else if (STS === "FLTR011") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(For_Edit_Rou[0][21])
-            //   setaction__owner(For_Edit_Rou[0][25])
-            //   setaction__record(For_Edit_Rou[0][21])
-            //   setaction__acc_manager(For_Edit_Rou[0][29])
-            //   action__service_close_by(formattedDate)
-            // }
-            // else if (STS === "FLTR012") {
-            
-            //   setaction__dept(For_Edit_Rou[0][1]);         
-            //   setaction__serviceby(For_Edit_Rou[0][6]);
-            //   setaction__boistaff(For_Edit_Rou[0][8])
-            //   setaction__boimanager(For_Edit_Rou[0][13])
-            //   setaction__facmanager(For_Edit_Rou[0][17])
-            //   setaction__acc_check(For_Edit_Rou[0][21])
-            //   setaction__owner(For_Edit_Rou[0][25])
-            //   setaction__record(For_Edit_Rou[0][21])
-            //   setaction__acc_manager(For_Edit_Rou[0][29])
-            //   action__service_close_by(formattedDate)
-            // }
           
           }
             } else {
@@ -914,7 +801,7 @@ function TransFerDetail() {
       }
       try {
         const row = axios.post(
-          `http://localhost:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${owner_roting}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+          `http://localhost:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
         );
       } catch (error) {
         //console.error("Error requesting data:", error);
@@ -939,7 +826,7 @@ function TransFerDetail() {
 
     try {
       const row = axios.post(
-        // //// console(New_BOI,"New_BOI")
+       
         `http://localhost:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
       );
     } catch (error) {
@@ -948,7 +835,7 @@ function TransFerDetail() {
     try {
       const row = axios.post(
         // ////// console(New_BOI,"New_BOI")
-        `http://localhost:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${owner_roting}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+        `http://localhost:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
       );
     } catch (error) {
       ////console.error("Error requesting data:", error);
@@ -1294,6 +1181,7 @@ function TransFerDetail() {
     }
 
     if (EditFam != null) {
+      // Submit ตามเงื่อนไข 
       if (For_Rq_Edit != null) {
         console.log("ไม่มาาาาาาาาาาาา");
         if (For_Rq_Edit[10] === "FLTR001") {
@@ -1318,7 +1206,7 @@ function TransFerDetail() {
                 updateby: For_Rq_Edit[2],
               }
             );
-            setbtnsave("hidden");
+           
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -1330,7 +1218,7 @@ function TransFerDetail() {
                 sts_submit: Status,
               }
             );
-            setbtnsave("hidden");
+           
 
             Swal.fire({
               title: "Save Success",
@@ -1346,11 +1234,11 @@ function TransFerDetail() {
           let Status = "FLTR003";
           try {
             const row = axios.post(
-              // //// console(New_BOI,"New_BOI")
-              `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrdept=${selectdepartment_mana}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
+             
+              `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
             );
 
-            setbtnsave("hidden");
+           
 
             Swal.fire({
               title: "Save Success",
@@ -1362,15 +1250,15 @@ function TransFerDetail() {
         }
         else 
         if (For_Rq_Edit[10] === "FLTR003") {
-          console.log("เข้าแล้วววววววววววววววววววว")
+          
           let Status = "FLTR004";
           try {
             const row = axios.post(
-              // //// console(New_BOI,"New_BOI")
-              `http://localhost:5000/update_manager_dept?famno=${EditFam}&serby=${selectservice_by}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
+             
+              `http://localhost:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
             );
 
-            setbtnsave("hidden");
+           
 
             Swal.fire({
               title: "Save Success",
@@ -1380,8 +1268,206 @@ function TransFerDetail() {
             //     console.error("Error updating submit status:", error.message);
           }
         }
+        else 
+        if (For_Rq_Edit[10] === "FLTR004") {
+         
+          let Status = "FLTR005";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR005") {
+         
+          let Status = "FLTR006";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR006") {
+
+          let Status = "FLTR007";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR007") {
+          console.log(selectradio_acc_check,cmmtradio_acc_check)
+          let Status = "FLTR008";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+                console.error("Error updating submit status:", error.message);
+                Swal.fire({
+                  title: "Error",
+                  icon: "Error",
+                });
+                return;
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR008") {
+          
+          let Status = "FLTR009";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR009") {
+          
+          let Status = "FLTR010";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+          try {
+            const response = await axios.post(
+              "http://localhost:5000/update_submit",
+              {
+                famno: EditFam,
+                sts_submit: Status,
+              }
+            );
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR010") {
+          
+          let Status = "FLTR011";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+        if (For_Rq_Edit[10] === "FLTR011") {
+          
+          let Status = "FLTR012";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        else 
+          if (For_Rq_Edit[10] === "FLTR012") {
+          
+          let Status = "FLTR013";
+          try {
+            const row = axios.post(
+               
+              `http://localhost:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+            );
+
+           
+
+            Swal.fire({
+              title: "Save Success",
+              icon: "success",
+            });
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          }
+        }
+        
       }
     } else {
+      // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
         console.log(For_Req[10], "Vkppppppppppppppppppp");
         let Status = "FLTR002";
@@ -1415,7 +1501,7 @@ function TransFerDetail() {
               updateby: For_Req[1],
             }
           );
-          setbtnsave("hidden");
+         
           Swal.fire({
             title: "Save Success",
             icon: "success",
@@ -1437,6 +1523,7 @@ function TransFerDetail() {
     localStorage.removeItem("Edit_routing");
     navigate("/Search");
   };
+
   const Reset = async () => {
     setselecttrans_factory([]);
     setselecttrans_cc([]);
@@ -1743,7 +1830,7 @@ function TransFerDetail() {
                         name="row-radio-buttons-group"
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
-                        // style={{ visibility: checkrdo }}
+                         style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"
@@ -1753,7 +1840,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="Reject"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -1762,7 +1849,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7"
-                   //style={{ visibility: checkrdo }}
+                   style={{ visibility: checkrdo }}
                    > 
                  
                     Action Date :
@@ -1777,7 +1864,7 @@ function TransFerDetail() {
                         onChange={(e) => setaction__dept(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          // visibility: checkrdo,
+                           visibility: checkrdo,
                         }}
                       />
                     </FormControl>
@@ -1796,7 +1883,7 @@ function TransFerDetail() {
                         value={cmmtradio_dept}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                         //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
-                        //style={{ visibility: checkrdo }}
+                        style={{ visibility: checkrdo }}
                       />
                     </FormControl>
                   </td>
@@ -1898,7 +1985,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="Not Accept"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -1906,7 +1993,8 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: chkservice_by }}>
+                  <td className="Style7" 
+                  style={{ visibility: chkservice_by }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1926,9 +2014,13 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+               // style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: chkservice_by }}>
+                  <td className="Style4" 
+                  style={{ visibility: chkservice_by }}
+                  >
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -1994,7 +2086,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="No Accept"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2022,7 +2114,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+                //style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkboistaff }}>
                     Comment :
@@ -2074,14 +2168,14 @@ function TransFerDetail() {
                   <td className="Style5">
                     <FormControl>
                       <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
+                         row
+                         aria-labelledby="demo-row-radio-buttons-group-label"
+                         name="row-radio-buttons-group"
+                        style={{ visibility: chkboimanager }}
                         value={selectradio_boimanager}
                         onChange={(e) =>
                           setselectradio_boimanager(e.target.value)
                         }
-                        style={{ visibility: chkboimanager }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2091,7 +2185,6 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
                           control={<Radio size="small" />}
                           label="Reject"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2119,7 +2212,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+                //style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkboimanager }}>
                     Comment :
@@ -2190,7 +2285,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="Reject"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2220,7 +2315,9 @@ function TransFerDetail() {
                   </td>
                 </tr>
                 <>
-                  <tr style={{ display: "none" }}>
+                  <tr 
+                 // style={{ display: "none" }}
+                  >
                     <th colSpan={5}></th>
                     <td
                       className="Style4"
@@ -2286,7 +2383,7 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setselectradio_acc_check(e.target.value)
                         }
-                        style={{ visibility: chkowner }}
+                        style={{ visibility: chkacc_check }}
                       >
                         <FormControlLabel
                           value="A"
@@ -2303,7 +2400,7 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: chkowner }}>
+                  <td className="Style7" style={{ visibility: chkacc_check }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -2317,13 +2414,13 @@ function TransFerDetail() {
                         onChange={(e) => setaction__acc_check(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          visibility: chkowner,
+                          visibility: chkacc_check,
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ visibility: chkowner }}>
+                <tr style={{ visibility: chkacc_check }}>
                   <th colSpan={5}></th>
                   <td className="Style4">Comment :</td>
                   <td colSpan={4}>
@@ -2375,7 +2472,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="No Accept"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2403,7 +2500,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+               // style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkowner }}>
                     Comment :
@@ -2490,7 +2589,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="No Accept"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2519,7 +2618,9 @@ function TransFerDetail() {
                   </td>
                 </tr>
 
-                <tr style={{ display: "none" }}>
+                <tr 
+               // style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkreceiver }}>
                     Comment :
@@ -2605,7 +2706,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="No Accept"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2633,7 +2734,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+              //  style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkacc_record }}>
                     Comment :
@@ -2704,7 +2807,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="Reject"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2732,7 +2835,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+               // style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkacc_manager }}>
                     Comment :
@@ -2789,7 +2894,7 @@ function TransFerDetail() {
                         />
                         <FormControlLabel
                           value="R"
-                          disable
+                        
                           control={<Radio size="small" />}
                           label="Reject"
                           // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
@@ -2822,7 +2927,9 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: "none" }}>
+                <tr 
+               // style={{ display: "none" }}
+                >
                   <th colSpan={5}></th>
                   <td
                     className="Style4"
@@ -2835,7 +2942,7 @@ function TransFerDetail() {
                       <TextField
                         id="outlined-size-small"
                         value={cmmtradio_service_close_by}
-                        onChange={(e) => setcmmtradio_serviceby(e.target.value)}
+                        onChange={(e) => setcmmtradio_service_close_by(e.target.value)}
                         size="small"
                         style={{ visibility: chkservice_close }}
                       />
