@@ -30,6 +30,7 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 
 function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
@@ -91,17 +92,19 @@ function Issue() {
   const New = () => {
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
-    localStorage.removeItem("TransForDetail")
-    localStorage.removeItem("EDIT")
-    localStorage.removeItem("For_Transfer")
-    localStorage.removeItem("For_Routing")
-    localStorage.removeItem("For_Req_Edit")
-    localStorage.removeItem("Edit_Trans")
-    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
-    localStorage.removeItem("Edit_routing") 
+    localStorage.removeItem("TransForDetail");
+    localStorage.removeItem("EDIT");
+    localStorage.removeItem("For_Transfer");
+    localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Req_Edit");
+    localStorage.removeItem("Edit_Trans");
+    localStorage.removeItem("Edit_Dteail_for_FixedCode");
+    localStorage.removeItem("Edit_routing");
     navigate("/InsertIssue");
   };
-
+  const currentURL = window.location.href;
+  const parts = currentURL.split("/");
+  const cutPath = parts[parts.length - 1];
   useEffect(() => {
     const Factory = async () => {
       try {
@@ -217,29 +220,56 @@ function Issue() {
     window.location.href = "/ForRe";
   };
   const Search = async () => {
-    const FamNo = document.getElementById("FamNo").value;
-    const FamTo = document.getElementById("FamTo").value;
-    const FixAsset = document.getElementById("FixAsset").value;
-    const Date = document.getElementById("Date").value;
-    const DateTo = document.getElementById("DateTo").value;
-    try {
-      const rollNoSearch = await axios.get(
-        `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
-      );
-      const data = rollNoSearch.data;
-      setCheckHead("visible");
-      setdataSearch(data);
-      if (data.length === 0) {
-        setCheckEmpty("visible");
-        setCheckData("hidden");
-      } else {
-        setCheckEmpty("hidden");
-        setCheckData("visible");
+    if (cutPath === "search") {
+      const FamNo = document.getElementById("FamNo").value;
+      const FamTo = document.getElementById("FamTo").value;
+      const FixAsset = document.getElementById("FixAsset").value;
+      const Date = document.getElementById("Date").value;
+      const DateTo = document.getElementById("DateTo").value;
+      try {
+        const rollNoSearch = await axios.get(
+          `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        );
+        const data = rollNoSearch.data;
+        setCheckHead("visible");
+        setdataSearch(data);
+        if (data.length === 0) {
+          setCheckEmpty("visible");
+          setCheckData("hidden");
+        } else {
+          setCheckEmpty("hidden");
+          setCheckData("visible");
+        }
+        // console.log(rollNoSearch.data,"Search: ")
+        // console.log(selectdept,"DEPT:")
+      } catch (error) {
+        console.error("Error requesting data:", error);
       }
-      // console.log(rollNoSearch.data,"Search: ")
-      // console.log(selectdept,"DEPT:")
-    } catch (error) {
-      console.error("Error requesting data:", error);
+    } else {
+      const FamNo = document.getElementById("FamNo").value;
+      const FamTo = document.getElementById("FamTo").value;
+      const FixAsset = document.getElementById("FixAsset").value;
+      const Date = document.getElementById("Date").value;
+      const DateTo = document.getElementById("DateTo").value;
+      try {
+        const rollNoSearch = await axios.get(
+          `http://localhost:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        );
+        const data = rollNoSearch.data;
+        setCheckHead("visible");
+        setdataSearch(data);
+        if (data.length === 0) {
+          setCheckEmpty("visible");
+          setCheckData("hidden");
+        } else {
+          setCheckEmpty("hidden");
+          setCheckData("visible");
+        }
+        // console.log(rollNoSearch.data,"Search: ")
+        // console.log(selectdept,"DEPT:")
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
     }
   };
 
@@ -273,9 +303,15 @@ function Issue() {
       if (result.isConfirmed) {
         try {
           // ลบข้อมูลทั้งหมดที่เกี่ยวข้อง
-          await axios.post(`http://localhost:5000/delect_all_fam_transfer?famno=${item}`);
-          await axios.post(`http://localhost:5000/delect_all_fam_details?famno=${item}`);
-          await axios.post(`http://localhost:5000/delect_all_fam_header?famno=${item}`);
+          await axios.post(
+            `http://localhost:5000/delect_all_fam_transfer?famno=${item}`
+          );
+          await axios.post(
+            `http://localhost:5000/delect_all_fam_details?famno=${item}`
+          );
+          await axios.post(
+            `http://localhost:5000/delect_all_fam_header?famno=${item}`
+          );
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           // โหลดข้อมูลใหม่หลังจากลบข้อมูล
@@ -288,10 +324,8 @@ function Issue() {
         Swal.fire("Cancelled", "Your data is safe :)", "info");
       }
     });
-    
-};
+  };
 
-  
   return (
     <>
       <Header />
@@ -568,7 +602,12 @@ function Issue() {
                 Search
               </Button>
             </Grid>
-            <Grid style={{ marginLeft: "20px" }}>
+            <Grid
+              style={{
+                marginLeft: "20px",
+                display: cutPath === "search" ? "block" : "none",
+              }}
+            >
               <Button
                 className="ButtonSearch"
                 style={{
@@ -619,10 +658,10 @@ function Issue() {
             }}
             component={Paper}
           >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead sx={{ backgroundColor: "#A7C9FA" }}>
+            <Table sx={{ }} aria-label="simple table">
+              <TableHead className="Serach-Data">
                 <TableRow>
-                  <TableCell></TableCell>
+                  <TableCell ></TableCell>
                   <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
                   <TableCell>FAM No.</TableCell>
@@ -637,14 +676,21 @@ function Issue() {
                 {dataSearch.length > 0 ? (
                   dataSearch.map((item) => (
                     <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>
                         <Tooltip title="Edit">
-                          <EditNoteIcon
-                            style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() => handleEdit(item[2])}
-                          />
+                          {cutPath === "search" ? (
+                            <EditNoteIcon
+                              style={{ color: "#F4D03F", fontSize: "30px"}}
+                              onClick={() => handleEdit(item[2])}
+                            />
+                          ) : (
+                            <AddTaskIcon
+                              style={{ color: "#F4D03F", fontSize: "30px" }}
+                              onClick={() => handleEdit(item[2])}
+                            />
+                          )}
                         </Tooltip>
                         <Tooltip title="Delete">
                           {/* <DeleteForeverIcon
@@ -653,7 +699,12 @@ function Issue() {
                           /> */}
                           {item[7] === "Create" && (
                             <DeleteForeverIcon
-                              style={{ color: "red", fontSize: "30px" }}
+                              style={{
+                                color: "red",
+                                fontSize: "30px",
+                                display:
+                                  cutPath === "search" ? "block" : "none",
+                              }}
                               onClick={() => Delete(item[2])}
                             />
                           )}

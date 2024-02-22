@@ -8,6 +8,7 @@ import Approve from "./Transaction/Approve";
 import InsertIssue from "./Transaction/InsertIssue";
 import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
+import ApproveFam from './Transaction/Search'
 // process.env.NODE_ENV = 'production';
 
 
@@ -24,7 +25,7 @@ const App = () => {
         <Route path="/InsertIssue" element={<InsertIssue />} />
         <Route path="/ForRe" element={<ForRe />} />
         <Route path="/TransDetail" element={<TransDetail />} />
-
+        <Route path="/ApproveFam" element={<ApproveFam />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

@@ -32,6 +32,7 @@ app.get("/gettype",Transaction.type);
 app.get("/getby",Transaction.by);
 app.get("/getstatus",Transaction.status);
 app.get("/getsearch",Transaction.search);
+app.get("/getsearch2",Transaction.search2);
 app.get("/getfixcode",Transaction.fixcode);
 app.get("/getfac_insert",Transaction.fac_insert);
 app.get("/getcost_insert",Transaction.cost_insert);

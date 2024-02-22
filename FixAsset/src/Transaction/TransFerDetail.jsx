@@ -260,7 +260,7 @@ let STS ="";
               setaction__service_close_by(For_Edit_Rou[0][37]);
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
-              setbtnsave("hidden")
+              
               
 
 
@@ -749,6 +749,7 @@ let STS ="";
 
   // Handle Save Submit Reset
   const SAVE = async () => {
+    console.log(plan_date)
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1466,6 +1467,11 @@ let STS ="";
         }
         
       }
+     
+        navigate("/Search");
+      
+     
+     
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
@@ -1510,6 +1516,7 @@ let STS ="";
           //     console.error("Error updating submit status:", error.message);
         }
       }
+      navigate("/Search");
     }
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
@@ -1521,7 +1528,7 @@ let STS ="";
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
-    navigate("/Search");
+
   };
 
   const Reset = async () => {
@@ -1830,7 +1837,7 @@ let STS ="";
                         name="row-radio-buttons-group"
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
-                         style={{ visibility: checkrdo }}
+                        style={{ visibility: checkrdo }}
                       >
                         <FormControlLabel
                           value="A"

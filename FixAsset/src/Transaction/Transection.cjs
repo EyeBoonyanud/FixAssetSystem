@@ -180,8 +180,64 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  WHERE  (T.FAM_REQ_BY = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR001'
-    OR (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002')
+  WHERE  T.FAM_REQ_BY = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR001'
+    AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
+    AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
+    AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
+    AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
+    AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
+    AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
+    AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+  
+         `;
+    console.log(query);
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// Serach Approve
+module.exports.search2 = async function (req, res) {
+  try {
+    const userlogin = req.query.UserLogin;
+    const factory = req.query.FacCode;
+    const dept = req.query.DeptCode;
+    const famno = req.query.FamNo;
+    const famto = req.query.FamTo;
+    const cost = req.query.Costcenter;
+    const asset = req.query.FixAsset;
+    const type = req.query.ReType;
+    const date = req.query.ReDate;
+    const dateto = req.query.ReDateTo;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    DISTINCT M.FACTORY_NAME AS FACTORY,
+    T.FAM_REQ_CC AS COSTCENTER,
+    T.FRH_FAM_NO AS FAMNO,
+    T.FAM_REQ_DATE AS ISSUEDATE,
+    T.FAM_REQ_BY AS ISSUEBY,
+    R.FCM_DESC AS RETYPE,
+    (SELECT
+      TO_CHAR(WM_CONCAT(CD.FRD_ASSET_CODE))
+    FROM
+      FAM_REQ_DETAIL CD
+    WHERE
+      CD.FRD_FAM_NO = T.FRH_FAM_NO) AS FIXED_CODE,
+    F.FFM_DESC AS STATUS
+  FROM
+    FAM_REQ_HEADER T
+  LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
+  LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
+  LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
+  LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
+  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
+  WHERE  (T.FAM_MGR_DEPT = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR002'
     OR (T.FAM_SERVICE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
     OR (T.FAM_BOI_CHK_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR004')
     OR (T.FAM_BOI_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR005')

@@ -23,7 +23,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const [menuId, setmenuId] = useState([]);
   const [menudata, setmenudata] = useState([]);
   const [menudataId, setmenudataId] = useState([]);
- 
+
   const toggleSubMenu1 = () => {
     setIcondrop1(!Icondrop1);
     setSubMenuOpen1(!subMenuOpen1);
@@ -97,10 +97,11 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   // console.log("มาสิ")
   // console.log(id)
    if (id === "Issue FAM"){
-     navigate("/Search");    
+    window.location.href = "/search";
+     
    }else if(id === "Approve FAM"){
-   
-    navigate("/Search");
+        
+    window.location.href = "/ApproveFam";
    }
  
  };
