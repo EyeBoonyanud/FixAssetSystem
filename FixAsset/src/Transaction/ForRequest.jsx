@@ -70,8 +70,7 @@ function ForRequest() {
   const Year = currentYear.toString().slice(-2);
   const [Gen_Fam_No, setGen_Fam_No] = useState("");
   const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); //Servicept
-  const [read_fix_group, setread_fix_group] = useState(false);
-  const [read_fix_cost, setread_fix_cost] = useState(false);
+
   const [find_fixasset, setfind_fixasset] = useState([]);
   const [find_fixasset1, setfind_fixasset1] = useState("");
   const [open, setOpen] = useState(false); // open FixAsset
@@ -98,12 +97,13 @@ function ForRequest() {
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
 
-  // set
-  const [errorTelReq, seterrorTelReq] = useState(false);
-
-  const handleReload = () => {
-    window.location.reload();
-  };
+  // set Readonly
+  const [read_fix_group, setread_fix_group] = useState(false);
+  const [read_fix_cost, setread_fix_cost] = useState(false);
+  const [read_dept, setread_dept] = useState(false);
+  const [read_tel, setread_tel] = useState(false);
+  const [reac_remark, setread_remark] = useState(false);
+  const [reac_type, setread_type] = useState(false);
 
   const navigate = useNavigate();
   const NextPage = async () => {
@@ -115,6 +115,13 @@ function ForRequest() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
+  let STS ="";
+  
+  if (ForRequester !== null) {
+   STS = For_Req[10];
+  } else {
+    STS = For_Rq_Edit[10];
+  }
 
   useEffect(() => {
     // Edit();
@@ -126,6 +133,14 @@ function ForRequest() {
     costcenter();
     CostforAsset();
     keep();
+    if (STS !== 'FLTR001'){
+      setread_dept(true)
+      setread_tel(true)
+      setread_remark(true)
+      setread_type(true)
+    }else{
+
+    }
   }, []);
 
   const keep = () => {
@@ -174,7 +189,6 @@ function ForRequest() {
         setRequest_date(formattedDate);
       }
     }
-
   };
 
   const formattedDate = `${(currentDate.getMonth() + 1)
@@ -516,52 +530,42 @@ function ForRequest() {
   };
   //const [data, setData] = useState(datatable);
 
-
   const handleDelete = async (item) => {
-
-    
-
-    if(EditFam !== null){
-      console.log("index",item,EditFam)
+    if (EditFam !== null) {
+      console.log("index", item, EditFam);
       try {
         const row = await axios.post(
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
         Fix_Code();
-        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
-    }else{
-    
-    try {
-      const row = await axios.post(
-        `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
-      );
-      Fix_Code();
-    } catch (error) {
-      console.error("Error requesting data:", error);
+    } else {
+      try {
+        const row = await axios.post(
+          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+        );
+        Fix_Code();
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
     }
-    
-   
-    }
-    
   };
-  const Fix_Code  = async () => {
+  const Fix_Code = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/getFixcode?Fam=${Gen_Fam_No}`);
-     const dataStatus = await response.data;
-     setdatatable(dataStatus)
-     console.log(dataStatus,"dataStatus")
-  
+      const response = await axios.post(
+        `http://localhost:5000/getFixcode?Fam=${Gen_Fam_No}`
+      );
+      const dataStatus = await response.data;
+      setdatatable(dataStatus);
+      console.log(dataStatus, "dataStatus");
 
       // StatusId = dataStatus.flat();
     } catch (error) {
       console.error("Error requesting data:", error);
     }
-  }
-  
-
+  };
 
   const Insert_Fam_detail = async () => {
     for (let i = 0; i < datatable.length; i++) {
@@ -599,7 +603,6 @@ function ForRequest() {
 
   const handleTel = async (event) => {
     setTel1(event.target.value);
-   
 
     if (EditFam != null) {
       console.log(">>>>>>>>..", For_Rq_Edit);
@@ -847,7 +850,6 @@ function ForRequest() {
     }
   };
   const handleSave = async () => {
-
     const FAM_FORM = "REQUEST";
 
     const currentDateTime = new Date()
@@ -1010,6 +1012,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
+                      disabled={read_tel}
                       // style={{
 
                       //   width: "100%",
@@ -1075,6 +1078,7 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
+                        disabled={read_dept}
                         value={selectDept1}
                         onChange={handleDept}
                         style={{
@@ -1110,6 +1114,8 @@ function ForRequest() {
                       name="row-radio-buttons-group"
                       id="Radio_ReqType"
                       value={Request_type1}
+                      disabled={reac_type}
+                      style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
                       <FormControlLabel
@@ -1250,6 +1256,7 @@ function ForRequest() {
                       id="Remark"
                       size="small"
                       style={{ width: "100%" }}
+                      disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}
@@ -1395,7 +1402,7 @@ function ForRequest() {
                                 },
                               }}
                             >
-                                      {/* <TableCell>
+                              {/* <TableCell>
                                         <DeleteIcon style={{color:'red'}} />
                                         </TableCell> */}
                               <TableCell>
@@ -1440,11 +1447,10 @@ function ForRequest() {
                         <TableHead
                           sx={{
                             backgroundColor: "#436850",
-                            
+
                             fontSize: "10px",
                           }}
                         >
-                          
                           <TableRow>
                             {/* <TableCell>
                               <Checkbox />
@@ -1452,8 +1458,8 @@ function ForRequest() {
                             <TableCell></TableCell>
                             {/* <TableCell>No.</TableCell> */}
                             <TableCell>Fixed Asset Code</TableCell>
-                            <TableCell >Comp.</TableCell>
-                            <TableCell >CC.</TableCell>
+                            <TableCell>Comp.</TableCell>
+                            <TableCell>CC.</TableCell>
                             <TableCell>Fixed Assets Name</TableCell>
                             <TableCell>BOI Project</TableCell>
                             <TableCell>Qty</TableCell>
@@ -1465,56 +1471,57 @@ function ForRequest() {
                         <TableBody>
                           {datatable.map((item, index) => (
                             <React.Fragment key={index}>
-                            <TableRow
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              {/* <TableCell>
+                              <TableRow
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                {/* <TableCell>
                                 <Checkbox />
                               </TableCell>{" "} */}
-                              <TableCell>
-                                {index > 0 &&
-                                item[0] === datatable[index - 1][0] ? (
-                                  ""
-                                ) : (
-                                  <DeleteIcon
-                                    style={{ color: "red", marginLeft: "10px" }}
-                                    onClick={() => handleDelete(item[0])}
-                                  />
-                                )}
-                              </TableCell>
-                              {/* <TableCell>
+                                <TableCell>
+                                  {index > 0 &&
+                                  item[0] === datatable[index - 1][0] ? (
+                                    ""
+                                  ) : (
+                                    <DeleteIcon
+                                      style={{
+                                        color: "red",
+                                        marginLeft: "10px",
+                                      }}
+                                      onClick={() => handleDelete(item[0])}
+                                    />
+                                  )}
+                                </TableCell>
+                                {/* <TableCell>
                                 {index > 0 &&
                                 item[0] === datatable[index - 1][0]
                                   ? ""
                                   : index + 1}
                               </TableCell> */}
-                              <TableCell>
-                                {index > 0 &&
-                                item[0] === datatable[index - 1][0]
-                                  ? ""
-                                  : item[0]}
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                              <TableCell>{item[5]} </TableCell>
-                              <TableCell>{item[6]}</TableCell>
-                              <TableCell>{item[7]}</TableCell>
-                              <TableCell>{item[9]}</TableCell>
-                              <TableCell>{item[10]}</TableCell>
-                              
-                            </TableRow>
-                            {/* <TableRow>
+                                <TableCell>
+                                  {index > 0 &&
+                                  item[0] === datatable[index - 1][0]
+                                    ? ""
+                                    : item[0]}
+                                </TableCell>
+                                <TableCell>{item[1]}</TableCell>
+                                <TableCell>{item[2]}</TableCell>
+                                <TableCell>{item[3]}</TableCell>
+                                <TableCell>{item[5]} </TableCell>
+                                <TableCell>{item[6]}</TableCell>
+                                <TableCell>{item[7]}</TableCell>
+                                <TableCell>{item[9]}</TableCell>
+                                <TableCell>{item[10]}</TableCell>
+                              </TableRow>
+                              {/* <TableRow>
                             <TableCell>
     {index === datatable.length - 1 ? item[0] : ""}
   </TableCell>
                             </TableRow> */}
                             </React.Fragment>
-                            
                           ))}
                         </TableBody>
                       </Table>
@@ -1683,9 +1690,14 @@ function ForRequest() {
         <div>
           <table>
             <tr>
-              <td>
+              <td style={{
+                    width: "200px",
+                    display: "inline-block",
+                    marginLeft: "400px",
+                    marginTop: "20px",
+                  }}>
                 {" "}
-                <Button
+                {/* <Button
                   style={{
                     width: "200px",
                     display: "inline-block",
@@ -1696,7 +1708,7 @@ function ForRequest() {
                   onClick={() => window.history.back()}
                 >
                   BACK PAGE
-                </Button>
+                </Button> */}
               </td>
               <td>
                 {" "}

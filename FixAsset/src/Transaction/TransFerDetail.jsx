@@ -115,8 +115,7 @@ let STS ="";
   const [selectradio_receiver, setselectradio_receiver] = useState("");
   const [selectradio_record, setselectradio_record] = useState("");
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] =
-    useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] = useState("");
   // CMMT
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
@@ -143,7 +142,7 @@ let STS ="";
   const [action__acc_manager, setaction__acc_manager] = useState("");
   const [action__service_close_by, setaction__service_close_by] = useState("");
   //Error
-  const [ErrorTel, setErrorTel] = useState(false); //
+  const [ErrorTel, setErrorTel] = useState(false); 
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
   const [ErrorNewOwn, setErrorNewOwn] = useState(false);
@@ -157,9 +156,41 @@ let STS ="";
   const [ErrorTel_service, setErrorTel_service] = useState(false);
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
+  // check read only
+  const [read_trans_fac, setReadTransFac] = useState(true);
+  const [read_trans_cc ,setReadTransCC]= useState(true);
+ // cosnt [read_tel_trans , setReadTel_Trans]= useState(true);
+  const [read_plan_date, setReadPlanDate] = useState(true);
+  const [read_abnormal, setReadAbnormal] = useState(true);
+const [read_dept, setReadDept] = useState(true);
+const [read_dept_radio, setReadDeptRadio] = useState(true);
+const [read_dept_cmmt, setReadDeptCmmt] = useState(true);
+const [read_serviceby, setReadServiceBy] = useState(true);
+const [read_serviceby_radio, setReadServiceByRadio] = useState(true);
+const [read_serviceby_cmmt, setReadServiceByCmmt] = useState(true);
+const [read_boistff, setReadBoistff] = useState(true);
+const [read_boistff_radio, setReadBoistffRadio] = useState(true);
+const [read_boistff_cmmt, setReadBoistffCmmt] = useState(true);
+const [read_fac_mana, setReadFacMana] = useState(true);
+const [read_fac_mana_radio, setReadFacManaRadio] = useState(true);
+const [read_fac_mana_cmmt, setReadFacManaCmmt] = useState(true);
+const [read_accchk, setReadAccchk] = useState(true);
+const [read_accchk_radio, setReadAccchkRadio] = useState(true);
+const [read_accchk_cmmt, setReadAccchkCmmt] = useState(true);
+const [read_owner_radio, setReadOwnerRadio] = useState(true);
+const [read_owner_cmmt, setReadOwnerCmmt] = useState(true);
+const [read_receive_radio, setReadReceiveRadio] = useState(true);
+const [read_receive_cmmt, setReadReceiveCmmt] = useState(true);
+const [read_record, setReadRecord] = useState(true);
+const [read_record_radio, setReadRecordRadio] = useState(true);
+const [read_record_cmmt, setReadRecordCmmt] = useState(true);
+const [read_acc_mana, setReadAccMana] = useState(true);
+const [read_acc_mana_radio, setReadAccManaRadio] = useState(true);
+const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
+const [read_close, setReadClose] = useState(true);
+const [read_close_radio, setReadCloseRadio] = useState(true);
+const [read_close_cmmt, setReadCloseCmmt] = useState(true);
 
-  // check button
-  const [btnsave, setbtnsave] = useState("visible");
 
   //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
@@ -275,42 +306,98 @@ let STS ="";
               else if(STS=='FLTR003'){
                 setaction__serviceby(formattedDate)
                 setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR004'){
                 setaction__boistaff(formattedDate)
                 setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR005'){
                 setaction__boimanager(formattedDate)
                 setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                
               }
               else if(STS=='FLTR006'){
                 setaction__facmanager(formattedDate)
                 setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR007'){
                 setaction__acc_check(formattedDate)
                 setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR008'){
                 setaction__owner(formattedDate)
                 setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR009'){
                 setaction__receiver(formattedDate)
                 setchkreceiver("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR010'){
                 setaction__record(formattedDate)
                 setchkacc_record("visible");
+                setchkreceiver("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR011'){
                 setaction__acc_manager(formattedDate)
                 setchkacc_manager("visible");
+                setchkacc_record("visible");
+                setchkreceiver("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               else if(STS=='FLTR012'){
                 setaction__service_close_by(formattedDate)
                 setchkservice_close("visible");
+                setchkacc_manager("visible");
+                setchkacc_record("visible");
+                setchkreceiver("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
               }
               
           
@@ -1623,6 +1710,7 @@ let STS ="";
                         value={selecttrans_factory}
                         //onChange={(e) => setselecttrans_factory(e.target.value)}
                         onChange={handleFactoryCC}
+                        disabled={read_trans_fac}
                         size="small"
                         error={ErrorFac && !selecttrans_factory}
                         helperText={
@@ -2971,7 +3059,7 @@ let STS ="";
                   size="medium"
                   color="primary"
                   className="Style9"
-                  style={{ visibility: btnsave }}
+                  style={{display: STS !== "FLTR001" ? "none" : "block",}}
                   onClick={SAVE}
                 >
                   Save
