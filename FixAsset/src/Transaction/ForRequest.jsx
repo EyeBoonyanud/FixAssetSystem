@@ -104,6 +104,7 @@ function ForRequest() {
   const [read_tel, setread_tel] = useState(false);
   const [reac_remark, setread_remark] = useState(false);
   const [reac_type, setread_type] = useState(false);
+ 
 
   const navigate = useNavigate();
   const NextPage = async () => {
@@ -117,11 +118,7 @@ function ForRequest() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   let STS ="";
   
-  if (ForRequester !== null) {
-   STS = For_Req[10];
-  } else {
-    STS = For_Rq_Edit[10];
-  }
+ 
 
   useEffect(() => {
     // Edit();
@@ -133,20 +130,21 @@ function ForRequest() {
     costcenter();
     CostforAsset();
     keep();
-    if (STS !== 'FLTR001'){
-      setread_dept(true)
-      setread_tel(true)
-      setread_remark(true)
-      setread_type(true)
-    }else{
+    // if (STS !== 'FLTR001'){
+    //   setread_dept(true)
+    //   //setread_tel(true)
+    //  // setread_remark(true)
+    //   setread_type(true)
+    // }else{
 
-    }
+    // }
   }, []);
 
   const keep = () => {
     if (EditFam != null) {
       console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
       if (For_Rq_Edit != null) {
+        STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
         setdataUserLogin1(For_Rq_Edit[2]);
@@ -168,6 +166,7 @@ function ForRequest() {
       }
     } else {
       if (For_Req != null) {
+        STS = For_Req[10];
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
         setdataUserLogin1(For_Req[1]);
@@ -186,6 +185,7 @@ function ForRequest() {
           setvisibityFile("visible");
         }
       } else {
+        STS =""
         setRequest_date(formattedDate);
       }
     }
@@ -200,6 +200,7 @@ function ForRequest() {
 
   //Request By /////////////////////////////////////////
   const request_by = async () => {
+    
     try {
       const response = await axios.get(
         `http://localhost:5000/getby?By=${LocalUserLogin}`
@@ -207,39 +208,80 @@ function ForRequest() {
       const data = await response.data;
       const data_insert = data.flat();
       setdataUserLogin(data_insert);
+     if (EditFam != null) {
+      if (For_Rq_Edit != null) {
+        //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+        setdataUserLogin1(For_Rq_Edit[2]);
+      }
+    } else {
       if (For_Req != null) {
-        setdataUserLogin1(data_insert[4]);
+        setdataUserLogin1(For_Req[2]);
       } else {
         //console.log("/////////");
         setdataUserLogin1(data_insert[4]);
       }
+    }
     } catch (error) {
       //console.error("Error during login:", error);
     }
+    
   };
   //Request_Factory//////////////////////////////////////
   const factory = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
-      );
-      const data = await response.data;
-      const data_Fac = data.flat();
-      setFactory(data_Fac);
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-          setFactory1(For_Rq_Edit[4]);
-        }
-      } else {
-        if (For_Req != null) {
-          setFactory1(data_Fac[0]);
+    let data_Fac=""
+    if(EditFam==null){
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+        );
+        const data = await response.data;
+         data_Fac = data.flat();
+        setFactory(data_Fac);
+        if (EditFam != null) {
+          if (For_Rq_Edit != null) {
+            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            setFactory1(For_Rq_Edit[4]);
+          }
         } else {
-          //console.log("/////////");
-          setFactory1(data_Fac[0]);
+          if (For_Req != null) {
+            setFactory1(For_Req[4]);
+          } else {
+            //console.log("/////////");
+            setFactory1(data_Fac[0]);
+          }
         }
-      }
+  
 
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    }else{
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+        );
+        const data = await response.data;
+         data_Fac = data.flat();
+        setFactory(data_Fac);
+        if (EditFam != null) {
+          if (For_Rq_Edit != null) {
+            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            setFactory1(For_Rq_Edit[4]);
+          }
+        } else {
+          if (For_Req != null) {
+            setFactory1(For_Req[4]);
+          } else {
+            //console.log("/////////");
+            setFactory1(data_Fac[0]);
+          }
+        }
+  
+
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    }
       if (data_Fac.length >= 0) {
         try {
           const response = await axios.get(
@@ -269,9 +311,8 @@ function ForRequest() {
         }
       }
       fixasset_group(data_Fac[1]);
-    } catch (error) {
-      //console.error("Error during login:", error);
-    }
+   
+
   };
   //Cost Center/////////////////////////////////////////
   const costcenter = async () => {
@@ -1012,7 +1053,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
-                      disabled={read_tel}
+                      //disabled={read_tel}
                       // style={{
 
                       //   width: "100%",
@@ -1078,7 +1119,7 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
-                        disabled={read_dept}
+                        //disabled={read_dept}
                         value={selectDept1}
                         onChange={handleDept}
                         style={{
@@ -1114,8 +1155,8 @@ function ForRequest() {
                       name="row-radio-buttons-group"
                       id="Radio_ReqType"
                       value={Request_type1}
-                      disabled={reac_type}
-                      style={{ opacity: reac_type ? 0.5 : 1 }}
+                     // disabled={reac_type}
+                     // style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
                       <FormControlLabel
@@ -1256,7 +1297,7 @@ function ForRequest() {
                       id="Remark"
                       size="small"
                       style={{ width: "100%" }}
-                      disabled={reac_remark}
+                     // disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}

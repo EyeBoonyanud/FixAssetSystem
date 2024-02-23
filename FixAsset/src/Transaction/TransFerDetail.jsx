@@ -15,14 +15,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { LocalActivity, SaveAlt } from "@mui/icons-material";
 import Header from "../Page/Hearder";
-import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
+  const User = localStorage.getItem("UserLogin")
   const navigate = useNavigate();
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
@@ -38,15 +36,13 @@ function TransFerDetail() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   //console.log(For_Rq_Edit, "For_Req_Edit");
 
-let STS ="";
-  
-  if (ForRequester !== null) {
-   STS = For_Req[10];
-  } else {
-    STS = For_Rq_Edit[10];
-  }
+  let STS = "";
 
-
+  // if (ForRequester !== null) {
+  //  STS = For_Req[10];
+  // } else {
+  //   STS = For_Rq_Edit[10];
+  // }
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
@@ -56,7 +52,6 @@ let STS ="";
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-
 
   let Fam_list = "";
   let servivedept = "";
@@ -115,7 +110,8 @@ let STS ="";
   const [selectradio_receiver, setselectradio_receiver] = useState("");
   const [selectradio_record, setselectradio_record] = useState("");
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] = useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] =
+    useState("");
   // CMMT
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
@@ -141,8 +137,8 @@ let STS ="";
   const [action__record, setaction__record] = useState("");
   const [action__acc_manager, setaction__acc_manager] = useState("");
   const [action__service_close_by, setaction__service_close_by] = useState("");
-  //Error
-  const [ErrorTel, setErrorTel] = useState(false); 
+  //Error 
+  const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
   const [ErrorNewOwn, setErrorNewOwn] = useState(false);
@@ -157,41 +153,39 @@ let STS ="";
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
   // check read only
-  const [read_trans_fac, setReadTransFac] = useState(true);
-  const [read_trans_cc ,setReadTransCC]= useState(true);
- // cosnt [read_tel_trans , setReadTel_Trans]= useState(true);
-  const [read_plan_date, setReadPlanDate] = useState(true);
-  const [read_abnormal, setReadAbnormal] = useState(true);
-const [read_dept, setReadDept] = useState(true);
-const [read_dept_radio, setReadDeptRadio] = useState(true);
-const [read_dept_cmmt, setReadDeptCmmt] = useState(true);
-const [read_serviceby, setReadServiceBy] = useState(true);
-const [read_serviceby_radio, setReadServiceByRadio] = useState(true);
-const [read_serviceby_cmmt, setReadServiceByCmmt] = useState(true);
-const [read_boistff, setReadBoistff] = useState(true);
-const [read_boistff_radio, setReadBoistffRadio] = useState(true);
-const [read_boistff_cmmt, setReadBoistffCmmt] = useState(true);
-const [read_fac_mana, setReadFacMana] = useState(true);
-const [read_fac_mana_radio, setReadFacManaRadio] = useState(true);
-const [read_fac_mana_cmmt, setReadFacManaCmmt] = useState(true);
-const [read_accchk, setReadAccchk] = useState(true);
-const [read_accchk_radio, setReadAccchkRadio] = useState(true);
-const [read_accchk_cmmt, setReadAccchkCmmt] = useState(true);
-const [read_owner_radio, setReadOwnerRadio] = useState(true);
-const [read_owner_cmmt, setReadOwnerCmmt] = useState(true);
-const [read_receive_radio, setReadReceiveRadio] = useState(true);
-const [read_receive_cmmt, setReadReceiveCmmt] = useState(true);
-const [read_record, setReadRecord] = useState(true);
-const [read_record_radio, setReadRecordRadio] = useState(true);
-const [read_record_cmmt, setReadRecordCmmt] = useState(true);
-const [read_acc_mana, setReadAccMana] = useState(true);
-const [read_acc_mana_radio, setReadAccManaRadio] = useState(true);
-const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
-const [read_close, setReadClose] = useState(true);
-const [read_close_radio, setReadCloseRadio] = useState(true);
-const [read_close_cmmt, setReadCloseCmmt] = useState(true);
-
-
+  const [read_trans_fac, setReadTransFac] = useState(false);
+  const [read_trans_cc, setReadTransCC] = useState(false);
+  const [read_tel, setReadTel] = useState(false);
+  const [read_plan_date, setReadPlanDate] = useState(false);
+  const [read_abnormal, setReadAbnormal] = useState(false);
+  const [read_dept, setReadDept] = useState(false);
+  const [read_dept_radio, setReadDeptRadio] = useState(false);
+  const [read_dept_cmmt, setReadDeptCmmt] = useState(false);
+  const [read_serviceby, setReadServiceBy] = useState(false);
+  const [read_serviceby_radio, setReadServiceByRadio] = useState(false);
+  const [read_serviceby_cmmt, setReadServiceByCmmt] = useState(false);
+  const [read_boistff, setReadBoistff] = useState(false);
+  const [read_boistff_radio, setReadBoistffRadio] = useState(false);
+  const [read_boistff_cmmt, setReadBoistffCmmt] = useState(false);
+  const [read_fac_mana, setReadFacMana] = useState(false);
+  const [read_fac_mana_radio, setReadFacManaRadio] = useState(false);
+  const [read_fac_mana_cmmt, setReadFacManaCmmt] = useState(false);
+  const [read_accchk, setReadAccchk] = useState(false);
+  const [read_accchk_radio, setReadAccchkRadio] = useState(false);
+  const [read_accchk_cmmt, setReadAccchkCmmt] = useState(false);
+  const [read_owner_radio, setReadOwnerRadio] = useState(false);
+  const [read_owner_cmmt, setReadOwnerCmmt] = useState(false);
+  const [read_receive_radio, setReadReceiveRadio] = useState(false);
+  const [read_receive_cmmt, setReadReceiveCmmt] = useState(false);
+  const [read_record_radio, setReadRecordRadio] = useState(false);
+  const [read_record_cmmt, setReadRecordCmmt] = useState(false);
+  const [read_acc_mana, setReadAccMana] = useState(false);
+  const [read_acc_mana_radio, setReadAccManaRadio] = useState(false);
+  const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(false);
+  const [read_close_radio, setReadCloseRadio] = useState(false);
+  const [read_close_cmmt, setReadCloseCmmt] = useState(false);
+ //Save 
+  // const [btnsave,setbtnsave] = useState(false);
   //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
@@ -228,8 +222,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
     ACC_Manager();
 
     if (EditFam != null) {
-
       if (For_Rq_Edit != null) {
+        STS = For_Rq_Edit[10];
         setownersend(For_Rq_Edit[2]);
         if (For_edit_trans != null) {
           setnew_boi(For_edit_trans[0][2]);
@@ -244,8 +238,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           if (For_Edit_Rou != null) {
             //set Submit
             setowner_roting(For_Rq_Edit[2]);
-            setTel_service(For_Edit_Rou[0][7]); 
-            if (STS!='FLTR001' ) {
+            setTel_service(For_Edit_Rou[0][7]);
+            if (STS != "FLTR001") {
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
@@ -259,7 +253,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
               setselectradio_boistaff(For_Edit_Rou[0][10]);
               setcmmtradio_boistaff(For_Edit_Rou[0][11]);
               // BOI Manager
-            
+
               setaction__boimanager(For_Edit_Rou[0][13]);
               setselectradio_boimanager(For_Edit_Rou[0][14]);
               setcmmtradio_boimanager(For_Edit_Rou[0][15]);
@@ -267,7 +261,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
               setaction__facmanager(For_Edit_Rou[0][17]);
               setselectradio_facmanager(For_Edit_Rou[0][18]);
               setcmmtradio_facmanager(For_Edit_Rou[0][19]);
-              // ACC Check 
+              // ACC Check
               setaction__acc_check(For_Edit_Rou[0][21]);
               setselectradio_acc_check(For_Edit_Rou[0][22]);
               setcmmtradio_acc_check(For_Edit_Rou[0][23]);
@@ -275,11 +269,11 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
               setaction__owner(For_Edit_Rou[0][33]);
               setselectradio_owner(For_Edit_Rou[0][34]);
               setcmmtradio_owner(For_Edit_Rou[0][35]);
-              // Receiver 
+              // Receiver
               setaction__receiver(Edit_trans[0][11]);
               setselectradio_receiver(Edit_trans[0][10]);
               setcmmtradio_receiver(Edit_trans[0][12]);
-              // Record 
+              // Record
               setaction__record(For_Edit_Rou[0][25]);
               setselectradio_record(For_Edit_Rou[0][26]);
               setcmmtradio_record(For_Edit_Rou[0][27]);
@@ -291,56 +285,46 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
               setaction__service_close_by(For_Edit_Rou[0][37]);
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
-              
-              
+              //readonly
+              setReadTransFac(true);
+              setReadTransCC(true);
 
-
-
-          
-              
               // Wait Dept
-              if(STS=='FLTR002'){
+              if (STS == "FLTR002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR003'){
-                setaction__serviceby(formattedDate)
+              } else if (STS == "FLTR003") {
+                setaction__serviceby(formattedDate);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR004'){
-                setaction__boistaff(formattedDate)
+              } else if (STS == "FLTR004") {
+                setaction__boistaff(formattedDate);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR005'){
-                setaction__boimanager(formattedDate)
+              } else if (STS == "FLTR005") {
+                setaction__boimanager(formattedDate);
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                
-              }
-              else if(STS=='FLTR006'){
-                setaction__facmanager(formattedDate)
+              } else if (STS == "FLTR006") {
+                setaction__facmanager(formattedDate);
                 setchkfacmanager("visible");
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR007'){
-                setaction__acc_check(formattedDate)
+              } else if (STS == "FLTR007") {
+                setaction__acc_check(formattedDate);
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR008'){
-                setaction__owner(formattedDate)
+              } else if (STS == "FLTR008") {
+                setaction__owner(formattedDate);
                 setchkowner("visible");
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
@@ -348,9 +332,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR009'){
-                setaction__receiver(formattedDate)
+              } else if (STS == "FLTR009") {
+                setaction__receiver(formattedDate);
                 setchkreceiver("visible");
                 setchkowner("visible");
                 setchkacc_check("visible");
@@ -359,9 +342,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR010'){
-                setaction__record(formattedDate)
+              } else if (STS == "FLTR010") {
+                setaction__record(formattedDate);
                 setchkacc_record("visible");
                 setchkreceiver("visible");
                 setchkowner("visible");
@@ -371,9 +353,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR011'){
-                setaction__acc_manager(formattedDate)
+              } else if (STS == "FLTR011") {
+                setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
                 setchkacc_record("visible");
                 setchkreceiver("visible");
@@ -384,9 +365,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-              }
-              else if(STS=='FLTR012'){
-                setaction__service_close_by(formattedDate)
+              } else if (STS == "FLTR012") {
+                setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
                 setchkacc_manager("visible");
                 setchkacc_record("visible");
@@ -399,12 +379,9 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
               }
-              
-          
-          }
-            } else {
-               ///////////// else //////////////
-           
+            }
+          } else {
+            ///////////// else //////////////
           }
         }
       }
@@ -427,6 +404,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
         }
       } else {
         if (For_Req != null) {
+          STS = For_Req[10];
           setownersend(For_Req[1]);
           setowner_roting(For_Req[1]);
           setdata_fromboi("");
@@ -436,6 +414,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           setplan_date("");
           setabnormal("");
           setreceiver("");
+          setbtnsave("visible")
         }
       }
     }
@@ -836,7 +815,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
 
   // Handle Save Submit Reset
   const SAVE = async () => {
-    console.log(plan_date)
+    console.log(plan_date);
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -914,7 +893,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
 
     try {
       const row = axios.post(
-       
         `http://localhost:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
       );
     } catch (error) {
@@ -933,7 +911,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
       title: "Save Success",
       icon: "success",
     });
-
+   
     setOpen(true);
   };
 
@@ -1269,9 +1247,9 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
     }
 
     if (EditFam != null) {
-      // Submit ตามเงื่อนไข 
+      // Submit ตามเงื่อนไข
       if (For_Rq_Edit != null) {
-        console.log("ไม่มาาาาาาาาาาาา");
+        console.log("ไม่มาาาาาาาาาาาา",Tel_for_trans);
         if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
           try {
@@ -1294,7 +1272,25 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 updateby: For_Rq_Edit[2],
               }
             );
-           
+          } catch (error) {
+            //     console.error("Error updating submit status:", error.message);
+          } try {
+            console.log("For_edit_trans", For_edit_trans[0][8]);
+            const response = await axios.post(
+              "http://localhost:5000/Update_For_Trans_All",
+              {
+                famno:For_Rq_Edit[0][8] ,
+                date_plan: plan_date,
+                fac_trans: selecttrans_factory,
+                cc_trans: selecttrans_cc,
+                to_proj: new_boi,
+                rec_by: selectnew_owner,
+                tel: Tel_for_trans,
+                sts_for: sts,
+                abnormal_for: abnormal,
+                create_by: User,
+              }
+            );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -1306,7 +1302,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                 sts_submit: Status,
               }
             );
-           
 
             Swal.fire({
               title: "Save Success",
@@ -1315,19 +1310,14 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        } 
-        else
-         if (For_Rq_Edit[10] === "FLTR002") {
-          console.log("เข้ามาทำไมมมมมมมมมมมมมมมมม")
+        } else if (For_Rq_Edit[10] === "FLTR002") {
+          console.log("เข้ามาทำไมมมมมมมมมมมมมมมมม");
           let Status = "FLTR003";
           try {
             const row = axios.post(
-             
               `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1335,19 +1325,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR003") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR003") {
           let Status = "FLTR004";
           try {
             const row = axios.post(
-             
               `http://localhost:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1355,19 +1339,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR004") {
-         
+        } else if (For_Rq_Edit[10] === "FLTR004") {
           let Status = "FLTR005";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1375,19 +1353,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR005") {
-         
+        } else if (For_Rq_Edit[10] === "FLTR005") {
           let Status = "FLTR006";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1395,19 +1367,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR006") {
-
+        } else if (For_Rq_Edit[10] === "FLTR006") {
           let Status = "FLTR007";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1415,43 +1381,32 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR007") {
-          console.log(selectradio_acc_check,cmmtradio_acc_check)
+        } else if (For_Rq_Edit[10] === "FLTR007") {
+          console.log(selectradio_acc_check, cmmtradio_acc_check);
           let Status = "FLTR008";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
             );
-
-           
 
             Swal.fire({
               title: "Save Success",
               icon: "success",
             });
           } catch (error) {
-                console.error("Error updating submit status:", error.message);
-                Swal.fire({
-                  title: "Error",
-                  icon: "Error",
-                });
-                return;
+            console.error("Error updating submit status:", error.message);
+            Swal.fire({
+              title: "Error",
+              icon: "Error",
+            });
+            return;
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR008") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR008") {
           let Status = "FLTR009";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
             );
-
-           
 
             Swal.fire({
               title: "Save Success",
@@ -1460,18 +1415,12 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR009") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR009") {
           let Status = "FLTR010";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
             );
-
-           
 
             Swal.fire({
               title: "Save Success",
@@ -1491,19 +1440,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR010") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR010") {
           let Status = "FLTR011";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1511,19 +1454,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-        if (For_Rq_Edit[10] === "FLTR011") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR011") {
           let Status = "FLTR012";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
             );
 
-           
-
             Swal.fire({
               title: "Save Success",
               icon: "success",
@@ -1531,18 +1468,12 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
-        }
-        else 
-          if (For_Rq_Edit[10] === "FLTR012") {
-          
+        } else if (For_Rq_Edit[10] === "FLTR012") {
           let Status = "FLTR013";
           try {
             const row = axios.post(
-               
               `http://localhost:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
             );
-
-           
 
             Swal.fire({
               title: "Save Success",
@@ -1552,13 +1483,9 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
             //     console.error("Error updating submit status:", error.message);
           }
         }
-        
       }
-     
-        navigate("/Search");
-      
-     
-     
+
+      navigate("/Search");
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
@@ -1594,7 +1521,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
               updateby: For_Req[1],
             }
           );
-         
+
           Swal.fire({
             title: "Save Success",
             icon: "success",
@@ -1615,7 +1542,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
-
   };
 
   const Reset = async () => {
@@ -1725,7 +1651,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorFac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To factory</FormHelperText>} */}
+                    
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1739,6 +1665,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         id="demo-simple-select-helper"
                         value={selecttrans_cc}
                         onChange={handleNew_BOI}
+                        disabled={read_trans_cc}
                         size="small"
                         error={ErrorCC && !selecttrans_cc}
                         helperText={
@@ -1753,7 +1680,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorCC && !selecttrans_cc &&<FormHelperText style={{color : "red"}}>กรุณาเลือก Transfer To CC</FormHelperText>} */}
+                      
                     </FormControl>
                   </td>
                   <tr></tr>
@@ -1766,7 +1693,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                   <td>
                     <FormControl className="Style1">
                       <TextField
-                        defaultValue=""
                         size="small"
                         value={new_boi}
                         onChange={(e) => setnew_boi(e.target.value)}
@@ -1830,6 +1756,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         id="Plan_Remove"
                         size="small"
                         type="date"
+                        disabled={read_plan_date}
                         value={plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
                       />
@@ -1893,6 +1820,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        disabled={read_dept}
                         value={selectdepartment_mana}
                         onChange={(e) =>
                           setselectdepartment_mana(e.target.value)
@@ -1931,22 +1859,18 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_dept_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_dept_radio}
                           control={<Radio size="small" />}
                           label="Reject"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7"
-                   style={{ visibility: checkrdo }}
-                   > 
-                 
+                  <td className="Style7" style={{ visibility: checkrdo }}>
                     Action Date :
                   </td>
                   <td className="Style6">
@@ -1959,7 +1883,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         onChange={(e) => setaction__dept(e.target.value)}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                           visibility: checkrdo,
+                          visibility: checkrdo,
                         }}
                       />
                     </FormControl>
@@ -1976,6 +1900,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         id="outlined-size-small"
                         size="small"
                         value={cmmtradio_dept}
+                        disabled={read_dept_cmmt}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                         //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
                         style={{ visibility: checkrdo }}
@@ -1991,7 +1916,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         sx={{
@@ -2008,7 +1932,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="Tel_Service"
-                        defaultValue=""
+                        disabled={read_tel}
                         size="small"
                         value={Tel_service}
                         onChange={(e) => setTel_service(e.target.value)}
@@ -2034,6 +1958,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        disabled={read_serviceby}
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
                         style={{
@@ -2041,11 +1966,11 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         }}
                         error={ErrorService_by && !selectservice_by}
                         size="small"
-                        helperText={
-                          ErrorService_by && !selectservice_by
-                            ? "Service By"
-                            : undefined
-                        }
+                        // helperText={
+                        //   ErrorService_by && !selectservice_by
+                        //     ? "Service By"
+                        //     : undefined
+                        // }
                       >
                         {service_by.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -2076,27 +2001,24 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_serviceby_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_serviceby_radio}
                           control={<Radio size="small" />}
                           label="Not Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" 
-                  style={{ visibility: chkservice_by }}>
+                  <td className="Style7" style={{ visibility: chkservice_by }}>
                     Action Date :
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__serviceby}
@@ -2109,20 +2031,18 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr 
-               // style={{ display: "none" }}
+                <tr
+                // style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
-                  <td className="Style4" 
-                  style={{ visibility: chkservice_by }}
-                  >
+                  <td className="Style4" style={{ visibility: chkservice_by }}>
                     Comment :
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        disabled={read_serviceby_cmmt}
                         size="small"
                         value={cmmtradio_serviceby}
                         onChange={(e) => setcmmtradio_serviceby(e.target.value)}
@@ -2140,6 +2060,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        disabled={read_boistff}
                         value={selectboi_staff}
                         onChange={(e) => setselectboi_staff(e.target.value)}
                         style={{
@@ -2177,14 +2098,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_boistff_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_boistff_radio}
                           control={<Radio size="small" />}
                           label="No Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2196,7 +2116,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__boistaff}
@@ -2209,7 +2128,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr 
+                <tr
                 //style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
@@ -2220,7 +2139,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        disabled={read_boistff_cmmt}
                         size="small"
                         value={cmmtradio_boistaff}
                         onChange={(e) => setcmmtradio_boistaff(e.target.value)}
@@ -2238,6 +2157,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        disabled={read_boistff}
                         value={selectboi_manager}
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
@@ -2263,9 +2183,9 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                   <td className="Style5">
                     <FormControl>
                       <RadioGroup
-                         row
-                         aria-labelledby="demo-row-radio-buttons-group-label"
-                         name="row-radio-buttons-group"
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
                         style={{ visibility: chkboimanager }}
                         value={selectradio_boimanager}
                         onChange={(e) =>
@@ -2276,13 +2196,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_boistff_radio}
                         />
                         <FormControlLabel
                           value="R"
                           control={<Radio size="small" />}
                           label="Reject"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                          disabled={read_boistff_radio}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2294,7 +2214,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__boimanager}
@@ -2307,7 +2226,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr 
+                <tr
                 //style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
@@ -2320,6 +2239,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         id="outlined-size-small"
                         size="small"
                         value={cmmtradio_boimanager}
+                        disabled={read_boistff_cmmt}
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
                         }
@@ -2338,6 +2258,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         value={selectfac_manager}
+                        disabled={read_fac_mana}
                         onChange={(e) => setselectfac_manager(e.target.value)}
                         size="small"
                         style={{
@@ -2376,14 +2297,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_fac_mana_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_fac_mana_radio}
                           control={<Radio size="small" />}
                           label="Reject"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2396,7 +2316,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__facmanager}
@@ -2410,8 +2329,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                   </td>
                 </tr>
                 <>
-                  <tr 
-                 // style={{ display: "none" }}
+                  <tr
+                  // style={{ display: "none" }}
                   >
                     <th colSpan={5}></th>
                     <td
@@ -2424,7 +2343,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          defaultValue=""
+                          disabled={read_fac_mana_cmmt}
                           size="small"
                           value={cmmtradio_facmanager}
                           onChange={(e) =>
@@ -2446,6 +2365,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         value={selectacc_check}
+                        disabled={read_accchk}
                         onChange={(e) => setselectacc_check(e.target.value)}
                         size="small"
                         style={{
@@ -2484,13 +2404,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_accchk_radio}
                         />
                         <FormControlLabel
                           value="R"
                           control={<Radio size="small" />}
                           label="No Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
+                          disabled={read_accchk_radio}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2502,7 +2422,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__acc_check}
@@ -2522,7 +2441,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        disabled={read_accchk_cmmt}
                         size="small"
                         value={cmmtradio_acc_check}
                         onChange={(e) => setcmmtradio_acc_check(e.target.value)}
@@ -2538,7 +2457,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style3">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={owner_roting}
@@ -2563,14 +2481,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_owner_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_owner_radio}
                           control={<Radio size="small" />}
                           label="No Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2582,7 +2499,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={action__owner}
                         onChange={(e) => setaction__owner(e.target.value)}
@@ -2595,8 +2511,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr 
-               // style={{ display: "none" }}
+                <tr
+                // style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkowner }}>
@@ -2606,7 +2522,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
+                        disabled={read_owner_cmmt}
                         size="small"
                         value={cmmtradio_owner}
                         onChange={(e) => setcmmtradio_owner(e.target.value)}
@@ -2652,7 +2568,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style3">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={receiver}
                         onChange={(e) => setreceiver(e.target.value)}
@@ -2680,14 +2595,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_receive_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_receive_radio}
                           control={<Radio size="small" />}
                           label="No Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2699,7 +2613,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={action__receiver}
                         onChange={(e) => setaction__receiver(e.target.value)}
@@ -2713,8 +2626,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                   </td>
                 </tr>
 
-                <tr 
-               // style={{ display: "none" }}
+                <tr
+                // style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkreceiver }}>
@@ -2725,6 +2638,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <TextField
                         id="outlined-size-small"
                         size="small"
+                        disabled={read_receive_cmmt}
                         value={cmmtradio_receiver}
                         onChange={(e) => setcmmtradio_receiver(e.target.value)}
                         style={{ visibility: chkreceiver }}
@@ -2772,7 +2686,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={selectacc_check}
                         onChange={(e) => setselectacc_check(e.target.value)}
@@ -2797,14 +2710,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_record_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_record_radio}
                           control={<Radio size="small" />}
                           label="No Accept"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2816,7 +2728,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={action__record}
                         onChange={(e) => setaction__record(e.target.value)}
@@ -2829,8 +2740,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>
                 </tr>
-                <tr 
-              //  style={{ display: "none" }}
+                <tr
+                //  style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkacc_record }}>
@@ -2841,6 +2752,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <TextField
                         id="outlined-size-small"
                         value={cmmtradio_record}
+                        disabled={read_record_cmmt}
                         onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
                         style={{ visibility: chkacc_record }}
@@ -2857,6 +2769,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         value={selectacc_manager}
+                        disabled={read_acc_mana}
                         onChange={(e) => setselectacc_manager(e.target.value)}
                         size="small"
                         style={{
@@ -2898,14 +2811,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_acc_mana_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_acc_mana_radio}
                           control={<Radio size="small" />}
                           label="Reject"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2917,7 +2829,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__acc_manager}
@@ -2930,8 +2841,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>
                 </tr>
-                <tr 
-               // style={{ display: "none" }}
+                <tr
+                // style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
                   <td className="Style4" style={{ visibility: chkacc_manager }}>
@@ -2942,6 +2853,7 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <TextField
                         id="outlined-size-small"
                         value={cmmtradio_acc_manager}
+                        disabled={read_acc_mana_cmmt}
                         onChange={(e) =>
                           setcmmtradio_acc_manager(e.target.value)
                         }
@@ -2958,7 +2870,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
@@ -2985,14 +2896,13 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR001')}
+                          disabled={read_close_radio}
                         />
                         <FormControlLabel
                           value="R"
-                        
+                          disabled={read_close_radio}
                           control={<Radio size="small" />}
                           label="Reject"
-                          // disabled ={(radio_dept === 'Sucha.S' &&  Sts === 'FLTR002')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -3007,7 +2917,6 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        defaultValue=""
                         size="small"
                         disabled
                         value={action__service_close_by}
@@ -3022,8 +2931,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                     </FormControl>
                   </td>
                 </tr>
-                <tr 
-               // style={{ display: "none" }}
+                <tr
+                // style={{ display: "none" }}
                 >
                   <th colSpan={5}></th>
                   <td
@@ -3037,8 +2946,11 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                       <TextField
                         id="outlined-size-small"
                         value={cmmtradio_service_close_by}
-                        onChange={(e) => setcmmtradio_service_close_by(e.target.value)}
+                        onChange={(e) =>
+                          setcmmtradio_service_close_by(e.target.value)
+                        }
                         size="small"
+                        disabled={read_close_cmmt}
                         style={{ visibility: chkservice_close }}
                       />
                     </FormControl>
@@ -3059,7 +2971,8 @@ const [read_close_cmmt, setReadCloseCmmt] = useState(true);
                   size="medium"
                   color="primary"
                   className="Style9"
-                  style={{display: STS !== "FLTR001" ? "none" : "block",}}
+                 
+                  style={{ display: STS == "FLTR001" ? "none" : "block" }}
                   onClick={SAVE}
                 >
                   Save

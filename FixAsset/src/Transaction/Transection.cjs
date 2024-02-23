@@ -1450,94 +1450,7 @@ module.exports.getEdit_FileUpload = async function (req, res) {
   }
 };
 
-//Edit Trans Details
-// module.exports.getEdit_Trans = async function (req, res) {
-//   try {
-//     const fam_no = req.query.FamNo;
-//     // console.log(fam_no, "fam_no");
-//     const connect = await oracledb.getConnection(AVO);
-//     const query = `
-//     SELECT
-// 	T.FRH_FAM_NO ,
-// 	T.FAM_REQ_BY,
-// 	R.FRT_FROM_PROJ ,
-// 	R.FRT_TO_FACTORY ,
-// 	R.FRT_TO_CC ,
-// 	R.FRT_TO_PROJ ,
-//   M.USER_EMP_ID ||' : ' || M.USER_LOGIN  AS NEW_OWNER,
-//   R.FRT_RECEIVE_BY ,
-// 	R.FRT_RECEIVER_TEL ,
-// 	R.FRT_PLAN_MOVE_DATE ,
-// 	R.FRT_ABNORMAL_REASON ,
-// 	R.FRT_ABNORMAL_STS,
-// 	T.FAM_MGR_DEPT ,
-// 	T.FAM_MGR_JUD ,
-// 	T.FAM_MGR_DATE ,
-// 	T.FAM_MGR_CMMT ,
-// 	T.FAM_SERVICE_DEPT ,
-// 	T.FAM_SERVICE_TEL,
-// 	T.FAM_SERVICE_BY,
-// 	T.FAM_SERVICE_JUD,
-// 	T.FAM_SERVICE_DATE,
-// 	T.FAM_SERVICE_CMMT,
-// 	T.FAM_BOI_CHK_BY,
-// 	T.FAM_BOI_CHK_JUD,
-// 	T.FAM_BOI_CHK_DATE,
-// 	T.FAM_BOI_CHK_CMMT,
-// 	T.FAM_BOI_MGR_BY ,
-// 	T.FAM_BOI_MGR_JUD ,
-// 	T.FAM_BOI_MGR_DATE ,
-// 	T.FAM_BOI_MGR_CMMT ,
-// 	T.FAM_FM_BY ,
-// 	T.FAM_FM_JUD ,
-// 	T.FAM_FM_DATE ,
-// 	T.FAM_FM_CMMT ,
-// 	T.FAM_ACC_CHK_BY ,
-// 	T.FAM_ACC_CHK_JUD ,
-// 	T.FAM_ACC_CHK_JUD ,
-// 	T.FAM_ACC_CHK_CMMT ,
-// 	T.FAM_OWNER_SEND_BY ,
-// 	T.FAM_OWNER_SEND_JUD ,
-// 	T.FAM_OWNER_SEND_DATE ,
-// 	T.FAM_OWNER_SEND_CMMT ,
-// 	T.FAM_ACC_REC_BY ,
-// 	T.FAM_ACC_REC_JUD ,
-// 	T.FAM_ACC_REC_DATE ,
-// 	T.FAM_ACC_REC_CMMT ,
-// 	R.FRT_RECEIVE_BY ,
-// 	R.FRT_RECEIVER_JUD ,
-// 	R.FRT_RECEIVE_DATE ,
-// 	R.FRT_RECEIVE_CMMT ,
-// 	T.FAM_ACC_REC_BY ,
-// 	T.FAM_ACC_REC_JUD ,
-// 	T.FAM_ACC_REC_DATE ,
-// 	T.FAM_ACC_REC_CMMT ,
-// 	T.FAM_ACC_MGR_BY ,
-// 	T.FAM_ACC_MGR_JUD ,
-// 	T.FAM_ACC_MGR_DATE ,
-// 	T.FAM_ACC_MGR_CMMT ,
-// 	T.FAM_SERVICE_CLOSE_BY ,
-// 	T.FAM_SERVICE_CLOSE_JUD,
-// 	T.FAM_SERVICE_CLOSE_DATE ,
-// 	T.FAM_SERVICE_CLOSE_CMMT
 
-//   FROM
-//     FAM_REQ_HEADER T
-//   LEFT JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = T.FRH_FAM_NO
-//   LEFT JOIN CUSR.CU_USER_M M ON M.USER_LOGIN = R.FRT_RECEIVE_BY
-// WHERE
-// 	T.FRH_FAM_NO = '${fam_no}'
-//     `;
-
-//     const result = await connect.execute(query);
-//     connect.release();
-//     // console.log(result);
-//     res.json(result.rows);
-//   } catch (error) {
-//     console.error("Error in querying data:", error.message);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 //Edit Trans
 module.exports.getEdit_Trans = async function (req, res) {
   try {
@@ -1642,7 +1555,7 @@ FROM
   }
 };
 
-//
+// Update For Req_All
 module.exports.Update_For_Req_All = async function (req, res) {
   try {
     console.log("LLLLLLLLLLLLLLLLLL");
@@ -1733,7 +1646,88 @@ module.exports.Update_For_Req_All = async function (req, res) {
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
-//
+//Update For Transfer
+module.exports.Update_For_Trans_All = async function (req, res) {
+  try {
+    console.log("MMMMMMM");
+
+    const {
+      famno,
+      date_plan,
+      fac_trans,
+      cc_trans,
+      to_proj,
+      rec_by,
+      tel,
+      sts_for,
+      abnormal_for,
+      create_by
+    } = req.body;
+
+    console.log(
+      famno,
+      date_plan,
+      fac_trans,
+      cc_trans,
+      to_proj,
+      rec_by,
+      tel,
+      sts_for,
+      abnormal_for,
+      create_by
+    );
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_TRANSFER
+  SET
+    FRT_PLAN_MOVE_DATE = :FRT_PLAN_MOVE_DATE,
+    FRT_TO_FACTORY = :FRT_TO_FACTORY,
+    FRT_TO_CC = :FRT_TO_CC,
+    FRT_TO_PROJ = :FRT_TO_PROJ,
+    FRT_RECEIVE_BY = :FRT_RECEIVE_BY,
+    FRT_RECEIVER_TEL = :FRT_RECEIVER_TEL,
+    FRT_ABNORMAL_STS = :FRT_ABNORMAL_STS,
+    FRT_ABNORMAL_REASON = :FRT_ABNORMAL_REASON,
+    FRT_CREATE_DATE = SYSDATE,
+    FRT_CREATE_BY = :FRT_CREATE_BY
+  WHERE
+    FRT_FAM_NO = :FRT_FAM_NO
+    `;
+
+    const data = {
+      FRT_FAM_NO: famno,
+      FRT_PLAN_MOVE_DATE: date_plan,
+      FRT_TO_FACTORY: fac_trans,
+      FRT_TO_CC: cc_trans,
+      FRT_TO_PROJ: to_proj,
+      FRT_RECEIVE_BY: rec_by,
+      FRT_RECEIVER_TEL: tel,
+      FRT_ABNORMAL_STS: sts_for,
+      FRT_ABNORMAL_REASON: abnormal_for,
+      FRT_CREATE_BY: create_by,
+     
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+
+    if (result) {
+      res.json(result);
+    } else {
+      //  console.error("Error: Unexpected result from the database");
+      res.status(500).send("Internal Server Error");
+    }
+
+    connect.release();
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send(`Internal Server Error: ${error.message}`);
+  }
+};
+
+
+
 module.exports.getFixcode = async function (req, res) {
   try {
     const fam_no = req.query.Fam;

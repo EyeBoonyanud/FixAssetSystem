@@ -75,6 +75,8 @@ app.get("/getEdit_FileUpload",Transaction.getEdit_FileUpload);
 app.get("/getEdit_Trans",Transaction.getEdit_Trans);
 app.get("/getEdit_routing",Transaction.getEdit_routing);
 app.post("/Update_For_Req_All",Transaction.Update_For_Req_All);
+app.post("/Update_For_Trans_All",Transaction.Update_For_Trans_All);
+
 app.post("/delete_FAM_REQ_DETAIL",Transaction.delete_FAM_REQ_DETAIL);
 app.post("/getFixcode",Transaction.getFixcode);
 //delete all
