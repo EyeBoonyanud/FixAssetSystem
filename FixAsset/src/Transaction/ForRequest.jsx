@@ -93,17 +93,20 @@ function ForRequest() {
 
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
+  console.log(For_Req)
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
+  
 
   // set Readonly
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
-  const [read_dept, setread_dept] = useState(false);
-  const [read_tel, setread_tel] = useState(false);
-  const [reac_remark, setread_remark] = useState(false);
-  const [reac_type, setread_type] = useState(false);
+  //const [read_dept, setread_dept] = useState(true);
+ // const [read_tel, setread_tel] = useState(true);
+ // const [reac_remark, setread_remark] = useState(true);
+ // const [reac_type, setread_type] = useState(true);
+ // const [delete_fix ,setdelete_fix] = useState("hidden");
  
 
   const navigate = useNavigate();
@@ -116,11 +119,24 @@ function ForRequest() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
+  console.log("For_Rq_Edit",For_Rq_Edit)
   let STS ="";
   
  
 
   useEffect(() => {
+
+  //  if(STS == "FLTR001"){
+  //   setread_dept(false)
+  //   setread_remark(false)
+  //   setread_type(false)
+  //   setread_tel(false)
+  //   setdelete_fix("visible")
+  //   setbtnSave("visible")
+  //  }else{
+
+  //  }
+
     // Edit();
     // EditFixAsset();
     console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
@@ -141,6 +157,7 @@ function ForRequest() {
   }, []);
 
   const keep = () => {
+    
     if (EditFam != null) {
       console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
       if (For_Rq_Edit != null) {
@@ -161,8 +178,9 @@ function ForRequest() {
           setTableOpen(true);
           setvisibityDetails("visible");
           setvisibityFile("visible");
-          setbtnSave("visible");
+         // setbtnSave("visible");
         }
+
       }
     } else {
       if (For_Req != null) {
@@ -211,7 +229,7 @@ function ForRequest() {
      if (EditFam != null) {
       if (For_Rq_Edit != null) {
         //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-        setdataUserLogin1(For_Rq_Edit[2]);
+        setdataUserLogin1(For_Rq_Edit[15]);
       }
     } else {
       if (For_Req != null) {
@@ -567,7 +585,7 @@ function ForRequest() {
     setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
-    setbtnSave("visible");
+    //setbtnSave("visible");
   };
   //const [data, setData] = useState(datatable);
 
@@ -1053,7 +1071,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
-                      //disabled={read_tel}
+                     // disabled={read_tel}
                       // style={{
 
                       //   width: "100%",
@@ -1119,7 +1137,7 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
-                        //disabled={read_dept}
+                       // disabled={read_dept}
                         value={selectDept1}
                         onChange={handleDept}
                         style={{
@@ -1155,8 +1173,8 @@ function ForRequest() {
                       name="row-radio-buttons-group"
                       id="Radio_ReqType"
                       value={Request_type1}
-                     // disabled={reac_type}
-                     // style={{ opacity: reac_type ? 0.5 : 1 }}
+                    // disabled={reac_type}
+                    // style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
                       <FormControlLabel
@@ -1297,7 +1315,7 @@ function ForRequest() {
                       id="Remark"
                       size="small"
                       style={{ width: "100%" }}
-                     // disabled={reac_remark}
+                     //disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}
@@ -1523,14 +1541,17 @@ function ForRequest() {
                                 <Checkbox />
                               </TableCell>{" "} */}
                                 <TableCell>
+                                  
                                   {index > 0 &&
                                   item[0] === datatable[index - 1][0] ? (
                                     ""
                                   ) : (
                                     <DeleteIcon
+                                    
                                       style={{
                                         color: "red",
                                         marginLeft: "10px",
+                                       // visibility: delete_fix
                                       }}
                                       onClick={() => handleDelete(item[0])}
                                     />

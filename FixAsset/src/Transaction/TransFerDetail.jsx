@@ -34,6 +34,7 @@ function TransFerDetail() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
+  
   //console.log(For_Rq_Edit, "For_Req_Edit");
 
   let STS = "";
@@ -153,39 +154,43 @@ function TransFerDetail() {
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
   // check read only
-  const [read_trans_fac, setReadTransFac] = useState(false);
-  const [read_trans_cc, setReadTransCC] = useState(false);
-  const [read_tel, setReadTel] = useState(false);
-  const [read_plan_date, setReadPlanDate] = useState(false);
-  const [read_abnormal, setReadAbnormal] = useState(false);
-  const [read_dept, setReadDept] = useState(false);
-  const [read_dept_radio, setReadDeptRadio] = useState(false);
-  const [read_dept_cmmt, setReadDeptCmmt] = useState(false);
-  const [read_serviceby, setReadServiceBy] = useState(false);
-  const [read_serviceby_radio, setReadServiceByRadio] = useState(false);
-  const [read_serviceby_cmmt, setReadServiceByCmmt] = useState(false);
-  const [read_boistff, setReadBoistff] = useState(false);
-  const [read_boistff_radio, setReadBoistffRadio] = useState(false);
-  const [read_boistff_cmmt, setReadBoistffCmmt] = useState(false);
-  const [read_fac_mana, setReadFacMana] = useState(false);
-  const [read_fac_mana_radio, setReadFacManaRadio] = useState(false);
-  const [read_fac_mana_cmmt, setReadFacManaCmmt] = useState(false);
-  const [read_accchk, setReadAccchk] = useState(false);
-  const [read_accchk_radio, setReadAccchkRadio] = useState(false);
-  const [read_accchk_cmmt, setReadAccchkCmmt] = useState(false);
-  const [read_owner_radio, setReadOwnerRadio] = useState(false);
-  const [read_owner_cmmt, setReadOwnerCmmt] = useState(false);
-  const [read_receive_radio, setReadReceiveRadio] = useState(false);
-  const [read_receive_cmmt, setReadReceiveCmmt] = useState(false);
-  const [read_record_radio, setReadRecordRadio] = useState(false);
-  const [read_record_cmmt, setReadRecordCmmt] = useState(false);
-  const [read_acc_mana, setReadAccMana] = useState(false);
-  const [read_acc_mana_radio, setReadAccManaRadio] = useState(false);
-  const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(false);
-  const [read_close_radio, setReadCloseRadio] = useState(false);
-  const [read_close_cmmt, setReadCloseCmmt] = useState(false);
+  const [read_trans_fac, setReadTransFac] = useState(true);
+  const [read_trans_cc, setReadTransCC] = useState(true);
+  const [read_tel, setReadTel] = useState(true);
+  const [read_plan_date, setReadPlanDate] = useState(true);
+  const [read_newowner, setReadNewOwnerCmmt] = useState(true);
+  //const [read_abnormal, setReadAbnormal] = useState(true);
+  const [read_dept, setReadDept] = useState(true);
+  const [read_dept_radio, setReadDeptRadio] = useState(true);
+  const [read_dept_cmmt, setReadDeptCmmt] = useState(true);
+  const [read_serviceby, setReadServiceBy] = useState(true);
+  const [read_serviceby_radio, setReadServiceByRadio] = useState(true);
+  const [read_serviceby_cmmt, setReadServiceByCmmt] = useState(true);
+  const [read_boistff, setReadBoistff] = useState(true);
+  const [read_boistff_radio, setReadBoistffRadio] = useState(true);
+  const [read_boistff_cmmt, setReadBoistffCmmt] = useState(true);
+  const [read_boimana, setReadBoimana] = useState(true);
+  const [read_boimana_radio, setReadBoimanaRadio] = useState(true);
+  const [read_boimana_cmmt, setReadBoimanaCmmt] = useState(true);
+  const [read_fac_mana, setReadFacMana] = useState(true);
+  const [read_fac_mana_radio, setReadFacManaRadio] = useState(true);
+  const [read_fac_mana_cmmt, setReadFacManaCmmt] = useState(true);
+  const [read_accchk, setReadAccchk] = useState(true);
+  const [read_accchk_radio, setReadAccchkRadio] = useState(true);
+  const [read_accchk_cmmt, setReadAccchkCmmt] = useState(true);
+  const [read_owner_radio, setReadOwnerRadio] = useState(true);
+  const [read_owner_cmmt, setReadOwnerCmmt] = useState(true);
+  const [read_receive_radio, setReadReceiveRadio] = useState(true);
+  const [read_receive_cmmt, setReadReceiveCmmt] = useState(true);
+  const [read_record_radio, setReadRecordRadio] = useState(true);
+  const [read_record_cmmt, setReadRecordCmmt] = useState(true);
+  const [read_acc_mana, setReadAccMana] = useState(true);
+  const [read_acc_mana_radio, setReadAccManaRadio] = useState(true);
+  const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
+  const [read_close_radio, setReadCloseRadio] = useState(true);
+  const [read_close_cmmt, setReadCloseCmmt] = useState(true);
  //Save 
-  // const [btnsave,setbtnsave] = useState(false);
+  const [btnsave,setbtnsave] = useState("hidden");
   //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
@@ -220,6 +225,24 @@ function TransFerDetail() {
     Fac_manager();
     ACC_Check();
     ACC_Manager();
+    if (STS == "FLTR001") {
+      setReadTransFac(false);
+      setReadTransCC(false);
+      setReadTel(false);
+      setReadPlanDate(false);
+      setReadNewOwnerCmmt(false);
+      setReadDept(false);
+      setReadServiceBy(false);
+      setReadBoistff(false);
+      setReadFacMana(false);
+      setReadAccchk(false);
+      setReadAccMana(false);
+      setbtnsave("visible")
+
+
+
+
+    }  
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
@@ -286,28 +309,37 @@ function TransFerDetail() {
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
               //readonly
-              setReadTransFac(true);
-              setReadTransCC(true);
+              
+              
 
               // Wait Dept
+            
               if (STS == "FLTR002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
+                setReadDeptRadio(false)
+                setReadDeptCmmt(false)
               } else if (STS == "FLTR003") {
                 setaction__serviceby(formattedDate);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadServiceByRadio(false)
+                setReadServiceByCmmt(false)
               } else if (STS == "FLTR004") {
                 setaction__boistaff(formattedDate);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadBoistffRadio(false)
+                setReadBoistffCmmt(false)
               } else if (STS == "FLTR005") {
                 setaction__boimanager(formattedDate);
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadBoimanaRadio(false)
+                setReadBoimanaCmmt(false)
               } else if (STS == "FLTR006") {
                 setaction__facmanager(formattedDate);
                 setchkfacmanager("visible");
@@ -315,6 +347,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadFacManaRadio(false)
+                setReadFacManaCmmt(false)
               } else if (STS == "FLTR007") {
                 setaction__acc_check(formattedDate);
                 setchkacc_check("visible");
@@ -323,6 +357,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadAccchkRadio(false)
+                setReadAccchkCmmt(false)
               } else if (STS == "FLTR008") {
                 setaction__owner(formattedDate);
                 setchkowner("visible");
@@ -332,6 +368,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadOwnerRadio(false)
+                setReadOwnerCmmt(false)
               } else if (STS == "FLTR009") {
                 setaction__receiver(formattedDate);
                 setchkreceiver("visible");
@@ -342,6 +380,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadReceiveRadio(false)
+                setReadReceiveCmmt(false)
               } else if (STS == "FLTR010") {
                 setaction__record(formattedDate);
                 setchkacc_record("visible");
@@ -353,6 +393,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadRecordRadio(false)
+                setReadRecordCmmt(false)
               } else if (STS == "FLTR011") {
                 setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
@@ -365,6 +407,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadAccManaRadio(false)
+                setReadAccManaCmmt(false)
               } else if (STS == "FLTR012") {
                 setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
@@ -378,6 +422,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setReadCloseRadio(false)
+                setReadCloseCmmt(false)
               }
             }
           } else {
@@ -414,7 +460,7 @@ function TransFerDetail() {
           setplan_date("");
           setabnormal("");
           setreceiver("");
-          setbtnsave("visible")
+          //setbtnsave("visible")
         }
       }
     }
@@ -1710,6 +1756,7 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        disabled={read_newowner}
                         value={selectnew_owner}
                         onChange={handleNewOwner}
                         size="small"
@@ -1734,6 +1781,7 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         // id="Tel"
+                        disabled={read_tel}
                         value={Tel_for_trans}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
@@ -2157,7 +2205,7 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        disabled={read_boistff}
+                        disabled={read_boimana}
                         value={selectboi_manager}
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
@@ -2196,13 +2244,13 @@ function TransFerDetail() {
                           value="A"
                           control={<Radio size="small" />}
                           label="Approve"
-                          disabled={read_boistff_radio}
+                          disabled={read_boimana_radio}
                         />
                         <FormControlLabel
                           value="R"
                           control={<Radio size="small" />}
                           label="Reject"
-                          disabled={read_boistff_radio}
+                          disabled={read_boimana_radio}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -2239,7 +2287,7 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         size="small"
                         value={cmmtradio_boimanager}
-                        disabled={read_boistff_cmmt}
+                        disabled={read_boimana_cmmt}
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
                         }
@@ -2971,8 +3019,9 @@ function TransFerDetail() {
                   size="medium"
                   color="primary"
                   className="Style9"
-                 
-                  style={{ display: STS == "FLTR001" ? "none" : "block" }}
+                  style={{ visibility: btnsave }}
+             
+                  //style={{ display: STS == "FLTR001" ? "none" : "block" }}
                   onClick={SAVE}
                 >
                   Save
