@@ -111,22 +111,24 @@ function Report() {
     }
   };
   // Object.keys(TableSearch).map((famno, famnoIndex) => (
-    const [selectedFamNo, setSelectedFamNo] = useState("");
+  const [selectedFamNo, setSelectedFamNo] = useState("");
   const [isPopupOpen, setPopupOpen] = useState(false);
   const openPopup = (Famno) => {
-   const selectedRow =Famno
+   const selectedRow = Famno
      if (selectedRow) {
-      console.log("FamNo",selectedRow)
+      console.log("selectedRow",selectedRow)
+      console.log("FamNo",Famno)
       setSelectedFamNo(Famno);
       setPopupOpen(true);
      }
+     console.log(selectedFamNo,"selectedFamNo");
 
   };
 
   const closePopup = () => {
     setPopupOpen(false);
   };
-
+  console.log(selectedFamNo,"selectedFamNo selectedFamNo selectedFamNo");
   return (
     <>
       <Header />

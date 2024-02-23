@@ -35,6 +35,7 @@ import CloseIcon from "@mui/icons-material/Close";
 // const DownloadsPath = path.join(__dirname, "../uploads");
 
 function person_maintain_new({ isOpen, onClose, FamNo }) {
+  console.log(FamNo,"FamNo")
   if (!isOpen) return null;
   const [Filedata, setFiledata] = useState([]);
   const File = () => {

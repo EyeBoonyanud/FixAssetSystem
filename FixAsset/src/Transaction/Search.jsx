@@ -31,6 +31,12 @@ import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 function Issue() {
+  const currentURL = window.location.href;
+  const isSearchPage = currentURL.includes("/Search");
+  console.log("มีอะเป่า",isSearchPage);
+
+
+
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
