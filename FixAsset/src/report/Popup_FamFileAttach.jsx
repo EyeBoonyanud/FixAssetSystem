@@ -38,6 +38,8 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
   console.log(FamNo,"FamNo")
   if (!isOpen) return null;
   const [Filedata, setFiledata] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const File = () => {
     axios
       .post("http://localhost:5000/FAM_FILE_ATTACH", {
@@ -50,9 +52,12 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
           console.log(data);
         }
       });
+         
   };
   useEffect(() => {
+    setIsLoading(true);
     File();
+    setIsLoading(false);
   }, []);
 
   // Popup
@@ -95,6 +100,9 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
   return (
     <div className="popup">
       <div className="popup-content">
+      {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดง loader
+        <div>Loading...</div>
+      ) : (
         <Table className="FamFilePopUp">
           <TableHead>
             <TableRow>
@@ -137,6 +145,7 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
             </TableRow>
           </TableBody>
         </Table>
+      )}
       </div>
     </div>
   );

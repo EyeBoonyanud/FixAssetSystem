@@ -34,41 +34,63 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
-import "../Person_Maintain/Person_maintain.css";
-import Popup from "../BOI_Project_Mpping_CC/Boi_maintain";
+import "./Person_maintain.css";
+import Popup from "../Person_Maintain/New_person";
 import Autocomplete from "@mui/material/Autocomplete";
 
-function Boi_project_mcc() {
+function person_maintain() {
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
   const [datafac, setdatafac] = useState([]);
-  const [dataBOI, setdataBOI] = useState([]);
+  const [datalevel, setdatalevel] = useState([]);
   const [cost, setcost] = useState([]);
+
   const [dataSearch, setdataSearch] = useState([]);
   const [selectcost, setselectcost] = useState("");
-  const [selecteDataBOI, setselecteDataBOI] = useState("");
+  const [selecteDatalevel, setselecteDatalevel] = useState("");
   const [selecteDatafac, setselecteDatafac] = useState("");
   const [User_Login, setUser_Login] = useState("");
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
-  const [isLoading, setIsLoading] = useState(false);
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
+  function formatDateString(rawDate) {
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    const date = new Date(rawDate);
+    return date.toLocaleDateString(undefined, options);
+  }
+
+  console.log(selecteDatafac,"ขอดูข้อมูลของ FACTORY ที่เข้ามาตอนแรก");
   const handleSelectChange = async (event, newValue) => {
-    setselecteDatafac(newValue);
+    if (newValue === null){
+      setselecteDatafac("");
+    } else {
+      setselecteDatafac(newValue);
+    }
+    // setselecteDatafac(newValue);
+    // console.log(newValue,"กด เลือก แล้วได้");
+    // console.log(newValue,"กด clear แล้วไม่ได้ ERROR");
   };
-  const handleBOI = (event, newValue) => {
-    // setselecteDataBOI(event.target.value);
-    setselecteDataBOI(newValue);
+  const handlelevel = (event, newValue) => {
+    if (newValue === null){
+      setselecteDatalevel("");
+    } else {
+      setselecteDatalevel(newValue);
+    }
+    // setselecteDatalevel(newValue);
+    // setselecteDatalevel(event.target.value);
   };
   const handleCost = (event, newValue) => {
-    // setselectcost(event.target.value);
-    // console.log(event.target.value, "setselectcost");
-    setselectcost(newValue);
+    if (newValue === null){
+      setselectcost("");
+    } else {
+      setselectcost(newValue);
+    }
+    // setselectcost(newValue);
   };
 
   const navigate = useNavigate();
@@ -80,8 +102,6 @@ function Boi_project_mcc() {
   };
 
   useEffect(() => {
-    
-    console.log("ออกมาสักทีดิวะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะ")
     const Factory = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getfactory`);
@@ -92,20 +112,16 @@ function Boi_project_mcc() {
         console.error("Error during login:", error);
       }
     };
-    // get BOI Project
-    const BOI_Project = async () => {
-
+    // get level
+    const Level = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/get_BOI_project`
-        );
-        const BOIData = await response.data;
-        setdataBOI(BOIData);
-        console.log(setdataBOI, "Level Data eiei");
+        const response = await axios.get(`http://localhost:5000/getlevel`);
+        const LevelData = await response.data;
+        setdatalevel(LevelData);
+        console.log(setdatalevel, "Level Data eiei");
       } catch (error) {
         console.error("Error during login:", error);
       }
-        
     };
     const Costcenter = async () => {
       try {
@@ -117,28 +133,27 @@ function Boi_project_mcc() {
         console.error("Error during login:", error);
       }
     };
-    setIsLoading(true); 
+
+    Level();
     Factory();
     Costcenter();
-    BOI_Project();
     Search_back();
-    setIsLoading(false); 
-  }, [selecteDatafac[0], selecteDataBOI[0], selectcost[0]]);
-  
+  }, [selecteDatafac[0], selecteDatalevel[0], selectcost[0], User_Login[0]]);
 
-  const Search_back =  async () => {
+  const Search_back = async () => {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
     const DATA_SEARCH_S_E = JSON.parse(DATA_SAVE_EDIT);
     if (DATA_SEARCH_S_E !== null) {
       setselecteDatafac(DATA_SEARCH_S_E[0]);
-      setselectcost(DATA_SEARCH_S_E[1]);
-      setselecteDataBOI(DATA_SEARCH_S_E[2]);
-
+      setselecteDatalevel(DATA_SEARCH_S_E[1]);
+      setselectcost(DATA_SEARCH_S_E[2]);
+      setUser_Login(DATA_SEARCH_S_E[3]);
       console.log(
         "มีข้อมูลที่กลับมาค้นหา",
         DATA_SEARCH_S_E[0],
         DATA_SEARCH_S_E[1],
-        DATA_SEARCH_S_E[2]
+        DATA_SEARCH_S_E[2],
+        DATA_SEARCH_S_E[3]
       );
       // เรียกใช้งาน Search โดยตรง
       Search();
@@ -149,16 +164,17 @@ function Boi_project_mcc() {
 
   const Search = async () => {
     console.log("F", selecteDatafac[0]);
+    console.log("L", selecteDatalevel[0]);
     console.log("C", selectcost[0]);
-    console.log("L", selecteDataBOI[0]);
-    console.log("LL", selecteDataBOI);
+    console.log("U", User_Login[0]);
     try {
       const factoryValue =
-        selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
+      selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
+      const levelValue = selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
-      const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : "";
+      const User_LoginValue = User_Login[0] !== undefined ? User_Login[0] : "";
       const rollNoSearch = await axios.get(
-        `http://localhost:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+        `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -180,48 +196,50 @@ function Boi_project_mcc() {
     localStorage.removeItem("DATA_BACK_SEARCH");
     setselecteDatafac("");
     setselectcost("");
-    setselecteDataBOI("");
+    setselecteDatalevel("");
     setUser_Login("");
     setdataSearch("");
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
   };
+  const handleOpenEdit = async (
+    factory,
+    level,
+    cost_center,
+    user_login,
+    name_surname
+  ) => {
+    console.log(" อยากเห็น =",factory);
+    console.log(" อยากเห็น =",level);
+    console.log(" อยากเห็น =",cost_center);
+    console.log(" อยากเห็น =",user_login);
 
-  const handleOpenEdit = async (factory, cost_center, boi_project) => {
-    console.log(factory);
-    console.log(cost_center);
-    console.log(boi_project);
-
-    swal(
-      "Do you want to edit information",
-      `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`,
-      {
-        buttons: {
-          cancel: "Cancel",
-          ok: {
-            text: "OK",
-            value: "ok",
-          },
+    swal("Do you want to edit information", name_surname, {
+      buttons: {
+        cancel: "Cancel",
+        ok: {
+          text: "OK",
+          value: "ok",
         },
-      }
-    ).then(async (value) => {
+      },
+    }).then(async (value) => {
       switch (value) {
         case "cancel":
           break;
         case "ok":
           try {
             const getEdit_show = await axios.get(
-              `http://localhost:5000/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}`
+              `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
             );
             const data = await getEdit_show.data;
-            console.log("Show data Edit =", data);
+            console.log("Show data Edit อยากเห็น =", data);
             const DataEdit = data;
             const PAGE_STATUS = "EDIT";
 
             if (data && data.length > 0) {
               const sentdata = JSON.stringify(DataEdit);
-              localStorage.setItem("BOI_Edit", sentdata);
+              localStorage.setItem("Person_Edit", sentdata);
               localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
               console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
               console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
@@ -239,23 +257,31 @@ function Boi_project_mcc() {
     });
   };
 
-  const handleOpenDelete = async (factory, cost_center, boi_project) => {
+  const handleOpenDelete = async (
+    factory,
+    level,
+    cost_center,
+    user_login,
+    name_surname
+  ) => {
     console.log(factory);
+    console.log(level);
     console.log(cost_center);
-    console.log(boi_project);
+    console.log(user_login);
+
     swal({
       title: "Are you sure delete to information ",
-      text: `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`,
+      text: name_surname,
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
         try {
-          const delete_BOI_maintain = await axios.post(
-            `http://localhost:5000/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}`
+          const delete_person_maintain = await axios.post(
+            `http://localhost:5000/dlt_PERSON_MAINTAIN?FPM_factory_delete=${factory}&FPM_level_delete=${level}&FPM_cost_center_delete=${cost_center}&FPM_user_login_delete=${user_login}`
           );
-          const data = await delete_BOI_maintain.data;
+          const data = await delete_person_maintain.data;
           console.log("DELETE DATA PERSON =", data);
           Search();
           swal("Your data has been deleted successfully", {
@@ -294,9 +320,6 @@ function Boi_project_mcc() {
         onClose={closePopup}
         searchFunction={Search_back}
       />
-       {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดง loader
-        <div>Loading...</div>
-      ) : (
       <div className="DD">
         <h1
           style={{
@@ -305,7 +328,7 @@ function Boi_project_mcc() {
             fontWeight: "bold",
           }}
         >
-          BOI Project search
+          Person maintain search
         </h1>
         <div className="BoxSearch">
           {/* Factiory and Level */}
@@ -321,7 +344,7 @@ function Boi_project_mcc() {
                   getOptionLabel={(option) =>
                     typeof option[1] !== "undefined" ? option[1] : ""
                   }
-                  value={selecteDatafac || null}
+                  value={selecteDatafac ||  null}
                   onChange={handleSelectChange}
                   renderInput={(params) => (
                     <TextField
@@ -335,6 +358,7 @@ function Boi_project_mcc() {
               </FormControl>
             </Grid>
             <Grid item xs={1.3}>
+ 
               <FormControl fullWidth>
                 <Autocomplete
                   options={cost}
@@ -354,27 +378,36 @@ function Boi_project_mcc() {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
+            <Grid item xs={2.2}>
+            <FormControl fullWidth>
                 <Autocomplete
-                  options={dataBOI}
+                  options={datalevel}
                   getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
+                    typeof option[1] !== "undefined" ? option[1] : ""
                   }
-                  value={selecteDataBOI || null}
-                  onChange={handleBOI}
-                  style={{
-                    width: "100%",
-                  }}
+                  value={selecteDatalevel || null}
+                  onChange={handlelevel}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="BOI Project"
+                      label="Level"
                       size="small"
                       variant="outlined"
                     />
                   )}
                 />
+              </FormControl>
+              
+            </Grid>
+            <Grid item xs={2.2}>
+              <FormControl fullWidth>
+                <TextField
+                  id="FixAsset"
+                  size="small"
+                  label="User Login"
+                  value={User_Login}
+                  onChange={handleUserLogin}
+                ></TextField>
               </FormControl>
             </Grid>
             <Grid item xs={1} style={{ margin: "0 5px" }}>
@@ -440,8 +473,11 @@ function Boi_project_mcc() {
                 <TableRow>
                   <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
+                  <TableCell>Level</TableCell>
                   <TableCell>Cost Center</TableCell>
-                  <TableCell>BOI Project</TableCell>
+                  <TableCell>User Login</TableCell>
+                  <TableCell>Name-Surname</TableCell>
+                  <TableCell>Email</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Update By</TableCell>
                   <TableCell>Update Date</TableCell>
@@ -458,7 +494,13 @@ function Boi_project_mcc() {
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
                             onClick={() =>
-                              handleOpenEdit(item[1], item[3], item[4])
+                              handleOpenEdit(
+                                item[1],
+                                item[3],
+                                item[5],
+                                item[6],
+                                item[7]
+                              )
                             }
                           />
                         </Tooltip>
@@ -467,17 +509,26 @@ function Boi_project_mcc() {
                           <DeleteForeverIcon
                             style={{ color: "red", fontSize: "30px" }}
                             onClick={() =>
-                              handleOpenDelete(item[1], item[3], item[4])
+                              handleOpenDelete(
+                                item[1],
+                                item[3],
+                                item[5],
+                                item[6],
+                                item[7]
+                              )
                             }
                           />
                         </Tooltip>
                       </TableCell>
-                      <TableCell className="TexttableA">{item[1]}</TableCell>
-                      <TableCell className="TexttableA">{item[3]}</TableCell>
-                      <TableCell className="TexttableA">{item[4]}</TableCell>
+                      <TableCell className="TexttableA">{item[0]}</TableCell>
+                      <TableCell className="TexttableA">{item[2]}</TableCell>
                       <TableCell className="TexttableA">{item[5]}</TableCell>
                       <TableCell className="TexttableA">{item[6]}</TableCell>
-                      <TableCell>{item[7]}</TableCell>
+                      <TableCell className="TexttableA">{item[7]}</TableCell>
+                      <TableCell className="TexttableA">{item[8]}</TableCell>
+                      <TableCell className="TexttableA">{item[9]}</TableCell>
+                      <TableCell className="TexttableA">{item[10]}</TableCell>
+                      <TableCell>{item[11]}</TableCell>
                     </TableRow>
                   ))
                 ) : (
@@ -509,9 +560,8 @@ function Boi_project_mcc() {
           </TableContainer>
         </div>
       </div>
-      )}
     </>
   );
 }
 
-export default Boi_project_mcc;
+export default person_maintain;

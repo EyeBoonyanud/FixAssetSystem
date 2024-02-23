@@ -63,15 +63,34 @@ function person_maintain() {
     const date = new Date(rawDate);
     return date.toLocaleDateString(undefined, options);
   }
+
+  console.log(selecteDatafac,"ขอดูข้อมูลของ FACTORY ที่เข้ามาตอนแรก");
   const handleSelectChange = async (event, newValue) => {
-    setselecteDatafac(newValue);
+    if (newValue === null){
+      setselecteDatafac("");
+    } else {
+      setselecteDatafac(newValue);
+    }
+    // setselecteDatafac(newValue);
+    // console.log(newValue,"กด เลือก แล้วได้");
+    // console.log(newValue,"กด clear แล้วไม่ได้ ERROR");
   };
   const handlelevel = (event, newValue) => {
-    setselecteDatalevel(newValue);
+    if (newValue === null){
+      setselecteDatalevel("");
+    } else {
+      setselecteDatalevel(newValue);
+    }
+    // setselecteDatalevel(newValue);
     // setselecteDatalevel(event.target.value);
   };
   const handleCost = (event, newValue) => {
-    setselectcost(newValue);
+    if (newValue === null){
+      setselectcost("");
+    } else {
+      setselectcost(newValue);
+    }
+    // setselectcost(newValue);
   };
 
   const navigate = useNavigate();
@@ -119,7 +138,7 @@ function person_maintain() {
     Factory();
     Costcenter();
     Search_back();
-  }, [selecteDatafac[0], selecteDatalevel[0], selectcost[0], User_Login[0]]);
+  }, []);
 
   const Search_back = async () => {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
@@ -325,7 +344,7 @@ function person_maintain() {
                   getOptionLabel={(option) =>
                     typeof option[1] !== "undefined" ? option[1] : ""
                   }
-                  value={selecteDatafac || null}
+                  value={selecteDatafac ||  null}
                   onChange={handleSelectChange}
                   renderInput={(params) => (
                     <TextField
