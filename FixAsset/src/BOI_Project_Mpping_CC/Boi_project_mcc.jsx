@@ -37,6 +37,7 @@ import swal from "sweetalert";
 import "../Person_Maintain/Person_maintain.css";
 import Popup from "../BOI_Project_Mpping_CC/Boi_maintain";
 import Autocomplete from "@mui/material/Autocomplete";
+import PageLoadding from "../Loadding/Pageload";
 
 function Boi_project_mcc() {
   const Name = localStorage.getItem("Name");
@@ -54,7 +55,6 @@ function Boi_project_mcc() {
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
-  const [isLoading, setIsLoading] = useState(false);
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
@@ -80,74 +80,96 @@ function Boi_project_mcc() {
   };
 
   useEffect(() => {
-    
-    console.log("ออกมาสักทีดิวะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะ")
-    const Factory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
-        const FactoryData = await response.data;
-        setdatafac(FactoryData);
-        // console.log(FactoryData, "Factory");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    // get BOI Project
-    const BOI_Project = async () => {
+    openPopupLoadding();
 
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/get_BOI_project`
-        );
-        const BOIData = await response.data;
-        setdataBOI(BOIData);
-        console.log(setdataBOI, "Level Data eiei");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-        
+    const fetchData = async () => {
+      console.log("ออกมาสักทีดิวะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะ");
+      const Factory = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const FactoryData = await response.data;
+          setdatafac(FactoryData);
+          // console.log(FactoryData, "Factory");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
+      // get BOI Project
+      const BOI_Project = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/get_BOI_project`
+          );
+          const BOIData = await response.data;
+          setdataBOI(BOIData);
+          console.log(setdataBOI, "Level Data eiei");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
+      const Costcenter = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getcost`);
+          const CostData = await response.data;
+          setcost(CostData);
+          console.log(CostData, "CostData :");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
+      // เรียกใช้งานทั้ง 3 ฟังก์ชัน
+      await Factory();
+      await BOI_Project();
+      await Costcenter();
+      closePopupLoadding();
     };
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
-        const CostData = await response.data;
-        setcost(CostData);
-        console.log(CostData, "CostData :");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    setIsLoading(true); 
-    Factory();
-    Costcenter();
-    BOI_Project();
-    Search_back();
-    setIsLoading(false); 
-  }, [selecteDatafac[0], selecteDataBOI[0], selectcost[0]]);
-  
+    fetchData();
+  }, []);
 
-  const Search_back =  async () => {
+  const Search_back = async () => {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
     const DATA_SEARCH_S_E = JSON.parse(DATA_SAVE_EDIT);
     if (DATA_SEARCH_S_E !== null) {
-      setselecteDatafac(DATA_SEARCH_S_E[0]);
-      setselectcost(DATA_SEARCH_S_E[1]);
-      setselecteDataBOI(DATA_SEARCH_S_E[2]);
-
       console.log(
         "มีข้อมูลที่กลับมาค้นหา",
         DATA_SEARCH_S_E[0],
         DATA_SEARCH_S_E[1],
         DATA_SEARCH_S_E[2]
       );
+      setselecteDatafac(DATA_SEARCH_S_E[0]);
+      setselectcost(DATA_SEARCH_S_E[1]);
+      setselecteDataBOI(DATA_SEARCH_S_E[2]);
+
+
       // เรียกใช้งาน Search โดยตรง
-      Search();
+      try {
+        const factoryValue = DATA_SEARCH_S_E[0][0];
+        const costValue = DATA_SEARCH_S_E[1][0];
+        const BOIValue = DATA_SEARCH_S_E[2][0];
+        const rollNoSearch = await axios.get(
+          `http://localhost:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+        );
+        const data = rollNoSearch.data;
+        setCheckHead("visible");
+        setdataSearch(data);
+        if (data.length === 0) {
+          setCheckEmpty("visible");
+          setCheckData("hidden");
+        } else {
+          setCheckEmpty("hidden");
+          setCheckData("visible");
+        }
+        localStorage.removeItem("DATA_BACK_SEARCH");
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
     } else {
       console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
     }
   };
 
   const Search = async () => {
+    openPopupLoadding();
     console.log("F", selecteDatafac[0]);
     console.log("C", selectcost[0]);
     console.log("L", selecteDataBOI[0]);
@@ -174,6 +196,8 @@ function Boi_project_mcc() {
     } catch (error) {
       console.error("Error requesting data:", error);
     }
+
+    closePopupLoadding();
   };
 
   const Reset = async () => {
@@ -206,6 +230,7 @@ function Boi_project_mcc() {
         },
       }
     ).then(async (value) => {
+
       switch (value) {
         case "cancel":
           break;
@@ -250,6 +275,7 @@ function Boi_project_mcc() {
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
+      openPopupLoadding();
       if (willDelete) {
         try {
           const delete_BOI_maintain = await axios.post(
@@ -266,6 +292,7 @@ function Boi_project_mcc() {
         }
       } else {
       }
+      closePopupLoadding();
     });
   };
 
@@ -286,230 +313,242 @@ function Boi_project_mcc() {
     setPopupOpen(false);
   };
 
+   // Loadding
+   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+   const openPopupLoadding = () => {
+       setPopupOpenLoadding(true);
+   };
+   const closePopupLoadding = () => {
+     setPopupOpenLoadding(false);
+   };
+
   return (
     <>
       <Header />
+      <PageLoadding 
+      isOpen={isPopupOpenLoadding}
+      onClose={closePopupLoadding}
+      />
       <Popup
         isOpen={isPopupOpen}
         onClose={closePopup}
         searchFunction={Search_back}
       />
-       {isLoading ? ( // ตรวจสอบสถานะ isLoading เพื่อแสดง loader
-        <div>Loading...</div>
-      ) : (
-      <div className="DD">
-        <h1
-          style={{
-            fontFamily: "Verdana, sans-serif",
-            color: "#3AA6B9",
-            fontWeight: "bold",
-          }}
-        >
-          BOI Project search
-        </h1>
-        <div className="BoxSearch">
-          {/* Factiory and Level */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+        <div className="DD">
+          <h1
+            style={{
+              fontFamily: "Verdana, sans-serif",
+              color: "#3AA6B9",
+              fontWeight: "bold",
+            }}
           >
-            <Grid item xs={1.3} style={{ height: "10px" }}>
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={datafac}
-                  getOptionLabel={(option) =>
-                    typeof option[1] !== "undefined" ? option[1] : ""
-                  }
-                  value={selecteDatafac || null}
-                  onChange={handleSelectChange}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Factory"
-                      size="small"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={1.3}>
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={cost}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={selectcost || null}
-                  onChange={handleCost}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Cost Center"
-                      size="small"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={dataBOI}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={selecteDataBOI || null}
-                  onChange={handleBOI}
+            BOI Project search
+          </h1>
+          <div className="BoxSearch">
+            {/* Factiory and Level */}
+            <Grid
+              container
+              spacing={1}
+              style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+            >
+              <Grid item xs={1.3} style={{ height: "10px" }}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    options={datafac}
+                    getOptionLabel={(option) =>
+                      typeof option[1] !== "undefined" ? option[1] : ""
+                    }
+                    value={selecteDatafac || null}
+                    onChange={handleSelectChange}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Factory"
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={1.3}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    options={cost}
+                    getOptionLabel={(option) =>
+                      typeof option[0] !== "undefined" ? option[0] : ""
+                    }
+                    value={selectcost || null}
+                    onChange={handleCost}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Cost Center"
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={4}>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    options={dataBOI}
+                    getOptionLabel={(option) =>
+                      typeof option[0] !== "undefined" ? option[0] : ""
+                    }
+                    value={selecteDataBOI || null}
+                    onChange={handleBOI}
+                    style={{
+                      width: "100%",
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="BOI Project"
+                        size="small"
+                        variant="outlined"
+                      />
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={1} style={{ margin: "0 5px" }}>
+                <Button
+                  className="ButtonSearch"
                   style={{
+                    color: "white",
                     width: "100%",
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="BOI Project"
-                      size="small"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={1} style={{ margin: "0 5px" }}>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  color: "white",
-                  width: "100%",
-                }}
-                variant="contained"
-                onClick={Search}
-              >
-                {" "}
-                <SearchIcon />
-                Search
-              </Button>
-            </Grid>
-            <Grid item xs={1} style={{ margin: "0 5px" }}>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#65B741",
-                  width: "100%",
-                  color: "white",
-                }}
-                variant="contained"
-                onClick={New}
-              >
-                <AddIcon />
-                New
-              </Button>
-            </Grid>
+                  variant="contained"
+                  onClick={Search}
+                >
+                  {" "}
+                  <SearchIcon />
+                  Search
+                </Button>
+              </Grid>
+              <Grid item xs={1} style={{ margin: "0 5px" }}>
+                <Button
+                  className="ButtonSearch"
+                  style={{
+                    backgroundColor: "#65B741",
+                    width: "100%",
+                    color: "white",
+                  }}
+                  variant="contained"
+                  onClick={New}
+                >
+                  <AddIcon />
+                  New
+                </Button>
+              </Grid>
 
-            <Grid item xs={1} style={{ margin: "0 5px" }}>
-              <Button
-                className="ButtonSearch"
-                onClick={Reset}
-                style={{
-                  backgroundColor: "#BE3144",
-                  color: "white",
-                  width: "100%",
-                }}
-                variant="contained"
-              >
-                <RestartAltIcon />
-                Reset
-              </Button>
+              <Grid item xs={1} style={{ margin: "0 5px" }}>
+                <Button
+                  className="ButtonSearch"
+                  onClick={Reset}
+                  style={{
+                    backgroundColor: "#BE3144",
+                    color: "white",
+                    width: "100%",
+                  }}
+                  variant="contained"
+                >
+                  <RestartAltIcon />
+                  Reset
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
 
-        <div className="responsive-container">
-          <TableContainer
-            style={{
-              visibility: checkHead,
-            }}
-            className="TABLEKHUN"
-            component={Paper}
-          >
-            {/* <Table sx={{ minWidth: 650  }} aria-label="simple table" className="TABLEKHUN"> */}
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>Factory</TableCell>
-                  <TableCell>Cost Center</TableCell>
-                  <TableCell>BOI Project</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Update By</TableCell>
-                  <TableCell>Update Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataSearch.length > 0 ? (
-                  dataSearch.map((item) => (
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>
-                        <Tooltip title="Edit">
-                          <EditNoteIcon
-                            style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() =>
-                              handleOpenEdit(item[1], item[3], item[4])
-                            }
-                          />
-                        </Tooltip>
-
-                        <Tooltip title="Delete">
-                          <DeleteForeverIcon
-                            style={{ color: "red", fontSize: "30px" }}
-                            onClick={() =>
-                              handleOpenDelete(item[1], item[3], item[4])
-                            }
-                          />
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell className="TexttableA">{item[1]}</TableCell>
-                      <TableCell className="TexttableA">{item[3]}</TableCell>
-                      <TableCell className="TexttableA">{item[4]}</TableCell>
-                      <TableCell className="TexttableA">{item[5]}</TableCell>
-                      <TableCell className="TexttableA">{item[6]}</TableCell>
-                      <TableCell>{item[7]}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={9}>
-                      <InfoCircleOutlined
-                        style={{
-                          visibility: checkData,
-                          fontSize: "30px",
-                          color: "#ffd580",
-                        }}
-                      />
-                      <text
-                        style={{
-                          visibility: checkData,
-                          fontSize: "25px",
-                          marginLeft: "10px",
+          <div className="responsive-container">
+            <TableContainer
+              style={{
+                visibility: checkHead,
+              }}
+              className="TABLEKHUN"
+              component={Paper}
+            >
+              {/* <Table sx={{ minWidth: 650  }} aria-label="simple table" className="TABLEKHUN"> */}
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell>Factory</TableCell>
+                    <TableCell>Cost Center</TableCell>
+                    <TableCell>BOI Project</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Update By</TableCell>
+                    <TableCell>Update Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {dataSearch.length > 0 ? (
+                    dataSearch.map((item) => (
+                      <TableRow
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        {" "}
-                        Please fill in information{" "}
-                      </text>
-                      <Empty style={{ visibility: checkEmpty }} />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                        <TableCell>
+                          <Tooltip title="Edit">
+                            <EditNoteIcon
+                              style={{ color: "#F4D03F", fontSize: "30px" }}
+                              onClick={() =>
+                                handleOpenEdit(item[1], item[3], item[4])
+                              }
+                            />
+                          </Tooltip>
+
+                          <Tooltip title="Delete">
+                            <DeleteForeverIcon
+                              style={{ color: "red", fontSize: "30px" }}
+                              onClick={() =>
+                                handleOpenDelete(item[1], item[3], item[4])
+                              }
+                            />
+                          </Tooltip>
+                        </TableCell>
+                        <TableCell className="TexttableA">{item[1]}</TableCell>
+                        <TableCell className="TexttableA">{item[3]}</TableCell>
+                        <TableCell className="TexttableA">{item[4]}</TableCell>
+                        <TableCell className="TexttableA">{item[5]}</TableCell>
+                        <TableCell className="TexttableA">{item[6]}</TableCell>
+                        <TableCell>{item[7]}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow style={{ visibility: checkEmpty }}>
+                      <TableCell colSpan={9}>
+                        <InfoCircleOutlined
+                          style={{
+                            visibility: checkData,
+                            fontSize: "30px",
+                            color: "#ffd580",
+                          }}
+                        />
+                        <text
+                          style={{
+                            visibility: checkData,
+                            fontSize: "25px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          {" "}
+                          Please fill in information{" "}
+                        </text>
+                        <Empty style={{ visibility: checkEmpty }} />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
-      </div>
-      )}
+      
     </>
   );
 }

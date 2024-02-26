@@ -37,6 +37,7 @@ import swal from "sweetalert";
 import "./Person_maintain.css";
 import Popup from "../Person_Maintain/New_person";
 import Autocomplete from "@mui/material/Autocomplete";
+import PageLoadding from "../Loadding/Pageload";
 
 function person_maintain() {
   const Name = localStorage.getItem("Name");
@@ -64,35 +65,6 @@ function person_maintain() {
     return date.toLocaleDateString(undefined, options);
   }
 
-  console.log(selecteDatafac,"ขอดูข้อมูลของ FACTORY ที่เข้ามาตอนแรก");
-  const handleSelectChange = async (event, newValue) => {
-    if (newValue === null){
-      setselecteDatafac("");
-    } else {
-      setselecteDatafac(newValue);
-    }
-    // setselecteDatafac(newValue);
-    // console.log(newValue,"กด เลือก แล้วได้");
-    // console.log(newValue,"กด clear แล้วไม่ได้ ERROR");
-  };
-  const handlelevel = (event, newValue) => {
-    if (newValue === null){
-      setselecteDatalevel("");
-    } else {
-      setselecteDatalevel(newValue);
-    }
-    // setselecteDatalevel(newValue);
-    // setselecteDatalevel(event.target.value);
-  };
-  const handleCost = (event, newValue) => {
-    if (newValue === null){
-      setselectcost("");
-    } else {
-      setselectcost(newValue);
-    }
-    // setselectcost(newValue);
-  };
-
   const navigate = useNavigate();
   const New = () => {
     localStorage.removeItem("DATA_BACK_SEARCH");
@@ -102,52 +74,70 @@ function person_maintain() {
   };
 
   useEffect(() => {
-    const Factory = async () => {
+    openPopupLoadding();
+
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
-        const FactoryData = await response.data;
-        setdatafac(FactoryData);
-        // console.log(FactoryData, "Factory");
+        const factoryPromise = axios.get(`http://localhost:5000/getfactory`);
+        const levelPromise = axios.get(`http://localhost:5000/getlevel`);
+        const costPromise = axios.get(`http://localhost:5000/getcost`);
+
+        const [factoryResponse, levelResponse, costResponse] =
+          await Promise.all([factoryPromise, levelPromise, costPromise]);
+
+        const factoryData = factoryResponse.data;
+        const levelData = levelResponse.data;
+        const costData = costResponse.data;
+
+        setdatafac(factoryData);
+        setdatalevel(levelData);
+        setcost(costData);
+
+        console.log(factoryData, "Factory Data");
+        console.log(levelData, "Level Data");
+        console.log(costData, "Cost Data");
+        closePopupLoadding();
       } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    // get level
-    const Level = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getlevel`);
-        const LevelData = await response.data;
-        setdatalevel(LevelData);
-        console.log(setdatalevel, "Level Data eiei");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
-        const CostData = await response.data;
-        setcost(CostData);
-        console.log(CostData, "CostData :");
-      } catch (error) {
-        console.error("Error during login:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    Level();
-    Factory();
-    Costcenter();
-    Search_back();
+    fetchData();
   }, []);
 
+  const handleSelectChange = async (event, newValue) => {
+    if (newValue === null) {
+      setselecteDatafac("");
+    } else {
+      setselecteDatafac(newValue);
+    }
+    // setselecteDatafac(newValue);
+    // console.log(newValue,"กด เลือก แล้วได้");
+    // console.log(newValue,"กด clear แล้วไม่ได้ ERROR");
+  };
+  const handlelevel = (event, newValue) => {
+    if (newValue === null) {
+      setselecteDatalevel("");
+    } else {
+      setselecteDatalevel(newValue);
+    }
+    // setselecteDatalevel(newValue);
+    // setselecteDatalevel(event.target.value);
+  };
+  const handleCost = (event, newValue) => {
+    if (newValue === null) {
+      setselectcost("");
+    } else {
+      setselectcost(newValue);
+    }
+    // setselectcost(newValue);
+  };
+
   const Search_back = async () => {
+    openPopupLoadding();
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
     const DATA_SEARCH_S_E = JSON.parse(DATA_SAVE_EDIT);
     if (DATA_SEARCH_S_E !== null) {
-      setselecteDatafac(DATA_SEARCH_S_E[0]);
-      setselecteDatalevel(DATA_SEARCH_S_E[1]);
-      setselectcost(DATA_SEARCH_S_E[2]);
-      setUser_Login(DATA_SEARCH_S_E[3]);
       console.log(
         "มีข้อมูลที่กลับมาค้นหา",
         DATA_SEARCH_S_E[0],
@@ -155,24 +145,53 @@ function person_maintain() {
         DATA_SEARCH_S_E[2],
         DATA_SEARCH_S_E[3]
       );
+      setselecteDatafac(DATA_SEARCH_S_E[0]);
+      setselecteDatalevel(DATA_SEARCH_S_E[1]);
+      setselectcost(DATA_SEARCH_S_E[2]);
+      setUser_Login(DATA_SEARCH_S_E[3]);
       // เรียกใช้งาน Search โดยตรง
-      Search();
+      try {
+        const factoryValue = DATA_SEARCH_S_E[0][0];
+        const levelValue = DATA_SEARCH_S_E[1][0];
+        const costValue = DATA_SEARCH_S_E[2][0];
+        const User_LoginValue = DATA_SEARCH_S_E[3][0];
+
+        const rollNoSearch = await axios.get(
+          `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+        );
+        const data = rollNoSearch.data;
+        setCheckHead("visible");
+        setdataSearch(data);
+        if (data.length === 0) {
+          setCheckEmpty("visible");
+          setCheckData("hidden");
+        } else {
+          setCheckEmpty("hidden");
+          setCheckData("visible");
+        }
+        localStorage.removeItem("DATA_BACK_SEARCH");
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
     } else {
       console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
     }
+    closePopupLoadding();
   };
 
   const Search = async () => {
+    openPopupLoadding();
     console.log("F", selecteDatafac[0]);
     console.log("L", selecteDatalevel[0]);
     console.log("C", selectcost[0]);
     console.log("U", User_Login[0]);
     try {
       const factoryValue =
-      selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
-      const levelValue = selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
+        selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
+      const levelValue =
+        selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
-      const User_LoginValue = User_Login[0] !== undefined ? User_Login[0] : "";
+      const User_LoginValue = User_Login !== undefined ? User_Login : "";
       const rollNoSearch = await axios.get(
         `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
       );
@@ -190,6 +209,7 @@ function person_maintain() {
     } catch (error) {
       console.error("Error requesting data:", error);
     }
+    closePopupLoadding();
   };
 
   const Reset = async () => {
@@ -210,10 +230,10 @@ function person_maintain() {
     user_login,
     name_surname
   ) => {
-    console.log(" อยากเห็น =",factory);
-    console.log(" อยากเห็น =",level);
-    console.log(" อยากเห็น =",cost_center);
-    console.log(" อยากเห็น =",user_login);
+    console.log(" อยากเห็น =", factory);
+    console.log(" อยากเห็น =", level);
+    console.log(" อยากเห็น =", cost_center);
+    console.log(" อยากเห็น =", user_login);
 
     swal("Do you want to edit information", name_surname, {
       buttons: {
@@ -276,6 +296,7 @@ function person_maintain() {
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
+      openPopupLoadding();
       if (willDelete) {
         try {
           const delete_person_maintain = await axios.post(
@@ -292,6 +313,8 @@ function person_maintain() {
         }
       } else {
       }
+
+      closePopupLoadding();
     });
   };
 
@@ -311,10 +334,20 @@ function person_maintain() {
   const closePopup = () => {
     setPopupOpen(false);
   };
+  // Loadding
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
 
   return (
     <>
       <Header />
+      <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
+
       <Popup
         isOpen={isPopupOpen}
         onClose={closePopup}
@@ -344,7 +377,7 @@ function person_maintain() {
                   getOptionLabel={(option) =>
                     typeof option[1] !== "undefined" ? option[1] : ""
                   }
-                  value={selecteDatafac ||  null}
+                  value={selecteDatafac || null}
                   onChange={handleSelectChange}
                   renderInput={(params) => (
                     <TextField
@@ -358,7 +391,6 @@ function person_maintain() {
               </FormControl>
             </Grid>
             <Grid item xs={1.3}>
- 
               <FormControl fullWidth>
                 <Autocomplete
                   options={cost}
@@ -379,7 +411,7 @@ function person_maintain() {
               </FormControl>
             </Grid>
             <Grid item xs={2.2}>
-            <FormControl fullWidth>
+              <FormControl fullWidth>
                 <Autocomplete
                   options={datalevel}
                   getOptionLabel={(option) =>
@@ -397,7 +429,6 @@ function person_maintain() {
                   )}
                 />
               </FormControl>
-              
             </Grid>
             <Grid item xs={2.2}>
               <FormControl fullWidth>

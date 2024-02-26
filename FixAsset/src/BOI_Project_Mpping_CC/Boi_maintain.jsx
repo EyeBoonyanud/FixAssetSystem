@@ -33,6 +33,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
 import CloseIcon from "@mui/icons-material/Close";
 import Autocomplete from "@mui/material/Autocomplete";
+import PageLoadding from "../Loadding/Pageload";
 
 function Boi_maintain({ isOpen, onClose, searchFunction }) {
   if (!isOpen) return null;
@@ -68,6 +69,8 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   };
 
   useEffect(() => {
+    openPopupLoadding();
+    
     const formattedDate = `${currentDate
       .getDate()
       .toString()
@@ -97,36 +100,41 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setDate_show(DATA_EDIT[5]);
       setDate_show_update(formattedDate);
     }
+    const fetchData = async () => {
+      const Factory = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const FactoryData = await response.data;
+          setdatafac(FactoryData);
+          // console.log(FactoryData, "Factory");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
 
-    const Factory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
-        const FactoryData = await response.data;
-        setdatafac(FactoryData);
-        // console.log(FactoryData, "Factory");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
+      const Costcenter = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getcost`);
+          const CostData = await response.data;
+          setcost(CostData);
+          // console.log(CostData, "CostData :");
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
+      await Factory();
+      await Costcenter();
+
+      closePopupLoadding();
     };
 
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
-        const CostData = await response.data;
-        setcost(CostData);
-        // console.log(CostData, "CostData :");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    Factory();
-    Costcenter();
+    fetchData();
   }, []);
 
   const handleSelectChange = async (event, newValue) => {
     setselecteDatafac(newValue);
     let idFactory = newValue[0];
-    console.log(newValue,"XXXXXXXXXXXXXXXXXXXXXXXXXXXx");
+    console.log(newValue, "XXXXXXXXXXXXXXXXXXXXXXXXXXXx");
     console.log(newValue[0]);
     setErrorFac(false);
     try {
@@ -150,13 +158,19 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const Save = async () => {
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
-    } 
+      document.getElementById("handleSelectChange").focus(); //testfocus
+    }
     if (selectcost.toString().trim() === "") {
       setErrorCost(true);
-    } if (BOI_Project.trim() === "") {
+      document.getElementById("selectcost").focus(); //testfocus
+    }
+    if (BOI_Project.trim() === "") {
       setErrorBOI_P(true);
-    }  if (status.trim() === "") {
+      document.getElementById("BOI_Project").focus(); //testfocus
+    }
+    if (status.trim() === "") {
       setErrorStatus(true);
+      document.getElementById("status").focus(); //testfocus
     }
 
     console.log("FACTORY CHECK", selecteDatafac[0]);
@@ -246,11 +260,20 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   console.log("show data edit", EDIT);
   const DATA_EDIT_M = JSON.parse(EDIT);
   console.log("show data DATA_EDIT ", DATA_EDIT_M);
-  const combinedArray01 = [DATA_EDIT_M.slice(0,2)];
-  const DATA_EDIT_02 = DATA_EDIT_M.slice(0,0).concat(combinedArray01, DATA_EDIT_M.slice(2));
-  const combinedArray02= [DATA_EDIT_02.slice(1,3)];
-  const DATA_EDIT = DATA_EDIT_02.slice(0,1).concat(combinedArray02, DATA_EDIT_02.slice(3));
-  console.log("อยากเห็นข้อมูลที่ออกมามากกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก", DATA_EDIT);
+  const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
+  const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
+    combinedArray01,
+    DATA_EDIT_M.slice(2)
+  );
+  const combinedArray02 = [DATA_EDIT_02.slice(1, 3)];
+  const DATA_EDIT = DATA_EDIT_02.slice(0, 1).concat(
+    combinedArray02,
+    DATA_EDIT_02.slice(3)
+  );
+  console.log(
+    "อยากเห็นข้อมูลที่ออกมามากกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก",
+    DATA_EDIT
+  );
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
@@ -262,7 +285,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setBOI_Project("");
       setComment("");
       setStatus("A");
-
     } else {
       setErrorFac(false);
       setErrorBOI_P(false);
@@ -276,7 +298,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setuser_update(UserLoginn);
       setDate_show(DATA_EDIT[5]);
       setDate_show_update(formattedDate);
-
     }
   };
 
@@ -301,17 +322,35 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorStatus(false);
   };
 
+     // Loadding
+     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+     const openPopupLoadding = () => {
+         setPopupOpenLoadding(true);
+     };
+     const closePopupLoadding = () => {
+       setPopupOpenLoadding(false);
+     };
+  
+
   return (
     <div className="popup">
       <div className="popup-content">
+      <PageLoadding
+          isOpen={isPopupOpenLoadding}
+          onClose={closePopupLoadding}
+        />
         {/* Factiory and Level */}
         <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
-              <Typography>Factory <span class="red-star">*</span></Typography>
+              <Typography>
+                Factory <span class="red-star">*</span>
+              </Typography>
             </TableCell>
             <TableCell>
-              <Typography>Cost Center <span class="red-star">*</span></Typography>
+              <Typography>
+                Cost Center <span class="red-star">*</span>
+              </Typography>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -384,7 +423,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>BOI Project <span class="red-star">*</span></Typography>
+              <Typography>
+                BOI Project <span class="red-star">*</span>
+              </Typography>
             </TableCell>
           </TableRow>
 
@@ -430,19 +471,19 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                 onChange={handleComment}
                 style={{
                   width: "100%",
-                 
                 }}
               ></TextField>
             </TableCell>
           </TableRow>
 
-          <TableRow style={{ height: "25px" }}>
-          </TableRow>
+          <TableRow style={{ height: "25px" }}></TableRow>
 
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>Status <span class="red-star">*</span></Typography>
+              <Typography>
+                Status <span class="red-star">*</span>
+              </Typography>
             </TableCell>
           </TableRow>
 
@@ -529,14 +570,14 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           </TableRow>
           <TableRow style={{ height: "25px" }}>
             <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-
-              </Typography>
+              <Typography
+                style={{ fontSize: "small", color: "red" }}
+              ></Typography>
             </TableCell>
             <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-   
-              </Typography>
+              <Typography
+                style={{ fontSize: "small", color: "red" }}
+              ></Typography>
             </TableCell>
           </TableRow>
           {PAGE_STATUS !== "NEW" && (
@@ -581,17 +622,17 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           )}
           <TableRow style={{ height: "25px" }}>
             <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-
-              </Typography>
+              <Typography
+                style={{ fontSize: "small", color: "red" }}
+              ></Typography>
             </TableCell>
             <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-   
-              </Typography>
+              <Typography
+                style={{ fontSize: "small", color: "red" }}
+              ></Typography>
             </TableCell>
           </TableRow>
-          
+
           <TableRow>
             <TableCell colSpan={2} style={{ textAlign: "center" }}>
               {" "}

@@ -34,6 +34,7 @@ import swal from "sweetalert";
 import CloseIcon from "@mui/icons-material/Close";
 import SEARCH from "../Person_Maintain/Search_person";
 import Autocomplete from "@mui/material/Autocomplete";
+import PageLoadding from "../Loadding/Pageload";
 
 function person_maintain_new({ isOpen, onClose, searchFunction }) {
   if (!isOpen) return null;
@@ -73,6 +74,8 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   };
 
   useEffect(() => {
+    openPopupLoadding();
+
     const formattedDate = `${currentDate
       .getDate()
       .toString()
@@ -106,31 +109,45 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setDate_show(DATA_EDIT[7]);
       setDate_show_update(formattedDate);
     }
+    const fetchData = async () => {
+      const Factory = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const FactoryData = await response.data;
+          setdatafac(FactoryData);
+        } catch (error) {
+          console.error("Error during fetching factory data:", error);
+        }
+      };
 
-    const Factory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
-        const FactoryData = await response.data;
-        setdatafac(FactoryData);
-        // console.log(FactoryData, "Factory");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
+      const Costcenter = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getcost`);
+          const CostData = await response.data;
+          setcost(CostData);
+        } catch (error) {
+          console.error("Error during fetching cost data:", error);
+        }
+      };
+
+      const Level = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/getlevel`);
+          const LevelData = await response.data;
+          setdatalevel(LevelData);
+        } catch (error) {
+          console.error("Error during fetching level data:", error);
+        }
+      };
+
+      // เรียกใช้งานทั้ง 3 ฟังก์ชัน
+      await Factory();
+      await Costcenter();
+      await Level();
+      closePopupLoadding();
     };
 
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
-        const CostData = await response.data;
-        setcost(CostData);
-        // console.log(CostData, "CostData :");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    Level();
-    Factory();
-    Costcenter();
+    fetchData();
   }, []);
 
   const handleSelectChange = async (event, newValue) => {
@@ -210,14 +227,14 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             selecteDatafac,
             selecteDatalevel,
             selectcost,
-            [User_Login]
+            [User_Login],
           ];
           const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
           console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
           console.log(sentdata_back_search, "ข้อมูลที่2");
-          onClose();
           searchFunction();
+          onClose();
         } catch (error) {
           console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
         }
@@ -257,8 +274,8 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
           localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
           console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
           console.log(sentdata_back_search, "ข้อมูลที่2");
-          onClose();
           searchFunction();
+          onClose();
         } catch (error) {
           console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
         }
@@ -273,29 +290,26 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     }
   };
 
-  const Level = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/getlevel`);
-      const LevelData = await response.data;
-      setdatalevel(LevelData);
-      console.log(setdatalevel, "Level Data eiei");
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-
   // check status New and Edit
   const EDIT = localStorage.getItem("Person_Edit");
   console.log("show data edit", EDIT);
   const DATA_EDIT_M = JSON.parse(EDIT);
-  const combinedArray01 = [DATA_EDIT_M.slice(0,2)];
-  const DATA_EDIT_02 = DATA_EDIT_M.slice(0,0).concat(combinedArray01, DATA_EDIT_M.slice(2));
-  const combinedArray02= [DATA_EDIT_02.slice(1,3)];
-  const DATA_EDIT_03 = DATA_EDIT_02.slice(0,1).concat(combinedArray02, DATA_EDIT_02.slice(3));
-  const combinedArray03= [DATA_EDIT_03.slice(2,4)];
-  const DATA_EDIT = DATA_EDIT_03.slice(0,2).concat(combinedArray03, DATA_EDIT_03.slice(4));
+  const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
+  const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
+    combinedArray01,
+    DATA_EDIT_M.slice(2)
+  );
+  const combinedArray02 = [DATA_EDIT_02.slice(1, 3)];
+  const DATA_EDIT_03 = DATA_EDIT_02.slice(0, 1).concat(
+    combinedArray02,
+    DATA_EDIT_02.slice(3)
+  );
+  const combinedArray03 = [DATA_EDIT_03.slice(2, 4)];
+  const DATA_EDIT = DATA_EDIT_03.slice(0, 2).concat(
+    combinedArray03,
+    DATA_EDIT_03.slice(4)
+  );
   console.log("show data edit TTTTTTTTTTTTTTTTTTTTTT", DATA_EDIT);
-
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
@@ -377,9 +391,22 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     setErrorStatus(false);
   };
 
+  // Loadding
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
+
   return (
     <div className="popup">
       <div className="popup-content">
+        <PageLoadding
+          isOpen={isPopupOpenLoadding}
+          onClose={closePopupLoadding}
+        />
         {/* Factiory and Level */}
         <Table className="PopupEditPerson">
           <TableRow>
@@ -686,8 +713,8 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               ></Typography>
             </TableCell>
           </TableRow>
-
-          {PAGE_STATUS !== "NEW" && (
+          {console.log("PAGE_STATUS === TEST", PAGE_STATUS)}
+          {PAGE_STATUS === "EDIT" && (
             <>
               <TableRow>
                 <TableCell>
@@ -725,6 +752,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                   />
                 </TableCell>
               </TableRow>
+              {console.log("PAGE_STATUS === EDIT")}
             </>
           )}
 
