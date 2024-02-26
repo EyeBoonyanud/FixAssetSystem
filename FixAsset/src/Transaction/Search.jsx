@@ -152,12 +152,7 @@ function Issue() {
     console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
-  // const Remove = () =>{
-  //   localStorage.removeItem("ForRequester");
-  //   localStorage.removeItem("forDetail");
-  //   localStorage.removeItem("EDIT")
-  // }
-  //
+
   const handleEdit = async (EditFam) => {
     try {
       const response = await axios.get(

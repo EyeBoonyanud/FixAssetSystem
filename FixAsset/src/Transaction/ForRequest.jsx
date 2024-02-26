@@ -102,11 +102,11 @@ function ForRequest() {
   // set Readonly
   const [read_fix_group, setread_fix_group] = useState(false);
   const [read_fix_cost, setread_fix_cost] = useState(false);
-  //const [read_dept, setread_dept] = useState(true);
- // const [read_tel, setread_tel] = useState(true);
- // const [reac_remark, setread_remark] = useState(true);
- // const [reac_type, setread_type] = useState(true);
- // const [delete_fix ,setdelete_fix] = useState("hidden");
+  const [read_dept, setread_dept] = useState(true);
+  const [read_tel, setread_tel] = useState(true);
+  const [reac_remark, setread_remark] = useState(true);
+  const [reac_type, setread_type] = useState(true);
+  const [delete_fix ,setdelete_fix] = useState("hidden");
  
 
   const navigate = useNavigate();
@@ -122,20 +122,31 @@ function ForRequest() {
   console.log("For_Rq_Edit",For_Rq_Edit)
   let STS ="";
   
+  const FileUp = localStorage.getItem("Type");
+  var storedFileArray = JSON.parse(FileUp);
+  // var storedFileArray = JSON.parse(FileUp);
+  // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
+  //   type: data.type,
+  //   lastModified: new Date(data.lastModified),
+  //   size: data.size,
  
+  //   // Add other properties as needed
+  // }));
 
   useEffect(() => {
 
-  //  if(STS == "FLTR001"){
-  //   setread_dept(false)
-  //   setread_remark(false)
-  //   setread_type(false)
-  //   setread_tel(false)
-  //   setdelete_fix("visible")
-  //   setbtnSave("visible")
-  //  }else{
-
-  //  }
+    if(reconstructedFileArray !=null)
+    {
+    
+      var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
+        type: data.type,
+        lastModified: new Date(data.lastModified),
+        size: data.size,
+     
+        // Add other properties as needed
+      }));
+    setUploadedFiles(reconstructedFileArray)
+    } 
 
     // Edit();
     // EditFixAsset();
@@ -180,6 +191,17 @@ function ForRequest() {
           setvisibityFile("visible");
          // setbtnSave("visible");
         }
+        if(STS == "FLTR001" || STS == ""  ){
+    
+          setread_dept(false)
+          setread_remark(false)
+          setread_type(false)
+          setread_tel(false)
+          setdelete_fix("visible")
+          setbtnSave("visible")
+         }else{
+      
+         }
 
       }
     } else {
@@ -202,9 +224,31 @@ function ForRequest() {
           setvisibityDetails("visible");
           setvisibityFile("visible");
         }
+        if(STS == "FLTR001" || STS == ""  ){
+    
+          setread_dept(false)
+          setread_remark(false)
+          setread_type(false)
+          setread_tel(false)
+          setdelete_fix("visible")
+          setbtnSave("visible")
+         }else{
+      
+         }
       } else {
         STS =""
         setRequest_date(formattedDate);
+        if(STS == "FLTR001" || STS == ""  ){
+    
+          setread_dept(false)
+          setread_remark(false)
+          setread_type(false)
+          setread_tel(false)
+          setdelete_fix("visible")
+          setbtnSave("visible")
+         }else{
+      
+         }
       }
     }
   };
@@ -544,15 +588,28 @@ function ForRequest() {
   const ADD = async () => {
     try {
       const row = await axios.get(
-        `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}`
+        `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
       );
       const data = row.data;
       setfind_fixasset(data);
+      if (data.length > 0){
+        setOpen(true);
+     } else{
+       
+      Swal.fire({
+        icon: "error",
+        title: "Data is not found",
+
+   
+      });
+     }
       //console.log(data, "1111111111111111");
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
-    setOpen(true);
+   
+    
+   
   };
   // ADD ลง Table REQ_DETAILS
   const handleClose = () => {
@@ -896,6 +953,20 @@ function ForRequest() {
     //console.log("รับมา")
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+   var fileArray = [...uploadedFiles, ...selectedFiles];
+    var jsonDataArray = fileArray.map(file => ({
+      name: file.name,
+      lastModified: file.lastModified,
+      lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
+      webkitRelativePath: file.webkitRelativePath,
+      size: file.size,
+      type: file.type,
+    }));
+    var fileArrayString = JSON.stringify(jsonDataArray);
+ 
+// เก็บ JSON string ใน local storage ด้วย key "Type"
+    localStorage.setItem("Type", fileArrayString);
+    console.log(fileArray,"555555555555555555555555555",fileArrayString)
   };
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -1071,7 +1142,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
-                     // disabled={read_tel}
+                     disabled={read_tel}
                       // style={{
 
                       //   width: "100%",
@@ -1137,7 +1208,7 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
-                       // disabled={read_dept}
+                        disabled={read_dept}
                         value={selectDept1}
                         onChange={handleDept}
                         style={{
@@ -1173,7 +1244,7 @@ function ForRequest() {
                       name="row-radio-buttons-group"
                       id="Radio_ReqType"
                       value={Request_type1}
-                    // disabled={reac_type}
+                    disabled={reac_type}
                     // style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
@@ -1315,7 +1386,7 @@ function ForRequest() {
                       id="Remark"
                       size="small"
                       style={{ width: "100%" }}
-                     //disabled={reac_remark}
+                     disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}
@@ -1723,7 +1794,7 @@ function ForRequest() {
                                   )}
                                 </>
                               )}
-                              {index + 1}) {file.name}
+                              {index + 1} {file.name}
                             </span>
                             <DeleteOutlined
                               onClick={() => handleDeleteFile(index)}

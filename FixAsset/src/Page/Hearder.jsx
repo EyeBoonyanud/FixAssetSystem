@@ -34,6 +34,7 @@ function ButtonAppBar({ isOpen, onClose }) {
     localStorage.removeItem("Edit_Trans")
     localStorage.removeItem("Edit_Dteail_for_FixedCode") 
     localStorage.removeItem("Edit_routing") 
+    localStorage.removeItem("Type")
     navigate("/");
   };
 

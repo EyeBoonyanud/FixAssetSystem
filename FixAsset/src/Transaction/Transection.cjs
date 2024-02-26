@@ -166,12 +166,7 @@ module.exports.search = async function (req, res) {
     T.FAM_REQ_DATE AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
-    (SELECT
-      TO_CHAR(WM_CONCAT(CD.FRD_ASSET_CODE))
-    FROM
-      FAM_REQ_DETAIL CD
-    WHERE
-      CD.FRD_FAM_NO = T.FRH_FAM_NO) AS FIXED_CODE,
+(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
     F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
@@ -187,7 +182,7 @@ module.exports.search = async function (req, res) {
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
     AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
-    AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
+    AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
   
@@ -223,12 +218,7 @@ module.exports.search2 = async function (req, res) {
     T.FAM_REQ_DATE AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
-    (SELECT
-      TO_CHAR(WM_CONCAT(CD.FRD_ASSET_CODE))
-    FROM
-      FAM_REQ_DETAIL CD
-    WHERE
-      CD.FRD_FAM_NO = T.FRH_FAM_NO) AS FIXED_CODE,
+(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
     F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
@@ -254,7 +244,7 @@ module.exports.search2 = async function (req, res) {
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
     AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
-    AND (C.FRD_ASSET_CODE  = '${asset}' OR '${asset}' IS NULL)
+    AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
   
@@ -272,6 +262,7 @@ module.exports.search2 = async function (req, res) {
 module.exports.fixcode = async function (req, res) {
   try {
     const fixcode = req.query.Fixcode;
+    const cc = req.query.asset_cc;
 
     // console.log(factory,"1")
 
@@ -303,7 +294,8 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     ( upper(CODE_MSTR.CODE_FLDNAME) = 'KFA_OBLG' ) AND 
     ( KFAD_DET.KFAD_BOOK = 'SL' ) AND 
     ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND 
-    ( KFAD_DET.KFAD_SEQ = '0' ) )  
+    ( KFAD_DET.KFAD_SEQ = '0' ) AND
+    ( KFAD_DET.KFAD_CC = '${cc}'))   
          `;
 
     const result = await connect.execute(query);
@@ -314,6 +306,7 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
 //FactoryForInsert
 module.exports.fac_insert = async function (req, res) {
   try {
@@ -1575,6 +1568,7 @@ module.exports.Update_For_Req_All = async function (req, res) {
       accchk,
       accmrg,
       updateby,
+      record_by
     } = req.body;
 
     console.log(
@@ -1590,7 +1584,8 @@ module.exports.Update_For_Req_All = async function (req, res) {
       fmby,
       accchk,
       accmrg,
-      updateby
+      updateby,
+      record_by
     );
 
     const connect = await oracledb.getConnection(AVO);
@@ -1611,7 +1606,8 @@ module.exports.Update_For_Req_All = async function (req, res) {
         R.FAM_ACC_CHK_BY = :FAM_ACC_CHK_BY,
         R.FAM_ACC_MGR_BY = :FAM_ACC_MGR_BY,
         R.FAM_UPDATE_DATE = SYSDATE,
-        R.FAM_UPDATE_BY = :FAM_UPDATE_BY
+        R.FAM_UPDATE_BY = :FAM_UPDATE_BY,
+        R.FAM_ACC_REC_BY = :FAM_ACC_REC_BY
       WHERE
         FRH_FAM_NO = :FAM_NO
     `;
@@ -1630,6 +1626,7 @@ module.exports.Update_For_Req_All = async function (req, res) {
       FAM_ACC_CHK_BY: accchk,
       FAM_ACC_MGR_BY: accmrg,
       FAM_UPDATE_BY: updateby,
+      FAM_ACC_REC_BY:record_by
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
