@@ -124,6 +124,9 @@ function ForRequest() {
   
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
+  console.log(">>>>>>>>>>>>>>>>>>>>...",storedFileArray)
+
+
   // var storedFileArray = JSON.parse(FileUp);
   // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
   //   type: data.type,
@@ -135,7 +138,7 @@ function ForRequest() {
 
   useEffect(() => {
 
-    if(reconstructedFileArray !=null)
+    if(storedFileArray!=null)
     {
     
       var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
@@ -1041,6 +1044,12 @@ function ForRequest() {
       icon: "success",
     });
   };
+  const handleDeleteFile = (index,file) => {
+    console.log(file,"filefilefilefilefile")
+    const updatedFiles = [...uploadedFiles];
+    updatedFiles.splice(index, 1);
+    setUploadedFiles(updatedFiles);
+  };
   const Reset = async () => {
     setTel1("");
     setselectDept1("");
@@ -1797,7 +1806,7 @@ function ForRequest() {
                               {index + 1} {file.name}
                             </span>
                             <DeleteOutlined
-                              onClick={() => handleDeleteFile(index)}
+                              onClick={() => handleDeleteFile(index,file.name)}
                               className="Icon_DeleteFile"
                             />
                           </Typography>

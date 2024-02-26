@@ -20,11 +20,11 @@ import { useNavigate } from "react-router-dom";
 
 function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
-  const User = localStorage.getItem("UserLogin");
+  const User = localStorage.getItem("UserLogin")
   const navigate = useNavigate();
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req, "For_Req");
+   console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
 
@@ -35,8 +35,10 @@ function TransFerDetail() {
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
   //console.log(For_Rq_Edit,"For_Rq_Edit")
-  let STS = "";
+  let STS="";
   //console.log(For_Rq_Edit, "For_Req_Edit");
+
+
 
   // if (ForRequester !== null) {
   //  STS = For_Req[10];
@@ -46,15 +48,15 @@ function TransFerDetail() {
 
   const ForTransfer = localStorage.getItem("For_Transfer");
   const For_Trans = JSON.parse(ForTransfer);
-  console.log(For_Trans, "For_Trans");
+  console.log(For_Trans,"For_Trans")
 
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
-  console.log(For_Rou, "For_Rou");
+  console.log(For_Rou,"For_Rou")
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  // console.log(For_Edit_Rou,"For_Edit_Rou")
+ // console.log(For_Edit_Rou,"For_Edit_Rou")
 
   let Fam_list = "";
   let servivedept = "";
@@ -70,7 +72,7 @@ function TransFerDetail() {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-  const [STS1, setSTS1] = useState("");
+  const [STS1 , setSTS1] = useState("");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
@@ -98,7 +100,7 @@ function TransFerDetail() {
   const [selectfac_manager, setselectfac_manager] = useState("");
   const [acc_check, setacc_check] = useState([]);
   const [selectacc_check, setselectacc_check] = useState("");
-  const [text_acc_check, settext_acc_check] = useState("");
+  const [text_acc_check ,settext_acc_check] = useState("");
   const [owner_roting, setowner_roting] = useState("");
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
@@ -141,7 +143,7 @@ function TransFerDetail() {
   const [action__record, setaction__record] = useState("");
   const [action__acc_manager, setaction__acc_manager] = useState("");
   const [action__service_close_by, setaction__service_close_by] = useState("");
-  //Error
+  //Error 
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
@@ -192,8 +194,8 @@ function TransFerDetail() {
   const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
   const [read_close_radio, setReadCloseRadio] = useState(true);
   const [read_close_cmmt, setReadCloseCmmt] = useState(true);
-  //Save
-  const [btnsave, setbtnsave] = useState("hidden");
+ //Save 
+  const [btnsave,setbtnsave] = useState("hidden");
   //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
@@ -215,12 +217,12 @@ function TransFerDetail() {
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   useEffect(() => {
-    if (For_Rq_Edit != null) {
-      setSTS1(For_Rq_Edit[10]);
-    }
-    if (For_Req != null) {
-      setSTS1(For_Req[10]);
-    }
+  if(For_Rq_Edit!=null){
+    setSTS1(For_Rq_Edit[10])
+  }
+  if(For_Req != null){
+    setSTS1(For_Req[10])
+  }
     FactoryCC();
     TransCC();
     BOI_FROM();
@@ -237,12 +239,12 @@ function TransFerDetail() {
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
-        STS = For_Rq_Edit[10];
-        console.log(STS, "STS");
+         STS = For_Rq_Edit[10];
+        console.log(STS,"STS")
         setownersend(For_Rq_Edit[2]);
         if (For_edit_trans != null) {
           setnew_boi(For_edit_trans[0][2]);
-          New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
+         New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
           setabnormal(For_edit_trans[0][6]);
           setTel_for_trans(For_edit_trans[0][4]);
@@ -301,35 +303,37 @@ function TransFerDetail() {
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
               //readonly
+              
+              
 
               // Wait Dept
-
+            
               if (STS == "FLTR002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
-                setReadDeptRadio(false);
-                setReadDeptCmmt(false);
+                setReadDeptRadio(false)
+                setReadDeptCmmt(false)
               } else if (STS == "FLTR003") {
                 setaction__serviceby(formattedDate);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadServiceByRadio(false);
-                setReadServiceByCmmt(false);
+                setReadServiceByRadio(false)
+                setReadServiceByCmmt(false)
               } else if (STS == "FLTR004") {
                 setaction__boistaff(formattedDate);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadBoistffRadio(false);
-                setReadBoistffCmmt(false);
+                setReadBoistffRadio(false)
+                setReadBoistffCmmt(false)
               } else if (STS == "FLTR005") {
                 setaction__boimanager(formattedDate);
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadBoimanaRadio(false);
-                setReadBoimanaCmmt(false);
+                setReadBoimanaRadio(false)
+                setReadBoimanaCmmt(false)
               } else if (STS == "FLTR006") {
                 setaction__facmanager(formattedDate);
                 setchkfacmanager("visible");
@@ -337,8 +341,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadFacManaRadio(false);
-                setReadFacManaCmmt(false);
+                setReadFacManaRadio(false)
+                setReadFacManaCmmt(false)
               } else if (STS == "FLTR007") {
                 setaction__acc_check(formattedDate);
                 setchkacc_check("visible");
@@ -347,8 +351,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadAccchkRadio(false);
-                setReadAccchkCmmt(false);
+                setReadAccchkRadio(false)
+                setReadAccchkCmmt(false)
               } else if (STS == "FLTR008") {
                 setaction__owner(formattedDate);
                 setchkowner("visible");
@@ -358,8 +362,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadOwnerRadio(false);
-                setReadOwnerCmmt(false);
+                setReadOwnerRadio(false)
+                setReadOwnerCmmt(false)
               } else if (STS == "FLTR009") {
                 setaction__receiver(formattedDate);
                 setchkreceiver("visible");
@@ -370,8 +374,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadReceiveRadio(false);
-                setReadReceiveCmmt(false);
+                setReadReceiveRadio(false)
+                setReadReceiveCmmt(false)
               } else if (STS == "FLTR010") {
                 setaction__record(formattedDate);
                 setchkacc_record("visible");
@@ -383,8 +387,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadRecordRadio(false);
-                setReadRecordCmmt(false);
+                setReadRecordRadio(false)
+                setReadRecordCmmt(false)
               } else if (STS == "FLTR011") {
                 setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
@@ -397,8 +401,8 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadAccManaRadio(false);
-                setReadAccManaCmmt(false);
+                setReadAccManaRadio(false)
+                setReadAccManaCmmt(false)
               } else if (STS == "FLTR012") {
                 setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
@@ -412,10 +416,11 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
-                setReadCloseRadio(false);
-                setReadCloseCmmt(false);
+                setReadCloseRadio(false)
+                setReadCloseCmmt(false)
               }
-            } else if (STS == "FLTR001") {
+            }
+            else if(STS == "FLTR001"){ 
               setReadTransFac(false);
               setReadTransCC(false);
               setReadTel(false);
@@ -428,7 +433,7 @@ function TransFerDetail() {
               setReadFacMana(false);
               setReadAccchk(false);
               setReadAccMana(false);
-              setbtnsave("visible");
+              setbtnsave("visible")
             }
           } else {
             ///////////// else //////////////
@@ -448,7 +453,7 @@ function TransFerDetail() {
       setReadFacMana(false);
       setReadAccchk(false);
       setReadAccMana(false);
-      setbtnsave("visible");
+      setbtnsave("visible")
       if (For_Trans != null) {
         setownersend(For_Req[1]);
         setowner_roting(For_Req[1]);
@@ -482,6 +487,7 @@ function TransFerDetail() {
       }
     }
   }, []);
+  
 
   const FactoryCC = async () => {
     setErrorFac(false);
@@ -739,12 +745,12 @@ function TransFerDetail() {
         `http://localhost:5000/boi_staff?fac=${level}`
       );
       const data = response.data.flat();
-      console.log("kkkkkkkkkkkkkkkkk", data);
+      console.log("kkkkkkkkkkkkkkkkk",data)
       setboi_staff(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          console.log([For_Edit_Rou[0][8]], "YYYYYYYYYYYYYYYYYYYYYYy");
-          setselectboi_staff([For_Edit_Rou[0][8]]);
+          console.log([For_Edit_Rou[0][8]],"YYYYYYYYYYYYYYYYYYYYYYy")
+          setselectboi_staff([For_Edit_Rou[0][8]])
         }
       } else {
         if (For_Req != null) {
@@ -835,7 +841,8 @@ function TransFerDetail() {
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectacc_check([For_Edit_Rou[0][20]]);
-          settext_acc_check([For_Edit_Rou[0][20]]);
+          settext_acc_check([For_Edit_Rou[0][20]])
+          
         }
       } else {
         if (For_Req != null) {
@@ -977,7 +984,7 @@ function TransFerDetail() {
       title: "Save Success",
       icon: "success",
     });
-
+   
     setOpen(true);
   };
 
@@ -1315,7 +1322,7 @@ function TransFerDetail() {
     if (EditFam != null) {
       // Submit ตามเงื่อนไข
       if (For_Rq_Edit != null) {
-        console.log("ไม่มาาาาาาาาาาาา", selectboi_staff[0], selectboi_staff);
+        console.log("ไม่มาาาาาาาาาาาา",selectboi_staff[0],selectboi_staff);
         if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
           try {
@@ -1349,17 +1356,17 @@ function TransFerDetail() {
                 accchk: selectacc_check[0],
                 accmrg: selectacc_manager[0],
                 updateby: For_Rq_Edit[2],
-                record_by: text_acc_check,
+                record_by: text_acc_check
               }
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
-          try {
+          } try {
+          
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
+             "http://localhost:5000/Update_For_Trans_All",
               {
-                famno: For_Rq_Edit[0][8],
+                famno:For_Rq_Edit[0][8] ,
                 date_plan: plan_date,
                 fac_trans: selecttrans_factory,
                 cc_trans: selecttrans_cc,
@@ -1462,6 +1469,7 @@ function TransFerDetail() {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR007") {
+      
           let Status = "FLTR008";
           try {
             const row = axios.post(
@@ -1598,17 +1606,19 @@ function TransFerDetail() {
               accchk: selectacc_check,
               accmrg: selectacc_manager,
               updateby: For_Req[1],
-              record_by: text_acc_check,
+              record_by: text_acc_check
             }
           );
+
+         
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
-        }
-        try {
+        }try {
+          
           const response = await axios.post(
-            "http://localhost:5000/Update_For_Trans_All",
+           "http://localhost:5000/Update_For_Trans_All",
             {
-              famno: For_Req[0],
+              famno:For_Req[0] ,
               date_plan: plan_date,
               fac_trans: selecttrans_factory,
               cc_trans: selecttrans_cc,
@@ -1743,18 +1753,13 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                        {STS1 == "FLTR001" || STS1 == "" ? (
-                          trans_factory.map((option, index) => (
-                            <MenuItem key={index} value={option}>
-                              {option}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem value={selecttrans_factory}>
-                            {selecttrans_factory}
+                        {trans_factory.map((option, index) => (
+                          <MenuItem key={index} value={option[0]}>
+                            {option[1]}
                           </MenuItem>
-                        )}
+                        ))}
                       </Select>
+                    
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -1777,18 +1782,13 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                        {STS1 == "FLTR001" || STS1 == "" ? (
-                          trans_cc.map((option, index) => (
-                            <MenuItem key={index} value={option[0]}>
-                              {option[0]}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem value={selecttrans_cc}>
-                            {selecttrans_cc}
+                        {trans_cc.map((option, index) => (
+                          <MenuItem key={index} value={option[0]}>
+                            {option[0]}
                           </MenuItem>
-                        )}
+                        ))}
                       </Select>
+                      
                     </FormControl>
                   </td>
                   <tr></tr>
@@ -1810,8 +1810,9 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5"></td>
                 </tr>
-                {console.log("PAGE_STATUS === EDIT", STS)}
+                {console.log("PAGE_STATUS === EDIT",STS)}
                 <tr>
+
                   <th colSpan={5}></th>
                   <td className="Style4">New Owner :</td>
                   <td>
@@ -1828,17 +1829,20 @@ function TransFerDetail() {
                         // }}
                         // error={ErrorNewOwn && !selectnew_owner}
                       >
-                        {STS1 == "FLTR001" || STS1 == "" ? (
-                          new_owner.map((option, index) => (
-                            <MenuItem key={index} value={option}>
-                              {option}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem value={selectnew_owner}>
-                            {selectnew_owner}
-                          </MenuItem>
-                        )}
+
+                     {(STS1== "FLTR001" || STS1 == "" ) ?(
+  new_owner.map((option, index) => (
+    <MenuItem key={index} value={option}>
+      {option}
+    </MenuItem>
+  ))
+) : (
+ 
+    <MenuItem value={selectnew_owner}>
+    {selectnew_owner}
+    </MenuItem>
+  
+)}
                       </Select>
                     </FormControl>
                   </td>
@@ -1953,20 +1957,11 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  department_mana.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectdepartment_mana}>
-    {selectdepartment_mana}
-    </MenuItem>
-  
-)}
-                      
+                        {department_mana.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -2017,9 +2012,10 @@ function TransFerDetail() {
                 </tr>
                 {/* { STS === "FLTR002" && (    
                   <> */}
-                <tr>
+                <tr  >
                   <th colSpan={5}></th>
-                  <td className="Style4" style={{ visibility: checkrdo }}>
+                  <td className="Style4" style={{ visibility: checkrdo }}
+                  >
                     Comment :
                   </td>
                   <td colSpan={4}>
@@ -2102,21 +2098,11 @@ function TransFerDetail() {
                         //     : undefined
                         // }
                       >
-
-{(STS1== "FLTR001" || STS1 == "" ) ?(
-  service_by.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectservice_by}>
-    {selectservice_by}
-    </MenuItem>
-  
-)}
-
+                        {service_by.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                       {ErrorService_by && (
                         <FormHelperText style={{ color: "red" }}>
@@ -2197,6 +2183,7 @@ function TransFerDetail() {
                   <td className="Style4">BOI Staff :</td>
                   <td>
                     <FormControl className="Style3">
+                      
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
@@ -2204,6 +2191,7 @@ function TransFerDetail() {
                         value={selectboi_staff}
                         onChange={(e) => {
                           setselectboi_staff(e.target.value);
+                              
                         }}
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined,
@@ -2216,20 +2204,12 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  boi_staff.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectboi_staff}>
-    {selectboi_staff}
-    </MenuItem>
-  
-)}
-                        
+                
+                        {boi_staff.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </td>
@@ -2322,19 +2302,11 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  boi_manager.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectboi_manager}>
-    {selectboi_manager}
-    </MenuItem>
-  
-)}
+                        {boi_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                       {/* {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Manager</FormHelperText>} */}
                     </FormControl>
@@ -2430,20 +2402,11 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  fac_manager.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectfac_manager}>
-    {selectfac_manager}
-    </MenuItem>
-  
-)}
-                       
+                        {fac_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                       {/* {ErrorMana_Fac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Factory Manager</FormHelperText>} */}
                     </FormControl>
@@ -2549,20 +2512,11 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  acc_check.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectacc_check}>
-    {selectacc_check}
-    </MenuItem>
-  
-)}
-                      
+                        {acc_check.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                       {/* {ErrorAcc_check && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Check</FormHelperText>} */}
                     </FormControl>
@@ -2963,20 +2917,11 @@ function TransFerDetail() {
                             : undefined
                         }
                       >
-                                           {(STS1== "FLTR001" || STS1 == "" ) ?(
-  acc_manager.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
- 
-    <MenuItem value={selectacc_manager}>
-    {selectacc_manager}
-    </MenuItem>
-  
-)}
-                       
+                        {acc_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
                       </Select>
                       {ErrorAcc_Mana && (
                         <FormHelperText style={{ color: "red" }}>
@@ -3162,6 +3107,7 @@ function TransFerDetail() {
                   color="primary"
                   className="Style9"
                   style={{ visibility: btnsave }}
+             
                   //style={{ display: STS == "FLTR001" ? "none" : "block" }}
                   onClick={SAVE}
                 >
