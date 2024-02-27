@@ -31,13 +31,13 @@ function TransFerDetail() {
 
   const Edit_trans = localStorage.getItem("Edit_Trans");
   const For_edit_trans = JSON.parse(Edit_trans);
-  //console.log(For_edit_trans,"For_edit_trans")
+  console.log(For_edit_trans, "For_edit_trans");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
   //console.log(For_Rq_Edit,"For_Rq_Edit")
   let STS = "";
-  //console.log(For_Rq_Edit, "For_Req_Edit");
+  console.log(For_Rq_Edit, "For_Req_Edit");
 
   // if (ForRequester !== null) {
   //  STS = For_Req[10];
@@ -55,7 +55,7 @@ function TransFerDetail() {
 
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  // console.log(For_Edit_Rou,"For_Edit_Rou")
+  console.log(For_Edit_Rou,"For_Edit_Rou")
 
   let Fam_list = "";
   let servivedept = "";
@@ -163,7 +163,6 @@ function TransFerDetail() {
   const [read_tel, setReadTel] = useState(true);
   const [read_plan_date, setReadPlanDate] = useState(true);
   const [read_newowner, setReadNewOwnerCmmt] = useState(true);
-  //const [read_abnormal, setReadAbnormal] = useState(true);
   const [read_dept, setReadDept] = useState(true);
   const [read_dept_radio, setReadDeptRadio] = useState(true);
   const [read_dept_cmmt, setReadDeptCmmt] = useState(true);
@@ -250,12 +249,14 @@ function TransFerDetail() {
     };
 
     TEST();
+
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         STS = For_Rq_Edit[10];
-        console.log(STS, "STS");
+        console.log(STS, "STS..,.,.,.");
         setownersend(For_Rq_Edit[2]);
         if (For_edit_trans != null) {
+          
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
@@ -264,12 +265,15 @@ function TransFerDetail() {
           setreceiver(For_edit_trans[0][3]);
           setplan_date(For_edit_trans[0][5]);
           // setของ Edit Trans
+          setowner_roting(For_Rq_Edit[2]);
 
           if (For_Edit_Rou != null) {
+            console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
             //set Submit
-            setowner_roting(For_Rq_Edit[2]);
+            
             setTel_service(For_Edit_Rou[0][7]);
             if (STS != "FLTR001") {
+             console.log("LLLLLLLLLLLLLLLLLLLLLl")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
@@ -316,10 +320,45 @@ function TransFerDetail() {
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
               //readonly
-
-              // Wait Dept
-
-              if (STS == "FLTR002") {
+             
+              if (STS == "FLTR001") {
+              
+                setReadTransFac(false);
+                setReadTransCC(false);
+                setReadTel(false);
+                setReadPlanDate(false);
+                setReadNewOwnerCmmt(false);
+                setReadDept(false);
+                setReadDeptRadio(false);
+                setReadDeptCmmt(false);
+                setReadServiceBy(false);
+                setReadServiceByRadio(false);
+                setReadServiceByCmmt(false);
+                setReadBoistff(false);
+                setReadBoistffRadio(false);
+                setReadBoistffCmmt(false);
+                setReadBoimana(false);
+                setReadBoimanaRadio(false);
+                setReadBoimanaCmmt(false);
+                setReadFacMana(false);
+                setReadFacManaRadio(false);
+                setReadFacManaCmmt(false);
+                setReadAccchk(false);
+                setReadAccchkRadio(false);
+                setReadAccchkCmmt(false);
+                setReadOwnerRadio(false);
+                setReadOwnerCmmt(false);
+                setReadReceiveRadio(false);
+                setReadReceiveCmmt(false);
+                setReadRecordRadio(false);
+                setReadRecordCmmt(false);
+                setReadAccMana(false);
+                setReadAccManaRadio(false);
+                setReadAccManaCmmt(false);
+                setReadCloseRadio(false);
+                setReadCloseCmmt(false);
+                //Save
+              } else if (STS == "FLTR002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
                 setReadDeptRadio(false);
@@ -446,7 +485,44 @@ function TransFerDetail() {
               setbtnsave("visible");
             }
           } else {
-            ///////////// else //////////////
+            if (STS == "FLTR001") {
+              
+              setReadTransFac(false);
+              setReadTransCC(false);
+              setReadTel(false);
+              setReadPlanDate(false);
+              setReadNewOwnerCmmt(false);
+              setReadDept(false);
+              setReadDeptRadio(false);
+              setReadDeptCmmt(false);
+              setReadServiceBy(false);
+              setReadServiceByRadio(false);
+              setReadServiceByCmmt(false);
+              setReadBoistff(false);
+              setReadBoistffRadio(false);
+              setReadBoistffCmmt(false);
+              setReadBoimana(false);
+              setReadBoimanaRadio(false);
+              setReadBoimanaCmmt(false);
+              setReadFacMana(false);
+              setReadFacManaRadio(false);
+              setReadFacManaCmmt(false);
+              setReadAccchk(false);
+              setReadAccchkRadio(false);
+              setReadAccchkCmmt(false);
+              setReadOwnerRadio(false);
+              setReadOwnerCmmt(false);
+              setReadReceiveRadio(false);
+              setReadReceiveCmmt(false);
+              setReadRecordRadio(false);
+              setReadRecordCmmt(false);
+              setReadAccMana(false);
+              setReadAccManaRadio(false);
+              setReadAccManaCmmt(false);
+              setReadCloseRadio(false);
+              setReadCloseCmmt(false);
+              //Save
+            }
           }
         }
       }
@@ -688,10 +764,13 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment_mana(data);
+      console.log(data,"data")
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectdepartment_mana([For_Edit_Rou[0][0]]);
+          console.log(For_Edit_Rou[0][0],"[For_Edit_Rou[0][0]]")
+          // !!!!!!!!!!!!!
+          setselectdepartment_mana(For_Edit_Rou[0][0]);
         }
       } else {
         if (For_Req != null) {
@@ -725,7 +804,7 @@ function TransFerDetail() {
       setservice_by(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectservice_by([For_Edit_Rou[0][5]]);
+          setselectservice_by(For_Edit_Rou[0][5]);
         }
       } else {
         if (For_Req != null) {
@@ -748,7 +827,7 @@ function TransFerDetail() {
       }
     } else {
       level = For_Req[3];
-    }
+    }department_mana
     try {
       const response = await axios.get(
         `http://localhost:5000/boi_staff?fac=${level}`
@@ -758,8 +837,8 @@ function TransFerDetail() {
       setboi_staff(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          console.log([For_Edit_Rou[0][8]], "YYYYYYYYYYYYYYYYYYYYYYy");
-          setselectboi_staff([For_Edit_Rou[0][8]]);
+          console.log(For_Edit_Rou[0][8], "YYYYYYYYYYYYYYYYYYYYYYy");
+          setselectboi_staff(For_Edit_Rou[0][8]);
         }
       } else {
         if (For_Req != null) {
@@ -789,7 +868,7 @@ function TransFerDetail() {
       setboi_manager(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectboi_manager([For_Edit_Rou[0][12]]);
+          setselectboi_manager(For_Edit_Rou[0][12]);
         }
       } else {
         if (For_Req != null) {
@@ -819,7 +898,7 @@ function TransFerDetail() {
       setfac_manager(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectfac_manager([For_Edit_Rou[0][16]]);
+          setselectfac_manager(For_Edit_Rou[0][16]);
         }
       } else {
         if (For_Req != null) {
@@ -849,8 +928,8 @@ function TransFerDetail() {
       setacc_check(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectacc_check([For_Edit_Rou[0][20]]);
-          settext_acc_check([For_Edit_Rou[0][20]]);
+          setselectacc_check(For_Edit_Rou[0][20]);
+          settext_acc_check(For_Edit_Rou[0][20]);
         }
       } else {
         if (For_Req != null) {
@@ -880,7 +959,7 @@ function TransFerDetail() {
       setacc_manager(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectacc_manager([For_Edit_Rou[0][28]]);
+          setselectacc_manager(For_Edit_Rou[0][28]);
         }
       } else {
         if (For_Req != null) {
@@ -1337,7 +1416,7 @@ function TransFerDetail() {
           try {
             console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
+             "http://localhost:5000/Update_For_Req_All",
               {
                 // famno: For_Rq_Edit[0],
                 // dept: For_Rq_Edit[6],
@@ -1356,14 +1435,14 @@ function TransFerDetail() {
                 dept: For_Rq_Edit[6],
                 tel: For_Rq_Edit[3],
                 remark: For_Rq_Edit[12],
-                mrg_dept: selectdepartment_mana[0],
-                serviceby: selectservice_by[0],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
                 servicetel: Tel_service,
-                boisff: selectboi_staff[0],
-                boimrg: selectboi_manager[0],
-                fmby: selectfac_manager[0],
-                accchk: selectacc_check[0],
-                accmrg: selectacc_manager[0],
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
                 updateby: For_Rq_Edit[2],
                 record_by: text_acc_check,
               }
@@ -1373,7 +1452,7 @@ function TransFerDetail() {
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
+             "http://localhost:5000/Update_For_Trans_All",
               {
                 famno: For_Rq_Edit[0][8],
                 date_plan: plan_date,
@@ -1386,13 +1465,14 @@ function TransFerDetail() {
                 abnormal_for: abnormal,
                 create_by: User,
               }
+              
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/update_submit",
+           "http://localhost:5000/update_submit",
               {
                 famno: EditFam,
                 sts_submit: Status,
@@ -1400,7 +1480,7 @@ function TransFerDetail() {
             );
 
             Swal.fire({
-              title: "Save Success",
+              title: "Submit Success",
               icon: "success",
             });
           } catch (error) {
@@ -3102,8 +3182,8 @@ function TransFerDetail() {
                   size="medium"
                   color="primary"
                   className="Style9"
-                  style={{ visibility: btnsave }}
-                  //style={{ display: STS == "FLTR001" ? "none" : "block" }}
+                  // style={{ visibility: btnsave }}
+                  style={{ display:  STS1 !== "" || STS1 !== "FLTR001" ? "block" : "none" }}
                   onClick={SAVE}
                 >
                   Save
@@ -3134,15 +3214,33 @@ function TransFerDetail() {
           </Box>
         </div>
         <div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-  <Button variant="contained" style={{ width: "200px", marginTop: "20px", marginBottom: "20px" , marginLeft:'20px',backgroundColor: "gray",}} onClick={() => window.history.back()}>
-    BACK PAGE
-  </Button>
-  <Button variant="contained" style={{ width: "200px", marginTop: "20px", marginBottom: "20px" ,marginRight:'20px',backgroundColor: "gray", }}>
-    Next Page
-  </Button>
-</div>
-
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              variant="contained"
+              style={{
+                width: "200px",
+                marginTop: "20px",
+                marginBottom: "20px",
+                marginLeft: "20px",
+                backgroundColor: "gray",
+              }}
+              onClick={() => window.history.back()}
+            >
+              BACK PAGE
+            </Button>
+            <Button
+              variant="contained"
+              style={{
+                width: "200px",
+                marginTop: "20px",
+                marginBottom: "20px",
+                marginRight: "20px",
+                backgroundColor: "gray",
+              }}
+            >
+              Next Page
+            </Button>
+          </div>
         </div>
       </div>
     </>

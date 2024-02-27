@@ -179,7 +179,7 @@ function ForRequest() {
 
   const keep = () => {
     if (EditFam != null) {
-      console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
+     // console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
       if (For_Rq_Edit != null) {
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
@@ -195,15 +195,17 @@ function ForRequest() {
         setread_fix_cost(true);
         if (For_Ed_FixCode != null) {
           setdatatable(For_Ed_FixCode);
-          setTableOpen(true);
+          
           setvisibityDetails("visible");
           setvisibityFile("visible");
           if(For_Ed_FixCode.length >0){
             setTableOpen(true);
+            setbtnSave("visible");
           }else{
             setTableOpen(false);
+            setbtnSave("hidden");
           }
-          // setbtnSave("visible");
+    
         }
         if (STS == "FLTR001" || STS == "") {
           setread_dept(false);
@@ -211,7 +213,7 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          setbtnSave("visible");
+          //setbtnSave("visible");
         } else {
         }
       }
@@ -231,12 +233,14 @@ function ForRequest() {
 
         if (For_detail != null) {
           setdatatable(For_detail);
-     setvisibityDetails("visible");
+          setvisibityDetails("visible");
           setvisibityFile("visible");
           if(For_detail.length >0){
             setTableOpen(true);
+           setbtnSave("visible");
           }else{
             setTableOpen(false);
+           setbtnSave("hidden");
           }
         }
         if (STS == "FLTR001" || STS == "") {
@@ -245,7 +249,7 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          setbtnSave("visible");
+         //setbtnSave("visible");
         } else {
         }
       } else {
@@ -257,7 +261,7 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          setbtnSave("visible");
+        //  setbtnSave("visible");
         } else {
         }
       }
@@ -599,8 +603,7 @@ function ForRequest() {
       );
       const data = row.data;
       setfind_fixasset(data);
-      const data_edit = JSON.stringify(data);
-      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+
       if (data.length > 0) {
         setOpen(true);
       } else {
@@ -695,8 +698,7 @@ function ForRequest() {
       const dataStatus = await response.data;
       setdatatable(dataStatus);
       console.log(dataStatus, "dataStatus");
-      const data_edit = JSON.stringify(dataStatus);
-      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+    
       // StatusId = dataStatus.flat();
     } catch (error) {
       console.error("Error requesting data:", error);
@@ -765,7 +767,7 @@ function ForRequest() {
       //edit
     } else {
       //insert
-      console.log("------bbbbbb---------");
+
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam

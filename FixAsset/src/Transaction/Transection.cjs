@@ -1466,12 +1466,16 @@ module.exports.getEdit_Trans = async function (req, res) {
     M.USER_EMP_ID ||' : ' ||F.FRT_RECEIVE_BY  AS NEW_OWNER,
     F.FRT_RECEIVER_JUD,
     F.FRT_RECEIVE_DATE,
-    F.FRT_RECEIVE_CMMT
+    F.FRT_RECEIVE_CMMT,
+    A.FACTORY_NAME
+    
 
   FROM
     FAM_REQ_TRANSFER F 
     LEFT JOIN  CUSR.CU_USER_M M ON 
     M.USER_LOGIN =  F.FRT_RECEIVE_BY
+    LEFT JOIN CUSR.CU_FACTORY_M A ON
+    A.FACTORY_CODE = F.FRT_TO_FACTORY 
     WHERE F.FRT_FAM_NO = '${fam_no}'
     `;
 
