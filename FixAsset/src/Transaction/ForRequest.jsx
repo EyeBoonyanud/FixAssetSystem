@@ -42,6 +42,7 @@ import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PageLoadding from "../Loadding/Pageload";
 
 function ForRequest() {
   const EditFam = localStorage.getItem("EDIT");
@@ -84,6 +85,7 @@ function ForRequest() {
   const [btnSave, setbtnSave] = useState("hidden");
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
+  const [chktable , setchktable]  = useState("hidden");
 
   // Upload File
   const fileInputRef = useRef();
@@ -93,11 +95,10 @@ function ForRequest() {
 
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req)
+  console.log(For_Req);
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
-  
 
   // set Readonly
   const [read_fix_group, setread_fix_group] = useState(false);
@@ -106,8 +107,7 @@ function ForRequest() {
   const [read_tel, setread_tel] = useState(true);
   const [reac_remark, setread_remark] = useState(true);
   const [reac_type, setread_type] = useState(true);
-  const [delete_fix ,setdelete_fix] = useState("hidden");
- 
+  const [delete_fix, setdelete_fix] = useState("hidden");
 
   const navigate = useNavigate();
   const NextPage = async () => {
@@ -119,59 +119,65 @@ function ForRequest() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit",For_Rq_Edit)
-  let STS ="";
-  
+  console.log("For_Rq_Edit", For_Rq_Edit);
+  let STS = "";
+
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
-  console.log(">>>>>>>>>>>>>>>>>>>>...",storedFileArray)
-
+  console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
 
   // var storedFileArray = JSON.parse(FileUp);
   // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
   //   type: data.type,
   //   lastModified: new Date(data.lastModified),
   //   size: data.size,
- 
+
   //   // Add other properties as needed
   // }));
 
-  useEffect(() => {
+  //////////////////////////////Loading /////////////////////////
 
-    if(storedFileArray!=null)
-    {
-    
-      var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
-        type: data.type,
-        lastModified: new Date(data.lastModified),
-        size: data.size,
-     
-        // Add other properties as needed
-      }));
-    setUploadedFiles(reconstructedFileArray)
-    } 
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
+
+  useEffect(() => {
+    openPopupLoadding();
+    if (storedFileArray != null) {
+      var reconstructedFileArray = storedFileArray.map(
+        (data) =>
+          new File([], data.name, {
+            type: data.type,
+            lastModified: new Date(data.lastModified),
+            size: data.size,
+
+            // Add other properties as needed
+          })
+      );
+      setUploadedFiles(reconstructedFileArray);
+    }
 
     // Edit();
     // EditFixAsset();
     console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
     //handleReload();
-    request_by();
-    factory();
-    costcenter();
-    CostforAsset();
-    keep();
-    // if (STS !== 'FLTR001'){
-    //   setread_dept(true)
-    //   //setread_tel(true)
-    //  // setread_remark(true)
-    //   setread_type(true)
-    // }else{
+    const TEST = async () => {
+      await request_by();
+      await factory();
+      await costcenter();
+      await CostforAsset();
+      await keep();
+      closePopupLoadding();
+    };
 
-    // }
+    TEST();
   }, []);
 
   const keep = () => {
-    
     if (EditFam != null) {
       console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
       if (For_Rq_Edit != null) {
@@ -192,20 +198,22 @@ function ForRequest() {
           setTableOpen(true);
           setvisibityDetails("visible");
           setvisibityFile("visible");
-         // setbtnSave("visible");
+          if(For_Ed_FixCode.length >0){
+            setTableOpen(true);
+          }else{
+            setTableOpen(false);
+          }
+          // setbtnSave("visible");
         }
-        if(STS == "FLTR001" || STS == ""  ){
-    
-          setread_dept(false)
-          setread_remark(false)
-          setread_type(false)
-          setread_tel(false)
-          setdelete_fix("visible")
-          setbtnSave("visible")
-         }else{
-      
-         }
-
+        if (STS == "FLTR001" || STS == "") {
+          setread_dept(false);
+          setread_remark(false);
+          setread_type(false);
+          setread_tel(false);
+          setdelete_fix("visible");
+          setbtnSave("visible");
+        } else {
+        }
       }
     } else {
       if (For_Req != null) {
@@ -223,35 +231,35 @@ function ForRequest() {
 
         if (For_detail != null) {
           setdatatable(For_detail);
-          setTableOpen(true);
-          setvisibityDetails("visible");
+     setvisibityDetails("visible");
           setvisibityFile("visible");
+          if(For_detail.length >0){
+            setTableOpen(true);
+          }else{
+            setTableOpen(false);
+          }
         }
-        if(STS == "FLTR001" || STS == ""  ){
-    
-          setread_dept(false)
-          setread_remark(false)
-          setread_type(false)
-          setread_tel(false)
-          setdelete_fix("visible")
-          setbtnSave("visible")
-         }else{
-      
-         }
+        if (STS == "FLTR001" || STS == "") {
+          setread_dept(false);
+          setread_remark(false);
+          setread_type(false);
+          setread_tel(false);
+          setdelete_fix("visible");
+          setbtnSave("visible");
+        } else {
+        }
       } else {
-        STS =""
+        STS = "";
         setRequest_date(formattedDate);
-        if(STS == "FLTR001" || STS == ""  ){
-    
-          setread_dept(false)
-          setread_remark(false)
-          setread_type(false)
-          setread_tel(false)
-          setdelete_fix("visible")
-          setbtnSave("visible")
-         }else{
-      
-         }
+        if (STS == "FLTR001" || STS == "") {
+          setread_dept(false);
+          setread_remark(false);
+          setread_type(false);
+          setread_tel(false);
+          setdelete_fix("visible");
+          setbtnSave("visible");
+        } else {
+        }
       }
     }
   };
@@ -265,7 +273,6 @@ function ForRequest() {
 
   //Request By /////////////////////////////////////////
   const request_by = async () => {
-    
     try {
       const response = await axios.get(
         `http://localhost:5000/getby?By=${LocalUserLogin}`
@@ -273,34 +280,33 @@ function ForRequest() {
       const data = await response.data;
       const data_insert = data.flat();
       setdataUserLogin(data_insert);
-     if (EditFam != null) {
-      if (For_Rq_Edit != null) {
-        //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-        setdataUserLogin1(For_Rq_Edit[15]);
-      }
-    } else {
-      if (For_Req != null) {
-        setdataUserLogin1(For_Req[2]);
+      if (EditFam != null) {
+        if (For_Rq_Edit != null) {
+          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          setdataUserLogin1(For_Rq_Edit[15]);
+        }
       } else {
-        //console.log("/////////");
-        setdataUserLogin1(data_insert[4]);
+        if (For_Req != null) {
+          setdataUserLogin1(For_Req[2]);
+        } else {
+          //console.log("/////////");
+          setdataUserLogin1(data_insert[4]);
+        }
       }
-    }
     } catch (error) {
       //console.error("Error during login:", error);
     }
-    
   };
   //Request_Factory//////////////////////////////////////
   const factory = async () => {
-    let data_Fac=""
-    if(EditFam==null){
+    let data_Fac = "";
+    if (EditFam == null) {
       try {
         const response = await axios.get(
           `http://localhost:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
         );
         const data = await response.data;
-         data_Fac = data.flat();
+        data_Fac = data.flat();
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
@@ -315,18 +321,16 @@ function ForRequest() {
             setFactory1(data_Fac[0]);
           }
         }
-  
-
       } catch (error) {
         //console.error("Error during login:", error);
       }
-    }else{
+    } else {
       try {
         const response = await axios.get(
           `http://localhost:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
         );
         const data = await response.data;
-         data_Fac = data.flat();
+        data_Fac = data.flat();
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
@@ -341,43 +345,39 @@ function ForRequest() {
             setFactory1(data_Fac[0]);
           }
         }
-  
-
       } catch (error) {
         //console.error("Error during login:", error);
       }
     }
-      if (data_Fac.length >= 0) {
-        try {
-          const response = await axios.get(
-            `http://localhost:5000/getdept?idFactory=${data_Fac[1]}`
-          );
+    if (data_Fac.length >= 0) {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getdept?idFactory=${data_Fac[1]}`
+        );
 
-          const data = await response.data;
-          const data_dept = data.flat();
-          setDept(data_dept);
-          if (EditFam != null) {
-            if (For_Rq_Edit != null) {
-              //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-              setselectDept1(For_Rq_Edit[6]);
-            }
-          } else {
-            if (For_Req != null) {
-              //console.log(For_Req,"DDDDDDDeptttttt")
-              setselectDept1(For_Req[5]);
-            } else {
-              //console.log("/////////");
-              setselectDept1("");
-            }
+        const data = await response.data;
+        const data_dept = data.flat();
+        setDept(data_dept);
+        if (EditFam != null) {
+          if (For_Rq_Edit != null) {
+            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            setselectDept1(For_Rq_Edit[6]);
           }
-          //console.log(data_dept, "data_dept");
-        } catch (error) {
-          //console.error("Error during login:", error);
+        } else {
+          if (For_Req != null) {
+            //console.log(For_Req,"DDDDDDDeptttttt")
+            setselectDept1(For_Req[5]);
+          } else {
+            //console.log("/////////");
+            setselectDept1("");
+          }
         }
+        //console.log(data_dept, "data_dept");
+      } catch (error) {
+        //console.error("Error during login:", error);
       }
-      fixasset_group(data_Fac[1]);
-   
-
+    }
+    fixasset_group(data_Fac[1]);
   };
   //Cost Center/////////////////////////////////////////
   const costcenter = async () => {
@@ -488,6 +488,7 @@ function ForRequest() {
   //Gen Fam No
   const Gen_No = async () => {
     // let StatusId = ""; //
+    openPopupLoadding();
     let DataStatus = ""; //
     if (
       selectFixAssetgroup1.length > 0 &&
@@ -528,20 +529,22 @@ function ForRequest() {
         //console.error("Error during login:", error);
       }
     } else {
+      console.log("444444");
       if (
+        Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
-        selectFixAsset_cost1.length === 0 &&
-        Request_type1.length === 0
+        selectFixAsset_cost1.length === 0
       ) {
-        alert("กรุณาเลือก Fix Asset Group และ Fix Asset Code");
+        alert("กรุณาเลือก Request Type , Fix Asset Group และ Fix Asset Code");
       } else if (Request_type1.length === 0) {
         alert("กรุณาเลือก Request Type");
-      } else if (FixAssetgroup.length === 0) {
+      } else if (selectFixAssetgroup1.length === 0) {
         alert("กรุณาเลือก Fix Asset Group");
-      } else if (FixAsset_cost.length === 0) {
+      } else if (selectFixAsset_cost1.length === 0) {
         alert("กรุณาเลือก Fix Asset Code");
       }
     }
+    closePopupLoadding();
   };
   // Insert For Request
   const Tranfer_ins = async (running_no, DataStatus) => {
@@ -589,30 +592,29 @@ function ForRequest() {
   };
   //Find FixAsset Group
   const ADD = async () => {
+    openPopupLoadding();
     try {
       const row = await axios.get(
         `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
       );
       const data = row.data;
       setfind_fixasset(data);
-      if (data.length > 0){
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+      if (data.length > 0) {
         setOpen(true);
-     } else{
-       
-      Swal.fire({
-        icon: "error",
-        title: "Data is not found",
-
-   
-      });
-     }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Data is not found",
+        });
+      }
       //console.log(data, "1111111111111111");
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
-   
-    
-   
+
+    closePopupLoadding();
   };
   // ADD ลง Table REQ_DETAILS
   const handleClose = () => {
@@ -640,16 +642,28 @@ function ForRequest() {
 
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
+
     //console.log(newDataTable, "newDataTablenewDataTable");
 
     setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
-    //setbtnSave("visible");
+    setbtnSave("visible");
   };
   //const [data, setData] = useState(datatable);
 
-  const handleDelete = async (item) => {
+  const handleDelete = async (item,index) => {
+  
+  // const dtDelete = [...datatable.slice(item)];
+  // console.log(dtDelete,"////////////////")
+  // // datatable = datatable.slice(0, item);
+  // const data_edit = JSON.stringify(dtDelete);
+  // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
+  //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+   
+
+    // setdatatable(datatable);
+
     if (EditFam !== null) {
       console.log("index", item, EditFam);
       try {
@@ -657,6 +671,7 @@ function ForRequest() {
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
         Fix_Code();
+        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -666,6 +681,7 @@ function ForRequest() {
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         Fix_Code();
+       
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -679,7 +695,8 @@ function ForRequest() {
       const dataStatus = await response.data;
       setdatatable(dataStatus);
       console.log(dataStatus, "dataStatus");
-
+      const data_edit = JSON.stringify(dataStatus);
+      localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
       // StatusId = dataStatus.flat();
     } catch (error) {
       console.error("Error requesting data:", error);
@@ -956,20 +973,22 @@ function ForRequest() {
     //console.log("รับมา")
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
-   var fileArray = [...uploadedFiles, ...selectedFiles];
-    var jsonDataArray = fileArray.map(file => ({
+    var fileArray = [...uploadedFiles, ...selectedFiles];
+    var jsonDataArray = fileArray.map((file) => ({
       name: file.name,
       lastModified: file.lastModified,
-      lastModifiedDate: file.lastModifiedDate ? file.lastModifiedDate.toISOString() : null,
+      lastModifiedDate: file.lastModifiedDate
+        ? file.lastModifiedDate.toISOString()
+        : null,
       webkitRelativePath: file.webkitRelativePath,
       size: file.size,
       type: file.type,
     }));
     var fileArrayString = JSON.stringify(jsonDataArray);
- 
-// เก็บ JSON string ใน local storage ด้วย key "Type"
+
+    // เก็บ JSON string ใน local storage ด้วย key "Type"
     localStorage.setItem("Type", fileArrayString);
-    console.log(fileArray,"555555555555555555555555555",fileArrayString)
+    console.log(fileArray, "555555555555555555555555555", fileArrayString);
   };
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -1044,8 +1063,8 @@ function ForRequest() {
       icon: "success",
     });
   };
-  const handleDeleteFile = (index,file) => {
-    console.log(file,"filefilefilefilefile")
+  const handleDeleteFile = (index, file) => {
+    console.log(file, "filefilefilefilefile");
     const updatedFiles = [...uploadedFiles];
     updatedFiles.splice(index, 1);
     setUploadedFiles(updatedFiles);
@@ -1064,8 +1083,13 @@ function ForRequest() {
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
+
       <div className="Box-Insert">
         <div className="Insert">
+          <PageLoadding
+            isOpen={isPopupOpenLoadding}
+            onClose={closePopupLoadding}
+          />
           <Card className="Style100">
             <Card
               sx={{
@@ -1151,7 +1175,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       style={{ width: "100%" }}
-                     disabled={read_tel}
+                      disabled={read_tel}
                       // style={{
 
                       //   width: "100%",
@@ -1253,8 +1277,8 @@ function ForRequest() {
                       name="row-radio-buttons-group"
                       id="Radio_ReqType"
                       value={Request_type1}
-                    disabled={reac_type}
-                    // style={{ opacity: reac_type ? 0.5 : 1 }}
+                      disabled={reac_type}
+                      // style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
                       <FormControlLabel
@@ -1395,7 +1419,7 @@ function ForRequest() {
                       id="Remark"
                       size="small"
                       style={{ width: "100%" }}
-                     disabled={reac_remark}
+                      disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}
@@ -1581,7 +1605,7 @@ function ForRequest() {
                 <TableCell></TableCell>
                 {isTableOpen && (
                   <div style={{ marginTop: "20px" }}>
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} >
                       <Table aria-label="simple table" className="TableFix">
                         <TableHead
                           sx={{
@@ -1621,19 +1645,17 @@ function ForRequest() {
                                 <Checkbox />
                               </TableCell>{" "} */}
                                 <TableCell>
-                                  
                                   {index > 0 &&
                                   item[0] === datatable[index - 1][0] ? (
                                     ""
                                   ) : (
                                     <DeleteIcon
-                                    
                                       style={{
                                         color: "red",
                                         marginLeft: "10px",
-                                       // visibility: delete_fix
+                                        // visibility: delete_fix
                                       }}
-                                      onClick={() => handleDelete(item[0])}
+                                      onClick={() => handleDelete(item[0],index)}
                                     />
                                   )}
                                 </TableCell>
@@ -1806,7 +1828,7 @@ function ForRequest() {
                               {index + 1} {file.name}
                             </span>
                             <DeleteOutlined
-                              onClick={() => handleDeleteFile(index,file.name)}
+                              onClick={() => handleDeleteFile(index, file.name)}
                               className="Icon_DeleteFile"
                             />
                           </Typography>
@@ -1829,15 +1851,20 @@ function ForRequest() {
             </Grid>
           </Card>
         </div>
-        <div>
+        <div
+          className=""
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           <table>
             <tr>
-              <td style={{
-                    width: "200px",
-                    display: "inline-block",
-                    marginLeft: "400px",
-                    marginTop: "20px",
-                  }}>
+              <td
+              // style={{
+              //       width: "200px",
+              //       display: "inline-block",
+              //       marginLeft: "400px",
+              //       marginTop: "20px",
+              //     }}
+              >
                 {" "}
                 {/* <Button
                   style={{
@@ -1857,9 +1884,10 @@ function ForRequest() {
                 <Button
                   style={{
                     width: "200px",
-                    display: "inline-block",
-                    marginLeft: "300px",
                     marginTop: "20px",
+                    marginRight: "10px",
+                    marginBottom: "20px",
+                    backgroundColor: "gray",
                   }}
                   variant="contained"
                   onClick={NextPage}

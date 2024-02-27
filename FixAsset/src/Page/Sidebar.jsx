@@ -97,7 +97,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   // console.log("มาสิ")
   // console.log(id)
    if (id === "Issue FAM"){
-    window.location.href = "/search";
+    window.location.href = "/Search";
      
    }else if(id === "Approve FAM"){
         

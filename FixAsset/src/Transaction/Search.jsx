@@ -31,6 +31,7 @@ import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
 import AddTaskIcon from "@mui/icons-material/AddTask";
+import PageLoadding from "../Loadding/Pageload";
 
 function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
@@ -54,6 +55,16 @@ function Issue() {
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
+
+  // Loadding
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+      setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
+
 
   function formatDateString(rawDate) {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -106,6 +117,7 @@ function Issue() {
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   useEffect(() => {
+    openPopupLoadding();
     const Factory = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getfactory`);
@@ -135,6 +147,7 @@ function Issue() {
       } catch (error) {
         console.error("Error during login:", error);
       }
+      closePopupLoadding();
     };
 
     Factory();
@@ -215,7 +228,7 @@ function Issue() {
     window.location.href = "/ForRe";
   };
   const Search = async () => {
-    if (cutPath === "search") {
+    if (cutPath === "Search") {
       const FamNo = document.getElementById("FamNo").value;
       const FamTo = document.getElementById("FamTo").value;
       const FixAsset = document.getElementById("FixAsset").value;
@@ -322,11 +335,18 @@ function Issue() {
   };
 
   return (
-    <>
+    
+    <>                      <PageLoadding 
+    isOpen={isPopupOpenLoadding}
+    onClose={closePopupLoadding}
+    />
       <Header />
+
       <div className="body">
+
         <div className="BoxSearch">
           {/* Factiory  */}
+
           <Grid
             container
             spacing={1}
@@ -337,6 +357,7 @@ function Issue() {
               textAlign: "right",
             }}
           >
+
             <Grid item xs={3} style={{ marginTop: "2px" }}>
               <Typography>Factory :</Typography>
             </Grid>
@@ -600,7 +621,7 @@ function Issue() {
             <Grid
               style={{
                 marginLeft: "20px",
-                display: cutPath === "search" ? "block" : "none",
+                display: cutPath === "Search" ? "block" : "none",
               }}
             >
               <Button
@@ -675,7 +696,7 @@ function Issue() {
                     >
                       <TableCell>
                         <Tooltip title="Edit">
-                          {cutPath === "search" ? (
+                          {cutPath === "Search" ? (
                             <EditNoteIcon
                               style={{ color: "#F4D03F", fontSize: "30px"}}
                               onClick={() => handleEdit(item[2])}
@@ -698,7 +719,7 @@ function Issue() {
                                 color: "red",
                                 fontSize: "30px",
                                 display:
-                                  cutPath === "search" ? "block" : "none",
+                                  cutPath === "Search" ? "block" : "none",
                               }}
                               onClick={() => Delete(item[2])}
                             />

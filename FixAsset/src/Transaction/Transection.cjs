@@ -295,7 +295,8 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     ( KFAD_DET.KFAD_BOOK = 'SL' ) AND 
     ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND 
     ( KFAD_DET.KFAD_SEQ = '0' ) AND
-    ( KFAD_DET.KFAD_CC = '${cc}'))   
+    ( KFAD_DET.KFAD_CC = '${cc}') )
+  ORDER BY  KFAD_DET.KFAD_COMP ASC
          `;
 
     const result = await connect.execute(query);
