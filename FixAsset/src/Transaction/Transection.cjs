@@ -1468,7 +1468,7 @@ module.exports.getEdit_Trans = async function (req, res) {
     F.FRT_FAM_NO,
     M.USER_EMP_ID ||' : ' ||F.FRT_RECEIVE_BY  AS NEW_OWNER,
     F.FRT_RECEIVER_JUD,
-    F.FRT_RECEIVE_DATE,
+    TO_CHAR(F.FRT_RECEIVE_DATE, 'DD/MM/YYYY') AS FRT_RECEIVE_DATE,
     F.FRT_RECEIVE_CMMT,
     A.FACTORY_NAME
     
@@ -2207,3 +2207,99 @@ WHERE
     res.status(500).send("Internal Server Error");
   }
 };
+// update for Reject Reture To New Status 
+module.exports.update_for_nullRouting_All = async function (req, res) {
+  try {
+console.log("HHHHHHHHHHHHHHH")
+    const Fam_no = req.query.famno;
+    const FAM_UPDATE_BY = req.query.user;
+    console.log(Fam_no,FAM_UPDATE_BY)
+   
+    
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_HEADER A
+  SET
+  A.FAM_MGR_DATE = NULL,
+  A.FAM_MGR_JUD = NULL ,
+  A.FAM_MGR_CMMT = NULL ,
+  A.FAM_SERVICE_DATE = NULL ,
+  A.FAM_BOI_CHK_DATE = NULL ,
+  A.FAM_BOI_CHK_JUD = NULL ,
+  A.FAM_BOI_CHK_CMMT = NULL ,
+  A.FAM_BOI_MGR_DATE = NULL ,
+  A.FAM_BOI_MGR_JUD = NULL ,
+  A.FAM_BOI_MGR_CMMT = NULL ,
+  A.FAM_FM_DATE = NULL ,
+  A.FAM_FM_JUD = NULL ,
+  A.FAM_FM_CMMT = NULL ,
+  A.FAM_ACC_CHK_DATE = NULL ,
+  A.FAM_ACC_CHK_JUD = NULL ,
+  A.FAM_ACC_CHK_CMMT = NULL ,
+  A.FAM_ACC_REC_DATE = NULL ,
+  A.FAM_ACC_REC_JUD = NULL ,
+  A.FAM_ACC_REC_CMMT = NULL ,
+  A.FAM_ACC_MGR_DATE = NULL ,
+  A.FAM_ACC_MGR_JUD = NULL ,
+  A.FAM_ACC_MGR_CMMT = NULL ,
+  A.FAM_OWNER_SEND_DATE = NULL ,
+  A.FAM_OWNER_SEND_JUD = NULL ,
+  A.FAM_OWNER_SEND_CMMT = NULL ,
+  A.FAM_SERVICE_CLOSE_DATE = NULL ,
+  A.FAM_SERVICE_CLOSE_CMMT = NULL ,
+  A.FAM_UPDATE_BY = :FAM_UPDATE_BY ,
+  A.FAM_SERVICE_JUD = NULL ,
+  A.FAM_SERVICE_CMMT = NULL ,
+  A.FAM_SERVICE_CLOSE_JUD = NULL 
+  WHERE
+  A.FRH_FAM_NO = :Fam_no 
+    
+  `;
+
+    const data = {
+      Fam_no,
+      FAM_UPDATE_BY
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//
+module.exports.update_All_for_receive = async function (req, res) {
+  try {
+ 
+        const Fam_no = req.query.famno;
+        const User_by = req.query.user;
+       
+        const connect = await oracledb.getConnection(AVO);
+        const query = `
+        UPDATE
+        FAM_REQ_TRANSFER A
+      SET
+      A.FRT_UPDATE_DATE = NULL,
+      A.FRT_UPDATE_BY = :User_by,
+      A.FRT_RECEIVE_CMMT = NULL,
+      A.FRT_RECEIVER_JUD = NULL 
+      WHERE
+      FRT_FAM_NO = :Fam_no 
+        
+      `;
+    
+        const data = {
+          Fam_no,
+          User_by
+        };
+        const result = await connect.execute(query, data, { autoCommit: true });
+        connect.release();
+        res.json(result);
+      } catch (error) {
+        console.error("Error in querying data:", error.message);
+        res.status(500).send("Internal Server Error");
+      }
+    };

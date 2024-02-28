@@ -96,9 +96,9 @@ app.post("/update_accmanager",Transaction.update_accmanager);
 app.post("/update_service_close",Transaction.update_service_close);
 app.post("/update_receiver",Transaction.update_receiver);
 
-
-
-
+// Update All Routing (For Reject)
+app.post("/update_for_nullRouting_All",Transaction.update_for_nullRouting_All);
+app.post("/update_All_for_receive",Transaction.update_All_for_receive);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

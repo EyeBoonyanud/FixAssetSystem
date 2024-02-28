@@ -184,7 +184,7 @@ function ForRequest() {
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
-        setdataUserLogin1(For_Rq_Edit[2]);
+        //setdataUserLogin1(For_Rq_Edit[2]);
         setTel1(For_Rq_Edit[3]);
         setRequest_type1(For_Rq_Edit[7]);
         setRequest_sts1(For_Rq_Edit[11]);
@@ -207,7 +207,7 @@ function ForRequest() {
           }
     
         }
-        if (STS == "FLTR001" || STS == "") {
+        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] ==="R" ) {
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -222,7 +222,7 @@ function ForRequest() {
         STS = For_Req[10];
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
-        setdataUserLogin1(For_Req[1]);
+        //setdataUserLogin1(For_Req[1]);
         setTel1(For_Req[2]);
         setRequest_type1(For_Req[6]);
         setdataFix_Asset_Cost(For_Req[9]);
@@ -286,7 +286,7 @@ function ForRequest() {
       setdataUserLogin(data_insert);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+        console.log(For_Rq_Edit[15],"AAAAAAAAAAAAAAAAAAAAAAAAA")
           setdataUserLogin1(For_Rq_Edit[15]);
         }
       } else {
