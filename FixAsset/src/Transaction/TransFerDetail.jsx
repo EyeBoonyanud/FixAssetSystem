@@ -20,24 +20,35 @@ import { useNavigate } from "react-router-dom";
 import PageLoadding from "../Loadding/Pageload";
 
 function TransFerDetail() {
+  // Local Storage
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const navigate = useNavigate();
+  // กรณี Insert Localstorage
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
+  const ForTransfer = localStorage.getItem("For_Transfer");
+  const For_Trans = JSON.parse(ForTransfer);
+  const Routing = localStorage.getItem("For_Routing");
+  const For_Rou = JSON.parse(Routing);
 
+// กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
   const For_edit_trans = JSON.parse(Edit_trans);
-  console.log(For_edit_trans, "For_edit_trans");
-
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  //console.log(For_Rq_Edit,"For_Rq_Edit")
+  const Edit_rout = localStorage.getItem("Edit_routing");
+  const For_Edit_Rou = JSON.parse(Edit_rout);
+
+// เก็บตัวแปร 
   let STS = "";
-  console.log(For_Rq_Edit, "For_Req_Edit");
+  let Fam_list = "";
+  let servivedept = "";
+  const SERVICEDEPT = () => {
+    setservice_dept(servivedept);
+  };
 
   // if (ForRequester !== null) {
   //  STS = For_Req[10];
@@ -45,32 +56,16 @@ function TransFerDetail() {
   //   STS = For_Rq_Edit[10];
   // }
 
-  const ForTransfer = localStorage.getItem("For_Transfer");
-  const For_Trans = JSON.parse(ForTransfer);
-  console.log(For_Trans, "For_Trans");
 
-  const Routing = localStorage.getItem("For_Routing");
-  const For_Rou = JSON.parse(Routing);
-  console.log(For_Rou, "For_Rou");
+ // if (For_Req !== null) {
+  //   Fam_list = For_Req[0];
+  //   servivedept = For_Req[8] + ":" + For_Req[9];
+  // } else {
+  //   Fam_list = For_Rq_Edit[0];
+  //   servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
+  // }
 
-  const Edit_rout = localStorage.getItem("Edit_routing");
-  const For_Edit_Rou = JSON.parse(Edit_rout);
-  console.log(For_Edit_Rou,"For_Edit_Rou")
-
-  let Fam_list = "";
-  let servivedept = "";
-
-  const SERVICEDEPT = () => {
-    setservice_dept(servivedept);
-  };
-
-  if (ForRequester !== null) {
-    Fam_list = For_Req[0];
-    servivedept = For_Req[8] + ":" + For_Req[9];
-  } else {
-    Fam_list = For_Rq_Edit[0];
-    servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
-  }
+ ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
@@ -104,7 +99,8 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
-  // select button
+
+  /////////////// ตัวแปร Radio button//////////////////////////////
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
   const [selectradio_boistaff, setselectradio_boistaff] = useState("");
@@ -117,7 +113,8 @@ function TransFerDetail() {
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
   const [selectradio_service_close_by, setselectradio_service_close_by] =
     useState("");
-  // CMMT
+
+  /////////////// ตัวแปร Check Commnet //////////////////////////////
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
   const [cmmtradio_boistaff, setcmmtradio_boistaff] = useState("");
@@ -130,7 +127,8 @@ function TransFerDetail() {
   const [cmmtradio_acc_manager, setcmmtradio_acc_manager] = useState("");
   const [cmmtradio_service_close_by, setcmmtradio_service_close_by] =
     useState("");
-  //Date For Action Date
+
+  /////////////// ตัวแปร Check Action Date //////////////////////////////
   const [action_dept, setaction__dept] = useState("");
   const [action__serviceby, setaction__serviceby] = useState("");
   const [action__boistaff, setaction__boistaff] = useState("");
@@ -142,7 +140,8 @@ function TransFerDetail() {
   const [action__record, setaction__record] = useState("");
   const [action__acc_manager, setaction__acc_manager] = useState("");
   const [action__service_close_by, setaction__service_close_by] = useState("");
-  //Error
+
+  /////////////// ตัวแปร Check Error //////////////////////////////
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
@@ -157,7 +156,8 @@ function TransFerDetail() {
   const [ErrorTel_service, setErrorTel_service] = useState(false);
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
-  // check read only
+
+   /////////////// ตัวแปร Check Read Only //////////////////////////////
   const [read_trans_fac, setReadTransFac] = useState(true);
   const [read_trans_cc, setReadTransCC] = useState(true);
   const [read_tel, setReadTel] = useState(true);
@@ -192,9 +192,11 @@ function TransFerDetail() {
   const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
   const [read_close_radio, setReadCloseRadio] = useState(true);
   const [read_close_cmmt, setReadCloseCmmt] = useState(true);
-  //Save
+
+   /////////////// ตัวแปร Check Save //////////////////////////////
   const [btnsave, setbtnsave] = useState("hidden");
-  //check sts
+
+  /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
   const [chkboistaff, setchkboistaff] = useState("hidden");
@@ -207,6 +209,7 @@ function TransFerDetail() {
   const [chkacc_manager, setchkacc_manager] = useState("hidden");
   const [chkservice_close, setchkservice_close] = useState("hidden");
 
+/////////////// ตัวแปร FormatDate //////////////////////////////
   const [currentDate, setCurrentDate] = useState(new Date());
   const formattedDate = `${(currentDate.getMonth() + 1)
     .toString()
@@ -223,9 +226,9 @@ function TransFerDetail() {
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
-
+////////////////////// Use Effect /////////////////////////////////
   useEffect(() => {
-    openPopupLoadding();
+   // openPopupLoadding();
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
     }
@@ -233,27 +236,45 @@ function TransFerDetail() {
       setSTS1(For_Req[10]);
     }
 
-    const TEST = async () => {
-      await FactoryCC();
-      await TransCC();
-      await BOI_FROM();
-      await Department_Mana();
-      await SERVICEDEPT();
-      await Service_By();
-      await BOI_Staff();
-      await BOI_Manager();
-      await Fac_manager();
-      await ACC_Check();
-      await ACC_Manager();
-      await closePopupLoadding();
-    };
+    // const TEST = async () => {
+    //   await FactoryCC();
+    //   await TransCC();
+    //   await BOI_FROM();
+    //   await Department_Mana();
+    //   await SERVICEDEPT();
+    //   await Service_By();
+    //   await BOI_Staff();
+    //   await BOI_Manager();
+    //   await Fac_manager();
+    //   await ACC_Check();
+    //   await ACC_Manager();
+    //   await closePopupLoadding();
+    // };
 
-    TEST();
+    // TEST();
+    
+     FactoryCC();
+     TransCC();
+     BOI_FROM();
+     Department_Mana();
+     SERVICEDEPT();
+     Service_By();
+     BOI_Staff();
+     BOI_Manager();
+     Fac_manager();
+     ACC_Check();
+     ACC_Manager();
+    //  closePopupLoadding();
+    // };
+
+    // TEST();
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         STS = For_Rq_Edit[10];
-        console.log(STS, "STS..,.,.,.");
+        Fam_list = For_Rq_Edit[0];
+        servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
+      //  console.log(STS, "STS..,.,.,.");
         setownersend(For_Rq_Edit[2]);
         if (For_edit_trans != null) {
           
@@ -268,12 +289,12 @@ function TransFerDetail() {
           setowner_roting(For_Rq_Edit[2]);
 
           if (For_Edit_Rou != null) {
-            console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
+           // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
             //set Submit
             
             setTel_service(For_Edit_Rou[0][7]);
             if (STS != "FLTR001") {
-             console.log("LLLLLLLLLLLLLLLLLLLLLl")
+            // console.log("LLLLLLLLLLLLLLLLLLLLLl")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
@@ -559,6 +580,8 @@ function TransFerDetail() {
       } else {
         if (For_Req != null) {
           STS = For_Req[10];
+          Fam_list = For_Req[0];
+          servivedept = For_Req[8] + ":" + For_Req[9];
           setownersend(For_Req[1]);
           setowner_roting(For_Req[1]);
           setdata_fromboi("");
@@ -569,11 +592,15 @@ function TransFerDetail() {
           setabnormal("");
           setreceiver("");
           //setbtnsave("visible")
+        }else{
+          Fam_list = For_Req[0];
+          servivedept = For_Req[8] + ":" + For_Req[9];
         }
       }
     }
   }, []);
 
+//////////// Const สำหรับ Get ข้อมูล /////////////////////////// 
   const FactoryCC = async () => {
     setErrorFac(false);
     try {
@@ -597,7 +624,7 @@ function TransFerDetail() {
   const handleFactoryCC = async (event) => {
     setselecttrans_factory(event.target.value);
 
-    console.log(For_edit_trans, "rrrrr");
+   // console.log(For_edit_trans, "rrrrr");
     if (EditFam != null) {
       if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
       const data = [
@@ -613,16 +640,16 @@ function TransFerDetail() {
       ];
 
       const data_edit = JSON.stringify(data);
-      console.log("/////////////////");
+     // console.log("/////////////////");
       localStorage.setItem("Edit_Trans", data_edit);
       //edit
     } else {
       //insert
-      console.log("------bbbbbb---------");
+     // console.log("------bbbbbb---------");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        console.log("------>>>>>>>>>>>>>>>>---------");
+       // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_forTranfer_Req_Tranfer_Details = [
           Fam_list,
           ownersend,
@@ -658,7 +685,6 @@ function TransFerDetail() {
       }
     }
   };
-
   const TransCC = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
@@ -682,9 +708,7 @@ function TransFerDetail() {
         `http://localhost:5000/select_BOI_from?running_no=${Fam_list}`
       );
       const data = response.data;
-      //// console(data, "fROM boi");
       setdata_fromboi(data[0][0]);
-      //// console(data[0][0], "fROM boi");
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -709,10 +733,12 @@ function TransFerDetail() {
         setnew_boi(boi);
       }
       if (data_fromboi == boi) {
+     //   console.log(abnormal,"N")
         setsts("N");
         setabnormal("");
       } else {
         setsts("Y");
+    // console.log(abnormal,"Y")
         setabnormal("Transfer to difference project");
       }
     } catch (error) {
@@ -728,12 +754,6 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setnew_owner(data);
-      //// console("dataaa>>>", data, "''''''''", [For_Trans[6]]);
-      // if (For_Req != null) {
-      //   setnew_owner([For_Trans[6]])
-      // } else {
-
-      // }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -768,7 +788,7 @@ function TransFerDetail() {
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          console.log(For_Edit_Rou[0][0],"[For_Edit_Rou[0][0]]")
+       
           // !!!!!!!!!!!!!
           setselectdepartment_mana(For_Edit_Rou[0][0]);
         }
@@ -780,7 +800,7 @@ function TransFerDetail() {
         }
       }
     } catch (error) {
-      //// console("Department :", data);
+     
       //console.error("Error during login:", error);
     }
   };
@@ -817,8 +837,6 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-
-  ///////////////// แก้ไข ///////////////////////////////////////////////////////////////
   const BOI_Staff = async () => {
     let level = "";
     if (EditFam != null) {
@@ -833,11 +851,11 @@ function TransFerDetail() {
         `http://localhost:5000/boi_staff?fac=${level}`
       );
       const data = response.data.flat();
-      console.log("kkkkkkkkkkkkkkkkk", data);
+    
       setboi_staff(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          console.log(For_Edit_Rou[0][8], "YYYYYYYYYYYYYYYYYYYYYYy");
+    
           setselectboi_staff(For_Edit_Rou[0][8]);
         }
       } else {
@@ -972,10 +990,11 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // Handle Save Submit Reset
+  // ปุ่ม SAVE
   const SAVE = async () => {
-    console.log(plan_date);
+   
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1074,7 +1093,7 @@ function TransFerDetail() {
 
     setOpen(true);
   };
-
+  //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
     if (EditFam != null) {
       if (
@@ -1159,9 +1178,9 @@ function TransFerDetail() {
       }
 
       if (
-        selectservice_by[0] === null ||
-        selectservice_by[0] === undefined ||
-        selectservice_by[0] === ""
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by === ""
       ) {
         setErrorService_by(true);
         alert("ข้อมูลไม่สมบูรณ์: Service By");
@@ -1182,9 +1201,9 @@ function TransFerDetail() {
         setErrorTel_service(false);
       }
       if (
-        selectboi_staff[0] === null ||
-        selectboi_staff[0] === undefined ||
-        selectboi_staff[0] === ""
+        selectboi_staff === null ||
+        selectboi_staff === undefined ||
+        selectboi_staff === ""
       ) {
         setErrorBoi_Staff(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
@@ -1193,9 +1212,9 @@ function TransFerDetail() {
         setErrorBoi_Staff(false);
       }
       if (
-        selectboi_manager[0] === null ||
-        selectboi_manager[0] === undefined ||
-        selectboi_manager[0] === ""
+        selectboi_manager === null ||
+        selectboi_manager === undefined ||
+        selectboi_manager === ""
       ) {
         setErrorBoi_manager(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
@@ -1204,9 +1223,9 @@ function TransFerDetail() {
         setErrorBoi_manager(false);
       }
       if (
-        selectfac_manager[0] === null ||
-        selectfac_manager[0] === undefined ||
-        selectfac_manager[0] === ""
+        selectfac_manager === null ||
+        selectfac_manager === undefined ||
+        selectfac_manager === ""
       ) {
         setErrorMana_Fac(true);
         alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
@@ -1215,9 +1234,9 @@ function TransFerDetail() {
         setErrorMana_Fac(false);
       }
       if (
-        selectacc_check[0] === null ||
-        selectacc_check[0] === undefined ||
-        selectacc_check[0] === ""
+        selectacc_check === null ||
+        selectacc_check === undefined ||
+        selectacc_check === ""
       ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
@@ -1225,9 +1244,9 @@ function TransFerDetail() {
         setErrorAcc_check(false);
       }
       if (
-        selectacc_manager[0] === null ||
-        selectacc_manager[0] === undefined ||
-        selectacc_manager[0] === ""
+        selectacc_manager === null ||
+        selectacc_manager === undefined ||
+        selectacc_manager === ""
       ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
@@ -1251,7 +1270,7 @@ function TransFerDetail() {
         setErrorTel_Rq(true);
         alert("ข้อมูลไม่สมบูรณ์: กรุณากรอกข้อมูล Requester");
         let ErrorTel_Req = "true";
-        console.log();
+    
         navigate("/ForRe", ErrorTel_Req);
         return;
       } else {
@@ -1288,7 +1307,7 @@ function TransFerDetail() {
         setErrorCC(true);
         return;
       } else {
-        console.log("YYYYYYYY");
+       // console.log("YYYYYYYY");
         setErrorCC(false);
       }
       if (
@@ -1408,10 +1427,10 @@ function TransFerDetail() {
     }
 
     if (EditFam != null) {
-      // Submit ตามเงื่อนไข
+      // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
-        console.log("ไม่มาาาาาาาาาาาา", selectboi_staff[0], selectboi_staff);
-        if (For_Rq_Edit[10] === "FLTR001") {
+       // console.log(For_Rq_Edit[10],"IIIIIIIIIIIIIIIIIIIIIIIIIIIIII",For_Rq_Edit[16])
+        if (For_Rq_Edit[10] === "FLTR001" || For_Rq_Edit[16] === "R"  ) {
           let Status = "FLTR002";
           try {
             console.log("For_Rq_Edit", For_Rq_Edit[0]);
@@ -1483,26 +1502,41 @@ function TransFerDetail() {
               title: "Submit Success",
               icon: "success",
             });
+            navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR002") {
-          console.log("เข้ามาทำไมมมมมมมมมมมมมมมมม");
-          let Status = "FLTR003";
+          let Status ="";
+          if(selectradio_dept == "A"){
+            Status = "FLTR003";
+          }else if(selectradio_dept == "R"){
+            Status = "FLTR092";
+          }
+          
           try {
             const row = axios.post(
-              `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
+             `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
             );
 
             Swal.fire({
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR003") {
-          let Status = "FLTR004";
+          console.log(For_Rq_Edit[10],"LLLLLLLLLLL",selectradio_serviceby)
+          let Status ="";
+          if(selectradio_serviceby == "A"){
+            Status = "FLTR004";
+            console.log(Status,"PP",selectradio_serviceby)
+          }else if(selectradio_serviceby == "R"){
+            Status = "FLTR093";
+            console.log(Status,"III",selectradio_serviceby)
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
@@ -1512,11 +1546,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR004") {
-          let Status = "FLTR005";
+          let Status ="";
+          if(selectradio_boistaff == "A"){
+            Status = "FLTR005";
+          }else if(selectradio_boistaff == "R"){
+            Status = "FLTR094";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
@@ -1526,11 +1566,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR005") {
-          let Status = "FLTR006";
+          let Status ="";
+          if(selectradio_boimanager == "A"){
+            Status = "FLTR006";
+          }else if(selectradio_boimanager == "R"){
+            Status = "FLTR095";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
@@ -1540,11 +1586,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR006") {
-          let Status = "FLTR007";
+          let Status ="";
+          if(selectradio_facmanager == "A"){
+            Status = "FLTR007";
+          }else if(selectradio_facmanager == "R"){
+            Status = "FLTR096";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
@@ -1554,11 +1606,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR007") {
-          let Status = "FLTR008";
+          let Status ="";
+          if(selectradio_acc_check == "A"){
+            Status = "FLTR008";
+          }else if(selectradio_acc_check == "R"){
+            Status = "FLTR907";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
@@ -1568,16 +1626,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
-            Swal.fire({
-              title: "Error",
-              icon: "Error",
-            });
-            return;
           }
         } else if (For_Rq_Edit[10] === "FLTR008") {
-          let Status = "FLTR009";
+          let Status ="";
+          if(selectradio_owner == "A"){
+            Status = "FLTR009";
+          }else if(selectradio_owner == "R"){
+            Status = "FLTR908";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
@@ -1587,11 +1646,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR009") {
-          let Status = "FLTR010";
+          let Status ="";
+          if(selectradio_receiver == "A"){
+            Status = "FLTR010";
+          }else if(selectradio_receiver == "R"){
+            Status = "FLTR909";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
@@ -1601,6 +1666,7 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -1616,7 +1682,12 @@ function TransFerDetail() {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR010") {
-          let Status = "FLTR011";
+          let Status ="";
+          if(selectradio_record == "A"){
+            Status = "FLTR011";
+          }else if(selectradio_record == "R"){
+            Status = "FLTR910";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
@@ -1626,11 +1697,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR011") {
-          let Status = "FLTR012";
+          let Status ="";
+          if(selectradio_acc_manager == "A"){
+            Status = "FLTR012";
+          }else if(selectradio_acc_manager == "R"){
+            Status = "FLTR911";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
@@ -1640,11 +1717,17 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR012") {
-          let Status = "FLTR013";
+          let Status ="";
+          if(selectradio_service_close_by == "A"){
+            Status = "FLTR013";
+          }else if(selectradio_service_close_by == "R"){
+            Status = "FLTR912";
+          }
           try {
             const row = axios.post(
               `http://localhost:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
@@ -1654,13 +1737,14 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         }
       }
 
-      navigate("/Search");
+     
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
@@ -1737,7 +1821,7 @@ function TransFerDetail() {
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
   };
-
+  // ปุ่ม Reset
   const Reset = async () => {
     setselecttrans_factory([]);
     setselecttrans_cc([]);
@@ -1754,7 +1838,7 @@ function TransFerDetail() {
     setselectacc_check([]);
     setselectacc_manager([]);
   };
-
+ // Const Return
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -1894,7 +1978,7 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5"></td>
                 </tr>
-                {console.log("PAGE_STATUS === EDIT", STS)}
+              
                 <tr>
                   <th colSpan={5}></th>
                   <td className="Style4">New Owner :</td>

@@ -175,7 +175,7 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  WHERE  T.FAM_REQ_BY = '${userlogin}' AND T.FAM_REQ_STATUS = 'FLTR001'
+  WHERE  T.FAM_REQ_BY = '${userlogin}' AND  F.FFM_FLG  IN ('C','R')
     AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
@@ -185,7 +185,7 @@ module.exports.search = async function (req, res) {
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
-  
+    ORDER BY T.FRH_FAM_NO DESC
          `;
     console.log(query);
     const result = await connect.execute(query);
@@ -247,6 +247,7 @@ module.exports.search2 = async function (req, res) {
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+    ORDER BY T.FRH_FAM_NO DESC
   
          `;
     console.log(query);
@@ -1368,12 +1369,14 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     T.FAM_REQ_REMARK,
     T.FAM_ASSET_CC_NAME,
     T.FAM_FACTORY,
-     R.USER_EMP_ID ||' : ' || R.USER_LOGIN  AS REQ_BY
+     R.USER_EMP_ID ||' : ' || R.USER_LOGIN  AS REQ_BY,
+     F.FFM_FLG
     
 FROM FAM_REQ_HEADER T 
 LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
 LEFT JOIN CUSR.CU_FACTORY_M M ON  M.FACTORY_CODE  =  T.FAM_FACTORY 
 LEFT JOIN CUSR.CU_USER_M R ON R.USER_LOGIN = T.FAM_REQ_BY 
+
 
 WHERE T.FRH_FAM_NO = :fam_no
           `;
