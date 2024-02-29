@@ -52,6 +52,53 @@ module.exports.emp = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+//Homepage
+module.exports.gethome_page = async function (req, res) {
+  try {
+    const User_login = req.query.user_for_login;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR001' THEN 1 ELSE NULL END) AS T_CREATE,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR005' THEN 1 ELSE NULL END) AS T_WAIT_BOI_M,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR006' THEN 1 ELSE NULL END) AS T_WAIT_FACTORY_M,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR007' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR008' THEN 1 ELSE NULL END) AS T_WAIT_O_C,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR009' THEN 1 ELSE NULL END) AS T_WAIT_RECEIVER_A,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR010' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SUD,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR011' THEN 1 ELSE NULL END) AS T_WAIT_ACC_MGR,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR012' THEN 1 ELSE NULL END) AS T_WAIT_SERVICE_DC
+FROM FAM_FLOW_MASTER TT
+LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
+LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = HT.FRH_FAM_NO
+WHERE
+    TT.FFM_TYPE = 'TRANSFER'
+    AND TT.FFM_STATUS = 'A'
+    AND (
+        HT.FAM_REQ_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR001'
+        OR HT.FAM_MGR_DEPT = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR002'
+        OR HT.FAM_SERVICE_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR003'
+        OR HT.FAM_BOI_CHK_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR004'
+        OR HT.FAM_BOI_MGR_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR005'
+        OR HT.FAM_FM_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR006'
+        OR HT.FAM_ACC_CHK_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR007'
+        OR HT.FAM_OWNER_SEND_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR008'
+        OR A.FRT_RECEIVE_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR009'
+        OR HT.FAM_ACC_REC_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR010'
+        OR HT.FAM_ACC_MGR_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR011'
+        OR HT.FAM_SERVICE_CLOSE_BY = '${User_login}' AND HT.FAM_REQ_STATUS = 'FLTR012'
+    )`;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
 // Factory
 module.exports.factory = async function (req, res) {
   try {
@@ -977,8 +1024,8 @@ module.exports.ins_transfer = async function (req, res) {
     const Tel = req.query.tel;
     const Status = req.query.status;
     const Abnormal = req.query.abnormal;
-    console.log("FAM_NO", FAM_NO);
-    console.log("มาแล้ววววววววววววววววว", CC, Tel);
+    console.log("FAM_NO", FAM_NO,Date_plan1,Factory,CC);
+    
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_TRANSFER F
@@ -990,7 +1037,8 @@ module.exports.ins_transfer = async function (req, res) {
       F.FRT_RECEIVE_BY = :receive_by,
       F.FRT_RECEIVER_TEL = :tel_tran,
       F.FRT_ABNORMAL_STS = :status_tran,
-      F.FRT_ABNORMAL_REASON = :abnormal_remark
+      F.FRT_ABNORMAL_REASON = :abnormal_remark,
+      F.FRT_RECEIVE_DATE = SYSDATE
     WHERE F.FRT_FAM_NO = :fam_no
     `;
 
@@ -1369,8 +1417,8 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     T.FAM_REQ_REMARK,
     T.FAM_ASSET_CC_NAME,
     T.FAM_FACTORY,
-     R.USER_EMP_ID ||' : ' || R.USER_LOGIN  AS REQ_BY,
-     F.FFM_FLG
+    R.USER_EMP_ID ||' : ' || R.USER_FNAME||' ' || R.USER_SURNAME AS REQ_BY,
+    F.FFM_FLG
     
 FROM FAM_REQ_HEADER T 
 LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
@@ -1688,7 +1736,7 @@ module.exports.Update_For_Trans_All = async function (req, res) {
     UPDATE
     FAM_REQ_TRANSFER
   SET
-    FRT_PLAN_MOVE_DATE = :FRT_PLAN_MOVE_DATE,
+    FRT_PLAN_MOVE_DATE = TO_DATE(:FRT_PLAN_MOVE_DATE, 'YYYY-MM-DD'),
     FRT_TO_FACTORY = :FRT_TO_FACTORY,
     FRT_TO_CC = :FRT_TO_CC,
     FRT_TO_PROJ = :FRT_TO_PROJ,

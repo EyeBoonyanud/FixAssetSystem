@@ -23,6 +23,7 @@ app.use(express.json());
 app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
+app.get("/gethome_page",Transaction.gethome_page);
 app.get("/getsubmenu",Login.submenu);
 app.get("/getemp",Transaction.emp);
 app.get("/getfactory",Transaction.factory);

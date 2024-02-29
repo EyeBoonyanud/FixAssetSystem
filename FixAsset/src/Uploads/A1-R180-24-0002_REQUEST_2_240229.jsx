@@ -17,41 +17,27 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../Page/Hearder";
 import { useNavigate } from "react-router-dom";
-import PageLoadding from "../Loadding/Pageload";
+// import PageLoadding from "../Loadding/Pageload";
 
 function TransFerDetail() {
-  // Local Storage
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const navigate = useNavigate();
-  // กรณี Insert Localstorage
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
+  console.log(For_Req, "For_Req");
   const For_Fixed_Asst = localStorage.getItem("forDetail");
   const For_Fix = JSON.parse(For_Fixed_Asst);
-  const ForTransfer = localStorage.getItem("For_Transfer");
-  const For_Trans = JSON.parse(ForTransfer);
-  const Routing = localStorage.getItem("For_Routing");
-  const For_Rou = JSON.parse(Routing);
-  console.log(For_Trans,"For_Trans")
 
-  // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
   const For_edit_trans = JSON.parse(Edit_trans);
-  const For_edit_request = localStorage.getItem("For_Req_Edit");
-  const For_Rq_Edit = JSON.parse(For_edit_request);
-  const Edit_rout = localStorage.getItem("Edit_routing");
-  const For_Edit_Rou = JSON.parse(Edit_rout);
-  console.log(For_Rq_Edit, "For_Rq_Edit");
   console.log(For_edit_trans, "For_edit_trans");
 
-  // เก็บตัวแปร
+  const For_edit_request = localStorage.getItem("For_Req_Edit");
+  const For_Rq_Edit = JSON.parse(For_edit_request);
+  //console.log(For_Rq_Edit,"For_Rq_Edit")
   let STS = "";
-  let Fam_list = "";
-  let servivedept = "";
-  const SERVICEDEPT = () => {
-    setservice_dept(servivedept);
-  };
+  console.log(For_Rq_Edit, "For_Req_Edit");
 
   // if (ForRequester !== null) {
   //  STS = For_Req[10];
@@ -59,15 +45,32 @@ function TransFerDetail() {
   //   STS = For_Rq_Edit[10];
   // }
 
-  if (For_Req !== null) {
+  const ForTransfer = localStorage.getItem("For_Transfer");
+  const For_Trans = JSON.parse(ForTransfer);
+  console.log(For_Trans, "For_Trans");
+
+  const Routing = localStorage.getItem("For_Routing");
+  const For_Rou = JSON.parse(Routing);
+  console.log(For_Rou, "For_Rou");
+
+  const Edit_rout = localStorage.getItem("Edit_routing");
+  const For_Edit_Rou = JSON.parse(Edit_rout);
+  console.log(For_Edit_Rou,"For_Edit_Rou")
+
+  let Fam_list = "";
+  let servivedept = "";
+
+  const SERVICEDEPT = () => {
+    setservice_dept(servivedept);
+  };
+
+  if (ForRequester !== null) {
     Fam_list = For_Req[0];
     servivedept = For_Req[8] + ":" + For_Req[9];
   } else {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-
-  ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
@@ -101,8 +104,7 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
-
-  /////////////// ตัวแปร Radio button//////////////////////////////
+  // select button
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
   const [selectradio_boistaff, setselectradio_boistaff] = useState("");
@@ -115,8 +117,7 @@ function TransFerDetail() {
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
   const [selectradio_service_close_by, setselectradio_service_close_by] =
     useState("");
-
-  /////////////// ตัวแปร Check Commnet //////////////////////////////
+  // CMMT
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
   const [cmmtradio_boistaff, setcmmtradio_boistaff] = useState("");
@@ -129,8 +130,7 @@ function TransFerDetail() {
   const [cmmtradio_acc_manager, setcmmtradio_acc_manager] = useState("");
   const [cmmtradio_service_close_by, setcmmtradio_service_close_by] =
     useState("");
-
-  /////////////// ตัวแปร Check Action Date //////////////////////////////
+  //Date For Action Date
   const [action_dept, setaction__dept] = useState("");
   const [action__serviceby, setaction__serviceby] = useState("");
   const [action__boistaff, setaction__boistaff] = useState("");
@@ -142,8 +142,7 @@ function TransFerDetail() {
   const [action__record, setaction__record] = useState("");
   const [action__acc_manager, setaction__acc_manager] = useState("");
   const [action__service_close_by, setaction__service_close_by] = useState("");
-
-  /////////////// ตัวแปร Check Error //////////////////////////////
+  //Error
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
@@ -156,11 +155,9 @@ function TransFerDetail() {
   const [ErrorAcc_check, setErrorAcc_check] = useState(false);
   const [ErrorAcc_Mana, setErrorAcc_Mana] = useState(false);
   const [ErrorTel_service, setErrorTel_service] = useState(false);
-  const [ErrorDate, setErrorDate] = useState(false);
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
-
-  /////////////// ตัวแปร Check Read Only //////////////////////////////
+  // check read only
   const [read_trans_fac, setReadTransFac] = useState(true);
   const [read_trans_cc, setReadTransCC] = useState(true);
   const [read_tel, setReadTel] = useState(true);
@@ -195,11 +192,9 @@ function TransFerDetail() {
   const [read_acc_mana_cmmt, setReadAccManaCmmt] = useState(true);
   const [read_close_radio, setReadCloseRadio] = useState(true);
   const [read_close_cmmt, setReadCloseCmmt] = useState(true);
-
-  /////////////// ตัวแปร Check Save //////////////////////////////
-  //const [btnsave, setbtnsave] = useState("hidden");
-
-  /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
+  //Save
+  const [btnsave, setbtnsave] = useState("hidden");
+  //check sts
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
   const [chkboistaff, setchkboistaff] = useState("hidden");
@@ -211,7 +206,8 @@ function TransFerDetail() {
   const [chkacc_record, setchkacc_record] = useState("hidden");
   const [chkacc_manager, setchkacc_manager] = useState("hidden");
   const [chkservice_close, setchkservice_close] = useState("hidden");
-  // comment ซ่อน ไม่ซ่อน
+
+  //
   const [CM_DepartmentManager, setCM_DepartmentManager] = useState("none");
   const [CM_service_by, setCM_service_by] = useState("none");
   const [CM_boistaff, setCM_boistaff] = useState("none");
@@ -224,7 +220,6 @@ function TransFerDetail() {
   const [CM_acc_manager, setCM_acc_manager] = useState("none");
   const [CM_service_close, setCM_service_close] = useState("none");
 
-  /////////////// ตัวแปร FormatDate //////////////////////////////
   const [currentDate, setCurrentDate] = useState(new Date());
   const formattedDate = `${(currentDate.getMonth() + 1)
     .toString()
@@ -241,59 +236,40 @@ function TransFerDetail() {
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
-  ////////////////////// Use Effect /////////////////////////////////
+
   useEffect(() => {
     openPopupLoadding();
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
     }
     if (For_Req != null) {
-      console.log(For_Req[10], "For_Req[10]");
       setSTS1(For_Req[10]);
     }
 
-    // const TEST = async () => {
-    //   await FactoryCC();
-    //   await TransCC();
-    //   await BOI_FROM();
-    //   await Department_Mana();
-    //   await SERVICEDEPT();
-    //   await Service_By();
-    //   await BOI_Staff();
-    //   await BOI_Manager();
-    //   await Fac_manager();
-    //   await ACC_Check();
-    //   await ACC_Manager();
-    //   await closePopupLoadding();
-    // };
+    const TEST = async () => {
+      await FactoryCC();
+      await TransCC();
+      await BOI_FROM();
+      await Department_Mana();
+      await SERVICEDEPT();
+      await Service_By();
+      await BOI_Staff();
+      await BOI_Manager();
+      await Fac_manager();
+      await ACC_Check();
+      await ACC_Manager();
+      await closePopupLoadding();
+    };
 
-    // TEST();
-
-    FactoryCC();
-    TransCC();
-    BOI_FROM();
-    Department_Mana();
-    SERVICEDEPT();
-    Service_By();
-    BOI_Staff();
-    BOI_Manager();
-    Fac_manager();
-    ACC_Check();
-    ACC_Manager();
-
-    // 5 วินาทีหรือ 5000 มิลลิวินาที
-    // };
-
-    // TEST();
+    TEST();
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         STS = For_Rq_Edit[10];
-        Fam_list = For_Rq_Edit[0];
-        //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
-        //  console.log(STS, "STS..,.,.,.");
+        console.log(STS, "STS..,.,.,.");
         setownersend(For_Rq_Edit[2]);
         if (For_edit_trans != null) {
+          
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
@@ -305,13 +281,12 @@ function TransFerDetail() {
           setowner_roting(For_Rq_Edit[2]);
 
           if (For_Edit_Rou != null) {
-            // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
+            console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
             //set Submit
-
+            
             setTel_service(For_Edit_Rou[0][7]);
             if (STS != "FLTR001") {
-              // console.log("LLLLLLLLLLLLLLLLLLLLLl")
-              //setbtnsave("hidden")
+             console.log("LLLLLLLLLLLLLLLLLLLLLl")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
@@ -342,9 +317,9 @@ function TransFerDetail() {
               setselectradio_owner(For_Edit_Rou[0][34]);
               setcmmtradio_owner(For_Edit_Rou[0][35]);
               // Receiver
-              setaction__receiver(For_edit_trans[0][11]);
-              setselectradio_receiver(For_edit_trans[0][10]);
-              setcmmtradio_receiver(For_edit_trans[0][12]);
+              setaction__receiver(Edit_trans[0][11]);
+              setselectradio_receiver(Edit_trans[0][10]);
+              setcmmtradio_receiver(Edit_trans[0][12]);
               // Record
               setaction__record(For_Edit_Rou[0][25]);
               setselectradio_record(For_Edit_Rou[0][26]);
@@ -358,9 +333,9 @@ function TransFerDetail() {
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
               setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
               //readonly
-
-              if (STS == "FLTR001" || For_Rq_Edit[16] === "R") {
-                console.log("Reject OR Approve", For_Rq_Edit[16]);
+             
+              if (STS == "FLTR001") {
+              
                 setReadTransFac(false);
                 setReadTransCC(false);
                 setReadTel(false);
@@ -395,334 +370,43 @@ function TransFerDetail() {
                 setReadAccManaCmmt(false);
                 setReadCloseRadio(false);
                 setReadCloseCmmt(false);
-                if (STS == "FLTR092") {
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setCM_DepartmentManager("table-row");
-                }
-                if (STS == "FLTR093") {
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                }
-                if (STS == "FLTR094") {
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                }
-                if (STS == "FLTR095") {
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setCM_DepartmentManager("table-row");
-                  setCM_service_by("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                }
-                if (STS == "FLTR096") {
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setCM_DepartmentManager("table-row");
-                  setCM_service_by("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                }
-                if (STS == "FLTR907") {
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                }
-                if (STS == "FLTR908") {
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_owner("table-row");
-                }
-                if (STS == "FLTR909") {
-                  setchkreceiver("visible");
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_owner("table-row");
-                  setCM_receiver("table-row");
-                }
-                if (STS == "FLTR910") {
-                  setchkacc_record("visible");
-                  setchkreceiver("visible");
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
-                  setReadRecordRadio(true);
-                  setReadRecordCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_acc_record("table-row");
-                  setCM_owner("table-row");
-                  setCM_receiver("table-row");
-                }
-                if (STS == "FLTR911") {
-                  setchkacc_manager("visible");
-                  setchkacc_record("visible");
-                  setchkreceiver("visible");
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
-                  setReadRecordRadio(true);
-                  setReadRecordCmmt(true);
-                  setReadAccManaRadio(true);
-                  setReadAccManaCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_owner("table-row");
-                  setCM_receiver("table-row");
-                  setCM_acc_record("table-row");
-                  setCM_acc_manager("table-row");
-                }
-                if (STS == "FLTR912") {
-                  setchkservice_close("visible");
-                  setchkacc_manager("visible");
-                  setchkacc_record("visible");
-                  setchkreceiver("visible");
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
-                  setReadRecordRadio(true);
-                  setReadRecordCmmt(true);
-                  setReadAccManaRadio(true);
-                  setReadAccManaCmmt(true);
-                  setReadCloseRadio(true);
-                  setReadCloseCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_owner("table-row");
-                  setCM_receiver("table-row");
-                  setCM_acc_record("table-row");
-                  setCM_acc_manager("table-row");
-                  setCM_service_close("table-row");
-                }
-
-                //Saveelse if
-              }
-              // else if(For_Rq_Edit[16]==="R"){
-
-              // }
-              else if (STS == "FLTR002") {
+                //Save
+              } else if (STS == "FLTR002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
+                setCM_DepartmentManager("table-row")
                 setReadDeptRadio(false);
                 setReadDeptCmmt(false);
-                setCM_DepartmentManager("table-row");
               } else if (STS == "FLTR003") {
                 setaction__serviceby(formattedDate);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
                 setReadServiceByRadio(false);
                 setReadServiceByCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
               } else if (STS == "FLTR004") {
                 setaction__boistaff(formattedDate);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
                 setReadBoistffRadio(false);
                 setReadBoistffCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
               } else if (STS == "FLTR005") {
                 setaction__boimanager(formattedDate);
                 setchkboimanager("visible");
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_DepartmentManager("table-row")
+                setCM_service_by("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
                 setReadBoimanaRadio(false);
                 setReadBoimanaCmmt(false);
-                setCM_DepartmentManager("table-row");
-                setCM_service_by("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
               } else if (STS == "FLTR006") {
                 setaction__facmanager(formattedDate);
                 setchkfacmanager("visible");
@@ -730,13 +414,13 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_DepartmentManager("table-row")
+                setCM_service_by("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
                 setReadFacManaRadio(false);
                 setReadFacManaCmmt(false);
-                setCM_DepartmentManager("table-row");
-                setCM_service_by("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
               } else if (STS == "FLTR007") {
                 setaction__acc_check(formattedDate);
                 setchkacc_check("visible");
@@ -745,14 +429,14 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
                 setReadAccchkRadio(false);
                 setReadAccchkCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
               } else if (STS == "FLTR008") {
                 setaction__owner(formattedDate);
                 setchkowner("visible");
@@ -762,15 +446,15 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
+                setCM_owner("table-row")
                 setReadOwnerRadio(false);
                 setReadOwnerCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_owner("table-row");
               } else if (STS == "FLTR009") {
                 setaction__receiver(formattedDate);
                 setchkreceiver("visible");
@@ -779,18 +463,18 @@ function TransFerDetail() {
                 setchkfacmanager("visible");
                 setchkboimanager("visible");
                 setchkboistaff("visible");
+                setCM_boistaff("table-row")
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
+                setCM_owner("table-row")
+                setCM_receiver("table-row")
                 setReadReceiveRadio(false);
                 setReadReceiveCmmt(false);
-                setCM_boistaff("table-row");
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_owner("table-row");
-                setCM_receiver("table-row");
               } else if (STS == "FLTR010") {
                 setaction__record(formattedDate);
                 setchkacc_record("visible");
@@ -802,17 +486,17 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
+                setCM_acc_record("table-row")
+                setCM_owner("table-row")
+                setCM_receiver("table-row")
                 setReadRecordRadio(false);
                 setReadRecordCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_acc_record("table-row");
-                setCM_owner("table-row");
-                setCM_receiver("table-row");
               } else if (STS == "FLTR011") {
                 setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
@@ -825,18 +509,18 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
+                setCM_owner("table-row")
+                setCM_receiver("table-row")
+                setCM_acc_record("table-row")
+                setCM_acc_manager("table-row")
                 setReadAccManaRadio(false);
                 setReadAccManaCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_owner("table-row");
-                setCM_receiver("table-row");
-                setCM_acc_record("table-row");
-                setCM_acc_manager("table-row");
               } else if (STS == "FLTR012") {
                 setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
@@ -850,19 +534,19 @@ function TransFerDetail() {
                 setchkboistaff("visible");
                 setchkservice_by("visible");
                 setcheckrdo("visible");
+                setCM_service_by("table-row")
+                setCM_DepartmentManager("table-row")
+                setCM_boistaff("table-row")
+                setCM_boimanager("table-row")
+                setCM_facmanager("table-row")
+                setCM_acc_check("table-row")
+                setCM_owner("table-row")
+                setCM_receiver("table-row")
+                setCM_acc_record("table-row")
+                setCM_acc_manager("table-row")
+                setCM_service_close("table-row")
                 setReadCloseRadio(false);
                 setReadCloseCmmt(false);
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boistaff("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_owner("table-row");
-                setCM_receiver("table-row");
-                setCM_acc_record("table-row");
-                setCM_acc_manager("table-row");
-                setCM_service_close("table-row");
               }
             } else if (STS == "FLTR001") {
               setReadTransFac(false);
@@ -877,10 +561,11 @@ function TransFerDetail() {
               setReadFacMana(false);
               setReadAccchk(false);
               setReadAccMana(false);
-              //setbtnsave("visible");
+              setbtnsave("visible");
             }
           } else {
             if (STS == "FLTR001") {
+              
               setReadTransFac(false);
               setReadTransCC(false);
               setReadTel(false);
@@ -920,9 +605,6 @@ function TransFerDetail() {
           }
         }
       }
-      setTimeout(function () {
-        closePopupLoadding();
-      }, 6000);
     } else {
       setReadTransFac(false);
       setReadTransCC(false);
@@ -936,7 +618,7 @@ function TransFerDetail() {
       setReadFacMana(false);
       setReadAccchk(false);
       setReadAccMana(false);
-      //setbtnsave("visible");
+      setbtnsave("visible");
       if (For_Trans != null) {
         setownersend(For_Req[1]);
         setowner_roting(For_Req[1]);
@@ -956,8 +638,6 @@ function TransFerDetail() {
       } else {
         if (For_Req != null) {
           STS = For_Req[10];
-          Fam_list = For_Req[0];
-          // servivedept = For_Req[8] + ":" + For_Req[9];
           setownersend(For_Req[1]);
           setowner_roting(For_Req[1]);
           setdata_fromboi("");
@@ -968,18 +648,11 @@ function TransFerDetail() {
           setabnormal("");
           setreceiver("");
           //setbtnsave("visible")
-        } else {
-          Fam_list = For_Req[0];
-          //servivedept = For_Req[8] + ":" + For_Req[9];
         }
       }
-      setTimeout(function () {
-        closePopupLoadding();
-      }, 4000);
     }
   }, []);
 
-  //////////// Const สำหรับ Get ข้อมูล ///////////////////////////
   const FactoryCC = async () => {
     setErrorFac(false);
     try {
@@ -1003,7 +676,7 @@ function TransFerDetail() {
   const handleFactoryCC = async (event) => {
     setselecttrans_factory(event.target.value);
 
-    // console.log(For_edit_trans, "rrrrr");
+    console.log(For_edit_trans, "rrrrr");
     if (EditFam != null) {
       if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
       const data = [
@@ -1019,16 +692,16 @@ function TransFerDetail() {
       ];
 
       const data_edit = JSON.stringify(data);
-      // console.log("/////////////////");
+      console.log("/////////////////");
       localStorage.setItem("Edit_Trans", data_edit);
       //edit
     } else {
       //insert
-      // console.log("------bbbbbb---------");
+      console.log("------bbbbbb---------");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
+        console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_forTranfer_Req_Tranfer_Details = [
           Fam_list,
           ownersend,
@@ -1064,6 +737,7 @@ function TransFerDetail() {
       }
     }
   };
+
   const TransCC = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
@@ -1087,7 +761,9 @@ function TransFerDetail() {
         `http://localhost:5000/select_BOI_from?running_no=${Fam_list}`
       );
       const data = response.data;
+      //// console(data, "fROM boi");
       setdata_fromboi(data[0][0]);
+      //// console(data[0][0], "fROM boi");
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -1112,12 +788,10 @@ function TransFerDetail() {
         setnew_boi(boi);
       }
       if (data_fromboi == boi) {
-        //   console.log(abnormal,"N")
         setsts("N");
         setabnormal("");
       } else {
         setsts("Y");
-        // console.log(abnormal,"Y")
         setabnormal("Transfer to difference project");
       }
     } catch (error) {
@@ -1133,6 +807,12 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setnew_owner(data);
+      //// console("dataaa>>>", data, "''''''''", [For_Trans[6]]);
+      // if (For_Req != null) {
+      //   setnew_owner([For_Trans[6]])
+      // } else {
+
+      // }
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -1163,10 +843,11 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment_mana(data);
-      console.log(data, "data");
+      console.log(data,"data")
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
+          console.log(For_Edit_Rou[0][0],"[For_Edit_Rou[0][0]]")
           // !!!!!!!!!!!!!
           setselectdepartment_mana(For_Edit_Rou[0][0]);
         }
@@ -1178,6 +859,7 @@ function TransFerDetail() {
         }
       }
     } catch (error) {
+      //// console("Department :", data);
       //console.error("Error during login:", error);
     }
   };
@@ -1214,6 +896,8 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
+
+  ///////////////// แก้ไข ///////////////////////////////////////////////////////////////
   const BOI_Staff = async () => {
     let level = "";
     if (EditFam != null) {
@@ -1222,17 +906,17 @@ function TransFerDetail() {
       }
     } else {
       level = For_Req[3];
-    }
-    department_mana;
+    }department_mana
     try {
       const response = await axios.get(
         `http://localhost:5000/boi_staff?fac=${level}`
       );
       const data = response.data.flat();
-
+      console.log("kkkkkkkkkkkkkkkkk", data);
       setboi_staff(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
+          console.log(For_Edit_Rou[0][8], "YYYYYYYYYYYYYYYYYYYYYYy");
           setselectboi_staff(For_Edit_Rou[0][8]);
         }
       } else {
@@ -1367,10 +1051,10 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // ปุ่ม SAVE
+  // Handle Save Submit Reset
   const SAVE = async () => {
+    console.log(plan_date);
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1392,7 +1076,6 @@ function TransFerDetail() {
       plan_date,
       abnormal,
       receiver,
-      sts
     ];
     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
     localStorage.setItem("For_Transfer", sentdata);
@@ -1470,7 +1153,7 @@ function TransFerDetail() {
 
     setOpen(true);
   };
-  //  ปุ่ม SUBMIT
+
   const SUBMIT = async () => {
     if (EditFam != null) {
       if (
@@ -1542,14 +1225,6 @@ function TransFerDetail() {
       } else {
         setErrorNewOwn(false);
       }
-      if (plan_date === null || plan_date === undefined || plan_date === "") {
-        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",plan_date)
-        setErrorDate(true);
-        alert("ข้อมูลไม่สมบูรณ์: Date");
-        return;
-      } else {
-        setErrorDate(false);
-      }
       if (
         selectdepartment_mana === null ||
         selectdepartment_mana === undefined ||
@@ -1563,9 +1238,9 @@ function TransFerDetail() {
       }
 
       if (
-        selectservice_by === null ||
-        selectservice_by === undefined ||
-        selectservice_by === ""
+        selectservice_by[0] === null ||
+        selectservice_by[0] === undefined ||
+        selectservice_by[0] === ""
       ) {
         setErrorService_by(true);
         alert("ข้อมูลไม่สมบูรณ์: Service By");
@@ -1585,11 +1260,10 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
-     
       if (
-        selectboi_staff === null ||
-        selectboi_staff === undefined ||
-        selectboi_staff === ""
+        selectboi_staff[0] === null ||
+        selectboi_staff[0] === undefined ||
+        selectboi_staff[0] === ""
       ) {
         setErrorBoi_Staff(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
@@ -1598,9 +1272,9 @@ function TransFerDetail() {
         setErrorBoi_Staff(false);
       }
       if (
-        selectboi_manager === null ||
-        selectboi_manager === undefined ||
-        selectboi_manager === ""
+        selectboi_manager[0] === null ||
+        selectboi_manager[0] === undefined ||
+        selectboi_manager[0] === ""
       ) {
         setErrorBoi_manager(true);
         alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
@@ -1609,9 +1283,9 @@ function TransFerDetail() {
         setErrorBoi_manager(false);
       }
       if (
-        selectfac_manager === null ||
-        selectfac_manager === undefined ||
-        selectfac_manager === ""
+        selectfac_manager[0] === null ||
+        selectfac_manager[0] === undefined ||
+        selectfac_manager[0] === ""
       ) {
         setErrorMana_Fac(true);
         alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
@@ -1620,9 +1294,9 @@ function TransFerDetail() {
         setErrorMana_Fac(false);
       }
       if (
-        selectacc_check === null ||
-        selectacc_check === undefined ||
-        selectacc_check === ""
+        selectacc_check[0] === null ||
+        selectacc_check[0] === undefined ||
+        selectacc_check[0] === ""
       ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Check");
         setErrorAcc_check(true);
@@ -1630,9 +1304,9 @@ function TransFerDetail() {
         setErrorAcc_check(false);
       }
       if (
-        selectacc_manager === null ||
-        selectacc_manager === undefined ||
-        selectacc_manager === ""
+        selectacc_manager[0] === null ||
+        selectacc_manager[0] === undefined ||
+        selectacc_manager[0] === ""
       ) {
         alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
         setErrorAcc_Mana(true);
@@ -1656,7 +1330,7 @@ function TransFerDetail() {
         setErrorTel_Rq(true);
         alert("ข้อมูลไม่สมบูรณ์: กรุณากรอกข้อมูล Requester");
         let ErrorTel_Req = "true";
-
+        console.log();
         navigate("/ForRe", ErrorTel_Req);
         return;
       } else {
@@ -1682,6 +1356,7 @@ function TransFerDetail() {
         setErrorFac(true);
         return;
       } else {
+        console.log("YYYYYYYY111111111111111");
       }
       if (
         selecttrans_cc === null ||
@@ -1692,7 +1367,7 @@ function TransFerDetail() {
         setErrorCC(true);
         return;
       } else {
-        // console.log("YYYYYYYY");
+        console.log("YYYYYYYY");
         setErrorCC(false);
       }
       if (
@@ -1717,14 +1392,6 @@ function TransFerDetail() {
         return;
       } else {
         setErrorNewOwn(false);
-      }
-      if (plan_date === null || plan_date === undefined || plan_date === "") {
-        
-        setErrorDate(true);
-        alert("ข้อมูลไม่สมบูรณ์: Date");
-        return;
-      } else {
-        setErrorDate(false);
       }
       if (
         selectdepartment_mana === null ||
@@ -1759,7 +1426,6 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
-    
       if (
         selectboi_staff === null ||
         selectboi_staff === undefined ||
@@ -1821,16 +1487,29 @@ function TransFerDetail() {
     }
 
     if (EditFam != null) {
-      // SUBMIT ตามเงื่อนไข Status
+      // Submit ตามเงื่อนไข
       if (For_Rq_Edit != null) {
-        console.log(receiver, "receiver");
+        console.log("ไม่มาาาาาาาาาาาา", selectboi_staff[0], selectboi_staff);
         if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
           try {
             console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
+             "http://localhost:5000/Update_For_Req_All",
               {
+                // famno: For_Rq_Edit[0],
+                // dept: For_Rq_Edit[6],
+                // tel: For_Rq_Edit[3],
+                // remark: For_Rq_Edit[12],
+                // mrg_dept: selectdepartment_mana[0],
+                // serviceby: selectservice_by[0],
+                // servicetel: Tel_service,
+                // boisff: selectboi_staff[0],
+                // boimrg: selectboi_manager[0],
+                // fmby: selectfac_manager[0],
+                // accchk: selectacc_check[0],
+                // accmrg: selectacc_manager,
+                // updateby: For_Rq_Edit[2],
                 famno: For_Rq_Edit[0],
                 dept: For_Rq_Edit[6],
                 tel: For_Rq_Edit[3],
@@ -1852,26 +1531,27 @@ function TransFerDetail() {
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
+             "http://localhost:5000/Update_For_Trans_All",
               {
-                famno: For_Rq_Edit[0],
+                famno: For_Rq_Edit[0][8],
                 date_plan: plan_date,
                 fac_trans: selecttrans_factory,
                 cc_trans: selecttrans_cc,
                 to_proj: new_boi,
-                rec_by: receiver,
+                rec_by: selectnew_owner,
                 tel: Tel_for_trans,
                 sts_for: sts,
                 abnormal_for: abnormal,
                 create_by: User,
               }
+              
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/update_submit",
+           "http://localhost:5000/update_submit",
               {
                 famno: EditFam,
                 sts_submit: Status,
@@ -1882,94 +1562,12 @@ function TransFerDetail() {
               title: "Submit Success",
               icon: "success",
             });
-            navigate("/Search");
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
-        } else if (For_Rq_Edit[16] === "R") {
-          // update สำหรับ === "R" reject
-          let Status = "FLTR002";
-          try {
-            const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
-              {
-                famno: For_Rq_Edit[0],
-                dept: For_Rq_Edit[6],
-                tel: For_Rq_Edit[3],
-                remark: For_Rq_Edit[12],
-                mrg_dept: selectdepartment_mana,
-                serviceby: selectservice_by,
-                servicetel: Tel_service,
-                boisff: selectboi_staff,
-                boimrg: selectboi_manager,
-                fmby: selectfac_manager,
-                accchk: selectacc_check,
-                accmrg: selectacc_manager,
-                updateby: For_Rq_Edit[2],
-                record_by: text_acc_check,
-              }
-            );
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
-          try {
-            const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
-              {
-                famno: For_Rq_Edit[8],
-                date_plan: plan_date,
-                fac_trans: selecttrans_factory,
-                cc_trans: selecttrans_cc,
-                to_proj: new_boi,
-                rec_by: receiver,
-                tel: Tel_for_trans,
-                sts_for: sts,
-                abnormal_for: abnormal,
-                create_by: User,
-              }
-            );
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
-          try {
-            const row = axios.post(
-              `http://localhost:5000/update_for_nullRouting_All?famno=${EditFam}&user=${User}`
-            );
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
-          try {
-            const row = axios.post(
-              `http://localhost:5000/update_All_for_receive?famno=${EditFam}&user=${User}`
-            );
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
-          try {
-            const response = await axios.post(
-              "http://localhost:5000/update_submit",
-              {
-                famno: EditFam,
-                sts_submit: Status,
-              }
-            );
-
-            Swal.fire({
-              title: "Submit Success",
-              icon: "success",
-            });
-            navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR002") {
-          let Status = "";
-          if (selectradio_dept == "A") {
-            Status = "FLTR003";
-          } else if (selectradio_dept == "R") {
-            Status = "FLTR092";
-          }
-
+          console.log("เข้ามาทำไมมมมมมมมมมมมมมมมม");
+          let Status = "FLTR003";
           try {
             const row = axios.post(
               `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
@@ -1979,20 +1577,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR003") {
-          console.log(For_Rq_Edit[10], "LLLLLLLLLLL", selectradio_serviceby);
-          let Status = "";
-          if (selectradio_serviceby == "A") {
-            Status = "FLTR004";
-            console.log(Status, "PP", selectradio_serviceby);
-          } else if (selectradio_serviceby == "R") {
-            Status = "FLTR093";
-            console.log(Status, "III", selectradio_serviceby);
-          }
+          let Status = "FLTR004";
           try {
             const row = axios.post(
               `http://localhost:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
@@ -2002,17 +1591,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR004") {
-          let Status = "";
-          if (selectradio_boistaff == "A") {
-            Status = "FLTR005";
-          } else if (selectradio_boistaff == "R") {
-            Status = "FLTR094";
-          }
+          let Status = "FLTR005";
           try {
             const row = axios.post(
               `http://localhost:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
@@ -2022,17 +1605,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR005") {
-          let Status = "";
-          if (selectradio_boimanager == "A") {
-            Status = "FLTR006";
-          } else if (selectradio_boimanager == "R") {
-            Status = "FLTR095";
-          }
+          let Status = "FLTR006";
           try {
             const row = axios.post(
               `http://localhost:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
@@ -2042,17 +1619,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR006") {
-          let Status = "";
-          if (selectradio_facmanager == "A") {
-            Status = "FLTR007";
-          } else if (selectradio_facmanager == "R") {
-            Status = "FLTR096";
-          }
+          let Status = "FLTR007";
           try {
             const row = axios.post(
               `http://localhost:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
@@ -2062,17 +1633,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR007") {
-          let Status = "";
-          if (selectradio_acc_check == "A") {
-            Status = "FLTR008";
-          } else if (selectradio_acc_check == "R") {
-            Status = "FLTR907";
-          }
+          let Status = "FLTR008";
           try {
             const row = axios.post(
               `http://localhost:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
@@ -2082,17 +1647,16 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
+            Swal.fire({
+              title: "Error",
+              icon: "Error",
+            });
+            return;
           }
         } else if (For_Rq_Edit[10] === "FLTR008") {
-          let Status = "";
-          if (selectradio_owner == "A") {
-            Status = "FLTR009";
-          } else if (selectradio_owner == "R") {
-            Status = "FLTR908";
-          }
+          let Status = "FLTR009";
           try {
             const row = axios.post(
               `http://localhost:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
@@ -2102,17 +1666,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR009") {
-          let Status = "";
-          if (selectradio_receiver == "A") {
-            Status = "FLTR010";
-          } else if (selectradio_receiver == "R") {
-            Status = "FLTR909";
-          }
+          let Status = "FLTR010";
           try {
             const row = axios.post(
               `http://localhost:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
@@ -2122,7 +1680,6 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -2138,12 +1695,7 @@ function TransFerDetail() {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR010") {
-          let Status = "";
-          if (selectradio_record == "A") {
-            Status = "FLTR011";
-          } else if (selectradio_record == "R") {
-            Status = "FLTR910";
-          }
+          let Status = "FLTR011";
           try {
             const row = axios.post(
               `http://localhost:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
@@ -2153,17 +1705,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR011") {
-          let Status = "";
-          if (selectradio_acc_manager == "A") {
-            Status = "FLTR012";
-          } else if (selectradio_acc_manager == "R") {
-            Status = "FLTR911";
-          }
+          let Status = "FLTR012";
           try {
             const row = axios.post(
               `http://localhost:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
@@ -2173,17 +1719,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR012") {
-          let Status = "";
-          if (selectradio_service_close_by == "A") {
-            Status = "FLTR013";
-          } else if (selectradio_service_close_by == "R") {
-            Status = "FLTR912";
-          }
+          let Status = "FLTR013";
           try {
             const row = axios.post(
               `http://localhost:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
@@ -2193,12 +1733,13 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         }
       }
+
+      navigate("/Search");
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
@@ -2238,7 +1779,6 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        console.log("sts",sts)
         try {
           const response = await axios.post(
             "http://localhost:5000/Update_For_Trans_All",
@@ -2248,7 +1788,7 @@ function TransFerDetail() {
               fac_trans: selecttrans_factory,
               cc_trans: selecttrans_cc,
               to_proj: new_boi,
-              rec_by: receiver,
+              rec_by: selectnew_owner,
               tel: Tel_for_trans,
               sts_for: sts,
               abnormal_for: abnormal,
@@ -2276,7 +1816,7 @@ function TransFerDetail() {
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
   };
-  // ปุ่ม Reset
+
   const Reset = async () => {
     setselecttrans_factory([]);
     setselecttrans_cc([]);
@@ -2293,13 +1833,13 @@ function TransFerDetail() {
     setselectacc_check([]);
     setselectacc_manager([]);
   };
-  // Const Return
+
   return (
     <>
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
-      <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
+      {/* <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} /> */}
       <div>
         <Card className="Style100">
           <Card
@@ -2328,12 +1868,7 @@ function TransFerDetail() {
             <div className="Style2">
               <table className="Style3">
                 <tr>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2">
-                      Owner (Send from) :
-                    </Typography>
-                  </td>
+                  <td className="Style4"> <Typography variant="subtitle2" >Owner (Send from) :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -2346,11 +1881,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">
-                      From BOI Project :
-                    </Typography>
-                  </td>
+                  <td className="Style7"><Typography variant="subtitle2" >From BOI Project :</Typography></td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2365,11 +1896,7 @@ function TransFerDetail() {
                   </td>
                 </tr>
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Transfer to Factory :
-                    </Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2" >Transfer to Factory :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <Select
@@ -2396,9 +1923,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">Tranfer to CC :</Typography>
-                  </td>
+                  <td className="Style7"><Typography variant="subtitle2" >Tranfer to CC :</Typography></td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <Select
@@ -2426,11 +1951,7 @@ function TransFerDetail() {
                 </tr>
 
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      New BOI Project :
-                    </Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2" >New BOI Project :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -2445,9 +1966,7 @@ function TransFerDetail() {
                 </tr>
                 {/* {console.log("PAGE_STATUS === EDIT", STS)} */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">New Owner :</Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2" >New Owner :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <Select
@@ -2477,9 +1996,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">Tel :</Typography>
-                  </td>
+                  <td className="Style7"><Typography variant="subtitle2" >Tel :</Typography></td>
                   <td className="Style6">
                     <FormControl className="Style1">
                       <TextField
@@ -2499,12 +2016,7 @@ function TransFerDetail() {
                   </td>
                 </tr>
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Plan Remove Date :
-                    </Typography>
-                  </td>
-                  {console.log(ErrorDate, plan_date, "************")}
+                  <td className="Style4"><Typography variant="subtitle2" >Plan Remove Date :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -2513,20 +2025,14 @@ function TransFerDetail() {
                         type="date"
                         disabled={read_plan_date}
                         value={plan_date}
-                        error={ErrorDate && !plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
-                        helperText={ErrorDate && !plan_date ? "กรุณากรอกวันที่" : undefined}
                       />
                     </FormControl>
                   </td>
                   <td className="Style5" colSpan={3}></td>
                 </tr>
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Tranfer Abnormal :
-                    </Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2" >Tranfer Abnormal :</Typography></td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
                       <TextField
@@ -2572,11 +2078,7 @@ function TransFerDetail() {
               <table className="Style3">
                 {/* Department Manager */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Department Manager :
-                    </Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2" >Department Manager :</Typography></td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -2616,7 +2118,7 @@ function TransFerDetail() {
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
                         style={{
-                          visibility: checkrdo,
+                          visibility:checkrdo,
                           // checkrdo
                         }}
                       >
@@ -2636,15 +2138,11 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{
+                  <Typography variant="subtitle2"  style={{
                         visibility: checkrdo,
-                      }}
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                        
+                      }} >  Action Date :</Typography>
+                    
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -2664,13 +2162,14 @@ function TransFerDetail() {
                 </tr>
                 {/* { STS === "FLTR002" && (    
                   <> */}
-                {/* {console.log(STS1,":::::::::::::::::::::::::::::::")} */}
-                <tr
-                  // style={{display:''}}
-                  style={{ display: CM_DepartmentManager }}
+              {/* {console.log(STS1,":::::::::::::::::::::::::::::::")} */}
+                <tr 
+                // style={{display:''}}
+                style={{ display:CM_DepartmentManager}}
                 >
-                  <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                  <td className="Style4" >
+                
+               <Typography variant="subtitle2" > Comment :</Typography>     
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -2681,6 +2180,7 @@ function TransFerDetail() {
                         disabled={read_dept_cmmt}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                         //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
+                       
                       />
                     </FormControl>
                   </td>
@@ -2689,10 +2189,7 @@ function TransFerDetail() {
                  )} */}
                 {/* Sevice Dept */}
                 <tr>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2"> Service Dept :</Typography>
-                  </td>
+                  <td className="Style4">  <Typography  variant="subtitle2"> Service Dept :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -2708,10 +2205,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
-                  <td className="Style7">
-                    {" "}
-                    <Typography variant="subtitle2">Tel :</Typography>
-                  </td>
+                  <td className="Style7"> <Typography variant="subtitle2" >Tel :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -2735,9 +2229,7 @@ function TransFerDetail() {
                 </tr>
                 {/* Servide By */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Service By :</Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >Service By :</Typography></td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -2798,12 +2290,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkservice_by }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <Typography variant="subtitle2"  style={{ visibility: chkservice_by }} >Action Date :</Typography>
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -2822,11 +2309,11 @@ function TransFerDetail() {
                   </td>{" "}
                 </tr>
                 <tr
-                  // style={{ display: "none" }}
-                  style={{ display: CM_service_by }}
+                // style={{ display: "none" }}
+                style={{ display:CM_service_by}}
                 >
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                  <td className="Style4" >
+                  <Typography variant="subtitle2"  >Comment :</Typography>   
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -2836,15 +2323,14 @@ function TransFerDetail() {
                         size="small"
                         value={cmmtradio_serviceby}
                         onChange={(e) => setcmmtradio_serviceby(e.target.value)}
+                        
                       />
                     </FormControl>
                   </td>
                 </tr>
                 {/* BOI Staff */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">BOI Staff :</Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >BOI Staff :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -2902,12 +2388,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkboistaff }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <Typography variant="subtitle2"    style={{ visibility: chkboistaff }}>Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -2925,9 +2406,11 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: CM_boistaff }}>
+                <tr
+                style={{ display:CM_boistaff}}
+                >
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                  <Typography variant="subtitle2"  > Comment :</Typography> 
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -2937,15 +2420,14 @@ function TransFerDetail() {
                         size="small"
                         value={cmmtradio_boistaff}
                         onChange={(e) => setcmmtradio_boistaff(e.target.value)}
+                       
                       />
                     </FormControl>
                   </td>
                 </tr>{" "}
                 {/* BOI Manager */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">BOI Manager :</Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >BOI Manager :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -3001,13 +2483,8 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkboimanager }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <td className="Style7" >
+                  <Typography variant="subtitle2"  style={{ visibility: chkboimanager }}>Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3025,9 +2502,11 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: CM_boimanager }}>
-                  <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                <tr
+                style={{ display:CM_boimanager}}
+                >
+                  <td className="Style4" >
+                  <Typography variant="subtitle2" >  Comment :</Typography>  
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3039,17 +2518,14 @@ function TransFerDetail() {
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
                         }
+                       
                       />
                     </FormControl>
                   </td>
                 </tr>
                 {/* Factory Manager */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Factory Manager :
-                    </Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >Factory Manager :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -3107,13 +2583,8 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
 
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkfacmanager }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <td className="Style7" >
+                  <Typography variant="subtitle2" style={{ visibility: chkfacmanager }} >Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3133,11 +2604,13 @@ function TransFerDetail() {
                 </tr>
                 <>
                   <tr
-                    // style={{ display: "none" }}
-                    style={{ display: CM_facmanager }}
-                  >
-                    <td className="Style4">
-                      <Typography variant="subtitle2"> Comment :</Typography>
+                  // style={{ display: "none" }}
+                  style={{ display:CM_facmanager}} >
+                    <td
+                      className="Style4"
+                    
+                    >
+                    <Typography variant="subtitle2"   >  Comment :</Typography> 
                     </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
@@ -3149,6 +2622,7 @@ function TransFerDetail() {
                           onChange={(e) =>
                             setcmmtradio_facmanager(e.target.value)
                           }
+                        
                         />
                       </FormControl>
                     </td>
@@ -3156,9 +2630,7 @@ function TransFerDetail() {
                 </>
                 {/* ACC Check */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">ACC Check :</Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >ACC Check :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -3219,13 +2691,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkacc_check }}
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                  <Typography variant="subtitle2"  style={{ visibility: chkacc_check }} > Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3243,18 +2709,17 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: CM_acc_check }}>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2">Comment :</Typography>{" "}
-                  </td>
-                  <td colSpan={4}>
+                <tr   
+                style={{ display:CM_acc_check}}>
+                  <td className="Style4"> <Typography variant="subtitle2" >Comment :</Typography> </td>
+                  <td colSpan={4} >
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         disabled={read_accchk_cmmt}
                         size="small"
                         value={cmmtradio_acc_check}
+                       
                         onChange={(e) => setcmmtradio_acc_check(e.target.value)}
                       />
                     </FormControl>
@@ -3262,9 +2727,7 @@ function TransFerDetail() {
                 </tr>{" "}
                 {/* Owner */}
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Owner :</Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >Owner :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <TextField
@@ -3304,13 +2767,8 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkowner }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <td className="Style7" >
+                  <Typography variant="subtitle2" style={{ visibility: chkowner }} >Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3328,9 +2786,10 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: CM_owner }}>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                <tr
+                 style={{ display:CM_owner}} >
+                  <td className="Style4" >
+                  <Typography variant="subtitle2"  >Comment :</Typography>  
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3340,6 +2799,7 @@ function TransFerDetail() {
                         size="small"
                         value={cmmtradio_owner}
                         onChange={(e) => setcmmtradio_owner(e.target.value)}
+                      
                       />
                     </FormControl>
                   </td>
@@ -3375,13 +2835,7 @@ function TransFerDetail() {
             <div className="Style2">
               <table className="Style3">
                 <tr>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2">
-                      {" "}
-                      Receiver :
-                    </Typography>{" "}
-                  </td>
+                  <td className="Style4"> <Typography variant="subtitle2"  > Receiver :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <TextField
@@ -3424,13 +2878,8 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkreceiver }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <td className="Style7" >
+                  <Typography variant="subtitle2" style={{ visibility: chkreceiver }} >Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3449,9 +2898,10 @@ function TransFerDetail() {
                   </td>
                 </tr>
 
-                <tr style={{ display: CM_receiver }}>
+                <tr
+               style={{ display:CM_receiver}} >
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                  <Typography variant="subtitle2"   >  Comment :</Typography> 
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3461,6 +2911,7 @@ function TransFerDetail() {
                         disabled={read_receive_cmmt}
                         value={cmmtradio_receiver}
                         onChange={(e) => setcmmtradio_receiver(e.target.value)}
+                       
                       />
                     </FormControl>
                   </td>
@@ -3499,9 +2950,7 @@ function TransFerDetail() {
             <div className="Style2">
               <table className="Style3">
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2"> ACC Record :</Typography>
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  > ACC Record :</Typography></td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -3543,13 +2992,7 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                   <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkacc_record }}
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                  <Typography variant="subtitle2"  style={{ visibility: chkacc_record }} > Action Date :</Typography> 
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3567,9 +3010,10 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: CM_acc_record }}>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                <tr
+                 style={{ display:CM_acc_record}} >
+                  <td className="Style4" >
+                  <Typography variant="subtitle2"  >Comment :</Typography>  
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3579,14 +3023,13 @@ function TransFerDetail() {
                         disabled={read_record_cmmt}
                         onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
+                        
                       />
                     </FormControl>
                   </td>
                 </tr>
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">ACC Manager :</Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >ACC Manager :</Typography> </td>
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -3646,14 +3089,8 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkacc_manager }}
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                  <td className="Style7" >
+                  <Typography variant="subtitle2" style={{ visibility: chkacc_manager }} > Action Date :</Typography> 
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3671,9 +3108,10 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: CM_acc_manager }}>
+                <tr
+              style={{ display:cmmtradio_acc_manager}} >
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                  <Typography variant="subtitle2"  > Comment :</Typography>  
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3685,16 +3123,13 @@ function TransFerDetail() {
                           setcmmtradio_acc_manager(e.target.value)
                         }
                         size="small"
+                       
                       />
                     </FormControl>
                   </td>
                 </tr>
                 <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Service Close By :
-                    </Typography>{" "}
-                  </td>
+                  <td className="Style4"><Typography variant="subtitle2"  >Service Close By :</Typography> </td>
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -3736,13 +3171,11 @@ function TransFerDetail() {
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7">
-                    <Typography
-                      variant="subtitle2"
-                      style={{ visibility: chkservice_close }}
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    
+                  >
+                   <Typography variant="subtitle2" style={{ visibility: chkservice_close }} >Action Date :</Typography>  
                   </td>
                   <td className="Style6">
                     <FormControl className="Style1">
@@ -3762,9 +3195,13 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: CM_service_close }}>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                <tr
+               style={{ display:CM_service_close}}  >
+                  <td
+                    className="Style4"
+                   
+                  >
+                  <Typography variant="subtitle2"  >Comment :</Typography>   
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -3776,6 +3213,7 @@ function TransFerDetail() {
                         }
                         size="small"
                         disabled={read_close_cmmt}
+                       
                       />
                     </FormControl>
                   </td>
@@ -3788,49 +3226,45 @@ function TransFerDetail() {
       <div>
         <div className="Style8">
           <Box>
-            {console.log(STS1, "GGGGGGGGGG")}
-            <table >
-              <tr>
-                <td
+            <tr>
+              <td>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  className="Style9"
+                  // style={{ visibility: btnsave }}
                   style={{
-                    display: STS1 == "" || STS1 == "FLTR001" ? "block" : "none",
+                    display:
+                      STS1 !== "" || STS1 !== "FLTR001" ? "block" : "none",
                   }}
+                  onClick={SAVE}
                 >
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    color="primary"
-                    className="Style9"
-                    // style={{ visibility: btnsave }}
-
-                    onClick={SAVE}
-                  >
-                    Save
-                  </Button>
-                </td>
-                <td>
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    color="success"
-                    className="Style9"
-                    onClick={SUBMIT}
-                  >
-                    Submit
-                  </Button>
-                </td>
-                <td>
-                  <Button
-                    variant="contained"
-                    size="medium"
-                    color="error"
-                    onClick={Reset}
-                  >
-                    Reset
-                  </Button>
-                </td>
-              </tr>
-            </table>
+                  Save
+                </Button>
+              </td>
+              <td>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="success"
+                  className="Style9"
+                  onClick={SUBMIT}
+                >
+                  Submit
+                </Button>
+              </td>
+              <td>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="error"
+                  onClick={Reset}
+                >
+                  Reset
+                </Button>
+              </td>
+            </tr>
           </Box>
         </div>
         <div>

@@ -15,6 +15,7 @@ function ButtonAppBar() {
 
   const Role = localStorage.getItem("Role");
   const UserLogin = localStorage.getItem("UserLogin");
+  const [Data_homepage, setData_homepage] =useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const Menu = async () => {
     try {
@@ -28,8 +29,21 @@ function ButtonAppBar() {
       console.error("Error during login:", error);
     }
   };
+  const DataHomepage = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/gethome_page?user_for_login=${UserLogin}`
+      );
+      const data = await response.data;
+      setData_homepage(data)
+      console.log("HOMEEEEEEEeeeee", data);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
   useEffect(() => {
     Menu();
+    DataHomepage();
   }, []);
   return (
    <>
@@ -49,73 +63,60 @@ function ButtonAppBar() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        <TableRow>
-                          <TableCell align="left">Create</TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait Dept. manager{" "}
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait Service Dept. check
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait BOI Staff check
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">Wait BOI Manager</TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait Factory Manager
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait ACC Staff check
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">Wait Owner check</TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait Receiver action{" "}
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>{" "}
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait ACC staff update data
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait ACC staff update data
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell align="left">
-                            Wait Service Dept. close
-                          </TableCell>
-                          <TableCell align="right">0</TableCell>
-                        </TableRow>
-                      </TableBody>
+  {Data_homepage.map((item, index) => (
+    <React.Fragment key={index}>
+      <TableRow>
+        <TableCell align="left">Create</TableCell>
+        <TableCell align="right">{item[0]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Dept. manager</TableCell>
+        <TableCell align="right">{item[1]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Service Dept. check</TableCell>
+        <TableCell align="right">{item[2]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait BOI Staff check</TableCell>
+        <TableCell align="right">{item[3]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait BOI Manager</TableCell>
+        <TableCell align="right">{item[4]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Factory Manager</TableCell>
+        <TableCell align="right">{item[5]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait ACC Staff check</TableCell>
+        <TableCell align="right">{item[6]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Owner check</TableCell>
+        <TableCell align="right">{item[7]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Receiver action</TableCell>
+        <TableCell align="right">{item[8]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait ACC staff update data</TableCell>
+        <TableCell align="right">{item[9]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait ACC staff update data</TableCell>
+        <TableCell align="right">{item[10]}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">Wait Service Dept. close</TableCell>
+        <TableCell align="right">{item[11]}</TableCell>
+      </TableRow>
+    </React.Fragment>
+  ))}
+</TableBody>
+
                     </Table>
                   </TableContainer>
                 </CardContent>

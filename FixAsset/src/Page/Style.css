@@ -56,10 +56,10 @@
   color: #40a9ff;
   width: 90%;
 }
-.BoxSearch {
+/* .BoxSearch {
   margin-bottom: 50px;
   padding-bottom: 10px;
-}
+} */
 .Box-Insert {
   height: 700px;
 }
@@ -203,8 +203,13 @@ margin-right: 10px;
 .Fix-Style{
   padding: 20px;
 
-}
 
+}
+/* .TableFix{
+  white-space: nowrap !important ;
+  max-height: 400px !important;
+  overflow: auto !important;
+} */
 .TableFix th {
   color: #EEEEEE;
   white-space: nowrap;
@@ -213,6 +218,7 @@ margin-right: 10px;
 
   white-space: nowrap;
 }
+
 .Serach-Data th{
  background-color: #436850 ;
  color: #EEEEEE;

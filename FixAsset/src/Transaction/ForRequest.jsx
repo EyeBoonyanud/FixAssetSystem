@@ -47,6 +47,10 @@ import PageLoadding from "../Loadding/Pageload";
 function ForRequest() {
   const EditFam = localStorage.getItem("EDIT");
   const LocalUserLogin = localStorage.getItem("UserLogin");
+  const Name = localStorage.getItem("Name");
+  const Lastname = localStorage.getItem("Lastname");
+  const Emp = localStorage.getItem("EmpID");
+  let Emp_name = Emp + ":" + Name + " " + Lastname;
   const [dataUserLogin, setdataUserLogin] = useState("");
   const [dataUserLogin1, setdataUserLogin1] = useState("");
   const [Request_date, setRequest_date] = useState("");
@@ -85,7 +89,7 @@ function ForRequest() {
   const [btnSave, setbtnSave] = useState("hidden");
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
-  const [chktable , setchktable]  = useState("hidden");
+  const [chktable, setchktable] = useState("hidden");
 
   // Upload File
   const fileInputRef = useRef();
@@ -108,6 +112,11 @@ function ForRequest() {
   const [reac_remark, setread_remark] = useState(true);
   const [reac_type, setread_type] = useState(true);
   const [delete_fix, setdelete_fix] = useState("hidden");
+  const [STS1_Req, setSTS1_Req] = useState("");
+  const [STS1_for_R, setSTS1_for_R] = useState("");
+
+  //
+  // const [chkadd,setchkadd] = useState("hidden");
 
   const navigate = useNavigate();
   const NextPage = async () => {
@@ -124,7 +133,7 @@ function ForRequest() {
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
-  console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
+  //console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
 
   // var storedFileArray = JSON.parse(FileUp);
   // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
@@ -147,6 +156,14 @@ function ForRequest() {
 
   useEffect(() => {
     openPopupLoadding();
+  //  if(EditFam){
+  //   if(For_Rq_Edit != null){
+      
+  //   }}
+  //   if(For_Req !=null ){
+
+  //   }
+    
     if (storedFileArray != null) {
       var reconstructedFileArray = storedFileArray.map(
         (data) =>
@@ -163,24 +180,37 @@ function ForRequest() {
 
     // Edit();
     // EditFixAsset();
-    console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
+    // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
     //handleReload();
-    const TEST = async () => {
-      await request_by();
-      await factory();
-      await costcenter();
-      await CostforAsset();
-      await keep();
-      closePopupLoadding();
-    };
+    // const TEST = async () => {
+    //   await request_by();
+    //   await factory();
+    //   await costcenter();
+    //   await CostforAsset();
+    //   await keep();
+     
+    // };
 
-    TEST();
+    // TEST();
+    request_by();
+    factory();
+    costcenter();
+    CostforAsset();
+    keep();
+
+    setTimeout(function() {
+      closePopupLoadding();
+  }, 4000);
   }, []);
 
   const keep = () => {
     if (EditFam != null) {
-     // console.log("JJJJJJJJJJJJJJJJJJJJJJJJJ");
+      openPopupLoadding();
       if (For_Rq_Edit != null) {
+        // มี for_rq_edit
+        console.log(For_Rq_Edit[16],"")
+        setSTS1_for_R(For_Rq_Edit[16]);
+      setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
@@ -194,20 +224,21 @@ function ForRequest() {
         setread_fix_group(true);
         setread_fix_cost(true);
         if (For_Ed_FixCode != null) {
+          //มี edit detail fixassetcode
           setdatatable(For_Ed_FixCode);
-          
           setvisibityDetails("visible");
           setvisibityFile("visible");
-          if(For_Ed_FixCode.length >0){
+          if (For_Ed_FixCode.length > 0) {
             setTableOpen(true);
             setbtnSave("visible");
-          }else{
+          } else {
             setTableOpen(false);
             setbtnSave("hidden");
           }
-    
         }
-        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] ==="R" ) {
+        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R") {
+          console.log("MMMMMMMMMMMMMMMMMMMMMM");
+          // setchkadd("visible")
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -216,13 +247,15 @@ function ForRequest() {
           //setbtnSave("visible");
         } else {
         }
+        closePopupLoadding();
       }
     } else {
       if (For_Req != null) {
+        setSTS1_Req(For_Req[10]);
         STS = For_Req[10];
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
-        //setdataUserLogin1(For_Req[1]);
+        //setdataUserLogin1(For_Req[2]);
         setTel1(For_Req[2]);
         setRequest_type1(For_Req[6]);
         setdataFix_Asset_Cost(For_Req[9]);
@@ -230,26 +263,28 @@ function ForRequest() {
         setRemark(For_Req[12]);
         setcheckGenNo("hidden");
         setcheckReset("hidden");
+        setvisibityDetails("visible");
 
         if (For_detail != null) {
           setdatatable(For_detail);
-          setvisibityDetails("visible");
           setvisibityFile("visible");
-          if(For_detail.length >0){
+          if (For_detail.length > 0) {
             setTableOpen(true);
-           setbtnSave("visible");
-          }else{
+            setbtnSave("visible");
+          } else {
             setTableOpen(false);
-           setbtnSave("hidden");
+            setbtnSave("hidden");
           }
         }
         if (STS == "FLTR001" || STS == "") {
+          console.log("YYYYYYYYY");
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-         //setbtnSave("visible");
+          //setchkadd("visible")
+          //setbtnSave("visible");
         } else {
         }
       } else {
@@ -261,7 +296,8 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-        //  setbtnSave("visible");
+          // setchkadd("visible")
+          //  setbtnSave("visible");
         } else {
         }
       }
@@ -286,12 +322,12 @@ function ForRequest() {
       setdataUserLogin(data_insert);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-        console.log(For_Rq_Edit[15],"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
           setdataUserLogin1(For_Rq_Edit[15]);
         }
       } else {
         if (For_Req != null) {
-          setdataUserLogin1(For_Req[2]);
+          setdataUserLogin1(For_Req[14]);
         } else {
           //console.log("/////////");
           setdataUserLogin1(data_insert[4]);
@@ -568,6 +604,7 @@ function ForRequest() {
       DataStatus[1],
       Remark,
       selectFixAssetgroup1[1],
+      Emp_name,
     ];
     //console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
@@ -655,15 +692,13 @@ function ForRequest() {
   };
   //const [data, setData] = useState(datatable);
 
-  const handleDelete = async (item,index) => {
-  
-  // const dtDelete = [...datatable.slice(item)];
-  // console.log(dtDelete,"////////////////")
-  // // datatable = datatable.slice(0, item);
-  // const data_edit = JSON.stringify(dtDelete);
-  // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
-  //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-   
+  const handleDelete = async (item, index) => {
+    // const dtDelete = [...datatable.slice(item)];
+    // console.log(dtDelete,"////////////////")
+    // // datatable = datatable.slice(0, item);
+    // const data_edit = JSON.stringify(dtDelete);
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
+    //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
 
     // setdatatable(datatable);
 
@@ -674,7 +709,6 @@ function ForRequest() {
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
         Fix_Code();
-        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -684,7 +718,6 @@ function ForRequest() {
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         Fix_Code();
-       
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -698,7 +731,7 @@ function ForRequest() {
       const dataStatus = await response.data;
       setdatatable(dataStatus);
       console.log(dataStatus, "dataStatus");
-    
+
       // StatusId = dataStatus.flat();
     } catch (error) {
       console.error("Error requesting data:", error);
@@ -768,7 +801,6 @@ function ForRequest() {
     } else {
       //insert
 
-
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
         console.log("------>>>>>>>>>>>>>>>>---------");
@@ -787,6 +819,7 @@ function ForRequest() {
           "",
           Remark,
           "",
+          Emp_name,
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -808,6 +841,7 @@ function ForRequest() {
           For_Req[11],
           For_Req[12],
           For_Req[13],
+          For_Req[14],
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -865,6 +899,7 @@ function ForRequest() {
           "",
           Remark,
           "",
+          Emp_name,
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -886,6 +921,7 @@ function ForRequest() {
           For_Req[11],
           For_Req[12],
           For_Req[13],
+          For_Req[14],
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -943,6 +979,7 @@ function ForRequest() {
           "",
           Remark,
           "",
+          Emp_name,
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -964,6 +1001,7 @@ function ForRequest() {
           For_Req[11],
           event.target.value,
           For_Req[13],
+          For_Req[14],
         ];
         //console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
@@ -1280,7 +1318,7 @@ function ForRequest() {
                       id="Radio_ReqType"
                       value={Request_type1}
                       disabled={reac_type}
-                      // style={{ opacity: reac_type ? 0.5 : 1 }}
+                      style={{ opacity: reac_type ? 0.5 : 1 }}
                       onChange={(e) => setRequest_type1(e.target.value)}
                     >
                       <FormControlLabel
@@ -1375,9 +1413,7 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
-                        style={{
-                          width: "220px",
-                        }}
+                      
                         value={selectFixAsset_cost1}
                         onChange={handleCost}
                         disabled={read_fix_cost}
@@ -1469,7 +1505,7 @@ function ForRequest() {
               borderColor: "#88AB8E",
               marginTop: 4,
             }}
-            className="Style1"
+            //className="Style1"
           >
             <Typography
               sx={{
@@ -1486,47 +1522,33 @@ function ForRequest() {
               {" "}
               Details
             </Typography>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
-              {/* ADD Modal */}
-              <div className="Fix-Style">
-                <td>
-                  {" "}
-                  <Typography
-                  // style={{
-                  //   textAlign: "right",
-                  //   marginTop: "20px",
-                  //   marginLeft:'20px'
-                  // }}
-                  >
-                    Fixed Assets Code :
-                  </Typography>
-                </td>
-                <td>
-                  <TextField
-                    id="Fixcode"
-                    size="small"
-                    value={find_fixasset1}
-                    onChange={(e) => setfind_fixasset1(e.target.value)}
-                  ></TextField>{" "}
-                  &nbsp;&nbsp;
-                  <Button
-                    style={{ marginTop: "3px" }}
-                    type="primary"
-                    variant="contained"
-                    onClick={ADD}
-                  >
-                    {" "}
-                    ADD
-                  </Button>
-                </td>
+
+            {/* ADD Modal */}
+            <div>
+            <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
+  <Typography style={{ marginLeft: "10px" }}>
+    Fixed Assets Code :
+  </Typography>
+  <TextField
+    id="Fixcode"
+    size="small"
+    value={find_fixasset1}
+    onChange={(e) => setfind_fixasset1(e.target.value)}
+    style={{ marginLeft: "10px" }}
+  />
+  <Button
+    style={{ marginTop: "3px", marginLeft: "10px", display: (STS1_for_R == "" || STS1_for_R == "FLTR001") ? "block" : "none"
+                  }}
+    type="primary"
+    variant="contained"
+    onClick={ADD}
+  >
+    ADD
+  </Button>
+</div>
+
+              <div>
+                {" "}
                 <Dialog
                   open={open}
                   onClose={handleClose}
@@ -1540,7 +1562,9 @@ function ForRequest() {
                 >
                   <div className="Modal">
                     {" "}
-                    <DialogTitle>Fixed Asset Code : </DialogTitle>
+                    <DialogTitle>
+                      Fixed Asset Code : {find_fixasset1}
+                    </DialogTitle>
                     <TableContainer component={Paper}>
                       <Table className="Modal-Table">
                         <TableHead>
@@ -1604,10 +1628,12 @@ function ForRequest() {
                     </DialogActions>
                   </div>
                 </Dialog>
-                <TableCell></TableCell>
+              </div>
+
+              <div>
                 {isTableOpen && (
-                  <div style={{ marginTop: "20px" }}>
-                    <TableContainer component={Paper} >
+                  <div style={{ marginTop: "20px" ,margin:"10px 50px 0px 50px" }}>
+                    <TableContainer component={Paper}>
                       <Table aria-label="simple table" className="TableFix">
                         <TableHead
                           sx={{
@@ -1655,9 +1681,12 @@ function ForRequest() {
                                       style={{
                                         color: "red",
                                         marginLeft: "10px",
+                                        display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R === "R") ? "block" : "none"
                                         // visibility: delete_fix
                                       }}
-                                      onClick={() => handleDelete(item[0],index)}
+                                      onClick={() =>
+                                        handleDelete(item[0], index)
+                                      }
                                     />
                                   )}
                                 </TableCell>
@@ -1693,18 +1722,28 @@ function ForRequest() {
                       </Table>
                     </TableContainer>
                   </div>
-                )}{" "}
+                )}
               </div>
-              <div style={{ width: "85%", textAlign: "right" }}>
-                <Button
-                  variant="contained"
-                  style={{ backgroundColor: "", visibility: btnSave }}
-                  onClick={() => Next("1")}
-                >
-                  SAVE Details
-                </Button>
-              </div>
-            </Grid>
+              <div style={{ display: "grid", justifyContent: "flex-end" ,margin:"15px"}}>
+  <Button
+    variant="contained"
+    style={{
+      backgroundColor: "",
+      visibility: btnSave,
+      display:
+        STS1_Req == "" ||
+        STS1_Req == "FLTR001" ||
+        STS1_for_R === "R"
+          ? "block"
+          : "none",
+    }}
+    onClick={() => Next("1")}
+  >
+    SAVE Details
+  </Button>
+</div>
+
+            </div>
           </Card>
         </div>
 

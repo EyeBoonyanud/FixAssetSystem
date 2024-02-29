@@ -37,7 +37,8 @@ function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
-  let UserLogin = Name + " " + Lastname;
+ const Emp = localStorage.getItem("EmpID");
+  let UserLogin = Emp +":" +Name + " " + Lastname;
 
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -111,6 +112,7 @@ function Issue() {
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
+    localStorage.removeItem("Type")
     navigate("/InsertIssue");
   };
   const currentURL = window.location.href;
@@ -172,10 +174,10 @@ function Issue() {
         `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
       );
       const data = await response.data;
-
+      console.log(data,"ooooo")
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
-      console.log(data_edit, "data_edit");
+
 
       localStorage.setItem("For_Req_Edit", data_edit);
     } catch (error) {
@@ -225,7 +227,7 @@ function Issue() {
 
     localStorage.setItem("EDIT", EditFam);
 
-    window.location.href = "/ForRe";
+   window.location.href = "/ForRe";
   };
   const Search = async () => {
     if (cutPath === "Search") {
@@ -358,7 +360,7 @@ function Issue() {
             }}
           >
 
-            <Grid item xs={3} style={{ marginTop: "2px" }}>
+            <Grid item xs={3} style={{ marginTop: "2px"}}>
               <Typography>Factory :</Typography>
             </Grid>
             <Grid item xs={3}>
@@ -668,101 +670,99 @@ function Issue() {
         </div>
 
         <div className="responsive-container">
-          <TableContainer
-            style={{
-              visibility: checkHead,
-            }}
-            component={Paper}
-          >
-            <Table sx={{ }} aria-label="simple table">
-              <TableHead className="Serach-Data">
-                <TableRow>
-                  <TableCell ></TableCell>
-                  <TableCell>Factory</TableCell>
-                  <TableCell>Cost Center</TableCell>
-                  <TableCell>FAM No.</TableCell>
-                  <TableCell>Issue By</TableCell>
-                  <TableCell>Issue Date</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Fixed Asset Code</TableCell>
-                  <TableCell>Request Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataSearch.length > 0 ? (
-                  dataSearch.map((item) => (
-                    <TableRow
-                      // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>
-                        <Tooltip title="Edit">
-                          {cutPath === "Search" ? (
-                            <EditNoteIcon
-                              style={{ color: "#F4D03F", fontSize: "30px"}}
-                              onClick={() => handleEdit(item[2])}
-                            />
-                          ) : (
-                            <AddTaskIcon
-                              style={{ color: "#F4D03F", fontSize: "30px" }}
-                              onClick={() => handleEdit(item[2])}
-                            />
-                          )}
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          {/* <DeleteForeverIcon
-                            style={{ color: "red", fontSize: "30px" }}
-                            onClick={() => Delete(item[0])}
-                          /> */}
-                          {item[7] === "Create" && (
-                            <DeleteForeverIcon
-                              style={{
-                                color: "red",
-                                fontSize: "30px",
-                                display:
-                                  cutPath === "Search" ? "block" : "none",
-                              }}
-                              onClick={() => Delete(item[2])}
-                            />
-                          )}
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>{item[0]}</TableCell>
-                      <TableCell>{item[1]}</TableCell>
-                      <TableCell>{item[2]}</TableCell>
-                      <TableCell>{item[4]}</TableCell>
-                      <TableCell>{formatDateString(item[3])}</TableCell>
-                      <TableCell>{item[5]}</TableCell>
-                      <TableCell>{item[6]}</TableCell>
-                      <TableCell>{item[7]}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={9}>
-                      <InfoCircleOutlined
-                        style={{
-                          visibility: checkData,
-                          fontSize: "30px",
-                          color: "#ffd580",
-                        }}
-                      />
-                      <text
-                        style={{
-                          visibility: checkData,
-                          fontSize: "25px",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {" "}
-                        Please fill in information{" "}
-                      </text>
-                      <Empty style={{ visibility: checkEmpty }} />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <TableContainer
+  style={{
+    visibility: checkHead,
+  }}
+  component={Paper}
+>
+  <Table sx={{}} aria-label="simple table">
+    <TableHead className="Serach-Data">
+      <TableRow>
+        <TableCell></TableCell>
+        <TableCell>Factory</TableCell>
+        <TableCell>Cost Center</TableCell>
+        <TableCell>FAM No.</TableCell>
+        <TableCell>Issue By</TableCell>
+        <TableCell>Issue Date</TableCell>
+        <TableCell>Type</TableCell>
+        <TableCell>Fixed Asset Code</TableCell>
+        <TableCell>Request Status</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {dataSearch.length > 0 ? (
+        dataSearch.map((item) => (
+          <TableRow key={item[2]}>
+           <TableCell>
+  {cutPath === "Search" ? (
+    <Tooltip title="Edit">
+      <EditNoteIcon
+        style={{ color: "#F4D03F", fontSize: "30px" }}
+        onClick={() => handleEdit(item[2])}
+      />
+    </Tooltip>
+  ) : (
+    <Tooltip title="Add">
+      <AddTaskIcon
+        style={{ color: "#F4D03F", fontSize: "30px" }}
+        onClick={() => handleEdit(item[2])}
+      />
+    </Tooltip>
+  )}
+  {cutPath === "Search" && (
+    <Tooltip title="Delete">
+      {item[7] === "Create" && (
+        <DeleteForeverIcon
+          style={{
+            color: "red",
+            fontSize: "30px",
+          }}
+          onClick={() => Delete(item[2])}
+        />
+      )}
+    </Tooltip>
+  )}
+</TableCell>
+
+            <TableCell>{item[0]}</TableCell>
+            <TableCell>{item[1]}</TableCell>
+            <TableCell>{item[2]}</TableCell>
+            <TableCell>{item[4]}</TableCell>
+            <TableCell>{formatDateString(item[3])}</TableCell>
+            <TableCell>{item[5]}</TableCell>
+            <TableCell>{item[6]}</TableCell>
+            <TableCell>{item[7]}</TableCell>
+          </TableRow>
+        ))
+      ) : (
+        <TableRow style={{ visibility: checkEmpty }}>
+          <TableCell colSpan={9}>
+            <InfoCircleOutlined
+              style={{
+                visibility: checkData,
+                fontSize: "30px",
+                color: "#ffd580",
+              }}
+            />
+            <text
+              style={{
+                visibility: checkData,
+                fontSize: "25px",
+                marginLeft: "10px",
+              }}
+            >
+              {" "}
+              Please fill in information{" "}
+            </text>
+            <Empty style={{ visibility: checkEmpty }} />
+          </TableCell>
+        </TableRow>
+      )}
+    </TableBody>
+  </Table>
+</TableContainer>
+
         </div>
       </div>
     </>
