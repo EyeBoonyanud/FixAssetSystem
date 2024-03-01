@@ -187,7 +187,6 @@ export default function SignInSide() {
               console.error("Login failed");
             }
           } catch (error) {
-         
             setErrorPasswordfile(true);
             console.error("Error during login:", error);
           }
@@ -293,19 +292,25 @@ export default function SignInSide() {
                     style={{
                       margin: "8px",
                       width: "50%",
-                      borderColor: ErrorUsername || ErrorUsernamefile ? "red" : undefined,
+                      borderColor:
+                        ErrorUsername || ErrorUsernamefile ? "red" : undefined,
                     }}
                     className="greenTextField"
-                    error={ErrorUsername || ErrorUsernamefile}
-                    helperText={
-                      ErrorUsername
+                    error={ErrorUsername || ErrorUsernamefile}s
+                  />
+                </Box>
+              </TableRow>
+
+              <TableRow style={{ height: "25px" }}>
+              <TableCell style={{ padding: "0px" ,  border: "0px solid", display: "flex", alignItems: "center", justifyContent: "center"  }}>
+                  <Typography style={{ fontSize: "small", color: "red" }}>
+                    {ErrorUsername
                       ? "Please input username"
                       : ErrorUsernamefile
                       ? "Please check username"
-                      : undefined
-                    }
-                  />
-                </Box>
+                      : undefined}
+                  </Typography>
+                </TableCell>
               </TableRow>
               <TableRow>
                 <Box
@@ -349,18 +354,28 @@ export default function SignInSide() {
                     style={{
                       margin: "8px",
                       width: "50%",
-                      borderColor: ErrorPassword || ErrorPasswordfile ? "red" : undefined,
+                      borderColor:
+                        ErrorPassword || ErrorPasswordfile ? "red" : undefined,
                     }}
                     error={ErrorPassword || ErrorPasswordfile}
-                    helperText={
+
+                  />
+                </Box>
+              </TableRow>
+              <TableRow style={{ height: "25px" }}>
+
+              <TableCell style={{ padding: "0px" ,  border: "0px solid", display: "flex", alignItems: "center", justifyContent: "center"  }}>
+                  <Typography style={{ fontSize: "small", color: "red", border: "0px solid" }}>
+                  {
                       ErrorPassword
                         ? "Please input password"
                         : ErrorPasswordfile
                         ? "Please check password"
                         : undefined
                     }
-                  />
-                </Box>
+                  </Typography>
+                </TableCell>
+              
               </TableRow>
 
               <TableRow>
