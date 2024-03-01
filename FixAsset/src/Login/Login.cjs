@@ -25,6 +25,35 @@ console.log(CUSR,"-------------------------------------------------------------"
 // };
 // console.log(CUSR,"-------------------------------------------------------------")
 
+
+
+
+// CheckUserLogin
+module.exports.CheckUserlogin = async function (req, res) {
+  try {
+    const  User  = req.query.username;
+    console.log(User)
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+        SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
+        ,T.USER_EMP_ID , REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW
+        FROM CU_USER_M T
+        INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
+        INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
+        WHERE T.USER_LOGIN = '${User}'
+        AND R.SYSTEM_ID = '65'
+       `;
+    const result = await connect.execute(query);
+    connect.release();
+    // console.log(result.rows);
+    res.json(result.rows);
+    
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 // Login
 module.exports.login = async function (req, res) {
   try {
@@ -49,6 +78,7 @@ module.exports.login = async function (req, res) {
     
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
 //Menu

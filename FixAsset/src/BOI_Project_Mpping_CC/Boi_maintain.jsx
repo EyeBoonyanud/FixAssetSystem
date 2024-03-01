@@ -158,18 +158,26 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const Save = async () => {
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
-      document.getElementById("handleSelectChange").focus(); //testfocus
     }
     if (selectcost.toString().trim() === "") {
       setErrorCost(true);
-      document.getElementById("selectcost").focus(); //testfocus
     }
     if (BOI_Project.trim() === "") {
       setErrorBOI_P(true);
-      document.getElementById("BOI_Project").focus(); //testfocus
     }
     if (status.trim() === "") {
       setErrorStatus(true);
+    }
+    if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
+      document.getElementById("selecteDatafac").focus(); //testfocus
+    }
+    if (selectcost.toString().trim() === "") {
+      document.getElementById("selectcost").focus(); //testfocus
+    }
+    if (BOI_Project.trim() === "") {
+      document.getElementById("BOI_Project").focus(); //testfocus
+    }
+    if (status.trim() === "") {
       document.getElementById("status").focus(); //testfocus
     }
 

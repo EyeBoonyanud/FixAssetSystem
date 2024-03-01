@@ -27,6 +27,7 @@ app.use(express.json());
 
 //------------------------get------------------------------------//
 app.get("/Login", Login.login);
+app.get("/CheckUserLogin", Login.CheckUserlogin); 
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
 app.get("/getsubmenu",Login.submenu);
@@ -63,6 +64,8 @@ app.get("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
 app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.get("/search_BOI_project",Transaction.search_BOI_project);
 app.get("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
+app.get("/getCountTransfer",Transaction.getCountTransfer);
+app.get("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
 // ----------------------------------post-----------------------------------//
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
