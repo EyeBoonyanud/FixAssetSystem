@@ -69,7 +69,7 @@ function Boi_project_mcc() {
       type: "bar",
       height: 350,
     },
-    // colors: colors,
+    colors: colors,
     plotOptions: {
       bar: {
         borderRadius: 4,
