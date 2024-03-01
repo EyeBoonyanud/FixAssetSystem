@@ -189,74 +189,97 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     console.log("CREATE BY CHECK", UserLoginn);
     console.log("CREATE DATE CHECK", Date_show);
 
-    if (PAGE_STATUS === "NEW") {
-      if (
-        selecteDatafac &&
-        selectcost &&
-        BOI_Project &&
-        status &&
-        UserLoginn &&
-        Date_show
-      ) {
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
-          );
-          console.log("[บันทึกข้อมูลสำเร็จ] =", response);
-          swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
-          const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
-          localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-          console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-          console.log(sentdata_back_search, "ข้อมูลที่2");
-          onClose();
-          searchFunction();
-        } catch (error) {
-          console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
-        }
-      } else {
-        console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
-        swal(
-          "Unable to save information",
-          "Please check the information entered.",
-          "error"
-        );
+    swal(
+      "Do you want to save information",
+     
+      {
+        buttons: {
+          cancel: "Cancel",
+          ok: {
+            text: "OK",
+            value: "ok",
+          },
+        },
       }
-    } else {
-      if (
-        selecteDatafac &&
-        selectcost &&
-        BOI_Project &&
-        status &&
-        UserLoginn &&
-        Date_show
-      ) {
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
-          );
+    ).then(async (value) => {
 
-          console.log("[บันทึกข้อมูลสำเร็จ] =", response);
-          swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
-          const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
-          localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-          console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-          console.log(sentdata_back_search, "ข้อมูลที่2");
-          onClose();
-          searchFunction();
-        } catch (error) {
-          console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
-        }
-      } else {
-        console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
-        swal(
-          "Unable to save information",
-          "Please check the information entered.",
-          "error"
-        );
+      switch (value) {
+        case "cancel":
+          break;
+        case "ok":
+          if (PAGE_STATUS === "NEW") {
+            if (
+              selecteDatafac &&
+              selectcost &&
+              BOI_Project &&
+              status &&
+              UserLoginn &&
+              Date_show
+            ) {
+              try {
+                const response = await axios.post(
+                  `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                );
+                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                swal("success", "You save data success", "success");
+                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
+                localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
+                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
+                console.log(sentdata_back_search, "ข้อมูลที่2");
+                onClose();
+                searchFunction();
+              } catch (error) {
+                console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
+              }
+            } else {
+              console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
+              swal(
+                "Unable to save information",
+                "Please check the information entered.",
+                "error"
+              );
+            }
+          } else {
+            if (
+              selecteDatafac &&
+              selectcost &&
+              BOI_Project &&
+              status &&
+              UserLoginn &&
+              Date_show
+            ) {
+              try {
+                const response = await axios.post(
+                  `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                );
+      
+                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                swal("success", "You save data success", "success");
+                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
+                localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
+                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
+                console.log(sentdata_back_search, "ข้อมูลที่2");
+                onClose();
+                searchFunction();
+              } catch (error) {
+                console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
+              }
+            } else {
+              console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
+              swal(
+                "Unable to save information",
+                "Please check the information entered.",
+                "error"
+              );
+            }
+          }
+          break;
       }
-    }
+    });
+
+
   };
 
   // check status New and Edit

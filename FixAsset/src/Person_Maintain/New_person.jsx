@@ -205,89 +205,108 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     if (!status || status.toString().trim() === "") {
       setErrorStatus(true);
     }
+    swal(
+      "Do you want to save information",
 
-    if (PAGE_STATUS === "NEW") {
-      if (
-        selecteDatafac &&
-        selecteDatalevel &&
-        selectcost &&
-        User_Login &&
-        email &&
-        status &&
-        UserLoginn &&
-        Date_show
-      ) {
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
-          );
-          console.log("[บันทึกข้อมูลสำเร็จ] =", response);
-          swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [
-            selecteDatafac,
-            selecteDatalevel,
-            selectcost,
-            [User_Login],
-          ];
-          const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
-          localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-          console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-          console.log(sentdata_back_search, "ข้อมูลที่2");
-          searchFunction();
-          onClose();
-        } catch (error) {
-          console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
-        }
-      } else {
-        console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
-        swal(
-          "Unable to save information",
-          "Please check the information entered.",
-          "error"
-        );
+      {
+        buttons: {
+          cancel: "Cancel",
+          ok: {
+            text: "OK",
+            value: "ok",
+          },
+        },
       }
-    } else {
-      if (
-        selecteDatafac &&
-        selecteDatalevel &&
-        selectcost &&
-        User_Login &&
-        email &&
-        status &&
-        UserLoginn &&
-        Date_show
-      ) {
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
-          );
+    ).then(async (value) => {
+      switch (value) {
+        case "cancel":
+          break;
+        case "ok":
+          if (PAGE_STATUS === "NEW") {
+            if (
+              selecteDatafac &&
+              selecteDatalevel &&
+              selectcost &&
+              User_Login &&
+              email &&
+              status &&
+              UserLoginn &&
+              Date_show
+            ) {
+              try {
+                const response = await axios.post(
+                  `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
+                );
+                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                swal("success", "You save data success", "success");
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selecteDatalevel,
+                  selectcost,
+                  [User_Login],
+                ];
+                const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
+                localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
+                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
+                console.log(sentdata_back_search, "ข้อมูลที่2");
+                searchFunction();
+                onClose();
+              } catch (error) {
+                console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
+              }
+            } else {
+              console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
+              swal(
+                "Unable to save information",
+                "Please check the information entered.",
+                "error"
+              );
+            }
+          } else {
+            if (
+              selecteDatafac &&
+              selecteDatalevel &&
+              selectcost &&
+              User_Login &&
+              email &&
+              status &&
+              UserLoginn &&
+              Date_show
+            ) {
+              try {
+                const response = await axios.post(
+                  `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
+                );
 
-          console.log("[บันทึกข้อมูลสำเร็จ] =", response);
-          swal("success", "You save data success", "success");
-          const DATA_BACK_SEARCH = [
-            selecteDatafac,
-            selecteDatalevel,
-            selectcost,
-            [User_Login],
-          ];
-          const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
-          localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-          console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-          console.log(sentdata_back_search, "ข้อมูลที่2");
-          searchFunction();
-          onClose();
-        } catch (error) {
-          console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
-        }
-      } else {
-        console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
-        swal(
-          "Unable to save information",
-          "Please check the information entered.",
-          "error"
-        );
+                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                swal("success", "You save data success", "success");
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selecteDatalevel,
+                  selectcost,
+                  [User_Login],
+                ];
+                const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
+                localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
+                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
+                console.log(sentdata_back_search, "ข้อมูลที่2");
+                searchFunction();
+                onClose();
+              } catch (error) {
+                console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
+              }
+            } else {
+              console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
+              swal(
+                "Unable to save information",
+                "Please check the information entered.",
+                "error"
+              );
+            }
+          }
+          break;
       }
-    }
+    });
   };
 
   // check status New and Edit

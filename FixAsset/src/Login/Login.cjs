@@ -32,16 +32,41 @@ console.log(CUSR,"-------------------------------------------------------------"
 module.exports.CheckUserlogin = async function (req, res) {
   try {
     const  User  = req.query.username;
+    const  Password  = req.query.password;
     console.log(User)
     const connect = await oracledb.getConnection(CUSR);
     const query = `
-        SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
-        ,T.USER_EMP_ID , REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW
-        FROM CU_USER_M T
-        INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
-        INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
-        WHERE T.USER_LOGIN = '${User}'
-        AND R.SYSTEM_ID = '65'
+    SELECT 
+    R.ROLE_ID,
+    T.USER_FNAME,
+    T.USER_SURNAME,
+    T.USER_LOGIN,
+    T.USER_EMP_ID,
+    REPLACE(R.ROLE_NAME, 'FAS-', '') AS ROLE_NAME_SHOW,
+    NULL AS USER_PASSWORD
+FROM 
+    CU_USER_M T
+    INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
+    INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
+WHERE 
+    T.USER_LOGIN = '${User}'
+    AND R.SYSTEM_ID = '65'
+UNION ALL
+SELECT 
+    NULL AS ROLE_ID,
+    NULL AS USER_FNAME,
+    NULL AS USER_SURNAME,
+    NULL AS USER_LOGIN,
+    NULL AS USER_EMP_ID,
+    NULL AS ROLE_NAME_SHOW,
+    T.USER_PASSWORD 
+FROM 
+    CU_USER_M T
+    INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
+    INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
+WHERE 
+    T.USER_PASSWORD = '${Password}'
+    AND R.SYSTEM_ID = '65'
        `;
     const result = await connect.execute(query);
     connect.release();

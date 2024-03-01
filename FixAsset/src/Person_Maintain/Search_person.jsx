@@ -38,6 +38,7 @@ import "./Person_maintain.css";
 import Popup from "../Person_Maintain/New_person";
 import Autocomplete from "@mui/material/Autocomplete";
 import PageLoadding from "../Loadding/Pageload";
+import { LoadingOutlined } from "@ant-design/icons";
 
 function person_maintain() {
   const Name = localStorage.getItem("Name");
@@ -56,6 +57,8 @@ function person_maintain() {
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
+  const [loading, setloading] = useState("true");
+  const [selectindex, setselectindex] = useState("0");
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
@@ -223,60 +226,98 @@ function person_maintain() {
     setCheckEmpty("hidden");
     setCheckData("visible");
   };
+  // const handleOpenEdit = async (
+  //   factory,
+  //   level,
+  //   cost_center,
+  //   user_login,
+  //   name_surname
+  // ) => {
+  //   console.log(" อยากเห็น =", factory);
+  //   console.log(" อยากเห็น =", level);
+  //   console.log(" อยากเห็น =", cost_center);
+  //   console.log(" อยากเห็น =", user_login);
+
+  //   swal("Do you want to edit information", name_surname, {
+  //     buttons: {
+  //       cancel: "Cancel",
+  //       ok: {
+  //         text: "OK",
+  //         value: "ok",
+  //       },
+  //     },
+  //   }).then(async (value) => {
+  //     switch (value) {
+  //       case "cancel":
+  //         break;
+  //       case "ok":
+  //         try {
+  //           const getEdit_show = await axios.get(
+  //             `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
+  //           );
+  //           const data = await getEdit_show.data;
+  //           console.log("Show data Edit อยากเห็น =", data);
+  //           const DataEdit = data;
+  //           const PAGE_STATUS = "EDIT";
+
+  //           if (data && data.length > 0) {
+  //             const sentdata = JSON.stringify(DataEdit);
+  //             localStorage.setItem("Person_Edit", sentdata);
+  //             localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
+  //             console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
+  //             console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
+  //           } else {
+  //             console.error("Login failed");
+  //           }
+
+  //           openPopup();
+  //           // navigate("/PersonNew");
+  //         } catch (error) {
+  //           console.error("Error requesting data:", error);
+  //         }
+  //         break;
+  //     }
+  //   });
+  // };
   const handleOpenEdit = async (
     factory,
     level,
     cost_center,
     user_login,
-    name_surname
+    index
   ) => {
     console.log(" อยากเห็น =", factory);
     console.log(" อยากเห็น =", level);
     console.log(" อยากเห็น =", cost_center);
     console.log(" อยากเห็น =", user_login);
+    setselectindex(index);
+    setloading("false");
+    try {
+      const getEdit_show = await axios.get(
+        `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
+      );
+      const data = await getEdit_show.data;
+      console.log("Show data Edit อยากเห็น =", data);
+      const DataEdit = data;
+      const PAGE_STATUS = "EDIT";
 
-    swal("Do you want to edit information", name_surname, {
-      buttons: {
-        cancel: "Cancel",
-        ok: {
-          text: "OK",
-          value: "ok",
-        },
-      },
-    }).then(async (value) => {
-      switch (value) {
-        case "cancel":
-          break;
-        case "ok":
-          try {
-            const getEdit_show = await axios.get(
-              `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
-            );
-            const data = await getEdit_show.data;
-            console.log("Show data Edit อยากเห็น =", data);
-            const DataEdit = data;
-            const PAGE_STATUS = "EDIT";
-
-            if (data && data.length > 0) {
-              const sentdata = JSON.stringify(DataEdit);
-              localStorage.setItem("Person_Edit", sentdata);
-              localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
-              console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
-              console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
-            } else {
-              console.error("Login failed");
-            }
-
-            openPopup();
-            // navigate("/PersonNew");
-          } catch (error) {
-            console.error("Error requesting data:", error);
-          }
-          break;
+      if (data && data.length > 0) {
+        const sentdata = JSON.stringify(DataEdit);
+        localStorage.setItem("Person_Edit", sentdata);
+        localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
+        console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
+        console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
+      } else {
+        console.error("Login failed");
       }
-    });
-  };
 
+      openPopup();
+   
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+    setloading("true");
+  };
   const handleOpenDelete = async (
     factory,
     level,
@@ -516,12 +557,14 @@ function person_maintain() {
               </TableHead>
               <TableBody>
                 {dataSearch.length > 0 ? (
-                  dataSearch.map((item) => (
+                  dataSearch.map((item, index) => (
                     <TableRow
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>
-                        <Tooltip title="Edit">
+                        {loading == "false" && index == selectindex ? (
+                          <LoadingOutlined style={{ fontSize: "30px" }} />
+                        ) : (
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
                             onClick={() =>
@@ -530,26 +573,24 @@ function person_maintain() {
                                 item[3],
                                 item[5],
                                 item[6],
-                                item[7]
+                                index
                               )
                             }
                           />
-                        </Tooltip>
+                        )}
 
-                        <Tooltip title="Delete">
-                          <DeleteForeverIcon
-                            style={{ color: "red", fontSize: "30px" }}
-                            onClick={() =>
-                              handleOpenDelete(
-                                item[1],
-                                item[3],
-                                item[5],
-                                item[6],
-                                item[7]
-                              )
-                            }
-                          />
-                        </Tooltip>
+                        <DeleteForeverIcon
+                          style={{ color: "red", fontSize: "30px" }}
+                          onClick={() =>
+                            handleOpenDelete(
+                              item[1],
+                              item[3],
+                              item[5],
+                              item[6],
+                              item[7]
+                            )
+                          }
+                        />
                       </TableCell>
                       <TableCell className="TexttableA">{item[0]}</TableCell>
                       <TableCell className="TexttableA">{item[2]}</TableCell>

@@ -149,7 +149,7 @@ export default function SignInSide() {
     if (usernameElement && passwordElement) {
       try {
         const response2 = await axios.get(
-          `http://localhost:5000/CheckUserLogin?username=${user}`
+          `http://localhost:5000/CheckUserLogin?username=${user}&password=${password}`
         );
         const data2 = await response2.data;
         console.log(data2, "datat2");

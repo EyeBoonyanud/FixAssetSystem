@@ -57,128 +57,136 @@ function Boi_project_mcc() {
   const [dataTransfer, setdataTransfer] = useState([]);
   const [dataTransferall, setdataTransferall] = useState([]);
 
-  const colors = [ '#FF5733', '#33FFC7', '#336EFF', '#33FF61', '#AA33FF', '#FF33E8', '#3337FF'];
-
-  // var options = {
-  //   series: [
-  //     {
-  //       data: [2, 1, 4, 10, 6, 1, 6],
-        
-  //     },
-  //   ],
-
-  //   // series: [
-  //   //   {
-  //   //     data: [2],
-  //   //     color: colors[0]
-  //   //   },
-  //   //   {
-  //   //     data: [1],
-  //   //     color: colors[1]
-  //   //   },
-  //   //   {
-  //   //     data: [4],
-  //   //     color: colors[2]
-  //   //   },
-  //   //   {
-  //   //     data: [10],
-  //   //     color: colors[3]
-  //   //   },
-  //   //   {
-  //   //     data: [6],
-  //   //     color: colors[4]
-  //   //   },
-  //   //   {
-  //   //     data: [1],
-  //   //     color: colors[5]
-  //   //   },
-  //   //   {
-  //   //     data: [6],
-  //   //     color: colors[6]
-  //   //   }
-  //   // ],
-  //   chart: {
-  //     type: "bar",
-  //     height: 350,
-      
-  //   },
-
-    
-  //   plotOptions: {
-  //     bar: {
-  //       borderRadius: 4,
-  //       horizontal: true,
-  //     },
-  //     colors: ['#FF5733', '#33FFC7', '#336EFF', '#33FF61', '#AA33FF', '#FF33E8', '#3337FF']
-  //   },
-
-  //   dataLabels: {
-  //     enabled: false,
-   
-  //   },
-  //   xaxis: {
-  //     categories: [
-  //       "Transfer",
-  //       "Lost",
-  //       "Write off",
-  //       "Lending",
-  //       "Scrap",
-  //       "Sales",
-  //       "Donation",
-  //     ],
-  //   },
-  // };
-
-  // เก็บไว้เป็นกราฟแท่งนะจ๊ะ อิอิ ^ _ ^
+  const colors = [ '#EC8F5E', '#33FFC7', '#336EFF', '#33FF61', '#AA33FF', '#FF33E8', '#3337FF'];
 
   var options = {
-    series: [{
-      data: [1, 2, 10, 20, 5, 15, 11]
-    }],
+    series: [
+      {
+        data: [2, 1, 4, 10, 6, 1, 6],
+       
+      },
+    ],
+
+    // series: colors.map(color => ({ data: [2, 1, 4, 10, 6, 1, 6], colors: color })),
+
+    // series: colors.map(color => ({
+    //   data: [2, 1, 4, 10, 6, 1, 6],
+    //   color: color
+    // })),
+
+    // series: [
+    //   {
+    //     data: [2],
+    //     color: colors[0]
+    //   },
+    //   {
+    //     data: [1],
+    //     color: colors[1]
+    //   },
+    //   {
+    //     data: [4],
+    //     color: colors[2]
+    //   },
+    //   {
+    //     data: [10],
+    //     color: colors[3]
+    //   },
+    //   {
+    //     data: [6],
+    //     color: colors[4]
+    //   },
+    //   {
+    //     data: [1],
+    //     color: colors[5]
+    //   },
+    //   {
+    //     data: [6],
+    //     color: colors[6]
+    //   }
+    // ],
     chart: {
+      type: "bar",
       height: 350,
-      type: 'bar',
-      events: {
-        click: function(chart, w, e) {
-          // console.log(chart, w, e)
-        }
-      }
+      
     },
+
     colors: colors,
     plotOptions: {
       bar: {
-        columnWidth: '45%',
-        distributed: true,
-        // horizontal: true,
-      }
+        borderRadius: 4,
+        horizontal: true,
+      },
+
     },
+
     dataLabels: {
-      enabled: false
+      enabled: false,
+   
     },
-    legend: {
-      show: false
-    },
+
     xaxis: {
+      
       categories: [
-        ['Transfer'],
-        ['Lost'],
-        ['Write off'],
-        ['Lending'],
-        ['Scrap'],
-        ['Sales'],
-        ['Donation' ],
+        "Transfer",
+        "Lost",
+        "Write off",
+        "Lending",
+        "Scrap",
+        "Sales",
+        "Donation",
       ],
-      labels: {
-        style: {
-          colors: colors,
-          fontSize: '12px'
-        }
-      }
-    }
+    },
   };
 
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
+  // เก็บไว้เป็นกราฟแท่งนะจ๊ะ อิอิ ^ _ ^
+  // var options = {
+  //   series: [{
+  //     data: [1, 2, 10, 20, 5, 15, 11]
+  //   }],
+  //   chart: {
+  //     height: 350,
+  //     type: 'bar',
+  //     events: {
+  //       click: function(chart, w, e) {
+  //         // console.log(chart, w, e)
+  //       }
+  //     }
+  //   },
+  //   colors: colors,
+  //   plotOptions: {
+  //     bar: {
+  //       columnWidth: '45%',
+  //       distributed: true,
+  //       // horizontal: true,
+  //     }
+  //   },
+  //   dataLabels: {
+  //     enabled: false
+  //   },
+  //   legend: {
+  //     show: false
+  //   },
+  //   xaxis: {
+  //     categories: [
+  //       ['Transfer'],
+  //       ['Lost'],
+  //       ['Write off'],
+  //       ['Lending'],
+  //       ['Scrap'],
+  //       ['Sales'],
+  //       ['Donation' ],
+  //     ],
+  //     labels: {
+  //       style: {
+  //         colors: colors,
+  //         fontSize: '12px'
+  //       }
+  //     }
+  //   }
+  // };
+
+  // var chart = new ApexCharts(document.querySelector("#chart"), options);
+  // chart.render();
 
   useEffect(() => {
     openPopupLoadding();
