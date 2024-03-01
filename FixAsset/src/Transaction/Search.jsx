@@ -26,7 +26,7 @@ import AddIcon from "@mui/icons-material/Add";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined ,LoadingOutlined} from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
@@ -57,6 +57,9 @@ function Issue() {
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
 
+  const [loading, setloading] = useState("true");
+  const [selectindex,setselectindex]=useState("0")
+
   // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
@@ -67,11 +70,11 @@ function Issue() {
   };
 
 
-  function formatDateString(rawDate) {
-    const options = { year: "numeric", month: "numeric", day: "numeric" };
-    const date = new Date(rawDate);
-    return date.toLocaleDateString(undefined, options);
-  }
+  // function formatDateString(rawDate) {
+  //   const options = { year: "numeric", month: "numeric", day: "numeric" };
+  //   const date = new Date(rawDate);
+  //   return date.toLocaleDateString(undefined, options);
+  // }
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
@@ -118,6 +121,7 @@ function Issue() {
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
+  const Path =cutPath.toUpperCase();
   useEffect(() => {
     openPopupLoadding();
     const Factory = async () => {
@@ -157,7 +161,9 @@ function Issue() {
     RequestType();
     // Remove();
   }, []);
-
+ 
+  
+  
   const Edit = async (EditFam) => {
     console.log(EditFam, "XXXXXXXXXXXXXXXxx");
 
@@ -168,7 +174,9 @@ function Issue() {
   };
 
 
-  const handleEdit = async (EditFam) => {
+  const handleEdit = async (EditFam,index) => {
+    setselectindex(index)
+    setloading("false");
     try {
       const response = await axios.get(
         `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
@@ -226,11 +234,12 @@ function Issue() {
     }
 
     localStorage.setItem("EDIT", EditFam);
-
+    setloading("True");
+    setselectindex("0")
    window.location.href = "/ForRe";
   };
   const Search = async () => {
-    if (cutPath === "Search") {
+    if (Path === "SEARCH") {
       const FamNo = document.getElementById("FamNo").value;
       const FamTo = document.getElementById("FamTo").value;
       const FixAsset = document.getElementById("FixAsset").value;
@@ -338,10 +347,11 @@ function Issue() {
 
   return (
     
-    <>                      <PageLoadding 
+    <>                     
+     {/* <PageLoadding 
     isOpen={isPopupOpenLoadding}
     onClose={closePopupLoadding}
-    />
+    /> */}
       <Header />
 
       <div className="body">
@@ -434,7 +444,7 @@ function Issue() {
             spacing={1}
             style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
           >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right" }}>
+            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right"  }}>
               <Typography>Dept :</Typography>
             </Grid>
             <Grid item xs={2}>
@@ -591,7 +601,7 @@ function Issue() {
               <Typography>Request By :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <TextField size="small" value={UserLogin} disabled></TextField>
+              <TextField size="small" value={UserLogin} disabled style={{backgroundColor: "rgba(169, 169, 169, 0.3)"}} ></TextField>
             </Grid>
           </Grid>
 
@@ -692,36 +702,37 @@ function Issue() {
     </TableHead>
     <TableBody>
       {dataSearch.length > 0 ? (
-        dataSearch.map((item) => (
+        dataSearch.map((item,index) => (
           <TableRow key={item[2]}>
-           <TableCell>
-  {cutPath === "Search" ? (
-    <Tooltip title="Edit">
+   <TableCell style={{ display: "flex" }}>
+  {Path === "SEARCH" ? (
+    loading == "false" && index==selectindex ?(
+      <LoadingOutlined style={{ fontSize: "30px" }} />
+    ) : (
       <EditNoteIcon
         style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2])}
+        onClick={() => handleEdit(item[2],index)}
       />
-    </Tooltip>
+    )
   ) : (
-    <Tooltip title="Add">
+    loading == "false" && index==selectindex ?(
+      <LoadingOutlined style={{ fontSize: "30px" }} />
+    ) : (
       <AddTaskIcon
         style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2])}
+        onClick={() => handleEdit(item[2],index)}
       />
-    </Tooltip>
+    )
   )}
-  {cutPath === "Search" && (
-    <Tooltip title="Delete">
-      {item[7] === "Create" && (
-        <DeleteForeverIcon
-          style={{
-            color: "red",
-            fontSize: "30px",
-          }}
-          onClick={() => Delete(item[2])}
-        />
-      )}
-    </Tooltip>
+  {item[7] === "Create" && (
+    <DeleteForeverIcon
+      style={{
+        color: "red",
+        fontSize: "30px",
+        display: Path === "SEARCH" ? "block" : "none",
+      }}
+      onClick={() => Delete(item[2])}
+    />
   )}
 </TableCell>
 
@@ -729,10 +740,10 @@ function Issue() {
             <TableCell>{item[1]}</TableCell>
             <TableCell>{item[2]}</TableCell>
             <TableCell>{item[4]}</TableCell>
-            <TableCell>{formatDateString(item[3])}</TableCell>
+            <TableCell>{item[3]}</TableCell>
             <TableCell>{item[5]}</TableCell>
             <TableCell>{item[6]}</TableCell>
-            <TableCell>{item[7]}</TableCell>
+            <TableCell><Typography style={{borderRadius:"10px",background:"#FFB9B9"}}>{item[7]}</Typography></TableCell>
           </TableRow>
         ))
       ) : (

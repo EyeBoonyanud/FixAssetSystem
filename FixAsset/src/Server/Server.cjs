@@ -2,11 +2,14 @@
 const express = require("express");
 const oracledb = require("oracledb");
 require("dotenv").config();
+const path = require('path');
+const fs = require('fs');
 const app = express();
 const port = 5000;
 app.use(express.json());
 const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
+const ReportSystem=require("../report/Report_system.cjs")
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
 
@@ -96,10 +99,33 @@ app.post("/update_recode",Transaction.update_recode);
 app.post("/update_accmanager",Transaction.update_accmanager);
 app.post("/update_service_close",Transaction.update_service_close);
 app.post("/update_receiver",Transaction.update_receiver);
-
 // Update All Routing (For Reject)
 app.post("/update_for_nullRouting_All",Transaction.update_for_nullRouting_All);
 app.post("/update_All_for_receive",Transaction.update_All_for_receive);
+//Report 
+app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
+app.post("/RequstType",ReportSystem.getRequstType)
+app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
+app.use('/downloads', express.static(path.join(__dirname, '../Uploads')));
+//getFAM_FILE_ATTACH
+app.get('/downloads', (req, res) => {
+  const fileName = req.query.filename;
+  const filePath = path.join(__dirname, '../Uploads', fileName);
+ 
+  // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+  if (fs.existsSync(filePath)) {
+    // ส่งไฟล์กลับไปยังผู้ใช้
+    res.sendFile(filePath);
+    console.log(filePath)
+    res.sendFile(filePath);
+  } else {
+    // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน
+    res.status(404).send('File not found');
+  }
+});
+ 
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

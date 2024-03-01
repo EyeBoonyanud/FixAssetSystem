@@ -64,18 +64,17 @@ export default function SignInSide() {
             import.meta.env.VITE_API
           }:5000/login?username=${user}&password=${password}`
         );
-
-        if (response.ok) {
-          const data = await response.json();
+        const data = await response.json();
+        console.log(data,"/////////////",data.length)
+        if (data.length>0) {
+          console.log("Login successful", data[0][0]);
+       
           Name = data[0][1];
           Lastname = data[0][2];
           Role = data[0][0];
           UserLogin = data[0][3];
           Emp = data[0][4];
           NameRole = data[0][5];
-          console.log("Login successful", data);
-
-          if (data && data.length > 0) {
             localStorage.setItem("Name", Name);
             localStorage.setItem("Lastname", Lastname);
             localStorage.setItem("Role", Role);
@@ -83,10 +82,7 @@ export default function SignInSide() {
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
             window.location.href = "/Homepage";
-          } else {
-            console.error("Login failed");
-            alert("Invalid username or password");
-          }
+          
         } else {
           console.error("Login failed");
           alert("Invalid username or password");

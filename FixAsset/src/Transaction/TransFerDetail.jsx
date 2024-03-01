@@ -69,6 +69,7 @@ function TransFerDetail() {
 
   ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
+  const [For_sts_reject ,setFor_sts_reject]= useState("");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
@@ -246,6 +247,7 @@ function TransFerDetail() {
     openPopupLoadding();
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
+      setFor_sts_reject(For_Rq_Edit[16])
     }
     if (For_Req != null) {
       console.log(For_Req[10], "For_Req[10]");
@@ -288,6 +290,7 @@ function TransFerDetail() {
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
+        openPopupLoadding();
         STS = For_Rq_Edit[10];
         Fam_list = For_Rq_Edit[0];
         //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
@@ -1479,7 +1482,7 @@ function TransFerDetail() {
         For_Rq_Edit[3] === ""
       ) {
         setErrorTel_Rq(true);
-        alert("ข้อมูลไม่สมบูรณ์: Tel For Requester");
+        alert("Please fill in information: Tel For Requester");
         navigate("/ForRe");
         return;
       } else {
@@ -1491,7 +1494,7 @@ function TransFerDetail() {
         For_Rq_Edit[6] === undefined ||
         For_Rq_Edit[6] === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Dept ");
+        alert("Please fill in information: Dept ");
         setErrorDept(true);
         navigate("/ForRe");
         return;
@@ -1502,7 +1505,7 @@ function TransFerDetail() {
         selecttrans_factory === undefined ||
         selecttrans_factory === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Factory");
+        alert("Please fill in information: Factory");
         setErrorFac(true);
         return;
       } else {
@@ -1513,7 +1516,7 @@ function TransFerDetail() {
         selecttrans_cc === undefined ||
         selecttrans_cc === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: CC");
+        alert("Please fill in information: CC");
         setErrorCC(true);
         return;
       } else {
@@ -1524,7 +1527,7 @@ function TransFerDetail() {
         Tel_for_trans === undefined ||
         Tel_for_trans === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Tel ");
+        alert("Please fill in information: Tel ");
         setErrorTel(true);
         return;
       } else {
@@ -1537,7 +1540,7 @@ function TransFerDetail() {
         selectnew_owner === ""
       ) {
         setErrorNewOwn(true);
-        alert("ข้อมูลไม่สมบูรณ์: New Owner ");
+        alert("Please fill in information: New Owner ");
         return;
       } else {
         setErrorNewOwn(false);
@@ -1545,7 +1548,7 @@ function TransFerDetail() {
       if (plan_date === null || plan_date === undefined || plan_date === "") {
         console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",plan_date)
         setErrorDate(true);
-        alert("ข้อมูลไม่สมบูรณ์: Date");
+        alert("Please fill in information: Date");
         return;
       } else {
         setErrorDate(false);
@@ -1556,7 +1559,7 @@ function TransFerDetail() {
         selectdepartment_mana === ""
       ) {
         setErrorManager(true);
-        alert("ข้อมูลไม่สมบูรณ์: Department Manager ");
+        alert("Please fill in information: Department Manager ");
         return;
       } else {
         setErrorManager(false);
@@ -1568,7 +1571,7 @@ function TransFerDetail() {
         selectservice_by === ""
       ) {
         setErrorService_by(true);
-        alert("ข้อมูลไม่สมบูรณ์: Service By");
+        alert("Please fill in information: Service By");
         return;
       } else {
         setErrorService_by(false);
@@ -1579,7 +1582,7 @@ function TransFerDetail() {
         Tel_service === null
       ) {
         setErrorTel_service(true);
-        alert("ข้อมูลไม่สมบูรณ์: Tel_Service By");
+        alert("Please fill in information: Tel_Service By");
 
         return;
       } else {
@@ -1592,7 +1595,7 @@ function TransFerDetail() {
         selectboi_staff === ""
       ) {
         setErrorBoi_Staff(true);
-        alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
+        alert("Please fill in information: BOI Staff");
         return;
       } else {
         setErrorBoi_Staff(false);
@@ -1603,7 +1606,7 @@ function TransFerDetail() {
         selectboi_manager === ""
       ) {
         setErrorBoi_manager(true);
-        alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
+        alert("Please fill in information: BOI Manager");
         return;
       } else {
         setErrorBoi_manager(false);
@@ -1614,7 +1617,7 @@ function TransFerDetail() {
         selectfac_manager === ""
       ) {
         setErrorMana_Fac(true);
-        alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
+        alert("Please fill in information: Factory Manager");
         return;
       } else {
         setErrorMana_Fac(false);
@@ -1624,7 +1627,7 @@ function TransFerDetail() {
         selectacc_check === undefined ||
         selectacc_check === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: ACC Check");
+        alert("Please fill in information: ACC Check");
         setErrorAcc_check(true);
       } else {
         setErrorAcc_check(false);
@@ -1634,7 +1637,7 @@ function TransFerDetail() {
         selectacc_manager === undefined ||
         selectacc_manager === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
+        alert("Please fill in information: ACC Manager");
         setErrorAcc_Mana(true);
         return;
       } else {
@@ -1654,7 +1657,7 @@ function TransFerDetail() {
         For_Req[2] === ""
       ) {
         setErrorTel_Rq(true);
-        alert("ข้อมูลไม่สมบูรณ์: กรุณากรอกข้อมูล Requester");
+        alert("Please fill in information: กรุณากรอกข้อมูล Requester");
         let ErrorTel_Req = "true";
 
         navigate("/ForRe", ErrorTel_Req);
@@ -1668,7 +1671,7 @@ function TransFerDetail() {
         For_Req[5] === undefined ||
         For_Req[5] === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: กรุณาเลือกแผนก");
+        alert("Please fill in information: กรุณาเลือกแผนก");
         setErrorDept(true);
         navigate("/ForRe");
         return;
@@ -1678,7 +1681,7 @@ function TransFerDetail() {
         selecttrans_factory === undefined ||
         selecttrans_factory === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Factory");
+        alert("Please fill in information: Factory");
         setErrorFac(true);
         return;
       } else {
@@ -1688,7 +1691,7 @@ function TransFerDetail() {
         selecttrans_cc === undefined ||
         selecttrans_cc === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: CC");
+        alert("Please fill in information: CC");
         setErrorCC(true);
         return;
       } else {
@@ -1700,7 +1703,7 @@ function TransFerDetail() {
         Tel_for_trans === undefined ||
         Tel_for_trans === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Tel ");
+        alert("Please fill in information: Tel ");
         setErrorTel(true);
         return;
       } else {
@@ -1713,7 +1716,7 @@ function TransFerDetail() {
         selectnew_owner === ""
       ) {
         setErrorNewOwn(true);
-        alert("ข้อมูลไม่สมบูรณ์: New Owner ");
+        alert("Please fill in information: New Owner ");
         return;
       } else {
         setErrorNewOwn(false);
@@ -1721,7 +1724,7 @@ function TransFerDetail() {
       if (plan_date === null || plan_date === undefined || plan_date === "") {
         
         setErrorDate(true);
-        alert("ข้อมูลไม่สมบูรณ์: Date");
+        alert("Please fill in information: Date");
         return;
       } else {
         setErrorDate(false);
@@ -1731,7 +1734,7 @@ function TransFerDetail() {
         selectdepartment_mana === undefined ||
         selectdepartment_mana === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Department Manager");
+        alert("Please fill in information: Department Manager");
         setErrorManager(true);
         return;
       } else {
@@ -1742,7 +1745,7 @@ function TransFerDetail() {
         selectservice_by === undefined ||
         selectservice_by === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Service By");
+        alert("Please fill in information: Service By");
         setErrorService_by(true);
         return;
       } else {
@@ -1753,7 +1756,7 @@ function TransFerDetail() {
         Tel_service === undefined ||
         Tel_service === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Tel_Service By");
+        alert("Please fill in information: Tel_Service By");
         setErrorTel_service(true);
         return;
       } else {
@@ -1765,7 +1768,7 @@ function TransFerDetail() {
         selectboi_staff === undefined ||
         selectboi_staff === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: BOI Staff");
+        alert("Please fill in information: BOI Staff");
         setErrorBoi_Staff(true);
         return;
       } else {
@@ -1776,7 +1779,7 @@ function TransFerDetail() {
         selectboi_manager === undefined ||
         selectboi_manager === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: BOI Manager");
+        alert("Please fill in information: BOI Manager");
         setErrorBoi_manager(true);
         return;
       } else {
@@ -1787,7 +1790,7 @@ function TransFerDetail() {
         selectfac_manager === undefined ||
         selectfac_manager === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: Factory Manager");
+        alert("Please fill in information: Factory Manager");
         setErrorMana_Fac(true);
         return;
       } else {
@@ -1798,7 +1801,7 @@ function TransFerDetail() {
         selectacc_check === undefined ||
         selectacc_check === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: ACC Check");
+        alert("Please fill in information: ACC Check");
         setErrorAcc_check(true);
         return;
       } else {
@@ -1809,15 +1812,11 @@ function TransFerDetail() {
         selectacc_manager === undefined ||
         selectacc_manager === ""
       ) {
-        alert("ข้อมูลไม่สมบูรณ์: ACC Manager");
+        alert("Please fill in information: ACC Manager");
         setErrorAcc_Mana(true);
       } else {
         setErrorAcc_Mana(false);
       }
-      //   <ForRequester
-      //   errorTelRq={ErrorTel_Rq}
-      //   errorDept={ErrorDept}
-      // />
     }
 
     if (EditFam != null) {
@@ -1916,7 +1915,7 @@ function TransFerDetail() {
             const response = await axios.post(
               "http://localhost:5000/Update_For_Trans_All",
               {
-                famno: For_Rq_Edit[8],
+                famno: For_Rq_Edit[0],
                 date_plan: plan_date,
                 fac_trans: selecttrans_factory,
                 cc_trans: selecttrans_cc,
@@ -2371,6 +2370,7 @@ function TransFerDetail() {
                     </Typography>
                   </td>
                   <td>
+                  {STS1 === "FLTR001" || STS1 === "" || For_sts_reject === "R" ? ( 
                     <FormControl className="Style1">
                       <Select
                         labelId="demo-simple-select-helper-label"
@@ -2383,23 +2383,36 @@ function TransFerDetail() {
                         error={ErrorFac && !selecttrans_factory}
                         helperText={
                           ErrorFac && !selecttrans_factory
-                            ? "กรุณาเลือก Transfer To factory"
+                            ? "Please select: Transfer To factory"
                             : undefined
                         }
                       >
-                        {trans_factory.map((option, index) => (
-                          <MenuItem key={index} value={option[0]}>
-                            {option[1]}
-                          </MenuItem>
-                        ))}
+                 
+                          {trans_factory.map((option, index) => (
+                            <MenuItem key={index} value={option[0]}>
+                              {option[1]}
+                            </MenuItem>
+                          ))}
+                        
+                         
+                     
+
+                        
                       </Select>
                     </FormControl>
+                       ) : 
+                       <TextField className="Style1" size="small" disabled value={For_edit_trans[0][13]}>
+
+                       </TextField>
+               
+                     }
                   </td>
                   <td className="Style5"></td>
                   <td className="Style7">
-                    <Typography variant="subtitle2">Tranfer to CC :</Typography>
+                    <Typography variant="subtitle2">Transfer to CC :</Typography>
                   </td>
                   <td className="Style6">
+                  {STS1 === "FLTR001" || STS1 === "" || For_sts_reject === "R"  ? ( 
                     <FormControl className="Style1">
                       <Select
                         labelId="demo-simple-select-helper-label"
@@ -2411,7 +2424,7 @@ function TransFerDetail() {
                         error={ErrorCC && !selecttrans_cc}
                         helperText={
                           ErrorCC && !selecttrans_cc
-                            ? "กรุณาเลือก Transfer To CC"
+                            ? "Please select : Transfer To CC"
                             : undefined
                         }
                       >
@@ -2422,6 +2435,10 @@ function TransFerDetail() {
                         ))}
                       </Select>
                     </FormControl>
+                     ) : 
+                     <TextField className="Style1" size="small" disabled value={For_edit_trans[0][1]}>
+
+                     </TextField>}
                   </td>
                 </tr>
 
@@ -2462,7 +2479,7 @@ function TransFerDetail() {
                         // }}
                         // error={ErrorNewOwn && !selectnew_owner}
                       >
-                        {STS1 == "FLTR001" || STS1 == "" ? (
+                        {STS1 == "FLTR001" || STS1 == "" || For_sts_reject === "R" ? (
                           new_owner.map((option, index) => (
                             <MenuItem key={index} value={option}>
                               {option}
@@ -2524,7 +2541,7 @@ function TransFerDetail() {
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">
-                      Tranfer Abnormal :
+                      Transfer Abnormal :
                     </Typography>
                   </td>
                   <td colSpan={4}>
@@ -2765,7 +2782,7 @@ function TransFerDetail() {
                       </Select>
                       {ErrorService_by && (
                         <FormHelperText style={{ color: "red" }}>
-                          กรุณาเลือก Service By
+                          Please select : Service By
                         </FormHelperText>
                       )}
                     </FormControl>
@@ -2862,7 +2879,7 @@ function TransFerDetail() {
                         size="small"
                         helperText={
                           ErrorBoi_Staff && !selectboi_staff
-                            ? "BOI Staff"
+                            ? "Please select :BOI Staff"
                             : undefined
                         }
                       >
@@ -2961,7 +2978,7 @@ function TransFerDetail() {
                         error={ErrorBoi_manager && !selectboi_manager}
                         helperText={
                           ErrorBoi_manager && !selectboi_manager
-                            ? "BOI Manager"
+                            ? " Please select :BOI Manager"
                             : undefined
                         }
                       >
@@ -2971,7 +2988,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>กรุณาเลือก BOI Manager</FormHelperText>} */}
+                      {/* {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>} */}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3065,7 +3082,7 @@ function TransFerDetail() {
                         error={ErrorMana_Fac && !selectfac_manager}
                         helperText={
                           ErrorMana_Fac && !selectfac_manager
-                            ? "BOI Manager"
+                            ? "Please select: Factory Manager"
                             : undefined
                         }
                       >
@@ -3177,7 +3194,7 @@ function TransFerDetail() {
                         error={ErrorAcc_check && !selectacc_check}
                         helperText={
                           ErrorAcc_check && !selectacc_check
-                            ? "BOI Manager"
+                            ? "Please select:ACC Check "
                             : undefined
                         }
                       >
@@ -3488,9 +3505,9 @@ function TransFerDetail() {
                 marginRight: "85%",
                 width: "8%",
                 display: "flex",
-                border: 1,
-                borderColor: "rgba(64,131,65, 1.5)",
-                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                // border: 1,
+                // borderColor: "rgba(64,131,65, 1.5)",
+                // boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
                 justifyContent: "center",
               }}
             >

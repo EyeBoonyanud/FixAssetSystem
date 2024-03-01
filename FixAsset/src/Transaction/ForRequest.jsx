@@ -153,9 +153,53 @@ function ForRequest() {
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
+  const [Filedata, setFiledata] = useState([]);
+  const ShowFile = () => {
+    axios
+      .post("http://localhost:5000/FAM_FILE_ATTACH", {
+        FamNo: EditFam,
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length > 0) {
+          setFiledata(data);
+          console.log(data);
+        }
+      });
+  };
+
+  const downloadFile = (fileName) => {
+    const downloadUrl = `http://localhost:5000/downloads?filename=${encodeURIComponent(fileName)}`;
+  
+    axios({
+      url: downloadUrl,
+      method: 'GET',
+      responseType: 'blob',
+    })
+    .then(response => {
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+    console.log(response)
+      // สร้างลิงก์
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+    
+      // ดาวน์โหลดไฟล์โดยอัตโนมัติ
+    //   link.download = 'downloaded_file.xlsx';
+      link.download = 'downloaded_file';
+      link.click();
+    
+      // ลบ URL ที่ถูกสร้างขึ้น
+      window.URL.revokeObjectURL(link.href);
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
+  };
+
 
   useEffect(() => {
     openPopupLoadding();
+
   //  if(EditFam){
   //   if(For_Rq_Edit != null){
       
@@ -197,15 +241,16 @@ function ForRequest() {
     costcenter();
     CostforAsset();
     keep();
+    ShowFile();
 
     setTimeout(function() {
       closePopupLoadding();
-  }, 4000);
+  }, 5000);
   }, []);
 
   const keep = () => {
     if (EditFam != null) {
-      openPopupLoadding();
+      
       if (For_Rq_Edit != null) {
         // มี for_rq_edit
         console.log(For_Rq_Edit[16],"")
@@ -247,7 +292,7 @@ function ForRequest() {
           //setbtnSave("visible");
         } else {
         }
-        closePopupLoadding();
+        
       }
     } else {
       if (For_Req != null) {
@@ -1151,7 +1196,7 @@ function ForRequest() {
                   justifyContent: "center",
                 }}
               >
-                ForRequeater
+                For Requester
               </Typography>
               <Box
                 sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}
@@ -1166,7 +1211,7 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
                       disabled
                       id="Txt_Famno"
                       value={Gen_Fam_No}
@@ -1182,7 +1227,7 @@ function ForRequest() {
                     <TextField
                       id="Txt_Date"
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
                       value={Request_date}
                       onChange={(e) => setRequest_date(e.target.value)}
                       disabled
@@ -1200,7 +1245,7 @@ function ForRequest() {
                     <TextField
                       size="small"
                       disabled
-                      style={{ width: "100%" }}
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)" }}
                       id="Txt_user"
                       value={dataUserLogin1}
                       onChange={(e) => setdataUserLogin1(e.target.value)}
@@ -1243,7 +1288,7 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
                       value={Factory1}
                       onChange={(e) => setFactory1(e.target.value)}
                       disabled
@@ -1251,13 +1296,13 @@ function ForRequest() {
                   </Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Cost Center :
+                      Request by Cost Center :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%",backgroundColor: "rgba(169, 169, 169, 0.3)" }}
                       value={Costcenter1}
                       onChange={(e) => setCostcenter1(e.target.value)}
                       disabled
@@ -1349,13 +1394,13 @@ function ForRequest() {
                       <FormControlLabel
                         value="GP01005"
                         control={<Radio />}
-                        label="Write off"
+                        label="Write-off"
                         className="Radio"
                       />
                       <FormControlLabel
                         value="GP01006"
                         control={<Radio />}
-                        label="Landing to Third party"
+                        label="Landing to Third-party"
                         className="Radio"
                       />
                       <FormControlLabel
@@ -1431,13 +1476,13 @@ function ForRequest() {
                   <Grid xs={3}></Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request status :
+                      Request Status :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", backgroundColor: "rgba(169, 169, 169, 0.3)"}}
                       // value={status}
                       disabled
                       value={Request_sts1}
@@ -1491,16 +1536,17 @@ function ForRequest() {
                 </div>
               </Box>
             </Card>
+            
           </Card>
         </div>
 
-        <div
+        <div 
           className="Fixed-Asset-Code"
           style={{ visibility: visibityDetails }}
         >
           <Card
             sx={{
-              borderRadius: "8px",
+               borderRadius: "8px",
               border: 2,
               borderColor: "#88AB8E",
               marginTop: 4,
@@ -1513,7 +1559,7 @@ function ForRequest() {
                 backgroundColor: "#fff",
                 marginTop: "-0.5%",
                 marginRight: "85%",
-                width: "5%",
+                width: "8%",
                 display: "flex",
 
                 justifyContent: "center",
@@ -1526,7 +1572,7 @@ function ForRequest() {
             {/* ADD Modal */}
             <div>
             <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
-  <Typography style={{ marginLeft: "10px" }}>
+  <Typography style={{ marginLeft: "10px" ,display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none" }}>
     Fixed Assets Code :
   </Typography>
   <TextField
@@ -1534,10 +1580,10 @@ function ForRequest() {
     size="small"
     value={find_fixasset1}
     onChange={(e) => setfind_fixasset1(e.target.value)}
-    style={{ marginLeft: "10px" }}
+    style={{ marginLeft: "10px" ,display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none"}}
   />
   <Button
-    style={{ marginTop: "3px", marginLeft: "10px", display: (STS1_for_R == "" || STS1_for_R == "FLTR001") ? "block" : "none"
+    style={{ marginTop: "3px", marginLeft: "10px", display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none"
                   }}
     type="primary"
     variant="contained"
@@ -1563,7 +1609,7 @@ function ForRequest() {
                   <div className="Modal">
                     {" "}
                     <DialogTitle>
-                      Fixed Asset Code : {find_fixasset1}
+                      Fixed Assets Code : {find_fixasset1}
                     </DialogTitle>
                     <TableContainer component={Paper}>
                       <Table className="Modal-Table">
@@ -1578,7 +1624,7 @@ function ForRequest() {
                             </TableCell>
                             <TableCell>Comp.</TableCell>
                             <TableCell>Cc.</TableCell>
-                            <TableCell>Fixed Asset Name</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -1631,98 +1677,95 @@ function ForRequest() {
               </div>
 
               <div>
-                {isTableOpen && (
-                  <div style={{ marginTop: "20px" ,margin:"10px 50px 0px 50px" }}>
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table" className="TableFix">
-                        <TableHead
-                          sx={{
-                            backgroundColor: "#436850",
+              {isTableOpen && (
+  <div style={{ marginTop: "20px" ,margin:"10px 50px 0px 50px" }}>
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table" className="TableFix">
+        <TableHead
+          sx={{
+            backgroundColor: "#436850",
+            fontSize: "10px",
+          }}
+        >
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Fixed Assets Code</TableCell>
+            <TableCell>Comp.</TableCell>
+            <TableCell>CC.</TableCell>
+            <TableCell>Fixed Assets Name</TableCell>
+            <TableCell>BOI Project</TableCell>
+            <TableCell>Qty</TableCell>
+            <TableCell>Invoice No.</TableCell>
+            <TableCell>Acquisition Cost(Baht)</TableCell>
+            <TableCell>Book Value(Baht)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {datatable.map((item, index) => (
+            <React.Fragment key={index}>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                  },
+                }}
+              >
+                <TableCell>
+                  {index > 0 &&
+                  item[0] === datatable[index - 1][0] ? (
+                    ""
+                  ) : (
+                    <DeleteIcon
+                      style={{
+                        color: "red",
+                        marginLeft: "10px",
+                        display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R === "R") ? "block" : "none"
+                      }}
+                      onClick={() =>
+                        handleDelete(item[0], index)
+                      }
+                    />
+                  )}
+                </TableCell>
+                <TableCell>
+                  {index > 0 &&
+                  item[0] === datatable[index - 1][0]
+                    ? ""
+                    : item[0]}
+                </TableCell>
+                <TableCell>{item[1]}</TableCell>
+                <TableCell>{item[2]}</TableCell>
+                <TableCell>{item[3]}</TableCell>
+                <TableCell>{item[5]}</TableCell>
+                <TableCell>{item[6]}</TableCell>
+                <TableCell>{item[7]}</TableCell>
+                <TableCell>{item[9]}</TableCell>
+                <TableCell>{item[10]}</TableCell>
+              </TableRow>
+            </React.Fragment>
+          ))}
+          {/* Counting */}
+          <TableRow>
+          <TableCell ></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+                <TableCell style={{fontWeight: "bold"}}>Total</TableCell>
+            <TableCell style={{fontWeight: "bold"}}>
+               {datatable.reduce((acc, curr) => acc + curr[9], 0).toFixed(2)}
+            </TableCell>
+            
+            <TableCell style={{fontWeight: "bold"}}>{datatable.reduce((acc, curr) => acc + curr[10], 0)}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>
+)}
 
-                            fontSize: "10px",
-                          }}
-                        >
-                          <TableRow>
-                            {/* <TableCell>
-                              <Checkbox />
-                            </TableCell> */}
-                            <TableCell></TableCell>
-                            {/* <TableCell>No.</TableCell> */}
-                            <TableCell>Fixed Asset Code</TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>CC.</TableCell>
-                            <TableCell>Fixed Assets Name</TableCell>
-                            <TableCell>BOI Project</TableCell>
-                            <TableCell>Qty</TableCell>
-                            <TableCell>Invoice No.</TableCell>
-                            <TableCell>Acquisition Cost(Baht)</TableCell>
-                            <TableCell>Book Value(Baht)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {datatable.map((item, index) => (
-                            <React.Fragment key={index}>
-                              <TableRow
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
-                              >
-                                {/* <TableCell>
-                                <Checkbox />
-                              </TableCell>{" "} */}
-                                <TableCell>
-                                  {index > 0 &&
-                                  item[0] === datatable[index - 1][0] ? (
-                                    ""
-                                  ) : (
-                                    <DeleteIcon
-                                      style={{
-                                        color: "red",
-                                        marginLeft: "10px",
-                                        display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R === "R") ? "block" : "none"
-                                        // visibility: delete_fix
-                                      }}
-                                      onClick={() =>
-                                        handleDelete(item[0], index)
-                                      }
-                                    />
-                                  )}
-                                </TableCell>
-                                {/* <TableCell>
-                                {index > 0 &&
-                                item[0] === datatable[index - 1][0]
-                                  ? ""
-                                  : index + 1}
-                              </TableCell> */}
-                                <TableCell>
-                                  {index > 0 &&
-                                  item[0] === datatable[index - 1][0]
-                                    ? ""
-                                    : item[0]}
-                                </TableCell>
-                                <TableCell>{item[1]}</TableCell>
-                                <TableCell>{item[2]}</TableCell>
-                                <TableCell>{item[3]}</TableCell>
-                                <TableCell>{item[5]} </TableCell>
-                                <TableCell>{item[6]}</TableCell>
-                                <TableCell>{item[7]}</TableCell>
-                                <TableCell>{item[9]}</TableCell>
-                                <TableCell>{item[10]}</TableCell>
-                              </TableRow>
-                              {/* <TableRow>
-                            <TableCell>
-    {index === datatable.length - 1 ? item[0] : ""}
-  </TableCell>
-                            </TableRow> */}
-                            </React.Fragment>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </div>
-                )}
               </div>
               <div style={{ display: "grid", justifyContent: "flex-end" ,margin:"15px"}}>
   <Button
@@ -1747,6 +1790,8 @@ function ForRequest() {
           </Card>
         </div>
 
+
+        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ?(
         <div className="UploadFile">
           <Card
             sx={{
@@ -1891,7 +1936,74 @@ function ForRequest() {
               </Grid>
             </Grid>
           </Card>
+        </div>) : (
+        <div >
+          <Card
+            sx={{
+              visibility: visibityFile,
+              borderRadius: "8px",
+              border: 2,
+              borderColor: "#88AB8E",
+
+              marginTop: 4,
+            }}
+            className="Style1"
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                backgroundColor: "#fff",
+                marginTop: "-0.5%",
+                marginRight: "85%",
+                width: "10%",
+                display: "flex",
+
+                justifyContent: "center",
+              }}
+            >
+              File from request
+            </Typography>
+<div className="FileShow" style={{marginBottom:'40px'}}>
+  <TableContainer component={Paper}>
+  <Table  className="FamFilePopUp">
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell>File</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Filedata.map((option, index) => (
+              <TableRow key={index}>
+                <TableCell >{Filedata[index][2]}</TableCell>
+                <TableCell
+                  style={{
+                    textAlign: "center",
+                    color: "blue",
+                    textDecoration: "underline",
+                  
+                  }}
+                >
+                  <p style={{ cursor: "pointer"}} onClick={() => downloadFile(Filedata[index][4])}>
+                    {Filedata[index][3]}
+                  </p>
+                </TableCell>
+              </TableRow>
+            ))}
+            {/* <TableRow>
+              <TableCell colSpan={4} style={{ border: "0" }}>
+                
+              </TableCell>
+            </TableRow> */}
+          </TableBody>
+        </Table>
+  </TableContainer>
+
+</div>
+
+        </Card>
         </div>
+)}
         <div
           className=""
           style={{ display: "flex", justifyContent: "flex-end" }}

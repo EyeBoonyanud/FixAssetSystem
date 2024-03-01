@@ -105,6 +105,20 @@ const SidebarMenu = ({ isOpen, onClose }) => {
    }
  
  };
+
+
+ const handleReport = (id) => {
+  // console.log("มาสิ")
+  console.log(id)
+   if (id === "FAM Detail Report"){
+    window.location.href = "/FamDetails";
+     
+   }else if(id === "FAM Form"){
+        
+    window.location.href = "/ApproveFam";
+   }
+ 
+ };
  const DataDept = () => {
    navigate("/DataDept");
  };
@@ -295,7 +309,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
  
                     onClick={() => {
                       // onClose();
-                      // handleButtonClick(menudata[index]);
+                      handleReport(menudata[index]);
                     }}
  
                     key={index}

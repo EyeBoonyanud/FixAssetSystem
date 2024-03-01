@@ -246,3 +246,58 @@ margin-right: 10px;
   /* height: 80%; */
   text-align: center;
 }
+.DivTableFam{
+ 
+  justify-content: center;
+  display: flex;
+  border-radius: 20px;
+ 
+ }
+ .DivTableFam th {
+  background-color: #436850;
+  white-space: nowrap;
+  color: rgb(253, 251, 251);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+ 
+ 
+.DivTableFam td {
+  /* border: 1px solid red; */
+ 
+  white-space: nowrap;
+}
+.FileShow {
+  padding: 40px;
+  /* border: 1px solid red; */
+  width: 500px;
+}
+/* .FileShow th {
+  margin: 40px;
+  background-color: ;
+  border: 1px solid red;
+} */
+ 
+.FamFilePopUp{
+  justify-content: center;
+  display: flex;
+  overflow: auto; /* Add this line for scroll */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+ 
+ }
+ .FamFilePopUp th {
+  background-color: #436850;
+  white-space: nowrap;
+  color: rgb(253, 251, 251);
+ 
+}
+ 
+ 
+.FamFilePopUp td {
+  /* border: 1px solid red; */
+ padding: 4;
+  white-space: nowrap;
+}
