@@ -33,7 +33,7 @@ function TransFerDetail() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
-  console.log(For_Trans,"For_Trans")
+  console.log(For_Trans, "For_Trans");
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -69,7 +69,7 @@ function TransFerDetail() {
 
   ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
-  const [For_sts_reject ,setFor_sts_reject]= useState("");
+  const [For_sts_reject, setFor_sts_reject] = useState("");
   const [ownersend, setownersend] = useState("");
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
@@ -247,7 +247,7 @@ function TransFerDetail() {
     openPopupLoadding();
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
-      setFor_sts_reject(For_Rq_Edit[16])
+      setFor_sts_reject(For_Rq_Edit[16]);
     }
     if (For_Req != null) {
       console.log(For_Req[10], "For_Req[10]");
@@ -1395,7 +1395,7 @@ function TransFerDetail() {
       plan_date,
       abnormal,
       receiver,
-      sts
+      sts,
     ];
     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
     localStorage.setItem("For_Transfer", sentdata);
@@ -1546,7 +1546,7 @@ function TransFerDetail() {
         setErrorNewOwn(false);
       }
       if (plan_date === null || plan_date === undefined || plan_date === "") {
-        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU",plan_date)
+        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -1588,7 +1588,7 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
-     
+
       if (
         selectboi_staff === null ||
         selectboi_staff === undefined ||
@@ -1722,7 +1722,6 @@ function TransFerDetail() {
         setErrorNewOwn(false);
       }
       if (plan_date === null || plan_date === undefined || plan_date === "") {
-        
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -1762,7 +1761,7 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
-    
+
       if (
         selectboi_staff === null ||
         selectboi_staff === undefined ||
@@ -2237,7 +2236,7 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        console.log("sts",sts)
+        console.log("sts", sts);
         try {
           const response = await axios.post(
             "http://localhost:5000/Update_For_Trans_All",
@@ -2340,6 +2339,9 @@ function TransFerDetail() {
                         size="small"
                         disabled
                         value={ownersend}
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         onChange={(e) => setownersend(e.target.value)}
                       />
                     </FormControl>
@@ -2357,6 +2359,9 @@ function TransFerDetail() {
                         defaultFactoryValue=""
                         size="small"
                         value={data_fromboi}
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         onChange={(e) => setdata_fromboi(e.target.value)}
                         disabled
                       />
@@ -2370,75 +2375,91 @@ function TransFerDetail() {
                     </Typography>
                   </td>
                   <td>
-                  {STS1 === "FLTR001" || STS1 === "" || For_sts_reject === "R" ? ( 
-                    <FormControl className="Style1">
-                      <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={selecttrans_factory}
-                        //onChange={(e) => setselecttrans_factory(e.target.value)}
-                        onChange={handleFactoryCC}
-                        disabled={read_trans_fac}
-                        size="small"
-                        error={ErrorFac && !selecttrans_factory}
-                        helperText={
-                          ErrorFac && !selecttrans_factory
-                            ? "Please select: Transfer To factory"
-                            : undefined
-                        }
-                      >
-                 
+                    {STS1 === "FLTR001" ||
+                    STS1 === "" ||
+                    For_sts_reject === "R" ? (
+                      <FormControl className="Style1">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selecttrans_factory}
+                          //onChange={(e) => setselecttrans_factory(e.target.value)}
+                          onChange={handleFactoryCC}
+                          disabled={read_trans_fac}
+                          size="small"
+                          error={ErrorFac && !selecttrans_factory}
+                          helperText={
+                            ErrorFac && !selecttrans_factory
+                              ? "Please select: Transfer To factory"
+                              : undefined
+                          }
+                        >
                           {trans_factory.map((option, index) => (
                             <MenuItem key={index} value={option[0]}>
                               {option[1]}
                             </MenuItem>
                           ))}
-                        
-                         
-                     
-
-                        
-                      </Select>
-                    </FormControl>
-                       ) : 
-                       <TextField className="Style1" size="small" disabled value={For_edit_trans[0][13]}>
-
-                       </TextField>
-               
-                     }
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <TextField
+                        style={{
+                          backgroundColor: read_trans_fac
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        className="Style1"
+                        size="small"
+                        disabled
+                        value={For_edit_trans[0][13]}
+                      ></TextField>
+                    )}
                   </td>
                   <td className="Style5"></td>
                   <td className="Style7">
-                    <Typography variant="subtitle2">Transfer to CC :</Typography>
+                    <Typography variant="subtitle2">
+                      Transfer to CC :
+                    </Typography>
                   </td>
                   <td className="Style6">
-                  {STS1 === "FLTR001" || STS1 === "" || For_sts_reject === "R"  ? ( 
-                    <FormControl className="Style1">
-                      <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={selecttrans_cc}
-                        onChange={handleNew_BOI}
-                        disabled={read_trans_cc}
+                    {STS1 === "FLTR001" ||
+                    STS1 === "" ||
+                    For_sts_reject === "R" ? (
+                      <FormControl className="Style1">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selecttrans_cc}
+                          onChange={handleNew_BOI}
+                          disabled={read_trans_cc}
+                          size="small"
+                          error={ErrorCC && !selecttrans_cc}
+                          helperText={
+                            ErrorCC && !selecttrans_cc
+                              ? "Please select : Transfer To CC"
+                              : undefined
+                          }
+                        >
+                          {trans_cc.map((option, index) => (
+                            <MenuItem key={index} value={option[0]}>
+                              {option[0]}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      <TextField
+                      style={{
+                        backgroundColor: selecttrans_cc
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
+                      }}
+                        className="Style1"
                         size="small"
-                        error={ErrorCC && !selecttrans_cc}
-                        helperText={
-                          ErrorCC && !selecttrans_cc
-                            ? "Please select : Transfer To CC"
-                            : undefined
-                        }
-                      >
-                        {trans_cc.map((option, index) => (
-                          <MenuItem key={index} value={option[0]}>
-                            {option[0]}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                     ) : 
-                     <TextField className="Style1" size="small" disabled value={For_edit_trans[0][1]}>
-
-                     </TextField>}
+                        disabled
+                        value={For_edit_trans[0][1]}
+                      ></TextField>
+                    )}
                   </td>
                 </tr>
 
@@ -2452,6 +2473,9 @@ function TransFerDetail() {
                     <FormControl className="Style1">
                       <TextField
                         size="small"
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)"
+                        }}
                         value={new_boi}
                         onChange={(e) => setnew_boi(e.target.value)}
                         disabled
@@ -2473,13 +2497,18 @@ function TransFerDetail() {
                         disabled={read_newowner}
                         value={selectnew_owner}
                         onChange={handleNewOwner}
+                        style={{
+                          backgroundColor: read_newowner ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         size="small"
                         // style={{
                         //   borderColor: ErrorNewOwn ? "red" : undefined,
                         // }}
                         // error={ErrorNewOwn && !selectnew_owner}
                       >
-                        {STS1 == "FLTR001" || STS1 == "" || For_sts_reject === "R" ? (
+                        {STS1 == "FLTR001" ||
+                        STS1 == "" ||
+                        For_sts_reject === "R" ? (
                           new_owner.map((option, index) => (
                             <MenuItem key={index} value={option}>
                               {option}
@@ -2503,6 +2532,9 @@ function TransFerDetail() {
                         // id="Tel"
                         disabled={read_tel}
                         value={Tel_for_trans}
+                        style={{
+                          backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
                         error={ErrorTel && !Tel_for_trans}
@@ -2529,10 +2561,17 @@ function TransFerDetail() {
                         size="small"
                         type="date"
                         disabled={read_plan_date}
+                        style={{
+                          backgroundColor: read_plan_date ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         value={plan_date}
                         error={ErrorDate && !plan_date}
                         onChange={(e) => setplan_date(e.target.value)}
-                        helperText={ErrorDate && !plan_date ? "กรุณากรอกวันที่" : undefined}
+                        helperText={
+                          ErrorDate && !plan_date
+                            ? "กรุณากรอกวันที่"
+                            : undefined
+                        }
                       />
                     </FormControl>
                   </td>
@@ -2550,6 +2589,9 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         size="small"
                         value={abnormal}
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)"
+                        }}
                         onChange={(e) => setabnormal(e.target.value)}
                         disabled
                       />
@@ -2600,13 +2642,14 @@ function TransFerDetail() {
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         disabled={read_dept}
+                      
                         value={selectdepartment_mana}
                         onChange={(e) =>
                           setselectdepartment_mana(e.target.value)
                         }
                         size="small"
                         style={{
-                          borderColor: ErrorManager ? "red" : undefined,
+                          borderColor: ErrorManager ? "red" : undefined, backgroundColor: read_dept ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorManager && !selectdepartment_mana}
                         helperText={
@@ -2633,7 +2676,7 @@ function TransFerDetail() {
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
                         style={{
-                          visibility: checkrdo,
+                          visibility: checkrdo, 
                           // checkrdo
                         }}
                       >
@@ -2696,6 +2739,9 @@ function TransFerDetail() {
                         size="small"
                         value={cmmtradio_dept}
                         disabled={read_dept_cmmt}
+                        style={{
+                          backgroundColor: read_dept_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                         //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
                       />
@@ -2764,7 +2810,7 @@ function TransFerDetail() {
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
                         style={{
-                          borderColor: ErrorService_by ? "red" : undefined,
+                          borderColor: ErrorService_by ? "red" : undefined,  backgroundColor: read_serviceby ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorService_by && !selectservice_by}
                         size="small"
@@ -2852,6 +2898,9 @@ function TransFerDetail() {
                         disabled={read_serviceby_cmmt}
                         size="small"
                         value={cmmtradio_serviceby}
+                        style={{
+                          backgroundColor: read_serviceby_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_serviceby(e.target.value)}
                       />
                     </FormControl>
@@ -2873,7 +2922,7 @@ function TransFerDetail() {
                           setselectboi_staff(e.target.value);
                         }}
                         style={{
-                          borderColor: ErrorBoi_Staff ? "red" : undefined,
+                          borderColor: ErrorBoi_Staff ? "red" : undefined, backgroundColor: read_boistff ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorBoi_Staff && !selectboi_staff}
                         size="small"
@@ -2953,6 +3002,9 @@ function TransFerDetail() {
                         disabled={read_boistff_cmmt}
                         size="small"
                         value={cmmtradio_boistaff}
+                        style={{
+                          backgroundColor: read_boistff_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_boistaff(e.target.value)}
                       />
                     </FormControl>
@@ -2973,7 +3025,7 @@ function TransFerDetail() {
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorBoi_manager ? "red" : undefined,
+                          borderColor: ErrorBoi_manager ? "red" : undefined, backgroundColor: read_boimana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorBoi_manager && !selectboi_manager}
                         helperText={
@@ -3077,7 +3129,7 @@ function TransFerDetail() {
                         onChange={(e) => setselectfac_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorMana_Fac ? "red" : undefined,
+                          borderColor: ErrorMana_Fac ? "red" : undefined,backgroundColor: read_fac_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorMana_Fac && !selectfac_manager}
                         helperText={
@@ -3163,6 +3215,9 @@ function TransFerDetail() {
                           disabled={read_fac_mana_cmmt}
                           size="small"
                           value={cmmtradio_facmanager}
+                          style={{
+                            backgroundColor: read_fac_mana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          }}
                           onChange={(e) =>
                             setcmmtradio_facmanager(e.target.value)
                           }
@@ -3189,7 +3244,7 @@ function TransFerDetail() {
                         }}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_check ? "red" : undefined,
+                          borderColor: ErrorAcc_check ? "red" : undefined,backgroundColor: read_accchk ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorAcc_check && !selectacc_check}
                         helperText={
@@ -3272,6 +3327,9 @@ function TransFerDetail() {
                         disabled={read_accchk_cmmt}
                         size="small"
                         value={cmmtradio_acc_check}
+                        style={{
+                          backgroundColor: read_accchk_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_acc_check(e.target.value)}
                       />
                     </FormControl>
@@ -3356,6 +3414,9 @@ function TransFerDetail() {
                         disabled={read_owner_cmmt}
                         size="small"
                         value={cmmtradio_owner}
+                        style={{
+                          backgroundColor: read_owner_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_owner(e.target.value)}
                       />
                     </FormControl>
@@ -3477,6 +3538,9 @@ function TransFerDetail() {
                         size="small"
                         disabled={read_receive_cmmt}
                         value={cmmtradio_receiver}
+                        style={{
+                          backgroundColor: read_receive_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_receiver(e.target.value)}
                       />
                     </FormControl>
@@ -3594,6 +3658,9 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         value={cmmtradio_record}
                         disabled={read_record_cmmt}
+                        style={{
+                          backgroundColor: read_record_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
                       />
@@ -3614,7 +3681,7 @@ function TransFerDetail() {
                         onChange={(e) => setselectacc_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_Mana ? "red" : undefined,
+                          borderColor: ErrorAcc_Mana ? "red" : undefined,backgroundColor: read_acc_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorAcc_Mana && !selectacc_manager}
                         helperText={
@@ -3698,6 +3765,9 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         value={cmmtradio_acc_manager}
                         disabled={read_acc_mana_cmmt}
+                        style={{
+                          backgroundColor: read_acc_mana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) =>
                           setcmmtradio_acc_manager(e.target.value)
                         }
@@ -3793,6 +3863,9 @@ function TransFerDetail() {
                         }
                         size="small"
                         disabled={read_close_cmmt}
+                        style={{
+                          backgroundColor: read_close_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                       />
                     </FormControl>
                   </td>
@@ -3806,7 +3879,7 @@ function TransFerDetail() {
         <div className="Style8">
           <Box>
             {console.log(STS1, "GGGGGGGGGG")}
-            <table >
+            <table>
               <tr>
                 <td
                   style={{

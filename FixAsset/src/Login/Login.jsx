@@ -42,6 +42,9 @@ export default function SignInSide() {
   const onFinish = (values) => {
     // console.log("Received values of form: ", values);
   };
+  // Loading
+  const [loading, setLoading] = useState(false);
+
   let Name = ""; //สร้างตัวแปรที่รับค่ากลับมา
   let Lastname = ""; //สร้างตัวแปรที่รับค่ากลับมา
   let Role = ""; //สร้างตัวแปรที่รับค่ากลับมา
@@ -50,6 +53,7 @@ export default function SignInSide() {
   let NameRole = "";
 
   const handleLogin = async () => {
+    setLoading(true);
     sessionStorage.setItem("isLoggedIn", "true");
     const usernameElement = document.getElementById("Username");
     const passwordElement = document.getElementById("Password");
@@ -89,6 +93,8 @@ export default function SignInSide() {
         }
       } catch (error) {
         console.error("Error during login:", error);
+      } finally {
+        setLoading(false); // สิ้นสุดการโหลด
       }
     } else {
       console.error("Username or password element not found");
@@ -254,8 +260,9 @@ export default function SignInSide() {
                   htmlType="submit"
                   className="login-form-button"
                   onClick={handleLogin}
+                  loading={loading} 
                 >
-                  Login
+                   {loading ? 'Loading' : 'Login'} 
                 </Button>
               </Box>
             </TableRow>

@@ -27,6 +27,7 @@ import {
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
+
 import "../Page/Style.css";
 import {
   DeleteOutlined,
@@ -125,6 +126,7 @@ function ForRequest() {
 
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
@@ -133,6 +135,7 @@ function ForRequest() {
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
+
   //console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
 
   // var storedFileArray = JSON.parse(FileUp);
@@ -154,11 +157,35 @@ function ForRequest() {
     setPopupOpenLoadding(false);
   };
   const [Filedata, setFiledata] = useState([]);
+
   const ShowFile = () => {
-    axios
+    console.log("OOOOOOOOOOOOOO")
+    if (EditFam !== null || Gen_Fam_No!=null) {
+      console.log("มาแล้ววววววววววววววว",EditFam)
+      axios
       .post("http://localhost:5000/FAM_FILE_ATTACH", {
         FamNo: EditFam,
       })
+      .then((res) => {
+        const data = res.data;
+        console.log(data,"datadatadatadatadatadatadatadatadatadata");
+        if (data.length > 0) {
+          const files = data.map((file, index) => ({
+            name: file[0],
+            type: file.fileType,
+            data: file.fileData // สมมติว่ามี field ชื่อ fileData ที่เก็บข้อมูลไฟล์
+          }));
+
+          //setUploadedFiles(files);
+          console.log(files,"filesPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+        }
+      });
+    }else {
+      axios
+      .post("http://localhost:5000/FAM_FILE_ATTACH", {
+        FamNo: EditFam,
+      })
+    
       .then((res) => {
         const data = res.data;
         if (data.length > 0) {
@@ -166,11 +193,17 @@ function ForRequest() {
           console.log(data);
         }
       });
+    }
+
+
+
+
+   
   };
 
   const downloadFile = (fileName) => {
     const downloadUrl = `http://localhost:5000/downloads?filename=${encodeURIComponent(fileName)}`;
-  
+ 
     axios({
       url: downloadUrl,
       method: 'GET',
@@ -182,12 +215,12 @@ function ForRequest() {
       // สร้างลิงก์
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-    
+   
       // ดาวน์โหลดไฟล์โดยอัตโนมัติ
     //   link.download = 'downloaded_file.xlsx';
       link.download = 'downloaded_file';
       link.click();
-    
+   
       // ลบ URL ที่ถูกสร้างขึ้น
       window.URL.revokeObjectURL(link.href);
     })
@@ -195,19 +228,17 @@ function ForRequest() {
       console.error('Error downloading file:', error);
     });
   };
-
-
   useEffect(() => {
     openPopupLoadding();
 
-  //  if(EditFam){
-  //   if(For_Rq_Edit != null){
-      
-  //   }}
-  //   if(For_Req !=null ){
+    //  if(EditFam){
+    //   if(For_Rq_Edit != null){
 
-  //   }
-    
+    //   }}
+    //   if(For_Req !=null ){
+
+    //   }
+
     if (storedFileArray != null) {
       var reconstructedFileArray = storedFileArray.map(
         (data) =>
@@ -219,6 +250,7 @@ function ForRequest() {
             // Add other properties as needed
           })
       );
+      console.log(reconstructedFileArray,"//////////////////////////")
       setUploadedFiles(reconstructedFileArray);
     }
 
@@ -232,7 +264,7 @@ function ForRequest() {
     //   await costcenter();
     //   await CostforAsset();
     //   await keep();
-     
+
     // };
 
     // TEST();
@@ -243,19 +275,18 @@ function ForRequest() {
     keep();
     ShowFile();
 
-    setTimeout(function() {
+    setTimeout(function () {
       closePopupLoadding();
-  }, 5000);
+    }, 5000);
   }, []);
 
   const keep = () => {
     if (EditFam != null) {
-      
       if (For_Rq_Edit != null) {
         // มี for_rq_edit
-        console.log(For_Rq_Edit[16],"")
+        console.log(For_Rq_Edit[16], "");
         setSTS1_for_R(For_Rq_Edit[16]);
-      setSTS1_Req(For_Rq_Edit[10]);
+        setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
@@ -268,16 +299,16 @@ function ForRequest() {
         setcheckReset("hidden");
         setread_fix_group(true);
         setread_fix_cost(true);
+        setvisibityDetails("visible");
+        setvisibityFile("visible");
         if (For_Ed_FixCode != null) {
           //มี edit detail fixassetcode
           setdatatable(For_Ed_FixCode);
-          setvisibityDetails("visible");
-          setvisibityFile("visible");
           if (For_Ed_FixCode.length > 0) {
             setTableOpen(true);
             setbtnSave("visible");
           } else {
-            setTableOpen(false);
+            //setTableOpen(false);
             setbtnSave("hidden");
           }
         }
@@ -292,7 +323,6 @@ function ForRequest() {
           //setbtnSave("visible");
         } else {
         }
-        
       }
     } else {
       if (For_Req != null) {
@@ -309,10 +339,10 @@ function ForRequest() {
         setcheckGenNo("hidden");
         setcheckReset("hidden");
         setvisibityDetails("visible");
-
+        setvisibityFile("visible");
         if (For_detail != null) {
           setdatatable(For_detail);
-          setvisibityFile("visible");
+
           if (For_detail.length > 0) {
             setTableOpen(true);
             setbtnSave("visible");
@@ -570,7 +600,8 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
-  //Gen Fam No
+  
+  /////////////// Gen Fam and Tranfer_ins //////////////////
   const Gen_No = async () => {
     // let StatusId = ""; //
     openPopupLoadding();
@@ -631,7 +662,6 @@ function ForRequest() {
     }
     closePopupLoadding();
   };
-  // Insert For Request
   const Tranfer_ins = async (running_no, DataStatus) => {
     setGen_Fam_No(running_no);
     const setData_ForRequester = [
@@ -676,36 +706,33 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
-  //Find FixAsset Group
-  const ADD = async () => {
-    openPopupLoadding();
-    try {
-      const row = await axios.get(
-        `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
-      );
-      const data = row.data;
-      setfind_fixasset(data);
+/////////////////////////////////////////////////////////////
+////////////// Select Fixed Assets Code ///////////////////////////////
+ //Find FixAsset Group
+ const ADD = async () => {
+  openPopupLoadding();
+  try {
+    const row = await axios.get(
+      `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
+    );
+    const data = row.data;
+    setfind_fixasset(data);
 
-      if (data.length > 0) {
-        setOpen(true);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Data is not found",
-        });
-      }
-      //console.log(data, "1111111111111111");
-    } catch (error) {
-      //console.error("Error requesting data:", error);
+    if (data.length > 0) {
+      setOpen(true);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Data is not found",
+      });
     }
+    //console.log(data, "1111111111111111");
+  } catch (error) {
+    //console.error("Error requesting data:", error);
+  }
 
-    closePopupLoadding();
-  };
-  // ADD ลง Table REQ_DETAILS
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  closePopupLoadding();
+};
   const updateSelectedData = (selectedItems) => {
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
@@ -723,19 +750,13 @@ function ForRequest() {
     updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
   };
   const handleAdd = () => {
-    //////console.log(selectedItems, "selectedItems");
-
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
-
-    //console.log(newDataTable, "newDataTablenewDataTable");
-
     setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
     setbtnSave("visible");
   };
-  //const [data, setData] = useState(datatable);
 
   const handleDelete = async (item, index) => {
     // const dtDelete = [...datatable.slice(item)];
@@ -753,6 +774,7 @@ function ForRequest() {
         const row = await axios.post(
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
+        localStorage.removeItem("Edit_Dteail_for_FixedCode");
         Fix_Code();
       } catch (error) {
         console.error("Error requesting data:", error);
@@ -762,6 +784,7 @@ function ForRequest() {
         const row = await axios.post(
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
+        localStorage.removeItem("forDetail");
         Fix_Code();
       } catch (error) {
         console.error("Error requesting data:", error);
@@ -782,11 +805,15 @@ function ForRequest() {
       console.error("Error requesting data:", error);
     }
   };
-
   const Insert_Fam_detail = async () => {
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
-      localStorage.setItem("forDetail", sentdata);
+      if (EditFam !== null) {
+        localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
+      } else {
+        localStorage.setItem("forDetail", sentdata);
+      }
+
       console.log(
         Gen_Fam_No,
         "///////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>"
@@ -809,14 +836,11 @@ function ForRequest() {
       }
     }
   };
-  const Next = async (value) => {
-    Insert_Fam_detail();
-    Swal.fire({
-      title: "Save Details Success",
-      icon: "success",
-    });
+  const handleClose = () => {
+    setOpen(false);
   };
-
+  /////////////////////////////////////////////////////////////////////////////
+  //////////// Handle set localstorage ////////////////
   const handleTel = async (event) => {
     setTel1(event.target.value);
 
@@ -894,7 +918,6 @@ function ForRequest() {
       }
     }
   };
-
   const handleDept = async (event) => {
     setselectDept1(event.target.value);
     console.log("/////");
@@ -974,7 +997,6 @@ function ForRequest() {
       }
     }
   };
-
   const handleRemark = async (event) => {
     setRemark(event.target.value);
     console.log("/////");
@@ -1054,8 +1076,11 @@ function ForRequest() {
       }
     }
   };
+////////////////////////////////////////////////////////////////////////////
+
+
+  ///////////////////////// Upload File ///////////////////////////////////
   const handleFileUpload = (event) => {
-    //console.log("รับมา")
     const selectedFiles = event.target.files;
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
     var fileArray = [...uploadedFiles, ...selectedFiles];
@@ -1078,6 +1103,7 @@ function ForRequest() {
   const handleDragOver = (event) => {
     event.preventDefault();
   };
+  
   const handleDrop = (event) => {
     event.preventDefault();
     const files = event.dataTransfer?.files;
@@ -1088,72 +1114,90 @@ function ForRequest() {
   };
   const handleSave = async () => {
     const FAM_FORM = "REQUEST";
-
     const currentDateTime = new Date()
       .toISOString()
       .slice(2, 10)
       .replace(/-/g, "");
+
     try {
-      for (let i = 0; i < uploadedFiles.length; i++) {
-        const file = uploadedFiles[i];
-        const lastDotIndex = file.name.lastIndexOf(".");
-        const fileExtension = file.name.slice(lastDotIndex + 1);
-        let new_run_seq = "";
-        try {
-          const response_seq = await axios.get(
-            `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
-          );
-          const get_run_seq = await response_seq.data;
-          const lastValue =
-            get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
-          const incrementedValue = lastValue + 1;
-          new_run_seq = [[incrementedValue]];
-        } catch (error) {
-          console.error("Error committing files to the database:", error);
-        }
-        const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+        const newUploadedFiles = [...uploadedFiles]; // Copy uploadedFiles array
 
-        try {
-          const response = await axios.post(
-            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
-          );
-          const data = await response.data;
-          console.log(data, "dataYpload");
-          //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
-        } catch (error) {
-          console.error("Error Upload File Request:", error);
-        }
-        try {
-          const formData = new FormData();
-          uploadedFiles.forEach((file) => {
-            formData.append("files", file);
+        // Save files to server
+        for (let i = 0; i < newUploadedFiles.length; i++) {
+            const file = newUploadedFiles[i];
+            const lastDotIndex = file.name.lastIndexOf(".");
+            const fileExtension = file.name.slice(lastDotIndex + 1);
+            let new_run_seq = "";
 
-            // formData.append('filesname', file.name);
-          });
+            try {
+                const response_seq = await axios.get(
+                    `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+                );
+                const get_run_seq = await response_seq.data;
+                const lastValue =
+                    get_run_seq.length > 0
+                        ? get_run_seq[get_run_seq.length - 1][0]
+                        : 0;
+                const incrementedValue = lastValue + 1;
+                new_run_seq = incrementedValue;
+            } catch (error) {
+                console.error("Error committing files to the database:", error);
+            }
 
-          await axios.post(
-            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
-            formData
-          );
-          //console.log("Files saved successfully");
-        } catch (error) {
-          console.error("Error saving files:", error);
+            const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+            try {
+                const response = await axios.post(
+                    `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+                );
+                const data = await response.data;
+                console.log(data, "dataYpload");
+                //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+
+                // Mark file as saved
+                newUploadedFiles[i].saved = true;
+            } catch (error) {
+                console.error("Error Upload File Request:", error);
+            }
         }
-      }
+
+        // After saving all files, save them to the server
+        try {
+            const unsavedFiles = newUploadedFiles.filter((file) => !file.saved);
+            const formData = new FormData();
+            unsavedFiles.forEach((file) => {
+                formData.append("files", file);
+            });
+
+            await axios.post(
+                "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+                formData
+            );
+
+            // Show success message
+            Swal.fire({
+                title: "Uploads File Success",
+                icon: "success",
+            });
+        } catch (error) {
+            console.error("Error saving files:", error);
+        }
     } catch (error) {
-      console.error("Error committing files to the database:", error);
+        console.error("Error committing files to the database:", error);
     }
-    Swal.fire({
-      title: "Uploads File Success",
-      icon: "success",
-    });
-  };
+};
+
+
+
+
   const handleDeleteFile = (index, file) => {
     console.log(file, "filefilefilefilefile");
     const updatedFiles = [...uploadedFiles];
     updatedFiles.splice(index, 1);
     setUploadedFiles(updatedFiles);
   };
+  ////////////////////////////////////////////////////////////////////////////
+  ////// ปุ่ม Reset ///////////
   const Reset = async () => {
     setTel1("");
     setselectDept1("");
@@ -1162,6 +1206,14 @@ function ForRequest() {
     setselectFixAsset_cost1("");
     setRequest_sts1("");
   };
+//////////// Next Page ///////////
+const Next = async (value) => {
+  Insert_Fam_detail();
+  Swal.fire({
+    title: "Save Details Success",
+    icon: "success",
+  });
+};
 
   return (
     <>
@@ -1170,6 +1222,7 @@ function ForRequest() {
       </div>
 
       <div className="Box-Insert">
+         {/* สำหรับ Gen Fam no */}
         <div className="Insert">
           <PageLoadding
             isOpen={isPopupOpenLoadding}
@@ -1211,7 +1264,10 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       disabled
                       id="Txt_Famno"
                       value={Gen_Fam_No}
@@ -1227,7 +1283,10 @@ function ForRequest() {
                     <TextField
                       id="Txt_Date"
                       size="small"
-                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       value={Request_date}
                       onChange={(e) => setRequest_date(e.target.value)}
                       disabled
@@ -1245,7 +1304,10 @@ function ForRequest() {
                     <TextField
                       size="small"
                       disabled
-                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       id="Txt_user"
                       value={dataUserLogin1}
                       onChange={(e) => setdataUserLogin1(e.target.value)}
@@ -1288,7 +1350,10 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)"}}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       value={Factory1}
                       onChange={(e) => setFactory1(e.target.value)}
                       disabled
@@ -1302,7 +1367,10 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%",backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       value={Costcenter1}
                       onChange={(e) => setCostcenter1(e.target.value)}
                       disabled
@@ -1331,6 +1399,9 @@ function ForRequest() {
                         onChange={handleDept}
                         style={{
                           width: "100%",
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         error={
                           (Gen_Fam_No || EditFam) &&
@@ -1432,6 +1503,11 @@ function ForRequest() {
                         onChange={(e) =>
                           setselectFixAssetgroup1(e.target.value)
                         }
+                        style={{
+                          backgroundColor: read_fix_group
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
                         disabled={read_fix_group}
                       >
                         {/* <MenuItem value="test">test</MenuItem> */}
@@ -1458,9 +1534,13 @@ function ForRequest() {
                         id="factorycbt"
                         label="Select"
                         size="small"
-                      
                         value={selectFixAsset_cost1}
                         onChange={handleCost}
+                        style={{
+                          backgroundColor: read_fix_cost
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
                         disabled={read_fix_cost}
                       >
                         {FixAsset_cost.map((option) => (
@@ -1482,7 +1562,10 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%", backgroundColor: "rgba(169, 169, 169, 0.3)"}}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       // value={status}
                       disabled
                       value={Request_sts1}
@@ -1501,7 +1584,12 @@ function ForRequest() {
                     <TextField
                       id="Remark"
                       size="small"
-                      style={{ width: "100%" }}
+                      style={{
+                        width: "100%",
+                        backgroundColor: reac_remark
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
+                      }}
                       disabled={reac_remark}
                       value={Remark}
                       //onChange={(e) => setRemark(e.target.value)}
@@ -1536,17 +1624,16 @@ function ForRequest() {
                 </div>
               </Box>
             </Card>
-            
           </Card>
         </div>
-
-        <div 
+         {/* สำหรับ Fixed Assets Code */}
+        <div
           className="Fixed-Asset-Code"
           style={{ visibility: visibityDetails }}
         >
           <Card
             sx={{
-               borderRadius: "8px",
+              borderRadius: "8px",
               border: 2,
               borderColor: "#88AB8E",
               marginTop: 4,
@@ -1571,27 +1658,59 @@ function ForRequest() {
 
             {/* ADD Modal */}
             <div>
-            <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
-  <Typography style={{ marginLeft: "10px" ,display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none" }}>
-    Fixed Assets Code :
-  </Typography>
-  <TextField
-    id="Fixcode"
-    size="small"
-    value={find_fixasset1}
-    onChange={(e) => setfind_fixasset1(e.target.value)}
-    style={{ marginLeft: "10px" ,display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none"}}
-  />
-  <Button
-    style={{ marginTop: "3px", marginLeft: "10px", display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R == "R") ? "block" : "none"
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <Typography
+                  style={{
+                    marginLeft: "10px",
+                    display:
+                      STS1_Req == "" ||
+                      STS1_Req == "FLTR001" ||
+                      STS1_for_R == "R"
+                        ? "block"
+                        : "none",
                   }}
-    type="primary"
-    variant="contained"
-    onClick={ADD}
-  >
-    ADD
-  </Button>
-</div>
+                >
+                  Fixed Assets Code :
+                </Typography>
+                <TextField
+                  id="Fixcode"
+                  size="small"
+                  value={find_fixasset1}
+                  onChange={(e) => setfind_fixasset1(e.target.value)}
+                  style={{
+                    marginLeft: "10px",
+                    display:
+                      STS1_Req == "" ||
+                      STS1_Req == "FLTR001" ||
+                      STS1_for_R == "R"
+                        ? "block"
+                        : "none",
+                  }}
+                />
+                <Button
+                  style={{
+                    marginTop: "3px",
+                    marginLeft: "10px",
+                    display:
+                      STS1_Req == "" ||
+                      STS1_Req == "FLTR001" ||
+                      STS1_for_R == "R"
+                        ? "block"
+                        : "none",
+                  }}
+                  type="primary"
+                  variant="contained"
+                  onClick={ADD}
+                >
+                  ADD
+                </Button>
+              </div>
 
               <div>
                 {" "}
@@ -1677,333 +1796,358 @@ function ForRequest() {
               </div>
 
               <div>
-              {isTableOpen && (
-  <div style={{ marginTop: "20px" ,margin:"10px 50px 0px 50px" }}>
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table" className="TableFix">
-        <TableHead
-          sx={{
-            backgroundColor: "#436850",
-            fontSize: "10px",
-          }}
-        >
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell>Fixed Assets Code</TableCell>
-            <TableCell>Comp.</TableCell>
-            <TableCell>CC.</TableCell>
-            <TableCell>Fixed Assets Name</TableCell>
-            <TableCell>BOI Project</TableCell>
-            <TableCell>Qty</TableCell>
-            <TableCell>Invoice No.</TableCell>
-            <TableCell>Acquisition Cost(Baht)</TableCell>
-            <TableCell>Book Value(Baht)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {datatable.map((item, index) => (
-            <React.Fragment key={index}>
-              <TableRow
-                sx={{
-                  "&:last-child td, &:last-child th": {
-                    border: 0,
-                  },
-                }}
-              >
-                <TableCell>
-                  {index > 0 &&
-                  item[0] === datatable[index - 1][0] ? (
-                    ""
-                  ) : (
-                    <DeleteIcon
-                      style={{
-                        color: "red",
-                        marginLeft: "10px",
-                        display: (STS1_Req == "" || STS1_Req == "FLTR001" || STS1_for_R === "R") ? "block" : "none"
-                      }}
-                      onClick={() =>
-                        handleDelete(item[0], index)
-                      }
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  {index > 0 &&
-                  item[0] === datatable[index - 1][0]
-                    ? ""
-                    : item[0]}
-                </TableCell>
-                <TableCell>{item[1]}</TableCell>
-                <TableCell>{item[2]}</TableCell>
-                <TableCell>{item[3]}</TableCell>
-                <TableCell>{item[5]}</TableCell>
-                <TableCell>{item[6]}</TableCell>
-                <TableCell>{item[7]}</TableCell>
-                <TableCell>{item[9]}</TableCell>
-                <TableCell>{item[10]}</TableCell>
-              </TableRow>
-            </React.Fragment>
-          ))}
-          {/* Counting */}
-          <TableRow>
-          <TableCell ></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell style={{fontWeight: "bold"}}>Total</TableCell>
-            <TableCell style={{fontWeight: "bold"}}>
-               {datatable.reduce((acc, curr) => acc + curr[9], 0).toFixed(2)}
-            </TableCell>
-            
-            <TableCell style={{fontWeight: "bold"}}>{datatable.reduce((acc, curr) => acc + curr[10], 0)}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
-  </div>
-)}
-
-              </div>
-              <div style={{ display: "grid", justifyContent: "flex-end" ,margin:"15px"}}>
-  <Button
-    variant="contained"
-    style={{
-      backgroundColor: "",
-      visibility: btnSave,
-      display:
-        STS1_Req == "" ||
-        STS1_Req == "FLTR001" ||
-        STS1_for_R === "R"
-          ? "block"
-          : "none",
-    }}
-    onClick={() => Next("1")}
-  >
-    SAVE Details
-  </Button>
-</div>
-
-            </div>
-          </Card>
-        </div>
-
-
-        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ?(
-        <div className="UploadFile">
-          <Card
-            sx={{
-              visibility: visibityFile,
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "#88AB8E",
-
-              marginTop: 4,
-            }}
-            className="Style1"
-          >
-            <Typography
-              sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "10%",
-                display: "flex",
-
-                justifyContent: "center",
-              }}
-            >
-              File from request
-            </Typography>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                width: "100%",
-                marginBottom: "20px",
-                marginTop: "20px",
-              }}
-            >
-              <Grid xs={1.6}>
-                <Typography
-                  style={{
-                    width: "100%",
-                    textAlign: "right",
-                    marginTop: "7px",
-                  }}
-                >
-                  Uplpad File :
-                </Typography>
-              </Grid>
-              <Grid xs={5}>
-                <input
-                  type="file"
-                  multiple
-                  onChange={handleFileUpload}
-                  style={{ display: "none" }}
-                  id="fileInput"
-                  ref={fileInputRef}
-                />
-                <label
-                  htmlFor="fileInput"
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                  className="bt_ChooseFile"
-                >
-                  <CloudUploadOutlined
-                    style={{ fontSize: "60px", color: "#86B6F6" }}
-                  />
-                  <br />
-                  <span style={{ fontWeight: "bold" }}>
-                    Drop your files here
-                  </span>
-                  <br />
-                  or
-                  <br />
-                  <Button size="small" component="span">
-                    <b> Browse files</b>
-                  </Button>
-                </label>
-
-                {uploadedFiles.length > 0 && (
-                  <div>
-                    <ul>
-                      {uploadedFiles.map((file, index) => (
-                        <div key={index} className="BorderFile">
-                          <Typography className="Font_File">
-                            <span style={{ marginLeft: "10px" }}>
-                              {file.type.startsWith("image/") ? (
-                                <img
-                                  src={URL.createObjectURL(file)}
-                                  alt={file.name}
-                                  className="Img_file"
-                                />
-                              ) : (
-                                <>
-                                  {file.name.endsWith(".xlsx") ? (
-                                    <FileExcelOutlined
-                                      className="Icon_file"
-                                      style={{ color: "#65B741" }}
-                                    />
-                                  ) : file.name.endsWith(".pdf") ? (
-                                    <FilePdfOutlined
-                                      className="Icon_file"
-                                      style={{ color: "#FF6347" }}
-                                    />
-                                  ) : file.name.endsWith(".docx") ? (
-                                    <FileWordOutlined
-                                      className="Icon_file"
-                                      style={{ color: "#3468C0" }}
-                                    />
-                                  ) : file.name.endsWith(".txt") ? (
-                                    <FileTextOutlined
-                                      className="Icon_file"
-                                      style={{ color: "#B6BBC4" }}
-                                    />
+                {isTableOpen && (
+                  <div
+                    style={{ marginTop: "20px", margin: "10px 50px 0px 50px" }}
+                  >
+                    <TableContainer component={Paper}>
+                      <Table aria-label="simple table" className="TableFix">
+                        <TableHead
+                          sx={{
+                            backgroundColor: "#436850",
+                            fontSize: "10px",
+                          }}
+                        >
+                          <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell>Fixed Assets Code</TableCell>
+                            <TableCell>Comp.</TableCell>
+                            <TableCell>CC.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
+                            <TableCell>BOI Project</TableCell>
+                            <TableCell>Qty</TableCell>
+                            <TableCell>Invoice No.</TableCell>
+                            <TableCell>Acquisition Cost(Baht)</TableCell>
+                            <TableCell>Book Value(Baht)</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {datatable.map((item, index) => (
+                            <React.Fragment key={index}>
+                              <TableRow
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell>
+                                  {index > 0 &&
+                                  item[0] === datatable[index - 1][0] ? (
+                                    ""
                                   ) : (
-                                    <FileUnknownOutlined
-                                      className="Icon_file"
-                                      style={{ color: "#FFD3A3" }}
+                                    <DeleteIcon
+                                      style={{
+                                        color: "red",
+                                        marginLeft: "10px",
+                                        display:
+                                          STS1_Req == "" ||
+                                          STS1_Req == "FLTR001" ||
+                                          STS1_for_R === "R"
+                                            ? "block"
+                                            : "none",
+                                      }}
+                                      onClick={() =>
+                                        handleDelete(item[0], index)
+                                      }
                                     />
                                   )}
-                                </>
+                                </TableCell>
+                                <TableCell>
+                                  {index > 0 &&
+                                  item[0] === datatable[index - 1][0]
+                                    ? ""
+                                    : item[0]}
+                                </TableCell>
+                                <TableCell>{item[1]}</TableCell>
+                                <TableCell>{item[2]}</TableCell>
+                                <TableCell>{item[3]}</TableCell>
+                                <TableCell>{item[5]}</TableCell>
+                                <TableCell>{item[6]}</TableCell>
+                                <TableCell>{item[7]}</TableCell>
+                                <TableCell>{item[9]}</TableCell>
+                                <TableCell>{item[10]}</TableCell>
+                              </TableRow>
+                            </React.Fragment>
+                          ))}
+                          {/* Counting */}
+                          <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              Total
+                            </TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {datatable
+                                .reduce((acc, curr) => acc + curr[9], 0)
+                                .toFixed(2)}
+                            </TableCell>
+
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {datatable.reduce(
+                                (acc, curr) => acc + curr[10],
+                                0
                               )}
-                              {index + 1} {file.name}
-                            </span>
-                            <DeleteOutlined
-                              onClick={() => handleDeleteFile(index, file.name)}
-                              className="Icon_DeleteFile"
-                            />
-                          </Typography>
-                        </div>
-                      ))}
-                    </ul>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </div>
                 )}
-                <div
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  justifyContent: "flex-end",
+                  margin: "15px",
+                }}
+              >
+                <Button
+                  variant="contained"
                   style={{
-                    textAlign: "right",
-                    marginTop: "5px",
+                    backgroundColor: "",
+                    visibility: btnSave,
+                    display:
+                      STS1_Req == "" ||
+                      STS1_Req == "FLTR001" ||
+                      STS1_for_R === "R"
+                        ? "block"
+                        : "none",
                   }}
+                  onClick={() => Next("1")}
                 >
-                  <Button variant="contained" onClick={handleSave}>
-                    Save
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  SAVE Details
+                </Button>
+              </div>
+            </div>
           </Card>
-        </div>) : (
-        <div >
-          <Card
-            sx={{
-              visibility: visibityFile,
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "#88AB8E",
-
-              marginTop: 4,
-            }}
-            className="Style1"
-          >
-            <Typography
+        </div> 
+         {/* สำหรับ Upload File */}
+        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ? (
+          <div className="UploadFile">
+            <Card
               sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "10%",
-                display: "flex",
+                visibility: visibityFile,
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "#88AB8E",
 
-                justifyContent: "center",
+                marginTop: 4,
               }}
+              className="Style1"
             >
-              File from request
-            </Typography>
-<div className="FileShow" style={{marginBottom:'40px'}}>
-  <TableContainer component={Paper}>
-  <Table  className="FamFilePopUp">
-          <TableHead>
-            <TableRow>
-              <TableCell>No.</TableCell>
-              <TableCell>File</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Filedata.map((option, index) => (
-              <TableRow key={index}>
-                <TableCell >{Filedata[index][2]}</TableCell>
-                <TableCell
-                  style={{
-                    textAlign: "center",
-                    color: "blue",
-                    textDecoration: "underline",
-                  
-                  }}
-                >
-                  <p style={{ cursor: "pointer"}} onClick={() => downloadFile(Filedata[index][4])}>
-                    {Filedata[index][3]}
-                  </p>
-                </TableCell>
-              </TableRow>
-            ))}
-            {/* <TableRow>
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "10%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                File from request
+              </Typography>
+              <Grid
+                container
+                spacing={3}
+                style={{
+                  width: "100%",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                <Grid xs={1.6}>
+                  <Typography
+                    style={{
+                      width: "100%",
+                      textAlign: "right",
+                      marginTop: "7px",
+                    }}
+                  >
+                    Uplpad File :
+                  </Typography>
+                </Grid>
+                <Grid xs={5}>
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileUpload}
+                    style={{ display: "none" }}
+                    id="fileInput"
+                    ref={fileInputRef}
+                  />
+                  <label
+                    htmlFor="fileInput"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    className="bt_ChooseFile"
+                  >
+                    <CloudUploadOutlined
+                      style={{ fontSize: "60px", color: "#86B6F6" }}
+                    />
+                    <br />
+                    <span style={{ fontWeight: "bold" }}>
+                      Drop your files here
+                    </span>
+                    <br />
+                    or
+                    <br />
+                    <Button size="small" component="span">
+                      <b> Browse files</b>
+                    </Button>
+                  </label>
+
+                  {uploadedFiles.length > 0 && (
+                    <div>
+                      <ul>
+                        {uploadedFiles.map((file, index) => (
+                          <div key={index} className="BorderFile">
+                            <Typography className="Font_File">
+                              <span style={{ marginLeft: "10px" }}>
+                                {file.type.startsWith("image/") ? (
+                                  <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={file.name}
+                                    className="Img_file"
+                                  />
+                                ) : (
+                                  <>
+                                    {file.name.endsWith(".xlsx") ? (
+                                      <FileExcelOutlined
+                                        className="Icon_file"
+                                        style={{ color: "#65B741" }}
+                                      />
+                                    ) : file.name.endsWith(".pdf") ? (
+                                      <FilePdfOutlined
+                                        className="Icon_file"
+                                        style={{ color: "#FF6347" }}
+                                      />
+                                    ) : file.name.endsWith(".docx") ? (
+                                      <FileWordOutlined
+                                        className="Icon_file"
+                                        style={{ color: "#3468C0" }}
+                                      />
+                                    ) : file.name.endsWith(".txt") ? (
+                                      <FileTextOutlined
+                                        className="Icon_file"
+                                        style={{ color: "#B6BBC4" }}
+                                      />
+                                    ) : (
+                                      <FileUnknownOutlined
+                                        className="Icon_file"
+                                        style={{ color: "#FFD3A3" }}
+                                      />
+                                    )}
+                                  </>
+                                )}
+                                {index + 1} {file.name}
+                              </span>
+                              <DeleteOutlined
+                                onClick={() =>
+                                  handleDeleteFile(index, file.name)
+                                }
+                                className="Icon_DeleteFile"
+                              />
+                            </Typography>
+                          </div>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      textAlign: "right",
+                      marginTop: "5px",
+                    }}
+                  >
+                    <Button variant="contained" onClick={handleSave}>
+                      Save
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
+            </Card>
+          </div>
+        ) : (
+          <div className="ShowFile">
+            <Card
+              sx={{
+                visibility: visibityFile,
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "#88AB8E",
+
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "10%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                File from request
+              </Typography>
+              <div className="FileShow" style={{ marginBottom: "40px" }}>
+                <TableContainer component={Paper}>
+                  <Table className="FamFilePopUp">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>No.</TableCell>
+                        <TableCell>File</TableCell>
+                        <TableCell>View</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {Filedata.map((option, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{Filedata[index][2]}</TableCell>
+                          <TableCell>{Filedata[index][3]}</TableCell>
+                          <TableCell
+                            style={{
+                              textAlign: "center",
+                              color: "blue",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <p
+                              style={{ cursor: "pointer" }}
+                              onClick={() => downloadFile(Filedata[index][4])}
+                            >
+                              {Filedata[index][3]}
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {/* <TableRow>
               <TableCell colSpan={4} style={{ border: "0" }}>
                 
               </TableCell>
             </TableRow> */}
-          </TableBody>
-        </Table>
-  </TableContainer>
-
-</div>
-
-        </Card>
-        </div>
-)}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            </Card>
+          </div>
+        )}
+         {/* ปุ่ม Next Page */}
         <div
           className=""
           style={{ display: "flex", justifyContent: "flex-end" }}

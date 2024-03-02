@@ -117,7 +117,7 @@ app.get('/downloads', (req, res) => {
     // ส่งไฟล์กลับไปยังผู้ใช้
     res.sendFile(filePath);
     console.log(filePath)
-    res.sendFile(filePath);
+    // res.sendFile(filePath);
   } else {
     // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน
     res.status(404).send('File not found');
