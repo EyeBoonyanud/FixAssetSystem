@@ -1416,7 +1416,17 @@ function TransFerDetail() {
     ];
     const sendheader = JSON.stringify(set_data_for_req_details);
     localStorage.setItem("For_Routing", sendheader);
-
+    const confirmResult = await Swal.fire({
+      title: "Are you sure you want to save?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, save it!",
+      cancelButtonText: "No, cancel!",
+  });
+  if (confirmResult.isConfirmed) {
     if (EditFam != null) {
       try {
         const row = axios.post(
@@ -1468,10 +1478,13 @@ function TransFerDetail() {
 
     Swal.fire({
       title: "Save Success",
+      text: "Your data has been saved successfully!",
       icon: "success",
+      confirmButtonText: "OK",
     });
-
+ 
     setOpen(true);
+  }
   };
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {

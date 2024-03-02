@@ -1876,6 +1876,48 @@ module.exports.delect_all_fam_transfer = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+module.exports.delete_all_file = async function (req, res) {
+  try {
+    const FFA_FAM_NO = req.query.famno;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_FILE_ATTACH 
+     WHERE FFA_FAM_NO = :fam
+    `;
+    const data = {
+      fam: FFA_FAM_NO,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.deletefile = async function (req, res) {
+  try {
+    const FFA_FAM_NO = req.query.famno;
+   const FFA_FILE_NAME = req.query.name_for_file;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    DELETE FROM FAM_FILE_ATTACH 
+     WHERE FFA_FAM_NO = :fam
+     AND FFA_FILE_NAME =:name_file
+     
+    `;
+    const data = {
+      fam: FFA_FAM_NO,
+      name_file :FFA_FILE_NAME
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
 // Update Manager Department
 module.exports.update_manager_dept = async function (req, res) {
   try {

@@ -161,17 +161,18 @@ function ForRequest() {
   const ShowFile = () => {
     console.log("OOOOOOOOOOOOOO")
     if (EditFam !== null || Gen_Fam_No!=null) {
-      console.log("มาแล้ววววววววววววววว",EditFam)
+      if(STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R"){
+       console.log("มาแล้ววววววววววววววว")
       axios
       .post("http://localhost:5000/FAM_FILE_ATTACH", {
         FamNo: EditFam,
       })
       .then((res) => {
         const data = res.data;
-        console.log(data,"datadatadatadatadatadatadatadatadatadata");
+        console.log(data,"filesPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
         if (data.length > 0) {
           const files = data.map((file, index) => ({
-            name: file[0],
+            name: file.fileName,
             type: file.fileType,
             data: file.fileData // สมมติว่ามี field ชื่อ fileData ที่เก็บข้อมูลไฟล์
           }));
@@ -179,8 +180,8 @@ function ForRequest() {
           //setUploadedFiles(files);
           console.log(files,"filesPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
         }
-      });
-    }else {
+      }); 
+      }
       axios
       .post("http://localhost:5000/FAM_FILE_ATTACH", {
         FamNo: EditFam,
@@ -193,6 +194,19 @@ function ForRequest() {
           console.log(data);
         }
       });
+    }else {
+      // axios
+      // .post("http://localhost:5000/FAM_FILE_ATTACH", {
+      //   FamNo: EditFam,
+      // })
+    
+      // .then((res) => {
+      //   const data = res.data;
+      //   if (data.length > 0) {
+      //     setFiledata(data);
+      //     console.log(data);
+      //   }
+      // });
     }
 
 
@@ -1082,28 +1096,51 @@ function ForRequest() {
   ///////////////////////// Upload File ///////////////////////////////////
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
-    setUploadedFiles([...uploadedFiles, ...selectedFiles]);
-    var fileArray = [...uploadedFiles, ...selectedFiles];
-    var jsonDataArray = fileArray.map((file) => ({
-      name: file.name,
-      lastModified: file.lastModified,
-      lastModifiedDate: file.lastModifiedDate
-        ? file.lastModifiedDate.toISOString()
-        : null,
-      webkitRelativePath: file.webkitRelativePath,
-      size: file.size,
-      type: file.type,
-    }));
-    var fileArrayString = JSON.stringify(jsonDataArray);
+    const allowedTypes = ["image/png"]; // Allowed file types (add more if needed)
+    const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
 
-    // เก็บ JSON string ใน local storage ด้วย key "Type"
+    // Check file types and sizes
+    for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const fileType = file.type;
+
+        // Check if file type is allowed
+        if (allowedTypes.includes(fileType)) {
+            alert("PNG files are not allowed.");
+            return; // Stop further processing
+        }
+
+        // Check file size
+        if (file.size > maxSize) {
+            alert("File size exceeds 10 MB.");
+            return; // Stop further processing
+        }
+    }
+
+    // If all files passed the checks, proceed to add them to uploadedFiles
+    setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+
+    // Convert files to JSON format
+    const jsonDataArray = uploadedFiles.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+            ? file.lastModifiedDate.toISOString()
+            : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+    }));
+
+    // Store JSON string in local storage with key "Type"
+    const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
-    console.log(fileArray, "555555555555555555555555555", fileArrayString);
-  };
+    console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
+};
+
   const handleDragOver = (event) => {
     event.preventDefault();
   };
-  
   const handleDrop = (event) => {
     event.preventDefault();
     const files = event.dataTransfer?.files;
@@ -1114,88 +1151,83 @@ function ForRequest() {
   };
   const handleSave = async () => {
     const FAM_FORM = "REQUEST";
+
     const currentDateTime = new Date()
       .toISOString()
       .slice(2, 10)
       .replace(/-/g, "");
-
     try {
-        const newUploadedFiles = [...uploadedFiles]; // Copy uploadedFiles array
-
-        // Save files to server
-        for (let i = 0; i < newUploadedFiles.length; i++) {
-            const file = newUploadedFiles[i];
-            const lastDotIndex = file.name.lastIndexOf(".");
-            const fileExtension = file.name.slice(lastDotIndex + 1);
-            let new_run_seq = "";
-
-            try {
-                const response_seq = await axios.get(
-                    `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
-                );
-                const get_run_seq = await response_seq.data;
-                const lastValue =
-                    get_run_seq.length > 0
-                        ? get_run_seq[get_run_seq.length - 1][0]
-                        : 0;
-                const incrementedValue = lastValue + 1;
-                new_run_seq = incrementedValue;
-            } catch (error) {
-                console.error("Error committing files to the database:", error);
-            }
-
-            const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
-
-            try {
-                const response = await axios.post(
-                    `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
-                );
-                const data = await response.data;
-                console.log(data, "dataYpload");
-                //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
-
-                // Mark file as saved
-                newUploadedFiles[i].saved = true;
-            } catch (error) {
-                console.error("Error Upload File Request:", error);
-            }
-        }
-
-        // After saving all files, save them to the server
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        const file = uploadedFiles[i];
+        const lastDotIndex = file.name.lastIndexOf(".");
+        const fileExtension = file.name.slice(lastDotIndex + 1);
+        let new_run_seq = "";
         try {
-            const unsavedFiles = newUploadedFiles.filter((file) => !file.saved);
-            const formData = new FormData();
-            unsavedFiles.forEach((file) => {
-                formData.append("files", file);
-            });
-
-            await axios.post(
-                "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
-                formData
-            );
-
-            // Show success message
-            Swal.fire({
-                title: "Uploads File Success",
-                icon: "success",
-            });
+          const response_seq = await axios.get(
+            `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+          );
+          const get_run_seq = await response_seq.data;
+          const lastValue =
+            get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
+          const incrementedValue = lastValue + 1;
+          new_run_seq = [[incrementedValue]];
         } catch (error) {
-            console.error("Error saving files:", error);
+          console.error("Error committing files to the database:", error);
         }
+        const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+        try {
+          const response = await axios.post(
+            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+          );
+          const data = await response.data;
+          console.log(data, "dataYpload");
+          //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+        } catch (error) {
+          console.error("Error Upload File Request:", error);
+        }
+        try {
+          const formData = new FormData();
+          uploadedFiles.forEach((file) => {
+            formData.append("files", file);
+
+            // formData.append('filesname', file.name);
+          });
+
+          await axios.post(
+            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            formData
+          );
+          //console.log("Files saved successfully");
+        } catch (error) {
+          console.error("Error saving files:", error);
+        }
+      }
     } catch (error) {
-        console.error("Error committing files to the database:", error);
+      console.error("Error committing files to the database:", error);
     }
+    
+    Swal.fire({
+      title: "Uploads File Success",
+      icon: "success",
+    });
+  };
+  const handleDeleteFile = async (index, file) => {
+    console.log(file, "filefilefilefilefile");
+    const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
+    setUploadedFiles(updatedFiles);
+      try {
+          // Send delete file request to the server
+          await axios.post(
+              `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+          );
+          localStorage.removeItem("Type"); // Send request to search for new data
+      } catch (error) {
+          console.error("Error deleting file:", error);
+      }
+  
 };
 
-
-
-
-  const handleDeleteFile = (index, file) => {
-    console.log(file, "filefilefilefilefile");
-    const updatedFiles = [...uploadedFiles];
-    updatedFiles.splice(index, 1);
-    setUploadedFiles(updatedFiles);
-  };
   ////////////////////////////////////////////////////////////////////////////
   ////// ปุ่ม Reset ///////////
   const Reset = async () => {
@@ -2063,11 +2095,19 @@ const Next = async (value) => {
                       </ul>
                     </div>
                   )}
+
                   <div
                     style={{
                       textAlign: "right",
                       marginTop: "5px",
-                    }}
+                      display:
+                      STS1_Req == "" ||
+                      STS1_Req == "FLTR001" ||
+                      STS1_for_R === "R"
+                        ? "block"
+                        : "none",
+                  }}
+                  
                   >
                     <Button variant="contained" onClick={handleSave}>
                       Save

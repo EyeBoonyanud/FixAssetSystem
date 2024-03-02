@@ -261,6 +261,7 @@ function Issue() {
         }
         // console.log(rollNoSearch.data,"Search: ")
         // console.log(selectdept,"DEPT:")
+        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -290,6 +291,17 @@ function Issue() {
         console.error("Error requesting data:", error);
       }
     }
+    localStorage.removeItem("ForRequester");
+    localStorage.removeItem("forDetail");
+    localStorage.removeItem("TransForDetail")
+    localStorage.removeItem("EDIT")
+    localStorage.removeItem("For_Transfer")
+    localStorage.removeItem("For_Routing")
+    localStorage.removeItem("For_Req_Edit")
+    localStorage.removeItem("Edit_Trans")
+    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
+    localStorage.removeItem("Edit_routing") 
+    localStorage.removeItem("Type")
   };
 
   const Reset = async () => {
@@ -330,6 +342,9 @@ function Issue() {
           );
           await axios.post(
             `http://localhost:5000/delect_all_fam_header?famno=${item}`
+          );
+          await axios.post(
+            `http://localhost:5000/delete_all_file?famno=${item}`
           );
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
           Swal.fire("Deleted!", "Your data has been deleted.", "success");

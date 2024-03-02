@@ -87,6 +87,10 @@ app.post("/getFixcode",Transaction.getFixcode);
 app.post("/delect_all_fam_header",Transaction.delect_all_fam_header);
 app.post("/delect_all_fam_details",Transaction.delect_all_fam_details);
 app.post("/delect_all_fam_transfer",Transaction.delect_all_fam_transfer);
+app.post("/delete_all_file",Transaction.delete_all_file);
+// For File Delete 1 to 1
+app.post("/deletefile",Transaction.deletefile);
+
 // Update For Radio 
 app.post("/update_manager_dept",Transaction.update_manager_dept);
 app.post("/update_service_by",Transaction.update_service_by);
