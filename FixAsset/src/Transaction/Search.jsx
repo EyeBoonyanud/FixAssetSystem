@@ -116,7 +116,7 @@ function Issue() {
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
     localStorage.removeItem("Type")
-    navigate("/InsertIssue");
+    navigate("/ForRe");
   };
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
@@ -239,12 +239,14 @@ function Issue() {
    window.location.href = "/ForRe";
   };
   const Search = async () => {
+  
     if (Path === "SEARCH") {
       const FamNo = document.getElementById("FamNo").value;
       const FamTo = document.getElementById("FamTo").value;
       const FixAsset = document.getElementById("FixAsset").value;
       const Date = document.getElementById("Date").value;
-      const DateTo = document.getElementById("DateTo").value;
+      const DateTo = document.getElementById("DateTo").value; 
+       console.log(Date,DateTo)
       try {
         const rollNoSearch = await axios.get(
           `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`

@@ -160,26 +160,34 @@ function ForRequest() {
   const [Filedata, setFiledata] = useState([]);
 
   const ShowFile = () => {
-    let Gen_Fam_No_Show = "";
-   
-    if (EditFam != null) {
-      if (For_Rq_Edit != null) {
-        Gen_Fam_No_Show = For_Rq_Edit[0];
-      }
-    } else {
-      if (For_Req != null) {
-        Gen_Fam_No_Show = For_Req[0];
-      }
-    }
-    console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
-    console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
-    if ( Gen_Fam_No != null) {
+    
+    console.log("OOOOOOOOOOOOOO");
+    if (EditFam !== null || Gen_Fam_No != null) {
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+        console.log("มาแล้ววววววววววววววว");
+        console.log("ขั้นตอนที่ 2",Gen_Fam_No);
         axios
-     axios
+          .post("http://localhost:5000/FAM_FILE_ATTACH", {
+            FamNo: EditFam,
+          })
+          .then((res) => {
+            const data = res.data;
+            console.log(data, "filesPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+            if (data.length > 0) {
+             
+              if (data.length > 0) {
+                setFiledata(data);
+                console.log(data);
+              }
+
+              //setUploadedFiles(files);
+              console.log(files, "filesPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
+            }
+          });
+      }
+      axios
         .post("http://localhost:5000/FAM_FILE_ATTACH", {
-          FamNo: Gen_Fam_No_Show,
+          FamNo: EditFam,
         })
 
         .then((res) => {
@@ -189,22 +197,24 @@ function ForRequest() {
             console.log(data);
           }
         });
-      }}
-     
-    // } else {
-    //   console.log("เข้าอันนี้จ้า")
-    //   axios
-    //   .post("http://localhost:5000/FAM_FILE_ATTACH", {
-    //     FamNo: Gen_Fam_No,
-    //   })
-    //   .then((res) => {
-    //     const data = res.data;
-    //     if (data.length > 0) {
-    //       setFiledata(data);
-    //       console.log(data);
-    //     }
-    //   });
-    // }
+    } else {
+      axios
+      .post("http://localhost:5000/FAM_FILE_ATTACH", {
+        FamNo: Gen_Fam_No,
+      
+      }  )
+      .then((res) => {
+       
+        const data = res.data;
+        console.log("ขั้นตอนที่ 3",data);
+        if (data.length > 0) {
+          setFiledata(data);
+          console.log(data);
+          console.log("ขั้นตอนที่ 4",data);
+        }
+        console.log("ขั้นตอนที่ 5",);
+      });
+    }
   };
 
   const downloadFile = (fileName) => {
@@ -276,14 +286,14 @@ function ForRequest() {
     //   await keep();
 
     // };
-
     // TEST();
+ 
     request_by();
     factory();
     costcenter();
     CostforAsset();
     keep();
-    ShowFile();
+   ShowFile();
 
     setTimeout(function () {
       closePopupLoadding();
@@ -769,38 +779,43 @@ function ForRequest() {
   };
 
   const handleDelete = async (item, index) => {
-    // const dtDelete = [...datatable.slice(item)];
-    // console.log(dtDelete,"////////////////")
-    // // datatable = datatable.slice(0, item);
-    // const data_edit = JSON.stringify(dtDelete);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
-    //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-
-    // setdatatable(datatable);
-
-    if (EditFam !== null) {
-      console.log("index", item, EditFam);
-      try {
-        const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
-        );
-        localStorage.removeItem("Edit_Dteail_for_FixedCode");
-        Fix_Code();
-      } catch (error) {
-        console.error("Error requesting data:", error);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to delete this item?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (EditFam !== null) {
+          console.log("index", item, EditFam);
+          try {
+            const row = await axios.post(
+              `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+            );
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            Fix_Code();
+          } catch (error) {
+            console.error("Error requesting data:", error);
+          }
+        } else {
+          try {
+            const row = await axios.post(
+              `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+            );
+            localStorage.removeItem("forDetail");
+            Fix_Code();
+          } catch (error) {
+            console.error("Error requesting data:", error);
+          }
+        }
       }
-    } else {
-      try {
-        const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
-        );
-        localStorage.removeItem("forDetail");
-        Fix_Code();
-      } catch (error) {
-        console.error("Error requesting data:", error);
-      }
-    }
+    });
   };
+  
+
   const Fix_Code = async () => {
     try {
       const response = await axios.post(
@@ -1203,32 +1218,60 @@ function ForRequest() {
     } catch (error) {
       console.error("Error committing files to the database:", error);
     }
-
+    console.log("ขั้นตอนที่ 1"); 
+    setUploadedFilesDATA([]);
+    ShowFile();
     Swal.fire({
       title: "Uploads File Success",
       icon: "success",
     });
+   
 
-    setUploadedFilesDATA([]);
-    ShowFile();
+   
   };
 
   const handleDeleteFile = async (index, file) => {
-    console.log(index, "index", file);
-    console.log(file, "filefilefilefilefile");
-    const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
-    setUploadedFiles(updatedFiles);
-    try {
-      // Send delete file request to the server
-      await axios.post(
-        `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
-      );
-      localStorage.removeItem("Type");
-    } catch (error) {
-      console.error("Error deleting file:", error);
-    }
-    ShowFile();
-  };
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to delete this file?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            console.log(index, "index", file);
+            console.log(file, "filefilefilefilefile");
+            const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
+            setUploadedFiles(updatedFiles);
+            try {
+                // Send delete file request to the server
+                await axios.post(
+                    `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+                );
+                localStorage.removeItem("Type");
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                ).then(() => {
+                    // Reload the page after deletion
+                    ShowFile();
+                });
+            } catch (error) {
+                console.error("Error deleting file:", error);
+                Swal.fire(
+                    'Error!',
+                    'An error occurred while deleting the file.',
+                    'error'
+                );
+            }
+            
+        }
+    });
+};
+
 
   ////////////////////////////////////////////////////////////////////////////
   ////// ปุ่ม Reset ///////////
@@ -1355,11 +1398,8 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%"  , 
-                        backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
-                      }}
+                      style={{ width: "100%" }}
                       disabled={read_tel}
-                      
                       // style={{
 
                       //   width: "100%",

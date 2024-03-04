@@ -230,8 +230,8 @@ module.exports.search = async function (req, res) {
     AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${date}' OR '${date}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${dateto}' OR '${dateto}' IS NULL)
     ORDER BY T.FRH_FAM_NO DESC
          `;
     console.log(query);
@@ -292,8 +292,8 @@ module.exports.search2 = async function (req, res) {
     AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${date}' OR '${date}' IS NULL)
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYYMMDD') >= '${dateto}' OR '${dateto}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${date}' OR '${date}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${dateto}' OR '${dateto}' IS NULL)
     ORDER BY T.FRH_FAM_NO DESC
   
          `;

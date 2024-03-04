@@ -1396,6 +1396,7 @@ function TransFerDetail() {
       abnormal,
       receiver,
       sts,
+      
     ];
     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
     localStorage.setItem("For_Transfer", sentdata);
@@ -1670,7 +1671,7 @@ function TransFerDetail() {
         For_Req[2] === ""
       ) {
         setErrorTel_Rq(true);
-        alert("Please fill in information: กรุณากรอกข้อมูล Requester");
+        alert("Please fill in information: Tel Requester");
         let ErrorTel_Req = "true";
 
         navigate("/ForRe", ErrorTel_Req);
@@ -1684,7 +1685,7 @@ function TransFerDetail() {
         For_Req[5] === undefined ||
         For_Req[5] === ""
       ) {
-        alert("Please fill in information: กรุณาเลือกแผนก");
+        alert("Please fill in information: Dept");
         setErrorDept(true);
         navigate("/ForRe");
         return;
@@ -2553,7 +2554,7 @@ function TransFerDetail() {
                         error={ErrorTel && !Tel_for_trans}
                         helperText={
                           ErrorTel && !Tel_for_trans
-                            ? "กรูณาใส่เบอร์โทร"
+                            ? "Please enter your mobile phone number"
                             : undefined
                         }
                       />
@@ -2795,6 +2796,9 @@ function TransFerDetail() {
                         disabled={read_tel}
                         size="small"
                         value={Tel_service}
+                        style={{
+                          backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) => setTel_service(e.target.value)}
                         // style={{
                         //   borderColor: ErrorTel_service ? "red" : undefined,
@@ -2802,7 +2806,7 @@ function TransFerDetail() {
                         error={ErrorTel_service && !Tel_service}
                         helperText={
                           ErrorTel_service && !Tel_service
-                            ? "กรูณาใส่เบอร์โทร"
+                            ? "Please enter your mobile phone number"
                             : undefined
                         }
                       />

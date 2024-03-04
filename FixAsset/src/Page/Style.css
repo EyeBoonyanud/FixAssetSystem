@@ -92,7 +92,7 @@
 
 .Style1 {
   width: 100%;
-  display: flex;
+ 
   justify-content: center;
 }
 
@@ -160,6 +160,9 @@
   border: 2px dashed #B4D4FF;
   border-radius: 8px;
   cursor: pointer;
+  width: 700px;
+  margin-top: 30px;
+  
 }
 .BorderFile{
   border: 2px solid #EEEEEE !important;
@@ -287,6 +290,7 @@ margin-right: 10px;
   top: 0;
   z-index: 1;
  
+ 
  }
  .FamFilePopUp th {
   background-color: #436850;
@@ -300,4 +304,12 @@ margin-right: 10px;
   /* border: 1px solid red; */
  padding: 4;
   white-space: nowrap;
+}
+.Show-Data-File{
+  width: 900px;
+}
+.All-Layout-File{
+  /* border: 1px solid red; */
+  width: 100%;
+  margin-top: 50px;
 }

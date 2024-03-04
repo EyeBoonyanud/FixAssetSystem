@@ -1,0 +1,65 @@
+    <tr
+              style={{
+                fontSize: "12px",
+                textAlign: "center",
+              }}
+            >
+  <th style={{ width: "60px" }}>
+                Fixed Assets Number
+              </th>
+              <th style={{ width: "60px" }}>Comp.</th>
+              <th style={{ width: "60px" }}>Cost Center</th>
+              <th style={{ width: "350px" }}>Fixed Assets Name</th>
+              <th style={{ width: "60px" }}>BOI Project</th>
+              <th style={{ width: "40px" }}>Qty</th>
+              <th style={{ width: "60px" }}>Invoice No.</th>
+              <th style={{ width: "80px" }}>Acquisition Cost (Baht)</th>
+              <th style={{ width: "80px" }}>Book Value (Baht)</th>
+              <th style={{ width: "60px" ,borderRight:"1px solid black" }}>New Cost Center</th>
+            </tr>
+
+, borderWidth: " 0px 1px 0 0px" 
+
+
+ {count.map((item, index) => (
+              <tr
+                key={index}
+                className="Total"
+                style={{
+                  height: "10px",
+                  borderWidth: "1px 1px 0 1px",
+                  borderStyle: "solid",
+                  borderColor: "black",
+                  width: "100%",
+                }}
+              >
+                <td style={{ fontWeight: "bold" }}>Total</td>
+                <td style={{ width: "60px" }}></td>
+                <td style={{ width: "60px" }}></td>
+                <td style={{ width: "350px" }}></td>
+                <td style={{ width: "60px" }}></td>
+                <td style={{ width: "60px" }}> </td>
+                <td style={{ width: "60px" }}></td>
+                <td
+                  style={{
+                    borderWidth: "0 0px 0 1px",
+                    fontWeight: "bold",
+                    width: "60px",
+                  }}
+                >
+                  {item[0]}{" "}
+                </td>
+                <td
+                  style={{
+                    borderWidth: "0 1px 0 1px",
+                    fontWeight: "bold",
+                    width: "60px",
+                  }}
+                >
+                  {item[1]}{" "}
+                </td>
+                <td></td>
+              </tr>
+
+
+style={{ borderWidth: "1px 0px 0px 0px",paddingLeft:"300px"}} 
