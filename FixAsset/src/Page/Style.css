@@ -160,7 +160,7 @@
   border: 2px dashed #B4D4FF;
   border-radius: 8px;
   cursor: pointer;
-  width: 700px;
+  width: 350px;
   margin-top: 30px;
   
 }
@@ -273,8 +273,15 @@ margin-right: 10px;
 }
 .FileShow {
   padding: 40px;
-  /* border: 1px solid red; */
-  width: 500px;
+  
+ margin: 30px;
+  display: flex;
+  justify-content: center; /* จัดเลย์เอาต์ให้อยู่กึ่งกลางในแนวนอน */
+  align-items: center; 
+  border-radius: 10px;
+  background-color: #e1e9db;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  width: 700px;
 }
 /* .FileShow th {
   margin: 40px;
@@ -290,15 +297,28 @@ margin-right: 10px;
   top: 0;
   z-index: 1;
  
+
+ 
  
  }
  .FamFilePopUp th {
   background-color: #436850;
   white-space: nowrap;
   color: rgb(253, 251, 251);
+  font-size: 14px;
+  font-weight: bold;
+  
  
 }
+.FamFilePopUp td {
+  background-color: #f7f9f8;
+  white-space: nowrap;
+  color: rgb(19, 18, 18);
+  font-size: 14px;
  
+  
+ 
+}
  
 .FamFilePopUp td {
   /* border: 1px solid red; */
@@ -307,9 +327,53 @@ margin-right: 10px;
 }
 .Show-Data-File{
   width: 900px;
+  padding: 10px;
 }
 .All-Layout-File{
   /* border: 1px solid red; */
   width: 100%;
   margin-top: 50px;
+}
+.ImageShowFile{
+ width: 100%;
+  margin-left: 100px;
+}
+.File_For_Show th{
+  background-color: #92CEA8;
+}
+.TableShow{
+  justify-content: center;
+  display: flex;
+  overflow: auto; /* Add this line for scroll */
+  position: sticky;
+
+}
+.Table_file_for_req{
+  /* border: 1px red solid; */
+  width: 100%;
+padding: 50px;
+  width: 90%;
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+ 
+
+
+}
+.Table_Show_req1{
+  border-radius: 10px;
+  background-color: #e2eded;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+ 
+ 
+
+}
+.Table_Show_req2{
+  margin-left:30px ;
+  /* border-radius: 10px;
+ 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  */
+
+ 
 }

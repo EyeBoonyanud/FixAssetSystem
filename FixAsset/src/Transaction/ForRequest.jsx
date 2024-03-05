@@ -27,7 +27,8 @@ import {
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
-
+import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import { Empty } from "antd";
 import "../Page/Style.css";
 import {
   DeleteOutlined,
@@ -101,7 +102,7 @@ function ForRequest() {
 
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req);
+  console.log(For_Req,"VVVVVVVVVV");
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
@@ -389,12 +390,14 @@ function ForRequest() {
     }
   };
 
-  const formattedDate = `${(currentDate.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}/${currentDate
-    .getDate()
-    .toString()
-    .padStart(2, "0")}/${currentDate.getFullYear()}`;
+  // const formattedDate = `${(currentDate.getMonth() + 1)
+  //   .toString()
+  //   .padStart(2, "0")}/${currentDate
+  //   .getDate()
+  //   .toString()
+  //   .padStart(2, "0")}/${currentDate.getFullYear()}`;
+  const formattedDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`;
+
 
   //Request By /////////////////////////////////////////
   const request_by = async () => {
@@ -1239,6 +1242,7 @@ function ForRequest() {
     setselectFixAssetgroup1("");
     setselectFixAsset_cost1("");
     setRequest_sts1("");
+    setRemark("");
   };
   //////////// Next Page ///////////
   const Next = async (value) => {
@@ -1479,12 +1483,14 @@ function ForRequest() {
                         control={<Radio />}
                         label="Transfer"
                         className="Radio"
+                        disabled={reac_type}
                       />
                       <FormControlLabel
                         value="GP01002"
                         control={<Radio />}
                         label="Scrap"
                         className="Radio"
+                        disabled={reac_type}
                       />
 
                       <FormControlLabel
@@ -1492,30 +1498,35 @@ function ForRequest() {
                         control={<Radio />}
                         label="Sales"
                         className="Radio"
+                        disabled={reac_type}
                       />
                       <FormControlLabel
                         value="GP01004"
                         control={<Radio />}
                         label="Lost"
                         className="Radio"
+                        disabled={reac_type}
                       />
                       <FormControlLabel
                         value="GP01005"
                         control={<Radio />}
                         label="Write-off"
                         className="Radio"
+                        disabled={reac_type}
                       />
                       <FormControlLabel
                         value="GP01006"
                         control={<Radio />}
                         label="Landing to Third-party"
                         className="Radio"
+                        disabled={reac_type}
                       />
                       <FormControlLabel
                         value="GP01007"
                         control={<Radio />}
                         label="Donation"
                         className="Radio"
+                        disabled={reac_type}
                       />
                     </RadioGroup>
                   </Grid>
@@ -1986,25 +1997,25 @@ function ForRequest() {
                   marginRight: "85%",
                   width: "10%",
                   display: "flex",
-
                   justifyContent: "center",
                 }}
               >
                 File from request
               </Typography>
-              <table className="All-Layout-File">
-                <tr>
-                  
-                    <td
+
+<table className="Table_file_for_req">
+<tr >
+  <td className="Table_Show_req1">
+  <td
                       className="Show-Data-File"
                       style={{ textAlign: "center" }}
                     >
                       <div
-                        style={{
-                          display: "inline-block",
-                          marginBottom: "40px",
-                          width: "500px",
-                        }}
+                        // style={{
+                        //   display: "inline-block",
+                        //   marginBottom: "40px",
+                        //   width: "500px",
+                        // }}
                       >
                        <TableContainer component={Paper}>
   <Table className="FamFilePopUp">
@@ -2020,7 +2031,7 @@ function ForRequest() {
       {Filedata.length === 0 ? (
         <TableRow>
           <TableCell colSpan={4} style={{ textAlign: "center" }}>
-            No data
+            <Empty />
           </TableCell>
         </TableRow>
       ) : (
@@ -2043,12 +2054,12 @@ function ForRequest() {
                 textDecoration: "underline",
               }}
             >
-              <p
-                style={{ cursor: "pointer" }}
+              <PlagiarismIcon
+                style={{ cursor: "pointer" ,fontSize:'30px' }}
                 onClick={() => downloadFile(Filedata[index][4])}
               >
                 {Filedata[index][3]}
-              </p>
+              </PlagiarismIcon>
             </TableCell>
           </TableRow>
         ))
@@ -2059,9 +2070,10 @@ function ForRequest() {
 
                       </div>
                     </td>
-                
-                  <td className="">
-                    <input
+  </td>
+  <td style={{width:'20px'}}></td>
+  <td className="Table_Show_req2">
+  <input
                       type="file"
                       multiple
                       onChange={handleFileUpload}
@@ -2069,7 +2081,7 @@ function ForRequest() {
                       id="fileInput"
                       ref={fileInputRef}
                     /> 
-                    <div style={{width:'740px'}}>
+                    <div style={{width:'400px'}}>
                     <label
                       htmlFor="fileInput"
                       onDragOver={handleDragOver}
@@ -2165,6 +2177,18 @@ function ForRequest() {
                       </Button>
                     </div>
 </div>
+  </td>
+</tr>
+</table>
+
+
+              <table className="All-Layout-File">
+                <tr>
+                  
+                   
+                
+                  <td className="">
+                   
                   </td>
                 </tr>
                 <tr></tr>
@@ -2176,10 +2200,13 @@ function ForRequest() {
                   }}
                 ></tr>
               </table>
+
+
+
             </Card>
           </div>
         ) : (
-          <div className="ShowFile">
+          <div className="ShowFile" >
             <Card
               sx={{
                 visibility: visibityFile,
@@ -2205,9 +2232,20 @@ function ForRequest() {
               >
                 File from request
               </Typography>
-              <div className="FileShow" style={{ marginBottom: "40px" }}>
+              <table className="TableShow"  style={{padding:'40px'}}>
+                <tr>
+                  <td>
+                  <div className="ImageShowFile">
+  <img src="./src/assets/Image/1.jpg"
+   style={{width:'400px' }}  
+    alt="Description of your image" />
+</div>
+
+                  </td>
+                  <td>
+<div className="FileShow" style={{ marginBottom: "40px" }}>
                 <TableContainer component={Paper}>
-                  <Table className="FamFilePopUp">
+                  <Table className="File_For_Show">
                     <TableHead>
                       <TableRow>
                         <TableCell>No.</TableCell>
@@ -2245,6 +2283,11 @@ function ForRequest() {
                   </Table>
                 </TableContainer>
               </div>
+                  </td>
+                </tr>
+              </table>
+              
+              
             </Card>
           </div>
         )}

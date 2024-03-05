@@ -19,6 +19,7 @@ import Header from "../Page/Hearder";
 import { useNavigate } from "react-router-dom";
 import PageLoadding from "../Loadding/Pageload";
 
+
 function TransFerDetail() {
   // Local Storage
   const EditFam = localStorage.getItem("EDIT");
@@ -227,12 +228,8 @@ function TransFerDetail() {
 
   /////////////// ตัวแปร FormatDate //////////////////////////////
   const [currentDate, setCurrentDate] = useState(new Date());
-  const formattedDate = `${(currentDate.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}/${currentDate
-    .getDate()
-    .toString()
-    .padStart(2, "0")}/${currentDate.getFullYear()}`;
+  const formattedDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`;
+
 
   //////////////////////////////Loading /////////////////////////
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -1374,6 +1371,7 @@ function TransFerDetail() {
 
   // ปุ่ม SAVE
   const SAVE = async () => {
+    console.log(For_Req,)
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1414,6 +1412,7 @@ function TransFerDetail() {
       owner_roting,
       selectacc_manager,
       selectservice_by,
+      text_acc_check
     ];
     const sendheader = JSON.stringify(set_data_for_req_details);
     localStorage.setItem("For_Routing", sendheader);
@@ -1429,6 +1428,30 @@ function TransFerDetail() {
   });
   if (confirmResult.isConfirmed) {
     if (EditFam != null) {
+      console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/Update_For_Req_All",
+          {
+            famno: For_Rq_Edit[0],
+            dept: For_Rq_Edit[6],
+            tel: For_Rq_Edit[3],
+            remark: For_Rq_Edit[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Rq_Edit[1],
+            record_by: text_acc_check,
+          }
+        );
+      } catch (error) {
+        //     console.error("Error updating submit status:", error.message);
+      }
       try {
         const row = axios.post(
           `http://localhost:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
@@ -1452,6 +1475,31 @@ function TransFerDetail() {
         //console.error("Error during login:", error);
       }
     } else {
+     console.log("TTTTTTTTTTTT")
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/Update_For_Req_All",
+          {
+            famno: For_Req[0],
+            dept: For_Req[5],
+            tel: For_Req[2],
+            remark: For_Req[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Req[1],
+            record_by: text_acc_check,
+          }
+        );
+      } catch (error) {
+        //     console.error("Error updating submit status:", error.message);
+      }
+      console.log("sts", sts);
       try {
         const response = await axios.post(
           `http://localhost:5000/create_date?tranfer=${Fam_list}`
@@ -1643,9 +1691,11 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information: ACC Check");
         setErrorAcc_check(true);
+        return;
       } else {
         setErrorAcc_check(false);
       }
+
       if (
         selectacc_manager === null ||
         selectacc_manager === undefined ||
@@ -1753,17 +1803,7 @@ function TransFerDetail() {
       } else {
         setErrorManager(false);
       }
-      if (
-        selectservice_by === null ||
-        selectservice_by === undefined ||
-        selectservice_by === ""
-      ) {
-        alert("Please fill in information: Service By");
-        setErrorService_by(true);
-        return;
-      } else {
-        setErrorService_by(false);
-      }
+      
       if (
         Tel_service === null ||
         Tel_service === undefined ||
@@ -1774,6 +1814,17 @@ function TransFerDetail() {
         return;
       } else {
         setErrorTel_service(false);
+      }
+      if (
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by === ""
+      ) {
+        alert("Please fill in information: Service By");
+        setErrorService_by(true);
+        return;
+      } else {
+        setErrorService_by(false);
       }
 
       if (
@@ -1820,6 +1871,7 @@ function TransFerDetail() {
       } else {
         setErrorAcc_check(false);
       }
+
       if (
         selectacc_manager === null ||
         selectacc_manager === undefined ||
@@ -1827,6 +1879,7 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information: ACC Manager");
         setErrorAcc_Mana(true);
+        return;
       } else {
         setErrorAcc_Mana(false);
       }
@@ -2290,20 +2343,76 @@ function TransFerDetail() {
   };
   // ปุ่ม Reset
   const Reset = async () => {
-    setselecttrans_factory([]);
-    setselecttrans_cc([]);
-    setnew_boi("");
-    setnew_owner([]);
-    setplan_date("");
-    setTel_for_trans("");
-    setabnormal("");
-    setselectdepartment_mana([]);
-    setselectservice_by([]);
-    setselectboi_staff([]);
-    setselectboi_manager([]);
-    setselectfac_manager([]);
-    setselectacc_check([]);
-    setselectacc_manager([]);
+    if(EditFam !==null){
+      if(STS1 == "" || STS1 =="FLTR001" || For_sts_reject =="R") {
+        setselecttrans_factory([]);
+        setselecttrans_cc([]);
+        setnew_boi("");
+        setnew_owner([]);
+        setplan_date("");
+        setTel_for_trans("");
+        setTel_service("");
+        setabnormal("");
+        setselectdepartment_mana([]);
+        setselectservice_by([]);
+        setselectboi_staff([]);
+        setselectboi_manager([]);
+        setselectfac_manager([]);
+        setselectacc_check([]);
+        setselectacc_manager([]);
+      }if (STS1 == "FLTR002"){
+        setselectradio_dept("");
+        setcmmtradio_dept("");
+      } if (STS1 == "FLTR003"){
+        setselectradio_serviceby("");
+        setcmmtradio_serviceby("");
+      } if (STS1 == "FLTR004"){
+        setselectradio_boistaff("");
+        setcmmtradio_boistaff("");
+      }if (STS1 == "FLTR005"){
+        setselectradio_boimanager("");
+        setcmmtradio_boimanager("");
+      }if (STS1 == "FLTR006"){
+        setselectradio_facmanager("");
+        setcmmtradio_facmanager("");
+      }if (STS1 == "FLTR007"){
+        setselectradio_acc_check("");
+        setcmmtradio_acc_check("");
+      }if (STS1 == "FLTR008"){
+        setselectradio_owner("");
+        setcmmtradio_owner("");
+      }if (STS1 == "FLTR009"){
+        setselectradio_receiver("");
+        setcmmtradio_receiver("");
+      }if (STS1 == "FLTR010"){
+        setselectradio_record("");
+        setcmmtradio_record("");
+      }if (STS1 == "FLTR011"){
+        setselectradio_acc_manager("");
+        setcmmtradio_acc_manager("");
+      }if (STS1 == "FLTR012"){
+        setselectradio_service_close_by("");
+        setcmmtradio_service_close_by("");
+      }
+     
+    }else{
+      setselecttrans_factory([]);
+      setselecttrans_cc([]);
+      setnew_boi("");
+      setnew_owner([]);
+      setplan_date("");
+      setTel_for_trans("");
+      setTel_service("");
+      setabnormal("");
+      setselectdepartment_mana([]);
+      setselectservice_by([]);
+      setselectboi_staff([]);
+      setselectboi_manager([]);
+      setselectfac_manager([]);
+      setselectacc_check([]);
+      setselectacc_manager([]);
+    }
+   
   };
   // Const Return
   return (
@@ -2843,7 +2952,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorService_by && (
+                      {(ErrorService_by && !selectservice_by) && (
                         <FormHelperText style={{ color: "red" }}>
                           Please select : Service By
                         </FormHelperText>
@@ -2933,6 +3042,7 @@ function TransFerDetail() {
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
+                        size="small"
                         disabled={read_boistff}
                         value={selectboi_staff}
                         onChange={(e) => {
@@ -2941,13 +3051,13 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined, backgroundColor: read_boistff ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorBoi_Staff && !selectboi_staff}
-                        size="small"
-                        helperText={
-                          ErrorBoi_Staff && !selectboi_staff
-                            ? "Please select :BOI Staff"
-                            : undefined
-                        }
+                         error={ErrorBoi_Staff && !selectboi_staff}
+                        // size="small"
+                        // helperText={
+                        //   ErrorBoi_Staff && !selectboi_staff
+                        //     ? "Please select :BOI Staff"
+                        //     : undefined
+                        // }
                       >
                         {boi_staff.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -2955,6 +3065,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
+                      {(ErrorBoi_Staff && !selectboi_staff) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3045,11 +3156,7 @@ function TransFerDetail() {
                           borderColor: ErrorBoi_manager ? "red" : undefined, backgroundColor: read_boimana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorBoi_manager && !selectboi_manager}
-                        helperText={
-                          ErrorBoi_manager && !selectboi_manager
-                            ? " Please select :BOI Manager"
-                            : undefined
-                        }
+                       
                       >
                         {boi_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -3057,7 +3164,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorBoi_manager && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>} */}
+                      {(ErrorBoi_manager && !selectboi_manager) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3122,6 +3229,9 @@ function TransFerDetail() {
                         size="small"
                         value={cmmtradio_boimanager}
                         disabled={read_boimana_cmmt}
+                        style={{
+                          backgroundColor: read_boimana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
                         }
@@ -3149,11 +3259,11 @@ function TransFerDetail() {
                           borderColor: ErrorMana_Fac ? "red" : undefined,backgroundColor: read_fac_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorMana_Fac && !selectfac_manager}
-                        helperText={
-                          ErrorMana_Fac && !selectfac_manager
-                            ? "Please select: Factory Manager"
-                            : undefined
-                        }
+                        // helperText={
+                        //   ErrorMana_Fac && !selectfac_manager
+                        //     ? "Please select: Factory Manager"
+                        //     : undefined
+                        // }
                       >
                         {fac_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -3161,7 +3271,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorMana_Fac && <FormHelperText style={{color : "red"}}>กรุณาเลือก Factory Manager</FormHelperText>} */}
+                      {(ErrorMana_Fac && !selectfac_manager) && <FormHelperText style={{color : "red"}}>Please select : Factory Manager</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -3264,11 +3374,11 @@ function TransFerDetail() {
                           borderColor: ErrorAcc_check ? "red" : undefined,backgroundColor: read_accchk ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorAcc_check && !selectacc_check}
-                        helperText={
-                          ErrorAcc_check && !selectacc_check
-                            ? "Please select:ACC Check "
-                            : undefined
-                        }
+                        // helperText={
+                        //   ErrorAcc_check && !selectacc_check
+                        //     ? "Please select:ACC Check "
+                        //     : undefined
+                        // }
                       >
                         {acc_check.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -3276,7 +3386,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {/* {ErrorAcc_check && <FormHelperText style={{color : "red"}}>กรุณาเลือก ACC Check</FormHelperText>} */}
+                      {(ErrorAcc_check && !selectacc_check) && <FormHelperText style={{color : "red"}}>Please select : ACC Check :</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -3701,11 +3811,7 @@ function TransFerDetail() {
                           borderColor: ErrorAcc_Mana ? "red" : undefined,backgroundColor: read_acc_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         error={ErrorAcc_Mana && !selectacc_manager}
-                        helperText={
-                          ErrorAcc_Mana && !selectacc_manager
-                            ? "BOI Manager"
-                            : undefined
-                        }
+                       
                       >
                         {acc_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -3713,9 +3819,9 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {ErrorAcc_Mana && (
+                      {(ErrorAcc_Mana && !selectacc_manager)&& (
                         <FormHelperText style={{ color: "red" }}>
-                          กรุณาเลือก ACC Manager
+                         Please select : ACC Manager
                         </FormHelperText>
                       )}
                     </FormControl>
@@ -3955,7 +4061,7 @@ function TransFerDetail() {
             >
               BACK PAGE
             </Button>
-            <Button
+            {/* <Button
               variant="contained"
               style={{
                 width: "200px",
@@ -3966,7 +4072,7 @@ function TransFerDetail() {
               }}
             >
               Next Page
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
