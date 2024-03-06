@@ -34,7 +34,7 @@ function TransFerDetail() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
-  console.log(For_Trans, "For_Trans");
+  // console.log(For_Trans, "For_Trans");
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -43,8 +43,8 @@ function TransFerDetail() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  console.log(For_Rq_Edit, "For_Rq_Edit");
-  console.log(For_edit_trans, "For_edit_trans");
+  // console.log(For_Rq_Edit, "For_Rq_Edit");
+  // console.log(For_edit_trans, "For_edit_trans");
 
   // เก็บตัวแปร
   let STS = "";
@@ -247,7 +247,7 @@ function TransFerDetail() {
       setFor_sts_reject(For_Rq_Edit[16]);
     }
     if (For_Req != null) {
-      console.log(For_Req[10], "For_Req[10]");
+      // console.log(For_Req[10], "For_Req[10]");
       setSTS1(For_Req[10]);
     }
 
@@ -360,7 +360,7 @@ function TransFerDetail() {
               //readonly
 
               if (STS == "FLTR001" || For_Rq_Edit[16] === "R") {
-                console.log("Reject OR Approve", For_Rq_Edit[16]);
+                // console.log("Reject OR Approve", For_Rq_Edit[16]);
                 setReadTransFac(false);
                 setReadTransCC(false);
                 setReadTel(false);
@@ -1003,9 +1003,10 @@ function TransFerDetail() {
   const handleFactoryCC = async (event) => {
     setselecttrans_factory(event.target.value);
 
-    // console.log(For_edit_trans, "rrrrr");
+    // // console.log(For_edit_trans, "rrrrr");
     if (EditFam != null) {
-      if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
+      if (For_edit_trans) 
+      console.log(">>>>>>>>..", event.target.value);
       const data = [
         event.target.value,
         For_edit_trans[1],
@@ -1045,7 +1046,7 @@ function TransFerDetail() {
         const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
         localStorage.setItem("For_Transfer", sentdata);
       } else {
-        console.log("------///////////----------", For_Trans);
+        // console.log("------///////////----------", For_Trans);
         const setData_forTranfer_Req_Tranfer_Details = [
           For_Trans[0],
           For_Trans[1],
@@ -1112,12 +1113,12 @@ function TransFerDetail() {
         setnew_boi(boi);
       }
       if (data_fromboi == boi) {
-        //   console.log(abnormal,"N")
+        //   // console.log(abnormal,"N")
         setsts("N");
         setabnormal("");
       } else {
         setsts("Y");
-        // console.log(abnormal,"Y")
+        // // console.log(abnormal,"Y")
         setabnormal("Transfer to difference project");
       }
     } catch (error) {
@@ -1163,7 +1164,7 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment_mana(data);
-      console.log(data, "data");
+      // console.log(data, "data");
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
@@ -1371,7 +1372,7 @@ function TransFerDetail() {
 
   // ปุ่ม SAVE
   const SAVE = async () => {
-    console.log(For_Req,)
+    // console.log(For_Req,)
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1428,7 +1429,7 @@ function TransFerDetail() {
   });
   if (confirmResult.isConfirmed) {
     if (EditFam != null) {
-      console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
+      // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
       try {
         const response = await axios.post(
           "http://localhost:5000/Update_For_Req_All",
@@ -1475,7 +1476,7 @@ function TransFerDetail() {
         //console.error("Error during login:", error);
       }
     } else {
-     console.log("TTTTTTTTTTTT")
+     // console.log("TTTTTTTTTTTT")
       try {
         const response = await axios.post(
           "http://localhost:5000/Update_For_Req_All",
@@ -1499,7 +1500,7 @@ function TransFerDetail() {
       } catch (error) {
         //     console.error("Error updating submit status:", error.message);
       }
-      console.log("sts", sts);
+      // console.log("sts", sts);
       try {
         const response = await axios.post(
           `http://localhost:5000/create_date?tranfer=${Fam_list}`
@@ -1608,7 +1609,7 @@ function TransFerDetail() {
         setErrorNewOwn(false);
       }
       if (plan_date === null || plan_date === undefined || plan_date === "") {
-        console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
+        // console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -1888,11 +1889,11 @@ function TransFerDetail() {
     if (EditFam != null) {
       // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
-        console.log(receiver, "receiver");
+        // console.log(receiver, "receiver");
         if (For_Rq_Edit[10] === "FLTR001") {
           let Status = "FLTR002";
           try {
-            console.log("For_Rq_Edit", For_Rq_Edit[0]);
+            // console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
               "http://localhost:5000/Update_For_Req_All",
               {
@@ -2049,14 +2050,14 @@ function TransFerDetail() {
             //     console.error("Error updating submit status:", error.message);
           }
         } else if (For_Rq_Edit[10] === "FLTR003") {
-          console.log(For_Rq_Edit[10], "LLLLLLLLLLL", selectradio_serviceby);
+          // console.log(For_Rq_Edit[10], "LLLLLLLLLLL", selectradio_serviceby);
           let Status = "";
           if (selectradio_serviceby == "A") {
             Status = "FLTR004";
-            console.log(Status, "PP", selectradio_serviceby);
+            // console.log(Status, "PP", selectradio_serviceby);
           } else if (selectradio_serviceby == "R") {
             Status = "FLTR093";
-            console.log(Status, "III", selectradio_serviceby);
+            // console.log(Status, "III", selectradio_serviceby);
           }
           try {
             const row = axios.post(
@@ -2267,7 +2268,7 @@ function TransFerDetail() {
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
-        console.log(For_Req[10], "Vkppppppppppppppppppp");
+        // console.log(For_Req[10], "Vkppppppppppppppppppp");
         let Status = "FLTR002";
         try {
           const response = await axios.post(
@@ -2303,7 +2304,7 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        console.log("sts", sts);
+        // console.log("sts", sts);
         try {
           const response = await axios.post(
             "http://localhost:5000/Update_For_Trans_All",
@@ -2607,7 +2608,7 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5" colSpan={3}></td>
                 </tr>
-                {/* {console.log("PAGE_STATUS === EDIT", STS)} */}
+                {/* {// console.log("PAGE_STATUS === EDIT", STS)} */}
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">New Owner :</Typography>
@@ -2676,7 +2677,7 @@ function TransFerDetail() {
                       Plan Remove Date :
                     </Typography>
                   </td>
-                  {console.log(ErrorDate, plan_date, "************")}
+                  {/* {// console.log(ErrorDate, plan_date, "************")} */}
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -4001,7 +4002,7 @@ function TransFerDetail() {
       <div>
         <div className="Style8">
           <Box>
-            {console.log(STS1, "GGGGGGGGGG")}
+            {/* {console.log(STS1, "GGGGGGGGGG")} */}
             <table>
               <tr>
                 <td

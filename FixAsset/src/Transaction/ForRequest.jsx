@@ -102,7 +102,7 @@ function ForRequest() {
 
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  console.log(For_Req,"VVVVVVVVVV");
+  // console.log(For_Req,"VVVVVVVVVV");
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
@@ -117,6 +117,7 @@ function ForRequest() {
   const [delete_fix, setdelete_fix] = useState("hidden");
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
+  const [checknext ,setchecknext] =useState("visible");
 
   //
   // const [chkadd,setchkadd] = useState("hidden");
@@ -128,17 +129,17 @@ function ForRequest() {
 
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-  console.log(For_Ed_FixCode, "For_Ed_FixCode");
+  // console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit", For_Rq_Edit);
+  // console.log("For_Rq_Edit", For_Rq_Edit);
   let STS = "";
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
 
-  //console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
+  //// console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
 
   // var storedFileArray = JSON.parse(FileUp);
   // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
@@ -172,11 +173,11 @@ function ForRequest() {
         Gen_Fam_No_Show = For_Req[0];
       }
     }
-    console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
-    console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
+    // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
+    // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
     if ( Gen_Fam_No != null) {
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+        // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
         axios
      axios
         .post("http://localhost:5000/FAM_FILE_ATTACH", {
@@ -187,13 +188,13 @@ function ForRequest() {
           const data = res.data;
           if (data.length > 0) {
             setFiledata(data);
-            console.log(data);
+            // console.log(data);
           }
         });
       }}
      
     // } else {
-    //   console.log("เข้าอันนี้จ้า")
+    //   // console.log("เข้าอันนี้จ้า")
     //   axios
     //   .post("http://localhost:5000/FAM_FILE_ATTACH", {
     //     FamNo: Gen_Fam_No,
@@ -202,7 +203,7 @@ function ForRequest() {
     //     const data = res.data;
     //     if (data.length > 0) {
     //       setFiledata(data);
-    //       console.log(data);
+    //       // console.log(data);
     //     }
     //   });
     // }
@@ -222,7 +223,7 @@ function ForRequest() {
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],
         });
-        console.log(response);
+        // console.log(response);
         // สร้างลิงก์
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
@@ -261,13 +262,13 @@ function ForRequest() {
             // Add other properties as needed
           })
       );
-      console.log(reconstructedFileArray, "//////////////////////////");
+      // console.log(reconstructedFileArray, "//////////////////////////");
       setUploadedFiles(reconstructedFileArray);
     }
 
     // Edit();
     // EditFixAsset();
-    // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
+    // // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
     //handleReload();
     // const TEST = async () => {
     //   await request_by();
@@ -295,7 +296,7 @@ function ForRequest() {
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         // มี for_rq_edit
-        console.log(For_Rq_Edit[16], "");
+        // console.log(For_Rq_Edit[16], "");
         setSTS1_for_R(For_Rq_Edit[16]);
         setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
@@ -324,7 +325,7 @@ function ForRequest() {
           }
         }
         if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R") {
-          console.log("MMMMMMMMMMMMMMMMMMMMMM");
+          // console.log("MMMMMMMMMMMMMMMMMMMMMM");
           // setchkadd("visible")
           setread_dept(false);
           setread_remark(false);
@@ -363,7 +364,7 @@ function ForRequest() {
           }
         }
         if (STS == "FLTR001" || STS == "") {
-          console.log("YYYYYYYYY");
+          // console.log("YYYYYYYYY");
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -382,6 +383,7 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
+          setchecknext("hidden")
           // setchkadd("visible")
           //  setbtnSave("visible");
         } else {
@@ -410,14 +412,14 @@ function ForRequest() {
       setdataUserLogin(data_insert);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
+          // console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
           setdataUserLogin1(For_Rq_Edit[15]);
         }
       } else {
         if (For_Req != null) {
           setdataUserLogin1(For_Req[14]);
         } else {
-          //console.log("/////////");
+          //// console.log("/////////");
           setdataUserLogin1(data_insert[4]);
         }
       }
@@ -438,14 +440,14 @@ function ForRequest() {
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
           }
         } else {
           if (For_Req != null) {
             setFactory1(For_Req[4]);
           } else {
-            //console.log("/////////");
+            //// console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -462,14 +464,14 @@ function ForRequest() {
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
           }
         } else {
           if (For_Req != null) {
             setFactory1(For_Req[4]);
           } else {
-            //console.log("/////////");
+            //// console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -488,19 +490,19 @@ function ForRequest() {
         setDept(data_dept);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setselectDept1(For_Rq_Edit[6]);
           }
         } else {
           if (For_Req != null) {
-            //console.log(For_Req,"DDDDDDDeptttttt")
+            //// console.log(For_Req,"DDDDDDDeptttttt")
             setselectDept1(For_Req[5]);
           } else {
-            //console.log("/////////");
+            //// console.log("/////////");
             setselectDept1("");
           }
         }
-        //console.log(data_dept, "data_dept");
+        //// console.log(data_dept, "data_dept");
       } catch (error) {
         //console.error("Error during login:", error);
       }
@@ -515,12 +517,12 @@ function ForRequest() {
       );
       const data = await response.data;
       const data_insert = data.flat();
-      //console.log(data_insert, "data_insert");
+      //// console.log(data_insert, "data_insert");
       setCostcenter(data_insert);
-      //console.log(For_Req);
+      //// console.log(For_Req);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
           setCostcenter1(For_Rq_Edit[5]);
         }
       } else {
@@ -542,12 +544,12 @@ function ForRequest() {
       );
       const data = await response.data;
 
-      //console.log(data, "data_fixgroup");
+      //// console.log(data, "data_fixgroup");
       setFixAssetgroup(data);
 
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
           setselectFixAssetgroup1(For_Rq_Edit[8]);
         }
@@ -570,7 +572,7 @@ function ForRequest() {
       setFixAsset_cost(CostData);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
           setselectFixAsset_cost1(For_Rq_Edit[9]);
         }
@@ -601,13 +603,13 @@ function ForRequest() {
           );
           const data_for_servicedept = await response.data;
           setdataFix_Asset_Cost(data_for_servicedept);
-          //console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+          //// console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
         } catch (error) {
           //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-        //console.log(data, "ServiceDept---------------------");
+        //// console.log(data, "ServiceDept---------------------");
       }
     } catch (error) {
       //console.error("Error during login:", error);
@@ -658,7 +660,7 @@ function ForRequest() {
         //console.error("Error during login:", error);
       }
     } else {
-      console.log("444444");
+      // console.log("444444");
       if (
         Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
@@ -694,7 +696,7 @@ function ForRequest() {
       selectFixAssetgroup1[1],
       Emp_name,
     ];
-    //console.log(setData_ForRequester, "datadata");
+    //// console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
@@ -705,6 +707,7 @@ function ForRequest() {
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
+      setchecknext("visible")
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -739,7 +742,7 @@ function ForRequest() {
           title: "Data is not found",
         });
       }
-      //console.log(data, "1111111111111111");
+      //// console.log(data, "1111111111111111");
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
@@ -773,16 +776,16 @@ function ForRequest() {
 
   const handleDelete = async (item, index) => {
     // const dtDelete = [...datatable.slice(item)];
-    // console.log(dtDelete,"////////////////")
+    // // console.log(dtDelete,"////////////////")
     // // datatable = datatable.slice(0, item);
     // const data_edit = JSON.stringify(dtDelete);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
+    // // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
     //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
 
     // setdatatable(datatable);
 
     if (EditFam !== null) {
-      console.log("index", item, EditFam);
+      // console.log("index", item, EditFam);
       try {
         const row = await axios.post(
           `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
@@ -811,7 +814,7 @@ function ForRequest() {
       );
       const dataStatus = await response.data;
       setdatatable(dataStatus);
-      console.log(dataStatus, "dataStatus");
+      // console.log(dataStatus, "dataStatus");
 
       // StatusId = dataStatus.flat();
     } catch (error) {
@@ -827,10 +830,7 @@ function ForRequest() {
         localStorage.setItem("forDetail", sentdata);
       }
 
-      console.log(
-        Gen_Fam_No,
-        "///////////////////////////////////>>>>>>>>>>>>>>>>>>>>>>>"
-      );
+     
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
@@ -858,7 +858,7 @@ function ForRequest() {
     setTel1(event.target.value);
 
     if (EditFam != null) {
-      console.log(">>>>>>>>..", For_Rq_Edit);
+      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -876,7 +876,7 @@ function ForRequest() {
         For_Rq_Edit[13],
         For_Rq_Edit[14],
       ];
-      console.log("/////////////////");
+      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
@@ -885,7 +885,7 @@ function ForRequest() {
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        console.log("------>>>>>>>>>>>>>>>>---------");
+        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -903,11 +903,11 @@ function ForRequest() {
           "",
           Emp_name,
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        console.log("------///////////----------", For_Req);
+        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -925,7 +925,7 @@ function ForRequest() {
           For_Req[13],
           For_Req[14],
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -933,10 +933,10 @@ function ForRequest() {
   };
   const handleDept = async (event) => {
     setselectDept1(event.target.value);
-    console.log("/////");
+    // console.log("/////");
 
     if (EditFam != null) {
-      console.log(">>>>>>>>..", For_Rq_Edit);
+      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -954,17 +954,17 @@ function ForRequest() {
         For_Rq_Edit[13],
         For_Rq_Edit[14],
       ];
-      console.log("/////////////////");
+      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
     } else {
       //insert
-      console.log("------bbbbbb---------", For_Req[0]);
+      // console.log("------bbbbbb---------", For_Req[0]);
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        console.log("------>>>>>>>>>>>>>>>>---------");
+        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -982,11 +982,11 @@ function ForRequest() {
           "",
           Emp_name,
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        console.log("------///////////----------", For_Req);
+        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1004,7 +1004,7 @@ function ForRequest() {
           For_Req[13],
           For_Req[14],
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1012,10 +1012,10 @@ function ForRequest() {
   };
   const handleRemark = async (event) => {
     setRemark(event.target.value);
-    console.log("/////");
+    // console.log("/////");
 
     if (EditFam != null) {
-      console.log(">>>>>>>>..", For_Rq_Edit);
+      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1033,17 +1033,17 @@ function ForRequest() {
         For_Rq_Edit[13],
         For_Rq_Edit[14],
       ];
-      console.log("/////////////////");
+      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
     } else {
       //insert
-      console.log("------bbbbbb---------");
+      // console.log("------bbbbbb---------");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        console.log("------>>>>>>>>>>>>>>>>---------");
+        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1061,11 +1061,11 @@ function ForRequest() {
           "",
           Emp_name,
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        console.log("------///////////----------", For_Req);
+        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1083,7 +1083,7 @@ function ForRequest() {
           For_Req[13],
           For_Req[14],
         ];
-        //console.log(setData_ForRequester, "datadata");
+        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1092,33 +1092,77 @@ function ForRequest() {
   ////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////// Upload File ///////////////////////////////////
+  // const handleFileUpload = (event) => {
+  //   const selectedFiles = event.target.files;
+  //   const allowedTypes = ["image/png"]; // Allowed file types (add more if needed)
+  //   const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
+
+  //   // Check file types and sizes
+  //   for (let i = 0; i < selectedFiles.length; i++) {
+  //     const file = selectedFiles[i];
+  //     const fileType = file.type;
+
+  //     // Check if file type is allowed
+  //     if (allowedTypes.includes(fileType)) {
+  //       alert("PNG files are not allowed.");
+  //       return; // Stop further processing
+  //     }
+
+  //     // Check file size
+  //     if (file.size > maxSize) {
+  //       alert("File size exceeds 10 MB.");
+  //       return; // Stop further processing
+  //     }
+  //   }
+
+  //   // If all files passed the checks, proceed to add them to uploadedFiles
+  //   setUploadedFiles([...uploadedFiles, ...selectedFiles]);
+  //   setUploadedFilesDATA([...uploadedFilesDATA, ...selectedFiles]);
+
+  //   // Convert files to JSON format
+  //   const jsonDataArray = uploadedFilesDATA.map((file) => ({
+  //     name: file.name,
+  //     lastModified: file.lastModified,
+  //     lastModifiedDate: file.lastModifiedDate
+  //       ? file.lastModifiedDate.toISOString()
+  //       : null,
+  //     webkitRelativePath: file.webkitRelativePath,
+  //     size: file.size,
+  //     type: file.type,
+  //   }));
+
+  //   // Store JSON string in local storage with key "Type"
+  //   const fileArrayString = JSON.stringify(jsonDataArray);
+  //   localStorage.setItem("Type", fileArrayString);
+  //   // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
+  // };
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
-    const allowedTypes = ["image/png"]; // Allowed file types (add more if needed)
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg" ,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Allowed file types
     const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
-
+  
     // Check file types and sizes
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       const fileType = file.type;
-
+  
       // Check if file type is allowed
-      if (allowedTypes.includes(fileType)) {
-        alert("PNG files are not allowed.");
+      if (!allowedTypes.includes(fileType)) {
+        alert("Only PDF, JPG, and XLS files are allowed.");
         return; // Stop further processing
       }
-
+  
       // Check file size
       if (file.size > maxSize) {
         alert("File size exceeds 10 MB.");
         return; // Stop further processing
       }
     }
-
+  
     // If all files passed the checks, proceed to add them to uploadedFiles
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
     setUploadedFilesDATA([...uploadedFilesDATA, ...selectedFiles]);
-
+  
     // Convert files to JSON format
     const jsonDataArray = uploadedFilesDATA.map((file) => ({
       name: file.name,
@@ -1130,12 +1174,13 @@ function ForRequest() {
       size: file.size,
       type: file.type,
     }));
-
+  
     // Store JSON string in local storage with key "Type"
     const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
-    console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
+    // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
   };
+  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -1144,7 +1189,7 @@ function ForRequest() {
     event.preventDefault();
     const files = event.dataTransfer?.files;
     if (files) {
-      //console.log("///////////////////////////////", files);
+      //// console.log("///////////////////////////////", files);
       handleFileUpload({ target: { files } });
     }
   };
@@ -1181,8 +1226,8 @@ function ForRequest() {
             `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
-          console.log(data, "dataYpload");
-          //console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+          // console.log(data, "dataYpload");
+          //// console.log("อัฟโหลดไฟล์สำเร็จ =", response);
         } catch (error) {
           console.error("Error Upload File Request:", error);
         }
@@ -1198,7 +1243,7 @@ function ForRequest() {
             "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
-          //console.log("Files saved successfully");
+          //// console.log("Files saved successfully");
         } catch (error) {
           console.error("Error saving files:", error);
         }
@@ -1217,12 +1262,11 @@ function ForRequest() {
   };
 
   const handleDeleteFile = async (index, file) => {
-    console.log(index, "index", file);
-    console.log(file, "filefilefilefilefile");
+    // console.log(index, "index", file);
+    // console.log(file, "filefilefilefilefile");
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
     setUploadedFiles(updatedFiles);
     try {
-      // Send delete file request to the server
       await axios.post(
         `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
       );
@@ -1230,7 +1274,7 @@ function ForRequest() {
     } catch (error) {
       console.error("Error deleting file:", error);
     }
-    ShowFile();
+      ShowFile();
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -1426,6 +1470,9 @@ function ForRequest() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
+                  {STS1_Req === "FLTR001" ||
+                    STS1_Req === "" ||
+                    STS1_for_R === "R" ? (
                     <FormControl fullWidth>
                       <InputLabel size="small" id="demo-simple-select-label">
                         Select
@@ -1457,7 +1504,19 @@ function ForRequest() {
                           </MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
+                    </FormControl> ) : (
+                      <TextField
+                        style={{
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        className="Style1"
+                        size="small"
+                        disabled
+                        value={For_Rq_Edit[6]}
+                      ></TextField>
+                    )}
                   </Grid>
                 </Grid>
                 {/* Radio Button Type  */}
@@ -2236,7 +2295,7 @@ function ForRequest() {
                 <tr>
                   <td>
                   <div className="ImageShowFile">
-  <img src="./src/assets/Image/1.jpg"
+  <img src="./src/assets/Image/2.png"
    style={{width:'400px' }}  
     alt="Description of your image" />
 </div>
@@ -2320,6 +2379,7 @@ function ForRequest() {
                   BACK PAGE
                 </Button> */}
               </td>
+              
               <td>
                 {" "}
                 <Button
@@ -2329,6 +2389,7 @@ function ForRequest() {
                     marginRight: "10px",
                     marginBottom: "20px",
                     backgroundColor: "gray",
+                    visibility: checknext
                   }}
                   variant="contained"
                   onClick={NextPage}

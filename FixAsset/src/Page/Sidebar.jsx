@@ -8,12 +8,10 @@ import ListItem from "@mui/material/ListItem";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import SensorsOutlinedIcon from '@mui/icons-material/SensorsOutlined';
+import SensorsOutlinedIcon from "@mui/icons-material/SensorsOutlined";
 import { DownOutlined, UpOutlined, MenuOutlined } from "@ant-design/icons";
-import Circle from '@mui/icons-material/CircleOutlined';
+import Circle from "@mui/icons-material/CircleOutlined";
 const SidebarMenu = ({ isOpen, onClose }) => {
- 
- 
   const [subMenuOpen1, setSubMenuOpen1] = useState(false);
   const [subMenuOpen2, setSubMenuOpen2] = useState(false);
   const [subMenuOpen3, setSubMenuOpen3] = useState(false);
@@ -43,29 +41,29 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     setIcondrop5(!Icondrop5);
     setSubMenuOpen5(!subMenuOpen5);
   };
- 
-   // ตัวแปรที่รับมาจาก role และ userlogin
-   const Role = localStorage.getItem("Role");
-   const UserLogin = localStorage.getItem("UserLogin");
+
+  // ตัวแปรที่รับมาจาก role และ userlogin
+  const Role = localStorage.getItem("Role");
+  const UserLogin = localStorage.getItem("UserLogin");
   const Menu = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/getmainmenu`);
- 
+
       const data = await response.data;
       let datamenu = [];
       let datamenuid = [];
-      for(let i=0;i<data.length;i++){
-        datamenu.push(data[i][1])
-        datamenuid.push(data[i][0])
+      for (let i = 0; i < data.length; i++) {
+        datamenu.push(data[i][1]);
+        datamenuid.push(data[i][0]);
       }
-      setmenuId(datamenuid)
+      setmenuId(datamenuid);
       setmenu(datamenu);
       // console.log("Maindata", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
- 
+
   const subMenu = async () => {
     try {
       const response = await axios.get(
@@ -74,57 +72,43 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       const data = await response.data;
       let datasubmenu = [];
       let datasubmenuid = [];
-      for(let i=0;i<data.length;i++){
-        datasubmenu.push(data[i][1])
-        datasubmenuid.push(data[i][3])
+      for (let i = 0; i < data.length; i++) {
+        datasubmenu.push(data[i][1]);
+        datasubmenuid.push(data[i][3]);
       }
-      setmenudataId(datasubmenuid)
+      setmenudataId(datasubmenuid);
       setmenudata(datasubmenu);
-     
-     
- 
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
- 
- 
- 
- // Path
- const navigate = useNavigate();
- 
- const handleButtonClick = (id) => {
-  // console.log("มาสิ")
-  // console.log(id)
-   if (id === "Issue FAM"){
-    window.location.href = "/Search";
-     
-   }else if(id === "Approve FAM"){
-        
-    window.location.href = "/ApproveFam";
-   }
- 
- };
 
+  // Path
+  const navigate = useNavigate();
 
- const handleReport = (id) => {
-  // console.log("มาสิ")
-  console.log(id)
-   if (id === "FAM Detail Report"){
-    window.location.href = "/FamDetails";
-     
-   }else if(id === "FAM Form"){
-        
-    window.location.href = "/ApproveFam";
-   }
- 
- };
- const DataDept = () => {
-   navigate("/DataDept");
- };
- const Home = () => {
-   navigate("/Homepage");
- };
+  const handleButtonClick = (id) => {console.log(id,"YYYYYY")
+    if (id === "Issue FAM") {
+      window.location.href = "/Search";
+    }
+    if (id === "Approve FAM") {
+      window.location.href = "/ApproveFam";
+    }
+    if (id === "FAM Detail Report") {
+      window.location.href = "/FamDetails";
+    }
+    if (id === "Person Maintain") {
+      
+      window.location.href = "/Search_person";
+    }
+    if (id === "BOI Maintain") {
+      console.log(id,"UUUUU")
+      window.location.href = "/BOIMaintain";
+    }
+  };
+
+  const Home = () => {
+    navigate("/Homepage");
+  };
   useEffect(() => {
     Menu();
     subMenu();
@@ -134,14 +118,14 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const [Icondrop3, setIcondrop3] = useState(false);
   const [Icondrop4, setIcondrop4] = useState(false);
   const [Icondrop5, setIcondrop5] = useState(false);
- 
+
   const toggleSubMenu2 = () => {
     setIcondrop2(!Icondrop2);
     setSubMenuOpen2(!subMenuOpen2);
   };
   // console.log(menudataId,"///////////")
   // console.log(menuId,"-----------")
- 
+
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose} sx={{ border: "10" }}>
       <List sx={{ width: "300px", bgcolor: "background.paper" }}>
@@ -155,175 +139,170 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
         {/* Menu Home */}
         <div>
-        <ListItem className="ListItem" onClick={toggleSubMenu1}>
-          <ListItemIcon >
-            <SensorsOutlinedIcon color="success"  />
-          </ListItemIcon>
-          <ListItemText primary={menu[0]} onClick={Home}/>
-         
-        </ListItem>
-        {subMenuOpen1 && (
-          <>
-            {menudataId.map(
-              (item, index) =>
-              menudataId[index]  === menuId[0] && (
-                  <ListItem
-                    className="SubMenuItem"
- 
-                    onClick={() => {
-                      // onClose();
-                      handleButtonClick(menudata[index]);
-                    }}
- 
-                   
- 
-                    key={index}
-                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
-                    <ListItemText primary={menudata[index]} />
-                  </ListItem>
-                )
-            )}
-          </>
-        )}
+          <ListItem className="ListItem" onClick={toggleSubMenu1}>
+            <ListItemIcon>
+              <SensorsOutlinedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText primary={menu[0]} onClick={Home} />
+          </ListItem>
+          {subMenuOpen1 && (
+            <>
+              {menudataId.map(
+                (item, index) =>
+                  menudataId[index] === menuId[0] && (
+                    <ListItem
+                      className="SubMenuItem"
+                      onClick={() => {
+                        // onClose();
+                        handleButtonClick(menudata[index]);
+                      }}
+                      key={index}
+                    >
+                      <Circle
+                        style={{ fontSize: "8px", marginRight: "10px" }}
+                      />
+                      <ListItemText primary={menudata[index]} />
+                    </ListItem>
+                  )
+              )}
+            </>
+          )}
         </div>
- 
+
         {/* Menu Transaction */}
-        <div style={{ display: Role === "214" ? 'none' : 'block' }} >
-        <ListItem className="ListItem" onClick={toggleSubMenu2}>
-          <ListItemIcon>
-            <SensorsOutlinedIcon color="success" />
-          </ListItemIcon>
-          <ListItemText primary={menu[1]} />
-          {Icondrop2 ? <UpOutlined /> : <DownOutlined />}
-        </ListItem>
-        {subMenuOpen2 && (
-          <>
-            {menudataId.map(
-              (item, index) =>
-              menudataId[index]  === menuId[1] && (
-                  <ListItem
-                    className="SubMenuItem"
- 
-                    onClick={() => {
-                      // onClose();
-                      handleButtonClick(menudata[index]);
-                    }}
- 
-                   
- 
-                    key={index}
-                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
-                    <ListItemText primary={menudata[index]} />
-                  </ListItem>
-                )
-            )}
-          </>
-        )}
+        <div style={{ display: Role === "214" ? "none" : "block" }}>
+          <ListItem className="ListItem" onClick={toggleSubMenu2}>
+            <ListItemIcon>
+              <SensorsOutlinedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText primary={menu[1]} />
+            {Icondrop2 ? <UpOutlined /> : <DownOutlined />}
+          </ListItem>
+          {subMenuOpen2 && (
+            <>
+              {menudataId.map(
+                (item, index) =>
+                  menudataId[index] === menuId[1] && (
+                    <ListItem
+                      className="SubMenuItem"
+                      onClick={() => {
+                        // onClose();
+                        handleButtonClick(menudata[index]);
+                      }}
+                      key={index}
+                    >
+                      <Circle
+                        style={{ fontSize: "8px", marginRight: "10px" }}
+                      />
+                      <ListItemText primary={menudata[index]} />
+                    </ListItem>
+                  )
+              )}
+            </>
+          )}
         </div>
-       
-       
+
         {/* Menu Monitoring Function */}
         <div>
-        <ListItem className="ListItem" onClick={toggleSubMenu3}>
-          <ListItemIcon>
-            <SensorsOutlinedIcon color="success" />
-          </ListItemIcon>
-          <ListItemText primary={menu[2]} />
-          {Icondrop3 ? <UpOutlined /> : <DownOutlined />}
-        </ListItem>
-        {subMenuOpen3 && (
-          <>
-            {menudataId.map(
-              (item, index) =>
-              menudataId[index]  === menuId[2] && (
-                  <ListItem
-                    className="SubMenuItem"
- 
-                    onClick={() => {
-                      // onClose();
-                      // handleButtonClick(menudata[index]);
-                    }}
- 
-                   
- 
-                    key={index}
-                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
-                    <ListItemText primary={menudata[index]} />
-                  </ListItem>
-                )
-            )}
-          </>
-        )}
+          <ListItem className="ListItem" onClick={toggleSubMenu3}>
+            <ListItemIcon>
+              <SensorsOutlinedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText primary={menu[2]} />
+            {Icondrop3 ? <UpOutlined /> : <DownOutlined />}
+          </ListItem>
+          {subMenuOpen3 && (
+            <>
+              {menudataId.map(
+                (item, index) =>
+                  menudataId[index] === menuId[2] && (
+                    <ListItem
+                      className="SubMenuItem"
+                      onClick={() => {
+                        // onClose();
+                        // handleButtonClick(menudata[index]);
+                      }}
+                      key={index}
+                    >
+                      <Circle
+                        style={{ fontSize: "8px", marginRight: "10px" }}
+                      />
+                      <ListItemText primary={menudata[index]} />
+                    </ListItem>
+                  )
+              )}
+            </>
+          )}
         </div>
- 
+
         {/* Menu Master Data Function */}
-        <div style={{ display: Role === "214" ? 'none' : 'block' }}>
-        <ListItem className="ListItem" onClick={toggleSubMenu4}>
-          <ListItemIcon>
-            <SensorsOutlinedIcon color="success" />
-          </ListItemIcon>
-          <ListItemText primary={menu[3]} />
-          {Icondrop4 ? <UpOutlined /> : <DownOutlined />}
-        </ListItem>
-        {subMenuOpen4 && (
-          <>
-            {menudataId.map(
-              (item, index) =>
-              menudataId[index]  === menuId[3] && (
-                  <ListItem
-                    className="SubMenuItem"
- 
-                    onClick={() => {
-                      // onClose();
-                      // handleButtonClick(menudata[index]);
-                    }}
- 
-                   
- 
-                    key={index}
-                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
-                    <ListItemText primary={menudata[index]} />
-                  </ListItem>
-                )
-            )}
-          </>
-        )}
+        <div style={{ display: Role === "214" ? "none" : "block" }}>
+          <ListItem className="ListItem" onClick={toggleSubMenu4}>
+            <ListItemIcon>
+              <SensorsOutlinedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText primary={menu[3]} />
+            {Icondrop4 ? <UpOutlined /> : <DownOutlined />}
+          </ListItem>
+          {subMenuOpen4 && (
+            <>
+              {menudataId.map(
+                (item, index) =>
+                  menudataId[index] === menuId[3] && (
+                    <ListItem
+                      className="SubMenuItem"
+                      onClick={() => {
+                        // onClose();
+                        handleButtonClick(menudata[index]);
+                      }}
+                      key={index}
+                    >
+                      <Circle
+                        style={{ fontSize: "8px", marginRight: "10px" }}
+                      />
+                      <ListItemText primary={menudata[index]} />
+                    </ListItem>
+                  )
+              )}
+            </>
+          )}
         </div>
- 
+
         {/* Menu Report Function  */}
         <div>
-        <ListItem className="ListItem" onClick={toggleSubMenu5}>
-          <ListItemIcon>
-            <SensorsOutlinedIcon color="success" />
-          </ListItemIcon>
-          <ListItemText primary={menu[4]} />
-          {Icondrop5 ? <UpOutlined /> : <DownOutlined />}
-        </ListItem>
-        {subMenuOpen5 && (
-          <>
-            {menudataId.map(
-              (item, index) =>
-              menudataId[index]  === menuId[4] && (
-                  <ListItem
-                    className="SubMenuItem"
- 
-                    onClick={() => {
-                      // onClose();
-                      handleReport(menudata[index]);
-                    }}
- 
-                    key={index}
-                  ><Circle style={{fontSize:'8px',marginRight: "10px" }}/>
-                    <ListItemText primary={menudata[index]} />
-                  </ListItem>
-                )
-            )}
-          </>
-        )}
+          <ListItem className="ListItem" onClick={toggleSubMenu5}>
+            <ListItemIcon>
+              <SensorsOutlinedIcon color="success" />
+            </ListItemIcon>
+            <ListItemText primary={menu[4]} />
+            {Icondrop5 ? <UpOutlined /> : <DownOutlined />}
+          </ListItem>
+          {subMenuOpen5 && (
+            <>
+              {menudataId.map(
+                (item, index) =>
+                  menudataId[index] === menuId[4] && (
+                    <ListItem
+                      className="SubMenuItem"
+                      onClick={() => {
+                        // onClose();
+                        handleButtonClick(menudata[index]);
+                      }}
+                      key={index}
+                    >
+                      <Circle
+                        style={{ fontSize: "8px", marginRight: "10px" }}
+                      />
+                      <ListItemText primary={menudata[index]} />
+                    </ListItem>
+                  )
+              )}
+            </>
+          )}
         </div>
       </List>
     </Drawer>
   );
 };
- 
+
 export default SidebarMenu;

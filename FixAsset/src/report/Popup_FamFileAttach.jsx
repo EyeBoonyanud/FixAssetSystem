@@ -34,7 +34,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 
 function person_maintain_new({ isOpen, onClose, FamNo }) {
-  console.log( isOpen, onClose, FamNo ,"//////////////////////////")
+  // console.log( isOpen, onClose, FamNo ,"//////////////////////////")
   if (!isOpen) return null;
   const [Filedata, setFiledata] = useState([]);
   const File = () => {
@@ -46,7 +46,7 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
         const data = res.data;
         if (data.length > 0) {
           setFiledata(data);
-          console.log(data);
+          // console.log(data);
         }
       });
   };
@@ -56,7 +56,7 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
 
   // Popup
   const onCloseCancel = () => {
-    console.log("ปิด");
+    // console.log("ปิด");
     onClose();
   };
 

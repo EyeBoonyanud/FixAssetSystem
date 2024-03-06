@@ -45,7 +45,7 @@ function Report() {
     axios.post("http://localhost:5000/RequstType").then((res) => {
       const data = res.data;
       setTypeRequest(data);
-      // console.log(data)
+      // // // console.log(data)
     });
   };
 
@@ -82,7 +82,7 @@ function Report() {
               var numericValue = data[i][13].replace(/,/g, '');
               sumAcqCost +=parseFloat( numericValue);
               sumBookvalue = sumBookvalue + data[i][14];
-             console.log(numericValue,"iiiiiiiiiiiiiiiiiiiiii")
+             // // console.log(numericValue,"iiiiiiiiiiiiiiiiiiiiii")
               currentDataTable.push([
                 currentDataTable.length === 0 ? data[i][0] : "",
                 currentDataTable.length === 0 ? data[i][1] : "",
@@ -133,11 +133,11 @@ function Report() {
   const openPopup = (Famno) => {
     const selectedRow = Famno;
     if (selectedRow) {
-      console.log("FamNo", selectedRow);
+      // // console.log("FamNo", selectedRow);
       setSelectedFamNo(Famno);
       setPopupOpen(true);
     }
-    console.log("///////mmmmmmmmmmmmmmmm///////////",Famno)
+    // // console.log("///////mmmmmmmmmmmmmmmm///////////",Famno)
   };
 
   const closePopup = () => {

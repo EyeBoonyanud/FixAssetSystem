@@ -10,6 +10,9 @@ import ForRe from "./Transaction/ForRequest";
 import TransDetail from "./Transaction/TransFerDetail";
 import ApproveFam from './Transaction/Search'
 import FamDetails from './report/Report'
+import Search_person from './Person_Maintain/Search_person'
+import Boi_main from './BOI_Project_Mpping_CC/Boi_project_mcc'
+
 // process.env.NODE_ENV = 'production';
 
 
@@ -28,6 +31,10 @@ const App = () => {
         <Route path="/TransDetail" element={<TransDetail />} />
         <Route path="/ApproveFam" element={<ApproveFam />} />
         <Route path="/FamDetails" element={<FamDetails />} />
+        <Route path="/Search_person" element={<Search_person />} />
+        <Route path="/BOIMaintain" element={<Boi_main />} />
+        
+        
 
         </Routes>
       </BrowserRouter>

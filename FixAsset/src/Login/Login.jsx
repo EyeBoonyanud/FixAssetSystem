@@ -40,7 +40,7 @@ export default function SignInSide() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const onFinish = (values) => {
-    // console.log("Received values of form: ", values);
+    // // console.log("Received values of form: ", values);
   };
   // Loading
   const [loading, setLoading] = useState(false);
@@ -69,9 +69,9 @@ export default function SignInSide() {
           }:5000/login?username=${user}&password=${password}`
         );
         const data = await response.json();
-        console.log(data,"/////////////",data.length)
+        // console.log(data,"/////////////",data.length)
         if (data.length>0) {
-          console.log("Login successful", data[0][0]);
+          // console.log("Login successful", data[0][0]);
        
           Name = data[0][1];
           Lastname = data[0][2];

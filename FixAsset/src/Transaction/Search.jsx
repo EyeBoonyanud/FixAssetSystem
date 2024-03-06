@@ -78,14 +78,14 @@ function Issue() {
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
-    // console.log(idFactory,"ถถถซ")
+    // // console.log(idFactory,"ถถถซ")
     try {
       const response = await axios.get(
         `http://localhost:5000/getdept?idFactory=${idFactory}`
       );
-      // console.log(response.data,"ID1 :")
+      // // console.log(response.data,"ID1 :")
       const data = await response.data;
-      // console.log(data,"ID2 :")
+      // // console.log(data,"ID2 :")
       setdept(data);
     } catch (error) {
       console.error("Error during login:", error);
@@ -96,11 +96,11 @@ function Issue() {
   };
   const handleCost = (event) => {
     setselectcost(event.target.value);
-    console.log(event.target.value, "setselectcost");
+    // console.log(event.target.value, "setselectcost");
   };
   const handleType = (event) => {
     setselectReType(event.target.value);
-    // console.log(event.target.value,"Typeeee")
+    // // console.log(event.target.value,"Typeeee")
   };
 
   const navigate = useNavigate();
@@ -129,7 +129,7 @@ function Issue() {
         const response = await axios.get(`http://localhost:5000/getfactory`);
         const FactoryData = await response.data;
         setdatafac(FactoryData);
-        // console.log(FactoryData, "Factory");
+        // // console.log(FactoryData, "Factory");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -139,7 +139,7 @@ function Issue() {
         const response = await axios.get(`http://localhost:5000/getcost`);
         const CostData = await response.data;
         setcost(CostData);
-        // console.log(CostData, "CostData :");
+        // // console.log(CostData, "CostData :");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -149,7 +149,7 @@ function Issue() {
         const response = await axios.get(`http://localhost:5000/gettype`);
         const TypeData = await response.data;
         setReType(TypeData);
-        // console.log(TypeData, "TypeData");
+        // // console.log(TypeData, "TypeData");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -165,12 +165,12 @@ function Issue() {
   
   
   const Edit = async (EditFam) => {
-    console.log(EditFam, "XXXXXXXXXXXXXXXxx");
+    // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
 
     //reload_edit();
   };
   const EditFixAsset = async (EditFam) => {
-    console.log(EditFam, "TTTTTTTTTTTTT");
+    // console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
 
@@ -182,7 +182,7 @@ function Issue() {
         `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
       );
       const data = await response.data;
-      console.log(data,"ooooo")
+      // console.log(data,"ooooo")
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
 
@@ -196,10 +196,10 @@ function Issue() {
         `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
       );
       const data = await response.data;
-      // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+      // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
-      console.log(data_edit, "data_editdata_editdata_editdata_edit");
+      // console.log(data_edit, "data_editdata_editdata_editdata_edit");
       localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
     } catch (error) {
       //console.error("Error during login:", error);
@@ -246,7 +246,7 @@ function Issue() {
       const FixAsset = document.getElementById("FixAsset").value;
       const Date = document.getElementById("Date").value;
       const DateTo = document.getElementById("DateTo").value; 
-       console.log(Date,DateTo)
+       // console.log(Date,DateTo)
       try {
         const rollNoSearch = await axios.get(
           `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
@@ -261,8 +261,8 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // console.log(rollNoSearch.data,"Search: ")
-        // console.log(selectdept,"DEPT:")
+        // // console.log(rollNoSearch.data,"Search: ")
+        // // console.log(selectdept,"DEPT:")
         
       } catch (error) {
         console.error("Error requesting data:", error);
@@ -287,8 +287,8 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // console.log(rollNoSearch.data,"Search: ")
-        // console.log(selectdept,"DEPT:")
+        // // console.log(rollNoSearch.data,"Search: ")
+        // // console.log(selectdept,"DEPT:")
       } catch (error) {
         console.error("Error requesting data:", error);
       }
