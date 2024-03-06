@@ -2,7 +2,7 @@ const express = require("express");
 const oracledb = require("oracledb");
 
 const app = express();
-const port = 5000;
+// const port = 5000;
 
 
 app.use(express.json());
@@ -16,7 +16,7 @@ const CUSR = {
   password: process.env.PASS_CUSR,
   connectString: process.env.CON_CUSR,
 };
-console.log(CUSR,"-------------------------------------------------------------")
+console.log(CUSR,"----- CONNECT -----")
 
 // const CUSR = {
 //   user: import.meta.env.VITE_USER_CUSR,

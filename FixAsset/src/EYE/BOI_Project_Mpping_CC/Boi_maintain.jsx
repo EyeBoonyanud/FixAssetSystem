@@ -60,7 +60,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const [ErrorStatus, setErrorStatus] = useState(false);
   console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
-  // Popup
+  
   const onCloseCancel = () => {
     console.log("ปิด");
     setErrorBOI_P(false);
@@ -103,10 +103,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_API}/getfactory`);
+          const response = await axios.get(`http://localhost:5000/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
-          // console.log(FactoryData, "Factory");
         } catch (error) {
           console.error("Error during login:", error);
         }
@@ -114,10 +113,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_API}/getcost`);
+          const response = await axios.get(`http://localhost:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
-          // console.log(CostData, "CostData :");
         } catch (error) {
           console.error("Error during login:", error);
         }
@@ -134,12 +132,10 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const handleSelectChange = async (event, newValue) => {
     setselecteDatafac(newValue);
     let idFactory = newValue[0];
-    console.log(newValue, "XXXXXXXXXXXXXXXXXXXXXXXXXXXx");
-    console.log(newValue[0]);
     setErrorFac(false);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API}/getdept?idFactory=${idFactory}`
+        `http://localhost:5000/getdept?idFactory=${idFactory}`
       );
       const data = await response.data;
     } catch (error) {
@@ -149,7 +145,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
   const handleCost = (event, newValue) => {
     setselectcost(newValue);
-    console.log(event.target.value, "setselectcost");
     setErrorCost(false);
   };
 
@@ -169,25 +164,17 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setErrorStatus(true);
     }
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
-      document.getElementById("selecteDatafac").focus(); //testfocus
+      document.getElementById("selecteDatafac").focus(); 
     }
     if (selectcost.toString().trim() === "") {
-      document.getElementById("selectcost").focus(); //testfocus
+      document.getElementById("selectcost").focus(); 
     }
     if (BOI_Project.trim() === "") {
-      document.getElementById("BOI_Project").focus(); //testfocus
+      document.getElementById("BOI_Project").focus(); 
     }
     if (status.trim() === "") {
-      document.getElementById("status").focus(); //testfocus
+      document.getElementById("status").focus(); 
     }
-
-    console.log("FACTORY CHECK", selecteDatafac[0]);
-    console.log("COST CENTER CHECK", selectcost[0]);
-    console.log("BOI PROJECT CHECK", BOI_Project);
-    console.log("STATUS CHECK", status);
-    console.log("COMMENT CHECK", Comment);
-    console.log("CREATE BY CHECK", UserLoginn);
-    console.log("CREATE DATE CHECK", Date_show);
 
     swal(
       "Do you want to save information",
@@ -218,15 +205,12 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `${import.meta.env.VITE_API}/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                  `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
                 );
-                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-                console.log(sentdata_back_search, "ข้อมูลที่2");
                 onClose();
                 searchFunction();
               } catch (error) {
@@ -251,16 +235,13 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `${import.meta.env.VITE_API}/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                  `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
                 );
       
-                console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-                console.log(DATA_BACK_SEARCH, "ข้อมูลที่1");
-                console.log(sentdata_back_search, "ข้อมูลที่2");
                 onClose();
                 searchFunction();
               } catch (error) {
@@ -282,15 +263,8 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
   };
 
-  // check status New and Edit
-  // const EDIT = localStorage.getItem("BOI_Edit");
-  // console.log("show data edit", EDIT);
-  // const DATA_EDIT = JSON.parse(EDIT);
-  // console.log("show data DATA_EDIT ", DATA_EDIT);
   const EDIT = localStorage.getItem("BOI_Edit");
-  console.log("show data edit", EDIT);
   const DATA_EDIT_M = JSON.parse(EDIT);
-  console.log("show data DATA_EDIT ", DATA_EDIT_M);
   const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
   const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
     combinedArray01,
@@ -300,10 +274,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const DATA_EDIT = DATA_EDIT_02.slice(0, 1).concat(
     combinedArray02,
     DATA_EDIT_02.slice(3)
-  );
-  console.log(
-    "อยากเห็นข้อมูลที่ออกมามากกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก",
-    DATA_EDIT
   );
 
   const Reset = async () => {
@@ -332,20 +302,16 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     }
   };
 
-  // Check BOI Project
   const handleBOI_Project = (event) => {
     const dataBoi_P = event.target.value;
     setBOI_Project(dataBoi_P);
     setErrorBOI_P(false);
   };
 
-  // Check Comment
   const handleComment = (event) => {
     const dataComment = event.target.value;
     setComment(dataComment);
   };
-
-  // Status
 
   const handleChange = (event) => {
     const value = event.target.value;
@@ -353,7 +319,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorStatus(false);
   };
 
-     // Loadding
      const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
      const openPopupLoadding = () => {
          setPopupOpenLoadding(true);
@@ -370,8 +335,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           isOpen={isPopupOpenLoadding}
           onClose={closePopupLoadding}
         />
-        {/* Factiory and Level */}
-        <Table className="PopupEditPerson">
+         <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
               <Typography>
@@ -437,6 +401,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               </FormControl>
             </TableCell>
           </TableRow>
+
           <TableRow style={{ height: "25px" }}>
             <TableCell>
               <Typography style={{ fontSize: "small", color: "red" }}>

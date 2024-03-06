@@ -1,0 +1,560 @@
+import React, { useState, useEffect } from "react";
+import Header from "../Page/Hearder";
+import "../CSS/Homepage.css";
+import Paper from "@mui/material/Paper";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import Tooltip from "@mui/material/Tooltip";
+import "../CSS/TEST_Homepage.css";
+import {
+  Typography,
+  FormControl,
+  TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  Select,
+  MenuItem,
+  Grid,
+  TextField,
+  Button,
+  InputLabel,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Empty } from "antd";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import swal from "sweetalert";
+import "../Person_Maintain/Person_maintain.css";
+import Popup from "../BOI_Project_Mpping_CC/Boi_maintain";
+import Autocomplete from "@mui/material/Autocomplete";
+import PageLoadding from "../Loadding/Pageload";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import { CardActionArea } from "@mui/material";
+import TransferWithinAStationIcon from "@mui/icons-material/TransferWithinAStation";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import EditOffIcon from "@mui/icons-material/EditOff";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import ApexCharts from "react-apexcharts";
+import MenuWallpaper from "../assets/Wallpaper_Menulist2.jpg";
+
+export default function BasicGrid() {
+
+  const UserLogin = localStorage.getItem("UserLogin");
+  const [dataTransfer, setdataTransfer] = useState([]);
+  const [dataTransferall, setdataTransferall] = useState([]);
+  useEffect(() => {
+    openPopupLoadding();
+    const fetchData = async () => {
+      console.log("fetchData Menulist");
+
+      const Transfer = async () => {
+        try {
+          console.log(UserLogin, "fetchData UserLogin");
+          const response = await axios.get(
+            `http://localhost:5000/getCountTransfer?UserLogin=${UserLogin}`
+          );
+          const Transfer = await response.data;
+          setdataTransfer(Transfer);
+          console.log(Transfer, "Transferdata");
+        } catch (error) {
+          console.error("Error Transferdata:", error);
+        }
+      };
+
+      const Transferlistall = async () => {
+        try {
+          console.log(UserLogin, "fetchData UserLogin");
+          const response = await axios.get(
+            `http://localhost:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
+          );
+          const Transferall = await response.data;
+          setdataTransferall(Transferall);
+          console.log(Transferall, "Transferdataall");
+        } catch (error) {
+          console.error("Error Transferdataall:", error);
+        }
+        closePopupLoadding();
+      };
+
+      await Transfer();
+      await Transferlistall();
+    };
+    fetchData();
+  }, []);
+
+  // Loadding
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid xs={12}>
+        <Box sx={{ flexGrow: 1, height: "100px" }}>
+          <Header />
+          <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
+        </Box>
+      </Grid>
+      <Grid container spacing={0}>
+        <Grid xs={4}>
+          <Card className="Backgroud-card-menu-show">
+            <Grid container spacing={0} xs={12}>
+              <Grid item xs={12}>
+                <Card>
+                  <Table size="small" aria-label="a dense table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          colSpan={2}
+                          align="center"
+                          style={{
+                            fontFamily: "Verdana, sans-serif",
+                            color: "#000000",
+                            fontWeight: "bold",
+                            fontSize: "22px",
+                          }}
+                        >
+                          Transfer
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }}  className="Hoverhover">
+                        <TableCell align="left">Create </TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][0]) ||
+                              0}{" "}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover" >
+                        <TableCell align="left">
+                          Wait Department manager
+                        </TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][1]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">
+                          Wait Service Dept. check
+                        </TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][2]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait BOI Staff check</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][3]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait BOI Manager</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][4]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait Factory Manager</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][5]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait ACC Staff check</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][6]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait Owner check</TableCell> 
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][7]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait Receiver action</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][8]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">
+                          Wait ACC staff update data
+                        </TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][9]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">Wait ACC Mgr.</TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][10]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+
+                      <TableRow style={{ borderBottom: "1px solid #E5EAF2" }} className="Hoverhover">
+                        <TableCell align="left">
+                          Wait Service Dept. close
+                        </TableCell>
+                        <TableCell>
+                          <Typography className="Number-menu-list2 White-background2">
+                            {" "}
+                            {(dataTransferall &&
+                              dataTransferall[0] &&
+                              dataTransferall[0][11]) ||
+                              0}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Card>
+              </Grid>
+            </Grid>
+          </Card>
+        </Grid>
+        <Grid xs={8}>
+          <Card className="Backgroud-card-menu">
+            <Grid container spacing={0} xs={12}>
+              {/* Menu 1 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist1">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <CurrencyExchangeIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />{" "}
+                            <br />
+                            Transfer
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            {dataTransfer[0] || 0}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 2 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist2">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <ProductionQuantityLimitsIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />
+                            <br />
+                            Lost
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 3 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist3">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <EditOffIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />{" "}
+                            <br />
+                            Write off
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 4 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist4">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <TransferWithinAStationIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />
+                            <br />
+                            Lending
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 5 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist5">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <DeleteSweepIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />{" "}
+                            <br />
+                            Scrap
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 6 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist6">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <MonetizationOnIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />{" "}
+                            <br />
+                            Sales
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+              {/* Menu 7 */}
+              <Grid item xs={1.7}>
+                <Card>
+                  <CardContent>
+                    <Card className="Backgroud-style-menulist7">
+                      <CardActionArea className="Backgroud-style-menulist">
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="div"
+                            className="Typography-font"
+                          >
+                            <VolunteerActivismIcon
+                              fontSize="large"
+                              className="Icon-style"
+                            />{" "}
+                            <br />
+                            Donations
+                          </Typography>
+
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            className="Number-menu-list White-background"
+                          >
+                            0
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Card>
+
+          <Grid container spacing={0} xs={12}>
+            <CardContent style={{ width: "50%", margin: "auto" }}>
+              <img
+                src={MenuWallpaper}
+                alt="Menu Wallpaper"
+                style={{ width: "80%" }}
+              />
+            </CardContent>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

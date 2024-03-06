@@ -421,6 +421,25 @@ function ForRequest() {
         console.error("Error during login:", error);
       }
     };
+    const SHOW_FILE_ATTACH = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/FAM_FILE_ATTACH?Asset_group=${Famnoo}`, {
+            FamNo: Famnoo,
+          }
+        );
+        let dataFix_group_Text = [];
+        let dataFix_group_Value = [];
+        for (let i = 0; i < response.data.length; i++) {
+          dataFix_group_Text.push(response.data[i][1]);
+          dataFix_group_Value.push(response.data[i][0]);
+        }
+        setAssetgroup(dataFix_group_Text);
+        setAssetgroupID(dataFix_group_Value);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
 
     BY();
 
@@ -430,6 +449,7 @@ function ForRequest() {
       AssetGroup();
     }
     CostforAsset();
+    SHOW_FILE_ATTACH();
   }, [idFac, selectedItems, selectAll, dataFixcode]);
 
   const Tranfer_ins = async (running_no, StatusId) => {

@@ -110,3 +110,16 @@ app.get('/downloads', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+// const server = app.listen(path.join(__dirname, 'socket.sock'), () => {
+//   console.log(`Server is running on path ${path.join(__dirname, 'socket.sock')}`);
+// });
+
+
+// const socketPath = path.join(__dirname, 'socket.sock');
+// const server = app.listen(socketPath, () => {
+//   console.log(`Server is running on path ${socketPath}`);
+// });
+
+

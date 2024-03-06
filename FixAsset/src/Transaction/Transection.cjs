@@ -2,7 +2,7 @@ const express = require("express");
 const oracledb = require("oracledb");
 
 const app = express();
-const port = 5000;
+// const port = 5000;
 app.use(express.json());
 
 oracledb.initOracleClient({
@@ -11,22 +11,27 @@ oracledb.initOracleClient({
 });
 
 const AVO = {
-  user: "avo",
-  password: "avo",
-  connectString: "TCIX01",
+  user: process.env.USER_AVO,
+  password: process.env.PASS_AVO,
+  connectString: process.env.CON_AVO,
 };
+console.log(AVO,"----- CONNECT -----")
+
+
 
 const QAD = {
-  user: "qad",
-  password: "qad",
-  connectString: "TCIX01",
+  user: process.env.USER_QAD,
+  password: process.env.PASS_QAD,
+  connectString: process.env.CON_QAD,
 };
+console.log(QAD,"----- CONNECT -----")
 
 const CUSR = {
-  user: "cusr",
-  password: "cusr",
-  connectString: "TCIX01",
+  user: process.env.USER_CUSR,
+  password: process.env.PASS_CUSR,
+  connectString: process.env.CON_CUSR,
 };
+console.log(CUSR,"----- CONNECT -----")
 
 //EmpID
 module.exports.emp = async function (req, res) {

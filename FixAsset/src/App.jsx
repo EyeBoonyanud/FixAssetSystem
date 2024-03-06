@@ -13,6 +13,7 @@ import Person_maintain_new from "./Person_Maintain/New_person";
 import Boi_project_MCC from "./BOI_Project_Mpping_CC/Boi_project_mcc";
 import Report from "./report/Report"
 import Popup from "./report/Popup_FamFileAttach"
+import TEST from "./Page/TEST_Homepage";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/BoiMcc" element={<Boi_project_MCC />} />
         <Route path="/Report" element={<Report />} />
         <Route path="/Pupup" element={<Popup />} />
+        <Route path="/Test" element={<TEST />} />
         </Routes>
       </BrowserRouter>
     </StrictMode>

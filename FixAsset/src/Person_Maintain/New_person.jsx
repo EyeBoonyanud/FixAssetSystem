@@ -112,7 +112,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const response = await axios.get(`${import.meta.env.VITE_API}/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -122,7 +122,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getcost`);
+          const response = await axios.get(`${import.meta.env.VITE_API}/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -132,7 +132,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Level = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getlevel`);
+          const response = await axios.get(`${import.meta.env.VITE_API}/getlevel`);
           const LevelData = await response.data;
           setdatalevel(LevelData);
         } catch (error) {
@@ -157,7 +157,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     // let idFactory = event.target.value;
     // try {
     //   const response = await axios.get(
-    //     `http://localhost:5000/getdept?idFactory=${idFactory}`
+    //     `${import.meta.env.VITE_API}/getdept?idFactory=${idFactory}`
     //   );
     //   const data = await response.data;
     // } catch (error) {
@@ -235,7 +235,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
+                  `${import.meta.env.VITE_API}/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
                 );
                 console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
@@ -275,7 +275,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
+                  `${import.meta.env.VITE_API}/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
                 );
 
                 console.log("[บันทึกข้อมูลสำเร็จ] =", response);
@@ -376,7 +376,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     console.log("Check_Username_Email :", user_login);
     try {
       const getDatalogin_show = await axios.get(
-        `http://localhost:5000/getData_UserLogin_Person?User_Login=${user_login}`
+        `${import.meta.env.VITE_API}/getData_UserLogin_Person?User_Login=${user_login}`
       );
       const data = await getDatalogin_show.data;
       console.log("Show data Email =", data);

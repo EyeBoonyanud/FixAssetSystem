@@ -53,9 +53,9 @@ function Boi_project_mcc() {
   const [selecteDataBOI, setselecteDataBOI] = useState("");
   const [selecteDatafac, setselecteDatafac] = useState("");
   const [User_Login, setUser_Login] = useState("");
-  const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
-  const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
-  const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
+  const [checkHead, setCheckHead] = useState("hidden"); 
+  const [checkEmpty, setCheckEmpty] = useState("hidden"); 
+  const [checkData, setCheckData] = useState("visible"); 
   const [loading, setloading] = useState("true");
   const [selectindex, setselectindex] = useState("0");
 
@@ -65,15 +65,11 @@ function Boi_project_mcc() {
     setselecteDatafac(newValue);
   };
   const handleBOI = (event, newValue) => {
-    // setselecteDataBOI(event.target.value);
     setselecteDataBOI(newValue);
   };
   const handleCost = (event, newValue) => {
-    // setselectcost(event.target.value);
-    // console.log(event.target.value, "setselectcost");
     setselectcost(newValue);
   };
-
   const navigate = useNavigate();
   const New = () => {
     localStorage.removeItem("DATA_BACK_SEARCH");
@@ -86,36 +82,31 @@ function Boi_project_mcc() {
     openPopupLoadding();
 
     const fetchData = async () => {
-      console.log("ออกมาสักทีดิวะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะะ");
       const Factory = async () => {
         try {
-          const response = await axios.get(
-            `${import.meta.env.VITE_API}/getfactory`
-          );
+          const response = await axios.get(`http://localhost:5000/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
-          // console.log(FactoryData, "Factory");
         } catch (error) {
           console.error("Error during login:", error);
         }
       };
-      // get BOI Project
       const BOI_Project = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_API}/get_BOI_project`);
+          const response = await axios.get(
+            `http://localhost:5000/get_BOI_project`
+          );
           const BOIData = await response.data;
           setdataBOI(BOIData);
-          console.log(setdataBOI, "Level Data eiei");
         } catch (error) {
           console.error("Error during login:", error);
         }
       };
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`${import.meta.env.VITE_API}/getcost`);
+          const response = await axios.get(`http://localhost:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
-          console.log(CostData, "CostData :");
         } catch (error) {
           console.error("Error during login:", error);
         }
@@ -133,23 +124,15 @@ function Boi_project_mcc() {
     const DATA_SAVE_EDIT = localStorage.getItem("DATA_BACK_SEARCH");
     const DATA_SEARCH_S_E = JSON.parse(DATA_SAVE_EDIT);
     if (DATA_SEARCH_S_E !== null) {
-      console.log(
-        "มีข้อมูลที่กลับมาค้นหา",
-        DATA_SEARCH_S_E[0],
-        DATA_SEARCH_S_E[1],
-        DATA_SEARCH_S_E[2]
-      );
       setselecteDatafac(DATA_SEARCH_S_E[0]);
       setselectcost(DATA_SEARCH_S_E[1]);
       setselecteDataBOI(DATA_SEARCH_S_E[2]);
-
-      // เรียกใช้งาน Search โดยตรง
       try {
         const factoryValue = DATA_SEARCH_S_E[0][0];
         const costValue = DATA_SEARCH_S_E[1][0];
         const BOIValue = DATA_SEARCH_S_E[2][0];
         const rollNoSearch = await axios.get(
-          `${import.meta.env.VITE_API}/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+          `http://localhost:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -172,17 +155,13 @@ function Boi_project_mcc() {
 
   const Search = async () => {
     openPopupLoadding();
-    console.log("F", selecteDatafac[0]);
-    console.log("C", selectcost[0]);
-    console.log("L", selecteDataBOI[0]);
-    console.log("LL", selecteDataBOI);
     try {
       const factoryValue =
         selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : "";
       const rollNoSearch = await axios.get(
-        `${import.meta.env.VITE_API}/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+        `http://localhost:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -213,95 +192,31 @@ function Boi_project_mcc() {
     setCheckEmpty("hidden");
     setCheckData("visible");
   };
+  const handleOpenEdit = async (factory, cost_center, boi_project , index) => {
+          setselectindex(index);
+          setloading("false");
+          try {
+            const getEdit_show = await axios.get(
+              `http://localhost:5000/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}`
+            );
+            const data = await getEdit_show.data;
+            const DataEdit = data;
+            const PAGE_STATUS = "EDIT";
 
-  // const handleOpenEdit = async (factory, cost_center, boi_project , index) => {
-  //   console.log(factory);
-  //   console.log(cost_center);
-  //   console.log(boi_project);
-
-  //   swal(
-  //     "Do you want to edit information",
-  //     `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`,
-  //     {
-  //       buttons: {
-  //         cancel: "Cancel",
-  //         ok: {
-  //           text: "OK",
-  //           value: "ok",
-  //         },
-  //       },
-  //     }
-  //   ).then(async (value) => {
-  //     switch (value) {
-  //       case "cancel":
-  //         break;
-  //       case "ok":
-  //         setselectindex(index);
-  //         setloading("false");
-  //         try {
-  //           const getEdit_show = await axios.get(
-  //             `http://localhost/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}`
-  //           );
-  //           const data = await getEdit_show.data;
-  //           console.log("Show data Edit =", data);
-  //           const DataEdit = data;
-  //           const PAGE_STATUS = "EDIT";
-
-  //           if (data && data.length > 0) {
-  //             const sentdata = JSON.stringify(DataEdit);
-  //             localStorage.setItem("BOI_Edit", sentdata);
-  //             localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
-  //             console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
-  //             console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
-  //           } else {
-  //             console.error("Login failed");
-  //           }
-
-  //           openPopup();
-  //           // navigate("/PersonNew");
-  //         } catch (error) {
-  //           console.error("Error requesting data:", error);
-  //         }
-  //         break;
-  //     }
-  //   });
-  // };
-  const handleOpenEdit = async (factory, cost_center, boi_project, index) => {
-    console.log(factory);
-    console.log(cost_center);
-    console.log(boi_project);
-
-    setselectindex(index);
-    setloading("false");
-    try {
-      const getEdit_show = await axios.get(
-        `${import.meta.env.VITE_API}/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}`
-      );
-      const data = await getEdit_show.data;
-      console.log("Show data Edit =", data);
-      const DataEdit = data;
-      const PAGE_STATUS = "EDIT";
-
-      if (data && data.length > 0) {
-        const sentdata = JSON.stringify(DataEdit);
-        localStorage.setItem("BOI_Edit", sentdata);
-        localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
-        console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", sentdata);
-        console.log("ข้อมูลใน if Edit อยู่ตรงนี้ไหม =", PAGE_STATUS);
-      } else {
-        console.error("Login failed");
-      }
-
-      openPopup();
-    } catch (error) {
-      console.error("Error requesting data:", error);
-    }
-    setloading("true");
+            if (data && data.length > 0) {
+              const sentdata = JSON.stringify(DataEdit);
+              localStorage.setItem("BOI_Edit", sentdata);
+              localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
+            } else {
+              console.error("Login failed");
+            }
+            openPopup();
+          } catch (error) {
+            console.error("Error requesting data:", error);
+          }
+          setloading("true"); 
   };
   const handleOpenDelete = async (factory, cost_center, boi_project) => {
-    console.log(factory);
-    console.log(cost_center);
-    console.log(boi_project);
     swal({
       title: "Are you sure delete to information ",
       text: `FACTORY  :  ${factory}\n COST CENTER  :  ${cost_center}\n  BOI PROJECT  :  ${boi_project}`,
@@ -313,10 +228,9 @@ function Boi_project_mcc() {
       if (willDelete) {
         try {
           const delete_BOI_maintain = await axios.post(
-            `${import.meta.env.VITE_API}/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}`
+            `http://localhost:5000/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}`
           );
           const data = await delete_BOI_maintain.data;
-          console.log("DELETE DATA PERSON =", data);
           Search();
           swal("Your data has been deleted successfully", {
             icon: "success",
@@ -330,14 +244,12 @@ function Boi_project_mcc() {
     });
   };
 
-  // Check user login
   const handleUserLogin = (event) => {
     const user_login = event.target.value;
     setUser_Login(user_login);
     Check_Username_Email(user_login);
   };
 
-  // popup
   const [isPopupOpen, setPopupOpen] = useState(false);
   const openPopup = () => {
     setPopupOpen(true);
@@ -347,7 +259,6 @@ function Boi_project_mcc() {
     setPopupOpen(false);
   };
 
-  // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
     setPopupOpenLoadding(true);
@@ -376,7 +287,6 @@ function Boi_project_mcc() {
           BOI Project search
         </h1>
         <div className="BoxSearch">
-          {/* Factiory and Level */}
           <Grid
             container
             spacing={1}
@@ -502,7 +412,7 @@ function Boi_project_mcc() {
             className="TABLEKHUN"
             component={Paper}
           >
-            {/* <Table sx={{ minWidth: 650  }} aria-label="simple table" className="TABLEKHUN"> */}
+  
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -523,7 +433,6 @@ function Boi_project_mcc() {
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
                     >
-                      {/* {  ? () : ()} */}
                       <TableCell>
                         {loading == "false" && index == selectindex ? (
                           <LoadingOutlined style={{ fontSize: "30px" }} />
