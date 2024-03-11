@@ -777,12 +777,7 @@ function ForRequest() {
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
-  // const handleCheckboxAllChange = () => {
-  //   const newSelectedAll = !selectAll;
-  //   setSelectAll(newSelectedAll);
-  //   setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
-  //   updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
-  // };
+
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
     let newSelectedItems = [];
@@ -790,12 +785,17 @@ function ForRequest() {
       const isDisabled = COMP.some(
         (compItem) => compItem[1] === item[3] && compItem[2] !== null
       );
-      newSelectedItems[index] = isDisabled ? false : newSelectedAll;
+  
+      // ตรวจสอบว่าค่าใน item[3] ของ datatable.map ตรงกับค่า item[3] ของ find_fixasset.map หรือไม่
+      const isItemInDatatable = datatable.map((dataItem) => dataItem[3]).includes(item[3]);
+  
+      newSelectedItems[index] = isDisabled || isItemInDatatable ? false : newSelectedAll;
     });
     setSelectAll(newSelectedAll);
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
+  
 
   const handleAdd = () => {
     const newDataTable = [...datatable, ...selectedData];
@@ -1908,7 +1908,11 @@ function ForRequest() {
                                   disabled={COMP.some(
                                     (compItem) =>
                                       compItem[1] === item[3] &&
-                                      compItem[2] !== null
+                                      compItem[2] !== null 
+                                      ) || datatable.map(
+                                        (dataItem) =>
+                                          dataItem[3]
+                                      ).includes(item[3]
                                   )}
                                 />
                               </TableCell>
@@ -2019,7 +2023,7 @@ function ForRequest() {
                                 <TableCell>{item[1]}</TableCell>
                                 <TableCell>{item[2]}</TableCell>
                                 <TableCell>{item[3]}</TableCell>
-                                <TableCell>{item[5]}</TableCell>
+                                <TableCell>{item[5]} </TableCell>
                                 <TableCell>{item[6]}</TableCell>
                                 <TableCell>{item[7]}</TableCell>
                                 <TableCell>{item[9]} </TableCell>
