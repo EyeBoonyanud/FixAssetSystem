@@ -204,6 +204,7 @@ module.exports.search = async function (req, res) {
     const type = req.query.ReType;
     const date = req.query.ReDate;
     const dateto = req.query.ReDateTo;
+    const status = req.query.Statuss;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -223,6 +224,7 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   WHERE  T.FAM_REQ_BY = '${userlogin}' AND  F.FFM_FLG  IN ('C','R')
+    AND (F.FFM_DESC  = '${status}' OR '${status}' IS NULL)
     AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
@@ -256,6 +258,7 @@ module.exports.search2 = async function (req, res) {
     const type = req.query.ReType;
     const date = req.query.ReDate;
     const dateto = req.query.ReDateTo;
+    const status = req.query.Statuss;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -286,6 +289,7 @@ module.exports.search2 = async function (req, res) {
     OR (T.FAM_ACC_MGR_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR011')
     OR (T.FAM_SERVICE_CLOSE_BY  = '${userlogin}'  AND T.FAM_REQ_STATUS = 'FLTR012'))
     AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
+    AND (F.FFM_DESC  = '${status}' OR '${status}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)

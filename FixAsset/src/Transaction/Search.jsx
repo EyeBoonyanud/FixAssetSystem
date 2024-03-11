@@ -115,14 +115,39 @@ function Issue() {
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
     localStorage.removeItem("Type");
+
     navigate("/ForRe");
   };
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
+  const [dataStatus, setdataStatus] = useState("");
+  const [PAGEStatus, setPAGEStatus] = useState("");
   useEffect(() => {
     openPopupLoadding();
+    const Statuss = localStorage.getItem("STATUS");
+    console.log("Received Status:", Statuss);
+    if (Statuss !== null) {
+      console.log("เข้ามาแล้ว", Statuss);
+      setdataStatus(Statuss);
+      if (dataStatus !== undefined) {
+        if (Statuss === "Create") {
+          setPAGEStatus("C");
+        } else {
+          setPAGEStatus("A");
+        }
+        Search();
+      } else {
+        console.log("dataStatus ไม่มีข้อมูล");
+      }
+      localStorage.removeItem("STATUS");
+      console.log("ออกมาแล้ว");
+    } else {
+      localStorage.removeItem("STATUS");
+      setPAGEStatus("");
+      console.log("ว่างเปล่า");
+    }
     const Factory = async () => {
       try {
         const response = await axios.get(`http://10.17.74.201:5000/getfactory`);
@@ -160,6 +185,23 @@ function Issue() {
     RequestType();
     // Remove();
   }, []);
+
+  // useEffect(() => {
+  //   const Statuss = localStorage.getItem("STATUS");
+  //   console.log("Received Status:", Statuss);
+  //   if(Statuss !== "") {
+  //     console.log("เข้ามาแล้ว",dataStatus,"==");
+  //     setdataStatus(Statuss);
+
+  //     if (dataStatus !== undefined) {
+  //       console.log("dataS");
+  //       Search();
+  //     } else {
+  //       console.log("dataStatus ยังไม่ได้ถูกตั้งค่า");
+  //     }
+  //     console.log("ออกมาแล้ว");
+  //   }
+  // }, [dataStatus]);
 
   const Edit = async (EditFam) => {
     // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
@@ -232,17 +274,19 @@ function Issue() {
     setselectindex("0");
     window.location.href = "/ForRe";
   };
+
   const Search = async () => {
-    if (Path === "SEARCH") {
+    if (Path === "SEARCH" || PAGEStatus === "C") {
       const FamNo = document.getElementById("FamNo").value;
       const FamTo = document.getElementById("FamTo").value;
       const FixAsset = document.getElementById("FixAsset").value;
       const Date = document.getElementById("Date").value;
       const DateTo = document.getElementById("DateTo").value;
-      // console.log(Date,DateTo)
+      const Status = dataStatus;
+      console.log("ข้อมูลเข้ามาหน้า A:", Status);
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.74.201:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.201:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}&Statuss=${Status}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -267,9 +311,11 @@ function Issue() {
       const FixAsset = document.getElementById("FixAsset").value;
       const Date = document.getElementById("Date").value;
       const DateTo = document.getElementById("DateTo").value;
+      const Status = dataStatus;
+      console.log("ข้อมูลเข้ามาหน้า B:", Status);
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.74.201:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.201:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}&Statuss=${Status}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -306,6 +352,9 @@ function Issue() {
     document.getElementById("FixAsset").value = "";
     document.getElementById("Date").value = "";
     document.getElementById("DateTo").value = "";
+    localStorage.removeItem("STATUS");
+    setdataStatus("");
+    setPAGEStatus("");
     setselectdept("");
     setselecteDatafac("");
     setselectcost("");
