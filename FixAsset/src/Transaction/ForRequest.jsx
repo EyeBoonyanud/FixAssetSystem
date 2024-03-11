@@ -786,7 +786,7 @@ function ForRequest() {
         (compItem) => compItem[1] === item[3] && compItem[2] !== null
       );
   
-      // ตรวจสอบว่าค่าใน item[3] ของ datatable.map ตรงกับค่า item[3] ของ find_fixasset.map หรือไม่
+  
       const isItemInDatatable = datatable.map((dataItem) => dataItem[3]).includes(item[3]);
   
       newSelectedItems[index] = isDisabled || isItemInDatatable ? false : newSelectedAll;
