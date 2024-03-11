@@ -208,7 +208,7 @@ module.exports.search = async function (req, res) {
     const query = `
     SELECT
     DISTINCT M.FACTORY_NAME AS FACTORY,
-    T.FAM_REQ_CC AS COSTCENTER,
+    T.FAM_REQ_OWNER_CC AS COSTCENTER,
     T.FRH_FAM_NO AS FAMNO,
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
@@ -227,7 +227,7 @@ module.exports.search = async function (req, res) {
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
-    AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
+    AND (TRIM(T.FAM_ASSET_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${date}' OR '${date}' IS NULL)
@@ -260,7 +260,7 @@ module.exports.search2 = async function (req, res) {
     const query = `
     SELECT
     DISTINCT M.FACTORY_NAME AS FACTORY,
-    T.FAM_REQ_CC AS COSTCENTER,
+    T.FAM_REQ_OWNER_CC AS COSTCENTER,
     T.FRH_FAM_NO AS FAMNO,
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
@@ -289,7 +289,7 @@ module.exports.search2 = async function (req, res) {
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
     AND (T.FRH_FAM_NO >= '${famno}' OR '${famno}' IS NULL)
     AND (T.FRH_FAM_NO <= '${famto}' OR '${famto}'IS NULL)
-    AND (TRIM(T.FAM_REQ_CC) = '${cost}' OR '${cost}' IS NULL)
+    AND (TRIM(T.FAM_ASSET_CC) = '${cost}' OR '${cost}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${type}' OR '${type}' IS NULL)
     AND ( '${asset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${asset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${asset}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${date}' OR '${date}' IS NULL)
@@ -307,13 +307,60 @@ module.exports.search2 = async function (req, res) {
   }
 };
 //Fixed Asset Code
+// module.exports.fixcode = async function (req, res) {
+//   try {
+//     const fixcode = req.query.Fixcode;
+//     const cc = req.query.asset_cc;
+
+//     // // // console.log(factory,"1")
+
+//     const connect = await oracledb.getConnection(QAD);
+//     const query = `
+//     SELECT KFA_MSTR.KFA_CODE,  
+//     KFAD_DET.KFAD_COMP,  
+//     KFAD_DET.KFAD_CC,  
+//     KFAD_DET.KFAD_COMP_NAME,  
+//     KFA_MSTR.KFA_SEARCH3,  
+//     CODE_MSTR.CODE_CMMT,  
+//     KFAD_DET.KFAD_QTY,  
+//     KFIN_DET.KFIN_DOC_NO,  
+//     KFIN_DET.KFIN_REF_DATE,  
+//     KFAD_DET.KFAD_ACQ_COST,  
+//     KFAD_DET.KFAD_SVG_VAL 
+// FROM KFA_MSTR,  
+//     KFAD_DET,  
+//     KFIN_DET,  
+//     CODE_MSTR 
+// WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and 
+//     ( KFA_MSTR.KFA_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
+//     ( KFAD_DET.KFAD_CODE = KFIN_DET.KFIN_FA_CODE ) and 
+//     ( KFIN_DET.KFIN_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
+//     ( KFA_MSTR.KFA_OBLG = CODE_MSTR.CODE_VALUE ) and 
+//     ( KFA_MSTR.KFA_DOMAIN = CODE_MSTR.CODE_DOMAIN ) and 
+//     ( KFAD_DET.KFAD_COMP = KFIN_DET.KFIN_INFO_SEQ ) and 
+//     ( ( KFA_MSTR.KFA_CODE = '${fixcode}' ) AND  
+//     ( upper(CODE_MSTR.CODE_FLDNAME) = 'KFA_OBLG' ) AND 
+//     ( KFAD_DET.KFAD_BOOK = 'SL' ) AND 
+//     ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND 
+//     ( KFAD_DET.KFAD_SEQ = '0' ) AND
+//     ( KFAD_DET.KFAD_CC = '${cc}') )
+//   ORDER BY  KFAD_DET.KFAD_COMP ASC
+//          `;
+
+//     const result = await connect.execute(query);
+//     connect.release();
+//     // // // console.log(result.rows);
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+//   }
+// };
+
 module.exports.fixcode = async function (req, res) {
   try {
     const fixcode = req.query.Fixcode;
     const cc = req.query.asset_cc;
-
-    // // // console.log(factory,"1")
-
+    const no = req.query.fam_no;
     const connect = await oracledb.getConnection(QAD);
     const query = `
     SELECT KFA_MSTR.KFA_CODE,  
@@ -355,6 +402,7 @@ WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+
 
 //FactoryForInsert
 module.exports.fac_insert = async function (req, res) {
@@ -508,6 +556,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const Status = req.query.status;
     const Remark = req.query.remark;
     const User_FAM = req.query.user;
+    const onwerId = req.query.owner_id;
+    const ownerCC = req.query.owner_CC;
+    const ownerTel = req.query.owner_Tel;
 
     // // // console.log(Tranfer_id);
     // // // console.log(Remark);
@@ -516,9 +567,9 @@ module.exports.insert_tranfer = async function (req, res) {
     const query = `
       INSERT INTO FAM_REQ_HEADER 
       (FRH_FAM_NO, FAM_REQ_DATE, FAM_REQ_BY, FAM_REQ_TEL, FAM_FACTORY, FAM_REQ_CC,
-      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK,FAM_CREATE_BY,FAM_CREATE_DATE)
+      FAM_REQ_DEPT, FAM_REQ_TYPE, FAM_ASSET_GROUP, FAM_ASSET_CC,FAM_ASSET_CC_NAME, FAM_REQ_STATUS, FAM_REQ_REMARK,FAM_CREATE_BY,FAM_CREATE_DATE,FAM_REQ_OWNER,FAM_REQ_OWNER_CC,FAM_REQ_OWNER_TEL)
       VALUES 
-      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark ,:User_FAM ,SYSDATE)
+      (:Tranfer_id, SYSDATE, :ReqBy, :ReTel, :Factory, :CC, :Dept, :Type, :Assetgroup, :AssetCC,:AssetName, :Status, :Remark ,:User_FAM ,SYSDATE, :onwerId, :ownerCC, :ownerTel )
     `;
 
     const data = {
@@ -534,7 +585,11 @@ module.exports.insert_tranfer = async function (req, res) {
       AssetName,
       Status,
       Remark,
-      User_FAM
+      User_FAM,
+      onwerId,
+      ownerCC,
+      ownerTel
+
     };
     // // // console.log(query);
     // // // console.log(data);
@@ -630,18 +685,22 @@ VALUES (:Tranfer_id,:AssetCC, SYSDATE,:ReqBy)
 
 // insert_FAM_DETAIL
 module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
+  
   try {
-    const FRD_FAM_NO = req.query.famno;
-    const FRD_ASSET_CODE = req.query.assetcode;
-    const FRD_ASSET_NAME = req.query.assetname;
-    const FRD_COMP = req.query.comp;
-    const FRD_OWNER_CC = req.query.cc;
-    const FRD_BOI_PROJ = req.query.boi;
-    const FRD_QTY = req.query.qty;
-    const FRD_INV_NO = req.query.inv;
-    const FRD_ACQ_COST = req.query.cost;
-    const FRD_BOOK_VALUE = req.query.val;
-    const FRD_CREATE_BY = req.query.by;
+    // const FRD_FAM_NO = req.query.famno;
+    // const FRD_ASSET_CODE = req.query.assetcode;
+    // const FRD_ASSET_NAME = req.query.assetname;
+    // const FRD_COMP = req.query.comp;
+    // const FRD_OWNER_CC = req.query.cc;
+    // const FRD_BOI_PROJ = req.query.boi;
+    // const FRD_QTY = req.query.qty;
+    // const FRD_INV_NO = req.query.inv;
+    // const FRD_ACQ_COST = req.query.cost;
+    // const FRD_BOOK_VALUE = req.query.val;
+    // const FRD_CREATE_BY = req.query.by;
+    const { famno, assetcode, assetname, comp, cc, boi, qty, inv, cost, val, by } = req.body;
+    console.log("LLLLLLLLLLL", famno);
+    
     const connect = await oracledb.getConnection(AVO);
     const query = `
     MERGE INTO AVO.FAM_REQ_DETAIL dest
@@ -657,7 +716,9 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
             :FRD_INV_NO AS FRD_INV_NO,
             :FRD_ACQ_COST AS FRD_ACQ_COST,
             :FRD_BOOK_VALUE AS FRD_BOOK_VALUE,
-            :FRD_CREATE_BY AS FRD_CREATE_BY
+            :FRD_CREATE_BY AS FRD_CREATE_BY,
+            SYSDATE AS FRD_CREATE_DATE, -- ปรับเป็นการเพิ่ม SYSDATE เข้าไปตรงนี้
+            SYSDATE AS FRD_INV_DATE -- เพิ่มการเพิ่ม SYSDATE เข้าไปเพื่อให้เป็นส่วนของคำสั่ง SQL
         FROM dual
     ) src
     ON (dest.FRD_FAM_NO = src.FRD_FAM_NO
@@ -686,7 +747,8 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
             FRD_ACQ_COST,
             FRD_BOOK_VALUE,
             FRD_CREATE_DATE,
-            FRD_CREATE_BY
+            FRD_CREATE_BY,
+            FRD_INV_DATE
         ) VALUES (
             src.FRD_FAM_NO,
             src.FRD_ASSET_CODE,
@@ -699,26 +761,24 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
             src.FRD_ACQ_COST,
             src.FRD_BOOK_VALUE,
             SYSDATE,
-            src.FRD_CREATE_BY
+            src.FRD_CREATE_BY,
+            SYSDATE
         )
-    
     `;
     const data = {
-      FRD_FAM_NO,
-      FRD_ASSET_CODE,
-      FRD_ASSET_NAME,
-      FRD_COMP,
-      FRD_OWNER_CC,
-      FRD_BOI_PROJ,
-      FRD_QTY,
-      FRD_INV_NO,
-      FRD_ACQ_COST,
-      FRD_BOOK_VALUE,
-      FRD_CREATE_BY,
+      FRD_FAM_NO: famno,
+      FRD_ASSET_CODE: assetcode,
+      FRD_ASSET_NAME: assetname,
+      FRD_COMP: comp,
+      FRD_OWNER_CC: cc,
+      FRD_BOI_PROJ: boi,
+      FRD_QTY: qty,
+      FRD_INV_NO: inv,
+      FRD_ACQ_COST: cost,
+      FRD_BOOK_VALUE: val,
+      FRD_CREATE_BY: by,
     };
-    // // console.log(query, data);
     const result = await connect.execute(query, data, { autoCommit: true });
-    // // // console.log(result)
     connect.release();
     res.json(result);
   } catch (error) {
@@ -726,6 +786,8 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
 
 //Delete  Fixed Assets Code
 module.exports.delete_FAM_REQ_DETAIL = async function (req, res) {
@@ -776,6 +838,31 @@ module.exports.ins_from_Boi = async function (req, res) {
   }
 };
 
+// module.exports.new_boi = async function (req, res) {
+//   try {
+//     const Fac = req.query.fac;
+//     const CC = req.query.cc;
+//     // // console.log(Fac, CC);
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     SELECT T.FBMC_BOI_PROJ 
+//     FROM FAM_BOIPROJ_MAP_CC T 
+//     WHERE T.FBMC_FACTORY = '${Fac}' 
+//     AND T.FBMC_COST_CENTER = '${CC}' `;
+//     const result = await connect.execute(query);
+//     connect.release();
+//     // // // console.log(result.rows);
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+//   }
+// };
+
+
+
+
+
+//Select ข้อมูลส่วนของ Transfer Detail
 module.exports.new_boi = async function (req, res) {
   try {
     const Fac = req.query.fac;
@@ -783,10 +870,8 @@ module.exports.new_boi = async function (req, res) {
     // // console.log(Fac, CC);
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT T.FBMC_BOI_PROJ 
-    FROM FAM_BOIPROJ_MAP_CC T 
-    WHERE T.FBMC_FACTORY = '${Fac}' 
-    AND T.FBMC_COST_CENTER = '${CC}' `;
+    SELECT T.FBMC_BOI_PROJ FROM FAM_BOIPROJ_MAP_CC T WHERE T.FBMC_COST_CENTER = '${CC}'
+    AND T.FBMC_FACTORY = '${Fac}' AND T.FBMC_STATUS = 'A' ORDER BY T.FBMC_COST_CENTER `;
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);
@@ -796,7 +881,7 @@ module.exports.new_boi = async function (req, res) {
   }
 };
 
-//Select ข้อมูลส่วนของ Transfer Detail
+
 module.exports.select_BOI_from = async function (req, res) {
   try {
     const running = req.query.running_no;
@@ -1418,13 +1503,16 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     T.FAM_ASSET_CC_NAME,
     T.FAM_FACTORY,
     R.USER_EMP_ID ||' : ' || R.USER_FNAME||' ' || R.USER_SURNAME AS REQ_BY,
-    F.FFM_FLG
-    
+    F.FFM_FLG,
+    T.FAM_REQ_OWNER,
+    T.FAM_REQ_OWNER_CC,
+    T.FAM_REQ_OWNER_TEL,
+    S.ENAME || '  ' || S.ESURNAME AS NAME_SURNAME 
 FROM FAM_REQ_HEADER T 
 LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
 LEFT JOIN CUSR.CU_FACTORY_M M ON  M.FACTORY_CODE  =  T.FAM_FACTORY 
 LEFT JOIN CUSR.CU_USER_M R ON R.USER_LOGIN = T.FAM_REQ_BY 
-
+LEFT JOIN CUSR.CU_USER_HUMANTRIX S  ON S.EMPCODE = T.FAM_REQ_OWNER 
 
 WHERE T.FRH_FAM_NO = :fam_no
           `;
@@ -1518,7 +1606,8 @@ module.exports.getEdit_Trans = async function (req, res) {
     F.FRT_RECEIVER_JUD,
     TO_CHAR(F.FRT_RECEIVE_DATE, 'DD/MM/YYYY') AS FRT_RECEIVE_DATE,
     F.FRT_RECEIVE_CMMT,
-    A.FACTORY_NAME
+    A.FACTORY_NAME,
+    F.FRT_ABNORMAL_STS
     
 
   FROM
@@ -1624,7 +1713,10 @@ module.exports.Update_For_Req_All = async function (req, res) {
       accchk,
       accmrg,
       updateby,
-      record_by
+      record_by,
+      owner_id,
+      owner_dept,
+      owner_tel
     } = req.body;
 
  
@@ -1648,7 +1740,10 @@ module.exports.Update_For_Req_All = async function (req, res) {
         R.FAM_ACC_MGR_BY = :FAM_ACC_MGR_BY,
         R.FAM_UPDATE_DATE = SYSDATE,
         R.FAM_UPDATE_BY = :FAM_UPDATE_BY,
-        R.FAM_ACC_REC_BY = :FAM_ACC_REC_BY
+        R.FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
+        R.FAM_REQ_OWNER =:FAM_REQ_OWNER,
+        R.FAM_REQ_OWNER_CC =:FAM_REQ_OWNER_CC,
+        R.FAM_REQ_OWNER_TEL =:FAM_REQ_OWNER_TEL
       WHERE
         FRH_FAM_NO = :FAM_NO
     `;
@@ -1667,7 +1762,11 @@ module.exports.Update_For_Req_All = async function (req, res) {
       FAM_ACC_CHK_BY: accchk,
       FAM_ACC_MGR_BY: accmrg,
       FAM_UPDATE_BY: updateby,
-      FAM_ACC_REC_BY:record_by
+      FAM_ACC_REC_BY:record_by,
+      FAM_REQ_OWNER :owner_id,
+      FAM_REQ_OWNER_CC :owner_dept ,
+      FAM_REQ_OWNER_TEL :owner_tel 
+     
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -1688,8 +1787,6 @@ module.exports.Update_For_Req_All = async function (req, res) {
 //Update For Transfer
 module.exports.Update_For_Trans_All = async function (req, res) {
   try {
-    // // console.log("MMMMMMM");
-
     const {
       famno,
       date_plan,
@@ -1702,7 +1799,7 @@ module.exports.Update_For_Trans_All = async function (req, res) {
       abnormal_for,
       create_by
     } = req.body;
-
+console.log("MMMMMMM",famno);
  
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -2971,6 +3068,81 @@ WHERE
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+/// Owner Id 
+module.exports.Id_owner = async function (req, res) {
+  try {
+    
+    const { owner_id } = req.body;
+    const connect = await oracledb.getConnection(CUSR);
+    console.log(owner_id,"owner_id")
+    const query = `
+    SELECT T.EMPCODE ,
+       T.ENAME || '  ' || T.ESURNAME AS NAME_SURNAME ,
+       SUBSTR(T.COST_CENTER, 1, 4) AS COST_CENTER_PREFIX
+FROM CU_USER_HUMANTRIX T
+WHERE T.EMPCODE = :owner_id    
+           `;
+           const data = {
+            owner_id
+          };
+          const result = await connect.execute(query, data, { autoCommit: true });
+    
+          connect.release();
+    // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// Fix Asset 
+module.exports.fix_code_find = async function (req, res) {
+  try {
+    
+    const { assetcode ,cc } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    console.log(assetcode,"assetcode")
+    const query = `
+    SELECT T.FRH_FAM_NO ,
+    F.FRD_ASSET_CODE , 
+    F.FRD_COMP ,T.FAM_REQ_STATUS 
+    FROM FAM_REQ_DETAIL F 
+    LEFT JOIN FAM_REQ_HEADER T ON T.FRH_FAM_NO = F.FRD_FAM_NO 
+    WHERE F.FRD_ASSET_CODE  = :assetcode
+    AND F.FRD_COMP =:cc
+           `;
+           const data = {
+            assetcode,
+            cc
+          };
+          const result = await connect.execute(query, data, { autoCommit: true });
+    
+          connect.release();
+    // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// get comp
+module.exports.get_COMP = async function (req, res) {
+  const Fam_no = req.query.fam_no;
+
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT FD.FRD_COMP ,FD.FRD_ASSET_NAME,FD.FRD_FAM_NO 
+    FROM AVO.FAM_REQ_HEADER FH 
+    INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
+    WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${Fam_no}', 1, 6)
+        AND (FH.FAM_REQ_STATUS <> 'FLTR013')
+           `;
+    const result = await connect.execute(query);
+    connect.release();
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);

@@ -11,7 +11,8 @@ import {
   MenuItem,
   Box,
   Button,
-  FormHelperText,
+  Autocomplete,
+  FormHelperText
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -34,6 +35,7 @@ function TransFerDetail() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
+  console.log(For_Req, "VVVVVVVVVV");
   // console.log(For_Trans, "For_Trans");
 
   // กรณี Edit LocalStorage
@@ -43,8 +45,9 @@ function TransFerDetail() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  // console.log(For_Rq_Edit, "For_Rq_Edit");
-  // console.log(For_edit_trans, "For_edit_trans");
+  console.log(For_Rq_Edit, "For_Rq_Edit");
+  console.log(For_edit_trans, "For_edit_trans");
+  console.log(For_Edit_Rou,"For_Edit_Rou")
 
   // เก็บตัวแปร
   let STS = "";
@@ -67,7 +70,7 @@ function TransFerDetail() {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-
+let data1_fromboi = "NAKP"
   ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -75,7 +78,8 @@ function TransFerDetail() {
   const [trans_factory, settrans_factory] = useState([]);
   const [selecttrans_factory, setselecttrans_factory] = useState("");
   const [trans_cc, settrans_cc] = useState([]);
-  const [selecttrans_cc, setselecttrans_cc] = useState("");
+  const [selecttrans_cc, setselecttrans_cc] = useState([]);
+  const [datanew_boi, setdatanew_boi] = useState([]);
   const [new_boi, setnew_boi] = useState("");
   const [data_fromboi, setdata_fromboi] = useState("");
   const [new_owner, setnew_owner] = useState([]);
@@ -103,6 +107,7 @@ function TransFerDetail() {
   const [acc_manager, setacc_manager] = useState([]);
   const [selectacc_manager, setselectacc_manager] = useState("");
   const [Tel_service, setTel_service] = useState("");
+
 
   /////////////// ตัวแปร Radio button//////////////////////////////
   const [selectradio_dept, setselectradio_dept] = useState("");
@@ -161,6 +166,7 @@ function TransFerDetail() {
   const [ErrorDate, setErrorDate] = useState(false);
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
+  const [ErrNewboi,setErrNewboi] = useState(false);
 
   /////////////// ตัวแปร Check Read Only //////////////////////////////
   const [read_trans_fac, setReadTransFac] = useState(true);
@@ -279,6 +285,9 @@ function TransFerDetail() {
     Fac_manager();
     ACC_Check();
     ACC_Manager();
+    if(EditFam!= null){
+      edit_New_BOI()
+    }
 
     // 5 วินาทีหรือ 5000 มิลลิวินาที
     // };
@@ -292,18 +301,24 @@ function TransFerDetail() {
         Fam_list = For_Rq_Edit[0];
         //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
         //  console.log(STS, "STS..,.,.,.");
-        setownersend(For_Rq_Edit[2]);
-        if (For_edit_trans != null) {
+        setownersend(For_Rq_Edit[20]);
+        if (For_edit_trans != null || EditFam != null) {
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
           setabnormal(For_edit_trans[0][6]);
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
-          setplan_date(For_edit_trans[0][5]);
+          if(For_edit_trans[0][5] ===null){
+            setplan_date("")
+          }else{
+            setplan_date(For_edit_trans[0][5]);
+          }
+          
           // setของ Edit Trans
           setowner_roting(For_Rq_Edit[2]);
-
+          setsts(For_edit_trans[0][14]);
+          edit_New_BOI()
           if (For_Edit_Rou != null) {
             // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
             //set Submit
@@ -938,7 +953,7 @@ function TransFerDetail() {
       setReadAccMana(false);
       //setbtnsave("visible");
       if (For_Trans != null) {
-        setownersend(For_Req[1]);
+        setownersend(For_Req[18]);
         setowner_roting(For_Req[1]);
         setdata_fromboi(For_Trans[2]);
         setnew_boi(For_Trans[5]);
@@ -958,7 +973,7 @@ function TransFerDetail() {
           STS = For_Req[10];
           Fam_list = For_Req[0];
           // servivedept = For_Req[8] + ":" + For_Req[9];
-          setownersend(For_Req[1]);
+          setownersend(For_Req[18]);
           setowner_roting(For_Req[1]);
           setdata_fromboi("");
           setnew_boi("");
@@ -1093,38 +1108,119 @@ function TransFerDetail() {
       //console.error("Error during login:", error);
     }
   };
-  const handleNew_BOI = async (event) => {
-    let transCC = event.target.value;
-    setErrorCC(false);
-    setselecttrans_cc(event.target.value);
-    New_Owner(transCC, selecttrans_factory);
+  // const handleNew_BOI = async (event) => {
+  //   let transCC = event.target.value;
+  //   setErrorCC(false);
+  //   setselecttrans_cc(event.target.value);
+  //   New_Owner(transCC, selecttrans_factory);
 
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
+  //     );
+  //     const data = response.data;
+  //     const boi = data.flat();
+  //     console.log(boi)
+  //     setnew_boi(boi);
+
+  //     if (!boi || boi.length === 0) {
+  //       setnew_boi("NON BOI");
+  //     } else {
+  //       setnew_boi(boi);
+  //     }
+  //     if (data_fromboi == "NON BOI" || data_fromboi == boi) {
+  //          console.log(abnormal,"Nuuuuuuuuuuuuu")
+  //       setsts("N");
+  //       setabnormal("");
+  //     } else {
+  //       console.log(abnormal,"Nuuuuuuuuuuuuu")
+
+  //       setsts("Y");
+  //       // // console.log(abnormal,"Y")
+  //       setabnormal("Transfer to difference project");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //   }
+  // };
+  const edit_New_BOI= async () => {
+    try {
+      const response = await axios.get(
+         `http://localhost:5000/new_boi?fac=${For_edit_trans[0][0]}&cc=${For_edit_trans[0][1]}`
+      );
+      const data = response.data;
+      const boi = data.flat();
+      setdatanew_boi(boi)
+      console.log(boi,"YYYYY")
+      if (!boi || boi.length === 0) {
+        //setnew_boi(boi);
+        setdatanew_boi(["NON BOI"]);
+      } else {
+        //setnew_boi(boi);
+        setdatanew_boi(boi);
+      }
+
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }
+
+  const handleNew_BOI = async (event) => {
+    setnew_boi("")
+    let transCC = event;
+   
+    setErrorCC(false);
+    setselecttrans_cc(event);
+    console.log(event,"55555")
+    New_Owner(transCC, selecttrans_factory);
+  
     try {
       const response = await axios.get(
         `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
       );
       const data = response.data;
       const boi = data.flat();
-      setnew_boi(boi);
-
+      setdatanew_boi(boi)
+      console.log(boi,"YYYYY")
       if (!boi || boi.length === 0) {
-        setnew_boi("NON BOI");
+        //setnew_boi(boi);
+        setdatanew_boi(["NON BOI"]);
       } else {
-        setnew_boi(boi);
+        //setnew_boi(boi);
+        setdatanew_boi(boi);
       }
-      if (data_fromboi == boi) {
-        //   // console.log(abnormal,"N")
-        setsts("N");
-        setabnormal("");
-      } else {
-        setsts("Y");
-        // // console.log(abnormal,"Y")
-        setabnormal("Transfer to difference project");
-      }
+      // if (data_fromboi == "NON BOI" || data_fromboi == boi) {
+      //   console.log(abnormal,"Nuuuuuuuuuuuuu")
+      //   setsts("N");
+      //   setabnormal("");
+      // } else {
+      //   console.log(abnormal,"Nuuuuuuuuuuuuu")
+  
+      //   setsts("Y");
+      //   // // console.log(abnormal,"Y")
+      //   setabnormal("Transfer to difference project");
+      // }
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
+  const handleNewboi_proj = async (value) => {
+    console.log(value,"VVVVVVV")
+    let NewPoroj =  value
+if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
+        console.log(abnormal,"Nuuuuuuuuuuuuu")
+        setsts("N");
+        setabnormal("");
+      } else {
+         
+        setsts("Y");
+        // // console.log(abnormal,"Y")
+        setabnormal("Transfer to difference project");
+        console.log(abnormal,"Nuuuuuuuuuuuuu")
+      }
+  }
+
+  
   const New_Owner = async (selecttrans_cc, selecttrans_factory) => {
     //// console(selecttrans_cc, "selecttrans_cc", selecttrans_factory);
 
@@ -1146,16 +1242,19 @@ function TransFerDetail() {
     setreceiver(result);
   };
   const Department_Mana = async () => {
+    
     let level = "";
     let cc = "";
+    
     if (EditFam != null) {
       if (For_edit_trans != null) {
         level = For_Rq_Edit[14];
-        cc = For_Rq_Edit[5];
+        cc = For_Rq_Edit[18];
       }
     } else {
       level = For_Req[3];
-      cc = For_Req[4];
+      cc = For_Req[16];
+      console.log(For_Req[16],"((((([16]")
     }
 
     try {
@@ -1164,7 +1263,7 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment_mana(data);
-      // console.log(data, "data");
+      console.log(data, "dataDept");
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
@@ -1372,6 +1471,8 @@ function TransFerDetail() {
 
   // ปุ่ม SAVE
   const SAVE = async () => {
+    console.log("plan_date",plan_date)
+ 
     // console.log(For_Req,)
     let ServiceDept = "";
     if (EditFam != null) {
@@ -1448,6 +1549,9 @@ function TransFerDetail() {
             accmrg: selectacc_manager,
             updateby: For_Rq_Edit[1],
             record_by: text_acc_check,
+            owner_id: For_Rq_Edit[17],
+            owner_dept: For_Rq_Edit[18],
+            owner_tel:For_Rq_Edit[19]
           }
         );
       } catch (error) {
@@ -1495,6 +1599,9 @@ function TransFerDetail() {
             accmrg: selectacc_manager,
             updateby: For_Req[1],
             record_by: text_acc_check,
+            owner_id: For_Req[15],
+            owner_dept: For_Req[16],
+            owner_tel:For_Req[17]
           }
         );
       } catch (error) {
@@ -1542,7 +1649,8 @@ function TransFerDetail() {
       if (
         For_Rq_Edit[3] === null ||
         For_Rq_Edit[3] === undefined ||
-        For_Rq_Edit[3] === ""
+        For_Rq_Edit[3] === "" ||
+        For_Rq_Edit[3] === "null"
       ) {
         setErrorTel_Rq(true);
         alert("Please fill in information: Tel For Requester");
@@ -1555,7 +1663,8 @@ function TransFerDetail() {
       if (
         For_Rq_Edit[6] === null ||
         For_Rq_Edit[6] === undefined ||
-        For_Rq_Edit[6] === ""
+        For_Rq_Edit[6] === "" ||
+        For_Rq_Edit[6] === "null"
       ) {
         alert("Please fill in information: Dept ");
         setErrorDept(true);
@@ -1566,7 +1675,9 @@ function TransFerDetail() {
       if (
         selecttrans_factory === null ||
         selecttrans_factory === undefined ||
-        selecttrans_factory === ""
+        selecttrans_factory === "" ||
+        selecttrans_factory === "null" 
+
       ) {
         alert("Please fill in information: Factory");
         setErrorFac(true);
@@ -1577,7 +1688,8 @@ function TransFerDetail() {
       if (
         selecttrans_cc === null ||
         selecttrans_cc === undefined ||
-        selecttrans_cc === ""
+        selecttrans_cc === "" ||
+        selecttrans_cc === "null"
       ) {
         alert("Please fill in information: CC");
         setErrorCC(true);
@@ -1586,9 +1698,22 @@ function TransFerDetail() {
         setErrorCC(false);
       }
       if (
+        new_boi === null ||
+        new_boi === undefined ||
+        new_boi === "" ||
+        new_boi === "null"
+      ) {
+        setErrNewboi(true);
+        alert("Please fill in information: New BOI Project  ");
+        return;
+      } else {
+        setErrNewboi(false);
+      }
+      if (
         Tel_for_trans === null ||
         Tel_for_trans === undefined ||
-        Tel_for_trans === ""
+        Tel_for_trans === "" ||
+        Tel_for_trans === "null"
       ) {
         alert("Please fill in information: Tel ");
         setErrorTel(true);
@@ -1596,11 +1721,13 @@ function TransFerDetail() {
       } else {
         setErrorTel(false);
       }
+ 
 
       if (
         selectnew_owner === null ||
         selectnew_owner === undefined ||
-        selectnew_owner === ""
+        selectnew_owner === "" ||
+        selectnew_owner === "null"
       ) {
         setErrorNewOwn(true);
         alert("Please fill in information: New Owner ");
@@ -1608,7 +1735,7 @@ function TransFerDetail() {
       } else {
         setErrorNewOwn(false);
       }
-      if (plan_date === null || plan_date === undefined || plan_date === "") {
+      if (plan_date === null || plan_date === undefined || plan_date === "" || plan_date === "null") {
         // console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
         setErrorDate(true);
         alert("Please fill in information: Date");
@@ -1619,7 +1746,8 @@ function TransFerDetail() {
       if (
         selectdepartment_mana === null ||
         selectdepartment_mana === undefined ||
-        selectdepartment_mana === ""
+        selectdepartment_mana === "" ||
+        selectdepartment_mana === "null" 
       ) {
         setErrorManager(true);
         alert("Please fill in information: Department Manager ");
@@ -1627,22 +1755,11 @@ function TransFerDetail() {
       } else {
         setErrorManager(false);
       }
-
-      if (
-        selectservice_by === null ||
-        selectservice_by === undefined ||
-        selectservice_by === ""
-      ) {
-        setErrorService_by(true);
-        alert("Please fill in information: Service By");
-        return;
-      } else {
-        setErrorService_by(false);
-      }
       if (
         Tel_service === "" ||
         Tel_service === undefined ||
-        Tel_service === null
+        Tel_service === null ||
+        Tel_service === "null"
       ) {
         setErrorTel_service(true);
         alert("Please fill in information: Tel_Service By");
@@ -1651,11 +1768,25 @@ function TransFerDetail() {
       } else {
         setErrorTel_service(false);
       }
+      if (
+        selectservice_by === null ||
+        selectservice_by === undefined ||
+        selectservice_by === ""  ||
+        selectservice_by === "null" 
+      ) {
+        setErrorService_by(true);
+        alert("Please fill in information: Service By");
+        return;
+      } else {
+        setErrorService_by(false);
+      }
+      
 
       if (
         selectboi_staff === null ||
         selectboi_staff === undefined ||
-        selectboi_staff === ""
+        selectboi_staff === "" ||
+        selectboi_staff === "null"
       ) {
         setErrorBoi_Staff(true);
         alert("Please fill in information: BOI Staff");
@@ -1666,7 +1797,8 @@ function TransFerDetail() {
       if (
         selectboi_manager === null ||
         selectboi_manager === undefined ||
-        selectboi_manager === ""
+        selectboi_manager === "" ||
+        selectboi_manager === "null"
       ) {
         setErrorBoi_manager(true);
         alert("Please fill in information: BOI Manager");
@@ -1677,7 +1809,8 @@ function TransFerDetail() {
       if (
         selectfac_manager === null ||
         selectfac_manager === undefined ||
-        selectfac_manager === ""
+        selectfac_manager === "" ||
+        selectfac_manager === "null"
       ) {
         setErrorMana_Fac(true);
         alert("Please fill in information: Factory Manager");
@@ -1688,7 +1821,8 @@ function TransFerDetail() {
       if (
         selectacc_check === null ||
         selectacc_check === undefined ||
-        selectacc_check === ""
+        selectacc_check === "" ||
+        selectacc_check === "null"
       ) {
         alert("Please fill in information: ACC Check");
         setErrorAcc_check(true);
@@ -1700,7 +1834,8 @@ function TransFerDetail() {
       if (
         selectacc_manager === null ||
         selectacc_manager === undefined ||
-        selectacc_manager === ""
+        selectacc_manager === "" ||
+        selectacc_manager === "null"
       ) {
         alert("Please fill in information: ACC Manager");
         setErrorAcc_Mana(true);
@@ -1719,7 +1854,8 @@ function TransFerDetail() {
       if (
         For_Req[2] === null ||
         For_Req[2] === undefined ||
-        For_Req[2] === ""
+        For_Req[2] === "" ||
+        For_Req[2] === "null"
       ) {
         setErrorTel_Rq(true);
         alert("Please fill in information: Tel Requester");
@@ -1734,7 +1870,8 @@ function TransFerDetail() {
       if (
         For_Req[5] === null ||
         For_Req[5] === undefined ||
-        For_Req[5] === ""
+        For_Req[5] === "" ||
+        For_Req[5] === "null" 
       ) {
         alert("Please fill in information: Dept");
         setErrorDept(true);
@@ -1744,7 +1881,8 @@ function TransFerDetail() {
       if (
         selecttrans_factory === null ||
         selecttrans_factory === undefined ||
-        selecttrans_factory === ""
+        selecttrans_factory === "" ||
+        selecttrans_factory === "null" 
       ) {
         alert("Please fill in information: Factory");
         setErrorFac(true);
@@ -1754,7 +1892,8 @@ function TransFerDetail() {
       if (
         selecttrans_cc === null ||
         selecttrans_cc === undefined ||
-        selecttrans_cc === ""
+        selecttrans_cc === "" ||
+        selecttrans_cc === "null"
       ) {
         alert("Please fill in information: CC");
         setErrorCC(true);
@@ -1763,10 +1902,24 @@ function TransFerDetail() {
         // console.log("YYYYYYYY");
         setErrorCC(false);
       }
+   
+      if (
+        new_boi === null ||
+        new_boi === undefined ||
+        new_boi === "" ||
+        new_boi === "null" 
+      ) {
+        setErrNewboi(true);
+        alert("Please fill in information: New BOI Project  ");
+        return;
+      } else {
+        setErrNewboi(false);
+      }
       if (
         Tel_for_trans === null ||
         Tel_for_trans === undefined ||
-        Tel_for_trans === ""
+        Tel_for_trans === "" ||
+        Tel_for_trans === "null" 
       ) {
         alert("Please fill in information: Tel ");
         setErrorTel(true);
@@ -1774,11 +1927,11 @@ function TransFerDetail() {
       } else {
         setErrorTel(false);
       }
-
       if (
         selectnew_owner === null ||
         selectnew_owner === undefined ||
-        selectnew_owner === ""
+        selectnew_owner === "" ||
+         selectnew_owner === "null"
       ) {
         setErrorNewOwn(true);
         alert("Please fill in information: New Owner ");
@@ -1786,7 +1939,7 @@ function TransFerDetail() {
       } else {
         setErrorNewOwn(false);
       }
-      if (plan_date === null || plan_date === undefined || plan_date === "") {
+      if (plan_date === null || plan_date === undefined || plan_date === "" || plan_date === "null") {
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -1796,7 +1949,8 @@ function TransFerDetail() {
       if (
         selectdepartment_mana === null ||
         selectdepartment_mana === undefined ||
-        selectdepartment_mana === ""
+        selectdepartment_mana === "" ||
+        selectdepartment_mana === "null"
       ) {
         alert("Please fill in information: Department Manager");
         setErrorManager(true);
@@ -1808,7 +1962,8 @@ function TransFerDetail() {
       if (
         Tel_service === null ||
         Tel_service === undefined ||
-        Tel_service === ""
+        Tel_service === "" ||
+        Tel_service === "null"
       ) {
         alert("Please fill in information: Tel_Service By");
         setErrorTel_service(true);
@@ -1819,7 +1974,8 @@ function TransFerDetail() {
       if (
         selectservice_by === null ||
         selectservice_by === undefined ||
-        selectservice_by === ""
+        selectservice_by === "" ||
+        selectservice_by === "null"
       ) {
         alert("Please fill in information: Service By");
         setErrorService_by(true);
@@ -1831,7 +1987,8 @@ function TransFerDetail() {
       if (
         selectboi_staff === null ||
         selectboi_staff === undefined ||
-        selectboi_staff === ""
+        selectboi_staff === "" ||
+        selectboi_staff === "null" 
       ) {
         alert("Please fill in information: BOI Staff");
         setErrorBoi_Staff(true);
@@ -1842,7 +1999,8 @@ function TransFerDetail() {
       if (
         selectboi_manager === null ||
         selectboi_manager === undefined ||
-        selectboi_manager === ""
+        selectboi_manager === "" ||
+        selectboi_manager === "null"
       ) {
         alert("Please fill in information: BOI Manager");
         setErrorBoi_manager(true);
@@ -1853,7 +2011,8 @@ function TransFerDetail() {
       if (
         selectfac_manager === null ||
         selectfac_manager === undefined ||
-        selectfac_manager === ""
+        selectfac_manager === "" ||
+        selectfac_manager === "null"
       ) {
         alert("Please fill in information: Factory Manager");
         setErrorMana_Fac(true);
@@ -1864,7 +2023,8 @@ function TransFerDetail() {
       if (
         selectacc_check === null ||
         selectacc_check === undefined ||
-        selectacc_check === ""
+        selectacc_check === "" ||
+        selectacc_check === "null"
       ) {
         alert("Please fill in information: ACC Check");
         setErrorAcc_check(true);
@@ -1876,7 +2036,8 @@ function TransFerDetail() {
       if (
         selectacc_manager === null ||
         selectacc_manager === undefined ||
-        selectacc_manager === ""
+        selectacc_manager === "" ||
+        selectacc_manager === "null"
       ) {
         alert("Please fill in information: ACC Manager");
         setErrorAcc_Mana(true);
@@ -1889,8 +2050,9 @@ function TransFerDetail() {
     if (EditFam != null) {
       // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
-        // console.log(receiver, "receiver");
-        if (For_Rq_Edit[10] === "FLTR001") {
+      
+        if (For_Rq_Edit[10] === "FLTR001") {  
+          console.log( For_Rq_Edit[0], " For_Rq_Edit[0]");
           let Status = "FLTR002";
           try {
             // console.log("For_Rq_Edit", For_Rq_Edit[0]);
@@ -1911,12 +2073,16 @@ function TransFerDetail() {
                 accmrg: selectacc_manager,
                 updateby: For_Rq_Edit[2],
                 record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel:For_Rq_Edit[19]
               }
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
+            console.log( For_Rq_Edit[0], "For_Rq_Edit[0]yyyy",plan_date,selecttrans_factory);
             const response = await axios.post(
               "http://localhost:5000/Update_For_Trans_All",
               {
@@ -1973,6 +2139,9 @@ function TransFerDetail() {
                 accmrg: selectacc_manager,
                 updateby: For_Rq_Edit[2],
                 record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel:For_Rq_Edit[19]
               }
             );
           } catch (error) {
@@ -2482,7 +2651,8 @@ function TransFerDetail() {
                         id="outlined-size-small"
                         defaultFactoryValue=""
                         size="small"
-                        value={data_fromboi}
+                        value=
+                        {data_fromboi}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
@@ -2524,6 +2694,29 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
+                        {/* <Autocomplete
+                         disabled={read_trans_fac}
+                   style={{
+                    backgroundColor: read_trans_fac
+                      ? "rgba(169, 169, 169, 0.3)"
+                      : "",
+                  }}
+                      value={selecttrans_factory}
+                      onChange={(e, value) => {
+                        setselecttrans_factory(value);
+                        handleFactoryCC(value);
+                    }}
+                    
+                      options={trans_factory.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    /> */}
                       </FormControl>
                     ) : (
                       <TextField
@@ -2550,7 +2743,7 @@ function TransFerDetail() {
                     STS1 === "" ||
                     For_sts_reject === "R" ? (
                       <FormControl className="Style1">
-                        <Select
+                        {/* <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selecttrans_cc}
@@ -2569,7 +2762,30 @@ function TransFerDetail() {
                               {option[0]}
                             </MenuItem>
                           ))}
-                        </Select>
+                        </Select> */}
+                        <Autocomplete
+                         disabled={read_trans_cc}
+                   style={{
+                    backgroundColor: read_trans_cc
+                      ? "rgba(169, 169, 169, 0.3)"
+                      : "",
+                  }}
+                      value={selecttrans_cc}
+                      onChange={(e, value) => {
+                        setselecttrans_cc(value);
+                        handleNew_BOI(value);
+                    }}
+                    
+                      options={trans_cc.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
                       </FormControl>
                     ) : (
                       <TextField
@@ -2595,7 +2811,7 @@ function TransFerDetail() {
                   </td>
                   <td>
                     <FormControl className="Style1">
-                      <TextField
+                      {/* <TextField
                         size="small"
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)"
@@ -2603,7 +2819,24 @@ function TransFerDetail() {
                         value={new_boi}
                         onChange={(e) => setnew_boi(e.target.value)}
                         disabled
-                      />
+                      /> */}
+                    <Autocomplete
+                     disabled={read_trans_cc}
+                    style={{
+                      backgroundColor: read_trans_cc ? "rgba(169, 169, 169, 0.3)" : "",
+                    }}
+                    error={ErrNewboi && (!new_boi || new_boi == "null" )}
+  disablePortal
+  size="small"
+  options={datanew_boi}
+  value={new_boi}
+  onChange={(event, newValue) => {
+    setnew_boi(newValue);
+    handleNewboi_proj(newValue)
+  }}
+  renderInput={(params) => <TextField {...params} label="Choose or Type" />}
+/>
+{(ErrNewboi && !new_boi) && <FormHelperText style={{color : "red"}}>Please select : New BOI Project </FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5" colSpan={3}></td>
@@ -2661,9 +2894,9 @@ function TransFerDetail() {
                         }}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
-                        error={ErrorTel && !Tel_for_trans}
+                        error={ErrorTel && (!Tel_for_trans || Tel_for_trans == "null")}
                         helperText={
-                          ErrorTel && !Tel_for_trans
+                          ErrorTel && (!Tel_for_trans || Tel_for_trans == "null")
                             ? "Please enter your mobile phone number"
                             : undefined
                         }
@@ -2689,11 +2922,11 @@ function TransFerDetail() {
                           backgroundColor: read_plan_date ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
                         value={plan_date}
-                        error={ErrorDate && !plan_date}
+                        error={ErrorDate && (!plan_date || plan_date =="null" )}
                         onChange={(e) => setplan_date(e.target.value)}
                         helperText={
-                          ErrorDate && !plan_date
-                            ? "กรุณากรอกวันที่"
+                          ErrorDate && (!plan_date || plan_date =="null" )
+                            ? "Please select date"
                             : undefined
                         }
                       />
@@ -2709,16 +2942,19 @@ function TransFerDetail() {
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        size="small"
-                        value={abnormal}
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)"
-                        }}
-                        onChange={(e) => setabnormal(e.target.value)}
-                        disabled
-                      />
+   <TextField
+    id="outlined-size-small"
+    size="small"
+    value={abnormal}
+    style={{
+        backgroundColor: abnormal && abnormal.includes("Transfer to difference project") ? "rgba(255, 0, 0, 0.3)" : "rgba(169, 169, 169, 0.3)",
+        color: abnormal && abnormal.includes("Transfer to difference project") ? "red" : "black"
+    }}
+    onChange={(e) => setabnormal(e.target.value)}
+    disabled
+/>
+
+
                     </FormControl>
                   </td>
                 </tr>
@@ -2775,19 +3011,30 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorManager ? "red" : undefined, backgroundColor: read_dept ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorManager && !selectdepartment_mana}
+                        error={ErrorManager && (!selectdepartment_mana || !selectdepartment_mana =="null" )}
                         helperText={
                           ErrorManager && !selectdepartment_mana
                             ? "Department Manager"
                             : undefined
                         }
                       >
-                        {department_mana.map((option, index) => (
-                          <MenuItem key={index} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
+                       {department_mana.length > 0 ? (
+  department_mana.map((option, index) => (
+    <MenuItem key={index} value={option}>
+      {option}
+    </MenuItem>
+  ))
+) : (
+  <MenuItem disabled>
+    No data
+  </MenuItem>
+)}
                       </Select>
+                      {(ErrorManager && (!selectdepartment_mana || !selectdepartment_mana =="null" )) && (
+                        <FormHelperText style={{ color: "red" }}>
+                          Please select :  Department Manager 
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </td>
 
@@ -2892,6 +3139,7 @@ function TransFerDetail() {
                         value={service_dept}
                         onChange={(e) => setservice_dept(e.target.value)}
                       />
+                      
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
@@ -2913,9 +3161,9 @@ function TransFerDetail() {
                         // style={{
                         //   borderColor: ErrorTel_service ? "red" : undefined,
                         // }}
-                        error={ErrorTel_service && !Tel_service}
+                        error={ErrorTel_service && (!Tel_service || Tel_service == "null")}
                         helperText={
-                          ErrorTel_service && !Tel_service
+                          ErrorTel_service && (!Tel_service || Tel_service == "null")
                             ? "Please enter your mobile phone number"
                             : undefined
                         }
@@ -2939,7 +3187,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorService_by ? "red" : undefined,  backgroundColor: read_serviceby ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorService_by && !selectservice_by}
+                        error={ErrorService_by && (!selectservice_by ||  selectservice_by  =="null")}
                         size="small"
                         // helperText={
                         //   ErrorService_by && !selectservice_by
@@ -2953,7 +3201,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorService_by && !selectservice_by) && (
+                      {(ErrorService_by &&  (!selectservice_by ||  selectservice_by  =="null")) && (
                         <FormHelperText style={{ color: "red" }}>
                           Please select : Service By
                         </FormHelperText>
@@ -3052,7 +3300,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined, backgroundColor: read_boistff ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                         error={ErrorBoi_Staff && !selectboi_staff}
+                         error={ErrorBoi_Staff && (!selectboi_staff || selectboi_staff== "null")}
                         // size="small"
                         // helperText={
                         //   ErrorBoi_Staff && !selectboi_staff
@@ -3066,7 +3314,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorBoi_Staff && !selectboi_staff) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
+                      {(ErrorBoi_Staff &&  (!selectboi_staff || selectboi_staff== "null")) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3156,7 +3404,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorBoi_manager ? "red" : undefined, backgroundColor: read_boimana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorBoi_manager && !selectboi_manager}
+                        error={ErrorBoi_manager && (!selectboi_manager || selectboi_manager == "null" )}
                        
                       >
                         {boi_manager.map((option, index) => (
@@ -3165,7 +3413,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorBoi_manager && !selectboi_manager) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
+                      {(ErrorBoi_manager && (!selectboi_manager || selectboi_manager == "null" )) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3259,7 +3507,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorMana_Fac ? "red" : undefined,backgroundColor: read_fac_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorMana_Fac && !selectfac_manager}
+                        error={ErrorMana_Fac && (!selectfac_manager || selectfac_manager =="null")}
                         // helperText={
                         //   ErrorMana_Fac && !selectfac_manager
                         //     ? "Please select: Factory Manager"
@@ -3272,7 +3520,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorMana_Fac && !selectfac_manager) && <FormHelperText style={{color : "red"}}>Please select : Factory Manager</FormHelperText>}
+                      {(ErrorMana_Fac && (!selectfac_manager || selectfac_manager =="null")) && <FormHelperText style={{color : "red"}}>Please select : Factory Manager</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -3374,7 +3622,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorAcc_check ? "red" : undefined,backgroundColor: read_accchk ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorAcc_check && !selectacc_check}
+                        error={ErrorAcc_check && (!selectacc_check || selectacc_check == "null" )}
                         // helperText={
                         //   ErrorAcc_check && !selectacc_check
                         //     ? "Please select:ACC Check "
@@ -3387,7 +3635,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorAcc_check && !selectacc_check) && <FormHelperText style={{color : "red"}}>Please select : ACC Check :</FormHelperText>}
+                      {(ErrorAcc_check && (!selectacc_check || selectacc_check == "null" )) && <FormHelperText style={{color : "red"}}>Please select : ACC Check :</FormHelperText>}
                     </FormControl>
                   </td>
 
@@ -3811,7 +4059,7 @@ function TransFerDetail() {
                         style={{
                           borderColor: ErrorAcc_Mana ? "red" : undefined,backgroundColor: read_acc_mana ? "rgba(169, 169, 169, 0.3)" : "",
                         }}
-                        error={ErrorAcc_Mana && !selectacc_manager}
+                        error={ErrorAcc_Mana && (!selectacc_manager || selectacc_manager == "null")}
                        
                       >
                         {acc_manager.map((option, index) => (
@@ -3820,7 +4068,7 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorAcc_Mana && !selectacc_manager)&& (
+                      {(ErrorAcc_Mana &&  (!selectacc_manager || selectacc_manager == "null"))&& (
                         <FormHelperText style={{ color: "red" }}>
                          Please select : ACC Manager
                         </FormHelperText>

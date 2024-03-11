@@ -20,6 +20,7 @@ import {
   TextField,
   Button,
   InputLabel,
+  Autocomplete
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -466,7 +467,7 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
+                {/* <InputLabel size="small" id="demo-simple-select-label">
                   Select
                 </InputLabel>
                 <Select
@@ -484,7 +485,23 @@ function Issue() {
                   {dept.map((option) => (
                     <MenuItem value={option[0]}>{option[0]}</MenuItem>
                   ))}
-                </Select>
+                </Select> */}
+                 <Autocomplete
+                  style={{
+                    width: "220px",
+                  }}
+                      value={selectdept}
+                      onChange={(e, value) => setselectdept(value)}
+                      options={dept.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
               </FormControl>
             </Grid>
 
@@ -497,10 +514,10 @@ function Issue() {
             </Grid>
             <Grid item xs={2}>
               <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
+                {/* <InputLabel size="small" id="demo-simple-select-label">
                   Select
-                </InputLabel>
-                <Select
+                </InputLabel> */}
+                {/* <Select
                   // labelId="demo-simple-select-label"
                   id="factorycbt"
                   // className="factorycb"
@@ -515,7 +532,23 @@ function Issue() {
                   {cost.map((option) => (
                     <MenuItem value={option[0]}>{option[0]}</MenuItem>
                   ))}
-                </Select>
+                </Select> */}
+                <Autocomplete
+                  style={{
+                    width: "220px",
+                  }}
+                      value={selectcost}
+                      onChange={(e, value) => setselectcost(value)}
+                      options={cost.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
               </FormControl>
             </Grid>
           </Grid>
@@ -708,7 +741,7 @@ function Issue() {
       <TableRow>
         <TableCell></TableCell>
         <TableCell>Factory</TableCell>
-        <TableCell>Cost Center</TableCell>
+        <TableCell>Owner Cost Center</TableCell>
         <TableCell>FAM No.</TableCell>
         <TableCell>Issue By</TableCell>
         <TableCell>Issue Date</TableCell>

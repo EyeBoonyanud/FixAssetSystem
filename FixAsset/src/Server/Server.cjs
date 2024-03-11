@@ -66,6 +66,10 @@ app.post("/receiver_tranfer",Transaction.receiver_tranfer);
 app.get("/header",Transaction.header);
 app.post("/close_routing_tran",Transaction.close_routing_tran);
 app.post("/update_submit",Transaction.update_submit);
+app.post("/Id_owner",Transaction.Id_owner);
+app.post("/fix_code_find",Transaction.fix_code_find);
+app.get("/get_COMP",Transaction.get_COMP);
+
 //MAY 
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
 app.get("/get_seq_request", Transaction.get_run_seq_request);

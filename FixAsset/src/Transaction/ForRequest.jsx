@@ -23,6 +23,7 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
+  Autocomplete
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -39,12 +40,14 @@ import {
   FileWordOutlined,
   FileUnknownOutlined,
   CloudUploadOutlined,
+  
 } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
+
 
 function ForRequest() {
   const EditFam = localStorage.getItem("EDIT");
@@ -77,6 +80,20 @@ function ForRequest() {
   const Year = currentYear.toString().slice(-2);
   const [Gen_Fam_No, setGen_Fam_No] = useState("");
   const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); //Servicept
+  const [datafix_for_find,setdatafix_for_find] = useState([]);
+  const [COMP, set_COMP] = useState([]);
+
+  const [owner_req,setowner_req] = useState("")
+const [owner_req1,setowner_req1] = useState([])
+
+const [owner_dept,setowner_dept] = useState("")
+const [owner_dept1,setowner_dept1] = useState([])
+
+const [name_req,setname_req] = useState("")
+const [name_req1,setname_req1]= useState([])
+
+const [owner_tel,setowner_tel] = useState("")
+const [owner_tel1,setowner_tel1] = useState([])
 
   const [find_fixasset, setfind_fixasset] = useState([]);
   const [find_fixasset1, setfind_fixasset1] = useState("");
@@ -102,7 +119,7 @@ function ForRequest() {
 
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-  // console.log(For_Req,"VVVVVVVVVV");
+   console.log(For_Req,"VVVVVVVVVV");
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
@@ -133,7 +150,7 @@ function ForRequest() {
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  // console.log("For_Rq_Edit", For_Rq_Edit);
+  console.log("For_Rq_Edit", For_Rq_Edit);
   let STS = "";
 
   const FileUp = localStorage.getItem("Type");
@@ -286,6 +303,7 @@ function ForRequest() {
     CostforAsset();
     keep();
     ShowFile();
+  
 
     setTimeout(function () {
       closePopupLoadding();
@@ -297,7 +315,7 @@ function ForRequest() {
       if (For_Rq_Edit != null) {
         // มี for_rq_edit
         // console.log(For_Rq_Edit[16], "");
-        setSTS1_for_R(For_Rq_Edit[16]);
+        setSTS1_for_R(For_Rq_Edit[16]);//จะต้องเปลี่ยน
         setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
@@ -307,6 +325,10 @@ function ForRequest() {
         setRequest_type1(For_Rq_Edit[7]);
         setRequest_sts1(For_Rq_Edit[11]);
         setRemark(For_Rq_Edit[12]);
+        setowner_req(For_Rq_Edit[17]);
+        setowner_dept(For_Rq_Edit[18]);
+        setowner_tel(For_Rq_Edit[19]);
+        setname_req(For_Rq_Edit[20]);
         setcheckGenNo("hidden");
         setcheckReset("hidden");
         setread_fix_group(true);
@@ -352,6 +374,11 @@ function ForRequest() {
         setcheckReset("hidden");
         setvisibityDetails("visible");
         setvisibityFile("visible");
+        setowner_req(For_Req[15]);
+        setowner_dept(For_Req[16]);
+        setowner_tel(For_Req[17]);
+        setname_req(For_Req[18]);
+
         if (For_detail != null) {
           setdatatable(For_detail);
 
@@ -445,7 +472,7 @@ function ForRequest() {
           }
         } else {
           if (For_Req != null) {
-            setFactory1(For_Req[4]);
+            setFactory1(data_Fac[0]);
           } else {
             //// console.log("/////////");
             setFactory1(data_Fac[0]);
@@ -589,7 +616,9 @@ function ForRequest() {
   };
   // HandleFixAssetCost
   const handleCost = async (event) => {
-    let Cost_value = event.target.value;
+    
+    let Cost_value = event
+    console.log(Cost_value,"Y66YYYYY")
     setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
@@ -615,6 +644,13 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
+
+  
+
+
+
+
+
 
   /////////////// Gen Fam and Tranfer_ins //////////////////
   const Gen_No = async () => {
@@ -694,14 +730,19 @@ function ForRequest() {
       DataStatus[1],
       Remark,
       selectFixAssetgroup1[1],
-      Emp_name,
+      Emp_name, 
+      owner_req,
+      owner_dept,
+      owner_tel,
+      name_req
+     
     ];
-    //// console.log(setData_ForRequester, "datadata");
+    console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}`
+        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -722,11 +763,316 @@ function ForRequest() {
       //console.error("Error during login:", error);
     }
   };
+
+  const handleOwner_tel = async (event) => {
+    console.log(event.target.value,"Tel")
+    setowner_tel(event.target.value)
+    if (EditFam != null) {
+      // console.log(">>>>>>>>..", For_Rq_Edit);
+      const setData_ForRequester = [
+        For_Rq_Edit[0],
+        For_Rq_Edit[1],
+        For_Rq_Edit[2],
+        For_Rq_Edit[3],
+        For_Rq_Edit[4],
+        For_Rq_Edit[5],
+        For_Rq_Edit[6],
+        For_Rq_Edit[7],
+        For_Rq_Edit[8],
+        For_Rq_Edit[9],
+        For_Rq_Edit[10],
+        For_Rq_Edit[11],
+        For_Rq_Edit[12],
+        For_Rq_Edit[13],
+        For_Rq_Edit[14],
+        For_Rq_Edit[15],
+        For_Rq_Edit[16],
+        For_Rq_Edit[17],
+        For_Rq_Edit[18],
+        event.target.value,
+        For_Rq_Edit[20],
+        
+
+      
+      ];
+      // console.log("/////////////////");
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("For_Req_Edit", sentdata);
+      //edit
+    } else {
+      //insert
+
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        // console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_ForRequester = [
+          "",
+          LocalUserLogin,
+          Tel1,
+          Factory[1],
+          Costcenter1,
+          selectDept1,
+          Request_type1,
+          selectFixAssetgroup1,
+          selectFixAsset_cost1,
+          "",
+          "",
+          "",
+          Remark,
+          "",
+          Emp_name,
+          owner_req,
+          owner_dept,
+          event.target.value,
+          name_req
+        ];
+        //// console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      } else {
+        // console.log("------///////////----------", For_Req);
+        const setData_ForRequester = [
+          For_Req[0],
+          For_Req[1],
+          For_Req[2],
+          For_Req[3],
+          For_Req[4],
+          For_Req[5],
+          For_Req[6],
+          For_Req[7],
+          For_Req[8],
+          For_Req[9],
+          For_Req[10],
+          For_Req[11],
+          For_Req[12],
+          For_Req[13],
+          For_Req[14],
+          For_Req[15],
+          For_Req[16],
+          event.target.value
+        ];
+        //// console.log(setData_ForRequester, "datadata");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("ForRequester", sentdata);
+      }
+    }
+  }
+
+
+
+//   const handleOwnerDept = async (event) => {
+//     setowner_dept(event.target.value,"Dept")
+// if (EditFam != null) {
+//       // console.log(">>>>>>>>..", For_Rq_Edit);
+//       const setData_ForRequester = [
+//         For_Rq_Edit[0],
+//         For_Rq_Edit[1],
+//         For_Rq_Edit[2],
+//         For_Rq_Edit[3],
+//         For_Rq_Edit[4],
+//         For_Rq_Edit[5],
+//         For_Rq_Edit[6],
+//         For_Rq_Edit[7],
+//         For_Rq_Edit[8],
+//         For_Rq_Edit[9],
+//         For_Rq_Edit[10],
+//         For_Rq_Edit[11],
+//         For_Rq_Edit[12],
+//         For_Rq_Edit[13],
+//         For_Rq_Edit[14],
+//         For_Rq_Edit[15],
+//         event.target.value,
+//         For_Rq_Edit[17],
+//       ];
+//       // console.log("/////////////////");
+//       const sentdata = JSON.stringify(setData_ForRequester);
+//       localStorage.setItem("For_Req_Edit", sentdata);
+//       //edit
+//     } else {
+//       //insert
+
+//       if (For_Req[0] == "" && For_Req[0] == null) {
+//         // ยังไม่genfam
+//         // console.log("------>>>>>>>>>>>>>>>>---------");
+//         const setData_ForRequester = [
+//           "",
+//           LocalUserLogin,
+//           Tel1,
+//           Factory[1],
+//           Costcenter1,
+//           selectDept1,
+//           Request_type1,
+//           selectFixAssetgroup1,
+//           selectFixAsset_cost1,
+//           "",
+//           "",
+//           "",
+//           Remark,
+//           "",
+//           Emp_name,
+//           owner_req,
+//           event.target.value,
+//           owner_tel
+//         ];
+//         //// console.log(setData_ForRequester, "datadata");
+//         const sentdata = JSON.stringify(setData_ForRequester);
+//         localStorage.setItem("ForRequester", sentdata);
+//       } else {
+//         // console.log("------///////////----------", For_Req);
+//         const setData_ForRequester = [
+//           For_Req[0],
+//           For_Req[1],
+//           For_Req[2],
+//           For_Req[3],
+//           For_Req[4],
+//           For_Req[5],
+//           For_Req[6],
+//           For_Req[7],
+//           For_Req[8],
+//           For_Req[9],
+//           For_Req[10],
+//           For_Req[11],
+//           For_Req[12],
+//           For_Req[13],
+//           For_Req[14],
+//           For_Req[15],
+//           event.target.value,
+//           For_Req[17],
+//         ];
+//         //// console.log(setData_ForRequester, "datadata");
+//         const sentdata = JSON.stringify(setData_ForRequester);
+//         localStorage.setItem("ForRequester", sentdata);
+//       }
+//     }
+//   }
+
+
+  const handleEmpUser = async (event) => {
+    console.log(event, "owner_req")
+
+    try {
+      const response = await axios.post("http://localhost:5000/Id_owner", { owner_id: event });
+      const data = response.data
+      console.log(data[0][2], "DATA");
+      // กำหนดค่าให้กับ state หรือตัวแปรต่าง ๆ ด้วย setter functions
+      setowner_dept(data[0][0]);
+      setname_req(data[0][1]);
+      setowner_dept(data[0][2]);
+      if (EditFam != null) {
+        // console.log(">>>>>>>>..", For_Rq_Edit);
+        const setData_ForRequester = [
+          For_Rq_Edit[0],
+          For_Rq_Edit[1],
+          For_Rq_Edit[2],
+          For_Rq_Edit[3],
+          For_Rq_Edit[4],
+          For_Rq_Edit[5],
+          For_Rq_Edit[6],
+          For_Rq_Edit[7],
+          For_Rq_Edit[8],
+          For_Rq_Edit[9],
+          For_Rq_Edit[10],
+          For_Rq_Edit[11],
+          For_Rq_Edit[12],
+          For_Rq_Edit[13],
+          For_Rq_Edit[14],
+          For_Rq_Edit[15],
+          For_Rq_Edit[16],
+          event,
+          data[0][2],
+          For_Rq_Edit[19],
+          data[0][1]
+        ];
+        // console.log("/////////////////");
+        const sentdata = JSON.stringify(setData_ForRequester);
+        localStorage.setItem("For_Req_Edit", sentdata);
+        //edit
+      } else {
+        //insert
+  
+        if (For_Req[0] == "" && For_Req[0] == null) {
+          // ยังไม่genfam
+          // console.log("------>>>>>>>>>>>>>>>>---------");
+          const setData_ForRequester = [
+            "",
+            LocalUserLogin,
+            Tel1,
+            Factory[1],
+            Costcenter1,
+            selectDept1,
+            Request_type1,
+            selectFixAssetgroup1,
+            selectFixAsset_cost1,
+            "",
+            "",
+            "",
+            Remark,
+            "",
+            Emp_name,
+            event,
+            data[0][2],
+            owner_tel,
+            data[0][1]
+          ];
+          //// console.log(setData_ForRequester, "datadata");
+          const sentdata = JSON.stringify(setData_ForRequester);
+          localStorage.setItem("ForRequester", sentdata);
+        } else {
+          console.log("00000000000000",For_Req);
+          console.log(data[0][1], "DATA0000");
+          const setData_ForRequester = [
+            For_Req[0],
+            For_Req[1],
+            For_Req[2],
+            For_Req[3],
+            For_Req[4],
+            For_Req[5],
+            For_Req[6],
+            For_Req[7],
+            For_Req[8],
+            For_Req[9],
+            For_Req[10],
+            For_Req[11],
+            For_Req[12],
+            For_Req[13],
+            For_Req[14],
+            event,
+            data[0][2],
+            For_Req[17],
+            data[0][1]
+          ];
+          console.log("------///////////----------", setData_ForRequester);
+          //// console.log(setData_ForRequester, "datadata");
+          const sentdata = JSON.stringify(setData_ForRequester);
+          localStorage.setItem("ForRequester", sentdata);
+        }
+      }
+      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  
+    
+  };
+  
+
+  
+
   /////////////////////////////////////////////////////////////
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
     openPopupLoadding();
+    try {
+      const rollNoSearch = await axios.get(
+        `http://localhost:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+      );
+      const data = rollNoSearch.data;
+      set_COMP(data);
+      console.log(data, "TTTTTTTTTTTTTTTTTTT");
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
     try {
       const row = await axios.get(
         `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
@@ -746,6 +1092,16 @@ function ForRequest() {
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
+    try {
+      const response = await axios.post("http://localhost:5000/fix_code_find", { assetcode: find_fixasset1 });
+      const data = response.data;
+      console.log(data,"datafayfagai;");
+      setdatafix_for_find(data)
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching data:", error);
+      // Do something with the error, e.g., set error state
+    }
 
     closePopupLoadding();
   };
@@ -759,14 +1115,33 @@ function ForRequest() {
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
+  // const handleCheckboxAllChange = () => {
+  //   const newSelectedAll = !selectAll;
+  //   setSelectAll(newSelectedAll);
+  //   setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
+  //   updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
+  // };
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
+    let newSelectedItems = [];
+    find_fixasset.forEach((item, index) => {
+      const isDisabled = COMP.some(
+        (compItem) => compItem[1] === item[3] && compItem[2] !== null
+      );
+  
+  
+      const isItemInDatatable = datatable.map((dataItem) => dataItem[3]).includes(item[3]);
+  
+      newSelectedItems[index] = isDisabled || isItemInDatatable ? false : newSelectedAll;
+    });
     setSelectAll(newSelectedAll);
-    setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
-    updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
+    setSelectedItems(newSelectedItems);
+    updateSelectedData(newSelectedItems);
   };
+
   const handleAdd = () => {
     const newDataTable = [...datatable, ...selectedData];
+    console.log(newDataTable,"ccccc")
     setdatatable(newDataTable);
     setSelectedItems([]);
     setTableOpen(true);
@@ -822,6 +1197,7 @@ function ForRequest() {
     }
   };
   const Insert_Fam_detail = async () => {
+    
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       if (EditFam !== null) {
@@ -829,16 +1205,37 @@ function ForRequest() {
       } else {
         localStorage.setItem("forDetail", sentdata);
       }
-
-     
+      console.log("datatable",datatable[i][3])
       try {
-        const response = await axios.post(
-          `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
-        );
+        await axios.post("http://localhost:5000/ins_REQ_DETAIL", {
+          famno: Gen_Fam_No,
+          assetcode: datatable[i][0],
+          assetname: datatable[i][3],
+          comp: datatable[i][1],
+          cc: datatable[i][2],
+          boi: datatable[i][5],
+          qty: datatable[i][6],
+          inv: datatable[i][7],
+          cost: datatable[i][9],
+          val: datatable[i][10],
+          by: LocalUserLogin,
+        });
         setvisibityFile("visible");
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during POST request:", error);
       }
+      
+//////////////////////////////////// อันเก่าก่อนแก้
+      // try {
+      //   const response = await axios.post(
+      //     `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
+      //   );
+      //   setvisibityFile("visible");
+      // } catch (error) {
+      //   //console.error("Error during login:", error);
+      // }
+//////////////////////////////////////// อันเก่าก่อรแก้
+      
       try {
         const response = await axios.post(
           `http://localhost:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
@@ -875,6 +1272,12 @@ function ForRequest() {
         For_Rq_Edit[12],
         For_Rq_Edit[13],
         For_Rq_Edit[14],
+        For_Rq_Edit[15],
+        For_Rq_Edit[16],
+        For_Rq_Edit[17],
+        For_Rq_Edit[18],
+        For_Rq_Edit[19],
+        For_Rq_Edit[20]
       ];
       // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
@@ -932,7 +1335,9 @@ function ForRequest() {
     }
   };
   const handleDept = async (event) => {
-    setselectDept1(event.target.value);
+    console.log(event,"uuuuuuuuu")
+    setselectDept1(event);
+    // setselectDept1(event.target.value);
     // console.log("/////");
 
     if (EditFam != null) {
@@ -944,7 +1349,7 @@ function ForRequest() {
         For_Rq_Edit[3],
         For_Rq_Edit[4],
         For_Rq_Edit[5],
-        event.target.value,
+        event,
         For_Rq_Edit[7],
         For_Rq_Edit[8],
         For_Rq_Edit[9],
@@ -953,6 +1358,12 @@ function ForRequest() {
         For_Rq_Edit[12],
         For_Rq_Edit[13],
         For_Rq_Edit[14],
+        For_Rq_Edit[15],
+        For_Rq_Edit[16],
+        For_Rq_Edit[17],
+        For_Rq_Edit[18],
+        For_Rq_Edit[19],
+        For_Rq_Edit[20]
       ];
       // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
@@ -993,7 +1404,7 @@ function ForRequest() {
           For_Req[2],
           For_Req[3],
           For_Req[4],
-          event.target.value,
+          event,
           For_Req[6],
           For_Req[7],
           For_Req[8],
@@ -1032,6 +1443,12 @@ function ForRequest() {
         event.target.value,
         For_Rq_Edit[13],
         For_Rq_Edit[14],
+        For_Rq_Edit[15],
+        For_Rq_Edit[16],
+        For_Rq_Edit[17],
+        For_Rq_Edit[18],
+        For_Rq_Edit[19],
+        For_Rq_Edit[20]
       ];
       // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
@@ -1280,6 +1697,7 @@ function ForRequest() {
   ////////////////////////////////////////////////////////////////////////////
   ////// ปุ่ม Reset ///////////
   const Reset = async () => {
+    
     setTel1("");
     setselectDept1("");
     setRequest_type1("");
@@ -1375,11 +1793,11 @@ function ForRequest() {
                     ></TextField>
                   </Grid>
                 </Grid>
-                {/* Request BY(Owner) */}
+                {/* Request BY */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request By (Owner) :
+                      Request By :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -1397,7 +1815,7 @@ function ForRequest() {
                   </Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Tel :
+                    Request By Tel :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -1425,6 +1843,100 @@ function ForRequest() {
                     />
                   </Grid>
                 </Grid>
+             
+                {/* Owner and TelOwner */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request (Owner) :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled={read_tel}
+                      style={{
+                        width: "100%" , backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",}}
+                      id="Txt_user"
+                      value={owner_req}
+                      onChange={(e) => {
+                        setowner_req(e.target.value);
+                        console.log(e.target.value);
+                        handleEmpUser(e.target.value);
+                    }}
+  
+                    ></TextField> 
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Owner Cost Center:
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      id="Txt_Tel"
+                      style={{width:'100%',backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      disabled
+                      value={owner_dept}
+                      onChange={(e) =>setowner_dept(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>  
+             
+                {/* Owner and TelOwner */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Name Owner :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      id="Txt_user"
+                      value={name_req}
+                      onChange={(e) => setname_req(e.target.value)}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Owner Tel :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{width:'100%' , backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",}}
+                      // style={{ width: "100%"  , 
+                      //   backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                      // }}
+                      disabled={read_tel}
+                      
+                      // style={{
+
+                      //   width: "100%",
+                      // }}
+                      // style={{
+                      //   borderColor: errorTelReq ? "red" : undefined,  width: "100%",
+                      // }}
+                      // error={
+                      //   (Gen_Fam_No || EditFam) &&
+                      //   (Tel1 === "" || Tel1 === undefined || Tel1 === null)
+                      // }
+                     
+                      value={owner_tel}
+                      onChange={handleOwner_tel}
+                    />
+                  </Grid>
+                </Grid>  
+
+
                 {/* Factory and Cost center */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -1444,7 +1956,7 @@ function ForRequest() {
                       disabled
                     ></TextField>
                   </Grid>
-                  <Grid xs={2}>
+                  {/* <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
                       Request by Cost Center :
                     </Typography>
@@ -1460,8 +1972,9 @@ function ForRequest() {
                       onChange={(e) => setCostcenter1(e.target.value)}
                       disabled
                     ></TextField>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
+                
                 {/* Dept  */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -1474,11 +1987,11 @@ function ForRequest() {
                     STS1_Req === "" ||
                     STS1_for_R === "R" ? (
                     <FormControl fullWidth>
-                      <InputLabel size="small" id="demo-simple-select-label">
+                      {/* <InputLabel size="small" id="demo-simple-select-label">
                         Select
-                      </InputLabel>
+                      </InputLabel> */}
 
-                      <Select
+                      {/* <Select
                         id="factorycbt"
                         label="Select"
                         size="small"
@@ -1503,7 +2016,38 @@ function ForRequest() {
                             {option}
                           </MenuItem>
                         ))}
-                      </Select>
+                      </Select> */}
+                      <Autocomplete
+                       disabled={read_dept}
+                  style={{
+                    width: "100%",
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                  }}
+                  error={
+                    (Gen_Fam_No || EditFam) &&
+                    (selectDept1 === "" ||
+                      selectDept1 === undefined ||
+                      selectDept1 === null)
+                  }
+                      value={selectDept1}
+                      onChange={(e, value) => {
+                        setselectDept1(value);
+                        handleDept(value)
+                        console.log(value, "MMMMM");
+                    }}
+                    
+                      options={Dept.map((item) => item)}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
                     </FormControl> ) : (
                       <TextField
                         style={{
@@ -1633,7 +2177,7 @@ function ForRequest() {
                   </Grid>
                   <Grid xs={3}>
                     <FormControl fullWidth>
-                      <InputLabel size="small" id="demo-simple-select-label">
+                      {/* <InputLabel size="small" id="demo-simple-select-label">
                         Select
                       </InputLabel>
                       <Select
@@ -1653,7 +2197,30 @@ function ForRequest() {
                         {FixAsset_cost.map((option) => (
                           <MenuItem value={option[0]}>{option[0]}</MenuItem>
                         ))}
-                      </Select>
+                      </Select> */}
+                        <Autocomplete
+                         disabled={read_fix_cost}
+                   style={{
+                    backgroundColor: read_fix_cost
+                      ? "rgba(169, 169, 169, 0.3)"
+                      : "",
+                  }}
+                      value={selectFixAsset_cost1}
+                      onChange={(e, value) => {
+                        setselectFixAsset_cost1(value);
+                        handleCost(value);
+                    }}
+                    
+                      options={FixAsset_cost.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Select"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -1724,7 +2291,7 @@ function ForRequest() {
                       visibility: checkReset,
                     }}
                     variant="contained"
-                    onClick={Reset}
+                    onClick={handleEmpUser}
                   >
                     Reset
                   </Button>
@@ -1734,6 +2301,7 @@ function ForRequest() {
           </Card>
         </div>
         {/* สำหรับ Fixed Assets Code */}
+        <br></br><br></br><br></br><br></br><br></br><br></br>
         <div
           className="Fixed-Asset-Code"
           style={{ visibility: visibityDetails }}
@@ -1838,10 +2406,30 @@ function ForRequest() {
                       Fixed Assets Code : {find_fixasset1}
                     </DialogTitle>
                     <TableContainer component={Paper}>
-                      <Table className="Modal-Table">
+                      {/* {find_fixasset.map((item, index) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                             
+                              <TableCell>
+                                <Checkbox
+                                  checked={selectedItems[index] || false}
+                                  onChange={() => handleCheckboxChange(index)}
+                                />
+                              </TableCell>
+                              <TableCell>{item[1]}</TableCell>
+                              <TableCell>{item[2]}</TableCell>
+                              <TableCell>{item[3]}</TableCell>
+                            </TableRow>
+                          ))} */}
+                                         <Table className="Modal-Table">
                         <TableHead>
                           <TableRow>
-                            {/* <TableCell></TableCell> */}
                             <TableCell>
                               <Checkbox
                                 checked={selectAll}
@@ -1850,6 +2438,7 @@ function ForRequest() {
                             </TableCell>
                             <TableCell>Comp.</TableCell>
                             <TableCell>Cc.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
                             <TableCell>Fixed Assets Name</TableCell>
                           </TableRow>
                         </TableHead>
@@ -1863,22 +2452,38 @@ function ForRequest() {
                                 },
                               }}
                             >
-                              {/* <TableCell>
-                                        <DeleteIcon style={{color:'red'}} />
-                                        </TableCell> */}
                               <TableCell>
-                                <Checkbox
+                              <Checkbox
                                   checked={selectedItems[index] || false}
                                   onChange={() => handleCheckboxChange(index)}
+                                  disabled={COMP.some(
+                                    (compItem) =>
+                                      compItem[1] === item[3] &&
+                                      compItem[2] !== null 
+                                      ) || datatable.map(
+                                        (dataItem) =>
+                                          dataItem[3]
+                                      ).includes(item[3]
+                                  )}
                                 />
                               </TableCell>
                               <TableCell>{item[1]}</TableCell>
                               <TableCell>{item[2]}</TableCell>
                               <TableCell>{item[3]}</TableCell>
+                              <TableCell>
+                                {COMP.map((compItem) => {
+                                  if (compItem[1] === item[3]) {
+                                    console.log(compItem[0], "RRRRRR");
+                                    return compItem[2];
+                                  }
+                                  return null;
+                                })}
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
                       </Table>
+                   
                     </TableContainer>
                     <DialogActions style={{ marginTop: "20px" }}>
                       <Button
