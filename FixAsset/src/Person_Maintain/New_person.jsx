@@ -49,6 +49,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const [ErrorUserLogin, setErrorUserLogin] = useState(false);
   const [ErrorEmail, setErrorEmail] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
+  const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
   // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
@@ -98,7 +99,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         combinedArray03,
         DATA_EDIT_03.slice(4)
       );
-    
+      set_DATA_EDIT_RESET(DATA_EDIT);
       // console.log("CASE EDIT", DATA_EDIT);
       setselecteDatafac(DATA_EDIT[0]);
       setselecteDatalevel(DATA_EDIT[1]);
@@ -167,7 +168,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     setErrorCost(false);
   };
 
-  const navigate = useNavigate();
 
   const Save = async () => {
     // console.log("FACTORY CHECK", selecteDatafac);
@@ -188,6 +188,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setErrorCost(true);
     }
     if (!User_Login || User_Login.toString().trim() === "") {
+      setErrorUserLogin(true);
+    }
+    if (!username || username.toString().trim() === "") {
       setErrorUserLogin(true);
     }
     if (!email || email.toString().trim() === "") {
@@ -219,6 +222,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               selecteDatalevel &&
               selectcost &&
               User_Login &&
+              username &&
               email &&
               status &&
               UserLoginn &&
@@ -258,6 +262,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               selecteDatalevel &&
               selectcost &&
               User_Login &&
+              username &&
               email &&
               status &&
               UserLoginn &&
@@ -320,8 +325,8 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     } else {
       setErrorEmail(false);
       setErrorStatus(false);
-      setemail(DATA_EDIT[4]);
-      setStatus(DATA_EDIT[5]);
+      setemail(DATA_EDIT_RESET[4]);
+      setStatus(DATA_EDIT_RESET[5]);
     }
   };
 
@@ -360,6 +365,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         localStorage.setItem("USERNAME", USERNAME);
         localStorage.setItem("EMAIL", EMAIL);
       } else {
+
         setusername("");
         setemail("");
         console.error("User Login file");

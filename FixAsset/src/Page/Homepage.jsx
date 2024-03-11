@@ -30,6 +30,7 @@ export default function BasicGrid() {
   const UserLogin = localStorage.getItem("UserLogin");
   const [dataTransfer, setdataTransfer] = useState([]);
   const [dataTransferall, setdataTransferall] = useState([]);
+  const [dataTransferallname, setdataTransferallname] = useState([]);
   useEffect(() => {
     openPopupLoadding();
     const fetchData = async () => {
@@ -37,7 +38,7 @@ export default function BasicGrid() {
       const Transfer = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/getCountTransfer?UserLogin=${UserLogin}`
+            `http://10.17.74.201:5000/getCountTransfer?UserLogin=${UserLogin}`
           );
           const Transfer = await response.data;
           setdataTransfer(Transfer);
@@ -46,10 +47,24 @@ export default function BasicGrid() {
         }
       };
 
+      const Transferlistallname = async () => {
+        try {
+          const response = await axios.get(
+            `http://10.17.74.201:5000/getCountTransferlistaLLname`
+          );
+          const Transferallname = await response.data;
+          setdataTransferallname(Transferallname);
+          console.log(Transferallname,"ดูข้อมูล")
+        } catch (error) {
+          console.error("Error Transferdataall:", error);
+        }
+        closePopupLoadding();
+      };
+
       const Transferlistall = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
+            `http://10.17.74.201:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
           );
           const Transferall = await response.data;
           setdataTransferall(Transferall);
@@ -60,10 +75,15 @@ export default function BasicGrid() {
       };
 
       await Transfer();
+      await Transferlistallname();
       await Transferlistall();
     };
     fetchData();
   }, []);
+
+const handleClickNextToSearch = (value) => {
+  console.log("Received value:", value);
+};
 
   // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -103,6 +123,7 @@ export default function BasicGrid() {
                             fontWeight: "bold",
                             fontSize: "22px",
                           }}
+                         
                         >
                           Transfer
                         </TableCell>
@@ -112,8 +133,9 @@ export default function BasicGrid() {
                       <TableRow
                         style={{ borderBottom: "1px solid #E5EAF2" }}
                         className="Hoverhover"
+                        onClick={() => handleClickNextToSearch("Create")}
                       >
-                        <TableCell align="left">Create </TableCell>
+                        <TableCell align="left">dataTransferallname[0][2] </TableCell>
                         <TableCell>
                           <Typography className="Number-menu-list2 White-background2">
                             {" "}
@@ -127,6 +149,7 @@ export default function BasicGrid() {
                       <TableRow
                         style={{ borderBottom: "1px solid #E5EAF2" }}
                         className="Hoverhover"
+                        onClick={() => handleClickNextToSearch("Wait Department manager")}
                       >
                         <TableCell align="left">
                           Wait Department manager
@@ -144,6 +167,7 @@ export default function BasicGrid() {
                       <TableRow
                         style={{ borderBottom: "1px solid #E5EAF2" }}
                         className="Hoverhover"
+                        onClick={() => handleClickNextToSearch("Wait Department manager")}
                       >
                         <TableCell align="left">
                           Wait Service Dept. check

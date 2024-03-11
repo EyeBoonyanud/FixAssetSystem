@@ -311,6 +311,7 @@ module.exports.fixcode = async function (req, res) {
   try {
     const fixcode = req.query.Fixcode;
     const cc = req.query.asset_cc;
+    const fam_no = req.query.fam_no_check;
 
     // // // console.log(factory,"1")
 
@@ -326,27 +327,27 @@ module.exports.fixcode = async function (req, res) {
     KFIN_DET.KFIN_DOC_NO,  
     KFIN_DET.KFIN_REF_DATE,  
     KFAD_DET.KFAD_ACQ_COST,  
-    KFAD_DET.KFAD_SVG_VAL 
+    KFAD_DET.KFAD_SVG_VAL
 FROM KFA_MSTR,  
     KFAD_DET,  
     KFIN_DET,  
-    CODE_MSTR 
-WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and 
-    ( KFA_MSTR.KFA_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
-    ( KFAD_DET.KFAD_CODE = KFIN_DET.KFIN_FA_CODE ) and 
-    ( KFIN_DET.KFIN_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
-    ( KFA_MSTR.KFA_OBLG = CODE_MSTR.CODE_VALUE ) and 
-    ( KFA_MSTR.KFA_DOMAIN = CODE_MSTR.CODE_DOMAIN ) and 
-    ( KFAD_DET.KFAD_COMP = KFIN_DET.KFIN_INFO_SEQ ) and 
+    CODE_MSTR
+WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and
+    ( KFA_MSTR.KFA_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and
+    ( KFAD_DET.KFAD_CODE = KFIN_DET.KFIN_FA_CODE ) and
+    ( KFIN_DET.KFIN_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and
+    ( KFA_MSTR.KFA_OBLG = CODE_MSTR.CODE_VALUE ) and
+    ( KFA_MSTR.KFA_DOMAIN = CODE_MSTR.CODE_DOMAIN ) and
+    ( KFAD_DET.KFAD_COMP = KFIN_DET.KFIN_INFO_SEQ ) and
     ( ( KFA_MSTR.KFA_CODE = '${fixcode}' ) AND  
-    ( upper(CODE_MSTR.CODE_FLDNAME) = 'KFA_OBLG' ) AND 
-    ( KFAD_DET.KFAD_BOOK = 'SL' ) AND 
-    ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND 
+    ( upper(CODE_MSTR.CODE_FLDNAME) = 'KFA_OBLG' ) AND
+    ( KFAD_DET.KFAD_BOOK = 'SL' ) AND
+    ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND
     ( KFAD_DET.KFAD_SEQ = '0' ) AND
     ( KFAD_DET.KFAD_CC = '${cc}') )
   ORDER BY  KFAD_DET.KFAD_COMP ASC
          `;
-
+        
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);
@@ -2396,7 +2397,7 @@ module.exports.getData_UserLogin_Person = async function (req, res) {
     SELECT '(' || H.EMPCODE || ') ' || H.ENAME || ' ' || H.ESURNAME AS ENAME,T.USER_EMAIL
     FROM CUSR.CU_USER_HUMANTRIX H, CUSR.CU_USER_M T
     WHERE H.EMPCODE = T.USER_EMP_ID
-    AND UPPER(T.USER_LOGIN) = UPPER(:User_login)
+    AND T.USER_LOGIN = :User_login
     `;
     const data = {
       User_login,
@@ -2801,13 +2802,13 @@ module.exports.updateBOI_Maintain = async function (req, res) {
         FAM_BOIPROJ_MAP_CC
     SET
         FBMC_FACTORY = :fbmc_factory_a,
-        FBMC_BOI_PROJ = :fbmc_boi_project_a,
         FBMC_STATUS = :fbmc_status_a,
         FBMC_COMMENT = :fbmc_comment_a,
         FBMC_UPDATE_DATE = SYSDATE,
         FBMC_UPDATE_BY = :fbmc_update_by_a
     WHERE
         FBMC_COST_CENTER = :fbmc_cost_center_a
+        AND FBMC_BOI_PROJ = :fbmc_boi_project_a
          `;
     const data = {
       fbmc_cost_center_a,
@@ -2866,6 +2867,40 @@ WHERE
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+// get show data Project name BOI
+  module.exports.get_BOI_project_name = async function (req, res) {
+    try {
+      const connect = await oracledb.getConnection(QAD);
+      const query = `
+      SELECT
+      DISTINCT CD.CODE_CMMT
+    FROM
+      KFA_MSTR KM,
+      KFAD_DET KD,
+      CODE_MSTR CD
+    WHERE
+      KM.KFA_CODE = KD.KFAD_CODE
+      AND KM.KFA_DOMAIN = KD.KFAD_DOMAIN
+      AND KM.KFA_OBLG = CD.CODE_VALUE
+      AND KM.KFA_DOMAIN = CD.CODE_DOMAIN
+      AND upper(CD.CODE_FLDNAME) = 'KFA_OBLG'
+      AND KD.KFAD_BOOK = 'SL'
+      AND UPPER(KM.KFA_DOMAIN) = '9000'
+      AND KD.KFAD_SEQ = '0'
+    ORDER BY
+      CD.CODE_CMMT 
+             `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
+
+  
 
 
 // Delete BOI Maintain
@@ -2971,6 +3006,71 @@ WHERE
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+//CountTransferListALLname
+module.exports.getCountTransferlistaLLname = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT F.FFM_CODE, F.FFM_TYPE, F.FFM_DESC  
+    FROM FAM_FLOW_MASTER F 
+    WHERE F.FFM_TYPE = 'TRANSFER'
+    AND (F.FFM_CODE BETWEEN 'FLTR001' AND 'FLTR012')
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+
+
+
+
+// module.exports.update_submit = async function (req, res) {
+//   try {
+//     const { famno, sts_submit } = req.body;
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//       UPDATE FAM_REQ_HEADER T
+//       SET
+//         T.FAM_REQ_STATUS = :FAM_REQ_STATUS
+//       WHERE T.FRH_FAM_NO = :FAM_NO
+//     `;
+//     const data = {
+//       FAM_NO: famno,
+//       FAM_REQ_STATUS: sts_submit,
+//     };
+//     const result = await connect.execute(query, data, { autoCommit: true });
+//     connect.release();
+//   } catch (error) {
+//     console.error("Error in querying data:", error.message);
+//     res.status(500).send(`Internal Server Error: ${error.message}`);
+//   }
+// };
+
+// get show data Project name BOI
+module.exports.get_COMP = async function (req, res) {
+  const Fam_no = req.query.fam_no;
+
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT FD.FRD_COMP ,FD.FRD_ASSET_NAME,FD.FRD_FAM_NO 
+    FROM AVO.FAM_REQ_HEADER FH 
+    INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
+    WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${Fam_no}', 1, 6)
+        AND (FH.FAM_REQ_STATUS <> 'FLTR013')
+           `;
+    const result = await connect.execute(query);
+    connect.release();
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);

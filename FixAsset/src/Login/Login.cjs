@@ -12,9 +12,9 @@ oracledb.initOracleClient({
 });
 
 const CUSR = {
-  user: process.env.USER_CUSR,
-  password: process.env.PASS_CUSR,
-  connectString: process.env.CON_CUSR,
+  user: "cusr",
+  password: "cusr",
+  connectString: "TCIX01",
 };
 // console.log(CUSR,"-------------------------------------------------------------")
 

@@ -27,7 +27,7 @@ import {
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import PlagiarismIcon from "@mui/icons-material/Plagiarism";
 import { Empty } from "antd";
 import "../Page/Style.css";
 import {
@@ -92,6 +92,7 @@ function ForRequest() {
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
   const [chktable, setchktable] = useState("hidden");
+  const [COMP, set_COMP] = useState([]);
 
   // Upload File
   const fileInputRef = useRef();
@@ -117,7 +118,7 @@ function ForRequest() {
   const [delete_fix, setdelete_fix] = useState("hidden");
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
-  const [checknext ,setchecknext] =useState("visible");
+  const [checknext, setchecknext] = useState("visible");
 
   //
   // const [chkadd,setchkadd] = useState("hidden");
@@ -163,7 +164,7 @@ function ForRequest() {
 
   const ShowFile = () => {
     let Gen_Fam_No_Show = "";
-   
+
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         Gen_Fam_No_Show = For_Rq_Edit[0];
@@ -175,28 +176,29 @@ function ForRequest() {
     }
     // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
     // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
-    if ( Gen_Fam_No != null) {
+    if (Gen_Fam_No != null) {
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
         // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+        axios;
         axios
-     axios
-        .post("http://localhost:5000/FAM_FILE_ATTACH", {
-          FamNo: Gen_Fam_No_Show,
-        })
+          .post("http://10.17.74.201:5000/FAM_FILE_ATTACH", {
+            FamNo: Gen_Fam_No_Show,
+          })
 
-        .then((res) => {
-          const data = res.data;
-          if (data.length > 0) {
-            setFiledata(data);
-            // console.log(data);
-          }
-        });
-      }}
-     
+          .then((res) => {
+            const data = res.data;
+            if (data.length > 0) {
+              setFiledata(data);
+              // console.log(data);
+            }
+          });
+      }
+    }
+
     // } else {
     //   // console.log("เข้าอันนี้จ้า")
     //   axios
-    //   .post("http://localhost:5000/FAM_FILE_ATTACH", {
+    //   .post("http://10.17.74.201:5000/FAM_FILE_ATTACH", {
     //     FamNo: Gen_Fam_No,
     //   })
     //   .then((res) => {
@@ -210,7 +212,7 @@ function ForRequest() {
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://localhost:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.74.201:5000/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -383,7 +385,7 @@ function ForRequest() {
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          setchecknext("hidden")
+          setchecknext("hidden");
           // setchkadd("visible")
           //  setbtnSave("visible");
         } else {
@@ -398,14 +400,18 @@ function ForRequest() {
   //   .getDate()
   //   .toString()
   //   .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  const formattedDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`;
-
+  const formattedDate = `${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   //Request By /////////////////////////////////////////
   const request_by = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getby?By=${LocalUserLogin}`
+        `http://10.17.74.201:5000/getby?By=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -433,7 +439,7 @@ function ForRequest() {
     if (EditFam == null) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+          `http://10.17.74.201:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -457,7 +463,7 @@ function ForRequest() {
     } else {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+          `http://10.17.74.201:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -482,7 +488,7 @@ function ForRequest() {
     if (data_Fac.length >= 0) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getdept?idFactory=${data_Fac[1]}`
+          `http://10.17.74.201:5000/getdept?idFactory=${data_Fac[1]}`
         );
 
         const data = await response.data;
@@ -513,7 +519,7 @@ function ForRequest() {
   const costcenter = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
+        `http://10.17.74.201:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -540,7 +546,7 @@ function ForRequest() {
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getfix_group?Asset_group=${datafac}`
+        `http://10.17.74.201:5000/getfix_group?Asset_group=${datafac}`
       );
       const data = await response.data;
 
@@ -567,7 +573,7 @@ function ForRequest() {
   //AssetCost
   const CostforAsset = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getcost`);
+      const response = await axios.get(`http://10.17.74.201:5000/getcost`);
       const CostData = await response.data;
       setFixAsset_cost(CostData);
       if (EditFam != null) {
@@ -593,13 +599,13 @@ function ForRequest() {
     setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
-        `http://localhost:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
+        `http://10.17.74.201:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
       );
       const data = await response.data;
       if (data[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
+            `http://10.17.74.201:5000/getfind_service?asset_find=${Cost_value}`
           );
           const data_for_servicedept = await response.data;
           setdataFix_Asset_Cost(data_for_servicedept);
@@ -627,7 +633,7 @@ function ForRequest() {
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`http://localhost:5000/getstatus`);
+        const response = await axios.get(`http://10.17.74.201:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
@@ -642,7 +648,7 @@ function ForRequest() {
       const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfamno?famno=${Run}`
+          `http://10.17.74.201:5000/getfamno?famno=${Run}`
         );
         const get_runno = await response.data;
 
@@ -701,13 +707,13 @@ function ForRequest() {
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}`
+        `http://10.17.74.201:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
-      setchecknext("visible")
+      setchecknext("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -716,7 +722,7 @@ function ForRequest() {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
+        `http://10.17.74.201:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -727,9 +733,21 @@ function ForRequest() {
   //Find FixAsset Group
   const ADD = async () => {
     openPopupLoadding();
+
+    try {
+      const rollNoSearch = await axios.get(
+        `http://10.17.74.201:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+      );
+      const data = rollNoSearch.data;
+      set_COMP(data);
+      console.log(data, "TTTTTTTTTTTTTTTTTTT");
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+
     try {
       const row = await axios.get(
-        `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
+        `http://10.17.74.201:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fam_no_check=${Gen_Fam_No}`
       );
       const data = row.data;
       setfind_fixasset(data);
@@ -759,12 +777,26 @@ function ForRequest() {
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
+  // const handleCheckboxAllChange = () => {
+  //   const newSelectedAll = !selectAll;
+  //   setSelectAll(newSelectedAll);
+  //   setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
+  //   updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
+  // };
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
+    let newSelectedItems = [];
+    find_fixasset.forEach((item, index) => {
+      const isDisabled = COMP.some(
+        (compItem) => compItem[1] === item[3] && compItem[2] !== null
+      );
+      newSelectedItems[index] = isDisabled ? false : newSelectedAll;
+    });
     setSelectAll(newSelectedAll);
-    setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
-    updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
+    setSelectedItems(newSelectedItems);
+    updateSelectedData(newSelectedItems);
   };
+
   const handleAdd = () => {
     const newDataTable = [...datatable, ...selectedData];
     setdatatable(newDataTable);
@@ -788,7 +820,7 @@ function ForRequest() {
       // console.log("index", item, EditFam);
       try {
         const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+          `http://10.17.74.201:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
         localStorage.removeItem("Edit_Dteail_for_FixedCode");
         Fix_Code();
@@ -798,7 +830,7 @@ function ForRequest() {
     } else {
       try {
         const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+          `http://10.17.74.201:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         localStorage.removeItem("forDetail");
         Fix_Code();
@@ -810,7 +842,7 @@ function ForRequest() {
   const Fix_Code = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/getFixcode?Fam=${Gen_Fam_No}`
+        `http://10.17.74.201:5000/getFixcode?Fam=${Gen_Fam_No}`
       );
       const dataStatus = await response.data;
       setdatatable(dataStatus);
@@ -830,10 +862,9 @@ function ForRequest() {
         localStorage.setItem("forDetail", sentdata);
       }
 
-     
       try {
         const response = await axios.post(
-          `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
+          `http://10.17.74.201:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -841,7 +872,7 @@ function ForRequest() {
       }
       try {
         const response = await axios.post(
-          `http://localhost:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
+          `http://10.17.74.201:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -854,6 +885,7 @@ function ForRequest() {
   };
   /////////////////////////////////////////////////////////////////////////////
   //////////// Handle set localstorage ////////////////
+
   const handleTel = async (event) => {
     setTel1(event.target.value);
 
@@ -1138,31 +1170,36 @@ function ForRequest() {
   // };
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
-    const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg" ,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Allowed file types
+    const allowedTypes = [
+      "application/pdf",
+      "image/jpeg",
+      "image/jpg",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ]; // Allowed file types
     const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
-  
+
     // Check file types and sizes
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       const fileType = file.type;
-  
+
       // Check if file type is allowed
       if (!allowedTypes.includes(fileType)) {
         alert("Only PDF, JPG, and XLS files are allowed.");
         return; // Stop further processing
       }
-  
+
       // Check file size
       if (file.size > maxSize) {
         alert("File size exceeds 10 MB.");
         return; // Stop further processing
       }
     }
-  
+
     // If all files passed the checks, proceed to add them to uploadedFiles
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
     setUploadedFilesDATA([...uploadedFilesDATA, ...selectedFiles]);
-  
+
     // Convert files to JSON format
     const jsonDataArray = uploadedFilesDATA.map((file) => ({
       name: file.name,
@@ -1174,13 +1211,12 @@ function ForRequest() {
       size: file.size,
       type: file.type,
     }));
-  
+
     // Store JSON string in local storage with key "Type"
     const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
     // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
   };
-  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -1194,7 +1230,6 @@ function ForRequest() {
     }
   };
   const handleSave = async () => {
-    
     const FAM_FORM = "REQUEST";
 
     const currentDateTime = new Date()
@@ -1209,7 +1244,7 @@ function ForRequest() {
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
-            `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+            `http://10.17.74.201:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
           );
           const get_run_seq = await response_seq.data;
           const lastValue =
@@ -1223,7 +1258,7 @@ function ForRequest() {
 
         try {
           const response = await axios.post(
-            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            `http://10.17.74.201:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
           // console.log(data, "dataYpload");
@@ -1240,7 +1275,7 @@ function ForRequest() {
           });
 
           await axios.post(
-            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "http://10.17.74.201:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
           //// console.log("Files saved successfully");
@@ -1268,13 +1303,13 @@ function ForRequest() {
     setUploadedFiles(updatedFiles);
     try {
       await axios.post(
-        `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+        `http://10.17.74.201:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
       );
       localStorage.removeItem("Type");
     } catch (error) {
       console.error("Error deleting file:", error);
     }
-      ShowFile();
+    ShowFile();
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -1403,11 +1438,13 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{ width: "100%"  , 
-                        backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                      style={{
+                        width: "100%",
+                        backgroundColor: read_tel
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
                       }}
                       disabled={read_tel}
-                      
                       // style={{
 
                       //   width: "100%",
@@ -1470,41 +1507,42 @@ function ForRequest() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                  {STS1_Req === "FLTR001" ||
+                    {STS1_Req === "FLTR001" ||
                     STS1_Req === "" ||
                     STS1_for_R === "R" ? (
-                    <FormControl fullWidth>
-                      <InputLabel size="small" id="demo-simple-select-label">
-                        Select
-                      </InputLabel>
+                      <FormControl fullWidth>
+                        <InputLabel size="small" id="demo-simple-select-label">
+                          Select
+                        </InputLabel>
 
-                      <Select
-                        id="factorycbt"
-                        label="Select"
-                        size="small"
-                        disabled={read_dept}
-                        value={selectDept1}
-                        onChange={handleDept}
-                        style={{
-                          width: "100%",
-                          backgroundColor: read_dept
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                        }}
-                        error={
-                          (Gen_Fam_No || EditFam) &&
-                          (selectDept1 === "" ||
-                            selectDept1 === undefined ||
-                            selectDept1 === null)
-                        }
-                      >
-                        {Dept.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl> ) : (
+                        <Select
+                          id="factorycbt"
+                          label="Select"
+                          size="small"
+                          disabled={read_dept}
+                          value={selectDept1}
+                          onChange={handleDept}
+                          style={{
+                            width: "100%",
+                            backgroundColor: read_dept
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          error={
+                            (Gen_Fam_No || EditFam) &&
+                            (selectDept1 === "" ||
+                              selectDept1 === undefined ||
+                              selectDept1 === null)
+                          }
+                        >
+                          {Dept.map((option) => (
+                            <MenuItem key={option} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
                       <TextField
                         style={{
                           backgroundColor: read_dept
@@ -1841,7 +1879,6 @@ function ForRequest() {
                       <Table className="Modal-Table">
                         <TableHead>
                           <TableRow>
-                            {/* <TableCell></TableCell> */}
                             <TableCell>
                               <Checkbox
                                 checked={selectAll}
@@ -1850,6 +1887,7 @@ function ForRequest() {
                             </TableCell>
                             <TableCell>Comp.</TableCell>
                             <TableCell>Cc.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
                             <TableCell>Fixed Assets Name</TableCell>
                           </TableRow>
                         </TableHead>
@@ -1863,18 +1901,29 @@ function ForRequest() {
                                 },
                               }}
                             >
-                              {/* <TableCell>
-                                        <DeleteIcon style={{color:'red'}} />
-                                        </TableCell> */}
                               <TableCell>
                                 <Checkbox
                                   checked={selectedItems[index] || false}
                                   onChange={() => handleCheckboxChange(index)}
+                                  disabled={COMP.some(
+                                    (compItem) =>
+                                      compItem[1] === item[3] &&
+                                      compItem[2] !== null
+                                  )}
                                 />
                               </TableCell>
                               <TableCell>{item[1]}</TableCell>
                               <TableCell>{item[2]}</TableCell>
                               <TableCell>{item[3]}</TableCell>
+                              <TableCell>
+                                {COMP.map((compItem) => {
+                                  if (compItem[1] === item[3]) {
+                                    console.log(compItem[0], "RRRRRR");
+                                    return compItem[2];
+                                  }
+                                  return null;
+                                })}
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -1926,6 +1975,7 @@ function ForRequest() {
                             <TableCell>Invoice No.</TableCell>
                             <TableCell>Acquisition Cost(Baht)</TableCell>
                             <TableCell>Book Value(Baht)</TableCell>
+                            <TableCell>WHAT</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -1972,7 +2022,7 @@ function ForRequest() {
                                 <TableCell>{item[5]}</TableCell>
                                 <TableCell>{item[6]}</TableCell>
                                 <TableCell>{item[7]}</TableCell>
-                                <TableCell>{item[9]}</TableCell>
+                                <TableCell>{item[9]} </TableCell>
                                 <TableCell>{item[10]}</TableCell>
                               </TableRow>
                             </React.Fragment>
@@ -2037,7 +2087,7 @@ function ForRequest() {
         </div>
         {/* สำหรับ Upload File */}
         {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ? (
-          <div >
+          <div>
             <Card
               sx={{
                 visibility: visibityFile,
@@ -2062,193 +2112,197 @@ function ForRequest() {
                 File from request
               </Typography>
 
-<table className="Table_file_for_req">
-<tr >
-  <td className="Table_Show_req1">
-  <td
+              <table className="Table_file_for_req">
+                <tr>
+                  <td className="Table_Show_req1">
+                    <td
                       className="Show-Data-File"
                       style={{ textAlign: "center" }}
                     >
                       <div
-                        // style={{
-                        //   display: "inline-block",
-                        //   marginBottom: "40px",
-                        //   width: "500px",
-                        // }}
+                      // style={{
+                      //   display: "inline-block",
+                      //   marginBottom: "40px",
+                      //   width: "500px",
+                      // }}
                       >
-                       <TableContainer component={Paper}>
-  <Table className="FamFilePopUp">
-    <TableHead>
-      <TableRow>
-        <TableCell></TableCell>
-        <TableCell>No.</TableCell>
-        <TableCell>File</TableCell>
-        <TableCell>View</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {Filedata.length === 0 ? (
-        <TableRow>
-          <TableCell colSpan={4} style={{ textAlign: "center" }}>
-            <Empty />
-          </TableCell>
-        </TableRow>
-      ) : (
-        Filedata.map((option, index) => (
-          <TableRow key={index}>
-            <TableCell>
-              <DeleteOutlined
-                onClick={() =>
-                  handleDeleteFile(Filedata[index][0], Filedata[index][3])
-                }
-                className="Icon_DeleteFile"
-              />
-            </TableCell>
-            <TableCell>{Filedata[index][2]}</TableCell>
-            <TableCell>{Filedata[index][3]}</TableCell>
-            <TableCell
-              style={{
-                textAlign: "center",
-                color: "blue",
-                textDecoration: "underline",
-              }}
-            >
-              <PlagiarismIcon
-                style={{ cursor: "pointer" ,fontSize:'30px' }}
-                onClick={() => downloadFile(Filedata[index][4])}
-              >
-                {Filedata[index][3]}
-              </PlagiarismIcon>
-            </TableCell>
-          </TableRow>
-        ))
-      )}
-    </TableBody>
-  </Table>
-</TableContainer>
-
+                        <TableContainer component={Paper}>
+                          <Table className="FamFilePopUp">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>No.</TableCell>
+                                <TableCell>File</TableCell>
+                                <TableCell>View</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {Filedata.length === 0 ? (
+                                <TableRow>
+                                  <TableCell
+                                    colSpan={4}
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <Empty />
+                                  </TableCell>
+                                </TableRow>
+                              ) : (
+                                Filedata.map((option, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>
+                                      <DeleteOutlined
+                                        onClick={() =>
+                                          handleDeleteFile(
+                                            Filedata[index][0],
+                                            Filedata[index][3]
+                                          )
+                                        }
+                                        className="Icon_DeleteFile"
+                                      />
+                                    </TableCell>
+                                    <TableCell>{Filedata[index][2]}</TableCell>
+                                    <TableCell>{Filedata[index][3]}</TableCell>
+                                    <TableCell
+                                      style={{
+                                        textAlign: "center",
+                                        color: "blue",
+                                        textDecoration: "underline",
+                                      }}
+                                    >
+                                      <PlagiarismIcon
+                                        style={{
+                                          cursor: "pointer",
+                                          fontSize: "30px",
+                                        }}
+                                        onClick={() =>
+                                          downloadFile(Filedata[index][4])
+                                        }
+                                      >
+                                        {Filedata[index][3]}
+                                      </PlagiarismIcon>
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
                       </div>
                     </td>
-  </td>
-  <td style={{width:'20px'}}></td>
-  <td className="Table_Show_req2">
-  <input
+                  </td>
+                  <td style={{ width: "20px" }}></td>
+                  <td className="Table_Show_req2">
+                    <input
                       type="file"
                       multiple
                       onChange={handleFileUpload}
                       style={{ display: "none" }}
                       id="fileInput"
                       ref={fileInputRef}
-                    /> 
-                    <div style={{width:'400px'}}>
-                    <label
-                      htmlFor="fileInput"
-                      onDragOver={handleDragOver}
-                      onDrop={handleDrop}
-                      className="bt_ChooseFile"
-                    >
-                      <CloudUploadOutlined
-                        style={{ fontSize: "30px", color: "#86B6F6" }}
-                      />
-                      <br />
-                      <span style={{ fontWeight: "bold" }}>
-                        Drop your files here
-                      </span>
-                      <br />
-                      or
-                      <br />
-                      <Button size="small" component="span">
-                        <b> Browse files</b>
-                      </Button>
-                    </label>
-                  
-                    {uploadedFiles.length > 0 && (
-                      <div>
-                        <ul>
-                          {uploadedFiles.map((file, index) => (
-                            <div key={index} className="BorderFile">
-                              <Typography className="Font_File">
-                                <span style={{ marginLeft: "10px" }}>
-                                  {file.type.startsWith("image/") ? (
-                                    <img
-                                      src={URL.createObjectURL(file)}
-                                      alt={file.name}
-                                      className="Img_file"
-                                    />
-                                  ) : (
-                                    <>
-                                      {file.name.endsWith(".xlsx") ? (
-                                        <FileExcelOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#65B741" }}
-                                        />
-                                      ) : file.name.endsWith(".pdf") ? (
-                                        <FilePdfOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#FF6347" }}
-                                        />
-                                      ) : file.name.endsWith(".docx") ? (
-                                        <FileWordOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#3468C0" }}
-                                        />
-                                      ) : file.name.endsWith(".txt") ? (
-                                        <FileTextOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#B6BBC4" }}
-                                        />
-                                      ) : (
-                                        <FileUnknownOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#FFD3A3" }}
-                                        />
-                                      )}
-                                    </>
-                                  )}
-                                  {index + 1} {file.name}
-                                </span>
-                                <DeleteOutlined
-                                  onClick={() =>
-                                    handleDeleteFile(index, file.name)
-                                  }
-                                  className="Icon_DeleteFile"
-                                />
-                              </Typography>
-                            </div>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    <div
-                      style={{
-                        textAlign: "right",
-                        marginTop: "5px",
-                        display:
-                          STS1_Req == "" ||
-                          STS1_Req == "FLTR001" ||
-                          STS1_for_R === "R"
-                            ? "block"
-                            : "none",
-                      }}
-                    >
-                      <Button variant="contained" onClick={handleSave}>
-                        Save
-                      </Button>
-                    </div>
-</div>
-  </td>
-</tr>
-</table>
+                    />
+                    <div style={{ width: "400px" }}>
+                      <label
+                        htmlFor="fileInput"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                        className="bt_ChooseFile"
+                      >
+                        <CloudUploadOutlined
+                          style={{ fontSize: "30px", color: "#86B6F6" }}
+                        />
+                        <br />
+                        <span style={{ fontWeight: "bold" }}>
+                          Drop your files here
+                        </span>
+                        <br />
+                        or
+                        <br />
+                        <Button size="small" component="span">
+                          <b> Browse files</b>
+                        </Button>
+                      </label>
 
+                      {uploadedFiles.length > 0 && (
+                        <div>
+                          <ul>
+                            {uploadedFiles.map((file, index) => (
+                              <div key={index} className="BorderFile">
+                                <Typography className="Font_File">
+                                  <span style={{ marginLeft: "10px" }}>
+                                    {file.type.startsWith("image/") ? (
+                                      <img
+                                        src={URL.createObjectURL(file)}
+                                        alt={file.name}
+                                        className="Img_file"
+                                      />
+                                    ) : (
+                                      <>
+                                        {file.name.endsWith(".xlsx") ? (
+                                          <FileExcelOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#65B741" }}
+                                          />
+                                        ) : file.name.endsWith(".pdf") ? (
+                                          <FilePdfOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FF6347" }}
+                                          />
+                                        ) : file.name.endsWith(".docx") ? (
+                                          <FileWordOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#3468C0" }}
+                                          />
+                                        ) : file.name.endsWith(".txt") ? (
+                                          <FileTextOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#B6BBC4" }}
+                                          />
+                                        ) : (
+                                          <FileUnknownOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FFD3A3" }}
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                    {index + 1} {file.name}
+                                  </span>
+                                  <DeleteOutlined
+                                    onClick={() =>
+                                      handleDeleteFile(index, file.name)
+                                    }
+                                    className="Icon_DeleteFile"
+                                  />
+                                </Typography>
+                              </div>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      <div
+                        style={{
+                          textAlign: "right",
+                          marginTop: "5px",
+                          display:
+                            STS1_Req == "" ||
+                            STS1_Req == "FLTR001" ||
+                            STS1_for_R === "R"
+                              ? "block"
+                              : "none",
+                        }}
+                      >
+                        <Button variant="contained" onClick={handleSave}>
+                          Save
+                        </Button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
               <table className="All-Layout-File">
                 <tr>
-                  
-                   
-                
-                  <td className="">
-                   
-                  </td>
+                  <td className=""></td>
                 </tr>
                 <tr></tr>
                 <tr
@@ -2259,13 +2313,10 @@ function ForRequest() {
                   }}
                 ></tr>
               </table>
-
-
-
             </Card>
           </div>
         ) : (
-          <div className="ShowFile" >
+          <div className="ShowFile">
             <Card
               sx={{
                 visibility: visibityFile,
@@ -2291,62 +2342,63 @@ function ForRequest() {
               >
                 File from request
               </Typography>
-              <table className="TableShow"  style={{padding:'40px'}}>
+              <table className="TableShow" style={{ padding: "40px" }}>
                 <tr>
                   <td>
-                  <div className="ImageShowFile">
-  <img src="./src/assets/Image/2.png"
-   style={{width:'400px' }}  
-    alt="Description of your image" />
-</div>
-
+                    <div className="ImageShowFile">
+                      <img
+                        src="./src/assets/Image/2.png"
+                        style={{ width: "400px" }}
+                        alt="Description of your image"
+                      />
+                    </div>
                   </td>
                   <td>
-<div className="FileShow" style={{ marginBottom: "40px" }}>
-                <TableContainer component={Paper}>
-                  <Table className="File_For_Show">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>No.</TableCell>
-                        <TableCell>File</TableCell>
-                        <TableCell>View</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Filedata.map((option, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{Filedata[index][2]}</TableCell>
-                          <TableCell>{Filedata[index][3]}</TableCell>
-                          <TableCell
-                            style={{
-                              textAlign: "center",
-                              color: "blue",
-                              textDecoration: "underline",
-                            }}
-                          >
-                            <p
-                              style={{ cursor: "pointer" }}
-                              onClick={() => downloadFile(Filedata[index][4])}
-                            >
-                              {Filedata[index][3]}
-                            </p>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                      {/* <TableRow>
+                    <div className="FileShow" style={{ marginBottom: "40px" }}>
+                      <TableContainer component={Paper}>
+                        <Table className="File_For_Show">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>No.</TableCell>
+                              <TableCell>File</TableCell>
+                              <TableCell>View</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {Filedata.map((option, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{Filedata[index][2]}</TableCell>
+                                <TableCell>{Filedata[index][3]}</TableCell>
+                                <TableCell
+                                  style={{
+                                    textAlign: "center",
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  <p
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      downloadFile(Filedata[index][4])
+                                    }
+                                  >
+                                    {Filedata[index][3]}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                            {/* <TableRow>
               <TableCell colSpan={4} style={{ border: "0" }}>
                 
               </TableCell>
             </TableRow> */}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </div>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
                   </td>
                 </tr>
               </table>
-              
-              
             </Card>
           </div>
         )}
@@ -2379,7 +2431,7 @@ function ForRequest() {
                   BACK PAGE
                 </Button> */}
               </td>
-              
+
               <td>
                 {" "}
                 <Button
@@ -2389,7 +2441,7 @@ function ForRequest() {
                     marginRight: "10px",
                     marginBottom: "20px",
                     backgroundColor: "gray",
-                    visibility: checknext
+                    visibility: checknext,
                   }}
                   variant="contained"
                   onClick={NextPage}

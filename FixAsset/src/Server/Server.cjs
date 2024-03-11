@@ -113,9 +113,13 @@ app.get("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
 app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.get("/search_BOI_project",Transaction.search_BOI_project);
 app.get("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
+app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 app.get("/getCountTransfer",Transaction.getCountTransfer);
 app.get("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
+app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);
+
+app.get("/get_COMP",Transaction.get_COMP);
 
 app.post("/ins_PERSON_MAINTAIN",Transaction.insertPerson_Maintain);
 app.post("/update_PERSON_MAINTAIN",Transaction.updatePerson_Maintain);

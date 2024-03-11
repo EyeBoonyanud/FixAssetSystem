@@ -26,7 +26,7 @@ import AddIcon from "@mui/icons-material/Add";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined ,LoadingOutlined} from "@ant-design/icons";
+import { InfoCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
@@ -37,8 +37,8 @@ function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
- const Emp = localStorage.getItem("EmpID");
-  let UserLogin = Emp +":" +Name + " " + Lastname;
+  const Emp = localStorage.getItem("EmpID");
+  let UserLogin = Emp + ":" + Name + " " + Lastname;
 
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -58,17 +58,16 @@ function Issue() {
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
 
   const [loading, setloading] = useState("true");
-  const [selectindex,setselectindex]=useState("0")
+  const [selectindex, setselectindex] = useState("0");
 
   // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
-      setPopupOpenLoadding(true);
+    setPopupOpenLoadding(true);
   };
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
-
 
   // function formatDateString(rawDate) {
   //   const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -81,7 +80,7 @@ function Issue() {
     // // console.log(idFactory,"ถถถซ")
     try {
       const response = await axios.get(
-        `http://localhost:5000/getdept?idFactory=${idFactory}`
+        `http://10.17.74.201:5000/getdept?idFactory=${idFactory}`
       );
       // // console.log(response.data,"ID1 :")
       const data = await response.data;
@@ -115,18 +114,18 @@ function Issue() {
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
-    localStorage.removeItem("Type")
+    localStorage.removeItem("Type");
     navigate("/ForRe");
   };
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
-  const Path =cutPath.toUpperCase();
+  const Path = cutPath.toUpperCase();
   useEffect(() => {
     openPopupLoadding();
     const Factory = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
+        const response = await axios.get(`http://10.17.74.201:5000/getfactory`);
         const FactoryData = await response.data;
         setdatafac(FactoryData);
         // // console.log(FactoryData, "Factory");
@@ -136,7 +135,7 @@ function Issue() {
     };
     const Costcenter = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
+        const response = await axios.get(`http://10.17.74.201:5000/getcost`);
         const CostData = await response.data;
         setcost(CostData);
         // // console.log(CostData, "CostData :");
@@ -146,7 +145,7 @@ function Issue() {
     };
     const RequestType = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/gettype`);
+        const response = await axios.get(`http://10.17.74.201:5000/gettype`);
         const TypeData = await response.data;
         setReType(TypeData);
         // // console.log(TypeData, "TypeData");
@@ -161,31 +160,26 @@ function Issue() {
     RequestType();
     // Remove();
   }, []);
- 
-  
-  
+
   const Edit = async (EditFam) => {
     // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
-
     //reload_edit();
   };
   const EditFixAsset = async (EditFam) => {
     // console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
-
-  const handleEdit = async (EditFam,index) => {
-    setselectindex(index)
+  const handleEdit = async (EditFam, index) => {
+    setselectindex(index);
     setloading("false");
     try {
       const response = await axios.get(
-        `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
+        `http://10.17.74.201:5000/getEdit_request_show?FamNo=${EditFam}`
       );
       const data = await response.data;
       // console.log(data,"ooooo")
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
-
 
       localStorage.setItem("For_Req_Edit", data_edit);
     } catch (error) {
@@ -193,7 +187,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+        `http://10.17.74.201:5000/getEdit_FixAsset?FamNo=${EditFam}`
       );
       const data = await response.data;
       // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
@@ -206,7 +200,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+        `http://10.17.74.201:5000/getEdit_Trans?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -220,7 +214,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
+        `http://10.17.74.201:5000/getEdit_routing?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -235,25 +229,26 @@ function Issue() {
 
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
-    setselectindex("0")
-   window.location.href = "/ForRe";
+    setselectindex("0");
+    window.location.href = "/ForRe";
   };
   const Search = async () => {
-  
     if (Path === "SEARCH") {
       const FamNo = document.getElementById("FamNo").value;
       const FamTo = document.getElementById("FamTo").value;
       const FixAsset = document.getElementById("FixAsset").value;
       const Date = document.getElementById("Date").value;
-      const DateTo = document.getElementById("DateTo").value; 
-       // console.log(Date,DateTo)
+      const DateTo = document.getElementById("DateTo").value;
+      // console.log(Date,DateTo)
       try {
         const rollNoSearch = await axios.get(
-          `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.201:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
         setdataSearch(data);
+        console.log(data, "ต้องการดูข้อมูลของการค้นหา status");
+
         if (data.length === 0) {
           setCheckEmpty("visible");
           setCheckData("hidden");
@@ -263,7 +258,6 @@ function Issue() {
         }
         // // console.log(rollNoSearch.data,"Search: ")
         // // console.log(selectdept,"DEPT:")
-        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -275,7 +269,7 @@ function Issue() {
       const DateTo = document.getElementById("DateTo").value;
       try {
         const rollNoSearch = await axios.get(
-          `http://localhost:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.201:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -295,15 +289,15 @@ function Issue() {
     }
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
-    localStorage.removeItem("TransForDetail")
-    localStorage.removeItem("EDIT")
-    localStorage.removeItem("For_Transfer")
-    localStorage.removeItem("For_Routing")
-    localStorage.removeItem("For_Req_Edit")
-    localStorage.removeItem("Edit_Trans")
-    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
-    localStorage.removeItem("Edit_routing") 
-    localStorage.removeItem("Type")
+    localStorage.removeItem("TransForDetail");
+    localStorage.removeItem("EDIT");
+    localStorage.removeItem("For_Transfer");
+    localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Req_Edit");
+    localStorage.removeItem("Edit_Trans");
+    localStorage.removeItem("Edit_Dteail_for_FixedCode");
+    localStorage.removeItem("Edit_routing");
+    localStorage.removeItem("Type");
   };
 
   const Reset = async () => {
@@ -337,16 +331,16 @@ function Issue() {
         try {
           // ลบข้อมูลทั้งหมดที่เกี่ยวข้อง
           await axios.post(
-            `http://localhost:5000/delect_all_fam_transfer?famno=${item}`
+            `http://10.17.74.201:5000/delect_all_fam_transfer?famno=${item}`
           );
           await axios.post(
-            `http://localhost:5000/delect_all_fam_details?famno=${item}`
+            `http://10.17.74.201:5000/delect_all_fam_details?famno=${item}`
           );
           await axios.post(
-            `http://localhost:5000/delect_all_fam_header?famno=${item}`
+            `http://10.17.74.201:5000/delect_all_fam_header?famno=${item}`
           );
           await axios.post(
-            `http://localhost:5000/delete_all_file?famno=${item}`
+            `http://10.17.74.201:5000/delete_all_file?famno=${item}`
           );
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
@@ -363,16 +357,14 @@ function Issue() {
   };
 
   return (
-    
-    <>                     
-     {/* <PageLoadding 
+    <>
+      {/* <PageLoadding 
     isOpen={isPopupOpenLoadding}
     onClose={closePopupLoadding}
     /> */}
       <Header />
 
       <div className="body">
-
         <div className="BoxSearch">
           {/* Factiory  */}
 
@@ -386,8 +378,7 @@ function Issue() {
               textAlign: "right",
             }}
           >
-
-            <Grid item xs={3} style={{ marginTop: "2px"}}>
+            <Grid item xs={3} style={{ marginTop: "2px" }}>
               <Typography>Factory :</Typography>
             </Grid>
             <Grid item xs={3}>
@@ -461,7 +452,7 @@ function Issue() {
             spacing={1}
             style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
           >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right"  }}>
+            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right" }}>
               <Typography>Dept :</Typography>
             </Grid>
             <Grid item xs={2}>
@@ -618,7 +609,12 @@ function Issue() {
               <Typography>Request By :</Typography>
             </Grid>
             <Grid item xs={2}>
-              <TextField size="small" value={UserLogin} disabled style={{backgroundColor: "rgba(169, 169, 169, 0.3)"}} ></TextField>
+              <TextField
+                size="small"
+                value={UserLogin}
+                disabled
+                style={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+              ></TextField>
             </Grid>
           </Grid>
 
@@ -697,100 +693,106 @@ function Issue() {
         </div>
 
         <div className="responsive-container">
-        <TableContainer
-  style={{
-    visibility: checkHead,
-  }}
-  component={Paper}
->
-  <Table sx={{}} aria-label="simple table">
-    <TableHead className="Serach-Data">
-      <TableRow>
-        <TableCell></TableCell>
-        <TableCell>Factory</TableCell>
-        <TableCell>Cost Center</TableCell>
-        <TableCell>FAM No.</TableCell>
-        <TableCell>Issue By</TableCell>
-        <TableCell>Issue Date</TableCell>
-        <TableCell>Type</TableCell>
-        <TableCell>Fixed Asset Code</TableCell>
-        <TableCell>Request Status</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {dataSearch.length > 0 ? (
-        dataSearch.map((item,index) => (
-          <TableRow key={item[2]}>
-   <TableCell style={{ display: "flex" }}>
-  {Path === "SEARCH" ? (
-    loading == "false" && index==selectindex ?(
-      <LoadingOutlined style={{ fontSize: "30px" }} />
-    ) : (
-      <EditNoteIcon
-        style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2],index)}
-      />
-    )
-  ) : (
-    loading == "false" && index==selectindex ?(
-      <LoadingOutlined style={{ fontSize: "30px" }} />
-    ) : (
-      <AddTaskIcon
-        style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2],index)}
-      />
-    )
-  )}
-  {item[7] === "Create" && (
-    <DeleteForeverIcon
-      style={{
-        color: "red",
-        fontSize: "30px",
-        display: Path === "SEARCH" ? "block" : "none",
-      }}
-      onClick={() => Delete(item[2])}
-    />
-  )}
-</TableCell>
+          <TableContainer
+            style={{
+              visibility: checkHead,
+            }}
+            component={Paper}
+          >
+            <Table sx={{}} aria-label="simple table">
+              <TableHead className="Serach-Data">
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Factory</TableCell>
+                  <TableCell>Cost Center</TableCell>
+                  <TableCell>FAM No.</TableCell>
+                  <TableCell>Issue By</TableCell>
+                  <TableCell>Issue Date</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Fixed Asset Code</TableCell>
+                  <TableCell>Request Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataSearch.length > 0 ? (
+                  dataSearch.map((item, index) => (
+                    <TableRow key={item[2]}>
+                      <TableCell style={{ display: "flex" }}>
+                        {Path === "SEARCH" ? (
+                          loading == "false" && index == selectindex ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <EditNoteIcon
+                              style={{ color: "#F4D03F", fontSize: "30px" }}
+                              onClick={() => handleEdit(item[2], index)}
+                            />
+                          )
+                        ) : loading == "false" && index == selectindex ? (
+                          <LoadingOutlined style={{ fontSize: "30px" }} />
+                        ) : (
+                          <AddTaskIcon
+                            style={{ color: "#F4D03F", fontSize: "30px" }}
+                            onClick={() => handleEdit(item[2], index)}
+                          />
+                        )}
+                        {item[7] === "Create" && (
+                          <DeleteForeverIcon
+                            style={{
+                              color: "red",
+                              fontSize: "30px",
+                              display: Path === "SEARCH" ? "block" : "none",
+                            }}
+                            onClick={() => Delete(item[2])}
+                          />
+                        )}
+                      </TableCell>
 
-            <TableCell>{item[0]}</TableCell>
-            <TableCell>{item[1]}</TableCell>
-            <TableCell>{item[2]}</TableCell>
-            <TableCell>{item[4]}</TableCell>
-            <TableCell>{item[3]}</TableCell>
-            <TableCell>{item[5]}</TableCell>
-            <TableCell>{item[6]}</TableCell>
-            <TableCell><Typography style={{borderRadius:"10px",background:"#FFB9B9"}}>{item[7]}</Typography></TableCell>
-          </TableRow>
-        ))
-      ) : (
-        <TableRow style={{ visibility: checkEmpty }}>
-          <TableCell colSpan={9}>
-            <InfoCircleOutlined
-              style={{
-                visibility: checkData,
-                fontSize: "30px",
-                color: "#ffd580",
-              }}
-            />
-            <text
-              style={{
-                visibility: checkData,
-                fontSize: "25px",
-                marginLeft: "10px",
-              }}
-            >
-              {" "}
-              Please fill in information{" "}
-            </text>
-            <Empty style={{ visibility: checkEmpty }} />
-          </TableCell>
-        </TableRow>
-      )}
-    </TableBody>
-  </Table>
-</TableContainer>
-
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[2]}</TableCell>
+                      <TableCell>{item[4]}</TableCell>
+                      <TableCell>{item[3]}</TableCell>
+                      <TableCell>{item[5]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>
+                        <Typography
+                          style={{
+                            borderRadius: "10px",
+                            background: "#FFB9B9",
+                          }}
+                        >
+                          {item[7]}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow style={{ visibility: checkEmpty }}>
+                    <TableCell colSpan={9}>
+                      <InfoCircleOutlined
+                        style={{
+                          visibility: checkData,
+                          fontSize: "30px",
+                          color: "#ffd580",
+                        }}
+                      />
+                      <text
+                        style={{
+                          visibility: checkData,
+                          fontSize: "25px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {" "}
+                        Please fill in information{" "}
+                      </text>
+                      <Empty style={{ visibility: checkEmpty }} />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </>

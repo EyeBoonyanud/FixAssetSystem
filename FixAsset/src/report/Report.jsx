@@ -42,7 +42,7 @@ function Report() {
   }, []);
 
   const Type = () => {
-    axios.post("http://localhost:5000/RequstType").then((res) => {
+    axios.post("http://10.17.74.201:5000/RequstType").then((res) => {
       const data = res.data;
       setTypeRequest(data);
       // // // console.log(data)
@@ -62,7 +62,7 @@ function Report() {
       alert("Please Select Reques Type or Fam No.");
     } else if (selectRequestType !== "" && Txt_FamNo !== "") {
       axios
-        .post("http://localhost:5000/FamDetailReport", {
+        .post("http://10.17.74.201:5000/FamDetailReport", {
           RequestType: selectRequestType,
           FAMNo: Txt_FamNo,
         })
