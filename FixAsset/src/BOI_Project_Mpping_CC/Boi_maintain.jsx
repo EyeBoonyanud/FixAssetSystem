@@ -63,7 +63,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
   // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
-  
+
   const onCloseCancel = () => {
     // console.log("ปิด");
     setErrorBOI_P(false);
@@ -73,7 +73,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
   useEffect(() => {
     openPopupLoadding();
-    
+
     const formattedDate = `${currentDate
       .getDate()
       .toString()
@@ -101,10 +101,16 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         DATA_EDIT_M.slice(2)
       );
       const combinedArray02 = [DATA_EDIT_02.slice(1, 3)];
-      const DATA_EDIT = DATA_EDIT_02.slice(0, 1).concat(
+      const DATA_EDIT_03 = DATA_EDIT_02.slice(0, 1).concat(
         combinedArray02,
         DATA_EDIT_02.slice(3)
       );
+      const combinedArray03 = [DATA_EDIT_03.slice(2, 3)];
+      const DATA_EDIT = DATA_EDIT_03.slice(0, 2).concat(
+        combinedArray03,
+        DATA_EDIT_03.slice(3)
+      );
+      console.log(DATA_EDIT,"DATA BOI");
       set_DATA_EDIT_RESET(DATA_EDIT);
       setselecteDatafac(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[0]);
@@ -119,7 +125,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://10.17.74.201:5000/getfactory`);
+          const response = await axios.get(
+            `http://10.17.74.201:5000/getfactory`
+          );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -161,19 +169,15 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorFac(false);
   };
 
-
-
   const handleCost = (event, newValue) => {
     setselectcost(newValue);
     setErrorCost(false);
   };
 
-
   const handleSelectBOI_name = async (event, newValue) => {
     setBOI_Project(newValue);
     setErrorBOI_P(false);
   };
-
 
   const Save = async () => {
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
@@ -182,28 +186,28 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     if (selectcost.toString().trim() === "") {
       setErrorCost(true);
     }
-    if (BOI_Project.trim() === "") {
+    if (BOI_Project.toString().trim() === "") {
       setErrorBOI_P(true);
     }
     if (status.trim() === "") {
       setErrorStatus(true);
     }
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
-      document.getElementById("selecteDatafac").focus(); 
+      document.getElementById("selecteDatafac").focus();
     }
     if (selectcost.toString().trim() === "") {
-      document.getElementById("selectcost").focus(); 
+      document.getElementById("selectcost").focus();
     }
-    if (BOI_Project.trim() === "") {
-      document.getElementById("BOI_Project").focus(); 
+    if (BOI_Project.toString().trim() === "") {
+      document.getElementById("BOI_Project").focus();
     }
     if (status.trim() === "") {
-      document.getElementById("status").focus(); 
+      document.getElementById("status").focus();
     }
 
     swal(
       "Do you want to save information",
-     
+
       {
         buttons: {
           cancel: "Cancel",
@@ -214,7 +218,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         },
       }
     ).then(async (value) => {
-
       switch (value) {
         case "cancel":
           break;
@@ -233,7 +236,11 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   `http://10.17.74.201:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
                 );
                 swal("success", "You save data success", "success");
-                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selectcost,
+                  BOI_Project,
+                ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
                 onClose();
@@ -262,9 +269,13 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                 const response = await axios.post(
                   `http://10.17.74.201:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
                 );
-      
+
                 swal("success", "You save data success", "success");
-                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selectcost,
+                  BOI_Project,
+                ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
                 onClose();
@@ -284,12 +295,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           break;
       }
     });
-
-
   };
-
-
-
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
@@ -334,23 +340,22 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorStatus(false);
   };
 
-     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-     const openPopupLoadding = () => {
-         setPopupOpenLoadding(true);
-     };
-     const closePopupLoadding = () => {
-       setPopupOpenLoadding(false);
-     };
-  
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
 
   return (
     <div className="popup">
       <div className="popup-content">
-      <PageLoadding
+        <PageLoadding
           isOpen={isPopupOpenLoadding}
           onClose={closePopupLoadding}
         />
-         <Table className="PopupEditPerson">
+        <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
               <Typography>
@@ -461,7 +466,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                 error={ErrorBOI_P}
               ></TextField>
             </TableCell> */}
-                        <TableCell>
+            <TableCell colSpan={2}>
               {" "}
               <FormControl fullWidth>
                 <Autocomplete
@@ -471,6 +476,16 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   }
                   value={BOI_Project || null}
                   onChange={handleSelectBOI_name}
+                  disabled={PAGE_STATUS === "EDIT"}
+                  sx={{
+                    backgroundColor:
+                      PAGE_STATUS === "EDIT"
+                        ? "rgba(169, 169, 169, 0.3)"
+                        : "inherit",
+                  }}
+                  style={{
+                    width: "100%",
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}

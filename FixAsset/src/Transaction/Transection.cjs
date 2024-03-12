@@ -2838,7 +2838,8 @@ module.exports.updateBOI_Maintain = async function (req, res) {
 module.exports.getEdit_BOI_Show = async function (req, res) {
   try {
     const cost_center = req.query.FBMC_cost_center;
-    // // console.log("C", cost_center);
+    const BOI_Project = req.query.FBMC_BOI_Project;
+     console.log("C", cost_center,BOI_Project);
 
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -2860,12 +2861,13 @@ FROM
     LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CTM ON CTM.CC_CTR = T.FBMC_COST_CENTER 
 WHERE
     T.FBMC_COST_CENTER = '${cost_center}'
+    AND T.FBMC_BOI_PROJ = '${BOI_Project}'
     `;
     const result = await connect.execute(query);
     connect.release();
     const flatArray = result.rows.map((item) => Object.values(item)).flat();
     res.json(flatArray);
-    // // console.log(result);
+     console.log(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");

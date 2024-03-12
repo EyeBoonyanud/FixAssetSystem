@@ -131,6 +131,7 @@ function Boi_project_mcc() {
         const factoryValue = DATA_SEARCH_S_E[0][0];
         const costValue = DATA_SEARCH_S_E[1][0];
         const BOIValue = DATA_SEARCH_S_E[2][0];
+        console.log(BOIValue,"BOIValue");
         const rollNoSearch = await axios.get(
           `http://10.17.74.201:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
         );
@@ -195,16 +196,19 @@ function Boi_project_mcc() {
   const handleOpenEdit = async (factory, cost_center, boi_project , index) => {
           setselectindex(index);
           setloading("false");
+          console.log(cost_center,"cost_center");
           try {
             const getEdit_show = await axios.get(
-              `http://10.17.74.201:5000/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}`
+              `http://10.17.74.201:5000/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
             );
             const data = await getEdit_show.data;
             const DataEdit = data;
+          console.log(DataEdit,"DataEdit");
             const PAGE_STATUS = "EDIT";
 
             if (data && data.length > 0) {
               const sentdata = JSON.stringify(DataEdit);
+              console.log(sentdata,"sentdata");
               localStorage.setItem("BOI_Edit", sentdata);
               localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
             } else {
