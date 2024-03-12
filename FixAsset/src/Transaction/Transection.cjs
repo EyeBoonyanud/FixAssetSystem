@@ -2755,7 +2755,6 @@ module.exports.deletePerson_Maintain = async function (req, res) {
   }
 };
 
-
 //BOI Project 
 module.exports.get_BOI_project = async function (req, res) {
   try {
@@ -2898,13 +2897,13 @@ module.exports.updateBOI_Maintain = async function (req, res) {
         FAM_BOIPROJ_MAP_CC
     SET
         FBMC_FACTORY = :fbmc_factory_a,
-        FBMC_BOI_PROJ = :fbmc_boi_project_a,
         FBMC_STATUS = :fbmc_status_a,
         FBMC_COMMENT = :fbmc_comment_a,
         FBMC_UPDATE_DATE = SYSDATE,
         FBMC_UPDATE_BY = :fbmc_update_by_a
     WHERE
         FBMC_COST_CENTER = :fbmc_cost_center_a
+        AND FBMC_BOI_PROJ = :fbmc_boi_project_a
          `;
     const data = {
       fbmc_cost_center_a,
@@ -2930,7 +2929,8 @@ module.exports.updateBOI_Maintain = async function (req, res) {
 module.exports.getEdit_BOI_Show = async function (req, res) {
   try {
     const cost_center = req.query.FBMC_cost_center;
-    // // console.log("C", cost_center);
+    const BOI_Project = req.query.FBMC_BOI_Project;
+     console.log("C", cost_center,BOI_Project);
 
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -2952,12 +2952,13 @@ FROM
     LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CTM ON CTM.CC_CTR = T.FBMC_COST_CENTER 
 WHERE
     T.FBMC_COST_CENTER = '${cost_center}'
+    AND T.FBMC_BOI_PROJ = '${BOI_Project}'
     `;
     const result = await connect.execute(query);
     connect.release();
     const flatArray = result.rows.map((item) => Object.values(item)).flat();
     res.json(flatArray);
-    // // console.log(result);
+     console.log(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
@@ -2965,10 +2966,45 @@ WHERE
 };
 
 
+// get show data Project name BOI
+  module.exports.get_BOI_project_name = async function (req, res) {
+    try {
+      const connect = await oracledb.getConnection(QAD);
+      const query = `
+      SELECT
+      DISTINCT CD.CODE_CMMT
+    FROM
+      KFA_MSTR KM,
+      KFAD_DET KD,
+      CODE_MSTR CD
+    WHERE
+      KM.KFA_CODE = KD.KFAD_CODE
+      AND KM.KFA_DOMAIN = KD.KFAD_DOMAIN
+      AND KM.KFA_OBLG = CD.CODE_VALUE
+      AND KM.KFA_DOMAIN = CD.CODE_DOMAIN
+      AND upper(CD.CODE_FLDNAME) = 'KFA_OBLG'
+      AND KD.KFAD_BOOK = 'SL'
+      AND UPPER(KM.KFA_DOMAIN) = '9000'
+      AND KD.KFAD_SEQ = '0'
+    ORDER BY
+      CD.CODE_CMMT 
+             `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
+
+  
+
+
 // Delete BOI Maintain
 module.exports.deleteBOI_Maintain = async function (req, res) {
   try {
     const cost_center_a = req.query.FBMC_cost_center_delete;
+    const BOI_Project_a = req.query.FBMC_BOI_Project_delete;
     // // console.log(cost_center_a);
 
     const connect = await oracledb.getConnection(AVO);
@@ -2977,10 +3013,12 @@ module.exports.deleteBOI_Maintain = async function (req, res) {
     FROM
       FAM_BOIPROJ_MAP_CC T
     WHERE
-      T.FBMC_COST_CENTER = :cost_center_a 
+      T.FBMC_COST_CENTER = :cost_center_a
+      AND T.FBMC_BOI_PROJ = :BOI_Project_a  
          `;
     const data = {
       cost_center_a,
+      BOI_Project_a,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     // // console.log(query);
@@ -2992,12 +3030,13 @@ module.exports.deleteBOI_Maintain = async function (req, res) {
 };
 
 //CountTransfer
+//CountTransfer
 module.exports.getCountTransfer = async function (req, res) {
   try {
     const userlogin = req.query.UserLogin;
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT  COUNT(T.FRH_FAM_NO) 
+    SELECT  COUNT(T.FRH_FAM_NO)
     FROM FAM_REQ_HEADER T
     LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
     WHERE 1=1
@@ -3024,7 +3063,7 @@ module.exports.getCountTransfer = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-
+ 
 //CountTransferListALL
 module.exports.getCountTransferlistaLL = async function (req, res) {
   try {
@@ -3047,7 +3086,7 @@ module.exports.getCountTransferlistaLL = async function (req, res) {
 FROM FAM_FLOW_MASTER TT
 LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
 LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = HT.FRH_FAM_NO
-WHERE 
+WHERE
     TT.FFM_TYPE = 'TRANSFER'
     AND TT.FFM_STATUS = 'A'
     AND (
@@ -3065,6 +3104,24 @@ WHERE
         OR HT.FAM_SERVICE_CLOSE_BY = '${userlogin}' AND HT.FAM_REQ_STATUS = 'FLTR012' )
          `;
     // // console.log(query);
+    const result = await connect.execute(query);
+    connect.release();
+    // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+//CountTransferListALLname
+module.exports.getCountTransferlistaLLname = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT F.FFM_CODE, F.FFM_TYPE, F.FFM_DESC  
+    FROM FAM_FLOW_MASTER F
+    WHERE F.FFM_TYPE = 'TRANSFER'
+    AND (F.FFM_CODE BETWEEN 'FLTR001' AND 'FLTR012')
+         `;
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);
@@ -3209,5 +3266,46 @@ module.exports.update_for_date_trans = async function (req, res) {
   } catch (error) {
     console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
+  }
+};
+// Fam Master 
+module.exports.searchFamMaster = async function (req, res) {
+  try {
+     const{Fac,OwnerCC,FamFrom,FamTo,Dept,AssetCC,ReqType,FixCode,DateFrom,DateTo,ByID}=  req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT DISTINCT M.FACTORY_NAME AS FACTORY,
+    T.FAM_REQ_OWNER_CC  AS COSTCENTER,
+    T.FRH_FAM_NO AS FAMNO,
+    TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
+    T.FAM_REQ_BY AS ISSUEBY,
+    R.FCM_DESC AS RETYPE,
+    (SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
+    F.FFM_DESC AS STATUS
+  FROM
+    FAM_REQ_HEADER T
+  LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
+  LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
+  LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
+  LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
+  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
+  LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
+  WHERE 1=1
+    AND (T.FAM_FACTORY = '${Fac}' OR '${Fac}' IS NULL)
+    AND ('${OwnerCC}' IS NULL OR T.FAM_REQ_OWNER_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${OwnerCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${OwnerCC}', ',') + 1))
+    AND (T.FRH_FAM_NO >= '${FamFrom}' OR '${FamFrom}' IS NULL)
+    AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}' IS NULL)
+    AND ('${Dept}' IS NULL OR T.FAM_REQ_DEPT  IN (SELECT TRIM(REGEXP_SUBSTR('${Dept}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${Dept}', ',') + 1))
+    AND ('${AssetCC}' IS NULL OR T.FAM_ASSET_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${AssetCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${AssetCC}', ',') + 1))
+    AND ('${ReqType}' IS NULL OR T.FAM_REQ_TYPE  IN (SELECT TRIM(REGEXP_SUBSTR('${ReqType}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${ReqType}', ',') + 1))
+    AND ('${FixCode}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixCode}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixCode}', ',') + 1))
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
+    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
+    AND (T.FAM_REQ_OWNER  = '${ByID}' OR '${ByID}' IS NULL) `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };

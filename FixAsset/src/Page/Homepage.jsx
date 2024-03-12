@@ -30,10 +30,11 @@ export default function BasicGrid() {
   const UserLogin = localStorage.getItem("UserLogin");
   const [dataTransfer, setdataTransfer] = useState([]);
   const [dataTransferall, setdataTransferall] = useState([]);
+  const [dataTransferallname, setdataTransferallname] = useState([]);
   useEffect(() => {
     openPopupLoadding();
+    
     const fetchData = async () => {
-
       const Transfer = async () => {
         try {
           const response = await axios.get(
@@ -43,6 +44,19 @@ export default function BasicGrid() {
           setdataTransfer(Transfer);
         } catch (error) {
           console.error("Error Transferdata:", error);
+        }
+      };
+
+      const Transferlistallname = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/getCountTransferlistaLLname`
+          );
+          const Transferallname = await response.data;
+          setdataTransferallname(Transferallname);
+          console.log(Transferallname, "ดูข้อมูล");
+        } catch (error) {
+          console.error("Error Transferdataall:", error);
         }
       };
 
@@ -60,10 +74,23 @@ export default function BasicGrid() {
       };
 
       await Transfer();
+      await Transferlistallname();
       await Transferlistall();
     };
     fetchData();
   }, []);
+
+  const handleClickNextToSearch = (value) => {
+    console.log("Received value:", value);
+    if (value === "Create") {
+      localStorage.setItem("STATUS", value);
+      window.location.href = `/Search`;     
+    } else {
+      localStorage.setItem("STATUS", value);
+      window.location.href = `/ApproveFam`;
+    }
+
+  };
 
   // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -91,216 +118,270 @@ export default function BasicGrid() {
             <Grid container spacing={0} xs={12}>
               <Grid item xs={12}>
                 <Card>
-                  <Table size="small" aria-label="a dense table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell
-                          colSpan={2}
-                          align="center"
-                          style={{
-                            fontFamily: "Verdana, sans-serif",
-                            color: "#000000",
-                            fontWeight: "bold",
-                            fontSize: "22px",
-                          }}
+                  {dataTransferallname && dataTransferallname[0] && (
+                    <Table size="small" aria-label="a dense table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell
+                            colSpan={2}
+                            align="center"
+                            style={{
+                              fontFamily: "Verdana, sans-serif",
+                              color: "#000000",
+                              fontWeight: "bold",
+                              fontSize: "22px",
+                            }}
+                          >
+                            Transfer
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[0][2])
+                          }
                         >
-                          Transfer
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Create </TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][0]) ||
-                              0}{" "}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">
-                          Wait Department manager
-                        </TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][1]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">
-                          Wait Service Dept. check
-                        </TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][2]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait BOI Staff check</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][3]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait BOI Manager</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][4]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait Factory Manager</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][5]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait ACC Staff check</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][6]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait Owner check</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][7]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait Receiver action</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][8]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">
-                          Wait ACC staff update data
-                        </TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][9]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
+                          <TableCell align="left">
+                            {dataTransferallname[0][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][0]) ||
+                                0}{" "}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[1][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[1][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][1]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[2][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[2][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][2]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[3][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[3][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][3]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[4][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[4][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][4]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[5][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[5][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][5]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[6][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[6][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][6]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[7][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[7][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][7]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[8][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[8][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][8]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[9][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[9][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][9]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
 
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">Wait ACC Mgr.</TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][10]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[10][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[10][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][10]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
 
-                      <TableRow
-                        style={{ borderBottom: "1px solid #E5EAF2" }}
-                        className="Hoverhover"
-                      >
-                        <TableCell align="left">
-                          Wait Service Dept. close
-                        </TableCell>
-                        <TableCell>
-                          <Typography className="Number-menu-list2 White-background2">
-                            {" "}
-                            {(dataTransferall &&
-                              dataTransferall[0] &&
-                              dataTransferall[0][11]) ||
-                              0}
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                        <TableRow
+                          style={{ borderBottom: "1px solid #E5EAF2" }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(dataTransferallname[11][2])
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataTransferallname[11][2]}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {" "}
+                              {(dataTransferall &&
+                                dataTransferall[0] &&
+                                dataTransferall[0][11]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  )}
                 </Card>
               </Grid>
             </Grid>

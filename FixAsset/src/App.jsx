@@ -12,6 +12,9 @@ import ApproveFam from './Transaction/Search'
 import FamDetails from './report/Report'
 import Search_person from './Person_Maintain/Search_person'
 import Boi_main from './BOI_Project_Mpping_CC/Boi_project_mcc'
+import FAMMaster from './Transaction/Search'
+import FamReq from './Monitoring/Fam_Req'
+import FamTrans from './Monitoring/Fam_Trans'
 
 // process.env.NODE_ENV = 'production';
 
@@ -33,6 +36,10 @@ const App = () => {
         <Route path="/FamDetails" element={<FamDetails />} />
         <Route path="/Search_person" element={<Search_person />} />
         <Route path="/BOIMaintain" element={<Boi_main />} />
+        <Route path="/FAMMaster" element={<FAMMaster />} />
+        <Route path="/FamReq" element={<FamReq />} />
+        <Route path="/FamTrans" element={<FamTrans />} />
+        
         
         
 

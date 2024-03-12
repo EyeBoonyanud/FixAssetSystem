@@ -41,26 +41,29 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
-  const [datafac, setdatafac] = useState([]);
+
   const [selecteDatafac, setselecteDatafac] = useState("");
-  const [cost, setcost] = useState([]);
+  const [BOI_Project, setBOI_Project] = useState("");
   const [selectcost, setselectcost] = useState("");
   const [Date_show, setDate_show] = useState("");
   const [Date_show_update, setDate_show_update] = useState("");
   const [user_create, setuser_create] = useState("");
   const [user_update, setuser_update] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [BOI_Project, setBOI_Project] = useState("");
   const [Comment, setComment] = useState("");
   const [status, setStatus] = useState("A");
+  const [datafac, setdatafac] = useState([]);
+  const [BOI_name, setBOI_name] = useState([]);
+  const [cost, setcost] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
   const [ErrorBOI_P, setErrorBOI_P] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCost, setErrorCost] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
+  const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
   // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
-  
+
   const onCloseCancel = () => {
     // console.log("ปิด");
     setErrorBOI_P(false);
@@ -70,7 +73,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
   useEffect(() => {
     openPopupLoadding();
-    
+
     const formattedDate = `${currentDate
       .getDate()
       .toString()
@@ -98,11 +101,17 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         DATA_EDIT_M.slice(2)
       );
       const combinedArray02 = [DATA_EDIT_02.slice(1, 3)];
-      const DATA_EDIT = DATA_EDIT_02.slice(0, 1).concat(
+      const DATA_EDIT_03 = DATA_EDIT_02.slice(0, 1).concat(
         combinedArray02,
         DATA_EDIT_02.slice(3)
       );
-      
+      const combinedArray03 = [DATA_EDIT_03.slice(2, 3)];
+      const DATA_EDIT = DATA_EDIT_03.slice(0, 2).concat(
+        combinedArray03,
+        DATA_EDIT_03.slice(3)
+      );
+      console.log(DATA_EDIT,"DATA BOI");
+      set_DATA_EDIT_RESET(DATA_EDIT);
       setselecteDatafac(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[0]);
       setBOI_Project(DATA_EDIT[2]);
@@ -116,7 +125,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const response = await axios.get(
+            `http://10.17.74.201:5000/getfactory`
+          );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -126,16 +137,27 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getcost`);
+          const response = await axios.get(`http://10.17.74.201:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
           console.error("Error during login:", error);
         }
       };
+      const BOI_Project_name = async () => {
+        try {
+          const response = await axios.get(
+            `http://10.17.74.201:5000/get_BOI_project_name`
+          );
+          const BOI_name = await response.data;
+          setBOI_name(BOI_name);
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
       await Factory();
       await Costcenter();
-
+      await BOI_Project_name();
       closePopupLoadding();
     };
 
@@ -144,16 +166,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
   const handleSelectChange = async (event, newValue) => {
     setselecteDatafac(newValue);
-    let idFactory = newValue[0];
     setErrorFac(false);
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/getdept?idFactory=${idFactory}`
-      );
-      const data = await response.data;
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
   };
 
   const handleCost = (event, newValue) => {
@@ -161,7 +174,10 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorCost(false);
   };
 
-  const navigate = useNavigate();
+  const handleSelectBOI_name = async (event, newValue) => {
+    setBOI_Project(newValue);
+    setErrorBOI_P(false);
+  };
 
   const Save = async () => {
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
@@ -170,28 +186,28 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     if (selectcost.toString().trim() === "") {
       setErrorCost(true);
     }
-    if (BOI_Project.trim() === "") {
+    if (BOI_Project.toString().trim() === "") {
       setErrorBOI_P(true);
     }
     if (status.trim() === "") {
       setErrorStatus(true);
     }
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
-      document.getElementById("selecteDatafac").focus(); 
+      document.getElementById("selecteDatafac").focus();
     }
     if (selectcost.toString().trim() === "") {
-      document.getElementById("selectcost").focus(); 
+      document.getElementById("selectcost").focus();
     }
-    if (BOI_Project.trim() === "") {
-      document.getElementById("BOI_Project").focus(); 
+    if (BOI_Project.toString().trim() === "") {
+      document.getElementById("BOI_Project").focus();
     }
     if (status.trim() === "") {
-      document.getElementById("status").focus(); 
+      document.getElementById("status").focus();
     }
 
     swal(
       "Do you want to save information",
-     
+
       {
         buttons: {
           cancel: "Cancel",
@@ -202,7 +218,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         },
       }
     ).then(async (value) => {
-
       switch (value) {
         case "cancel":
           break;
@@ -218,10 +233,14 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.74.201:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
                 );
                 swal("success", "You save data success", "success");
-                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selectcost,
+                  BOI_Project,
+                ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
                 onClose();
@@ -248,11 +267,15 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.74.201:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
                 );
-      
+
                 swal("success", "You save data success", "success");
-                const DATA_BACK_SEARCH = [selecteDatafac, selectcost, [BOI_Project]];
+                const DATA_BACK_SEARCH = [
+                  selecteDatafac,
+                  selectcost,
+                  BOI_Project,
+                ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
                 onClose();
@@ -272,12 +295,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           break;
       }
     });
-
-
   };
-
-
-
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
@@ -293,14 +311,14 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setErrorFac(false);
       setErrorBOI_P(false);
       setErrorCost(false);
-      setselecteDatafac(DATA_EDIT[1]);
-      setselectcost(DATA_EDIT[0]);
-      setBOI_Project(DATA_EDIT[2]);
-      setComment(DATA_EDIT[4]);
-      setStatus(DATA_EDIT[3]);
-      setuser_create(DATA_EDIT[6]);
+      setselecteDatafac(DATA_EDIT_RESET[1]);
+      setselectcost(DATA_EDIT_RESET[0]);
+      setBOI_Project(DATA_EDIT_RESET[2]);
+      setComment(DATA_EDIT_RESET[4]);
+      setStatus(DATA_EDIT_RESET[3]);
+      setuser_create(DATA_EDIT_RESET[6]);
       setuser_update(UserLoginn);
-      setDate_show(DATA_EDIT[5]);
+      setDate_show(DATA_EDIT_RESET[5]);
       setDate_show_update(formattedDate);
     }
   };
@@ -322,23 +340,22 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorStatus(false);
   };
 
-     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-     const openPopupLoadding = () => {
-         setPopupOpenLoadding(true);
-     };
-     const closePopupLoadding = () => {
-       setPopupOpenLoadding(false);
-     };
-  
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
 
   return (
     <div className="popup">
       <div className="popup-content">
-      <PageLoadding
+        <PageLoadding
           isOpen={isPopupOpenLoadding}
           onClose={closePopupLoadding}
         />
-         <Table className="PopupEditPerson">
+        <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
               <Typography>
@@ -428,19 +445,58 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           </TableRow>
 
           <TableRow>
-            <TableCell colSpan={2}>
+            {/* <TableCell colSpan={2}>
               {" "}
               <TextField
                 id="UserLogin"
                 size="small"
                 value={BOI_Project}
                 onChange={handleBOI_Project}
+                disabled={PAGE_STATUS === "EDIT"}
+                sx={{
+                  backgroundColor:
+                    PAGE_STATUS === "EDIT"
+                      ? "rgba(169, 169, 169, 0.3)"
+                      : "inherit",
+                }}
                 style={{
                   width: "100%",
                   borderColor: ErrorBOI_P ? "red" : undefined,
                 }}
                 error={ErrorBOI_P}
               ></TextField>
+            </TableCell> */}
+            <TableCell colSpan={2}>
+              {" "}
+              <FormControl fullWidth>
+                <Autocomplete
+                  options={BOI_name}
+                  getOptionLabel={(option) =>
+                    typeof option[0] !== "undefined" ? option[0] : ""
+                  }
+                  value={BOI_Project || null}
+                  onChange={handleSelectBOI_name}
+                  disabled={PAGE_STATUS === "EDIT"}
+                  sx={{
+                    backgroundColor:
+                      PAGE_STATUS === "EDIT"
+                        ? "rgba(169, 169, 169, 0.3)"
+                        : "inherit",
+                  }}
+                  style={{
+                    width: "100%",
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={!BOI_Project ? "Select" : undefined}
+                      size="small"
+                      variant="outlined"
+                      error={ErrorBOI_P}
+                    />
+                  )}
+                />
+              </FormControl>
             </TableCell>
           </TableRow>
 

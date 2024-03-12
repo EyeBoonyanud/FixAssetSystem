@@ -71,6 +71,7 @@ app.post("/fix_code_find",Transaction.fix_code_find);
 app.get("/get_COMP",Transaction.get_COMP);
 app.post("/update_new_cc",Transaction.update_new_cc);
 app.post("/update_for_date_trans",Transaction.update_for_date_trans);
+app.post("/searchFamMaster",Transaction.searchFamMaster);
 
 
 
@@ -123,6 +124,7 @@ app.get("/search_BOI_project",Transaction.search_BOI_project);
 app.get("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.get("/getCountTransfer",Transaction.getCountTransfer);
 app.get("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
+app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);
 
 app.post("/ins_PERSON_MAINTAIN",Transaction.insertPerson_Maintain);
@@ -137,6 +139,7 @@ app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
 app.use('/downloads', express.static(path.join(__dirname, '../Uploads')));
+app.use('/delete', express.static(path.join(__dirname, '../Uploads')));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
@@ -153,7 +156,19 @@ app.get('/downloads', (req, res) => {
     res.status(404).send('File not found');
   }
 });
- 
+// app.delete('/deleteFile', (req, res) => {
+//   const fileName = req.body.data;
+//   const filePath = path.join('/path/to/files', fileName);
+
+//   fs.unlink(filePath, (err) => {
+//       if (err) {
+//           console.error(err);
+//           res.status(500).send('Error deleting file');
+//           return;
+//       }
+//       res.status(200).send('File deleted successfully');
+//   });
+// });
 
 
 app.listen(port, () => {

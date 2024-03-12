@@ -300,7 +300,7 @@ let data1_fromboi = "NAKP"
         STS = For_Rq_Edit[10];
         Fam_list = For_Rq_Edit[0];
         //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
-        //  console.log(STS, "STS..,.,.,.");
+         console.log(For_edit_trans[0][5], "For_edit_trans[0][5]");
         setownersend(For_Rq_Edit[20]);
         if (For_edit_trans != null || EditFam != null) {
           setnew_boi(For_edit_trans[0][2]);
@@ -309,7 +309,7 @@ let data1_fromboi = "NAKP"
           setabnormal(For_edit_trans[0][6]);
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
-          if(For_edit_trans[0][5] ===null){
+          if(For_edit_trans[0][5] === null || For_edit_trans[0][5] === "" || For_edit_trans[0][5] === undefined){
             setplan_date("")
           }else{
             setplan_date(For_edit_trans[0][5]);
@@ -317,7 +317,12 @@ let data1_fromboi = "NAKP"
           
           // setของ Edit Trans
           setowner_roting(For_Rq_Edit[2]);
-          setsts(For_edit_trans[0][14]);
+          if(For_edit_trans[0][14] === null || For_edit_trans[0][14] === "" || For_edit_trans[0][14] === undefined){
+            setsts("")
+          }else{
+            setsts(For_edit_trans[0][14]);
+          }
+          //setsts(For_edit_trans[0][14]);
           edit_New_BOI()
           if (For_Edit_Rou != null) {
             // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
@@ -960,10 +965,14 @@ let data1_fromboi = "NAKP"
         New_Owner(For_Trans[4], For_Trans[3]);
         setselectnew_owner(For_Trans[6]);
         setTel_for_trans(For_Trans[7]);
-        setplan_date(For_Trans[8]);
+       // setplan_date(For_Trans[8]);
         setabnormal(For_Trans[9]);
         setreceiver(For_Trans[10]);
-
+        if(For_Trans[8] === null ||For_Trans[8] === "" || For_Trans[8] === undefined ){
+          setplan_date("")
+        }else{
+          setplan_date(For_Trans[8]);
+        }
         if (For_Rou != null) {
           setTel_service(For_Rou[3]);
           setowner_roting(For_Rou[9]);
@@ -1471,6 +1480,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
 
   // ปุ่ม SAVE
   const SAVE = async () => {
+    console.log("EditFam",EditFam)
     console.log("plan_date",plan_date)
  
     // console.log(For_Req,)
@@ -1483,6 +1493,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       ServiceDept = For_Req[8];
     }
 
+  
     const setData_forTranfer_Req_Tranfer_Details = [
       Fam_list,
       ownersend,
@@ -1518,6 +1529,10 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     ];
     const sendheader = JSON.stringify(set_data_for_req_details);
     localStorage.setItem("For_Routing", sendheader);
+
+
+
+
     const confirmResult = await Swal.fire({
       title: "Are you sure you want to save?",
       text: "You won't be able to revert this!",
@@ -1665,7 +1680,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       icon: "success",
       confirmButtonText: "OK",
     });
- 
+    navigate("/Search")
     setOpen(true);
   }
   };

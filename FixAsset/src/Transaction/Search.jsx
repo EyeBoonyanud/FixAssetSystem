@@ -20,14 +20,20 @@ import {
   TextField,
   Button,
   InputLabel,
-  Autocomplete
+  Autocomplete,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined ,LoadingOutlined} from "@ant-design/icons";
+import {
+  InfoCircleOutlined,
+  LoadingOutlined,
+  FileSearchOutlined,
+  FilePdfOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
@@ -38,38 +44,42 @@ function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
- const Emp = localStorage.getItem("EmpID");
-  let UserLogin = Emp +":" +Name + " " + Lastname;
-
+  const Emp = localStorage.getItem("EmpID");
+  let UserLogin = Emp + ":" + Name + " " + Lastname;
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
-
   const [dept, setdept] = useState([]);
   const [selectdept, setselectdept] = useState("");
 
-  const [cost, setcost] = useState([]);
+  const [selectcostMul, setselectcostMul] = useState([]);
+  const [selectReTypeMul, setselectReTypeMul] = useState([]);
+  const [selectdeptMul, setselectdeptMul] = useState([]);
   const [selectcost, setselectcost] = useState("");
-
+  const [Txt_user, setTxt_user] = useState("");
   const [ReType, setReType] = useState([]);
   const [selectReType, setselectReType] = useState("");
-
+  const [getCostCenter, setgetCostCenter] = useState([]);
+  const [selectCostCenter, setselectCostCenter] = useState([]);
   const [dataSearch, setdataSearch] = useState([]);
   const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
   const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
-
   const [loading, setloading] = useState("true");
-  const [selectindex,setselectindex]=useState("0")
+  const [selectindex, setselectindex] = useState("0");
+  const [selectedDateFrom, setSelectedDateFrom] = useState("วว/ดด/ปป");
+  const [selectedDateTo, setSelectedDateTo] = useState("วว/ดด/ปป");
+  const [Txt_ID_Owner, setTxt_ID_Owner] = useState("");
+  const [dataStatus, setdataStatus] = useState("");
+  const [PAGEStatus, setPAGEStatus] = useState("");
+  const [Txt_Title, setTxt_Title] = useState("");
 
-  // Loadding
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
-      setPopupOpenLoadding(true);
+    setPopupOpenLoadding(true);
   };
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
-
 
   // function formatDateString(rawDate) {
   //   const options = { year: "numeric", month: "numeric", day: "numeric" };
@@ -79,14 +89,11 @@ function Issue() {
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
-    // // console.log(idFactory,"ถถถซ")
     try {
       const response = await axios.get(
         `http://localhost:5000/getdept?idFactory=${idFactory}`
       );
-      // // console.log(response.data,"ID1 :")
       const data = await response.data;
-      // // console.log(data,"ID2 :")
       setdept(data);
     } catch (error) {
       console.error("Error during login:", error);
@@ -116,67 +123,109 @@ function Issue() {
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
-    localStorage.removeItem("Type")
+    localStorage.removeItem("Type");
     navigate("/ForRe");
   };
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
-  const Path =cutPath.toUpperCase();
+  const Path = cutPath.toUpperCase();
+  console.log(Path, "///////////////");
   useEffect(() => {
-    openPopupLoadding();
-    const Factory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getfactory`);
-        const FactoryData = await response.data;
-        setdatafac(FactoryData);
-        // // console.log(FactoryData, "Factory");
-      } catch (error) {
-        console.error("Error during login:", error);
+   openPopupLoadding(); 
+    const Statuss = localStorage.getItem("STATUS");
+    console.log("Received Status:", Statuss);
+    if (Statuss !== null) {
+      console.log("เข้ามาแล้ว", Statuss);
+      setdataStatus(Statuss);
+      if (dataStatus !== undefined) {
+        if (Statuss === "Create") {
+          setPAGEStatus("C");
+        } else {
+          setPAGEStatus("A");
+        }
+        Search();
+      } else {
+        console.log("dataStatus ไม่มีข้อมูล");
       }
-    };
-    const Costcenter = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/getcost`);
-        const CostData = await response.data;
-        setcost(CostData);
-        // // console.log(CostData, "CostData :");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
-    const RequestType = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/gettype`);
-        const TypeData = await response.data;
-        setReType(TypeData);
-        // // console.log(TypeData, "TypeData");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-      closePopupLoadding();
-    };
-
+      localStorage.removeItem("STATUS");
+      console.log("ออกมาแล้ว");
+    } else {
+      localStorage.removeItem("STATUS");
+      setPAGEStatus("");
+      console.log("ว่างเปล่า");
+    }
+    TextTitle()
     Factory();
-    Costcenter();
+    CostCenter();
     RequestType();
     // Remove();
   }, []);
- 
-  
-  
+
+  const Factory = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getfactory`);
+      const FactoryData = await response.data;
+      setdatafac(FactoryData);
+      // // console.log(FactoryData, "Factory");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  // const Costcenter = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:5000/getcost`);
+  //     const CostData = await response.data;
+  //     setcost(CostData);
+  //     // // console.log(CostData, "CostData :");
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //   }
+  // };
+  const Owner = (Id_owner) => {
+    console.log("////", Id_owner);
+    axios
+      .post("http://localhost:5000/Id_owner", {
+        owner_id: Id_owner,
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length > 0) {
+          setTxt_user(data[0][1]);
+        } else {
+          setTxt_user("");
+        }
+      });
+  };
+
+  const CostCenter = () => {
+    axios.get("http://localhost:5000/getcost").then((res) => {
+      const data = res.data;
+      setgetCostCenter(data);
+    });
+  };
+  const RequestType = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/gettype`);
+      const TypeData = await response.data;
+      setReType(TypeData);
+      // // console.log(TypeData, "TypeData");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    closePopupLoadding();
+  };
+
   const Edit = async (EditFam) => {
     // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
-
     //reload_edit();
   };
   const EditFixAsset = async (EditFam) => {
     // console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
-
-  const handleEdit = async (EditFam,index) => {
-    setselectindex(index)
+  const handleEdit = async (EditFam, index) => {
+    setselectindex(index);
     setloading("false");
     try {
       const response = await axios.get(
@@ -186,7 +235,6 @@ function Issue() {
       // console.log(data,"ooooo")
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
-
 
       localStorage.setItem("For_Req_Edit", data_edit);
     } catch (error) {
@@ -236,18 +284,94 @@ function Issue() {
 
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
-    setselectindex("0")
-   window.location.href = "/ForRe";
+    setselectindex("0");
+    window.location.href = "/ForRe";
+  };
+  // const handleFileShow = async (EditFam, index) => {
+  //   setselectindex(index);
+  //   setloading("false");
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_request_show?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+  //     // console.log(data,"ooooo")
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+
+  //     localStorage.setItem("For_Req_Edit", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+  //     // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+  //     const DataEdit = data;
+  //     const data_edit = JSON.stringify(DataEdit);
+  //     // console.log(data_edit, "data_editdata_editdata_editdata_edit");
+  //     localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_Trans?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+
+  //     // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+  //     localStorage.setItem("Edit_Trans", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/getEdit_routing?FamNo=${EditFam}`
+  //     );
+  //     const data = await response.data;
+
+  //     // console(data, "dataaaaaaaaSSSSSSSSSSSS");
+
+  //     // const DataEdit = data;
+  //     const data_edit = JSON.stringify(data);
+  //     localStorage.setItem("Edit_routing", data_edit);
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+
+  //   localStorage.setItem("EDIT", EditFam);
+  //   setloading("True");
+  //   setselectindex("0");
+  //   window.location.href = "/FamReq";
+  //  }
+  const TextTitle = () => {
+    if(Path=="SEARCH"){
+      setTxt_Title("Issue FAM")
+ 
+    }
+    else if(Path=="APPROVEFAM"){
+      setTxt_Title("Approve FAM")
+    }
+    else if(Path=="FAMMASTER"){
+      setTxt_Title("FAM Master")
+    }
   };
   const Search = async () => {
-  
+    const FamNo = document.getElementById("FamNo").value;
+    const FamTo = document.getElementById("FamTo").value;
+    const FixAsset = document.getElementById("FixAsset").value;
+    const Date = document.getElementById("Date").value;
+    const DateTo = document.getElementById("DateTo").value;
+   
+
     if (Path === "SEARCH") {
-      const FamNo = document.getElementById("FamNo").value;
-      const FamTo = document.getElementById("FamTo").value;
-      const FixAsset = document.getElementById("FixAsset").value;
-      const Date = document.getElementById("Date").value;
-      const DateTo = document.getElementById("DateTo").value; 
-       // console.log(Date,DateTo)
+      console.log(Date, DateTo, "date");
       try {
         const rollNoSearch = await axios.get(
           `http://localhost:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
@@ -264,16 +388,10 @@ function Issue() {
         }
         // // console.log(rollNoSearch.data,"Search: ")
         // // console.log(selectdept,"DEPT:")
-        
       } catch (error) {
         console.error("Error requesting data:", error);
       }
-    } else {
-      const FamNo = document.getElementById("FamNo").value;
-      const FamTo = document.getElementById("FamTo").value;
-      const FixAsset = document.getElementById("FixAsset").value;
-      const Date = document.getElementById("Date").value;
-      const DateTo = document.getElementById("DateTo").value;
+    } else if (Path === "APPROVEFAM") {
       try {
         const rollNoSearch = await axios.get(
           `http://localhost:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
@@ -293,18 +411,56 @@ function Issue() {
       } catch (error) {
         console.error("Error requesting data:", error);
       }
+    } else if (Path === "FAMMASTER") {
+      const unwrappedArrayOwnerCC = selectCostCenter.map((item) => item.replace(/'/g, "") );
+      const MultipleOwnerCC = unwrappedArrayOwnerCC.join(",");
+
+      const unwrappedArrayDept = selectdeptMul.map((item) => item.replace(/'/g, "") );
+      const MultipleDept = unwrappedArrayDept.join(",");
+
+      const unwrappedArrayReqType = selectReTypeMul.map((item) => item.replace(/'/g, "") );
+      const MultipleReqType = unwrappedArrayReqType.join(",");
+
+      const unwrappedArrayAssetCC = selectcostMul.map((item) => item.replace(/'/g, "") );
+      const MultipleAssetCC = unwrappedArrayAssetCC.join(",");
+      axios
+        .post("http://localhost:5000/searchFamMaster", {
+          Fac: selecteDatafac,
+          OwnerCC: MultipleOwnerCC,
+          FamFrom: FamNo,
+          FamTo: FamTo,
+          Dept: MultipleDept,
+          AssetCC: MultipleAssetCC,
+          ReqType: MultipleReqType,
+          FixCode: FixAsset,
+          DateFrom: Date,
+          DateTo: DateTo,
+          ByID: Txt_ID_Owner,
+        })
+        .then((res) => {
+          const data = res.data;
+          setCheckHead("visible");
+          setdataSearch(data);
+          if (data.length === 0) {
+            setCheckEmpty("visible");
+            setCheckData("hidden");
+          } else {
+            setCheckEmpty("hidden");
+            setCheckData("visible");
+          }
+        });
     }
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
-    localStorage.removeItem("TransForDetail")
-    localStorage.removeItem("EDIT")
-    localStorage.removeItem("For_Transfer")
-    localStorage.removeItem("For_Routing")
-    localStorage.removeItem("For_Req_Edit")
-    localStorage.removeItem("Edit_Trans")
-    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
-    localStorage.removeItem("Edit_routing") 
-    localStorage.removeItem("Type")
+    localStorage.removeItem("TransForDetail");
+    localStorage.removeItem("EDIT");
+    localStorage.removeItem("For_Transfer");
+    localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Req_Edit");
+    localStorage.removeItem("Edit_Trans");
+    localStorage.removeItem("Edit_Dteail_for_FixedCode");
+    localStorage.removeItem("Edit_routing");
+    localStorage.removeItem("Type");
   };
 
   const Reset = async () => {
@@ -336,7 +492,6 @@ function Issue() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // ลบข้อมูลทั้งหมดที่เกี่ยวข้อง
           await axios.post(
             `http://localhost:5000/delect_all_fam_transfer?famno=${item}`
           );
@@ -364,466 +519,536 @@ function Issue() {
   };
 
   return (
-    
-    <>                     
-     {/* <PageLoadding 
+    <>
+      {/* <PageLoadding 
     isOpen={isPopupOpenLoadding}
     onClose={closePopupLoadding}
     /> */}
       <Header />
-
+      <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
       <div className="body">
-
-        <div className="BoxSearch">
-          {/* Factiory  */}
-
-          <Grid
-            container
-            spacing={1}
+      <div
+        style={{
+         
+          marginLeft: "90px",
+          justifyContent: "left",
+          display: "flex",
+        }}
+      >
+        <div>
+          <h1
             style={{
-              width: "100%",
-              marginLeft: "20px",
-              marginTop: "20px",
-              textAlign: "right",
+              fontFamily: "Verdana, sans-serif",
+              color: "#3AA6B9",
+              fontWeight: "bold",
             }}
           >
+           {Txt_Title}
+          </h1>
+        </div>
+      </div>
+        <div className="Filter">
+          <div
+            style={{
+              display: "flex",
 
-            <Grid item xs={3} style={{ marginTop: "2px"}}>
-              <Typography>Factory :</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  label="Select"
-                  // className="factorycb"
-                  value={selecteDatafac}
-                  onChange={handleSelectChange}
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  {datafac.map((option, index) => (
-                    <MenuItem key={index} value={option[0]}>
-                      {option[1]}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-          </Grid>
-
-          {/* FamNo. and To. */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
+              marginBottom: "10px",
+            }}
           >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>FAM No :</Typography>
-            </Grid>
-            <Grid item xs={1.1} style={{ height: "10px" }}>
-              <TextField
-                id="FamNo"
-                size="small"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-            <Grid item xs={2} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>To :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                id="FamTo"
-                size="small"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
+            <Table className="SarchFill">
+              <TableRow>
+                <TableCell style={{ border: "0" }}>
+                  <FormControl sx={{ width: 200 }}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Factory :
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="factorycbt"
+                      label="Factory :"
+                      // className="factorycb"
+                      value={selecteDatafac}
+                      onChange={handleSelectChange}
+                      size="small"
+                    >
+                      {datafac.map((option, index) => (
+                        <MenuItem key={index} value={option[0]}>
+                          {option[1]}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </TableCell>
+                <TableCell style={{ border: "0" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "none"
+                          : "",
+                    }}
+                  >
+                    <Autocomplete
+                      multiple
+                      value={selectCostCenter}
+                      onChange={(e, value) => setselectCostCenter(value)}
+                      options={getCostCenter.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Owner Cost Center :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                </TableCell>
+              </TableRow>
 
-          {/* Dept. and Cost */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right"  }}>
-              <Typography>Dept :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <FormControl fullWidth>
-                {/* <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel>
-                <Select
-                  // labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  // className="factorycb"
-                  label="Select"
-                  value={selectdept}
-                  onChange={handleDept}
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  {dept.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select> */}
-                 <Autocomplete
-                  style={{
-                    width: "220px",
-                  }}
+              <TableRow>
+                <TableCell style={{ border: "0" }}>
+                  <TextField
+                    id="FamNo"
+                    size="small"
+                    label="FAM No. :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                  ></TextField>
+                </TableCell>
+                {/* <TableCell>&nbsp; - &nbsp;</TableCell> */}
+                <TableCell style={{ border: "0" }}>
+                  <TextField
+                    id="FamTo"
+                    size="small"
+                    label="To. :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                  ></TextField>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ border: "0" }} >
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
+                     <Autocomplete
+                    
                       value={selectdept}
                       onChange={(e, value) => setselectdept(value)}
                       options={dept.map((item) => item[0])}
                       renderInput={(params) => (
                         <TextField
+                         
                           {...params}
-                          label="Select"
+                          label="Dept :"
                           size="small"
                           sx={{ textAlign: "left" }}
                         />
                       )}
                     />
-              </FormControl>
-            </Grid>
-
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "2px", textAlign: "right" }}
-            >
-              <Typography> Asset Cost Center :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <FormControl fullWidth>
-                {/* <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel> */}
-                {/* <Select
-                  // labelId="demo-simple-select-label"
-                  id="factorycbt"
-                  // className="factorycb"
-                  label="Select"
-                  value={selectcost}
-                  onChange={handleCost}
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  {cost.map((option) => (
-                    <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                  ))}
-                </Select> */}
-                <Autocomplete
-                  style={{
-                    width: "220px",
-                  }}
+                  </FormControl>
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
+                  
+                    <Autocomplete
+                     multiple
+                      value={selectdeptMul}
+                      onChange={(e, value) => setselectdeptMul(value)}
+                      options={dept.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                         
+                          {...params}
+                          label="Dept :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  
+                  </FormControl>
+                </TableCell>
+                <TableCell style={{ border: 0 }}>
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
+                    <Autocomplete
                       value={selectcost}
                       onChange={(e, value) => setselectcost(value)}
-                      options={cost.map((item) => item[0])}
+                      options={getCostCenter.map((item) => item[0])}
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Select"
+                          label="Asset Cost Center :"
                           size="small"
                           sx={{ textAlign: "left" }}
                         />
                       )}
                     />
-              </FormControl>
-            </Grid>
-          </Grid>
-
-          {/* request and Fix */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "2px", textAlign: "right" }}>
-              <Typography>Request Type :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <FormControl fullWidth>
-                <InputLabel size="small" id="demo-simple-select-label">
-                  Select
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  // id="factorycbt"
-                  // className="factorycb"
-                  label="Select"
-                  value={selectReType}
-                  onChange={handleType}
-                  size="small"
-                  style={{
-                    width: "220px",
-                  }}
-                >
-                  {ReType.map((option) => (
-                    <MenuItem value={option[0]}>{option[1]}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "5px", textAlign: "right" }}
-            >
-              <Typography>Fix Asset Code :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField id="FixAsset" size="small"></TextField>
-            </Grid>
-          </Grid>
-
-          {/* request Date and To */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>Request Date :</Typography>
-            </Grid>
-            <Grid item xs={2} style={{ height: "10px" }}>
-              <TextField
-                id="Date"
-                size="small"
-                type="date"
+                  </FormControl>
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER"? "block" : "none" }}>
+                    <Autocomplete
+                      multiple
+                      value={selectcostMul}
+                      onChange={(e, value) => setselectcostMul(value)}
+                      options={getCostCenter.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Asset Cost Center :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ border: "0" }}>
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Request Type :
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Request Type :"
+                      value={selectReType}
+                      onChange={(e) => setselectReType(e.target.value)}
+                      size="small"
+                      style={{
+                        width: "200px",
+                      }}
+                    >
+                      {ReType.map((option) => (
+                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Request Type :
+                    </InputLabel>
+                    <Select
+                      multiple
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Request Type :"
+                      value={selectReTypeMul}
+                      onChange={(e) => setselectReTypeMul(e.target.value)}
+                      size="small"
+                      style={{
+                        width: "200px",
+                      }}
+                    >
+                      {ReType.map((option) => (
+                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </TableCell>
+                <TableCell style={{ border: 0 }}>
+                  <TextField
+                    label="Fix Asset Code :"
+                    size="small"
+                    variant="outlined"
+                    id="FixAsset"
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ border: 0 }}>
+                  <TextField
+                    id="Date"
+                    size="small"
+                    type="date"
+                    label="Date From :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                    s
+                    value={selectedDateFrom}
+                    onChange={(e) => {
+                      setSelectedDateFrom(e.target.value);
+                      // console.log(e.target.value);
+                    }}
+                  ></TextField>
+                </TableCell>
+                <TableCell style={{ border: 0 }}>
+                  <TextField
+                    id="DateTo"
+                    size="small"
+                    type="date"
+                    label="Date To :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                    value={selectedDateTo}
+                    onChange={(e) => {
+                      setSelectedDateTo(e.target.value);
+                    }}
+                  ></TextField>
+                </TableCell>
+              </TableRow>
+              <TableRow
                 style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
+                  display:
+                    Path === "SEARCH" || Path === "APPROVEFAM"
+                      ? "table-row"
+                      : "none",
                 }}
-              ></TextField>
-            </Grid>
-            <Grid
-              item
-              xs={1.1}
-              style={{ marginTop: "10px", textAlign: "right" }}
-            >
-              <Typography>To :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                id="DateTo"
-                size="small"
-                type="date"
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "4px",
-                  width: "220px",
-                  marginRight: "5px",
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
-
-          {/* Request By */}
-          <Grid
-            container
-            spacing={1}
-            style={{ width: "100%", marginLeft: "20px", marginTop: "5px" }}
-          >
-            <Grid item xs={3} style={{ marginTop: "10px", textAlign: "right" }}>
-              <Typography>Request By :</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <TextField size="small" value={UserLogin} disabled style={{backgroundColor: "rgba(169, 169, 169, 0.3)"}} ></TextField>
-            </Grid>
-          </Grid>
-
-          {/* Search New Export */}
-          <Grid
-            container
+              >
+                <TableCell style={{ border: 0 }} colSpan={2}>
+                  <TextField
+                    size="small"
+                    value={UserLogin}
+                    label="Request By :"
+                    disabled
+                    style={{
+                      backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      width: "420px",
+                    }}
+                  ></TextField>
+                </TableCell>
+              </TableRow>
+              <TableRow
+                style={{ display: Path === "FAMMASTER" ? "table-row" : "none" }}
+              >
+                <TableCell style={{ border: "0" }}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Request By :"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: "200px" }}
+                    value={Txt_ID_Owner}
+                    onChange={(e) => {
+                      setTxt_ID_Owner(e.target.value);
+                      Owner(e.target.value);
+                    }}
+                  />
+                </TableCell>
+                <TableCell style={{ border: "0" }}>
+                  <TextField
+                    id="outlined-basic"
+                    label=""
+                    size="small"
+                    variant="outlined"
+                    style={{
+                      width: "270px",
+                      backgroundColor: "rgba(169, 169, 169, 0.3)",
+                    }}
+                    value={Txt_user}
+                    disabled
+                  />
+                </TableCell>
+              </TableRow>
+            </Table>
+          </div>
+        </div>
+        <div className="Filter">
+          <div
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
-              marginTop: "30px",
+              marginBottom: "30px",
+              width: "790px",
             }}
           >
-            <Grid>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#FBD61A",
-                  color: "gray",
-                }}
-                variant="contained"
-                onClick={Search}
-              >
-                {" "}
-                <SearchIcon />
-                Search
-              </Button>
-            </Grid>
-            <Grid
-              style={{
-                marginLeft: "20px",
-                display: cutPath === "Search" ? "block" : "none",
-              }}
-            >
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#391AFB",
-                }}
-                variant="contained"
-                onClick={New}
-              >
-                <AddIcon />
-                New
-              </Button>
-            </Grid>
-            <Grid style={{ marginLeft: "20px" }}>
-              <Button
-                className="ButtonSearch"
-                style={{
-                  backgroundColor: "#00C344",
-                  width: "180px",
-                }}
-                variant="contained"
-              >
-                <FileDownloadIcon />
-                Export Excel
-              </Button>
-            </Grid>
-            <Grid style={{ marginLeft: "20px" }}>
-              <Button
-                className="ButtonSearch"
-                onClick={Reset}
-                style={{
-                  backgroundColor: "#E2E3DC",
-                  width: "100px",
-                  color: "black",
-                }}
-                variant="contained"
-              >
-                <RestartAltIcon />
-                Reset
-              </Button>
-            </Grid>
-          </Grid>
+            <Table>
+              <TableRow style={{ textAlign: "center" }}>
+                <TableCell style={{ border: "0", textAlign: "center" }}>
+                  <Button
+                    className="ButtonSearch"
+                    style={{
+                      backgroundColor: "#FBD61A",
+                      color: "gray",
+                    }}
+                    variant="contained"
+                    onClick={Search}
+                  >
+                    {" "}
+                    <SearchIcon />
+                    Search
+                  </Button>
+                  &nbsp;
+                  <Button
+                    className="ButtonSearch"
+                    style={{
+                      display: Path === "SEARCH" ? "" : "none",
+                      backgroundColor: "#391AFB",
+                    }}
+                    variant="contained"
+                    onClick={New}
+                  >
+                    <AddIcon />
+                    New
+                  </Button>
+                  &nbsp;
+                  <Button
+                    className="ButtonSearch"
+                    style={{
+                      backgroundColor: "#00C344",
+                      width: "180px",
+                    }}
+                    variant="contained"
+                  >
+                    <FileDownloadIcon />
+                    Export Excel
+                  </Button>
+                  &nbsp;
+                  <Button
+                    className="ButtonSearch"
+                    onClick={Reset}
+                    style={{
+                      backgroundColor: "#E2E3DC",
+                      width: "100px",
+                      color: "black",
+                    }}
+                    variant="contained"
+                  >
+                    <RestartAltIcon />
+                    Reset
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </Table>
+          </div>
         </div>
 
         <div className="responsive-container">
-        <TableContainer
-  style={{
-    visibility: checkHead,
-  }}
-  component={Paper}
->
-  <Table sx={{}} aria-label="simple table">
-    <TableHead className="Serach-Data">
-      <TableRow>
-        <TableCell></TableCell>
-        <TableCell>Factory</TableCell>
-        <TableCell>Owner Cost Center</TableCell>
-        <TableCell>FAM No.</TableCell>
-        <TableCell>Issue By</TableCell>
-        <TableCell>Issue Date</TableCell>
-        <TableCell>Type</TableCell>
-        <TableCell>Fixed Asset Code</TableCell>
-        <TableCell>Request Status</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {dataSearch.length > 0 ? (
-        dataSearch.map((item,index) => (
-          <TableRow key={item[2]}>
-   <TableCell style={{ display: "flex" }}>
-  {Path === "SEARCH" ? (
-    loading == "false" && index==selectindex ?(
-      <LoadingOutlined style={{ fontSize: "30px" }} />
-    ) : (
-      <EditNoteIcon
-        style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2],index)}
-      />
-    )
-  ) : (
-    loading == "false" && index==selectindex ?(
-      <LoadingOutlined style={{ fontSize: "30px" }} />
-    ) : (
-      <AddTaskIcon
-        style={{ color: "#F4D03F", fontSize: "30px" }}
-        onClick={() => handleEdit(item[2],index)}
-      />
-    )
-  )}
-  {item[7] === "Create" && (
-    <DeleteForeverIcon
-      style={{
-        color: "red",
-        fontSize: "30px",
-        display: Path === "SEARCH" ? "block" : "none",
-      }}
-      onClick={() => Delete(item[2])}
-    />
-  )}
-</TableCell>
+          <TableContainer
+            style={{
+              visibility: checkHead,
+            }}
+            component={Paper}
+          >
+            <Table sx={{}} aria-label="simple table">
+              <TableHead className="Serach-Data">
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Factory</TableCell>
+                  <TableCell>Cost Center</TableCell>
+                  <TableCell>FAM No.</TableCell>
+                  <TableCell>Issue By</TableCell>
+                  <TableCell>Issue Date</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Fixed Asset Code</TableCell>
+                  <TableCell>Request Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataSearch.length > 0 ? (
+                  dataSearch.map((item, index) => (
+                    <TableRow key={item[2]}>
+                      <TableCell style={{ display: "flex" }}>
+                        {Path === "SEARCH" ? (
+                          loading === "false" && index === selectindex ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <EditNoteIcon
+                              style={{ color: "#F4D03F", fontSize: "30px" }}
+                              onClick={() => handleEdit(item[2], index)}
+                            />
+                          )
+                        ) : Path === "APPROVEFAM" ? (
+                          loading === "false" && index === selectindex ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <AddTaskIcon
+                              style={{ color: "#F4D03F", fontSize: "30px" }}
+                              onClick={() => handleEdit(item[2], index)}
+                            />
+                          )
+                        ) :  (
+                          loading === "false" && index === selectindex ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />)
+                            :( <> <FilePdfOutlined
+                              style={{ color: "red", fontSize: "30px" }}
+                              // onClick={() => handleEdit(item[2], index)}
+                            />
+                            <FileSearchOutlined
+                            style={{ color: "#40A2E3", fontSize: "30px" }}
+                           //onClick={() => handleFileShow(item[2], index)}
+                          />
+                          </>
+                            )
+                         
+                          )
+                          }
+                        {item[7] === "Create" && (
+                          <DeleteForeverIcon
+                            style={{
+                              color: "red",
+                              fontSize: "30px",
+                              display: Path === "SEARCH" ? "block" : "none",
+                            }}
+                            onClick={() => Delete(item[2])}
+                          />
+                        )}
+                      </TableCell>
 
-            <TableCell>{item[0]}</TableCell>
-            <TableCell>{item[1]}</TableCell>
-            <TableCell>{item[2]}</TableCell>
-            <TableCell>{item[4]}</TableCell>
-            <TableCell>{item[3]}</TableCell>
-            <TableCell>{item[5]}</TableCell>
-            <TableCell>{item[6]}</TableCell>
-            <TableCell><Typography style={{borderRadius:"10px",background:"#FFB9B9"}}>{item[7]}</Typography></TableCell>
-          </TableRow>
-        ))
-      ) : (
-        <TableRow style={{ visibility: checkEmpty }}>
-          <TableCell colSpan={9}>
-            <InfoCircleOutlined
-              style={{
-                visibility: checkData,
-                fontSize: "30px",
-                color: "#ffd580",
-              }}
-            />
-            <text
-              style={{
-                visibility: checkData,
-                fontSize: "25px",
-                marginLeft: "10px",
-              }}
-            >
-              {" "}
-              Please fill in information{" "}
-            </text>
-            <Empty style={{ visibility: checkEmpty }} />
-          </TableCell>
-        </TableRow>
-      )}
-    </TableBody>
-  </Table>
-</TableContainer>
-
+                      <TableCell>{item[0]}</TableCell>
+                      <TableCell>{item[1]}</TableCell>
+                      <TableCell>{item[2]}</TableCell>
+                      <TableCell>{item[4]}</TableCell>
+                      <TableCell>{item[3]}</TableCell>
+                      <TableCell>{item[5]}</TableCell>
+                      <TableCell>{item[6]}</TableCell>
+                      <TableCell>
+                        <Typography
+                          style={{
+                            borderRadius: "10px",
+                            background: "#FFB9B9",
+                          }}
+                        >
+                          {item[7]}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow style={{ visibility: checkEmpty }}>
+                    <TableCell colSpan={9}>
+                      <InfoCircleOutlined
+                        style={{
+                          visibility: checkData,
+                          fontSize: "30px",
+                          color: "#ffd580",
+                        }}
+                      />
+                      <text
+                        style={{
+                          visibility: checkData,
+                          fontSize: "25px",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {" "}
+                        Please fill in information{" "}
+                      </text>
+                      <Empty style={{ visibility: checkEmpty }} />
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </>
@@ -831,3 +1056,4 @@ function Issue() {
 }
 
 export default Issue;
+

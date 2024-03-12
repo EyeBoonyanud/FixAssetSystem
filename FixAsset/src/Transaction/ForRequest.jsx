@@ -199,7 +199,7 @@ const [owner_tel1,setowner_tel1] = useState([])
      axios
         .post("http://localhost:5000/FAM_FILE_ATTACH", {
           FamNo: Gen_Fam_No_Show,
-        })
+        })  
 
         .then((res) => {
           const data = res.data;
@@ -1680,9 +1680,10 @@ const [owner_tel1,setowner_tel1] = useState([])
 
   const handleDeleteFile = async (index, file) => {
     // console.log(index, "index", file);
-    // console.log(file, "filefilefilefilefile");
+    //console.log(fileName, "filefilefilefilefile");
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
     setUploadedFiles(updatedFiles);
+    
     try {
       await axios.post(
         `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
@@ -1691,6 +1692,16 @@ const [owner_tel1,setowner_tel1] = useState([])
     } catch (error) {
       console.error("Error deleting file:", error);
     }
+  //   try {
+  //     const response = await axios.delete('http://localhost:5000/deleteFile', {
+  //         data: { fileName }
+  //     });
+      
+  // } catch (error) {
+  //     console.error('Error deleting file:', error);
+      
+  // }
+    
       ShowFile();
   };
 
@@ -2812,12 +2823,17 @@ const [owner_tel1,setowner_tel1] = useState([])
                                   )}
                                   {index + 1} {file.name}
                                 </span>
+                               
                                 <DeleteOutlined
+                                
                                   onClick={() =>
                                     handleDeleteFile(index, file.name)
-                                  }
+                                    
+                                  } 
+                                  
                                   className="Icon_DeleteFile"
                                 />
+                                
                               </Typography>
                             </div>
                           ))}
