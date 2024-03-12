@@ -2913,6 +2913,7 @@ WHERE
 module.exports.deleteBOI_Maintain = async function (req, res) {
   try {
     const cost_center_a = req.query.FBMC_cost_center_delete;
+    const BOI_Project_a = req.query.FBMC_BOI_Project_delete;
     // // console.log(cost_center_a);
 
     const connect = await oracledb.getConnection(AVO);
@@ -2921,10 +2922,12 @@ module.exports.deleteBOI_Maintain = async function (req, res) {
     FROM
       FAM_BOIPROJ_MAP_CC T
     WHERE
-      T.FBMC_COST_CENTER = :cost_center_a 
+      T.FBMC_COST_CENTER = :cost_center_a
+      AND T.FBMC_BOI_PROJ = :BOI_Project_a  
          `;
     const data = {
       cost_center_a,
+      BOI_Project_a,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     // // console.log(query);

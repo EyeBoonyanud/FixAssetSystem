@@ -232,7 +232,7 @@ function Boi_project_mcc() {
       if (willDelete) {
         try {
           const delete_BOI_maintain = await axios.post(
-            `http://10.17.74.201:5000/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}`
+            `http://10.17.74.201:5000/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
           );
           const data = await delete_BOI_maintain.data;
           Search();
