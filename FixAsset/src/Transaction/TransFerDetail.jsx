@@ -1547,7 +1547,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
             fmby: selectfac_manager,
             accchk: selectacc_check,
             accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[1],
+            updateby: For_Rq_Edit[2],
             record_by: text_acc_check,
             owner_id: For_Rq_Edit[17],
             owner_dept: For_Rq_Edit[18],
@@ -1574,6 +1574,24 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       try {
         const response = await axios.post(
           `http://localhost:5000/update_date?tranfer=${EditFam}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+      try {
+        console.log(For_Rq_Edit[1],"For_Rq_Edit[1]")
+        const response = await axios.post(
+          `http://localhost:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+      try {
+        console.log("bbbb")
+        const response = await axios.post(
+          `http://localhost:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
         );
         //// console(data, "data");
       } catch (error) {
@@ -1631,6 +1649,14 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       );
     } catch (error) {
       ////console.error("Error requesting data:", error);
+    }
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
+      );
+      //// console(data, "data");
+    } catch (error) {
+      //console.error("Error during login:", error);
     }
 
     Swal.fire({
@@ -2103,6 +2129,24 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const response = await axios.post(
+              `http://localhost:5000/update_new_cc?fam=${For_Rq_Edit[0]}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+            );
+            //// console(data, "data");
+          } catch (error) {
+            //console.error("Error during login:", error);
+          }
+          try {
+            console.log("bbbb")
+            const response = await axios.post(
+              `http://localhost:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
+            );
+            //// console(data, "data");
+          } catch (error) {
+            //console.error("Error during login:", error);
+          }
+          
+          try {
+            const response = await axios.post(
               "http://localhost:5000/update_submit",
               {
                 famno: EditFam,
@@ -2179,6 +2223,14 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
+          }
+          try {
+            const response = await axios.post(
+              `http://localhost:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+            );
+            //// console(data, "data");
+          } catch (error) {
+            //console.error("Error during login:", error);
           }
           try {
             const response = await axios.post(
@@ -2452,6 +2504,14 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         }
         try {
           const response = await axios.post(
+            `http://localhost:5000/update_new_cc?fam=${For_Req[0]}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
+          );
+          //// console(data, "data");
+        } catch (error) {
+          //console.error("Error during login:", error);
+        }
+        try {
+          const response = await axios.post(
             "http://localhost:5000/Update_For_Req_All",
             {
               famno: For_Req[0],
@@ -2497,6 +2557,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
+        
       }
       navigate("/Search");
     }

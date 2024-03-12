@@ -69,6 +69,10 @@ app.post("/update_submit",Transaction.update_submit);
 app.post("/Id_owner",Transaction.Id_owner);
 app.post("/fix_code_find",Transaction.fix_code_find);
 app.get("/get_COMP",Transaction.get_COMP);
+app.post("/update_new_cc",Transaction.update_new_cc);
+app.post("/update_for_date_trans",Transaction.update_for_date_trans);
+
+
 
 //MAY 
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 

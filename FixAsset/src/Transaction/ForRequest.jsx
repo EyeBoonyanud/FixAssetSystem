@@ -203,7 +203,7 @@ const [owner_tel1,setowner_tel1] = useState([])
 
         .then((res) => {
           const data = res.data;
-          if (data.length > 0) {
+          if (data.length >= 0) {
             setFiledata(data);
             // console.log(data);
           }

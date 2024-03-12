@@ -1191,7 +1191,8 @@ module.exports.routing_tran = async function (req, res) {
          H.FAM_OWNER_SEND_BY =:FAM_OWNER_SEND_BY,
          H.FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
          H.FAM_ACC_MGR_BY = :FAM_ACC_MGR_BY,
-         H.FAM_SERVICE_CLOSE_BY = :FAM_SERVICE_CLOSE_BY
+         H.FAM_SERVICE_CLOSE_BY = :FAM_SERVICE_CLOSE_BY,
+         H.FAM_UPDATE_DATE = SYSDATE
       WHERE H.FRH_FAM_NO= :FRH_FAM_NO
     `;
 
@@ -1814,7 +1815,6 @@ console.log("MMMMMMM",famno);
     FRT_RECEIVER_TEL = :FRT_RECEIVER_TEL,
     FRT_ABNORMAL_STS = :FRT_ABNORMAL_STS,
     FRT_ABNORMAL_REASON = :FRT_ABNORMAL_REASON,
-    FRT_CREATE_DATE = SYSDATE,
     FRT_CREATE_BY = :FRT_CREATE_BY
   WHERE
     FRT_FAM_NO = :FRT_FAM_NO
@@ -3146,5 +3146,68 @@ module.exports.get_COMP = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// insert for detail new cc
+module.exports.update_new_cc = async function (req, res) {
+  try {
+    // // // console.log("----");
+    const Famno = req.query.fam;
+    const CC = req.query.New_cc;
+    const Up_for_by =req.query.updateby;
+    // // // console.log(Tranfer_id);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_DETAIL
+    SET FRD_NEW_CC = :CC,
+    FRD_UPDATE_DATE = SYSDATE,
+    FRD_UPDATE_BY = :Up_for_by
+    WHERE FRD_FAM_NO = :Famno
+  `;
+
+    const data = {
+      Famno,
+      CC,
+      Up_for_by,
+    };
+    // // // console.log(query);
+    // // // console.log(data);
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+//update by กับ date tran
+module.exports.update_for_date_trans = async function (req, res) {
+  try {
+    // // // console.log("----");
+    const Famno = req.query.fam;
+    const Up_for_by =req.query.updateby;
+    // // // console.log(Tranfer_id);
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_TRANSFER
+    SET FRT_UPDATE_DATE = SYSDATE,
+    FRT_UPDATE_BY = :Up_for_by
+    WHERE FRT_FAM_NO = :Famno
+  `;
+
+    const data = {
+      Famno,
+      Up_for_by
+    };
+    // // // console.log(query);
+    // // // console.log(data);
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };
