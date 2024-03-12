@@ -156,19 +156,19 @@ app.get('/downloads', (req, res) => {
     res.status(404).send('File not found');
   }
 });
-// app.delete('/deleteFile', (req, res) => {
-//   const fileName = req.body.data;
-//   const filePath = path.join('/path/to/files', fileName);
-
-//   fs.unlink(filePath, (err) => {
-//       if (err) {
-//           console.error(err);
-//           res.status(500).send('Error deleting file');
-//           return;
-//       }
-//       res.status(200).send('File deleted successfully');
-//   });
-// });
+app.delete('/deleteFile', (req, res) => {
+  const fileName = req.query.data;
+  const filePath = path.join(__dirname, '../Uploads', fileName);
+console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
+  fs.unlink(filePath, (err) => {
+      if (err) {
+          console.error(err);
+          res.status(500).send('Error deleting file');
+          return;
+      }
+      res.status(200).send('File deleted successfully');
+  });
+});
 
 
 app.listen(port, () => {

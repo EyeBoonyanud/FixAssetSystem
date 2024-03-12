@@ -1678,7 +1678,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     ShowFile();
   };
 
-  const handleDeleteFile = async (index, file) => {
+  const handleDeleteFile = async (index, file,fileName) => {
     // console.log(index, "index", file);
     //console.log(fileName, "filefilefilefilefile");
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
@@ -1692,15 +1692,15 @@ const [owner_tel1,setowner_tel1] = useState([])
     } catch (error) {
       console.error("Error deleting file:", error);
     }
-  //   try {
-  //     const response = await axios.delete('http://localhost:5000/deleteFile', {
-  //         data: { fileName }
-  //     });
+    try {
+      const response = await axios.delete(`http://localhost:5000/deleteFile?data=${fileName}`, 
+          // data: { fileName }
+      );
       
-  // } catch (error) {
-  //     console.error('Error deleting file:', error);
+  } catch (error) {
+      console.error('Error deleting file:', error);
       
-  // }
+  }
     
       ShowFile();
   };
@@ -2715,7 +2715,7 @@ const [owner_tel1,setowner_tel1] = useState([])
             <TableCell>
               <DeleteOutlined
                 onClick={() =>
-                  handleDeleteFile(Filedata[index][0], Filedata[index][3])
+                  handleDeleteFile(Filedata[index][0], Filedata[index][3], Filedata[index][4])
                 }
                 className="Icon_DeleteFile"
               />
