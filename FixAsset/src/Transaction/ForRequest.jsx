@@ -163,22 +163,24 @@ function ForRequest() {
   const [Filedata, setFiledata] = useState([]);
 
   const ShowFile = () => {
+
     let Gen_Fam_No_Show = "";
 
     if (EditFam != null) {
+
       if (For_Rq_Edit != null) {
         Gen_Fam_No_Show = For_Rq_Edit[0];
       }
     } else {
+
       if (For_Req != null) {
         Gen_Fam_No_Show = For_Req[0];
       }
     }
-    // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
-    // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
     if (Gen_Fam_No != null) {
+
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+      
         axios;
         axios
           .post("http://10.17.74.201:5000/FAM_FILE_ATTACH", {
@@ -187,9 +189,9 @@ function ForRequest() {
 
           .then((res) => {
             const data = res.data;
-            if (data.length > 0) {
+            if (data.length >= 0) {
               setFiledata(data);
-              // console.log(data);
+            
             }
           });
       }
@@ -1297,9 +1299,8 @@ function ForRequest() {
   };
 
   const handleDeleteFile = async (index, file) => {
-    // console.log(index, "index", file);
-    // console.log(file, "filefilefilefilefile");
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
+   
     setUploadedFiles(updatedFiles);
     try {
       await axios.post(
@@ -1309,6 +1310,7 @@ function ForRequest() {
     } catch (error) {
       console.error("Error deleting file:", error);
     }
+ 
     ShowFile();
   };
 
@@ -2391,11 +2393,6 @@ function ForRequest() {
                                 </TableCell>
                               </TableRow>
                             ))}
-                            {/* <TableRow>
-              <TableCell colSpan={4} style={{ border: "0" }}>
-                
-              </TableCell>
-            </TableRow> */}
                           </TableBody>
                         </Table>
                       </TableContainer>
