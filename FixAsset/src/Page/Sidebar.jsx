@@ -47,7 +47,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const UserLogin = localStorage.getItem("UserLogin");
   const Menu = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getmainmenu`);
+      const response = await axios.get(`http://10.17.100.183:3001/getmainmenu`);
  
       const data = await response.data;
       let datamenu = [];
@@ -67,7 +67,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const subMenu = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getsubmenu?userlogin=${UserLogin}&role=${Role}`
+        `http://10.17.100.183:3001/getsubmenu?userlogin=${UserLogin}&role=${Role}`
       );
       const data = await response.data;
       let datasubmenu = [];

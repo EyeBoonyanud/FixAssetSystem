@@ -1007,7 +1007,7 @@ let data1_fromboi = "NAKP"
   const FactoryCC = async () => {
     setErrorFac(false);
     try {
-      const response = await axios.get(`http://localhost:5000/getfactory`);
+      const response = await axios.get(`http://10.17.100.183:3001/getfactory`);
       const FactoryData = await response.data;
       settrans_factory(FactoryData);
       if (EditFam != null) {
@@ -1091,7 +1091,7 @@ let data1_fromboi = "NAKP"
   };
   const TransCC = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/cc_for_transfer`);
+      const response = await axios.get(`http://10.17.100.183:3001/cc_for_transfer`);
       const data = await response.data;
       settrans_cc(data);
       if (EditFam != null) {
@@ -1109,7 +1109,7 @@ let data1_fromboi = "NAKP"
     //// console(Fam_list, "Fam_no");
     try {
       const response = await axios.get(
-        `http://localhost:5000/select_BOI_from?running_no=${Fam_list}`
+        `http://10.17.100.183:3001/select_BOI_from?running_no=${Fam_list}`
       );
       const data = response.data;
       setdata_fromboi(data[0][0]);
@@ -1125,7 +1125,7 @@ let data1_fromboi = "NAKP"
 
   //   try {
   //     const response = await axios.get(
-  //       `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
+  //       `http://10.17.100.183:3001/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
   //     );
   //     const data = response.data;
   //     const boi = data.flat();
@@ -1155,7 +1155,7 @@ let data1_fromboi = "NAKP"
   const edit_New_BOI= async () => {
     try {
       const response = await axios.get(
-         `http://localhost:5000/new_boi?fac=${For_edit_trans[0][0]}&cc=${For_edit_trans[0][1]}`
+         `http://10.17.100.183:3001/new_boi?fac=${For_edit_trans[0][0]}&cc=${For_edit_trans[0][1]}`
       );
       const data = response.data;
       const boi = data.flat();
@@ -1185,7 +1185,7 @@ let data1_fromboi = "NAKP"
   
     try {
       const response = await axios.get(
-        `http://localhost:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
+        `http://10.17.100.183:3001/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
       );
       const data = response.data;
       const boi = data.flat();
@@ -1235,7 +1235,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
+        `http://10.17.100.183:3001/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
       );
       const data = response.data.flat();
       setnew_owner(data);
@@ -1268,7 +1268,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/level?level=${level}&cc=${cc}`
+        `http://10.17.100.183:3001/level?level=${level}&cc=${cc}`
       );
       const data = response.data.flat();
       setdepartment_mana(data);
@@ -1304,7 +1304,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/service_by?level=${level}&cc=${cc}`
+        `http://10.17.100.183:3001/service_by?level=${level}&cc=${cc}`
       );
       const data = response.data.flat();
       setservice_by(data);
@@ -1335,7 +1335,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     department_mana;
     try {
       const response = await axios.get(
-        `http://localhost:5000/boi_staff?fac=${level}`
+        `http://10.17.100.183:3001/boi_staff?fac=${level}`
       );
       const data = response.data.flat();
 
@@ -1366,7 +1366,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/boi_manager?fac=${level}`
+        `http://10.17.100.183:3001/boi_manager?fac=${level}`
       );
       const data = response.data.flat();
       setboi_manager(data);
@@ -1396,7 +1396,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/fac_manager?fac=${level}`
+        `http://10.17.100.183:3001/fac_manager?fac=${level}`
       );
       const data = response.data.flat();
       setfac_manager(data);
@@ -1426,7 +1426,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/acc_check?fac=${level}`
+        `http://10.17.100.183:3001/acc_check?fac=${level}`
       );
       const data = response.data.flat();
       setacc_check(data);
@@ -1457,7 +1457,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/acc_manager?fac=${level}`
+        `http://10.17.100.183:3001/acc_manager?fac=${level}`
       );
       const data = response.data.flat();
       setacc_manager(data);
@@ -1548,7 +1548,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
       try {
         const response = await axios.post(
-          "http://localhost:5000/Update_For_Req_All",
+          "http://10.17.100.183:3001/Update_For_Req_All",
           {
             famno: For_Rq_Edit[0],
             dept: For_Rq_Edit[6],
@@ -1574,21 +1574,21 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       }
       try {
         const row = axios.post(
-          `http://localhost:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+          `http://10.17.100.183:3001/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
         );
       } catch (error) {
         //console.error("Error requesting data:", error);
       }
       try {
         const row = axios.post(
-          `http://localhost:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+          `http://10.17.100.183:3001/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
         );
       } catch (error) {
         //console.error("Error requesting data:", error);
       }
       try {
         const response = await axios.post(
-          `http://localhost:5000/update_date?tranfer=${EditFam}`
+          `http://10.17.100.183:3001/update_date?tranfer=${EditFam}`
         );
         //// console(data, "data");
       } catch (error) {
@@ -1597,7 +1597,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       try {
         console.log(For_Rq_Edit[1],"For_Rq_Edit[1]")
         const response = await axios.post(
-          `http://localhost:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+          `http://10.17.100.183:3001/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
         );
         //// console(data, "data");
       } catch (error) {
@@ -1606,7 +1606,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       try {
         console.log("bbbb")
         const response = await axios.post(
-          `http://localhost:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
+          `http://10.17.100.183:3001/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
         );
         //// console(data, "data");
       } catch (error) {
@@ -1616,7 +1616,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
      // console.log("TTTTTTTTTTTT")
       try {
         const response = await axios.post(
-          "http://localhost:5000/Update_For_Req_All",
+          "http://10.17.100.183:3001/Update_For_Req_All",
           {
             famno: For_Req[0],
             dept: For_Req[5],
@@ -1643,7 +1643,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       // console.log("sts", sts);
       try {
         const response = await axios.post(
-          `http://localhost:5000/create_date?tranfer=${Fam_list}`
+          `http://10.17.100.183:3001/create_date?tranfer=${Fam_list}`
         );
       } catch (error) {
         //console.error("Error during login:", error);
@@ -1652,7 +1652,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
 
     try {
       const row = axios.post(
-        `http://localhost:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+        `http://10.17.100.183:3001/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
       );
     } catch (error) {
       //console.error("Error requesting data:", error);
@@ -1660,14 +1660,14 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     try {
       const row = axios.post(
         // ////// console(New_BOI,"New_BOI")
-        `http://localhost:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+        `http://10.17.100.183:3001/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
       );
     } catch (error) {
       ////console.error("Error requesting data:", error);
     }
     try {
       const response = await axios.post(
-        `http://localhost:5000/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
+        `http://10.17.100.183:3001/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
       );
       //// console(data, "data");
     } catch (error) {
@@ -1886,7 +1886,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       }
       try {
         const response = await axios.get(
-          `http://localhost:5000/getEdit_FixAsset?FamNo=${EditFam}`
+          `http://10.17.100.183:3001/getEdit_FixAsset?FamNo=${EditFam}`
         );
       } catch (error) {
         //console.error("Error during login:", error);
@@ -2098,7 +2098,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           try {
             // console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
+              "http://10.17.100.183:3001/Update_For_Req_All",
               {
                 famno: For_Rq_Edit[0],
                 dept: For_Rq_Edit[6],
@@ -2125,7 +2125,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           try {
             console.log( For_Rq_Edit[0], "For_Rq_Edit[0]yyyy",plan_date,selecttrans_factory);
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
+              "http://10.17.100.183:3001/Update_For_Trans_All",
               {
                 famno: For_Rq_Edit[0],
                 date_plan: plan_date,
@@ -2144,7 +2144,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const response = await axios.post(
-              `http://localhost:5000/update_new_cc?fam=${For_Rq_Edit[0]}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+              `http://10.17.100.183:3001/update_new_cc?fam=${For_Rq_Edit[0]}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
             );
             //// console(data, "data");
           } catch (error) {
@@ -2153,7 +2153,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           try {
             console.log("bbbb")
             const response = await axios.post(
-              `http://localhost:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
+              `http://10.17.100.183:3001/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
             );
             //// console(data, "data");
           } catch (error) {
@@ -2162,7 +2162,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           
           try {
             const response = await axios.post(
-              "http://localhost:5000/update_submit",
+              "http://10.17.100.183:3001/update_submit",
               {
                 famno: EditFam,
                 sts_submit: Status,
@@ -2182,7 +2182,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           let Status = "FLTR002";
           try {
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Req_All",
+              "http://10.17.100.183:3001/Update_For_Req_All",
               {
                 famno: For_Rq_Edit[0],
                 dept: For_Rq_Edit[6],
@@ -2208,7 +2208,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/Update_For_Trans_All",
+              "http://10.17.100.183:3001/Update_For_Trans_All",
               {
                 famno: For_Rq_Edit[0],
                 date_plan: plan_date,
@@ -2227,21 +2227,21 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_for_nullRouting_All?famno=${EditFam}&user=${User}`
+              `http://10.17.100.183:3001/update_for_nullRouting_All?famno=${EditFam}&user=${User}`
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_All_for_receive?famno=${EditFam}&user=${User}`
+              `http://10.17.100.183:3001/update_All_for_receive?famno=${EditFam}&user=${User}`
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
             const response = await axios.post(
-              `http://localhost:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+              `http://10.17.100.183:3001/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
             );
             //// console(data, "data");
           } catch (error) {
@@ -2249,7 +2249,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/update_submit",
+              "http://10.17.100.183:3001/update_submit",
               {
                 famno: EditFam,
                 sts_submit: Status,
@@ -2274,7 +2274,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
 
           try {
             const row = axios.post(
-              `http://localhost:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
+              `http://10.17.100.183:3001/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2297,7 +2297,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
+              `http://10.17.100.183:3001/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2317,7 +2317,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+              `http://10.17.100.183:3001/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2337,7 +2337,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
+              `http://10.17.100.183:3001/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2357,7 +2357,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
+              `http://10.17.100.183:3001/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2377,7 +2377,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
+              `http://10.17.100.183:3001/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2397,7 +2397,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
+              `http://10.17.100.183:3001/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2417,7 +2417,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
+              `http://10.17.100.183:3001/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
             );
 
             Swal.fire({
@@ -2430,7 +2430,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const response = await axios.post(
-              "http://localhost:5000/update_submit",
+              "http://10.17.100.183:3001/update_submit",
               {
                 famno: EditFam,
                 sts_submit: Status,
@@ -2448,7 +2448,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+              `http://10.17.100.183:3001/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2468,7 +2468,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
+              `http://10.17.100.183:3001/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2488,7 +2488,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           }
           try {
             const row = axios.post(
-              `http://localhost:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+              `http://10.17.100.183:3001/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
             );
 
             Swal.fire({
@@ -2508,7 +2508,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         let Status = "FLTR002";
         try {
           const response = await axios.post(
-            "http://localhost:5000/update_submit",
+            "http://10.17.100.183:3001/update_submit",
             {
               famno: For_Req[0],
               sts_submit: Status,
@@ -2519,7 +2519,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         }
         try {
           const response = await axios.post(
-            `http://localhost:5000/update_new_cc?fam=${For_Req[0]}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
+            `http://10.17.100.183:3001/update_new_cc?fam=${For_Req[0]}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
           );
           //// console(data, "data");
         } catch (error) {
@@ -2527,7 +2527,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         }
         try {
           const response = await axios.post(
-            "http://localhost:5000/Update_For_Req_All",
+            "http://10.17.100.183:3001/Update_For_Req_All",
             {
               famno: For_Req[0],
               dept: For_Req[5],
@@ -2551,7 +2551,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         // console.log("sts", sts);
         try {
           const response = await axios.post(
-            "http://localhost:5000/Update_For_Trans_All",
+            "http://10.17.100.183:3001/Update_For_Trans_All",
             {
               famno: For_Req[0],
               date_plan: plan_date,

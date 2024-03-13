@@ -197,7 +197,7 @@ const [owner_tel1,setowner_tel1] = useState([])
         // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
         axios
      axios
-        .post("http://localhost:5000/FAM_FILE_ATTACH", {
+        .post("http://10.17.100.183:3001/FAM_FILE_ATTACH", {
           FamNo: Gen_Fam_No_Show,
         })  
 
@@ -213,7 +213,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     // } else {
     //   // console.log("เข้าอันนี้จ้า")
     //   axios
-    //   .post("http://localhost:5000/FAM_FILE_ATTACH", {
+    //   .post("http://10.17.100.183:3001/FAM_FILE_ATTACH", {
     //     FamNo: Gen_Fam_No,
     //   })
     //   .then((res) => {
@@ -227,7 +227,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://localhost:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.100.183:3001/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -432,7 +432,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   const request_by = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getby?By=${LocalUserLogin}`
+        `http://10.17.100.183:3001/getby?By=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -460,7 +460,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     if (EditFam == null) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+          `http://10.17.100.183:3001/getfac_insert?Fac_Login=${LocalUserLogin}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -484,7 +484,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     } else {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+          `http://10.17.100.183:3001/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -509,7 +509,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     if (data_Fac.length >= 0) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getdept?idFactory=${data_Fac[1]}`
+          `http://10.17.100.183:3001/getdept?idFactory=${data_Fac[1]}`
         );
 
         const data = await response.data;
@@ -540,7 +540,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   const costcenter = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
+        `http://10.17.100.183:3001/getcost_insert?Cost_Login=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -567,7 +567,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/getfix_group?Asset_group=${datafac}`
+        `http://10.17.100.183:3001/getfix_group?Asset_group=${datafac}`
       );
       const data = await response.data;
 
@@ -594,7 +594,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   //AssetCost
   const CostforAsset = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getcost`);
+      const response = await axios.get(`http://10.17.100.183:3001/getcost`);
       const CostData = await response.data;
       setFixAsset_cost(CostData);
       if (EditFam != null) {
@@ -622,13 +622,13 @@ const [owner_tel1,setowner_tel1] = useState([])
     setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
-        `http://localhost:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
+        `http://10.17.100.183:3001/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
       );
       const data = await response.data;
       if (data[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://localhost:5000/getfind_service?asset_find=${Cost_value}`
+            `http://10.17.100.183:3001/getfind_service?asset_find=${Cost_value}`
           );
           const data_for_servicedept = await response.data;
           setdataFix_Asset_Cost(data_for_servicedept);
@@ -663,7 +663,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`http://localhost:5000/getstatus`);
+        const response = await axios.get(`http://10.17.100.183:3001/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
@@ -678,7 +678,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
       try {
         const response = await axios.get(
-          `http://localhost:5000/getfamno?famno=${Run}`
+          `http://10.17.100.183:3001/getfamno?famno=${Run}`
         );
         const get_runno = await response.data;
 
@@ -742,7 +742,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        `http://10.17.100.183:3001/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -757,7 +757,7 @@ const [owner_tel1,setowner_tel1] = useState([])
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
+        `http://10.17.100.183:3001/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -951,7 +951,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     console.log(event, "owner_req")
 
     try {
-      const response = await axios.post("http://localhost:5000/Id_owner", { owner_id: event });
+      const response = await axios.post("http://10.17.100.183:3001/Id_owner", { owner_id: event });
       const data = response.data
       console.log(data[0][2], "DATA");
       // กำหนดค่าให้กับ state หรือตัวแปรต่าง ๆ ด้วย setter functions
@@ -1065,7 +1065,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     openPopupLoadding();
     try {
       const rollNoSearch = await axios.get(
-        `http://localhost:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+        `http://10.17.100.183:3001/get_COMP?fam_no=${Gen_Fam_No}}`
       );
       const data = rollNoSearch.data;
       set_COMP(data);
@@ -1075,7 +1075,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     }
     try {
       const row = await axios.get(
-        `http://localhost:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
+        `http://10.17.100.183:3001/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}`
       );
       const data = row.data;
       setfind_fixasset(data);
@@ -1093,7 +1093,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       //console.error("Error requesting data:", error);
     }
     try {
-      const response = await axios.post("http://localhost:5000/fix_code_find", { assetcode: find_fixasset1 });
+      const response = await axios.post("http://10.17.100.183:3001/fix_code_find", { assetcode: find_fixasset1 });
       const data = response.data;
       console.log(data,"datafayfagai;");
       setdatafix_for_find(data)
@@ -1163,7 +1163,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       // console.log("index", item, EditFam);
       try {
         const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+          `http://10.17.100.183:3001/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
         localStorage.removeItem("Edit_Dteail_for_FixedCode");
         Fix_Code();
@@ -1173,7 +1173,7 @@ const [owner_tel1,setowner_tel1] = useState([])
     } else {
       try {
         const row = await axios.post(
-          `http://localhost:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+          `http://10.17.100.183:3001/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         localStorage.removeItem("forDetail");
         Fix_Code();
@@ -1185,7 +1185,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   const Fix_Code = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/getFixcode?Fam=${Gen_Fam_No}`
+        `http://10.17.100.183:3001/getFixcode?Fam=${Gen_Fam_No}`
       );
       const dataStatus = await response.data;
       setdatatable(dataStatus);
@@ -1207,7 +1207,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       }
       console.log("datatable",datatable[i][3])
       try {
-        await axios.post("http://localhost:5000/ins_REQ_DETAIL", {
+        await axios.post("http://10.17.100.183:3001/ins_REQ_DETAIL", {
           famno: Gen_Fam_No,
           assetcode: datatable[i][0],
           assetname: datatable[i][3],
@@ -1228,7 +1228,7 @@ const [owner_tel1,setowner_tel1] = useState([])
 //////////////////////////////////// อันเก่าก่อนแก้
       // try {
       //   const response = await axios.post(
-      //     `http://localhost:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
+      //     `http://10.17.100.183:3001/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
       //   );
       //   setvisibityFile("visible");
       // } catch (error) {
@@ -1238,7 +1238,7 @@ const [owner_tel1,setowner_tel1] = useState([])
       
       try {
         const response = await axios.post(
-          `http://localhost:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
+          `http://10.17.100.183:3001/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -1626,7 +1626,7 @@ const [owner_tel1,setowner_tel1] = useState([])
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
-            `http://localhost:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+            `http://10.17.100.183:3001/get_seq_request?FAM_no=${Gen_Fam_No}`
           );
           const get_run_seq = await response_seq.data;
           const lastValue =
@@ -1640,7 +1640,7 @@ const [owner_tel1,setowner_tel1] = useState([])
 
         try {
           const response = await axios.post(
-            `http://localhost:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            `http://10.17.100.183:3001/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
           // console.log(data, "dataYpload");
@@ -1657,7 +1657,7 @@ const [owner_tel1,setowner_tel1] = useState([])
           });
 
           await axios.post(
-            "http://localhost:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "http://10.17.100.183:3001/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
           //// console.log("Files saved successfully");
@@ -1686,14 +1686,14 @@ const [owner_tel1,setowner_tel1] = useState([])
     
     try {
       await axios.post(
-        `http://localhost:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+        `http://10.17.100.183:3001/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
       );
       localStorage.removeItem("Type");
     } catch (error) {
       console.error("Error deleting file:", error);
     }
     try {
-      const response = await axios.delete(`http://localhost:5000/deleteFile?data=${fileName}`, 
+      const response = await axios.delete(`http://10.17.100.183:3001/deleteFile?data=${fileName}`, 
           // data: { fileName }
       );
       

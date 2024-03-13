@@ -139,13 +139,12 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
-app.use('/downloads', express.static(path.join(__dirname, '../Uploads')));
-app.use('/delete', express.static(path.join(__dirname, '../Uploads')));
+app.use('/downloads', express.static('/data/Api/Component/uploads/'));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
-  const filePath = path.join(__dirname, '../Uploads', fileName);
- 
+  const filePath = path.join('/data/Api/Component/uploads/',fileName);
+  console.log(filePath)
   // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
   if (fs.existsSync(filePath)) {
     // ส่งไฟล์กลับไปยังผู้ใช้
@@ -159,7 +158,7 @@ app.get('/downloads', (req, res) => {
 });
 app.delete('/deleteFile', (req, res) => {
   const fileName = req.query.data;
-  const filePath = path.join(__dirname, '../Uploads', fileName);
+  const filePath = path.join('/data/Api/Component/uploads/',fileName);
 console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
   fs.unlink(filePath, (err) => {
       if (err) {
