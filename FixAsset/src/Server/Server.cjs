@@ -126,6 +126,7 @@ app.get("/getCountTransfer",Transaction.getCountTransfer);
 app.get("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
 app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);
+app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 
 app.post("/ins_PERSON_MAINTAIN",Transaction.insertPerson_Maintain);
 app.post("/update_PERSON_MAINTAIN",Transaction.updatePerson_Maintain);

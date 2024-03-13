@@ -450,10 +450,10 @@ module.exports.fix_group = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT T.FRC_CHK_PREFIX AS inpCode,
-    T.FRC_CHK_PREFIX||' : '||T.FRC_GROUP AS ShowDesc 
+    T.FRC_GROUP AS ShowDesc 
     FROM FAM_RUNNING_CONTROL T 
     WHERE T.FRC_FACTORY = '${Fixasset}' 
-    ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP `;
+    ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP`;
     const result = await connect.execute(query);
     connect.release();
     // // // console.log(result.rows);

@@ -2302,7 +2302,7 @@ const [owner_tel1,setowner_tel1] = useState([])
                       visibility: checkReset,
                     }}
                     variant="contained"
-                    onClick={handleEmpUser}
+                    onClick={Reset}
                   >
                     Reset
                   </Button>
