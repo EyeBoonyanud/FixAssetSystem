@@ -23,7 +23,8 @@ import {
   FormControl,
   MenuItem,
   InputLabel,
-  Autocomplete
+  Autocomplete,
+  FormHelperText
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -141,10 +142,7 @@ console.log(datatable,"uuu")
   //
   // const [chkadd,setchkadd] = useState("hidden");
 
-  const navigate = useNavigate();
-  const NextPage = async () => {
-    navigate("/TransDetail");
-  };
+  
 
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
@@ -1761,6 +1759,11 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     setname_req("")
     setowner_tel("")
   };
+  const navigate = useNavigate();
+  const NextPage = async () => {
+    Insert_Fam_detail();
+    navigate("/TransDetail");
+  };
   //////////// Next Page ///////////
   const Next = async (value) => {
     
@@ -1876,28 +1879,30 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{ width: "100%"  , 
-                        backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
-                      }}
-                      disabled={read_tel}
-                      
-                      // style={{
+                  <TextField
+  size="small"
+  style={{
+    width: "100%",
+    backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+  }}
+  disabled={read_tel}
+  id="Txt_Tel"
+  value={Tel1}
+  onChange={handleTel}
+  error={(Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null)}
+  FormHelperTextProps={{
+    error: (Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null),
+  }}
+>
+  <FormHelperText>
+    {(Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null)
+      ? ""
+      : "Please enter your mobile phone number"}
+  </FormHelperText>
+</TextField>
 
-                      //   width: "100%",
-                      // }}
-                      // style={{
-                      //   borderColor: errorTelReq ? "red" : undefined,  width: "100%",
-                      // }}
-                      error={
-                        (Gen_Fam_No || EditFam) &&
-                        (Tel1 === "" || Tel1 === undefined || Tel1 === null)
-                      }
-                      id="Txt_Tel"
-                      value={Tel1}
-                      onChange={handleTel}
-                    />
+
+                      
                   </Grid>
                 </Grid>
              

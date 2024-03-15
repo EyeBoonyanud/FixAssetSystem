@@ -26,12 +26,12 @@ import {
   FilePdfOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-
 function TransFerDetail() {
   // Local Storage
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const navigate = useNavigate();
+ 
   // กรณี Insert Localstorage
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
@@ -305,6 +305,7 @@ let data1_fromboi = "NAKP"
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         openPopupLoadding();
+        console.log("For_edit_trans[0][6]",For_edit_trans)
         STS = For_Rq_Edit[10];
         Fam_list = For_Rq_Edit[0];
         //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
@@ -314,10 +315,16 @@ let data1_fromboi = "NAKP"
           setnew_boi(For_edit_trans[0][2]);
           New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
           setselectnew_owner(For_edit_trans[0][9]);
-          setabnormal(For_edit_trans[0][6]);
+          if(For_edit_trans[0][6] === "null" || For_edit_trans[0][6] === "" || For_edit_trans[0][6] === undefined || For_edit_trans[0][6] === "null"){
+
+            setabnormal("")
+            
+          }else{
+            setabnormal(For_edit_trans[0][6]);
+          }
           setTel_for_trans(For_edit_trans[0][4]);
           setreceiver(For_edit_trans[0][3]);
-          if(For_edit_trans[0][5] === null || For_edit_trans[0][5] === "" || For_edit_trans[0][5] === undefined){
+          if(For_edit_trans[0][5] === null || For_edit_trans[0][5] === "" || For_edit_trans[0][5] === undefined || For_edit_trans[0][5] === "null"){
             setplan_date("")
           }else{
             setplan_date(For_edit_trans[0][5]);
@@ -325,7 +332,7 @@ let data1_fromboi = "NAKP"
           
           // setของ Edit Trans
           setowner_roting(For_Rq_Edit[2]);
-          if(For_edit_trans[0][14] === null || For_edit_trans[0][14] === "" || For_edit_trans[0][14] === undefined){
+          if(For_edit_trans[0][14] === null || For_edit_trans[0][14] === "" || For_edit_trans[0][14] === undefined || For_edit_trans[0][14] === "null"){
             setsts("")
           }else{
             setsts(For_edit_trans[0][14]);
@@ -974,9 +981,13 @@ let data1_fromboi = "NAKP"
         setselectnew_owner(For_Trans[6]);
         setTel_for_trans(For_Trans[7]);
        // setplan_date(For_Trans[8]);
+       if(For_Trans[9] === null ||For_Trans[9] === "" || For_Trans[9] === undefined || For_Trans[9] === "null"  ){
+        setabnormal("")
+      }else{
         setabnormal(For_Trans[9]);
+      }
         setreceiver(For_Trans[10]);
-        if(For_Trans[8] === null ||For_Trans[8] === "" || For_Trans[8] === undefined ){
+        if(For_Trans[8] === null ||For_Trans[8] === "" || For_Trans[8] === undefined || For_Trans[8] === "null"  ){
           setplan_date("")
         }else{
           setplan_date(For_Trans[8]);
@@ -1489,7 +1500,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
   // ปุ่ม SAVE
   const SAVE = async () => {
     console.log("EditFam",EditFam)
-    console.log("plan_date",plan_date)
+    console.log("ab",abnormal)
  
     // console.log(For_Req,)
     let ServiceDept = "";
@@ -1706,7 +1717,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
   };
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
-    setCheckSubmit("True")
+   
     if (EditFam != null) {
       if (
         For_Rq_Edit[3] === null ||
@@ -1929,6 +1940,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         setErrorAcc_Mana(false);
       }
       try {
+        
         const response = await axios.get(
           `http://10.17.74.202:5000/getEdit_FixAsset?FamNo=${EditFam}`
         );
@@ -2153,6 +2165,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
 
     if (EditFam != null) {
+      //setCheckSubmit("True")
       // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
       
@@ -2236,7 +2249,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Submit Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2324,7 +2337,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Submit Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2346,7 +2359,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2370,7 +2383,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+         //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2391,7 +2404,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2412,7 +2425,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+          //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2433,7 +2446,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2454,7 +2467,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+          //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
@@ -2475,7 +2488,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+           // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2496,7 +2509,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+         //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2528,7 +2541,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+         //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2549,7 +2562,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+          //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2570,7 +2583,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
               title: "Save Success",
               icon: "success",
             });
-            setCheckSubmit("False")
+         //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2653,7 +2666,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
         }
         
       }
-      setCheckSubmit("False")
+     // setCheckSubmit("False")
       navigate("/Search");
     }
     localStorage.removeItem("ForRequester");
