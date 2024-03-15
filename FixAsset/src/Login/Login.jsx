@@ -64,7 +64,7 @@ export default function SignInSide() {
 
       try {
         const response = await fetch(
-          `http://10.17.100.183:3001/login?username=${user}&password=${password}`
+          `http://10.17.74.202:5000/login?username=${user}&password=${password}`
         );
         const data = await response.json();
         // console.log(data,"/////////////",data.length)

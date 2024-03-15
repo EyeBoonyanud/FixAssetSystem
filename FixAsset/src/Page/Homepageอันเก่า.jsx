@@ -20,7 +20,7 @@ function ButtonAppBar() {
   const Menu = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getMenu?userlogin=${UserLogin}&role=${Role}`
+        `http://10.17.74.202:5000/getMenu?userlogin=${UserLogin}&role=${Role}`
       );
       const data = await response.data;
 
@@ -32,7 +32,7 @@ function ButtonAppBar() {
   const DataHomepage = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/gethome_page?user_for_login=${UserLogin}`
+        `http://10.17.74.202:5000/gethome_page?user_for_login=${UserLogin}`
       );
       const data = await response.data;
       setData_homepage(data)

@@ -98,7 +98,7 @@ function ForRequest() {
   const BY = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getby?By=${UserLogin}`
+        `http://10.17.74.202:5000/getby?By=${UserLogin}`
       );
       const dataReby = await response.data;
       let DataBY = dataReby.flat(); // การแก้ จาก array 2 มิติ เหลือ 1 มิติ .flat()
@@ -110,7 +110,7 @@ function ForRequest() {
   const Factory_UserLogin = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getfac_insert?Fac_Login=${UserLogin}`
+        `http://10.17.74.202:5000/getfac_insert?Fac_Login=${UserLogin}`
       );
       const dataFac_insert = await response.data;
       let Fac = dataFac_insert.flat();
@@ -122,7 +122,7 @@ function ForRequest() {
       if (idFactory.length >= 0) {
         try {
           const response = await axios.get(
-            `http://10.17.100.183:3001/getdept?idFactory=${idFactory}`
+            `http://10.17.74.202:5000/getdept?idFactory=${idFactory}`
           );
           const DeptData = await response.data;
           setdept(DeptData);
@@ -137,7 +137,7 @@ function ForRequest() {
   const Costcenter = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getcost_insert?Cost_Login=${UserLogin}`
+        `http://10.17.74.202:5000/getcost_insert?Cost_Login=${UserLogin}`
       );
       const dataCos_insert = await response.data;
       let Cost = dataCos_insert.flat();
@@ -150,7 +150,7 @@ function ForRequest() {
   const AssetGroup = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getfix_group?Asset_group=${idFac}`
+        `http://10.17.74.202:5000/getfix_group?Asset_group=${idFac}`
       );
       let dataFix_group_Text = [];
       let dataFix_group_Value = [];
@@ -216,7 +216,7 @@ function ForRequest() {
     setFixcode1(Fixcode);
     try {
       const row = await axios.get(
-        `http://10.17.100.183:3001/getfixcode?Fixcode=${Fixcode}`
+        `http://10.17.74.202:5000/getfixcode?Fixcode=${Fixcode}`
       );
       const data = row.data;
       setdataFixCode(data);
@@ -241,14 +241,14 @@ function ForRequest() {
     setselectcost(Cost_value);
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
+        `http://10.17.74.202:5000/getid_service?fac=${idFac}&fixgroub=${selectAssetgroup}`
       );
       const Fixgroup_ID = await response.data;
       console.log(Fixgroup_ID, "Fixgroup_ID::::::::");
       if (Fixgroup_ID[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://10.17.100.183:3001/getfind_service?asset_find=${Cost_value}`
+            `http://10.17.74.202:5000/getfind_service?asset_find=${Cost_value}`
           );
           const Find_Service = await response.data;
           //console.log(response.data,"response.data")
@@ -274,7 +274,7 @@ function ForRequest() {
   };
   const CostforAsset = async () => {
     try {
-      const response = await axios.get(`http://10.17.100.183:3001/getcost`);
+      const response = await axios.get(`http://10.17.74.202:5000/getcost`);
       const CostData = await response.data;
       setcost(CostData);
     } catch (error) {
@@ -318,7 +318,7 @@ function ForRequest() {
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
-            `http://10.17.100.183:3001/get_seq_request?FAM_no=${famNo}`
+            `http://10.17.74.202:5000/get_seq_request?FAM_no=${famNo}`
           );
           const get_run_seq = await response_seq.data;
           const lastValue =
@@ -333,7 +333,7 @@ function ForRequest() {
  
         try {
           const response = await axios.post(
-            `http://10.17.100.183:3001/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
+            `http://10.17.74.202:5000/ins_FILE_FROM_REQUEST?FAM_no=${famNo}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${UserLogin}`
           );
           const data =  await response.data
           console.log(data,"dataYpload")
@@ -350,7 +350,7 @@ function ForRequest() {
           });
 
           await axios.post(
-            "http://10.17.100.183:3001/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "http://10.17.74.202:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
           //console.log("Files saved successfully");
@@ -368,7 +368,7 @@ function ForRequest() {
     try {
       const response = await axios
         .get(
-          `http://10.17.100.183:3001/getEdit_request_show?FamNo=${EditFam}`
+          `http://10.17.74.202:5000/getEdit_request_show?FamNo=${EditFam}`
         );
         const data = await response.data;
         const datatable=[
@@ -405,7 +405,7 @@ function ForRequest() {
       try {
         const response = await axios
           .get(
-            `http://10.17.100.183:3001/getEdit_FixAsset?FamNo=${EditFam}`
+            `http://10.17.74.202:5000/getEdit_FixAsset?FamNo=${EditFam}`
           );
           const data = await response.data;
           console.log(data,"dataaaaaaaa")
@@ -531,7 +531,7 @@ const keep = async () => {
     try {
       const response = await axios
         .post(
-          `http://10.17.100.183:3001/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&assetname=${data_for_sevice}&status=${StatusId}&remark=${Txt_Remark}`
+          `http://10.17.74.202:5000/get_gen_famno?tranfer=${running_no}&reqby=${UserLogin}&reTel=${Tel}&fac=${idFac}&cc=${selectcost}&dept=${selectdept}&type=${selectedType}&assetgroup=${selectAssetgroup}&assetcc=${selectcost}&assetname=${data_for_sevice}&status=${StatusId}&remark=${Txt_Remark}`
         );
         const data = await response.data
         console.log(data,"data")
@@ -545,7 +545,7 @@ const keep = async () => {
     }
     try {
       const response = await axios.post(
-        `http://10.17.100.183:3001/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
+        `http://10.17.74.202:5000/get_asset_transfer?tranfer=${running_no}&reqby=${UserLogin}&assetcc=${selectcost}`
       );
     } catch (error) {
       console.error("Error during login:", error);
@@ -557,7 +557,7 @@ const keep = async () => {
     let datastatus ="";
     if (selectAssetgroup.length > 0 && selectcost.length > 0) {
       try {
-        const response = await axios.get(`http://10.17.100.183:3001/getstatus`);
+        const response = await axios.get(`http://10.17.74.202:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setstatus(data[1]);
@@ -571,7 +571,7 @@ const keep = async () => {
       const Run = Factory[0] + "-" + datafixgroup + "-" + Year;
       try {
         const response = await axios.get(
-          `http://10.17.100.183:3001/getfamno?famno=${Run}`
+          `http://10.17.74.202:5000/getfamno?famno=${Run}`
         );
         const get_runno = await response.data;
 
@@ -608,7 +608,7 @@ const keep = async () => {
       localStorage.setItem("forDetail",sentdata)
       try {
         const response = await axios.post(
-          `http://10.17.100.183:3001/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
+          `http://10.17.74.202:5000/ins_REQ_DETAIL?famno=${FAM_run}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${UserLogin}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -616,7 +616,7 @@ const keep = async () => {
       }
       try {
         const response = await axios.post(
-          `http://10.17.100.183:3001/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
+          `http://10.17.74.202:5000/ins_from_Boi?running_no=${FAM_run}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible");
       } catch (error) {

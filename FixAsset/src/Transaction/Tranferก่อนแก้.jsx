@@ -289,7 +289,7 @@ setselectacc_manager(Acc_mana);
   const BOI_FROM = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/select_BOI_from?running_no=${Fam_no}`
+        `http://10.17.74.202:5000/select_BOI_from?running_no=${Fam_no}`
       );
       const data = response.data;
       setdataBoi_from(data[0][0]);
@@ -301,7 +301,7 @@ setselectacc_manager(Acc_mana);
   // Transfer to Factory
   const Factory = async () => {
     try {
-      const response = await axios.get(`http://10.17.100.183:3001/getfactory`);
+      const response = await axios.get(`http://10.17.74.202:5000/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
       // console.log(FactoryData, "Factory");
@@ -332,7 +332,7 @@ setselectacc_manager(Acc_mana);
   // Tranfer To CC
   const Costcenter = async () => {
     try {
-      const response = await axios.get(`http://10.17.100.183:3001/cc_for_transfer`);
+      const response = await axios.get(`http://10.17.74.202:5000/cc_for_transfer`);
       const CostData = await response.data;
       setcost(CostData);
 
@@ -351,7 +351,7 @@ setselectacc_manager(Acc_mana);
 
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/new_boi?fac=${selecteDatafac}&cc=${Cost}`
+        `http://10.17.74.202:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
       );
       const data = response.data;
       const boi = data.flat();
@@ -412,7 +412,7 @@ setselectacc_manager(Acc_mana);
   const New_Owner = async (cost, selectFac) => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/new_owner?fac=${selectFac}&cc=${cost}`
+        `http://10.17.74.202:5000/new_owner?fac=${selectFac}&cc=${cost}`
       );
       const data1 = await response.data;
       const data = response.data.flat();
@@ -449,7 +449,7 @@ setselectacc_manager(Acc_mana);
   const Department_Mana = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/level?level=${Fac_to_request}&cc=${CC_for_request}`
+        `http://10.17.74.202:5000/level?level=${Fac_to_request}&cc=${CC_for_request}`
       );
       const data = response.data.flat();
       setdepartment(data);
@@ -478,7 +478,7 @@ setselectacc_manager(Acc_mana);
   const Service_By = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/service_by?level=${Fac_to_request}&cc=${Service_ID}`
+        `http://10.17.74.202:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
       );
       //console.log(response, "hhhhhhhhhhhhhhhhhha");
       const data = response.data.flat();
@@ -507,7 +507,7 @@ setselectacc_manager(Acc_mana);
   const BOI_Staff = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/boi_staff?fac=${Fac_to_request}`
+        `http://10.17.74.202:5000/boi_staff?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setboistaff(data);
@@ -534,7 +534,7 @@ setselectacc_manager(Acc_mana);
   const BOI_Manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/boi_manager?fac=${Fac_to_request}`
+        `http://10.17.74.202:5000/boi_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setboimanager(data);
@@ -561,7 +561,7 @@ setselectacc_manager(Acc_mana);
   const Fac_manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/fac_manager?fac=${Fac_to_request}`
+        `http://10.17.74.202:5000/fac_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setfac_manager(data);
@@ -588,7 +588,7 @@ setselectacc_manager(Acc_mana);
   const ACC_Check = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/acc_check?fac=${Fac_to_request}`
+        `http://10.17.74.202:5000/acc_check?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setacc_check(data);
@@ -615,7 +615,7 @@ setselectacc_manager(Acc_mana);
   const ACC_Manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/acc_manager?fac=${Fac_to_request}`
+        `http://10.17.74.202:5000/acc_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setacc_manager(data);
@@ -656,7 +656,7 @@ setselectacc_manager(Acc_mana);
     try {
       const row = axios.post(
         // console.log(New_BOI,"New_BOI")
-        `http://10.17.100.183:3001/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${newboi}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+        `http://10.17.74.202:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${newboi}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
       );
 
       const data = row.data;
@@ -667,7 +667,7 @@ setselectacc_manager(Acc_mana);
     try {
       const row = axios.post(
         // //console.log(New_BOI,"New_BOI")
-        `http://10.17.100.183:3001/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+        `http://10.17.74.202:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
       );
 
       const data = row.data;
@@ -679,7 +679,7 @@ setselectacc_manager(Acc_mana);
     }
     try {
       const receiver = await axios.post(
-        "http://10.17.100.183:3001/receiver_tranfer",
+        "http://10.17.74.202:5000/receiver_tranfer",
         {
           famno: Fam_no,
           receiver: result1,
@@ -693,7 +693,7 @@ setselectacc_manager(Acc_mana);
     }
     try {
       const close_service = await axios.post(
-        "http://10.17.100.183:3001/close_routing_tran",
+        "http://10.17.74.202:5000/close_routing_tran",
         {
           famno: Fam_no,
           acc_record: selectacc_check,
@@ -723,7 +723,7 @@ setselectacc_manager(Acc_mana);
     //   //console.log(Fam_no, "Fam_no");
     //   try {
     //     const response = await axios.post(
-    //       "http://10.17.100.183:3001/update_submit",
+    //       "http://10.17.74.202:5000/update_submit",
     //       {
     //         famno: Fam_no,
     //         sts_submit: status_submit,
@@ -745,7 +745,7 @@ setselectacc_manager(Acc_mana);
     //   //console.log(Fam_no, "Fam_no");
     //   try {
     //     const response = await axios.post(
-    //       "http://10.17.100.183:3001/update_submit",
+    //       "http://10.17.74.202:5000/update_submit",
     //       {
     //         famno: Fam_no,
     //         sts_submit: status_submit,
@@ -777,7 +777,7 @@ setselectacc_manager(Acc_mana);
         const status_submit = "FLTR002";
         try {
               const response = await axios.post(
-                "http://10.17.100.183:3001/update_submit",
+                "http://10.17.74.202:5000/update_submit",
                 {
                   famno: Fam_no,
                   sts_submit: status_submit,
@@ -804,7 +804,7 @@ setselectacc_manager(Acc_mana);
       try {
         const response = await axios
           .get(
-            `http://10.17.100.183:3001/getEdit_Trans?FamNo=${EditFam}`
+            `http://10.17.74.202:5000/getEdit_Trans?FamNo=${EditFam}`
           );
           const data = await response.data;
           console.log(data,"dataaaaaaaaSSSSSSSSSSSS")

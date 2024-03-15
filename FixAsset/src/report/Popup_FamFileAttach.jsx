@@ -39,7 +39,7 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
   const [Filedata, setFiledata] = useState([]);
   const File = () => {
     axios
-      .post("http://10.17.100.183:3001/FAM_FILE_ATTACH", {
+      .post("http://10.17.74.202:5000/FAM_FILE_ATTACH", {
         FamNo: FamNo,
       })
       .then((res) => {
@@ -61,7 +61,7 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.100.183:3001/downloads?filename=${encodeURIComponent(fileName)}`;
+    const downloadUrl = `http://10.17.74.202:5000/downloads?filename=${encodeURIComponent(fileName)}`;
  
     axios({
       url: downloadUrl,

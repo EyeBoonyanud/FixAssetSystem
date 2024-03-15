@@ -91,7 +91,7 @@ function Issue() {
     let idFactory = event.target.value;
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getdept?idFactory=${idFactory}`
+        `http://10.17.74.202:5000/getdept?idFactory=${idFactory}`
       );
       const data = await response.data;
       setdept(data);
@@ -164,7 +164,7 @@ function Issue() {
 
   const Factory = async () => {
     try {
-      const response = await axios.get(`http://10.17.100.183:3001/getfactory`);
+      const response = await axios.get(`http://10.17.74.202:5000/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
       // // console.log(FactoryData, "Factory");
@@ -174,7 +174,7 @@ function Issue() {
   };
   // const Costcenter = async () => {
   //   try {
-  //     const response = await axios.get(`http://10.17.100.183:3001/getcost`);
+  //     const response = await axios.get(`http://10.17.74.202:5000/getcost`);
   //     const CostData = await response.data;
   //     setcost(CostData);
   //     // // console.log(CostData, "CostData :");
@@ -185,7 +185,7 @@ function Issue() {
   const Owner = (Id_owner) => {
     console.log("////", Id_owner);
     axios
-      .post("http://10.17.100.183:3001/Id_owner", {
+      .post("http://10.17.74.202:5000/Id_owner", {
         owner_id: Id_owner,
       })
       .then((res) => {
@@ -199,14 +199,14 @@ function Issue() {
   };
 
   const CostCenter = () => {
-    axios.get("http://10.17.100.183:3001/getcost").then((res) => {
+    axios.get("http://10.17.74.202:5000/getcost").then((res) => {
       const data = res.data;
       setgetCostCenter(data);
     });
   };
   const RequestType = async () => {
     try {
-      const response = await axios.get(`http://10.17.100.183:3001/gettype`);
+      const response = await axios.get(`http://10.17.74.202:5000/gettype`);
       const TypeData = await response.data;
       setReType(TypeData);
       // // console.log(TypeData, "TypeData");
@@ -229,7 +229,7 @@ function Issue() {
     setloading("false");
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getEdit_request_show?FamNo=${EditFam}`
+        `http://10.17.74.202:5000/getEdit_request_show?FamNo=${EditFam}`
       );
       const data = await response.data;
       // console.log(data,"ooooo")
@@ -242,7 +242,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getEdit_FixAsset?FamNo=${EditFam}`
+        `http://10.17.74.202:5000/getEdit_FixAsset?FamNo=${EditFam}`
       );
       const data = await response.data;
       // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
@@ -255,7 +255,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getEdit_Trans?FamNo=${EditFam}`
+        `http://10.17.74.202:5000/getEdit_Trans?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -269,7 +269,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://10.17.100.183:3001/getEdit_routing?FamNo=${EditFam}`
+        `http://10.17.74.202:5000/getEdit_routing?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -292,7 +292,7 @@ function Issue() {
   //   setloading("false");
   //   try {
   //     const response = await axios.get(
-  //       `http://10.17.100.183:3001/getEdit_request_show?FamNo=${EditFam}`
+  //       `http://10.17.74.202:5000/getEdit_request_show?FamNo=${EditFam}`
   //     );
   //     const data = await response.data;
   //     // console.log(data,"ooooo")
@@ -305,7 +305,7 @@ function Issue() {
   //   }
   //   try {
   //     const response = await axios.get(
-  //       `http://10.17.100.183:3001/getEdit_FixAsset?FamNo=${EditFam}`
+  //       `http://10.17.74.202:5000/getEdit_FixAsset?FamNo=${EditFam}`
   //     );
   //     const data = await response.data;
   //     // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
@@ -318,7 +318,7 @@ function Issue() {
   //   }
   //   try {
   //     const response = await axios.get(
-  //       `http://10.17.100.183:3001/getEdit_Trans?FamNo=${EditFam}`
+  //       `http://10.17.74.202:5000/getEdit_Trans?FamNo=${EditFam}`
   //     );
   //     const data = await response.data;
 
@@ -332,7 +332,7 @@ function Issue() {
   //   }
   //   try {
   //     const response = await axios.get(
-  //       `http://10.17.100.183:3001/getEdit_routing?FamNo=${EditFam}`
+  //       `http://10.17.74.202:5000/getEdit_routing?FamNo=${EditFam}`
   //     );
   //     const data = await response.data;
 
@@ -374,7 +374,7 @@ function Issue() {
       console.log(Date, DateTo, "date");
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.100.183:3001/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.202:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -394,7 +394,7 @@ function Issue() {
     } else if (Path === "APPROVEFAM") {
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.100.183:3001/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.74.202:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -424,7 +424,7 @@ function Issue() {
       const unwrappedArrayAssetCC = selectcostMul.map((item) => item.replace(/'/g, "") );
       const MultipleAssetCC = unwrappedArrayAssetCC.join(",");
       axios
-        .post("http://10.17.100.183:3001/searchFamMaster", {
+        .post("http://10.17.74.202:5000/searchFamMaster", {
           Fac: selecteDatafac,
           OwnerCC: MultipleOwnerCC,
           FamFrom: FamNo,
@@ -493,16 +493,16 @@ function Issue() {
       if (result.isConfirmed) {
         try {
           await axios.post(
-            `http://10.17.100.183:3001/delect_all_fam_transfer?famno=${item}`
+            `http://10.17.74.202:5000/delect_all_fam_transfer?famno=${item}`
           );
           await axios.post(
-            `http://10.17.100.183:3001/delect_all_fam_details?famno=${item}`
+            `http://10.17.74.202:5000/delect_all_fam_details?famno=${item}`
           );
           await axios.post(
-            `http://10.17.100.183:3001/delect_all_fam_header?famno=${item}`
+            `http://10.17.74.202:5000/delect_all_fam_header?famno=${item}`
           );
           await axios.post(
-            `http://10.17.100.183:3001/delete_all_file?famno=${item}`
+            `http://10.17.74.202:5000/delete_all_file?famno=${item}`
           );
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
           Swal.fire("Deleted!", "Your data has been deleted.", "success");

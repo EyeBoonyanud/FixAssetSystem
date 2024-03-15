@@ -360,38 +360,37 @@ module.exports.fixcode = async function (req, res) {
   try {
     const fixcode = req.query.Fixcode;
     const cc = req.query.asset_cc;
-    const no = req.query.fam_no;
+    const group = req.query.fixgroup;
+    console.log()
     const connect = await oracledb.getConnection(QAD);
     const query = `
-    SELECT KFA_MSTR.KFA_CODE,  
-    KFAD_DET.KFAD_COMP,  
-    KFAD_DET.KFAD_CC,  
-    KFAD_DET.KFAD_COMP_NAME,  
-    KFA_MSTR.KFA_SEARCH3,  
-    CODE_MSTR.CODE_CMMT,  
-    KFAD_DET.KFAD_QTY,  
-    KFIN_DET.KFIN_DOC_NO,  
-    KFIN_DET.KFIN_REF_DATE,  
-    KFAD_DET.KFAD_ACQ_COST,  
-    KFAD_DET.KFAD_SVG_VAL 
-FROM KFA_MSTR,  
-    KFAD_DET,  
-    KFIN_DET,  
-    CODE_MSTR 
-WHERE ( KFA_MSTR.KFA_CODE = KFAD_DET.KFAD_CODE ) and 
-    ( KFA_MSTR.KFA_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
-    ( KFAD_DET.KFAD_CODE = KFIN_DET.KFIN_FA_CODE ) and 
-    ( KFIN_DET.KFIN_DOMAIN = KFAD_DET.KFAD_DOMAIN ) and 
-    ( KFA_MSTR.KFA_OBLG = CODE_MSTR.CODE_VALUE ) and 
-    ( KFA_MSTR.KFA_DOMAIN = CODE_MSTR.CODE_DOMAIN ) and 
-    ( KFAD_DET.KFAD_COMP = KFIN_DET.KFIN_INFO_SEQ ) and 
-    ( ( KFA_MSTR.KFA_CODE = '${fixcode}' ) AND  
-    ( upper(CODE_MSTR.CODE_FLDNAME) = 'KFA_OBLG' ) AND 
-    ( KFAD_DET.KFAD_BOOK = 'SL' ) AND 
-    ( KFA_MSTR.KFA_DOMAIN = '9000' ) AND 
-    ( KFAD_DET.KFAD_SEQ = '0' ) AND
-    ( KFAD_DET.KFAD_CC = '${cc}') )
-  ORDER BY  KFAD_DET.KFAD_COMP ASC
+    SELECT KM.KFA_CODE,
+       KD.KFAD_COMP,
+       KD.KFAD_CC,
+       KD.KFAD_COMP_NAME,
+       KM.KFA_SEARCH3,
+       CD.CODE_CMMT,
+       KD.KFAD_QTY,
+       KFD.KFIN_DOC_NO,
+       KFD.KFIN_REF_DATE,
+       KD.KFAD_ACQ_COST,
+       KD.KFAD_SVG_VAL
+  FROM KFA_MSTR KM, KFAD_DET KD, KFIN_DET KFD, CODE_MSTR CD
+ WHERE (KM.KFA_CODE = KD.KFAD_CODE)
+   AND (KM.KFA_DOMAIN = KD.KFAD_DOMAIN)
+   AND (KD.KFAD_CODE = KFD.KFIN_FA_CODE)
+   AND (KFD.KFIN_DOMAIN = KD.KFAD_DOMAIN)
+   AND (KM.KFA_OBLG = CD.CODE_VALUE)
+   AND (KM.KFA_DOMAIN = CD.CODE_DOMAIN)
+   AND (KD.KFAD_COMP = KFD.KFIN_INFO_SEQ)
+   AND ((SUBSTR(KM.KFA_CODE,1,1) = '${group}')
+   AND (KM.KFA_CODE = '${fixcode}') 
+   AND (KD.KFAD_CC = '${cc}') 
+   AND (UPPER(CD.CODE_FLDNAME) = 'KFA_OBLG') 
+   AND (KD.KFAD_BOOK = 'SL') 
+   AND (UPPER(KM.KFA_DOMAIN) = '9000') 
+   AND (KD.KFAD_SEQ = '0'))
+ ORDER BY KM.KFA_CODE, KD.KFAD_COMP
          `;
 
     const result = await connect.execute(query);
@@ -3192,7 +3191,7 @@ module.exports.get_COMP = async function (req, res) {
   try {
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT DISTINCT FD.FRD_COMP ,FD.FRD_ASSET_NAME,FD.FRD_FAM_NO 
+    SELECT DISTINCT FD.FRD_COMP ,FD.FRD_ASSET_NAME,FD.FRD_FAM_NO,FD.FRD_ASSET_CODE  
     FROM AVO.FAM_REQ_HEADER FH 
     INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
     WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${Fam_no}', 1, 6)
