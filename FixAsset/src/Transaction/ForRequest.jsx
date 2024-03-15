@@ -302,6 +302,7 @@ console.log(datatable,"uuu")
     costcenter();
     CostforAsset();
     keep();
+ 
     ShowFile();
   
 
@@ -1062,6 +1063,7 @@ console.log(datatable,"uuu")
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
+    setSelectAll("");
     openPopupLoadding();
 console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       let group_fix =""
@@ -1167,24 +1169,43 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       if (a[1] > b[1]) return 1;
       return 0; // ไม่ต้องการเปลี่ยนเรียง
   });
-    setdatatable(newDataTable);
-    setSelectedItems([]);
+  console.log(newDataTable,"newDataTable")
+  if (!newDataTable) {
+    alert("Please select check box");
+}else {
+  setdatatable(newDataTable);
+  setSelectedItems([]);
     setTableOpen(true);
     setOpen(false);
     setbtnSave("visible");
+}
+    
+    
   };
+  const setlocalTable = async (newData) => {
+    console.log(newData,"nongmay")
+    const data = JSON.stringify(newData)
+    localStorage.setItem("Edit_Dteail_for_FixedCode",data)
+    localStorage.setItem("forDetail",data)
+  }
 
   const handleDelete = async (item, index) => {
     openPopupLoadding();
-    // const dtDelete = [...datatable.slice(item)];
-    // // console.log(dtDelete,"////////////////")
-    // // datatable = datatable.slice(0, item);
-    // const data_edit = JSON.stringify(dtDelete);
-    // // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
-    //   localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
+    const newData = datatable.filter((data) => data[0] !== item);
+
+    // Update the state variable with the new data
+    setdatatable(newData);
+   
+  //   console.log(item,"item")
+  //   const dtDelete = [...datatable.slice(item)];
+  //   // console.log(dtDelete,"////////////////")
+  //  // datatable = datatable.slice(0, item);
+  //   const data_edit = JSON.stringify(dtDelete);
+  //   // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
+  //     localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
 
     // setdatatable(datatable);
-
+ 
     if (EditFam !== null) {
       
       // console.log("index", item, EditFam);
@@ -1192,8 +1213,9 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         const row = await axios.post(
           `http://10.17.74.202:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
-        localStorage.removeItem("Edit_Dteail_for_FixedCode");
-        Fix_Code();
+       //localStorage.removeItem("Edit_Dteail_for_FixedCode");
+        // Fix_Code();
+        setlocalTable(newData);
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -1203,10 +1225,9 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         const row = await axios.post(
           `http://10.17.74.202:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
-        localStorage.removeItem("forDetail");
-       
-        Fix_Code(); 
-        
+        //localStorage.removeItem("forDetail");
+        setlocalTable();
+       //Fix_Code();     
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -1220,7 +1241,11 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         `http://10.17.74.202:5000/getFixcode?Fam=${Gen_Fam_No}`
       );
       const dataStatus = await response.data;
+      console.log(dataStatus,"dataStatus")
       setdatatable(dataStatus);
+      const sentdata = JSON.stringify(dataStatus);
+  localStorage.setItem("forDetail", sentdata);
+  localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
       // console.log(dataStatus, "dataStatus");
 
       // StatusId = dataStatus.flat();
@@ -1229,15 +1254,18 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     }
   };
   const Insert_Fam_detail = async () => {
+    
+
     openPopupLoadding();
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       if (EditFam !== null) {
+        console.log("datatable888",datatable[i][5])
         localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
       } else {
         localStorage.setItem("forDetail", sentdata);
       }
-      console.log("datatable",datatable[i][3])
+      console.log("datatable888",datatable[i][5])
       try {
         await axios.post("http://10.17.74.202:5000/ins_REQ_DETAIL", {
           famno: Gen_Fam_No,
@@ -1259,22 +1287,8 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         console.error("Error during POST request:", error);
       }
       
-//////////////////////////////////// อันเก่าก่อนแก้
-      // try {
-      //   const response = await axios.post(
-      //     `http://10.17.74.202:5000/ins_REQ_DETAIL?famno=${Gen_Fam_No}&assetcode=${datatable[i][0]}&assetname=${datatable[i][3]}&comp=${datatable[i][1]}&cc=${datatable[i][2]}&boi=${datatable[i][5]}&qty=${datatable[i][6]}&inv=${datatable[i][7]}&cost=${datatable[i][9]}&val=${datatable[i][10]}&by=${LocalUserLogin}`
-      //   );
-      //   setvisibityFile("visible");
-      // } catch (error) {
-      //   //console.error("Error during login:", error);
-      // }
-//////////////////////////////////////// อันเก่าก่อรแก้
-      
-     
-      
-    }
-    closePopupLoadding(); 
-    try {
+       console.log(datatable[i][5],"8888")
+       try {
         const response = await axios.post(
           `http://10.17.74.202:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
         );
@@ -1282,6 +1296,11 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       } catch (error) {
         //console.error("Error during login:", error);
       }
+      
+    }
+    closePopupLoadding(); 
+   
+  
   };
   const handleClose = () => {
     setOpen(false);
@@ -1710,9 +1729,12 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       title: "Uploads File Success",
       icon: "success",
     });
-
+    
     setUploadedFilesDATA([]);
+    setUploadedFiles([])
+    localStorage.removeItem("Type");
     ShowFile();
+    
   };
 
   const handleDeleteFile = async (index, file,fileName) => {
@@ -1759,6 +1781,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     setname_req("")
     setowner_tel("")
   };
+
   const navigate = useNavigate();
   const NextPage = async () => {
     Insert_Fam_detail();
@@ -1766,7 +1789,6 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   };
   //////////// Next Page ///////////
   const Next = async (value) => {
-    
     Insert_Fam_detail();
     Swal.fire({
       title: "Save Details Success",

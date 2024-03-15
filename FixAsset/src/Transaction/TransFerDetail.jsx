@@ -1496,11 +1496,225 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     }
   };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const getDatatest = async () => {
+    try {
+      const response = await axios.get(
+        `http://10.17.74.202:5000/getEdit_Trans?FamNo=${EditFam}`
+      );
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
 
+      localStorage.setItem("Edit_Trans", data_edit);
+
+    } catch (error) {
+
+      //console.error("Error during login:", error);
+
+    }
+
+    try {
+
+      const response = await axios.get(
+
+        `http://10.17.74.202:5000/getEdit_routing?FamNo=${EditFam}`
+
+      );
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_routing", data_edit);
+
+    } catch (error) {
+    }
+  };
+  const Back_page = async () => {
+openPopupLoadding();
+console.log("selecttrans_cc",selecttrans_cc)
+    let ServiceDept = "";
+    if (EditFam != null) {
+      if (For_Rq_Edit[9] != null) {
+        ServiceDept = For_Rq_Edit[9];
+      }
+    } else {
+      ServiceDept = For_Req[8];
+    }
+
+  
+    
+
+    if (EditFam != null) {
+    
+      console.log("kulllllllllllllllllllllllllllllll")
+      // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
+      try {
+        const response = await axios.post(
+          "http://10.17.74.202:5000/Update_For_Req_All",
+          {
+            famno: For_Rq_Edit[0],
+            dept: For_Rq_Edit[6],
+            tel: For_Rq_Edit[3],
+            remark: For_Rq_Edit[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Rq_Edit[2],
+            record_by: text_acc_check,
+            owner_id: For_Rq_Edit[17],
+            owner_dept: For_Rq_Edit[18],
+            owner_tel:For_Rq_Edit[19]
+          }
+        );
+      } catch (error) {
+        //     console.error("Error updating submit status:", error.message);
+      }
+      try {
+        const row = axios.post(
+          `http://10.17.74.202:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+        );
+      } catch (error) {
+        //console.error("Error requesting data:", error);
+      }
+      try {
+        const row = axios.post(
+          `http://10.17.74.202:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+        );
+      } catch (error) {
+        //console.error("Error requesting data:", error);
+      }
+      try {
+        const response = await axios.post(
+          `http://10.17.74.202:5000/update_date?tranfer=${EditFam}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+      try {
+        console.log(For_Rq_Edit[1],"For_Rq_Edit[1]")
+        const response = await axios.post(
+          `http://10.17.74.202:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+      try {
+        console.log("bbbb")
+        const response = await axios.post(
+          `http://10.17.74.202:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
+        );
+        //// console(data, "data");
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    } else {
+      const setData_forTranfer_Req_Tranfer_Details = [
+        Fam_list,
+        ownersend,
+        data_fromboi,
+        selecttrans_factory,
+        selecttrans_cc,
+        new_boi,
+        [selectnew_owner],
+        Tel_for_trans,
+        plan_date,
+        abnormal,
+        receiver,
+        sts,
+        
+      ];
+      const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+      localStorage.setItem("For_Transfer", sentdata);
+  
+      const set_data_for_req_details = [
+        Fam_list,
+        selectdepartment_mana,
+        ServiceDept,
+        Tel_service,
+        selectservice_by,
+        selectboi_staff,
+        selectboi_manager,
+        selectfac_manager,
+        selectacc_check,
+        owner_roting,
+        selectacc_manager,
+        selectservice_by,
+        text_acc_check
+      ];
+      const sendheader = JSON.stringify(set_data_for_req_details);
+      localStorage.setItem("For_Routing", sendheader);
+     // console.log("TTTTTTTTTTTT")
+      try {
+        const response = await axios.post(
+          "http://10.17.74.202:5000/Update_For_Req_All",
+          {
+            famno: For_Req[0],
+            dept: For_Req[5],
+            tel: For_Req[2],
+            remark: For_Req[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Req[1],
+            record_by: text_acc_check,
+            owner_id: For_Req[15],
+            owner_dept: For_Req[16],
+            owner_tel:For_Req[17]
+          }
+        );
+      } catch (error) {
+        //     console.error("Error updating submit status:", error.message);
+      }
+      // console.log("sts", sts);
+      try {
+        const response = await axios.post(
+          `http://10.17.74.202:5000/create_date?tranfer=${Fam_list}`
+        );
+      } catch (error) {
+        //console.error("Error during login:", error);
+      }
+    }
+
+    try {
+      const row = axios.post(
+        `http://10.17.74.202:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+      );
+    } catch (error) {
+      //console.error("Error requesting data:", error);
+    }
+    try {
+      const row = axios.post(
+        // ////// console(New_BOI,"New_BOI")
+        `http://10.17.74.202:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+      );
+    } catch (error) {
+      ////console.error("Error requesting data:", error);
+    }
+    try {
+      const response = await axios.post(
+        `http://10.17.74.202:5000/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
+      );
+      //// console(data, "data");
+    } catch (error) {
+      //console.error("Error during login:", error);
+    }
+    getDatatest();
+    closePopupLoadding();
+    navigate("/ForRe");
+  };
   // ปุ่ม SAVE
   const SAVE = async () => {
     console.log("EditFam",EditFam)
-    console.log("ab",abnormal)
+    console.log("data_fromboi",data_fromboi)
  
     // console.log(For_Req,)
     let ServiceDept = "";
@@ -1641,7 +1855,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       confirmButtonText: "OK",
     });
     setCheckSave("False")
-    navigate("/Search")
+   // navigate("/Search")
     } else {
      // console.log("TTTTTTTTTTTT")
       try {
@@ -1711,7 +1925,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       confirmButtonText: "OK",
     });
     setCheckSave("False")
-    navigate("/Search")
+   // navigate("/Search")
     setOpen(true);
   }
   };
@@ -4500,7 +4714,8 @@ disabled
                 marginLeft: "20px",
                 backgroundColor: "gray",
               }}
-              onClick={() => window.history.back()}
+              onClick={Back_page}
+
             >
               BACK PAGE
             </Button>
