@@ -30,6 +30,7 @@ function TransFerDetail() {
   // Local Storage
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
+  const View = localStorage.getItem("page")
   const navigate = useNavigate();
 
   // กรณี Insert Localstorage
@@ -115,6 +116,7 @@ function TransFerDetail() {
   const [Tel_service, setTel_service] = useState("");
   const [CheckSubmit, setCheckSubmit] = useState("False");
   const [CheckSave, setCheckSave] = useState("False");
+  
 
   /////////////// ตัวแปร Radio button//////////////////////////////
   const [selectradio_dept, setselectradio_dept] = useState("");
@@ -1152,69 +1154,69 @@ function TransFerDetail() {
     setselecttrans_factory(event.target.value);
 
     // // console.log(For_edit_trans, "rrrrr");
-    // if (EditFam != null) {
-    //   if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
-    //   const data = [
-    //     event.target.value,
-    //     For_edit_trans[1],
-    //     For_edit_trans[2],
-    //     For_edit_trans[4],
-    //     For_edit_trans[5],
-    //     For_edit_trans[6],
-    //     For_edit_trans[7],
-    //     For_edit_trans[8],
-    //     For_edit_trans[9],
-    //     For_edit_trans[10],
-    //     For_edit_trans[11],
-    //     For_edit_trans[12],
-    //     For_edit_trans[13]
-    //   ];
+    if (EditFam != null) {
+      if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
+      const data = [
+        event.target.value,
+        For_edit_trans[0][1],
+        For_edit_trans[0][2],
+        For_edit_trans[0][4],
+        For_edit_trans[0][5],
+        For_edit_trans[0][6],
+        For_edit_trans[0][7],
+        For_edit_trans[0][8],
+        For_edit_trans[0][9],
+        For_edit_trans[0][10],
+        For_edit_trans[0][11],
+        For_edit_trans[0][12],
+        For_edit_trans[0][13],
+      ];
 
-    //   const data_edit = JSON.stringify(data);
-    //   // console.log("/////////////////");
-    //   localStorage.setItem("Edit_Trans", data_edit);
-    //   //edit
-    // } else {
-    //   //insert
-    //   // console.log("------bbbbbb---------");
+      const data_edit = JSON.stringify(data);
+      // console.log("/////////////////");
+      localStorage.setItem("Edit_Trans", data_edit);
+      //edit
+    } else {
+      //insert
+      // console.log("------bbbbbb---------");
 
-    //   if (For_Req[0] == "" && For_Req[0] == null) {
-    //     // ยังไม่genfam
-    //     // console.log("------>>>>>>>>>>>>>>>>---------");
-    //     const setData_forTranfer_Req_Tranfer_Details = [
-    //       Fam_list,
-    //       ownersend,
-    //       data_fromboi,
-    //       "",
-    //       "",
-    //       new_boi,
-    //       [selectnew_owner],
-    //       "",
-    //       plan_date,
-    //       abnormal,
-    //       receiver,
-    //     ];
-    //     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-    //     localStorage.setItem("For_Transfer", sentdata);
-    //   } else {
-    //     // console.log("------///////////----------", For_Trans);
-    //     const setData_forTranfer_Req_Tranfer_Details = [
-    //       For_Trans[0],
-    //       For_Trans[1],
-    //       For_Trans[2],
-    //       event.target.value,
-    //       For_Trans[4],
-    //       For_Trans[5],
-    //       For_Trans[6],
-    //       For_Trans[7],
-    //       For_Trans[8],
-    //       For_Trans[9],
-    //       For_Trans[10],
-    //     ];
-    //     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-    //     localStorage.setItem("For_Transfer", sentdata); //  insert Tranfer
-    //   }
-    // }
+      if (For_Req[0] == "" && For_Req[0] == null) {
+        // ยังไม่genfam
+        // console.log("------>>>>>>>>>>>>>>>>---------");
+        const setData_forTranfer_Req_Tranfer_Details = [
+          Fam_list,
+          ownersend,
+          data_fromboi,
+          "",
+          "",
+          new_boi,
+          [selectnew_owner],
+          "",
+          plan_date,
+          abnormal,
+          receiver,
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata);
+      } else {
+        // console.log("------///////////----------", For_Trans);
+        const setData_forTranfer_Req_Tranfer_Details = [
+          For_Trans[0],
+          For_Trans[1],
+          For_Trans[2],
+          event.target.value,
+          For_Trans[4],
+          For_Trans[5],
+          For_Trans[6],
+          For_Trans[7],
+          For_Trans[8],
+          For_Trans[9],
+          For_Trans[10],
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata); //  insert Tranfer
+      }
+    }
   };
   const TransCC = async () => {
     try {
@@ -1923,57 +1925,7 @@ function TransFerDetail() {
     if (confirmResult.isConfirmed) {
       setCheckSave("True");
       if (EditFam != null) {
-        console.log( selecttrans_factory,
-          selecttrans_cc,
-          new_boi, 
-          receiver, 
-         Tel_for_trans,
-         plan_date,
-           abnormal, 
-          EditFam,
-          [selectnew_owner], 
-          selectradio_receiver,
-          action__receiver,
-          cmmtradio_receiver,
-          For_edit_trans[0][12],
-           sts,"IIIIII")
-        const setData_forTranfer_Req_Tranfer_Details = [
-         selecttrans_factory,
-         selecttrans_cc,
-         new_boi, 
-         receiver, 
-        Tel_for_trans,
-        plan_date,
-          abnormal, 
-         EditFam,
-         [selectnew_owner], 
-         selectradio_receiver,
-         action__receiver,
-         cmmtradio_receiver,
-         For_edit_trans[0][12],
-          sts,
-        ];
-        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-        console.log(sentdata,"sentdata")
-        localStorage.setItem("Edit_Trans", sentdata);
-    
-        // const set_data_for_req_details = [
-        //   EditFam,
-        //   selectdepartment_mana,
-        //   ServiceDept,
-        //   Tel_service,
-        //   selectservice_by,
-        //   selectboi_staff,
-        //   selectboi_manager,
-        //   selectfac_manager,
-        //   selectacc_check,
-        //   owner_roting,
-        //   selectacc_manager,
-        //   selectservice_by,
-        //   text_acc_check,
-        // ];
-        // const sendheader = JSON.stringify(set_data_for_req_details);
-        // localStorage.setItem("For_Routing", sendheader);
+        // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
         try {
           const response = await axios.post(
             "http://10.17.74.202:5000/Update_For_Req_All",
@@ -2050,40 +2002,6 @@ function TransFerDetail() {
         setCheckSave("False");
         // navigate("/Search")
       } else {
-        const setData_forTranfer_Req_Tranfer_Details = [
-          Fam_list,
-          ownersend,
-          data_fromboi,
-          selecttrans_factory,
-          selecttrans_cc,
-          new_boi,
-          [selectnew_owner],
-          Tel_for_trans,
-          plan_date,
-          abnormal,
-          receiver,
-          sts,
-        ];
-        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-        localStorage.setItem("For_Transfer", sentdata);
-    
-        const set_data_for_req_details = [
-          Fam_list,
-          selectdepartment_mana,
-          ServiceDept,
-          Tel_service,
-          selectservice_by,
-          selectboi_staff,
-          selectboi_manager,
-          selectfac_manager,
-          selectacc_check,
-          owner_roting,
-          selectacc_manager,
-          selectservice_by,
-          text_acc_check,
-        ];
-        const sendheader = JSON.stringify(set_data_for_req_details);
-        localStorage.setItem("For_Routing", sendheader);
         // console.log("TTTTTTTTTTTT")
         try {
           const response = await axios.post(
