@@ -139,7 +139,8 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
-app.use('/downloads', express.static('/data/Api/Component/uploads/'));
+//app.use('/downloads', express.static('/data/Api/Component/uploads/'));
+app.use('/downloads', express.static(__dirname));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;

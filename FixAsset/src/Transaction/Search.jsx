@@ -66,6 +66,7 @@ function Issue() {
   const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
   const [loading, setloading] = useState("true");
   const [selectindex, setselectindex] = useState("0");
+  const [selectindex_delete, setselectindex_delete] = useState("0");
   const [selectedDateFrom, setSelectedDateFrom] = useState("วว/ดด/ปป");
   const [selectedDateTo, setSelectedDateTo] = useState("วว/ดด/ปป");
   const [Txt_ID_Owner, setTxt_ID_Owner] = useState("");
@@ -224,7 +225,7 @@ function Issue() {
     // console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
-  const handleEdit = async (EditFam, index) => {
+  const handleEdit = async (EditFam, index,TextField) => {
     setselectindex(index);
     setloading("false");
     try {
@@ -285,7 +286,9 @@ function Issue() {
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-    window.location.href = "/ForRe";
+   
+   window.location.href = "/ForRe";
+    
   };
   // const handleFileShow = async (EditFam, index) => {
   //   setselectindex(index);
@@ -350,16 +353,33 @@ function Issue() {
   //   setselectindex("0");
   //   window.location.href = "/FamReq";
   //  }
+  const handleDeleteFile = async (fileName) => {
+  
+    try {
+      const response = await axios.delete(`http://10.17.74.202:5000/deleteFile?data=${fileName}`, 
+          // data: { fileName }
+      );
+      
+  } catch (error) {
+      console.error('Error deleting file:', error);
+      
+  }
+  
+  };
   const TextTitle = () => {
     if(Path=="SEARCH"){
       setTxt_Title("Issue FAM")
+      localStorage.setItem("page", Path);
+      console.log(Path,"TextField")
  
     }
     else if(Path=="APPROVEFAM"){
       setTxt_Title("Approve FAM")
+      localStorage.setItem("page", Path);
     }
     else if(Path=="FAMMASTER"){
       setTxt_Title("FAM Master")
+      localStorage.setItem("page", Path);
     }
   };
   const Search = async () => {
@@ -479,7 +499,10 @@ function Issue() {
     setCheckData("visible");
   };
 
-  const Delete = async (item) => {
+  const Delete = async (item,index) => {
+    setselectindex_delete(index);
+    setloading("false");
+    openPopupLoadding();
     // แสดง SweetAlert เพื่อยืนยันการลบ
     Swal.fire({
       title: "Are you sure you want to delete?",
@@ -508,6 +531,9 @@ function Issue() {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           // โหลดข้อมูลใหม่หลังจากลบข้อมูล
           Search();
+          setloading("True");
+          setselectindex_delete("0")
+          closePopupLoadding();
         } catch (error) {
           console.error("Error deleting data:", error);
         }
@@ -992,14 +1018,22 @@ function Issue() {
                           )
                           }
                         {item[7] === "Create" && (
-                          <DeleteForeverIcon
+                           loading === "false" && index === selectindex_delete ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <DeleteForeverIcon
                             style={{
                               color: "red",
                               fontSize: "30px",
                               display: Path === "SEARCH" ? "block" : "none",
                             }}
-                            onClick={() => Delete(item[2])}
-                          />
+                            onClick={() => {
+                              Delete(item[2], index);
+                              handleDeleteFile(item[8]);
+                            }}
+                             />
+                          )
+                       
                         )}
                       </TableCell>
 

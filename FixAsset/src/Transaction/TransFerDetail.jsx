@@ -12,7 +12,7 @@ import {
   Box,
   Button,
   Autocomplete,
-  FormHelperText
+  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -31,7 +31,7 @@ function TransFerDetail() {
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const navigate = useNavigate();
- 
+
   // กรณี Insert Localstorage
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
@@ -53,7 +53,7 @@ function TransFerDetail() {
   const For_Edit_Rou = JSON.parse(Edit_rout);
   console.log(For_Rq_Edit, "For_Rq_Edit");
   console.log(For_edit_trans, "For_edit_trans");
-  console.log(For_Edit_Rou,"For_Edit_Rou")
+  console.log(For_Edit_Rou, "For_Edit_Rou");
 
   // เก็บตัวแปร
   let STS = "";
@@ -76,7 +76,7 @@ function TransFerDetail() {
     Fam_list = For_Rq_Edit[0];
     servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
   }
-let data1_fromboi = "NAKP"
+  let data1_fromboi = "NAKP";
   ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -115,7 +115,6 @@ let data1_fromboi = "NAKP"
   const [Tel_service, setTel_service] = useState("");
   const [CheckSubmit, setCheckSubmit] = useState("False");
   const [CheckSave, setCheckSave] = useState("False");
-
 
   /////////////// ตัวแปร Radio button//////////////////////////////
   const [selectradio_dept, setselectradio_dept] = useState("");
@@ -174,7 +173,7 @@ let data1_fromboi = "NAKP"
   const [ErrorDate, setErrorDate] = useState(false);
   const [ErrorTel_Rq, setErrorTel_Rq] = useState(false);
   const [ErrorDept, setErrorDept] = useState(false);
-  const [ErrNewboi,setErrNewboi] = useState(false);
+  const [ErrNewboi, setErrNewboi] = useState(false);
 
   /////////////// ตัวแปร Check Read Only //////////////////////////////
   const [read_trans_fac, setReadTransFac] = useState(true);
@@ -242,8 +241,12 @@ let data1_fromboi = "NAKP"
 
   /////////////// ตัวแปร FormatDate //////////////////////////////
   const [currentDate, setCurrentDate] = useState(new Date());
-  const formattedDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`;
-
+  const formattedDate = `${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   //////////////////////////////Loading /////////////////////////
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -261,26 +264,8 @@ let data1_fromboi = "NAKP"
       setFor_sts_reject(For_Rq_Edit[16]);
     }
     if (For_Req != null) {
-      // console.log(For_Req[10], "For_Req[10]");
       setSTS1(For_Req[10]);
     }
-
-    // const TEST = async () => {
-    //   await FactoryCC();
-    //   await TransCC();
-    //   await BOI_FROM();
-    //   await Department_Mana();
-    //   await SERVICEDEPT();
-    //   await Service_By();
-    //   await BOI_Staff();
-    //   await BOI_Manager();
-    //   await Fac_manager();
-    //   await ACC_Check();
-    //   await ACC_Manager();
-    //   await closePopupLoadding();
-    // };
-
-    // TEST();
 
     FactoryCC();
     TransCC();
@@ -293,57 +278,113 @@ let data1_fromboi = "NAKP"
     Fac_manager();
     ACC_Check();
     ACC_Manager();
-    if(EditFam!= null){
-      edit_New_BOI()
+    if (EditFam != null) {
+      edit_New_BOI();
+      
     }
-
-    // 5 วินาทีหรือ 5000 มิลลิวินาที
-    // };
-
-    // TEST();
 
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         openPopupLoadding();
-        console.log("For_edit_trans[0][6]",For_edit_trans)
+        console.log("For_edit_trans[0][6]", For_edit_trans);
         STS = For_Rq_Edit[10];
         Fam_list = For_Rq_Edit[0];
-        //servivedept = For_Rq_Edit[9] + ":" + For_Rq_Edit[13];
-         console.log(For_edit_trans[0][5], "For_edit_trans[0][5]");
+        console.log(For_edit_trans[0][5], "For_edit_trans[0][5]");
         setownersend(For_Rq_Edit[20]);
+        New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
         if (For_edit_trans != null || EditFam != null) {
-          setnew_boi(For_edit_trans[0][2]);
-          New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
-          setselectnew_owner(For_edit_trans[0][9]);
-          if(For_edit_trans[0][6] === "null" || For_edit_trans[0][6] === "" || For_edit_trans[0][6] === undefined || For_edit_trans[0][6] === "null"){
-
-            setabnormal("")
-            
-          }else{
+          if (
+            For_edit_trans[0][2] === "null" ||
+            For_edit_trans[0][2] === "" ||
+            For_edit_trans[0][2] === undefined ||
+            For_edit_trans[0][2] === "null" 
+          ) {
+            setnew_boi("");
+          } else {
+            setnew_boi(For_edit_trans[0][2]);
+          }
+          if (
+            For_edit_trans[0][9] === "null" ||
+            For_edit_trans[0][9] === "" ||
+            For_edit_trans[0][9] === undefined ||
+            For_edit_trans[0][9] === "null" 
+          ) {
+            setselectnew_owner("");
+          } else {
+            setselectnew_owner(For_edit_trans[0][9]);
+          }
+          if (
+            For_edit_trans[0][6] === "null" ||
+            For_edit_trans[0][6] === "" ||
+            For_edit_trans[0][6] === undefined ||
+            For_edit_trans[0][6] === "null"
+          ) {
+            setabnormal("");
+          } else {
             setabnormal(For_edit_trans[0][6]);
           }
-          setTel_for_trans(For_edit_trans[0][4]);
-          setreceiver(For_edit_trans[0][3]);
-          if(For_edit_trans[0][5] === null || For_edit_trans[0][5] === "" || For_edit_trans[0][5] === undefined || For_edit_trans[0][5] === "null"){
-            setplan_date("")
-          }else{
+          
+          if (
+            For_edit_trans[0][4] === null ||
+            For_edit_trans[0][4] === "" ||
+            For_edit_trans[0][4] === undefined ||
+            For_edit_trans[0][4] === "null"
+          ) {
+            setTel_for_trans("");
+          } else {
+            setTel_for_trans(For_edit_trans[0][4]);
+          }
+          if (
+            For_edit_trans[0][3] === null ||
+            For_edit_trans[0][3] === "" ||
+            For_edit_trans[0][3] === undefined ||
+            For_edit_trans[0][3] === "null"
+          ) {
+            setreceiver("");
+          } else {
+            setreceiver(For_edit_trans[0][3]);
+          }
+          if (
+            For_edit_trans[0][5] === null ||
+            For_edit_trans[0][5] === "" ||
+            For_edit_trans[0][5] === undefined ||
+            For_edit_trans[0][5] === "null"
+          ) {
+            setplan_date("");
+          } else {
             setplan_date(For_edit_trans[0][5]);
           }
-          
+
           // setของ Edit Trans
           setowner_roting(For_Rq_Edit[2]);
-          if(For_edit_trans[0][14] === null || For_edit_trans[0][14] === "" || For_edit_trans[0][14] === undefined || For_edit_trans[0][14] === "null"){
-            setsts("")
-          }else{
+       
+          if (
+            For_edit_trans[0][14] === null ||
+            For_edit_trans[0][14] === "" ||
+            For_edit_trans[0][14] === undefined ||
+            For_edit_trans[0][14] === "null"
+          ) {
+            setsts("");
+          } else {
             setsts(For_edit_trans[0][14]);
           }
           //setsts(For_edit_trans[0][14]);
-          edit_New_BOI()
+          edit_New_BOI();
           if (For_Edit_Rou != null) {
             // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
             //set Submit
-
-            setTel_service(For_Edit_Rou[0][7]);
+            if (
+              For_Edit_Rou[0][7] === null ||
+              For_Edit_Rou[0][7] === "" ||
+              For_Edit_Rou[0][7] === undefined ||
+              For_Edit_Rou[0][7] === "null"
+            ) {
+              setTel_service("");
+            } else {
+              setTel_service(For_Edit_Rou[0][7]);
+            }
+        
+           // 
             if (STS != "FLTR001") {
               // console.log("LLLLLLLLLLLLLLLLLLLLLl")
               //setbtnsave("hidden")
@@ -975,25 +1016,89 @@ let data1_fromboi = "NAKP"
       if (For_Trans != null) {
         setownersend(For_Req[18]);
         setowner_roting(For_Req[1]);
-        setdata_fromboi(For_Trans[2]);
-        setnew_boi(For_Trans[5]);
+        setdata_fromboi(For_Trans[2]); 
+
+       
+     
+      
+
+        if (
+          For_Trans[5] === null ||
+          For_Trans[5] === "" ||
+          For_Trans[5] === undefined ||
+          For_Trans[5] === "null"
+        ) {
+          setnew_boi("");
+        } else {
+          setnew_boi(For_Trans[5]);
+        }
+        if (
+          For_Trans[6] === null ||
+          For_Trans[6] === "" ||
+          For_Trans[6] === undefined ||
+          For_Trans[6] === "null"
+        ) {
+          setselectnew_owner("");
+        } else {
+          setselectnew_owner(For_Trans[6]);
+        }
+       
         New_Owner(For_Trans[4], For_Trans[3]);
-        setselectnew_owner(For_Trans[6]);
-        setTel_for_trans(For_Trans[7]);
-       // setplan_date(For_Trans[8]);
-       if(For_Trans[9] === null ||For_Trans[9] === "" || For_Trans[9] === undefined || For_Trans[9] === "null"  ){
-        setabnormal("")
-      }else{
-        setabnormal(For_Trans[9]);
-      }
-        setreceiver(For_Trans[10]);
-        if(For_Trans[8] === null ||For_Trans[8] === "" || For_Trans[8] === undefined || For_Trans[8] === "null"  ){
-          setplan_date("")
-        }else{
+        if (
+          For_Trans[7] === null ||
+          For_Trans[7] === "" ||
+          For_Trans[7] === undefined ||
+          For_Trans[7] === "null"
+        ) {
+          setTel_for_trans("");
+        } else {
+          setTel_for_trans(For_Trans[7]);
+        }
+        
+        // setplan_date(For_Trans[8]);
+        if (
+          For_Trans[9] === null ||
+          For_Trans[9] === "" ||
+          For_Trans[9] === undefined ||
+          For_Trans[9] === "null"
+        ) {
+          setabnormal("");
+        } else {
+          setabnormal(For_Trans[9]);
+        }
+        
+        if (
+          For_Trans[10] === null ||
+          For_Trans[10] === "" ||
+          For_Trans[10] === undefined ||
+          For_Trans[10] === "null"
+        ) {
+          setplan_date("");
+        } else {
+          setreceiver(For_Trans[10]);
+        }
+        if (
+          For_Trans[8] === null ||
+          For_Trans[8] === "" ||
+          For_Trans[8] === undefined ||
+          For_Trans[8] === "null"
+        ) {
+          setplan_date("");
+        } else {
           setplan_date(For_Trans[8]);
         }
         if (For_Rou != null) {
-          setTel_service(For_Rou[3]);
+          if (
+            For_Rou[3] === null ||
+            For_Rou[3] === "" ||
+            For_Rou[3] === undefined ||
+            For_Rou[3] === "null"
+          ) {
+            setTel_service("");
+          } else {
+            setTel_service(For_Rou[3]);
+          }
+          
           setowner_roting(For_Rou[9]);
         }
       } else {
@@ -1047,70 +1152,75 @@ let data1_fromboi = "NAKP"
     setselecttrans_factory(event.target.value);
 
     // // console.log(For_edit_trans, "rrrrr");
-    if (EditFam != null) {
-      if (For_edit_trans) 
-      console.log(">>>>>>>>..", event.target.value);
-      const data = [
-        event.target.value,
-        For_edit_trans[1],
-        For_edit_trans[2],
-        For_edit_trans[4],
-        For_edit_trans[5],
-        For_edit_trans[6],
-        For_edit_trans[7],
-        For_edit_trans[8],
-        For_edit_trans[9],
-      ];
+    // if (EditFam != null) {
+    //   if (For_edit_trans) console.log(">>>>>>>>..", event.target.value);
+    //   const data = [
+    //     event.target.value,
+    //     For_edit_trans[1],
+    //     For_edit_trans[2],
+    //     For_edit_trans[4],
+    //     For_edit_trans[5],
+    //     For_edit_trans[6],
+    //     For_edit_trans[7],
+    //     For_edit_trans[8],
+    //     For_edit_trans[9],
+    //     For_edit_trans[10],
+    //     For_edit_trans[11],
+    //     For_edit_trans[12],
+    //     For_edit_trans[13]
+    //   ];
 
-      const data_edit = JSON.stringify(data);
-      // console.log("/////////////////");
-      localStorage.setItem("Edit_Trans", data_edit);
-      //edit
-    } else {
-      //insert
-      // console.log("------bbbbbb---------");
+    //   const data_edit = JSON.stringify(data);
+    //   // console.log("/////////////////");
+    //   localStorage.setItem("Edit_Trans", data_edit);
+    //   //edit
+    // } else {
+    //   //insert
+    //   // console.log("------bbbbbb---------");
 
-      if (For_Req[0] == "" && For_Req[0] == null) {
-        // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
-        const setData_forTranfer_Req_Tranfer_Details = [
-          Fam_list,
-          ownersend,
-          data_fromboi,
-          "",
-          "",
-          new_boi,
-          [selectnew_owner],
-          "",
-          plan_date,
-          abnormal,
-          receiver,
-        ];
-        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-        localStorage.setItem("For_Transfer", sentdata);
-      } else {
-        // console.log("------///////////----------", For_Trans);
-        const setData_forTranfer_Req_Tranfer_Details = [
-          For_Trans[0],
-          For_Trans[1],
-          For_Trans[2],
-          event.target.value,
-          For_Trans[4],
-          For_Trans[5],
-          For_Trans[6],
-          For_Trans[7],
-          For_Trans[8],
-          For_Trans[9],
-          For_Trans[10],
-        ];
-        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-        localStorage.setItem("For_Transfer", sentdata); //  insert Tranfer
-      }
-    }
+    //   if (For_Req[0] == "" && For_Req[0] == null) {
+    //     // ยังไม่genfam
+    //     // console.log("------>>>>>>>>>>>>>>>>---------");
+    //     const setData_forTranfer_Req_Tranfer_Details = [
+    //       Fam_list,
+    //       ownersend,
+    //       data_fromboi,
+    //       "",
+    //       "",
+    //       new_boi,
+    //       [selectnew_owner],
+    //       "",
+    //       plan_date,
+    //       abnormal,
+    //       receiver,
+    //     ];
+    //     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+    //     localStorage.setItem("For_Transfer", sentdata);
+    //   } else {
+    //     // console.log("------///////////----------", For_Trans);
+    //     const setData_forTranfer_Req_Tranfer_Details = [
+    //       For_Trans[0],
+    //       For_Trans[1],
+    //       For_Trans[2],
+    //       event.target.value,
+    //       For_Trans[4],
+    //       For_Trans[5],
+    //       For_Trans[6],
+    //       For_Trans[7],
+    //       For_Trans[8],
+    //       For_Trans[9],
+    //       For_Trans[10],
+    //     ];
+    //     const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+    //     localStorage.setItem("For_Transfer", sentdata); //  insert Tranfer
+    //   }
+    // }
   };
   const TransCC = async () => {
     try {
-      const response = await axios.get(`http://10.17.74.202:5000/cc_for_transfer`);
+      const response = await axios.get(
+        `http://10.17.74.202:5000/cc_for_transfer`
+      );
       const data = await response.data;
       settrans_cc(data);
       if (EditFam != null) {
@@ -1171,15 +1281,15 @@ let data1_fromboi = "NAKP"
   //     console.error("Error during login:", error);
   //   }
   // };
-  const edit_New_BOI= async () => {
+  const edit_New_BOI = async () => {
     try {
       const response = await axios.get(
-         `http://10.17.74.202:5000/new_boi?fac=${For_edit_trans[0][0]}&cc=${For_edit_trans[0][1]}`
+        `http://10.17.74.202:5000/new_boi?fac=${For_edit_trans[0][0]}&cc=${For_edit_trans[0][1]}`
       );
       const data = response.data;
       const boi = data.flat();
-      setdatanew_boi(boi)
-      console.log(boi,"YYYYY")
+      setdatanew_boi(boi);
+      console.log(boi, "YYYYY");
       if (!boi || boi.length === 0) {
         //setnew_boi(boi);
         setdatanew_boi(["NON BOI"]);
@@ -1187,29 +1297,29 @@ let data1_fromboi = "NAKP"
         //setnew_boi(boi);
         setdatanew_boi(boi);
       }
-
     } catch (error) {
       console.error("Error during login:", error);
     }
-  }
+  };
 
   const handleNew_BOI = async (event) => {
-    setnew_boi("")
+    setselectnew_owner("");
+    setnew_boi("");
     let transCC = event;
-   
+
     setErrorCC(false);
     setselecttrans_cc(event);
-    console.log(event,"55555")
+    console.log(event, "55555");
     New_Owner(transCC, selecttrans_factory);
-  
+
     try {
       const response = await axios.get(
         `http://10.17.74.202:5000/new_boi?fac=${selecttrans_factory}&cc=${transCC}`
       );
       const data = response.data;
       const boi = data.flat();
-      setdatanew_boi(boi)
-      console.log(boi,"YYYYY")
+      setdatanew_boi(boi);
+      console.log(boi, "YYYYY");
       if (!boi || boi.length === 0) {
         //setnew_boi(boi);
         setdatanew_boi(["NON BOI"]);
@@ -1223,7 +1333,7 @@ let data1_fromboi = "NAKP"
       //   setabnormal("");
       // } else {
       //   console.log(abnormal,"Nuuuuuuuuuuuuu")
-  
+
       //   setsts("Y");
       //   // // console.log(abnormal,"Y")
       //   setabnormal("Transfer to difference project");
@@ -1233,22 +1343,20 @@ let data1_fromboi = "NAKP"
     }
   };
   const handleNewboi_proj = async (value) => {
-    console.log(value,"VVVVVVV")
-    let NewPoroj =  value
-if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
-        console.log(abnormal,"Nuuuuuuuuuuuuu")
-        setsts("N");
-        setabnormal("");
-      } else {
-         
-        setsts("Y");
-        // // console.log(abnormal,"Y")
-        setabnormal("Transfer to difference project");
-        console.log(abnormal,"Nuuuuuuuuuuuuu")
-      }
-  }
+    console.log(value, "VVVVVVV");
+    let NewPoroj = value;
+    if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
+      console.log(abnormal, "Nuuuuuuuuuuuuu");
+      setsts("N");
+      setabnormal("");
+    } else {
+      setsts("Y");
+      // // console.log(abnormal,"Y")
+      setabnormal("Transfer to difference project");
+      console.log(abnormal, "Nuuuuuuuuuuuuu");
+    }
+  };
 
-  
   const New_Owner = async (selecttrans_cc, selecttrans_factory) => {
     //// console(selecttrans_cc, "selecttrans_cc", selecttrans_factory);
 
@@ -1256,24 +1364,34 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       const response = await axios.get(
         `http://10.17.74.202:5000/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
       );
-      const data = response.data.flat();
-      setnew_owner(data);
+      let data = response.data.flat();
+      console.log(data, "response.data.flat");
+      if (data.length == 0) {
+        setnew_owner(["No Data"]);
+      } else {
+        setnew_owner(data);
+      }
     } catch (error) {
       //console.error("Error during login:", error);
     }
   };
   const handleNewOwner = (event) => {
-    let New_own = event.target.value;
-    const parts = New_own.split(":");
-    let result = parts[1].trim();
-    setselectnew_owner(New_own); // เก็บ select ของ new owner
-    setreceiver(result);
+    let New_own = event;
+    console.log(New_own, "event");
+    if (New_own == "No Data") {
+      setselectnew_owner(New_own); // เก็บ select ของ new owner
+      setreceiver(New_own);
+    } else {
+      const parts = New_own.split(":");
+      let result = parts[1].trim();
+      setselectnew_owner(New_own); // เก็บ select ของ new owner
+      setreceiver(result);
+    }
   };
   const Department_Mana = async () => {
-    
     let level = "";
     let cc = "";
-    
+
     if (EditFam != null) {
       if (For_edit_trans != null) {
         level = For_Rq_Edit[14];
@@ -1282,7 +1400,7 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
     } else {
       level = For_Req[3];
       cc = For_Req[16];
-      console.log(For_Req[16],"((((([16]")
+      console.log(For_Req[16], "((((([16]");
     }
 
     try {
@@ -1329,11 +1447,32 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       setservice_by(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectservice_by(For_Edit_Rou[0][5]);
+          if (
+            For_Edit_Rou[0][5]=== null ||
+            For_Edit_Rou[0][5] === "" ||
+            For_Edit_Rou[0][5] === undefined ||
+            For_Edit_Rou[0][5] === "null"
+          ) {
+         
+            setselectservice_by("");
+          } else {
+            setselectservice_by(For_Edit_Rou[0][5]);
+          }
         }
       } else {
         if (For_Req != null) {
-          setselectservice_by(For_Rou[4]);
+          if (
+            For_Rou[4]=== null ||
+            For_Rou[4] === "" ||
+            For_Rou[4] === undefined ||
+            For_Rou[4] === "null"
+          ) {
+         
+            setselectservice_by("");
+          } else {
+            setselectservice_by(For_Rou[4]);
+          }
+         
         } else {
           setselectservice_by("");
         }
@@ -1451,12 +1590,34 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       setacc_check(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
-          setselectacc_check(For_Edit_Rou[0][20]);
-          settext_acc_check(For_Edit_Rou[0][20]);
+          if (
+            For_Edit_Rou[0][20]=== null ||
+            For_Edit_Rou[0][20] === "" ||
+            For_Edit_Rou[0][20] === undefined ||
+            For_Edit_Rou[0][20] === "null"
+          ) {
+            settext_acc_check("");
+            setselectacc_check("");
+          } else {
+            setselectacc_check(For_Edit_Rou[0][20]);
+            settext_acc_check(For_Edit_Rou[0][20]);
+          }
         }
       } else {
         if (For_Req != null) {
-          setselectacc_check(For_Rou[8]);
+          if (
+            For_Rou[8]=== null ||
+            For_Rou[8] === "" ||
+            For_Rou[8] === undefined ||
+            For_Rou[8] === "null"
+          ) {
+            settext_acc_check("");
+            setselectacc_check("");
+          } else {
+            setselectacc_check(For_Rou[8]);
+            settext_acc_check(For_Rou[8]);
+          }
+        
         } else {
           setselectacc_check("");
         }
@@ -1505,30 +1666,22 @@ if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       const data_edit = JSON.stringify(data);
 
       localStorage.setItem("Edit_Trans", data_edit);
-
     } catch (error) {
-
       //console.error("Error during login:", error);
-
     }
 
     try {
-
       const response = await axios.get(
-
         `http://10.17.74.202:5000/getEdit_routing?FamNo=${EditFam}`
-
       );
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_routing", data_edit);
-
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   const Back_page = async () => {
-openPopupLoadding();
-console.log("selecttrans_cc",selecttrans_cc)
+    openPopupLoadding();
+    console.log("selecttrans_cc", selecttrans_cc);
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1538,12 +1691,8 @@ console.log("selecttrans_cc",selecttrans_cc)
       ServiceDept = For_Req[8];
     }
 
-  
-    
-
     if (EditFam != null) {
-    
-      console.log("kulllllllllllllllllllllllllllllll")
+      console.log("kulllllllllllllllllllllllllllllll");
       // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
       try {
         const response = await axios.post(
@@ -1565,7 +1714,7 @@ console.log("selecttrans_cc",selecttrans_cc)
             record_by: text_acc_check,
             owner_id: For_Rq_Edit[17],
             owner_dept: For_Rq_Edit[18],
-            owner_tel:For_Rq_Edit[19]
+            owner_tel: For_Rq_Edit[19],
           }
         );
       } catch (error) {
@@ -1594,7 +1743,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         //console.error("Error during login:", error);
       }
       try {
-        console.log(For_Rq_Edit[1],"For_Rq_Edit[1]")
+        console.log(For_Rq_Edit[1], "For_Rq_Edit[1]");
         const response = await axios.post(
           `http://10.17.74.202:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
         );
@@ -1603,7 +1752,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         //console.error("Error during login:", error);
       }
       try {
-        console.log("bbbb")
+        console.log("bbbb");
         const response = await axios.post(
           `http://10.17.74.202:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
         );
@@ -1625,11 +1774,10 @@ console.log("selecttrans_cc",selecttrans_cc)
         abnormal,
         receiver,
         sts,
-        
       ];
       const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
       localStorage.setItem("For_Transfer", sentdata);
-  
+
       const set_data_for_req_details = [
         Fam_list,
         selectdepartment_mana,
@@ -1643,11 +1791,11 @@ console.log("selecttrans_cc",selecttrans_cc)
         owner_roting,
         selectacc_manager,
         selectservice_by,
-        text_acc_check
+        text_acc_check,
       ];
       const sendheader = JSON.stringify(set_data_for_req_details);
       localStorage.setItem("For_Routing", sendheader);
-     // console.log("TTTTTTTTTTTT")
+      // console.log("TTTTTTTTTTTT")
       try {
         const response = await axios.post(
           "http://10.17.74.202:5000/Update_For_Req_All",
@@ -1668,7 +1816,7 @@ console.log("selecttrans_cc",selecttrans_cc)
             record_by: text_acc_check,
             owner_id: For_Req[15],
             owner_dept: For_Req[16],
-            owner_tel:For_Req[17]
+            owner_tel: For_Req[17],
           }
         );
       } catch (error) {
@@ -1713,9 +1861,10 @@ console.log("selecttrans_cc",selecttrans_cc)
   };
   // ปุ่ม SAVE
   const SAVE = async () => {
-    console.log("EditFam",EditFam)
-    console.log("data_fromboi",data_fromboi)
- 
+    console.log("EditFam", EditFam);
+    console.log("data_fromboi", data_fromboi);
+    console.log(text_acc_check,"UUU",selectacc_check,service_by)
+
     // console.log(For_Req,)
     let ServiceDept = "";
     if (EditFam != null) {
@@ -1726,45 +1875,40 @@ console.log("selecttrans_cc",selecttrans_cc)
       ServiceDept = For_Req[8];
     }
 
-  
-    const setData_forTranfer_Req_Tranfer_Details = [
-      Fam_list,
-      ownersend,
-      data_fromboi,
-      selecttrans_factory,
-      selecttrans_cc,
-      new_boi,
-      [selectnew_owner],
-      Tel_for_trans,
-      plan_date,
-      abnormal,
-      receiver,
-      sts,
-      
-    ];
-    const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-    localStorage.setItem("For_Transfer", sentdata);
+    // const setData_forTranfer_Req_Tranfer_Details = [
+    //   Fam_list,
+    //   ownersend,
+    //   data_fromboi,
+    //   selecttrans_factory,
+    //   selecttrans_cc,
+    //   new_boi,
+    //   [selectnew_owner],
+    //   Tel_for_trans,
+    //   plan_date,
+    //   abnormal,
+    //   receiver,
+    //   sts,
+    // ];
+    // const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+    // localStorage.setItem("For_Transfer", sentdata);
 
-    const set_data_for_req_details = [
-      Fam_list,
-      selectdepartment_mana,
-      ServiceDept,
-      Tel_service,
-      selectservice_by,
-      selectboi_staff,
-      selectboi_manager,
-      selectfac_manager,
-      selectacc_check,
-      owner_roting,
-      selectacc_manager,
-      selectservice_by,
-      text_acc_check
-    ];
-    const sendheader = JSON.stringify(set_data_for_req_details);
-    localStorage.setItem("For_Routing", sendheader);
-
-
-
+    // const set_data_for_req_details = [
+    //   Fam_list,
+    //   selectdepartment_mana,
+    //   ServiceDept,
+    //   Tel_service,
+    //   selectservice_by,
+    //   selectboi_staff,
+    //   selectboi_manager,
+    //   selectfac_manager,
+    //   selectacc_check,
+    //   owner_roting,
+    //   selectacc_manager,
+    //   selectservice_by,
+    //   text_acc_check,
+    // ];
+    // const sendheader = JSON.stringify(set_data_for_req_details);
+    // localStorage.setItem("For_Routing", sendheader);
 
     const confirmResult = await Swal.fire({
       title: "Are you sure you want to save?",
@@ -1775,163 +1919,245 @@ console.log("selecttrans_cc",selecttrans_cc)
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, save it!",
       cancelButtonText: "No, cancel!",
-  });
-  if (confirmResult.isConfirmed) {
-    setCheckSave("True")
-    if (EditFam != null) {
-      
-      // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
-      try {
-        const response = await axios.post(
-          "http://10.17.74.202:5000/Update_For_Req_All",
-          {
-            famno: For_Rq_Edit[0],
-            dept: For_Rq_Edit[6],
-            tel: For_Rq_Edit[3],
-            remark: For_Rq_Edit[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[2],
-            record_by: text_acc_check,
-            owner_id: For_Rq_Edit[17],
-            owner_dept: For_Rq_Edit[18],
-            owner_tel:For_Rq_Edit[19]
-          }
-        );
-      } catch (error) {
-        //     console.error("Error updating submit status:", error.message);
+    });
+    if (confirmResult.isConfirmed) {
+      setCheckSave("True");
+      if (EditFam != null) {
+        console.log( selecttrans_factory,
+          selecttrans_cc,
+          new_boi, 
+          receiver, 
+         Tel_for_trans,
+         plan_date,
+           abnormal, 
+          EditFam,
+          [selectnew_owner], 
+          selectradio_receiver,
+          action__receiver,
+          cmmtradio_receiver,
+          For_edit_trans[0][12],
+           sts,"IIIIII")
+        const setData_forTranfer_Req_Tranfer_Details = [
+         selecttrans_factory,
+         selecttrans_cc,
+         new_boi, 
+         receiver, 
+        Tel_for_trans,
+        plan_date,
+          abnormal, 
+         EditFam,
+         [selectnew_owner], 
+         selectradio_receiver,
+         action__receiver,
+         cmmtradio_receiver,
+         For_edit_trans[0][12],
+          sts,
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        console.log(sentdata,"sentdata")
+        localStorage.setItem("Edit_Trans", sentdata);
+    
+        // const set_data_for_req_details = [
+        //   EditFam,
+        //   selectdepartment_mana,
+        //   ServiceDept,
+        //   Tel_service,
+        //   selectservice_by,
+        //   selectboi_staff,
+        //   selectboi_manager,
+        //   selectfac_manager,
+        //   selectacc_check,
+        //   owner_roting,
+        //   selectacc_manager,
+        //   selectservice_by,
+        //   text_acc_check,
+        // ];
+        // const sendheader = JSON.stringify(set_data_for_req_details);
+        // localStorage.setItem("For_Routing", sendheader);
+        try {
+          const response = await axios.post(
+            "http://10.17.74.202:5000/Update_For_Req_All",
+            {
+              famno: For_Rq_Edit[0],
+              dept: For_Rq_Edit[6],
+              tel: For_Rq_Edit[3],
+              remark: For_Rq_Edit[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Rq_Edit[2],
+              record_by: text_acc_check,
+              owner_id: For_Rq_Edit[17],
+              owner_dept: For_Rq_Edit[18],
+              owner_tel: For_Rq_Edit[19],
+            }
+          );
+        } catch (error) {
+          //     console.error("Error updating submit status:", error.message);
+        }
+        try {
+          const row = axios.post(
+            `http://10.17.74.202:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+          );
+        } catch (error) {
+          //console.error("Error requesting data:", error);
+        }
+        try {
+          const row = axios.post(
+            `http://10.17.74.202:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+          );
+        } catch (error) {
+          //console.error("Error requesting data:", error);
+        }
+        try {
+          const response = await axios.post(
+            `http://10.17.74.202:5000/update_date?tranfer=${EditFam}`
+          );
+          //// console(data, "data");
+        } catch (error) {
+          //console.error("Error during login:", error);
+        }
+        try {
+          console.log(For_Rq_Edit[1], "For_Rq_Edit[1]");
+          const response = await axios.post(
+            `http://10.17.74.202:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+          );
+          //// console(data, "data");
+        } catch (error) {
+          //console.error("Error during login:", error);
+        }
+        try {
+          console.log("bbbb");
+          const response = await axios.post(
+            `http://10.17.74.202:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
+          );
+          //// console(data, "data");
+        } catch (error) {
+          //console.error("Error during login:", error);
+        }
+
+        Swal.fire({
+          title: "Save Success",
+          text: "Your data has been saved successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        setCheckSave("False");
+        // navigate("/Search")
+      } else {
+        const setData_forTranfer_Req_Tranfer_Details = [
+          Fam_list,
+          ownersend,
+          data_fromboi,
+          selecttrans_factory,
+          selecttrans_cc,
+          new_boi,
+          [selectnew_owner],
+          Tel_for_trans,
+          plan_date,
+          abnormal,
+          receiver,
+          sts,
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata);
+    
+        const set_data_for_req_details = [
+          Fam_list,
+          selectdepartment_mana,
+          ServiceDept,
+          Tel_service,
+          selectservice_by,
+          selectboi_staff,
+          selectboi_manager,
+          selectfac_manager,
+          selectacc_check,
+          owner_roting,
+          selectacc_manager,
+          selectservice_by,
+          text_acc_check,
+        ];
+        const sendheader = JSON.stringify(set_data_for_req_details);
+        localStorage.setItem("For_Routing", sendheader);
+        // console.log("TTTTTTTTTTTT")
+        try {
+          const response = await axios.post(
+            "http://10.17.74.202:5000/Update_For_Req_All",
+            {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+            }
+          );
+        } catch (error) {
+          //     console.error("Error updating submit status:", error.message);
+        }
+        // console.log("sts", sts);
+        try {
+          const response = await axios.post(
+            `http://10.17.74.202:5000/create_date?tranfer=${Fam_list}`
+          );
+        } catch (error) {
+          //console.error("Error during login:", error);
+        }
       }
+
       try {
         const row = axios.post(
-          `http://10.17.74.202:5000/ins_transfer?running_no=${EditFam}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
+          `http://10.17.74.202:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
         );
       } catch (error) {
         //console.error("Error requesting data:", error);
       }
       try {
         const row = axios.post(
-          `http://10.17.74.202:5000/routing_tran?running_no=${EditFam}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
+          // ////// console(New_BOI,"New_BOI")
+          `http://10.17.74.202:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
         );
       } catch (error) {
-        //console.error("Error requesting data:", error);
+        ////console.error("Error requesting data:", error);
       }
       try {
         const response = await axios.post(
-          `http://10.17.74.202:5000/update_date?tranfer=${EditFam}`
+          `http://10.17.74.202:5000/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
         );
         //// console(data, "data");
       } catch (error) {
         //console.error("Error during login:", error);
       }
-      try {
-        console.log(For_Rq_Edit[1],"For_Rq_Edit[1]")
-        const response = await axios.post(
-          `http://10.17.74.202:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
-        );
-        //// console(data, "data");
-      } catch (error) {
-        //console.error("Error during login:", error);
-      }
-      try {
-        console.log("bbbb")
-        const response = await axios.post(
-          `http://10.17.74.202:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
-        );
-        //// console(data, "data");
-      } catch (error) {
-        //console.error("Error during login:", error);
-      }
-      
-    Swal.fire({
-      title: "Save Success",
-      text: "Your data has been saved successfully!",
-      icon: "success",
-      confirmButtonText: "OK",
-    });
-    setCheckSave("False")
-   // navigate("/Search")
-    } else {
-     // console.log("TTTTTTTTTTTT")
-      try {
-        const response = await axios.post(
-          "http://10.17.74.202:5000/Update_For_Req_All",
-          {
-            famno: For_Req[0],
-            dept: For_Req[5],
-            tel: For_Req[2],
-            remark: For_Req[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Req[1],
-            record_by: text_acc_check,
-            owner_id: For_Req[15],
-            owner_dept: For_Req[16],
-            owner_tel:For_Req[17]
-          }
-        );
-      } catch (error) {
-        //     console.error("Error updating submit status:", error.message);
-      }
-      // console.log("sts", sts);
-      try {
-        const response = await axios.post(
-          `http://10.17.74.202:5000/create_date?tranfer=${Fam_list}`
-        );
-      } catch (error) {
-        //console.error("Error during login:", error);
-      }
-    }
 
-    try {
-      const row = axios.post(
-        `http://10.17.74.202:5000/ins_transfer?running_no=${Fam_list}&date_plan=${plan_date}&fac=${selecttrans_factory}&cc=${selecttrans_cc}&to_proj=${new_boi}&by=${receiver}&tel=${Tel_for_trans}&status=${sts}&abnormal=${abnormal}`
-      );
-    } catch (error) {
-      //console.error("Error requesting data:", error);
+      Swal.fire({
+        title: "Save Success",
+        text: "Your data has been saved successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      setCheckSave("False");
+      // navigate("/Search")
+      setOpen(true);
     }
-    try {
-      const row = axios.post(
-        // ////// console(New_BOI,"New_BOI")
-        `http://10.17.74.202:5000/routing_tran?running_no=${Fam_list}&m_dept=${selectdepartment_mana}&s_dept=${ServiceDept}&s_tel=${Tel_service}&s_by=${selectservice_by}&chk_by=${selectboi_staff}&boi_by=${selectboi_manager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${owner_roting}&acc_record=${selectacc_check}&acc_manager=${selectacc_manager}&service_close_by=${selectservice_by}`
-      );
-    } catch (error) {
-      ////console.error("Error requesting data:", error);
-    }
-    try {
-      const response = await axios.post(
-        `http://10.17.74.202:5000/update_new_cc?fam=${Fam_list}&New_cc=${selecttrans_cc}&updateby=${For_Req[1]}`
-      );
-      //// console(data, "data");
-    } catch (error) {
-      //console.error("Error during login:", error);
-    }
-
-    Swal.fire({
-      title: "Save Success",
-      text: "Your data has been saved successfully!",
-      icon: "success",
-      confirmButtonText: "OK",
-    });
-    setCheckSave("False")
-   // navigate("/Search")
-    setOpen(true);
-  }
   };
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
-   
     if (EditFam != null) {
       if (
         For_Rq_Edit[3] === null ||
@@ -1980,14 +2206,12 @@ console.log("selecttrans_cc",selecttrans_cc)
         navigate("/ForRe");
         return;
       }
-  
 
       if (
         selecttrans_factory === null ||
         selecttrans_factory === undefined ||
         selecttrans_factory === "" ||
-        selecttrans_factory === "null" 
-
+        selecttrans_factory === "null"
       ) {
         alert("Please fill in information: Factory");
         setErrorFac(true);
@@ -2020,20 +2244,6 @@ console.log("selecttrans_cc",selecttrans_cc)
         setErrNewboi(false);
       }
       if (
-        Tel_for_trans === null ||
-        Tel_for_trans === undefined ||
-        Tel_for_trans === "" ||
-        Tel_for_trans === "null"
-      ) {
-        alert("Please fill in information: Tel ");
-        setErrorTel(true);
-        return;
-      } else {
-        setErrorTel(false);
-      }
- 
-
-      if (
         selectnew_owner === null ||
         selectnew_owner === undefined ||
         selectnew_owner === "" ||
@@ -2045,7 +2255,26 @@ console.log("selecttrans_cc",selecttrans_cc)
       } else {
         setErrorNewOwn(false);
       }
-      if (plan_date === null || plan_date === undefined || plan_date === "" || plan_date === "null") {
+
+      if (
+        Tel_for_trans === null ||
+        Tel_for_trans === undefined ||
+        Tel_for_trans === "" ||
+        Tel_for_trans === "null"
+      ) {
+        alert("Please fill in information: Tel ");
+        setErrorTel(true);
+        return;
+      } else {
+        setErrorTel(false);
+      }
+
+      if (
+        plan_date === null ||
+        plan_date === undefined ||
+        plan_date === "" ||
+        plan_date === "null"
+      ) {
         // console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
         setErrorDate(true);
         alert("Please fill in information: Date");
@@ -2057,7 +2286,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         selectdepartment_mana === null ||
         selectdepartment_mana === undefined ||
         selectdepartment_mana === "" ||
-        selectdepartment_mana === "null" 
+        selectdepartment_mana === "null"
       ) {
         setErrorManager(true);
         alert("Please fill in information: Department Manager ");
@@ -2081,8 +2310,8 @@ console.log("selecttrans_cc",selecttrans_cc)
       if (
         selectservice_by === null ||
         selectservice_by === undefined ||
-        selectservice_by === ""  ||
-        selectservice_by === "null" 
+        selectservice_by === "" ||
+        selectservice_by === "null"
       ) {
         setErrorService_by(true);
         alert("Please fill in information: Service By");
@@ -2090,7 +2319,6 @@ console.log("selecttrans_cc",selecttrans_cc)
       } else {
         setErrorService_by(false);
       }
-      
 
       if (
         selectboi_staff === null ||
@@ -2154,7 +2382,6 @@ console.log("selecttrans_cc",selecttrans_cc)
         setErrorAcc_Mana(false);
       }
       try {
-        
         const response = await axios.get(
           `http://10.17.74.202:5000/getEdit_FixAsset?FamNo=${EditFam}`
         );
@@ -2182,7 +2409,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         For_Req[5] === null ||
         For_Req[5] === undefined ||
         For_Req[5] === "" ||
-        For_Req[5] === "null" 
+        For_Req[5] === "null"
       ) {
         alert("Please fill in information: Dept");
         setErrorDept(true);
@@ -2193,7 +2420,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         For_Req[15] === null ||
         For_Req[15] === undefined ||
         For_Req[15] === "" ||
-        For_Req[15] === "null" 
+        For_Req[15] === "null"
       ) {
         alert("Please fill in information: Request Owner");
         navigate("/ForRe");
@@ -2203,7 +2430,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         For_Req[17] === null ||
         For_Req[17] === undefined ||
         For_Req[17] === "" ||
-        For_Req[17] === "null" 
+        For_Req[17] === "null"
       ) {
         alert("Please fill in information: Owner Tel");
         navigate("/ForRe");
@@ -2213,7 +2440,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         selecttrans_factory === null ||
         selecttrans_factory === undefined ||
         selecttrans_factory === "" ||
-        selecttrans_factory === "null" 
+        selecttrans_factory === "null"
       ) {
         alert("Please fill in information: Factory");
         setErrorFac(true);
@@ -2233,12 +2460,12 @@ console.log("selecttrans_cc",selecttrans_cc)
         // console.log("YYYYYYYY");
         setErrorCC(false);
       }
-   
+
       if (
         new_boi === null ||
         new_boi === undefined ||
         new_boi === "" ||
-        new_boi === "null" 
+        new_boi === "null"
       ) {
         setErrNewboi(true);
         alert("Please fill in information: New BOI Project  ");
@@ -2247,10 +2474,22 @@ console.log("selecttrans_cc",selecttrans_cc)
         setErrNewboi(false);
       }
       if (
+        selectnew_owner === null ||
+        selectnew_owner === undefined ||
+        selectnew_owner === "" ||
+        selectnew_owner === "null"
+      ) {
+        setErrorNewOwn(true);
+        alert("Please fill in information: New Owner ");
+        return;
+      } else {
+        setErrorNewOwn(false);
+      }
+      if (
         Tel_for_trans === null ||
         Tel_for_trans === undefined ||
         Tel_for_trans === "" ||
-        Tel_for_trans === "null" 
+        Tel_for_trans === "null"
       ) {
         alert("Please fill in information: Tel ");
         setErrorTel(true);
@@ -2259,18 +2498,11 @@ console.log("selecttrans_cc",selecttrans_cc)
         setErrorTel(false);
       }
       if (
-        selectnew_owner === null ||
-        selectnew_owner === undefined ||
-        selectnew_owner === "" ||
-         selectnew_owner === "null"
+        plan_date === null ||
+        plan_date === undefined ||
+        plan_date === "" ||
+        plan_date === "null"
       ) {
-        setErrorNewOwn(true);
-        alert("Please fill in information: New Owner ");
-        return;
-      } else {
-        setErrorNewOwn(false);
-      }
-      if (plan_date === null || plan_date === undefined || plan_date === "" || plan_date === "null") {
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -2289,7 +2521,7 @@ console.log("selecttrans_cc",selecttrans_cc)
       } else {
         setErrorManager(false);
       }
-      
+
       if (
         Tel_service === null ||
         Tel_service === undefined ||
@@ -2319,7 +2551,7 @@ console.log("selecttrans_cc",selecttrans_cc)
         selectboi_staff === null ||
         selectboi_staff === undefined ||
         selectboi_staff === "" ||
-        selectboi_staff === "null" 
+        selectboi_staff === "null"
       ) {
         alert("Please fill in information: BOI Staff");
         setErrorBoi_Staff(true);
@@ -2379,12 +2611,12 @@ console.log("selecttrans_cc",selecttrans_cc)
     }
 
     if (EditFam != null) {
+      openPopupLoadding();
       //setCheckSubmit("True")
       // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
-      
-        if (For_Rq_Edit[10] === "FLTR001") {  
-          console.log( For_Rq_Edit[0], " For_Rq_Edit[0]");
+        if (For_Rq_Edit[10] === "FLTR001") {
+          console.log(For_Rq_Edit[0], " For_Rq_Edit[0]");
           let Status = "FLTR002";
           try {
             // console.log("For_Rq_Edit", For_Rq_Edit[0]);
@@ -2407,14 +2639,19 @@ console.log("selecttrans_cc",selecttrans_cc)
                 record_by: text_acc_check,
                 owner_id: For_Rq_Edit[17],
                 owner_dept: For_Rq_Edit[18],
-                owner_tel:For_Rq_Edit[19]
+                owner_tel: For_Rq_Edit[19],
               }
             );
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
           try {
-            console.log( For_Rq_Edit[0], "For_Rq_Edit[0]yyyy",plan_date,selecttrans_factory);
+            console.log(
+              For_Rq_Edit[0],
+              "For_Rq_Edit[0]yyyy",
+              plan_date,
+              selecttrans_factory
+            );
             const response = await axios.post(
               "http://10.17.74.202:5000/Update_For_Trans_All",
               {
@@ -2442,7 +2679,7 @@ console.log("selecttrans_cc",selecttrans_cc)
             //console.error("Error during login:", error);
           }
           try {
-            console.log("bbbb")
+            console.log("bbbb");
             const response = await axios.post(
               `http://10.17.74.202:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
             );
@@ -2450,7 +2687,7 @@ console.log("selecttrans_cc",selecttrans_cc)
           } catch (error) {
             //console.error("Error during login:", error);
           }
-          
+
           try {
             const response = await axios.post(
               "http://10.17.74.202:5000/update_submit",
@@ -2463,7 +2700,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Submit Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2491,7 +2728,7 @@ console.log("selecttrans_cc",selecttrans_cc)
                 record_by: text_acc_check,
                 owner_id: For_Rq_Edit[17],
                 owner_dept: For_Rq_Edit[18],
-                owner_tel:For_Rq_Edit[19]
+                owner_tel: For_Rq_Edit[19],
               }
             );
           } catch (error) {
@@ -2551,7 +2788,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Submit Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2573,7 +2810,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2597,7 +2834,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-         //   setCheckSubmit("False")
+            //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2618,7 +2855,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2639,7 +2876,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-          //  setCheckSubmit("False")
+            //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2660,7 +2897,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2681,7 +2918,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-          //  setCheckSubmit("False")
+            //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
@@ -2702,7 +2939,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-           // setCheckSubmit("False")
+            // setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2723,7 +2960,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-         //   setCheckSubmit("False")
+            //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2755,7 +2992,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-         //   setCheckSubmit("False")
+            //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2776,7 +3013,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-          //  setCheckSubmit("False")
+            //  setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2797,12 +3034,13 @@ console.log("selecttrans_cc",selecttrans_cc)
               title: "Save Success",
               icon: "success",
             });
-         //   setCheckSubmit("False")
+            //   setCheckSubmit("False")
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
         }
+       
       }
     } else {
       // Submit กรณี insert
@@ -2848,7 +3086,7 @@ console.log("selecttrans_cc",selecttrans_cc)
               record_by: text_acc_check,
               owner_id: For_Req[15],
               owner_dept: For_Req[16],
-              owner_tel:For_Req[17]
+              owner_tel: For_Req[17],
             }
           );
         } catch (error) {
@@ -2878,9 +3116,8 @@ console.log("selecttrans_cc",selecttrans_cc)
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        
       }
-     // setCheckSubmit("False")
+      // setCheckSubmit("False")
       navigate("/Search");
     }
     localStorage.removeItem("ForRequester");
@@ -2893,11 +3130,12 @@ console.log("selecttrans_cc",selecttrans_cc)
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
+    closePopupLoadding();
   };
   // ปุ่ม Reset
   const Reset = async () => {
-    if(EditFam !==null){
-      if(STS1 == "" || STS1 =="FLTR001" || For_sts_reject =="R") {
+    if (EditFam !== null) {
+      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R") {
         setselecttrans_factory([]);
         setselecttrans_cc([]);
         setnew_boi("");
@@ -2913,42 +3151,52 @@ console.log("selecttrans_cc",selecttrans_cc)
         setselectfac_manager([]);
         setselectacc_check([]);
         setselectacc_manager([]);
-      }if (STS1 == "FLTR002"){
+      }
+      if (STS1 == "FLTR002") {
         setselectradio_dept("");
         setcmmtradio_dept("");
-      } if (STS1 == "FLTR003"){
+      }
+      if (STS1 == "FLTR003") {
         setselectradio_serviceby("");
         setcmmtradio_serviceby("");
-      } if (STS1 == "FLTR004"){
+      }
+      if (STS1 == "FLTR004") {
         setselectradio_boistaff("");
         setcmmtradio_boistaff("");
-      }if (STS1 == "FLTR005"){
+      }
+      if (STS1 == "FLTR005") {
         setselectradio_boimanager("");
         setcmmtradio_boimanager("");
-      }if (STS1 == "FLTR006"){
+      }
+      if (STS1 == "FLTR006") {
         setselectradio_facmanager("");
         setcmmtradio_facmanager("");
-      }if (STS1 == "FLTR007"){
+      }
+      if (STS1 == "FLTR007") {
         setselectradio_acc_check("");
         setcmmtradio_acc_check("");
-      }if (STS1 == "FLTR008"){
+      }
+      if (STS1 == "FLTR008") {
         setselectradio_owner("");
         setcmmtradio_owner("");
-      }if (STS1 == "FLTR009"){
+      }
+      if (STS1 == "FLTR009") {
         setselectradio_receiver("");
         setcmmtradio_receiver("");
-      }if (STS1 == "FLTR010"){
+      }
+      if (STS1 == "FLTR010") {
         setselectradio_record("");
         setcmmtradio_record("");
-      }if (STS1 == "FLTR011"){
+      }
+      if (STS1 == "FLTR011") {
         setselectradio_acc_manager("");
         setcmmtradio_acc_manager("");
-      }if (STS1 == "FLTR012"){
+      }
+      if (STS1 == "FLTR012") {
         setselectradio_service_close_by("");
         setcmmtradio_service_close_by("");
       }
-     
-    }else{
+    } else {
       setselecttrans_factory([]);
       setselecttrans_cc([]);
       setnew_boi("");
@@ -2965,7 +3213,6 @@ console.log("selecttrans_cc",selecttrans_cc)
       setselectacc_check([]);
       setselectacc_manager([]);
     }
-   
   };
   // Const Return
   return (
@@ -3034,8 +3281,7 @@ console.log("selecttrans_cc",selecttrans_cc)
                         id="outlined-size-small"
                         defaultFactoryValue=""
                         size="small"
-                        value=
-                        {data_fromboi}
+                        value={data_fromboi}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
@@ -3147,36 +3393,42 @@ console.log("selecttrans_cc",selecttrans_cc)
                           ))}
                         </Select> */}
                         <Autocomplete
-                         disabled={read_trans_cc}
-                   style={{
-                    backgroundColor: read_trans_cc
-                      ? "rgba(169, 169, 169, 0.3)"
-                      : "",
-                  }}
-                      value={selecttrans_cc}
-                      onChange={(e, value) => {
-                        setselecttrans_cc(value);
-                        handleNew_BOI(value);
-                    }}
-                    
-                      options={trans_cc.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Select"
-                          size="small"
-                          sx={{ textAlign: "left" }}
+                          disabled={read_trans_cc}
+                          style={{
+                            backgroundColor: read_trans_cc
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          value={selecttrans_cc}
+                          onChange={(e, value) => {
+                            setselecttrans_cc(value);
+                            handleNew_BOI(value);
+                          }}
+                          options={trans_cc.map((item) => item[0])}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select"
+                              size="small"
+                              sx={{ textAlign: "left" }}
+                              error={ErrorCC && !selecttrans_cc}
+                            />
+                          )}
                         />
-                      )}
-                    />
+                        {console.log(trans_cc,"trans_cc")}
+                        {ErrorCC && !selecttrans_cc && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : Transfer To CC
+                          </FormHelperText>
+                        )}
                       </FormControl>
                     ) : (
                       <TextField
-                      style={{
-                        backgroundColor: selecttrans_cc
-                          ? "rgba(169, 169, 169, 0.3)"
-                          : "",
-                      }}
+                        style={{
+                          backgroundColor: selecttrans_cc
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
@@ -3203,23 +3455,29 @@ console.log("selecttrans_cc",selecttrans_cc)
                         onChange={(e) => setnew_boi(e.target.value)}
                         disabled
                       /> */}
-                    <Autocomplete
-                     disabled={read_trans_cc}
-                    style={{
-                      backgroundColor: read_trans_cc ? "rgba(169, 169, 169, 0.3)" : "",
-                    }}
-                    error={ErrNewboi && (!new_boi || new_boi == "null" )}
-  disablePortal
-  size="small"
-  options={datanew_boi}
-  value={new_boi}
-  onChange={(event, newValue) => {
-    setnew_boi(newValue);
-    handleNewboi_proj(newValue)
-  }}
-  renderInput={(params) => <TextField {...params}  />}
-/>
-{(ErrNewboi && !new_boi) && <FormHelperText style={{color : "red"}}>Please select : New BOI Project </FormHelperText>}
+                      <Autocomplete
+                        disabled={read_trans_cc}
+                        style={{
+                          backgroundColor: read_trans_cc
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        error={ErrNewboi && (!new_boi || new_boi == "null")}
+                        disablePortal
+                        size="small"
+                        options={datanew_boi}
+                        value={new_boi}
+                        onChange={(event, newValue) => {
+                          setnew_boi(newValue);
+                          handleNewboi_proj(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                      {ErrNewboi && !new_boi && (
+                        <FormHelperText style={{ color: "red" }}>
+                          Please select : New BOI Project{" "}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </td>
                   <td className="Style5" colSpan={3}></td>
@@ -3230,8 +3488,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                     <Typography variant="subtitle2">New Owner :</Typography>
                   </td>
                   <td>
+                    {console.log("new_owner", new_owner)}
                     <FormControl className="Style1">
-                      <Select
+                      {/* <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         disabled={read_newowner}
@@ -3244,7 +3503,7 @@ console.log("selecttrans_cc",selecttrans_cc)
                         // style={{
                         //   borderColor: ErrorNewOwn ? "red" : undefined,
                         // }}
-                        // error={ErrorNewOwn && !selectnew_owner}
+                        error={ErrorNewOwn && !selectnew_owner}
                       >
                         {STS1 == "FLTR001" ||
                         STS1 == "" ||
@@ -3259,7 +3518,29 @@ console.log("selecttrans_cc",selecttrans_cc)
                             {selectnew_owner}
                           </MenuItem>
                         )}
-                      </Select>
+                      </Select> */}
+                      <Autocomplete
+                        size="small"
+                        style={{
+                          backgroundColor: read_newowner
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        disabled={read_newowner}
+                        value={selectnew_owner}
+                        error={ErrorNewOwn && !selectnew_owner}
+                        onChange={(event, newValue) => {
+                          handleNewOwner(newValue);
+                        }}
+                        //onChange={handleNewOwner}
+                        options={new_owner}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                      {ErrorNewOwn && !selectnew_owner && (
+                        <FormHelperText style={{ color: "red" }}>
+                          Please select : New Owner{" "}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
@@ -3273,13 +3554,19 @@ console.log("selecttrans_cc",selecttrans_cc)
                         disabled={read_tel}
                         value={Tel_for_trans}
                         style={{
-                          backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_tel
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setTel_for_trans(e.target.value)}
                         size="small"
-                        error={ErrorTel && (!Tel_for_trans || Tel_for_trans == "null")}
+                        error={
+                          ErrorTel &&
+                          (!Tel_for_trans || Tel_for_trans == "null")
+                        }
                         helperText={
-                          ErrorTel && (!Tel_for_trans || Tel_for_trans == "null")
+                          ErrorTel &&
+                          (!Tel_for_trans || Tel_for_trans == "null")
                             ? "Please enter your mobile phone number"
                             : undefined
                         }
@@ -3302,13 +3589,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         type="date"
                         disabled={read_plan_date}
                         style={{
-                          backgroundColor: read_plan_date ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_plan_date
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         value={plan_date}
-                        error={ErrorDate && (!plan_date || plan_date =="null" )}
+                        error={ErrorDate && (!plan_date || plan_date == "null")}
                         onChange={(e) => setplan_date(e.target.value)}
                         helperText={
-                          ErrorDate && (!plan_date || plan_date =="null" )
+                          ErrorDate && (!plan_date || plan_date == "null")
                             ? "Please select date"
                             : undefined
                         }
@@ -3325,19 +3614,25 @@ console.log("selecttrans_cc",selecttrans_cc)
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
-   <TextField
-    id="outlined-size-small"
-    size="small"
-    value={abnormal}
-    style={{
-        backgroundColor: abnormal && abnormal.includes("Transfer to difference project") ? "rgba(255, 0, 0, 0.3)" : "rgba(169, 169, 169, 0.3)",
-        color: abnormal && abnormal.includes("Transfer to difference project") ? "red" : "black"
-    }}
-    onChange={(e) => setabnormal(e.target.value)}
-    disabled
-/>
-
-
+                      <TextField
+                        id="outlined-size-small"
+                        size="small"
+                        value={abnormal}
+                        style={{
+                          backgroundColor:
+                            abnormal &&
+                            abnormal.includes("Transfer to difference project")
+                              ? "rgba(255, 0, 0, 0.3)"
+                              : "rgba(169, 169, 169, 0.3)",
+                          color:
+                            abnormal &&
+                            abnormal.includes("Transfer to difference project")
+                              ? "red"
+                              : "black",
+                        }}
+                        onChange={(e) => setabnormal(e.target.value)}
+                        disabled
+                      />
                     </FormControl>
                   </td>
                 </tr>
@@ -3385,39 +3680,45 @@ console.log("selecttrans_cc",selecttrans_cc)
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         disabled={read_dept}
-                      
                         value={selectdepartment_mana}
                         onChange={(e) =>
                           setselectdepartment_mana(e.target.value)
                         }
                         size="small"
                         style={{
-                          borderColor: ErrorManager ? "red" : undefined, backgroundColor: read_dept ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorManager ? "red" : undefined,
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorManager && (!selectdepartment_mana || !selectdepartment_mana =="null" )}
+                        error={
+                          ErrorManager &&
+                          (!selectdepartment_mana ||
+                            !selectdepartment_mana == "null")
+                        }
                         helperText={
                           ErrorManager && !selectdepartment_mana
                             ? "Department Manager"
                             : undefined
                         }
                       >
-                       {department_mana.length > 0 ? (
-  department_mana.map((option, index) => (
-    <MenuItem key={index} value={option}>
-      {option}
-    </MenuItem>
-  ))
-) : (
-  <MenuItem disabled>
-    No data
-  </MenuItem>
-)}
+                        {department_mana.length > 0 ? (
+                          department_mana.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))
+                        ) : (
+                          <MenuItem disabled>No data</MenuItem>
+                        )}
                       </Select>
-                      {(ErrorManager && (!selectdepartment_mana || !selectdepartment_mana =="null" )) && (
-                        <FormHelperText style={{ color: "red" }}>
-                          Please select :  Department Manager 
-                        </FormHelperText>
-                      )}
+                      {ErrorManager &&
+                        (!selectdepartment_mana ||
+                          !selectdepartment_mana == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : Department Manager
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
 
@@ -3430,7 +3731,7 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
                         style={{
-                          visibility: checkrdo, 
+                          visibility: checkrdo,
                           // checkrdo
                         }}
                       >
@@ -3494,7 +3795,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={cmmtradio_dept}
                         disabled={read_dept_cmmt}
                         style={{
-                          backgroundColor: read_dept_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_dept_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                         //style={{ display: STS === "FTL0002" ? 'none' : 'block' }}
@@ -3522,7 +3825,6 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={service_dept}
                         onChange={(e) => setservice_dept(e.target.value)}
                       />
-                      
                     </FormControl>
                   </td>
                   <td className="Style5"></td>
@@ -3538,15 +3840,21 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         value={Tel_service}
                         style={{
-                          backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_tel
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setTel_service(e.target.value)}
                         // style={{
                         //   borderColor: ErrorTel_service ? "red" : undefined,
                         // }}
-                        error={ErrorTel_service && (!Tel_service || Tel_service == "null")}
+                        error={
+                          ErrorTel_service &&
+                          (!Tel_service || Tel_service == "null")
+                        }
                         helperText={
-                          ErrorTel_service && (!Tel_service || Tel_service == "null")
+                          ErrorTel_service &&
+                          (!Tel_service || Tel_service == "null")
                             ? "Please enter your mobile phone number"
                             : undefined
                         }
@@ -3568,9 +3876,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
                         style={{
-                          borderColor: ErrorService_by ? "red" : undefined,  backgroundColor: read_serviceby ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorService_by ? "red" : undefined,
+                          backgroundColor: read_serviceby
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorService_by && (!selectservice_by ||  selectservice_by  =="null")}
+                        error={
+                          ErrorService_by &&
+                          (!selectservice_by || selectservice_by == "null")
+                        }
                         size="small"
                         // helperText={
                         //   ErrorService_by && !selectservice_by
@@ -3584,11 +3898,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorService_by &&  (!selectservice_by ||  selectservice_by  =="null")) && (
-                        <FormHelperText style={{ color: "red" }}>
-                          Please select : Service By
-                        </FormHelperText>
-                      )}
+                      {ErrorService_by &&
+                        (!selectservice_by || selectservice_by == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : Service By
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3657,7 +3972,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         value={cmmtradio_serviceby}
                         style={{
-                          backgroundColor: read_serviceby_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_serviceby_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_serviceby(e.target.value)}
                       />
@@ -3681,9 +3998,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                           setselectboi_staff(e.target.value);
                         }}
                         style={{
-                          borderColor: ErrorBoi_Staff ? "red" : undefined, backgroundColor: read_boistff ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorBoi_Staff ? "red" : undefined,
+                          backgroundColor: read_boistff
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                         error={ErrorBoi_Staff && (!selectboi_staff || selectboi_staff== "null")}
+                        error={
+                          ErrorBoi_Staff &&
+                          (!selectboi_staff || selectboi_staff == "null")
+                        }
                         // size="small"
                         // helperText={
                         //   ErrorBoi_Staff && !selectboi_staff
@@ -3697,7 +4020,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorBoi_Staff &&  (!selectboi_staff || selectboi_staff== "null")) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
+                      {ErrorBoi_Staff &&
+                        (!selectboi_staff || selectboi_staff == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : BOI Manager
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3763,7 +4091,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         value={cmmtradio_boistaff}
                         style={{
-                          backgroundColor: read_boistff_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_boistff_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_boistaff(e.target.value)}
                       />
@@ -3785,10 +4115,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorBoi_manager ? "red" : undefined, backgroundColor: read_boimana ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorBoi_manager ? "red" : undefined,
+                          backgroundColor: read_boimana
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorBoi_manager && (!selectboi_manager || selectboi_manager == "null" )}
-                       
+                        error={
+                          ErrorBoi_manager &&
+                          (!selectboi_manager || selectboi_manager == "null")
+                        }
                       >
                         {boi_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -3796,7 +4131,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorBoi_manager && (!selectboi_manager || selectboi_manager == "null" )) && <FormHelperText style={{color : "red"}}>Please select : BOI Manager</FormHelperText>}
+                      {ErrorBoi_manager &&
+                        (!selectboi_manager || selectboi_manager == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : BOI Manager
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -3862,7 +4202,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={cmmtradio_boimanager}
                         disabled={read_boimana_cmmt}
                         style={{
-                          backgroundColor: read_boimana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_boimana_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
@@ -3888,9 +4230,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         onChange={(e) => setselectfac_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorMana_Fac ? "red" : undefined,backgroundColor: read_fac_mana ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorMana_Fac ? "red" : undefined,
+                          backgroundColor: read_fac_mana
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorMana_Fac && (!selectfac_manager || selectfac_manager =="null")}
+                        error={
+                          ErrorMana_Fac &&
+                          (!selectfac_manager || selectfac_manager == "null")
+                        }
                         // helperText={
                         //   ErrorMana_Fac && !selectfac_manager
                         //     ? "Please select: Factory Manager"
@@ -3903,7 +4251,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorMana_Fac && (!selectfac_manager || selectfac_manager =="null")) && <FormHelperText style={{color : "red"}}>Please select : Factory Manager</FormHelperText>}
+                      {ErrorMana_Fac &&
+                        (!selectfac_manager || selectfac_manager == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : Factory Manager
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
 
@@ -3975,7 +4328,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                           size="small"
                           value={cmmtradio_facmanager}
                           style={{
-                            backgroundColor: read_fac_mana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                            backgroundColor: read_fac_mana_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
                           onChange={(e) =>
                             setcmmtradio_facmanager(e.target.value)
@@ -4003,9 +4358,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         }}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_check ? "red" : undefined,backgroundColor: read_accchk ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorAcc_check ? "red" : undefined,
+                          backgroundColor: read_accchk
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorAcc_check && (!selectacc_check || selectacc_check == "null" )}
+                        error={
+                          ErrorAcc_check &&
+                          (!selectacc_check || selectacc_check == "null")
+                        }
                         // helperText={
                         //   ErrorAcc_check && !selectacc_check
                         //     ? "Please select:ACC Check "
@@ -4018,7 +4379,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorAcc_check && (!selectacc_check || selectacc_check == "null" )) && <FormHelperText style={{color : "red"}}>Please select : ACC Check :</FormHelperText>}
+                      {ErrorAcc_check &&
+                        (!selectacc_check || selectacc_check == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : ACC Check :
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
 
@@ -4087,7 +4453,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         value={cmmtradio_acc_check}
                         style={{
-                          backgroundColor: read_accchk_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_accchk_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_acc_check(e.target.value)}
                       />
@@ -4174,7 +4542,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         value={cmmtradio_owner}
                         style={{
-                          backgroundColor: read_owner_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_owner_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_owner(e.target.value)}
                       />
@@ -4298,7 +4668,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         disabled={read_receive_cmmt}
                         value={cmmtradio_receiver}
                         style={{
-                          backgroundColor: read_receive_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_receive_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_receiver(e.target.value)}
                       />
@@ -4418,7 +4790,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={cmmtradio_record}
                         disabled={read_record_cmmt}
                         style={{
-                          backgroundColor: read_record_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_record_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
@@ -4440,10 +4814,15 @@ console.log("selecttrans_cc",selecttrans_cc)
                         onChange={(e) => setselectacc_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_Mana ? "red" : undefined,backgroundColor: read_acc_mana ? "rgba(169, 169, 169, 0.3)" : "",
+                          borderColor: ErrorAcc_Mana ? "red" : undefined,
+                          backgroundColor: read_acc_mana
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
-                        error={ErrorAcc_Mana && (!selectacc_manager || selectacc_manager == "null")}
-                       
+                        error={
+                          ErrorAcc_Mana &&
+                          (!selectacc_manager || selectacc_manager == "null")
+                        }
                       >
                         {acc_manager.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -4451,11 +4830,12 @@ console.log("selecttrans_cc",selecttrans_cc)
                           </MenuItem>
                         ))}
                       </Select>
-                      {(ErrorAcc_Mana &&  (!selectacc_manager || selectacc_manager == "null"))&& (
-                        <FormHelperText style={{ color: "red" }}>
-                         Please select : ACC Manager
-                        </FormHelperText>
-                      )}
+                      {ErrorAcc_Mana &&
+                        (!selectacc_manager || selectacc_manager == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select : ACC Manager
+                          </FormHelperText>
+                        )}
                     </FormControl>
                   </td>
                   <td className="Style5">
@@ -4521,7 +4901,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         value={cmmtradio_acc_manager}
                         disabled={read_acc_mana_cmmt}
                         style={{
-                          backgroundColor: read_acc_mana_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_acc_mana_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                         onChange={(e) =>
                           setcmmtradio_acc_manager(e.target.value)
@@ -4619,7 +5001,9 @@ console.log("selecttrans_cc",selecttrans_cc)
                         size="small"
                         disabled={read_close_cmmt}
                         style={{
-                          backgroundColor: read_close_cmmt ? "rgba(169, 169, 169, 0.3)" : "",
+                          backgroundColor: read_close_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                         }}
                       />
                     </FormControl>
@@ -4641,53 +5025,55 @@ console.log("selecttrans_cc",selecttrans_cc)
                     display: STS1 == "" || STS1 == "FLTR001" ? "block" : "none",
                   }}
                 >
-                   {
-                      CheckSave=="False"?( <Button
-                        variant="contained"
-                        size="medium"
-                        color="primary"
-                        className="Style9"
-                        // style={{ visibility: btnsave }}
-    
-                        onClick={SAVE}
-                      >
-                        Save
-                      </Button>):( <Button
-                    variant="contained"
-                    size="medium"
-                    color="primary"
-                    className="Style9"
-                    // style={{ visibility: btnsave }}
-disabled
-                    onClick={SAVE}
-                  >
-                    Save
-                  </Button>)
-                  }
-                 
+                  {CheckSave == "False" ? (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      // style={{ visibility: btnsave }}
+
+                      onClick={SAVE}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      // style={{ visibility: btnsave }}
+                      disabled
+                      onClick={SAVE}
+                    >
+                      Save
+                    </Button>
+                  )}
                 </td>
                 <td>
-                  {
-                      CheckSubmit=="False"?( <Button
-                        variant="contained"
-                        size="medium"
-                        color="success"
-                        className="Style9"
-                        onClick={SUBMIT}
-                      >
-                        Submit
-                      </Button>):( <Button
-                    variant="contained"
-                    size="medium"
-                    color="success"
-                    className="Style9"
-                    onClick={SUBMIT}
-                    disabled
-                  >
-                   <LoadingOutlined />  Submit
-                  </Button>)
-                  }
-                 
+                  {CheckSubmit == "False" ? (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="success"
+                      className="Style9"
+                      onClick={SUBMIT}
+                    >
+                      Submit
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="success"
+                      className="Style9"
+                      onClick={SUBMIT}
+                      disabled
+                    >
+                      <LoadingOutlined /> Submit
+                    </Button>
+                  )}
                 </td>
                 <td>
                   <Button
@@ -4715,7 +5101,6 @@ disabled
                 backgroundColor: "gray",
               }}
               onClick={Back_page}
-
             >
               BACK PAGE
             </Button>

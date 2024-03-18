@@ -117,8 +117,11 @@ const [owner_tel1,setowner_tel1] = useState([])
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [uploadedFilesDATA, setUploadedFilesDATA] = useState([]);
 
-  // สำหรับ check txtbox
+  const [Newdata_addfix , setNewdata_addfix] = useState([]);
 
+  // สำหรับ check txtbox
+  const page = localStorage.getItem("page")
+ console.log(page,"page")
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
    console.log(For_Req,"VVVVVVVVVV");
@@ -1157,31 +1160,40 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     updateSelectedData(newSelectedItems);
   };
   const handleAdd = () => {
- 
-    const newDataTable = [...datatable, ...selectedData];
-    // console.log(newDataTable[0],"ccccc")
-    newDataTable.sort((a, b) => {
-      // เรียงคอลัมน์ที่ 1
-      if (a[0] < b[0]) return -1;
-      if (a[0] > b[0]) return 1;
-      // ถ้าคอลัมน์ที่ 1 เท่ากัน ให้เรียงคอลัมน์ที่ 2
-      if (a[1] < b[1]) return -1;
-      if (a[1] > b[1]) return 1;
-      return 0; // ไม่ต้องการเปลี่ยนเรียง
-  });
-  console.log(newDataTable,"newDataTable")
-  if (!newDataTable) {
-    alert("Please select check box");
-}else {
-  setdatatable(newDataTable);
-  setSelectedItems([]);
-    setTableOpen(true);
-    setOpen(false);
-    setbtnSave("visible");
-}
+      const hasTrue = selectedItems.includes(true);
+      if (!hasTrue ||selectedItems.length === 0  ) {
+
+        alert("Please select checkbox")
+      }
+    else{
+      const newDataTable = [...datatable, ...selectedData];
+      newDataTable.sort((a, b) => {
+        // เรียงคอลัมน์ที่ 1
+        if (a[0] < b[0]) return -1;
+        if (a[0] > b[0]) return 1;
+        // ถ้าคอลัมน์ที่ 1 เท่ากัน ให้เรียงคอลัมน์ที่ 2
+        if (a[1] < b[1]) return -1;
+        if (a[1] > b[1]) return 1;
+        return 0; // ไม่ต้องการเปลี่ยนเรียง
+    });
+    setdatatable(newDataTable);
+    setSelectedItems([]);
+      setTableOpen(true);
+      setOpen(false);
+      setbtnSave("visible"); 
+      setlocalTable(newDataTable)
+     }
+   
     
-    
+
   };
+  // const setlocalTable1 = async (newDataTable) => {
+  //   console.log(newDataTable,"nongmay")
+  //   const data = JSON.stringify(newDataTable)
+  //   localStorage.setItem("Edit_Dteail_for_FixedCode",data)
+  //   localStorage.setItem("forDetail",data)
+  // }
+
   const setlocalTable = async (newData) => {
     console.log(newData,"nongmay")
     const data = JSON.stringify(newData)
@@ -1192,20 +1204,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   const handleDelete = async (item, index) => {
     openPopupLoadding();
     const newData = datatable.filter((data) => data[0] !== item);
-
-    // Update the state variable with the new data
     setdatatable(newData);
-   
-  //   console.log(item,"item")
-  //   const dtDelete = [...datatable.slice(item)];
-  //   // console.log(dtDelete,"////////////////")
-  //  // datatable = datatable.slice(0, item);
-  //   const data_edit = JSON.stringify(dtDelete);
-  //   // console.log(">>>>>>>>>>>>>>>>>>>>>>",data_edit)
-  //     localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-
-    // setdatatable(datatable);
- 
     if (EditFam !== null) {
       
       // console.log("index", item, EditFam);
@@ -1303,6 +1302,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   
   };
   const handleClose = () => {
+    setSelectedItems([])
     setOpen(false);
   };
   /////////////////////////////////////////////////////////////////////////////
@@ -1611,10 +1611,15 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   // };
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
-    const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg" ,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Allowed file types
+    //const acceptedTypes = [".xlsx", ".pdf", ".jpg", ".jpeg",".xls"];
+
+
+
+   const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg" , "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"]
+   
     const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
   
-    // Check file types and sizes
+    
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       const fileType = file.type;
@@ -1625,12 +1630,12 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         return; // Stop further processing
       }
   
-      // Check file size
+     // Check file size
       if (file.size > maxSize) {
         alert("File size exceeds 10 MB.");
         return; // Stop further processing
       }
-    }
+   }
   
     // If all files passed the checks, proceed to add them to uploadedFiles
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
@@ -1667,7 +1672,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     }
   };
   const handleSave = async () => {
-    
+    openPopupLoadding();
     const FAM_FORM = "REQUEST";
 
     const currentDateTime = new Date()
@@ -1734,6 +1739,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     setUploadedFiles([])
     localStorage.removeItem("Type");
     ShowFile();
+    closePopupLoadding();
     
   };
 
@@ -1763,6 +1769,32 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   }
     closePopupLoadding();
       ShowFile();
+  };
+  const clearLocal = async () =>  {
+    localStorage.removeItem("ForRequester");
+    localStorage.removeItem("forDetail");
+    localStorage.removeItem("TransForDetail")
+    localStorage.removeItem("EDIT")
+    localStorage.removeItem("For_Transfer")
+    localStorage.removeItem("For_Routing")
+    localStorage.removeItem("For_Req_Edit")
+    localStorage.removeItem("Edit_Trans")
+    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
+    localStorage.removeItem("Edit_routing") 
+    localStorage.removeItem("Type")
+  }
+  const Back_page = async () => {
+   if(page == "SEARCH"){
+    clearLocal();
+     navigate("/Search");
+   }else if (page == "APPROVEFAM"){
+    clearLocal();
+    navigate("/ApproveFam"); 
+   }
+   //else if (page == "APPROVEFAM"){
+  //   navigate("/ApproveFam");
+  //  }
+   
   };
 
   ////////////////////////////////////////////////////////////////////////////
@@ -2841,6 +2873,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
                       style={{ display: "none" }}
                       id="fileInput"
                       ref={fileInputRef}
+                   
                     /> 
                     <div style={{width:'400px'}}>
                     <label
@@ -3058,55 +3091,38 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
           </div>
         )}
         {/* ปุ่ม Next Page */}
-        <div
-          className=""
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
-          <table>
-            <tr>
-              <td
-              // style={{
-              //       width: "200px",
-              //       display: "inline-block",
-              //       marginLeft: "400px",
-              //       marginTop: "20px",
-              //     }}
-              >
-                {" "}
-                {/* <Button
-                  style={{
-                    width: "200px",
-                    display: "inline-block",
-                    marginLeft: "400px",
-                    marginTop: "20px",
-                  }}
-                  variant="contained"
-                  onClick={() => window.history.back()}
-                >
-                  BACK PAGE
-                </Button> */}
-              </td>
-              
-              <td>
-                {" "}
-                <Button
-                  style={{
-                    width: "200px",
-                    marginTop: "20px",
-                    marginRight: "10px",
-                    marginBottom: "20px",
-                    backgroundColor: "gray",
-                    visibility: checknext
-                  }}
-                  variant="contained"
-                  onClick={NextPage}
-                >
-                  Next Page
-                </Button>
-              </td>
-            </tr>
-          </table>
-        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+  <Button
+    variant="contained"
+    style={{
+      width: "200px",
+      marginTop: "20px",
+      marginBottom: "20px",
+      backgroundColor: "gray",
+      marginLeft :'20px',
+      visibility: checknext
+    }}
+    onClick={Back_page}
+  >
+    BACK PAGE
+  </Button>
+
+  <Button
+    style={{
+      width: "200px",
+      marginTop: "20px",
+      marginBottom: "20px",
+      backgroundColor: "gray",
+      visibility: checknext,
+      marginRight :'20px',
+    }}
+    variant="contained"
+    onClick={NextPage}
+  >
+    Next Page
+  </Button>
+</div>
+
       </div>
     </>
   );
