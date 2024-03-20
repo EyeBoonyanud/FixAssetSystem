@@ -267,9 +267,11 @@ function TransFerDetail() {
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
       setFor_sts_reject(For_Rq_Edit[16]);
+      Service_By();
     }
     if (For_Req != null) {
       setSTS1(For_Req[10]);
+      Service_By();
     }
 
     FactoryCC();
@@ -277,7 +279,7 @@ function TransFerDetail() {
     BOI_FROM();
     Department_Mana();
     SERVICEDEPT();
-    Service_By();
+    
     BOI_Staff();
     BOI_Manager();
     Fac_manager();
@@ -391,53 +393,107 @@ function TransFerDetail() {
         
            // 
             if (STS != "FLTR001") {
-              // console.log("LLLLLLLLLLLLLLLLLLLLLl")
+               console.log("For_Edit_Rou[0][2]",For_Edit_Rou[0][2])
               //setbtnsave("hidden")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
+             if(For_Edit_Rou[0][3]=="null"){
+              setcmmtradio_dept("")
+             }else{
               setcmmtradio_dept(For_Edit_Rou[0][3]);
+             }
+              
               // Serviceby
               setaction__serviceby(For_Edit_Rou[0][6]);
               setselectradio_serviceby(For_Edit_Rou[0][41]);
-              setcmmtradio_serviceby(For_Edit_Rou[0][42]);
+              if(For_Edit_Rou[0][42] == "null"){
+                setcmmtradio_serviceby("")
+              }else{
+              setcmmtradio_serviceby(For_Edit_Rou[0][42]);  
+              }
+              
               // BOI STAFF
               setaction__boistaff(For_Edit_Rou[0][9]);
               setselectradio_boistaff(For_Edit_Rou[0][10]);
-              setcmmtradio_boistaff(For_Edit_Rou[0][11]);
+              if(For_Edit_Rou[0][11] == "null"){
+                setcmmtradio_boistaff("")
+              }else {
+                setcmmtradio_boistaff(For_Edit_Rou[0][11]);
+              }
+              
               // BOI Manager
-
               setaction__boimanager(For_Edit_Rou[0][13]);
               setselectradio_boimanager(For_Edit_Rou[0][14]);
-              setcmmtradio_boimanager(For_Edit_Rou[0][15]);
+              if(For_Edit_Rou[0][15] == "null"){
+                setcmmtradio_boimanager("");
+              }else{
+                setcmmtradio_boimanager(For_Edit_Rou[0][15]);
+              }
               // FAC_mana
               setaction__facmanager(For_Edit_Rou[0][17]);
               setselectradio_facmanager(For_Edit_Rou[0][18]);
-              setcmmtradio_facmanager(For_Edit_Rou[0][19]);
+              if(For_Edit_Rou[0][19] == "null"){
+                setcmmtradio_facmanager("");
+              }else{
+                setcmmtradio_facmanager(For_Edit_Rou[0][19]);
+              }
+              
               // ACC Check
               setaction__acc_check(For_Edit_Rou[0][21]);
               setselectradio_acc_check(For_Edit_Rou[0][22]);
-              setcmmtradio_acc_check(For_Edit_Rou[0][23]);
+              if(For_Edit_Rou[0][23] == "null"){
+                setcmmtradio_acc_check("")
+              }else{
+                setcmmtradio_acc_check(For_Edit_Rou[0][23]);
+              }
+              
               //Owner
               setaction__owner(For_Edit_Rou[0][33]);
               setselectradio_owner(For_Edit_Rou[0][34]);
-              setcmmtradio_owner(For_Edit_Rou[0][35]);
+              if(For_Edit_Rou[0][35] == "null"){
+                setcmmtradio_owner("")
+              }else{
+                setcmmtradio_owner(For_Edit_Rou[0][35]);
+              }
+              
               // Receiver
               setaction__receiver(For_edit_trans[0][11]);
               setselectradio_receiver(For_edit_trans[0][10]);
+
+             if(For_edit_trans[0][12] == "null"){
+              setcmmtradio_receiver("");
+             }else{
               setcmmtradio_receiver(For_edit_trans[0][12]);
+             }
+              
               // Record
               setaction__record(For_Edit_Rou[0][25]);
               setselectradio_record(For_Edit_Rou[0][26]);
-              setcmmtradio_record(For_Edit_Rou[0][27]);
+              if(For_Edit_Rou[0][27] == "null"){
+                setcmmtradio_record("");
+              }else{
+               setcmmtradio_record(For_Edit_Rou[0][27]); 
+              }
+              
               // Acc manager
               setaction__acc_manager(For_Edit_Rou[0][29]);
               setselectradio_acc_manager(For_Edit_Rou[0][30]);
-              setcmmtradio_acc_manager(For_Edit_Rou[0][31]);
+              if(For_Edit_Rou[0][31]){
+                setcmmtradio_acc_manager("")
+              }else{
+                setcmmtradio_acc_manager(For_Edit_Rou[0][31]);
+              }
+             
               // Service Close By
               setaction__service_close_by(For_Edit_Rou[0][37]);
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
-              setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
+              if(For_Edit_Rou[0][38]){
+                setcmmtradio_service_close_by("");
+              }else{
+                setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
+              }
+             
               //readonly
 
               if (STS == "FLTR001" || For_Rq_Edit[16] === "R") {
@@ -1434,7 +1490,7 @@ function TransFerDetail() {
   };
   const Service_By = async () => {
     
-    console.log(For_Rq_Edit[0],"For_Req[8]")
+    console.log(For_Rq_Edit,"For_Req[8]")
     let level = "";
     let cc = "";
     if (EditFam != null) {
@@ -1446,7 +1502,7 @@ function TransFerDetail() {
       level = For_Req[3];
       cc = For_Req[0].split("-")[1] ;
     }
-    console.log(cc,"TTTT")
+    console.log(cc,"7777")
     try {
       const response = await axios.get(
         `http://10.17.162.238:5000/service_by?level=${level}&cc=${cc}`
@@ -1694,10 +1750,12 @@ function TransFerDetail() {
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
-        ServiceDept = For_Rq_Edit[9];
+        ServiceDept = For_Rq_Edit[0].split("-")[1];
       }
     } else {
-      ServiceDept = For_Req[8];
+      
+      ServiceDept = For_Req[0].split("-")[1];
+      console.log(ServiceDept,"ServiceDeptServiceDept")
     }
 
     if (EditFam != null) {
@@ -1878,10 +1936,12 @@ function TransFerDetail() {
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
-        ServiceDept = For_Rq_Edit[9];
+        ServiceDept = For_Rq_Edit[0].split("-")[1];
       }
     } else {
-      ServiceDept = For_Req[8];
+      
+      ServiceDept = For_Req[0].split("-")[1];
+      console.log(ServiceDept,"ServiceDeptServiceDept")
     }
 
     // const setData_forTranfer_Req_Tranfer_Details = [
@@ -2720,50 +2780,81 @@ function TransFerDetail() {
           }
         } else if (For_Rq_Edit[10] === "FLTR002") {
           let Status = "";
+          console.log(selectradio_dept,"[[[[selectradio_dept")
           if (selectradio_dept == "A") {
             Status = "FLTR003";
           } else if (selectradio_dept == "R") {
             Status = "FLTR092";
           }
-
-          try {
-            const row = axios.post(
-              `http://10.17.162.238:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
-            );
-
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            // setCheckSubmit("False")
-            navigate("/ApproveFam");
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
+          if (selectradio_dept=="R" &&( cmmtradio_dept=="" || cmmtradio_dept == null || cmmtradio_dept == "null" || cmmtradio_dept == "undifined")){
+            alert("Please fill in information")
+                      }
+                      else { 
+                        try {
+                          const row = axios.post(
+                        `http://10.17.74.202:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
+                          );
+             
+                          Swal.fire({
+                            title: "Save Success",
+                            icon: "success",
+                          });
+                         setCheckSubmit("False")
+                         localStorage.removeItem("ForRequester");
+                          localStorage.removeItem("forDetail");
+                          localStorage.removeItem("TransForDetail");
+                          localStorage.removeItem("EDIT");
+                          localStorage.removeItem("For_Transfer");
+                          localStorage.removeItem("For_Routing");
+                          localStorage.removeItem("For_Req_Edit");
+                          localStorage.removeItem("Edit_Trans");
+                          localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                          localStorage.removeItem("Edit_routing");
+                        navigate("/ApproveFam");
+                        } catch (error) {
+                          //     console.error("Error updating submit status:", error.message);
+                        }
+                      }
         } else if (For_Rq_Edit[10] === "FLTR003") {
-          // console.log(For_Rq_Edit[10], "LLLLLLLLLLL", selectradio_serviceby);
+          
           let Status = "";
           if (selectradio_serviceby == "A") {
             Status = "FLTR004";
-            // console.log(Status, "PP", selectradio_serviceby);
+            
           } else if (selectradio_serviceby == "R") {
             Status = "FLTR093";
-            // console.log(Status, "III", selectradio_serviceby);
+           
           }
-          try {
-            const row = axios.post(
-              `http://10.17.162.238:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
-            );
+          if (selectradio_serviceby=="R" &&( cmmtradio_serviceby=="" || cmmtradio_serviceby == null || cmmtradio_serviceby == "null" || cmmtradio_serviceby == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{
+                        try {
+                        const row = axios.post(
+                          `http://10.17.162.238:5000/update_service_by?famno=${EditFam}&serjud=${selectradio_serviceby}&sercmmt=${cmmtradio_serviceby}&sts=${Status}`
+                        );
+            
+                        Swal.fire({
+                          title: "Save Success",
+                          icon: "success",
+                        });
+                        //   setCheckSubmit("False")
+                        localStorage.removeItem("ForRequester");
+                        localStorage.removeItem("forDetail");
+                        localStorage.removeItem("TransForDetail");
+                        localStorage.removeItem("EDIT");
+                        localStorage.removeItem("For_Transfer");
+                        localStorage.removeItem("For_Routing");
+                        localStorage.removeItem("For_Req_Edit");
+                        localStorage.removeItem("Edit_Trans");
+                        localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                        localStorage.removeItem("Edit_routing");
+                        navigate("/ApproveFam");
+                      } catch (error) {
+                        //     console.error("Error updating submit status:", error.message);
+                      } }
 
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //   setCheckSubmit("False")
-            navigate("/ApproveFam");
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
+          
         } else if (For_Rq_Edit[10] === "FLTR004") {
           let Status = "";
           if (selectradio_boistaff == "A") {
@@ -2771,7 +2862,10 @@ function TransFerDetail() {
           } else if (selectradio_boistaff == "R") {
             Status = "FLTR094";
           }
-          try {
+          if (selectradio_boistaff=="R" &&( cmmtradio_boistaff=="" || cmmtradio_boistaff == null || cmmtradio_boistaff == "null" || cmmtradio_boistaff == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{ try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
             );
@@ -2780,11 +2874,23 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            // setCheckSubmit("False")
+            localStorage.removeItem("ForRequester");
+            localStorage.removeItem("forDetail");
+            localStorage.removeItem("TransForDetail");
+            localStorage.removeItem("EDIT");
+            localStorage.removeItem("For_Transfer");
+            localStorage.removeItem("For_Routing");
+            localStorage.removeItem("For_Req_Edit");
+            localStorage.removeItem("Edit_Trans");
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            localStorage.removeItem("Edit_routing");
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          }}
+
+
+          
         } else if (For_Rq_Edit[10] === "FLTR005") {
           let Status = "";
           if (selectradio_boimanager == "A") {
@@ -2792,20 +2898,34 @@ function TransFerDetail() {
           } else if (selectradio_boimanager == "R") {
             Status = "FLTR095";
           }
-          try {
-            const row = axios.post(
-              `http://10.17.162.238:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
-            );
 
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //  setCheckSubmit("False")
-            navigate("/ApproveFam");
-          } catch (error) {
-            //     console.error("Error updating submit status:", error.message);
-          }
+          if (selectradio_boimanager=="R" &&( cmmtradio_boimanager=="" || cmmtradio_boimanager == null || cmmtradio_boimanager == "null" || cmmtradio_boimanager == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{ try {
+                        const row = axios.post(
+                          `http://10.17.162.238:5000/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
+                        );
+            
+                        Swal.fire({
+                          title: "Save Success",
+                          icon: "success",
+                        });
+                        localStorage.removeItem("ForRequester");
+                        localStorage.removeItem("forDetail");
+                        localStorage.removeItem("TransForDetail");
+                        localStorage.removeItem("EDIT");
+                        localStorage.removeItem("For_Transfer");
+                        localStorage.removeItem("For_Routing");
+                        localStorage.removeItem("For_Req_Edit");
+                        localStorage.removeItem("Edit_Trans");
+                        localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                        localStorage.removeItem("Edit_routing");
+                        navigate("/ApproveFam");
+                      } catch (error) {
+                        //     console.error("Error updating submit status:", error.message);
+                      } }
+         
         } else if (For_Rq_Edit[10] === "FLTR006") {
           let Status = "";
           if (selectradio_facmanager == "A") {
@@ -2813,7 +2933,12 @@ function TransFerDetail() {
           } else if (selectradio_facmanager == "R") {
             Status = "FLTR096";
           }
-          try {
+
+
+          if (selectradio_facmanager=="R" &&( cmmtradio_facmanager=="" || cmmtradio_facmanager == null || cmmtradio_facmanager == "null" || cmmtradio_facmanager == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{ try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
             );
@@ -2822,11 +2947,22 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            // setCheckSubmit("False")
+            localStorage.removeItem("ForRequester");
+                          localStorage.removeItem("forDetail");
+                          localStorage.removeItem("TransForDetail");
+                          localStorage.removeItem("EDIT");
+                          localStorage.removeItem("For_Transfer");
+                          localStorage.removeItem("For_Routing");
+                          localStorage.removeItem("For_Req_Edit");
+                          localStorage.removeItem("Edit_Trans");
+                          localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                          localStorage.removeItem("Edit_routing");
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          } }
+
+         
         } else if (For_Rq_Edit[10] === "FLTR007") {
           let Status = "";
           if (selectradio_acc_check == "A") {
@@ -2834,7 +2970,11 @@ function TransFerDetail() {
           } else if (selectradio_acc_check == "R") {
             Status = "FLTR907";
           }
-          try {
+
+          if (selectradio_acc_check=="R" &&( cmmtradio_acc_check=="" || cmmtradio_acc_check == null || cmmtradio_acc_check == "null" || cmmtradio_acc_check == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{ try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
             );
@@ -2847,7 +2987,9 @@ function TransFerDetail() {
             navigate("/ApproveFam");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
-          }
+          } }
+
+         
         } else if (For_Rq_Edit[10] === "FLTR008") {
           let Status = "";
           if (selectradio_owner == "A") {
@@ -2855,7 +2997,11 @@ function TransFerDetail() {
           } else if (selectradio_owner == "R") {
             Status = "FLTR908";
           }
-          try {
+
+          if (selectradio_owner=="R" &&( cmmtradio_owner =="" || cmmtradio_owner == null || cmmtradio_owner == "null" || cmmtradio_owner == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{  try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
             );
@@ -2864,11 +3010,21 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            // setCheckSubmit("False")
+            localStorage.removeItem("ForRequester");
+            localStorage.removeItem("forDetail");
+            localStorage.removeItem("TransForDetail");
+            localStorage.removeItem("EDIT");
+            localStorage.removeItem("For_Transfer");
+            localStorage.removeItem("For_Routing");
+            localStorage.removeItem("For_Req_Edit");
+            localStorage.removeItem("Edit_Trans");
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            localStorage.removeItem("Edit_routing");
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          }}
+         
         } else if (For_Rq_Edit[10] === "FLTR009") {
           let Status = "";
           if (selectradio_receiver == "A") {
@@ -2876,7 +3032,10 @@ function TransFerDetail() {
           } else if (selectradio_receiver == "R") {
             Status = "FLTR909";
           }
-          try {
+          if (selectradio_receiver=="R" &&( cmmtradio_receiver =="" || cmmtradio_receiver == null || cmmtradio_receiver == "null" || cmmtradio_receiver == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{  try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
             );
@@ -2898,9 +3057,20 @@ function TransFerDetail() {
                 sts_submit: Status,
               }
             );
+            localStorage.removeItem("ForRequester");
+            localStorage.removeItem("forDetail");
+            localStorage.removeItem("TransForDetail");
+            localStorage.removeItem("EDIT");
+            localStorage.removeItem("For_Transfer");
+            localStorage.removeItem("For_Routing");
+            localStorage.removeItem("For_Req_Edit");
+            localStorage.removeItem("Edit_Trans");
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            localStorage.removeItem("Edit_routing");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          }}
+         
         } else if (For_Rq_Edit[10] === "FLTR010") {
           let Status = "";
           if (selectradio_record == "A") {
@@ -2908,7 +3078,11 @@ function TransFerDetail() {
           } else if (selectradio_record == "R") {
             Status = "FLTR910";
           }
-          try {
+
+          if (selectradio_record=="R" &&( cmmtradio_record=="" || cmmtradio_record == null || cmmtradio_record == "null" || cmmtradio_record == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{   try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
             );
@@ -2917,11 +3091,22 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            //   setCheckSubmit("False")
+            localStorage.removeItem("ForRequester");
+                          localStorage.removeItem("forDetail");
+                          localStorage.removeItem("TransForDetail");
+                          localStorage.removeItem("EDIT");
+                          localStorage.removeItem("For_Transfer");
+                          localStorage.removeItem("For_Routing");
+                          localStorage.removeItem("For_Req_Edit");
+                          localStorage.removeItem("Edit_Trans");
+                          localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                          localStorage.removeItem("Edit_routing");
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          }}
+
+        
         } else if (For_Rq_Edit[10] === "FLTR011") {
           let Status = "";
           if (selectradio_acc_manager == "A") {
@@ -2929,7 +3114,11 @@ function TransFerDetail() {
           } else if (selectradio_acc_manager == "R") {
             Status = "FLTR911";
           }
-          try {
+          if (selectradio_acc_manager=="R" &&( cmmtradio_acc_manager=="" || cmmtradio_acc_manager == null || cmmtradio_acc_manager == "null" || cmmtradio_acc_manager == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{
+                        try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
             );
@@ -2938,11 +3127,21 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
-            //  setCheckSubmit("False")
+            localStorage.removeItem("ForRequester");
+                          localStorage.removeItem("forDetail");
+                          localStorage.removeItem("TransForDetail");
+                          localStorage.removeItem("EDIT");
+                          localStorage.removeItem("For_Transfer");
+                          localStorage.removeItem("For_Routing");
+                          localStorage.removeItem("For_Req_Edit");
+                          localStorage.removeItem("Edit_Trans");
+                          localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                          localStorage.removeItem("Edit_routing");
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          } }
+          
         } else if (For_Rq_Edit[10] === "FLTR012") {
           let Status = "";
           if (selectradio_service_close_by == "A") {
@@ -2950,7 +3149,11 @@ function TransFerDetail() {
           } else if (selectradio_service_close_by == "R") {
             Status = "FLTR912";
           }
-          try {
+
+          if (selectradio_service_close_by=="R" &&( cmmtradio_service_close_by=="" || cmmtradio_service_close_by == null || cmmtradio_service_close_by == "null" || cmmtradio_service_close_by == "undefined")){
+            alert("Please fill in information")
+                      }
+                      else{ try {
             const row = axios.post(
               `http://10.17.162.238:5000/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
             );
@@ -2963,7 +3166,8 @@ function TransFerDetail() {
             navigate("/ApproveFam");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
-          }
+          } }
+         
         }
        
       }
@@ -3045,16 +3249,7 @@ function TransFerDetail() {
       // setCheckSubmit("False")
       navigate("/Search");
     }
-    localStorage.removeItem("ForRequester");
-    localStorage.removeItem("forDetail");
-    localStorage.removeItem("TransForDetail");
-    localStorage.removeItem("EDIT");
-    localStorage.removeItem("For_Transfer");
-    localStorage.removeItem("For_Routing");
-    localStorage.removeItem("For_Req_Edit");
-    localStorage.removeItem("Edit_Trans");
-    localStorage.removeItem("Edit_Dteail_for_FixedCode");
-    localStorage.removeItem("Edit_routing");
+    
     closePopupLoadding();
   };
   // ปุ่ม Reset
@@ -3078,47 +3273,47 @@ function TransFerDetail() {
         setselectacc_manager([]);
       }
       if (STS1 == "FLTR002") {
-        setselectradio_dept("");
+        setselectradio_dept("A");
         setcmmtradio_dept("");
       }
       if (STS1 == "FLTR003") {
-        setselectradio_serviceby("");
+        setselectradio_serviceby("A");
         setcmmtradio_serviceby("");
       }
       if (STS1 == "FLTR004") {
-        setselectradio_boistaff("");
+        setselectradio_boistaff("A");
         setcmmtradio_boistaff("");
       }
       if (STS1 == "FLTR005") {
-        setselectradio_boimanager("");
+        setselectradio_boimanager("A");
         setcmmtradio_boimanager("");
       }
       if (STS1 == "FLTR006") {
-        setselectradio_facmanager("");
+        setselectradio_facmanager("A");
         setcmmtradio_facmanager("");
       }
       if (STS1 == "FLTR007") {
-        setselectradio_acc_check("");
+        setselectradio_acc_check("A");
         setcmmtradio_acc_check("");
       }
       if (STS1 == "FLTR008") {
-        setselectradio_owner("");
+        setselectradio_owner("A");
         setcmmtradio_owner("");
       }
       if (STS1 == "FLTR009") {
-        setselectradio_receiver("");
+        setselectradio_receiver("A");
         setcmmtradio_receiver("");
       }
       if (STS1 == "FLTR010") {
-        setselectradio_record("");
+        setselectradio_record("A");
         setcmmtradio_record("");
       }
       if (STS1 == "FLTR011") {
-        setselectradio_acc_manager("");
+        setselectradio_acc_manager("A");
         setcmmtradio_acc_manager("");
       }
       if (STS1 == "FLTR012") {
-        setselectradio_service_close_by("");
+        setselectradio_service_close_by("A");
         setcmmtradio_service_close_by("");
       }
     } else {
@@ -3658,7 +3853,7 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_dept}
+                        value = {selectradio_dept === null ? setselectradio_dept("A") : selectradio_dept}
                         onChange={(e) => setselectradio_dept(e.target.value)}
                         style={{
                           visibility: checkrdo,
@@ -3842,7 +4037,9 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_serviceby}
+                        //value={selectradio_serviceby}
+                        value = {selectradio_serviceby === null ? setselectradio_serviceby("A") : selectradio_serviceby}
+                       
                         onChange={(e) =>
                           setselectradio_serviceby(e.target.value)
                         }
@@ -3964,7 +4161,9 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_boistaff}
+                        // value={selectradio_boistaff}
+                        value = {selectradio_boistaff === null ? setselectradio_boistaff("A") : selectradio_boistaff}
+                       
                         onChange={(e) =>
                           setselectradio_boistaff(e.target.value)
                         }
@@ -4076,10 +4275,11 @@ function TransFerDetail() {
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
                         style={{ visibility: chkboimanager }}
-                        value={selectradio_boimanager}
+                        value = {selectradio_boimanager === null ? setselectradio_boimanager("A") : selectradio_boimanager}
                         onChange={(e) =>
                           setselectradio_boimanager(e.target.value)
                         }
+                       
                       >
                         <FormControlLabel
                           value="A"
@@ -4196,10 +4396,12 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_facmanager}
+                        value = {selectradio_facmanager === null ? setselectradio_facmanager("A") : selectradio_facmanager}
+                        // value={selectradio_facmanager}
                         onChange={(e) =>
                           setselectradio_facmanager(e.target.value)
                         }
+                       
                         style={{ visibility: chkfacmanager }}
                       >
                         <FormControlLabel
@@ -4324,10 +4526,12 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_acc_check}
+                        value = {selectradio_acc_check === null ? setselectradio_acc_check("A") : selectradio_acc_check}
+                       // value={selectradio_acc_check}
                         onChange={(e) =>
                           setselectradio_acc_check(e.target.value)
                         }
+                     
                         style={{ visibility: chkacc_check }}
                       >
                         <FormControlLabel
@@ -4417,8 +4621,10 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_owner}
+                        // value={selectradio_owner}
+                        value = {selectradio_owner === null ? setselectradio_owner("A") : selectradio_owner}
                         onChange={(e) => setselectradio_owner(e.target.value)}
+                        
                         style={{ visibility: chkowner }}
                       >
                         <FormControlLabel
@@ -4540,10 +4746,12 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_receiver}
+                        // value={selectradio_receiver}
+                        value = {selectradio_receiver === null ? setselectradio_receiver("A") : selectradio_receiver}
                         onChange={(e) =>
                           setselectradio_receiver(e.target.value)
                         }
+                        
                         style={{ visibility: chkreceiver }}
                       >
                         <FormControlLabel
@@ -4665,8 +4873,10 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_record}
+                        // value={selectradio_record}
+                        value = {selectradio_record === null ? setselectradio_record("A") : selectradio_record}
                         onChange={(e) => setselectradio_record(e.target.value)}
+                        
                         style={{ visibility: chkacc_record }}
                       >
                         <FormControlLabel
@@ -4774,10 +4984,12 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_acc_manager}
+                        // value={selectradio_acc_manager}
+                        value = {selectradio_acc_manager === null ? setselectradio_acc_manager("A") : selectradio_acc_manager}
                         onChange={(e) =>
                           setselectradio_acc_manager(e.target.value)
                         }
+                       
                         style={{ visibility: chkacc_manager }}
                       >
                         <FormControlLabel
@@ -4869,10 +5081,12 @@ function TransFerDetail() {
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
-                        value={selectradio_service_close_by}
+                        // value={selectradio_service_close_by}
+                        value = {selectradio_service_close_by === null ? setselectradio_service_close_by("A") : selectradio_service_close_by}
                         onChange={(e) =>
                           setselectradio_service_close_by(e.target.value)
                         }
+                        
                         style={{ visibility: chkservice_close }}
                       >
                         <FormControlLabel
