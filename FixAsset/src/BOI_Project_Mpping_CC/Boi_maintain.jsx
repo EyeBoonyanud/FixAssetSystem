@@ -126,7 +126,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       const Factory = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getfactory`
+            `http://localhost:5000/getfactory`
           );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
@@ -137,7 +137,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+          const response = await axios.get(`http://localhost:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -147,7 +147,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       const BOI_Project_name = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/get_BOI_project_name`
+            `http://localhost:5000/get_BOI_project_name`
           );
           const BOI_name = await response.data;
           setBOI_name(BOI_name);
@@ -233,7 +233,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                  `http://localhost:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
                 );
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
@@ -267,7 +267,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                  `http://localhost:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
                 );
 
                 swal("success", "You save data success", "success");

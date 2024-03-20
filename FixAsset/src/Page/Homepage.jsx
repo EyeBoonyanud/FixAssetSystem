@@ -38,7 +38,7 @@ export default function BasicGrid() {
       const Transfer = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransfer?UserLogin=${UserLogin}`
+            `http://localhost:5000/getCountTransfer?UserLogin=${UserLogin}`
           );
           const Transfer = await response.data;
           setdataTransfer(Transfer);
@@ -50,7 +50,7 @@ export default function BasicGrid() {
       const Transferlistallname = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLLname`
+            `http://localhost:5000/getCountTransferlistaLLname`
           );
           const Transferallname = await response.data;
           setdataTransferallname(Transferallname);
@@ -63,7 +63,7 @@ export default function BasicGrid() {
       const Transferlistall = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
+            `http://localhost:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
           );
           const Transferall = await response.data;
           setdataTransferall(Transferall);

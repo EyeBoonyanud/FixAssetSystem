@@ -55,21 +55,21 @@ function Report() {
   }, []);
 
   const Type = () => {
-    axios.post("http://10.17.162.238:5000/RequstType").then((res) => {
+    axios.post("http://localhost:5000/RequstType").then((res) => {
       const data = res.data;
       setTypeRequest(data);
     });
   };
 
   const Factory = () => {
-    axios.get("http://10.17.162.238:5000/getfactory").then((res) => {
+    axios.get("http://localhost:5000/getfactory").then((res) => {
       const data = res.data;
       setgetFactory(data);
     });
   };
 
   const CostCenter = () => {
-    axios.get("http://10.17.162.238:5000/getcost").then((res) => {
+    axios.get("http://localhost:5000/getcost").then((res) => {
       const data = res.data;
       setgetCostCenter(data);
     });
@@ -77,7 +77,7 @@ function Report() {
 
   const Owner = (Id_owner) => {
     console.log("////",Id_owner)
-    axios.post("http://10.17.162.238:5000/Id_owner",{
+    axios.post("http://localhost:5000/Id_owner",{
       owner_id: Id_owner,
     }).then((res) => {
       const data = res.data;
@@ -117,7 +117,7 @@ function Report() {
       setCheckEmpty("hidden");
       setCheckData("visible");
       axios
-        .post("http://10.17.162.238:5000/FamDetailReport", {
+        .post("http://localhost:5000/FamDetailReport", {
           Fac:selectFactory,
           CC:selectCostCenter,
           RequestType: selectRequestType,
