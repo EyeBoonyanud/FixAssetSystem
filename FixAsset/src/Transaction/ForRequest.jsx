@@ -200,7 +200,7 @@ console.log(datatable,"uuu")
         // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
         axios
      axios
-        .post("http://10.17.74.202:5000/FAM_FILE_ATTACH", {
+        .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
           FamNo: Gen_Fam_No_Show,
         })  
 
@@ -216,7 +216,7 @@ console.log(datatable,"uuu")
     // } else {
     //   // console.log("เข้าอันนี้จ้า")
     //   axios
-    //   .post("http://10.17.74.202:5000/FAM_FILE_ATTACH", {
+    //   .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
     //     FamNo: Gen_Fam_No,
     //   })
     //   .then((res) => {
@@ -230,7 +230,7 @@ console.log(datatable,"uuu")
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.74.202:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -382,6 +382,8 @@ console.log(datatable,"uuu")
         setowner_dept(For_Req[16]);
         setowner_tel(For_Req[17]);
         setname_req(For_Req[18]);
+        setread_fix_group(true);
+        setread_fix_cost(true);
 
         if (For_detail != null) {
           setdatatable(For_detail);
@@ -436,7 +438,7 @@ console.log(datatable,"uuu")
   const request_by = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.74.202:5000/getby?By=${LocalUserLogin}`
+        `http://10.17.162.238:5000/getby?By=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -464,7 +466,7 @@ console.log(datatable,"uuu")
     if (EditFam == null) {
       try {
         const response = await axios.get(
-          `http://10.17.74.202:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -488,7 +490,7 @@ console.log(datatable,"uuu")
     } else {
       try {
         const response = await axios.get(
-          `http://10.17.74.202:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
         );
         const data = await response.data;
         data_Fac = data.flat();
@@ -513,7 +515,7 @@ console.log(datatable,"uuu")
     if (data_Fac.length >= 0) {
       try {
         const response = await axios.get(
-          `http://10.17.74.202:5000/getdept?idFactory=${data_Fac[1]}`
+          `http://10.17.162.238:5000/getdept?idFactory=${data_Fac[1]}`
         );
 
         const data = await response.data;
@@ -544,7 +546,7 @@ console.log(datatable,"uuu")
   const costcenter = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.74.202:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
+        `http://10.17.162.238:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
@@ -571,7 +573,7 @@ console.log(datatable,"uuu")
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.get(
-        `http://10.17.74.202:5000/getfix_group?Asset_group=${datafac}`
+        `http://10.17.162.238:5000/getfix_group?Asset_group=${datafac}`
       );
       const data = await response.data;
 
@@ -598,7 +600,7 @@ console.log(datatable,"uuu")
   //AssetCost
   const CostforAsset = async () => {
     try {
-      const response = await axios.get(`http://10.17.74.202:5000/getcost`);
+      const response = await axios.get(`http://10.17.162.238:5000/getcost`);
       const CostData = await response.data;
       setFixAsset_cost(CostData);
       if (EditFam != null) {
@@ -626,23 +628,24 @@ console.log(datatable,"uuu")
     setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
-        `http://10.17.74.202:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
+        `http://10.17.162.238:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
       );
       const data = await response.data;
       if (data[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://10.17.74.202:5000/getfind_service?asset_find=${Cost_value}`
+            `http://10.17.162.238:5000/getfind_service?asset_find=${Cost_value}`
           );
           const data_for_servicedept = await response.data;
+          console.log("data_for_servicedept",data_for_servicedept)
           setdataFix_Asset_Cost(data_for_servicedept);
-          //// console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+          console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
         } catch (error) {
           //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-        //// console.log(data, "ServiceDept---------------------");
+        console.log(data, "ServiceDept---------------------");
       }
     } catch (error) {
       //console.error("Error during login:", error);
@@ -667,7 +670,7 @@ console.log(datatable,"uuu")
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`http://10.17.74.202:5000/getstatus`);
+        const response = await axios.get(`http://10.17.162.238:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
@@ -682,7 +685,7 @@ console.log(datatable,"uuu")
       const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
       try {
         const response = await axios.get(
-          `http://10.17.74.202:5000/getfamno?famno=${Run}`
+          `http://10.17.162.238:5000/getfamno?famno=${Run}`
         );
         const get_runno = await response.data;
 
@@ -746,7 +749,7 @@ console.log(datatable,"uuu")
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios.post(
-        `http://10.17.74.202:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -761,7 +764,7 @@ console.log(datatable,"uuu")
 
     try {
       const response = await axios.post(
-        `http://10.17.74.202:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
+        `http://10.17.162.238:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -955,7 +958,7 @@ console.log(datatable,"uuu")
     console.log(event, "owner_req")
 
     try {
-      const response = await axios.post("http://10.17.74.202:5000/Id_owner", { owner_id: event });
+      const response = await axios.post("http://10.17.162.238:5000/Id_owner", { owner_id: event });
       const data = response.data
       console.log(data[0][2], "DATA");
       // กำหนดค่าให้กับ state หรือตัวแปรต่าง ๆ ด้วย setter functions
@@ -1076,7 +1079,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     }
     try {
       const rollNoSearch = await axios.get(
-        `http://10.17.74.202:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+        `http://10.17.162.238:5000/get_COMP?fam_no=${Gen_Fam_No}}`
       );
       const data = rollNoSearch.data;
       set_COMP(data);
@@ -1086,7 +1089,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     }
     try {
       const row = await axios.get(
-        `http://10.17.74.202:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
+        `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
       );
       const data = row.data;
       setfind_fixasset(data);
@@ -1104,7 +1107,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       //console.error("Error requesting data:", error);
     }
     try {
-      const response = await axios.post("http://10.17.74.202:5000/fix_code_find", { assetcode: find_fixasset1 });
+      const response = await axios.post("http://10.17.162.238:5000/fix_code_find", { assetcode: find_fixasset1 });
       const data = response.data;
       console.log(data,"datafayfagai;");
       setdatafix_for_find(data)
@@ -1210,7 +1213,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       // console.log("index", item, EditFam);
       try {
         const row = await axios.post(
-          `http://10.17.74.202:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
        //localStorage.removeItem("Edit_Dteail_for_FixedCode");
         // Fix_Code();
@@ -1222,7 +1225,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     } else {
       try {
         const row = await axios.post(
-          `http://10.17.74.202:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         //localStorage.removeItem("forDetail");
         setlocalTable();
@@ -1237,7 +1240,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   const Fix_Code = async () => {
     try {
       const response = await axios.post(
-        `http://10.17.74.202:5000/getFixcode?Fam=${Gen_Fam_No}`
+        `http://10.17.162.238:5000/getFixcode?Fam=${Gen_Fam_No}`
       );
       const dataStatus = await response.data;
       console.log(dataStatus,"dataStatus")
@@ -1266,7 +1269,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       }
       console.log("datatable888",datatable[i][5])
       try {
-        await axios.post("http://10.17.74.202:5000/ins_REQ_DETAIL", {
+        await axios.post("http://10.17.162.238:5000/ins_REQ_DETAIL", {
           famno: Gen_Fam_No,
           assetcode: datatable[i][0],
           assetname: datatable[i][3],
@@ -1289,7 +1292,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
        console.log(datatable[i][5],"8888")
        try {
         const response = await axios.post(
-          `http://10.17.74.202:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
+          `http://10.17.162.238:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -1687,7 +1690,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
-            `http://10.17.74.202:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+            `http://10.17.162.238:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
           );
           const get_run_seq = await response_seq.data;
           const lastValue =
@@ -1701,7 +1704,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
 
         try {
           const response = await axios.post(
-            `http://10.17.74.202:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            `http://10.17.162.238:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
           // console.log(data, "dataYpload");
@@ -1718,7 +1721,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
           });
 
           await axios.post(
-            "http://10.17.74.202:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "http://10.17.162.238:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
           //// console.log("Files saved successfully");
@@ -1752,14 +1755,14 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     
     try {
       await axios.post(
-        `http://10.17.74.202:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+        `http://10.17.162.238:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
       );
       localStorage.removeItem("Type");
     } catch (error) {
       console.error("Error deleting file:", error);
     }
     try {
-      const response = await axios.delete(`http://10.17.74.202:5000/deleteFile?data=${fileName}`, 
+      const response = await axios.delete(`http://10.17.162.238:5000/deleteFile?data=${fileName}`, 
           // data: { fileName }
       );
       

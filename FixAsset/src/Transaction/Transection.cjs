@@ -214,8 +214,7 @@ module.exports.search = async function (req, res) {
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
 (SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
-    F.FFM_DESC AS STATUS,
-    I.FFA_FILE_SERVER 
+    F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
   LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
@@ -223,7 +222,6 @@ module.exports.search = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  LEFT JOIN FAM_FILE_ATTACH I ON I.FFA_FAM_NO  =T.FRH_FAM_NO 
   WHERE  T.FAM_REQ_BY = '${userlogin}' AND  F.FFM_FLG  IN ('C','R')
     AND (T.FAM_FACTORY = '${factory}' OR '${factory}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${dept}' OR '${dept}' IS NULL)
@@ -3307,6 +3305,28 @@ module.exports.searchFamMaster = async function (req, res) {
     AND (T.FAM_REQ_OWNER  = '${ByID}' OR '${ByID}' IS NULL) `;
     const result = await connect.execute(query);
     connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    // console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// namefile
+module.exports.namefile = async function (req, res) {
+  try {
+    console.log("เข้า")
+    const { fam_no } = req.body;
+    
+    const connect = await oracledb.getConnection(AVO);
+    // console.log(owner_id,"owner_id")
+    const query = `
+      SELECT FFA_FILE_SERVER  
+      FROM FAM_FILE_ATTACH WHERE FFA_FAM_NO = '${fam_no}'
+           `;
+           console.log(query);  
+          const result = await connect.execute(query);
+    
+          connect.release();
+    // // // // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     // console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);

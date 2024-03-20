@@ -72,6 +72,7 @@ app.get("/get_COMP",Transaction.get_COMP);
 app.post("/update_new_cc",Transaction.update_new_cc);
 app.post("/update_for_date_trans",Transaction.update_for_date_trans);
 app.post("/searchFamMaster",Transaction.searchFamMaster);
+app.post("/namefile",Transaction.namefile);
 
 
 
@@ -158,7 +159,9 @@ app.get('/downloads', (req, res) => {
   }
 });
 app.delete('/deleteFile', (req, res) => {
-  const fileName = req.query.data;
+
+  const fileName = req.query.data; 
+   console.log("////>>>>>>>>>>>",fileName)
   const filePath = path.join(__dirname, '../Uploads', fileName);
 console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
   fs.unlink(filePath, (err) => {
