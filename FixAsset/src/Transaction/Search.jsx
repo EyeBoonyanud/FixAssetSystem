@@ -291,6 +291,11 @@ function Issue() {
    window.location.href = "/ForRe";
     
   };
+  const  handleVIEW = async (VIEW_FAM) => {
+    console.log(VIEW_FAM,"PDF_FAM");
+    const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
+    window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
+  };
   // const handleFileShow = async (EditFam, index) => {
   //   setselectindex(index);
   //   setloading("false");
@@ -1034,7 +1039,7 @@ function Issue() {
                             />
                             <FileSearchOutlined
                             style={{ color: "#40A2E3", fontSize: "30px" }}
-                           //onClick={() => handleFileShow(item[2], index)}
+                            onClick={() => handleVIEW(item[2])}
                           />
                           </>
                             )

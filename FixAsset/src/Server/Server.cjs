@@ -10,6 +10,7 @@ app.use(express.json());
 const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
 const ReportSystem=require("../report/Report_system.cjs")
+const VIEW_Fammaster =require("../Monitoring/Monitorind.cjs")
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
 
@@ -140,6 +141,14 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
+
+
+// VIEW Fammaster
+app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
+app.get("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
+app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
+app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
+
 //app.use('/downloads', express.static('/data/Api/Component/uploads/'));
 app.use('/downloads', express.static(__dirname));
 //getFAM_FILE_ATTACH

@@ -15,6 +15,7 @@ import Boi_main from './BOI_Project_Mpping_CC/Boi_project_mcc'
 import FAMMaster from './Transaction/Search'
 import FamReq from './Monitoring/Fam_Req'
 import FamTrans from './Monitoring/Fam_Trans'
+import VIEW_Fammaster from './Monitoring/Fam_Req';
 
 // process.env.NODE_ENV = 'production';
 
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/FAMMaster" element={<FAMMaster />} />
         <Route path="/FamReq" element={<FamReq />} />
         <Route path="/FamTrans" element={<FamTrans />} />
+        <Route path="/VIEW_Fammaster" element={<VIEW_Fammaster />} />
         
         
         

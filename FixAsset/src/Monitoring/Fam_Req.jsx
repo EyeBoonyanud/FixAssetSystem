@@ -1,900 +1,901 @@
-// import React, { useState, useEffect } from "react";
-// import Box from "@mui/material/Box";
-// import {
-//   Typography,
-//   TextField,
-//   Radio,
-//   RadioGroup,
-//   FormControlLabel,
-//   Card,
-//   Button,
-//   Dialog,
-//   DialogTitle,
-//   DialogActions,
-//   TableRow,
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   Paper,
-//   Checkbox,
-// } from "@mui/material";
-// import Grid from "@mui/material/Unstable_Grid2";
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import {
+  Typography,
+  TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Card,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  Paper,
+  Checkbox,
+} from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import axios from "axios";
 
-// import {
-//   DeleteOutlined,
-//   FileTextOutlined,
-//   FileExcelOutlined,
-//   FilePdfOutlined,
-//   FileWordOutlined,
-//   FileUnknownOutlined,
-//   CloudUploadOutlined,
-// } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  FileTextOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
+  FileWordOutlined,
+  FileUnknownOutlined,
+  CloudUploadOutlined,
+} from "@ant-design/icons";
 
-// import { useNavigate } from "react-router-dom";
-// // import Header from "../Page/Hearder";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// // import PageLoadding from "../Loadding/Pageload";
+import { useNavigate } from "react-router-dom";
+import Header from "../Page/Hearder";
+import DeleteIcon from "@mui/icons-material/Delete";
+// import PageLoadding from "../Loadding/Pageload";
 
-// function ForRequest() {
-//   const navigate = useNavigate();
+function ForRequest() {
+  const navigate = useNavigate();
 
-//   const  NextPage = async () => {
-//     console.log(VIEW_FAM,"PDF_FAM");
-//     const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-//     window.location.href = `/FamTrans?VIEW_FAM=${encodedVIEW_FAM}`;
-//   };
+  const  NextPage = async () => {
+    console.log(VIEW_FAM,"PDF_FAM");
+    const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
+    window.location.href = `/FamTrans?VIEW_FAM=${encodedVIEW_FAM}`;
+  };
 
-//   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
-//   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-//   // console.log(For_Ed_FixCode, "For_Ed_FixCode");
+  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
+  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  // console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
-//   const For_edit_request = localStorage.getItem("For_Req_Edit");
-//   const For_Rq_Edit = JSON.parse(For_edit_request);
-//   console.log("For_Rq_Edit", For_Rq_Edit);
+  const For_edit_request = localStorage.getItem("For_Req_Edit");
+  const For_Rq_Edit = JSON.parse(For_edit_request);
+  console.log("For_Rq_Edit", For_Rq_Edit);
 
-//   const FileUp = localStorage.getItem("Type");
-//   var storedFileArray = JSON.parse(FileUp);
+  const FileUp = localStorage.getItem("Type");
+  var storedFileArray = JSON.parse(FileUp);
 
-//   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-//   const openPopupLoadding = () => {
-//     setPopupOpenLoadding(true);
-//   };
-//   const closePopupLoadding = () => {
-//     setPopupOpenLoadding(false);
-//   };
-//   const [Datafamno, setDatafamno] = useState([]);
-//   const [DataDetailfamno, setDataDetailfamno] = useState([]);
-//   const queryParams = new URLSearchParams(window.location.search);
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  };
+  const [Datafamno, setDatafamno] = useState([]);
+  const [DataDetailfamno, setDataDetailfamno] = useState([]);
+  
+  const queryParams = new URLSearchParams(window.location.search);
 
-//   const VIEW_FAM = queryParams.get("VIEW_FAM");
-//   console.log(VIEW_FAM, "VIEW");
-//   console.log(DataDetailfamno, "VIEW2");
+  const VIEW_FAM = queryParams.get("VIEW_FAM");
+  console.log(VIEW_FAM, "VIEW");
+  console.log(DataDetailfamno, "VIEW2");
 
-//   useEffect(() => {
+  useEffect(() => {
 
-//     const FAM_Hearder = async () => {
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
-//         );
-//         const data = await response.data;
-//         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
-//         setDatafamno(data);
-//       } catch (error) {
-//         console.error("Error RequesterORType:", error);
-//       }
-//     };
-//     const FAM_Detail = async () => {
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
-//         );
-//         const data = await response.data;
-//         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
-//         setDataDetailfamno(data);
-//       } catch (error) {
-//         console.error("Error RequesterORType:", error);
-//       }
-//     };
+    const FAM_Hearder = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
+        );
+        const data = await response.data;
+        console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
+        setDatafamno(data);
+      } catch (error) {
+        console.error("Error RequesterORType:", error);
+      }
+    };
+    const FAM_Detail = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
+        );
+        const data = await response.data;
+        console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
+        setDataDetailfamno(data);
+      } catch (error) {
+        console.error("Error RequesterORType:", error);
+      }
+    };
+ 
+    FAM_Hearder();
+    FAM_Detail();
 
-//     FAM_Hearder();
-//     FAM_Detail();
+  }, []);
 
-//   }, []);
+  return (
+    <>
+      <div style={{ marginTop: "100px" }}>
+  <Header/>
+      </div>
 
-//   return (
-//     <>
-//       <div style={{ marginTop: "100px" }}>
+      <div className="Box-Insert">
+        {/* สำหรับ Gen Fam no */}
+        <div className="Insert">
+          {/* <PageLoadding
+            isOpen={isPopupOpenLoadding}
+            onClose={closePopupLoadding}
+          /> */}
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "#88AB8E",
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
 
-//       </div>
+                  justifyContent: "center",
+                }}
+              >
+                For Requester
+              </Typography>
+              <Box
+                sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}
+              >
+                {/* FAM Np and Request */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      FAM No :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][0] : ""}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request Date :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      id="Txt_Date"
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][1] : ""}
+                      disabled
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* Request BY */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request By :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      id="Txt_user"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][2] : ""}
+                      // onChange={(e) => setdataUserLogin1(e.target.value)}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request By Tel :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      id="Txt_Tel"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][3] : ""}
+                      //   ={handleTel
+                    />
+                  </Grid>
+                </Grid>
 
-//       <div className="Box-Insert">
-//         {/* สำหรับ Gen Fam no */}
-//         <div className="Insert">
-//           {/* <PageLoadding
-//             isOpen={isPopupOpenLoadding}
-//             onClose={closePopupLoadding}
-//           /> */}
-//           <Card className="Style100">
-//             <Card
-//               sx={{
-//                 borderRadius: "8px",
-//                 border: 2,
-//                 borderColor: "#88AB8E",
-//               }}
-//               className="Style1"
-//             >
-//               <Typography
-//                 sx={{
-//                   position: "absolute",
-//                   backgroundColor: "#fff",
-//                   marginTop: "-0.5%",
-//                   marginRight: "85%",
-//                   width: "8%",
-//                   display: "flex",
+                {/* Owner and TelOwner */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request (Owner) :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                     disabled
+                      size="small"
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      id="Txt_user"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][4] : ""}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Owner Cost Center:
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      id="Txt_Tel"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][5] : ""}
+                    />
+                  </Grid>
+                </Grid>
 
-//                   justifyContent: "center",
-//                 }}
-//               >
-//                 For Requester
-//               </Typography>
-//               <Box
-//                 sx={{ flexGrow: 1, marginBottom: "20px", marginTop: "20px" }}
-//               >
-//                 {/* FAM Np and Request */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       FAM No :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       disabled
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][0] : ""}
-//                     ></TextField>
-//                   </Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Request Date :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       id="Txt_Date"
-//                       size="small"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][1] : ""}
-//                       disabled
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
-//                 {/* Request BY */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Request By :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       disabled
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       id="Txt_user"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][2] : ""}
-//                       // onChange={(e) => setdataUserLogin1(e.target.value)}
-//                     ></TextField>
-//                   </Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Request By Tel :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       disabled
-//                       style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       id="Txt_Tel"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][3] : ""}
-//                       //   ={handleTel
-//                     />
-//                   </Grid>
-//                 </Grid>
+                {/* Owner and TelOwner */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Name Owner :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      disabled
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      id="Txt_user"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][6] : ""}
 
-//                 {/* Owner and TelOwner */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Request (Owner) :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                      disabled
-//                       size="small"
-//                       style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       id="Txt_user"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][4] : ""}
-//                     ></TextField>
-//                   </Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Owner Cost Center:
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       id="Txt_Tel"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       disabled
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][5] : ""}
-//                     />
-//                   </Grid>
-//                 </Grid>
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Owner Tel :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      size="small"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][7] : ""}
+                      disabled
 
-//                 {/* Owner and TelOwner */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Name Owner :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       disabled
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       id="Txt_user"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][6] : ""}
+                    />
+                  </Grid>
+                </Grid>
 
-//                     ></TextField>
-//                   </Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Owner Tel :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       size="small"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][7] : ""}
-//                       disabled
+                {/* Factory and Cost center */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Factory :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][8] : ""}
+                      // onChange={(e) => setFactory1(e.target.value)}
+                      disabled
+                    ></TextField>
+                  </Grid>
+                </Grid>
 
-//                     />
-//                   </Grid>
-//                 </Grid>
-
-//                 {/* Factory and Cost center */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Factory :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][8] : ""}
-//                       // onChange={(e) => setFactory1(e.target.value)}
-//                       disabled
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
-
-//                 {/* Dept  */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Dept :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                    style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       className="Style1"
-//                       size="small"
-//                       disabled
+                {/* Dept  */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Dept :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                   style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      className="Style1"
+                      size="small"
+                      disabled
               
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][9] : ""}
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
-//                 {/* Radio Button Type  */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ textAlign: "right" }}>
-//                       Request Type :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid>
-//                     <RadioGroup
-//                       row
-//                       aria-labelledby="demo-row-radio-buttons-group-label"
-//                       name="row-radio-buttons-group"
-//                       id="Radio_ReqType"
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][10] : ""}
-//                     >
-//                       <FormControlLabel
-//                         value="GP01001"
-//                         control={<Radio />}
-//                         label="Transfer"
-//                         className="Radio"
-//                        disabled
-//                       />
-//                       <FormControlLabel
-//                         value="GP01002"
-//                         control={<Radio />}
-//                         label="Scrap"
-//                         className="Radio"
-//                       disabled
-//                       />
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][9] : ""}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* Radio Button Type  */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ textAlign: "right" }}>
+                      Request Type :
+                    </Typography>
+                  </Grid>
+                  <Grid>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                      id="Radio_ReqType"
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][10] : ""}
+                    >
+                      <FormControlLabel
+                        value="GP01001"
+                        control={<Radio />}
+                        label="Transfer"
+                        className="Radio"
+                       disabled
+                      />
+                      <FormControlLabel
+                        value="GP01002"
+                        control={<Radio />}
+                        label="Scrap"
+                        className="Radio"
+                      disabled
+                      />
 
-//                       <FormControlLabel
-//                         value="GP01003"
-//                         control={<Radio />}
-//                         label="Sales"
-//                         className="Radio"
-//                     disabled
-//                       />
-//                       <FormControlLabel
-//                         value="GP01004"
-//                         control={<Radio />}
-//                         label="Lost"
-//                         className="Radio"
-//                     disabled
-//                       />
-//                       <FormControlLabel
-//                         value="GP01005"
-//                         control={<Radio />}
-//                         label="Write-off"
-//                         className="Radio"
-//                     disabled
-//                       />
-//                       <FormControlLabel
-//                         value="GP01006"
-//                         control={<Radio />}
-//                         label="Landing to Third-party"
-//                      disabled
-//                       />
-//                       <FormControlLabel
-//                         value="GP01007"
-//                         control={<Radio />}
-//                         label="Donation"
-//                         className="Radio"
-//                       disabled
-//                       />
-//                     </RadioGroup>
-//                   </Grid>
-//                 </Grid>
-//                 {/* FixAsset group / AssCost */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Fix Asset Group :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       className="Style1"
-//                       size="small"
-//                       style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       disabled
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][11] : ""}
-//                     ></TextField>
-//                   </Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Asset Cost Center :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       // value={status}
-//                       disabled
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][12] : ""}
-//                       // onChange={(e) => setRequest_sts1(e.target.value)}
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
-//                 {/* Request status */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}></Grid>
-//                   <Grid xs={3}></Grid>
-//                   <Grid xs={2}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Request Status :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={3}>
-//                     <TextField
-//                       size="small"
-//                       style={{
-//                         width: "100%",
-//                         backgroundColor: "rgba(169, 169, 169, 0.3)",
-//                       }}
-//                       // value={status}
-//                       disabled
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][13] : ""}
-//                       // onChange={(e) => setRequest_sts1(e.target.value)}
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
-//                 {/* Remark */}
-//                 <Grid container spacing={3}>
-//                   <Grid xs={1.7}>
-//                     <Typography style={{ width: "100%", textAlign: "right" }}>
-//                       Remark :
-//                     </Typography>
-//                   </Grid>
-//                   <Grid xs={8}>
-//                     <TextField
-//                       id="Remark"
-//                       size="small"
-//                       disabled
-//                       style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
-//                       value={Datafamno && Datafamno[0] ? Datafamno[0][14] : ""}                 
-//                       //// onChange={(e) => setRemark(e.target.value)}
-//                       // onChange={handleRemark}
-//                     ></TextField>
-//                   </Grid>
-//                 </Grid>
+                      <FormControlLabel
+                        value="GP01003"
+                        control={<Radio />}
+                        label="Sales"
+                        className="Radio"
+                    disabled
+                      />
+                      <FormControlLabel
+                        value="GP01004"
+                        control={<Radio />}
+                        label="Lost"
+                        className="Radio"
+                    disabled
+                      />
+                      <FormControlLabel
+                        value="GP01005"
+                        control={<Radio />}
+                        label="Write-off"
+                        className="Radio"
+                    disabled
+                      />
+                      <FormControlLabel
+                        value="GP01006"
+                        control={<Radio />}
+                        label="Landing to Third-party"
+                     disabled
+                      />
+                      <FormControlLabel
+                        value="GP01007"
+                        control={<Radio />}
+                        label="Donation"
+                        className="Radio"
+                      disabled
+                      />
+                    </RadioGroup>
+                  </Grid>
+                </Grid>
+                {/* FixAsset group / AssCost */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Fix Asset Group :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      className="Style1"
+                      size="small"
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][11] : ""}
+                    ></TextField>
+                  </Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Asset Cost Center :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      // value={status}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][12] : ""}
+                      // onChange={(e) => setRequest_sts1(e.target.value)}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* Request status */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}></Grid>
+                  <Grid xs={3}></Grid>
+                  <Grid xs={2}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request Status :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      // value={status}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][13] : ""}
+                      // onChange={(e) => setRequest_sts1(e.target.value)}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* Remark */}
+                <Grid container spacing={3}>
+                  <Grid xs={1.7}>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Remark :
+                    </Typography>
+                  </Grid>
+                  <Grid xs={8}>
+                    <TextField
+                      id="Remark"
+                      size="small"
+                      disabled
+                      style={{ width: "100%" ,backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][14] : ""}                 
+                      //// onChange={(e) => setRemark(e.target.value)}
+                      // onChange={handleRemark}
+                    ></TextField>
+                  </Grid>
+                </Grid>
 
-//                 <div className="Button_forGenNo">
-//                   {/* <Button
-//                     style={{
-//                       marginLeft: "5px",
-//                       backgroundColor: "green",
+                <div className="Button_forGenNo">
+                  {/* <Button
+                    style={{
+                      marginLeft: "5px",
+                      backgroundColor: "green",
               
-//                     }}
-//                     variant="contained"
-//                    // onClick={Gen_No}
-//                   >
-//                     Gen FAM No.
-//                   </Button>
-//                   <Button
-//                     style={{
-//                       marginLeft: "5px",
-//                       backgroundColor: "gray",
+                    }}
+                    variant="contained"
+                   // onClick={Gen_No}
+                  >
+                    Gen FAM No.
+                  </Button>
+                  <Button
+                    style={{
+                      marginLeft: "5px",
+                      backgroundColor: "gray",
                  
-//                     }}
-//                     variant="contained"
-//                   //  onClick={handleEmpUser}
-//                   >
-//                     Reset
-//                   </Button> */}
-//                 </div>
-//               </Box>
-//             </Card>
-//           </Card>
-//         </div>
-//         {/* สำหรับ Fixed Assets Code */}
-//         <br></br>
-//         <br></br>
-//         <br></br>
-//         <br></br>
-//         <br></br>
+                    }}
+                    variant="contained"
+                  //  onClick={handleEmpUser}
+                  >
+                    Reset
+                  </Button> */}
+                </div>
+              </Box>
+            </Card>
+          </Card>
+        </div>
+        {/* สำหรับ Fixed Assets Code */}
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
       
-//         <div className="Fixed-Asset-Code">
-//           <Card
-//             sx={{
-//               borderRadius: "8px",
-//               border: 2,
-//               borderColor: "#88AB8E",
-//               marginTop: 4,
-//             }}
-//             className="Style1"
-//           >
-//             <Typography
-//               sx={{
-//                 position: "absolute",
-//                 backgroundColor: "#fff",
-//                 marginTop: "-0.5%",
-//                 marginRight: "85%",
-//                 width: "8%",
-//                 display: "flex",
+        <div className="Fixed-Asset-Code">
+          <Card
+            sx={{
+              borderRadius: "8px",
+              border: 2,
+              borderColor: "#88AB8E",
+              marginTop: 4,
+            }}
+            className="Style1"
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                backgroundColor: "#fff",
+                marginTop: "-0.5%",
+                marginRight: "85%",
+                width: "8%",
+                display: "flex",
 
-//                 justifyContent: "center",
-//               }}
-//             >
-//               {" "}
-//               Details
-//             </Typography>
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              Details
+            </Typography>
 
-//             {/* ADD Modal */}
-//             <div>
-//          <br></br>
+            {/* ADD Modal */}
+            <div>
+         <br></br>
 
-//               <div>
-//                 {" "}
-//                 <Dialog
-//                   //open={open}
-//                   //onClose={handleClose}
-//                   maxWidth="lg"
-//                   fullWidth
-//                   style={{
-//                     display: "flex",
-//                     alignItems: "center",
-//                     justifyContent: "center",
-//                   }}
-//                 >
-//                   <div className="Modal">
-//                     {" "}
-//                     <DialogTitle>
-//                       Fixed Assets Code : {""}
-//                     </DialogTitle>
-//                     <TableContainer component={Paper}>
-//                       {/* {find_fixasset.map((item, index) => (
-//                             <TableRow
-//                               key={index}
-//                               sx={{
-//                                 "&:last-child td, &:last-child th": {
-//                                   border: 0,
-//                                 },
-//                               }}
-//                             >
+              <div>
+                {" "}
+                <Dialog
+                  //open={open}
+                  //onClose={handleClose}
+                  maxWidth="lg"
+                  fullWidth
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div className="Modal">
+                    {" "}
+                    <DialogTitle>
+                      Fixed Assets Code : {""}
+                    </DialogTitle>
+                    <TableContainer component={Paper}>
+                      {/* {find_fixasset.map((item, index) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
                              
-//                               <TableCell>
-//                                 <Checkbox
-//                                   checked={selectedItems[index] || false}
-//                                   // onChange={() => handleCheckboxChange(index)}
-//                                 />
-//                               </TableCell>
-//                               <TableCell>{item[1]}</TableCell>
-//                               <TableCell>{item[2]}</TableCell>
-//                               <TableCell>{item[3]}</TableCell>
-//                             </TableRow>
-//                           ))} */}
-//                       <Table className="Modal-Table">
-//                         <TableHead>
-//                           <TableRow>
-//                             <TableCell>
-//                               <Checkbox
-//                                //checked={selectAll} 
-//                                 // onChange={handleCheckboxAllChange}
-//                               />
-//                             </TableCell>
-//                             <TableCell>Comp.</TableCell>
-//                             <TableCell>Cc.</TableCell>
-//                             <TableCell>Fixed Assets Name</TableCell>
-//                             <TableCell>Fixed Assets Name</TableCell>
-//                           </TableRow>
-//                         </TableHead>
-//                         <TableBody>
-//                           {/* {find_fixasset.map((item, index) => (
-//                             <TableRow
-//                               key={index}
-//                               sx={{
-//                                 "&:last-child td, &:last-child th": {
-//                                   border: 0,
-//                                 },
-//                               }}
-//                             >
-//                               <TableCell>
-//                                 <Checkbox
-//                                   checked={selectedItems[index] || false}
-//                                   // onChange={() => handleCheckboxChange(index)}
-//                                   disabled={
-//                                     COMP.some(
-//                                       (compItem) =>
-//                                         compItem[1] === item[3] &&
-//                                         compItem[2] !== null
-//                                     ) ||
-//                                     datatable
-//                                       .map((dataItem) => dataItem[3])
-//                                       .includes(item[3])
-//                                   }
-//                                 />
-//                               </TableCell>
-//                               <TableCell>{item[1]}</TableCell>
-//                               <TableCell>{item[2]}</TableCell>
-//                               <TableCell>{item[3]}</TableCell>
-//                               <TableCell>
-//                                 {COMP.map((compItem) => {
-//                                   if (compItem[1] === item[3]) {
-//                                     console.log(compItem[0], "RRRRRR");
-//                                     return compItem[2];
-//                                   }
-//                                   return null;
-//                                 })}
-//                               </TableCell>
-//                             </TableRow>
-//                           ))} */}
-//                         </TableBody>
-//                       </Table>
-//                     </TableContainer>
-//                     <DialogActions style={{ marginTop: "20px" }}>
-//                       {/* <Button
-//                         variant="contained"
-//                         style={{
-//                           backgroundColor: "green",
-//                         }}
-//                         // onClick={handleAdd}
-//                       >
-//                         ADD
-//                       </Button>
-//                       <Button
-//                         variant="contained"
-//                         style={{ backgroundColor: "gray" }}
-//                         // onClick={handleClose}
-//                       >
-//                         Close
-//                       </Button> */}
-//                     </DialogActions>
-//                   </div>
-//                 </Dialog>
-//               </div>
+                              <TableCell>
+                                <Checkbox
+                                  checked={selectedItems[index] || false}
+                                  // onChange={() => handleCheckboxChange(index)}
+                                />
+                              </TableCell>
+                              <TableCell>{item[1]}</TableCell>
+                              <TableCell>{item[2]}</TableCell>
+                              <TableCell>{item[3]}</TableCell>
+                            </TableRow>
+                          ))} */}
+                      <Table className="Modal-Table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>
+                              <Checkbox
+                               //checked={selectAll} 
+                                // onChange={handleCheckboxAllChange}
+                              />
+                            </TableCell>
+                            <TableCell>Comp.</TableCell>
+                            <TableCell>Cc.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {/* {find_fixasset.map((item, index) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell>
+                                <Checkbox
+                                  checked={selectedItems[index] || false}
+                                  // onChange={() => handleCheckboxChange(index)}
+                                  disabled={
+                                    COMP.some(
+                                      (compItem) =>
+                                        compItem[1] === item[3] &&
+                                        compItem[2] !== null
+                                    ) ||
+                                    datatable
+                                      .map((dataItem) => dataItem[3])
+                                      .includes(item[3])
+                                  }
+                                />
+                              </TableCell>
+                              <TableCell>{item[1]}</TableCell>
+                              <TableCell>{item[2]}</TableCell>
+                              <TableCell>{item[3]}</TableCell>
+                              <TableCell>
+                                {COMP.map((compItem) => {
+                                  if (compItem[1] === item[3]) {
+                                    console.log(compItem[0], "RRRRRR");
+                                    return compItem[2];
+                                  }
+                                  return null;
+                                })}
+                              </TableCell>
+                            </TableRow>
+                          ))} */}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <DialogActions style={{ marginTop: "20px" }}>
+                      {/* <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor: "green",
+                        }}
+                        // onClick={handleAdd}
+                      >
+                        ADD
+                      </Button>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "gray" }}
+                        // onClick={handleClose}
+                      >
+                        Close
+                      </Button> */}
+                    </DialogActions>
+                  </div>
+                </Dialog>
+              </div>
 
-//               <div>
+              <div>
               
-//                   <div
-//                     style={{ marginTop: "20px", margin: "10px 50px 0px 50px" }}
-//                   >
-//                     <TableContainer component={Paper}>
-//                       <Table aria-label="simple table" className="TableFix">
-//                         <TableHead
-//                           sx={{
-//                             backgroundColor: "#436850",
-//                             fontSize: "10px",
-//                           }}
-//                         >
-//                           <TableRow>
-//                             <TableCell></TableCell>
-//                             <TableCell>Fixed Assets Code</TableCell>
-//                             <TableCell>Comp.</TableCell>
-//                             <TableCell>CC.</TableCell>
-//                             <TableCell>Fixed Assets Name</TableCell>
-//                             <TableCell>BOI Project</TableCell>
-//                             <TableCell>Qty</TableCell>
-//                             <TableCell>Invoice No.</TableCell>
-//                             <TableCell>Acquisition Cost(Baht)</TableCell>
-//                             <TableCell>Book Value(Baht)</TableCell>
-//                           </TableRow>
-//                         </TableHead>
-//                         <TableBody>
-//                           {DataDetailfamno.map((item, index) => (
-//                             <React.Fragment key={index}>
-//                               <TableRow
-//                                 sx={{
-//                                   "&:last-child td, &:last-child th": {
-//                                     border: 0,
-//                                   },
-//                                 }}
-//                               >
-//                                 <TableCell></TableCell>
-//                                 <TableCell>{item[0]} </TableCell>
-//                                 <TableCell>{item[1]}</TableCell>
-//                                 <TableCell>{item[2]}</TableCell>
-//                                 <TableCell>{item[3]}</TableCell>
-//                                 <TableCell>{item[4]}</TableCell>
-//                                 <TableCell>{item[5]}</TableCell>
-//                                 <TableCell>{item[6]}</TableCell>
-//                                 <TableCell>{item[7]}</TableCell>
-//                                 <TableCell>{item[8]}</TableCell>
+                  <div
+                    style={{ marginTop: "20px", margin: "10px 50px 0px 50px" }}
+                  >
+                    <TableContainer component={Paper}>
+                      <Table aria-label="simple table" className="TableFix">
+                        <TableHead
+                          sx={{
+                            backgroundColor: "#436850",
+                            fontSize: "10px",
+                          }}
+                        >
+                          <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell>Fixed Assets Code</TableCell>
+                            <TableCell>Comp.</TableCell>
+                            <TableCell>CC.</TableCell>
+                            <TableCell>Fixed Assets Name</TableCell>
+                            <TableCell>BOI Project</TableCell>
+                            <TableCell>Qty</TableCell>
+                            <TableCell>Invoice No.</TableCell>
+                            <TableCell>Acquisition Cost(Baht)</TableCell>
+                            <TableCell>Book Value(Baht)</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {DataDetailfamno.map((item, index) => (
+                            <React.Fragment key={index}>
+                              <TableRow
+                                sx={{
+                                  "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                  },
+                                }}
+                              >
+                                <TableCell></TableCell>
+                                <TableCell>{item[0]} </TableCell>
+                                <TableCell>{item[1]}</TableCell>
+                                <TableCell>{item[2]}</TableCell>
+                                <TableCell>{item[3]}</TableCell>
+                                <TableCell>{item[4]}</TableCell>
+                                <TableCell>{item[5]}</TableCell>
+                                <TableCell>{item[6]}</TableCell>
+                                <TableCell>{item[7]}</TableCell>
+                                <TableCell>{item[8]}</TableCell>
                           
-//                               </TableRow>
-//                             </React.Fragment>
-//                           ))}
-//                           {/* Counting */}
+                              </TableRow>
+                            </React.Fragment>
+                          ))}
+                          {/* Counting */}
 
 
-//                           <TableRow>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell></TableCell>
-//                             <TableCell style={{ fontWeight: "bold" }}>
-//                               Total
-//                             </TableCell>
-//                             <TableCell style={{ fontWeight: "bold" }}>
-//                               {DataDetailfamno
-//                                 .reduce((acc, curr) => acc + curr[7], 0)
-//                                 .toFixed(2)}
-//                             </TableCell>
+                          <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              Total
+                            </TableCell>
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {DataDetailfamno
+                                .reduce((acc, curr) => acc + curr[7], 0)
+                                .toFixed(2)}
+                            </TableCell>
 
-//                             <TableCell style={{ fontWeight: "bold" }}>
-//                               {/* {datatable.reduce(
-//                                 (acc, curr) => acc + curr[10],
-//                                 0
-//                               )} */}
-//                             </TableCell>
-//                           </TableRow>
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {/* {datatable.reduce(
+                                (acc, curr) => acc + curr[10],
+                                0
+                              )} */}
+                            </TableCell>
+                          </TableRow>
 
 
                           
-//                         </TableBody>
-//                       </Table>
-//                     </TableContainer>
-//                   </div>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
                 
-//               </div>
-//               <div
-//                 style={{
-//                   display: "grid",
-//                   justifyContent: "flex-end",
-//                   margin: "15px",
-//                 }}
-//               >
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  justifyContent: "flex-end",
+                  margin: "15px",
+                }}
+              >
         
-//               </div>
-//             </div>
-//           </Card>
-//         </div>
+              </div>
+            </div>
+          </Card>
+        </div>
 
 
-//         <br></br>
-//         <br></br>
-//         <br></br>
-//         {/* สำหรับ Upload File */}
+        <br></br>
+        <br></br>
+        <br></br>
+        {/* สำหรับ Upload File */}
       
        
-//           <div className="ShowFile">
-//             <Card
-//               sx={{
-//                 borderRadius: "8px",
-//                 border: 2,
-//                 borderColor: "#88AB8E",
+          <div className="ShowFile">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "#88AB8E",
 
-//                 marginTop: 4,
-//               }}
-//               className="Style1"
-//             >
-//               <Typography
-//                 sx={{
-//                   position: "absolute",
-//                   backgroundColor: "#fff",
-//                   marginTop: "-0.5%",
-//                   marginRight: "85%",
-//                   width: "10%",
-//                   display: "flex",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "10%",
+                  display: "flex",
 
-//                   justifyContent: "center",
-//                 }}
-//               >
-//                 File from request
-//               </Typography>
-//               <table className="TableShow" style={{ padding: "40px" }}>
-//                 <tr>
-//                   <td>
-//                     <div className="ImageShowFile">
-//                       <img
-//                         src="./src/assets/Image/2.png"
-//                         style={{ width: "400px" }}
-//                         alt="Description of your image"
-//                       />
-//                     </div>
-//                   </td>
-//                   <td>
-//                     <div className="FileShow" style={{ marginBottom: "40px" }}>
-//                       <TableContainer component={Paper}>
-//                         <Table className="File_For_Show">
-//                           <TableHead>
-//                             <TableRow>
-//                               <TableCell>No.</TableCell>
-//                               <TableCell>File</TableCell>
-//                               <TableCell>View</TableCell>
-//                             </TableRow>
-//                           </TableHead>
-//                           <TableBody>
-//                             {/* {Filedata.map((option, index) => (
-//                               <TableRow key={index}>
-//                                 <TableCell>{Filedata[index][2]}</TableCell>
-//                                 <TableCell>{Filedata[index][3]}</TableCell>
-//                                 <TableCell
-//                                   style={{
-//                                     textAlign: "center",
-//                                     color: "blue",
-//                                     textDecoration: "underline",
-//                                   }}
-//                                 >
-//                                   <p
-//                                     style={{ cursor: "pointer" }}
-//                                     //onClick={() => downloadFile(Filedata[index][4])}
-//                                   >
-//                                     {Filedata[index][3]}
-//                                   </p>
-//                                 </TableCell>
-//                               </TableRow>
-//                             ))} */}
+                  justifyContent: "center",
+                }}
+              >
+                File from request
+              </Typography>
+              <table className="TableShow" style={{ padding: "40px" }}>
+                <tr>
+                  <td>
+                    <div className="ImageShowFile">
+                      <img
+                        src="./src/assets/Image/2.png"
+                        style={{ width: "400px" }}
+                        alt="Description of your image"
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div className="FileShow" style={{ marginBottom: "40px" }}>
+                      <TableContainer component={Paper}>
+                        <Table className="File_For_Show">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>No.</TableCell>
+                              <TableCell>File</TableCell>
+                              <TableCell>View</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {/* {Filedata.map((option, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{Filedata[index][2]}</TableCell>
+                                <TableCell>{Filedata[index][3]}</TableCell>
+                                <TableCell
+                                  style={{
+                                    textAlign: "center",
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  <p
+                                    style={{ cursor: "pointer" }}
+                                    //onClick={() => downloadFile(Filedata[index][4])}
+                                  >
+                                    {Filedata[index][3]}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            ))} */}
      
-//                           </TableBody>
-//                         </Table>
-//                       </TableContainer>
-//                     </div>
-//                   </td>
-//                 </tr>
-//               </table>
-//             </Card>
-//           </div>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </Card>
+          </div>
        
-//         {/* ปุ่ม Next Page */}
-//         <div
-//           className=""
-//           style={{ display: "flex", justifyContent: "flex-end" }}
-//         >
-//           <table>
-//             <tr>
-//               <td
-//               // style={{
-//               //       width: "200px",
-//               //       display: "inline-block",
-//               //       marginLeft: "400px",
-//               //       marginTop: "20px",
-//               //     }}
-//               >
-//                 {" "}
-//                 {/* <Button
-//                   style={{
-//                     width: "200px",
-//                     display: "inline-block",
-//                     marginLeft: "400px",
-//                     marginTop: "20px",
-//                   }}
-//                   variant="contained"
-//                   onClick={() => window.history.back()}
-//                 >
-//                   BACK PAGE
-//                 </Button> */}
-//               </td>
+        {/* ปุ่ม Next Page */}
+        <div
+          className=""
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <table>
+            <tr>
+              <td
+              // style={{
+              //       width: "200px",
+              //       display: "inline-block",
+              //       marginLeft: "400px",
+              //       marginTop: "20px",
+              //     }}
+              >
+                {" "}
+                {/* <Button
+                  style={{
+                    width: "200px",
+                    display: "inline-block",
+                    marginLeft: "400px",
+                    marginTop: "20px",
+                  }}
+                  variant="contained"
+                  onClick={() => window.history.back()}
+                >
+                  BACK PAGE
+                </Button> */}
+              </td>
 
-//               <td>
-//                 {" "}
-//                 <Button
-//                   style={{
-//                     width: "200px",
-//                     marginTop: "20px",
-//                     marginRight: "10px",
-//                     marginBottom: "20px",
-//                     backgroundColor: "gray",
-//                     //visibility: checknext,
-//                   }}
-//                   variant="contained"
-//                   onClick={NextPage}
-//                 >
-//                   Next Page
-//                 </Button>
-//               </td>
-//             </tr>
-//           </table>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
+              <td>
+                {" "}
+                <Button
+                  style={{
+                    width: "200px",
+                    marginTop: "20px",
+                    marginRight: "10px",
+                    marginBottom: "20px",
+                    backgroundColor: "gray",
+                    //visibility: checknext,
+                  }}
+                  variant="contained"
+                  onClick={NextPage}
+                >
+                  Next Page
+                </Button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+}
 
-// export default ForRequest;
+export default ForRequest;
