@@ -1718,7 +1718,10 @@ module.exports.Update_For_Req_All = async function (req, res) {
       record_by,
       owner_id,
       owner_dept,
-      owner_tel
+      owner_tel,
+      service_close,
+      owner_by,
+      service_dt
     } = req.body;
 
  
@@ -1745,7 +1748,10 @@ module.exports.Update_For_Req_All = async function (req, res) {
         R.FAM_ACC_REC_BY = :FAM_ACC_REC_BY,
         R.FAM_REQ_OWNER =:FAM_REQ_OWNER,
         R.FAM_REQ_OWNER_CC =:FAM_REQ_OWNER_CC,
-        R.FAM_REQ_OWNER_TEL =:FAM_REQ_OWNER_TEL
+        R.FAM_REQ_OWNER_TEL =:FAM_REQ_OWNER_TEL,
+        R.FAM_SERVICE_CLOSE_BY = :FAM_SERVICE_CLOSE_BY,
+        R.FAM_OWNER_SEND_BY = :FAM_OWNER_SEND_BY,
+        R.FAM_SERVICE_DEPT = :FAM_SERVICE_DEPT
       WHERE
         FRH_FAM_NO = :FAM_NO
     `;
@@ -1767,7 +1773,10 @@ module.exports.Update_For_Req_All = async function (req, res) {
       FAM_ACC_REC_BY:record_by,
       FAM_REQ_OWNER :owner_id,
       FAM_REQ_OWNER_CC :owner_dept ,
-      FAM_REQ_OWNER_TEL :owner_tel 
+      FAM_REQ_OWNER_TEL :owner_tel ,
+      FAM_SERVICE_CLOSE_BY: service_close,
+      FAM_OWNER_SEND_BY: owner_by,
+      FAM_SERVICE_DEPT: service_dt
      
     };
 
@@ -3292,6 +3301,7 @@ module.exports.searchFamMaster = async function (req, res) {
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
   WHERE 1=1
+  AND (T.FAM_REQ_STATUS != 'FLTR001')
     AND (T.FAM_FACTORY = '${Fac}' OR '${Fac}' IS NULL)
     AND ('${OwnerCC}' IS NULL OR T.FAM_REQ_OWNER_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${OwnerCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${OwnerCC}', ',') + 1))
     AND (T.FRH_FAM_NO >= '${FamFrom}' OR '${FamFrom}' IS NULL)
@@ -3302,7 +3312,8 @@ module.exports.searchFamMaster = async function (req, res) {
     AND ('${FixCode}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixCode}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixCode}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
-    AND (T.FAM_REQ_OWNER  = '${ByID}' OR '${ByID}' IS NULL) `;
+    AND (T.FAM_REQ_OWNER  = '${ByID}' OR '${ByID}' IS NULL) ORDER BY T.FRH_FAM_NO ASC  `
+    ;
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);

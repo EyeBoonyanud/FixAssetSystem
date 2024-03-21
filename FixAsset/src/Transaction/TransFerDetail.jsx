@@ -2014,6 +2014,9 @@ function TransFerDetail() {
               owner_id: For_Rq_Edit[17],
               owner_dept: For_Rq_Edit[18],
               owner_tel: For_Rq_Edit[19],
+              service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
             }
           );
         } catch (error) {
@@ -2091,6 +2094,9 @@ function TransFerDetail() {
               owner_id: For_Req[15],
               owner_dept: For_Req[16],
               owner_tel: For_Req[17],
+              service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
             }
           );
         } catch (error) {
@@ -2143,6 +2149,17 @@ function TransFerDetail() {
   };
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
+    let ServiceDept = "";
+    if (EditFam != null) {
+      if (For_Rq_Edit[9] != null) {
+        ServiceDept = For_Rq_Edit[0].split("-")[1];
+      }
+    } else {
+      
+      ServiceDept = For_Req[0].split("-")[1];
+      console.log(ServiceDept,"ServiceDeptServiceDept")
+    }
+
     if (EditFam != null) {
       if (
         For_Rq_Edit[3] === null ||
@@ -2625,6 +2642,9 @@ function TransFerDetail() {
                 owner_id: For_Rq_Edit[17],
                 owner_dept: For_Rq_Edit[18],
                 owner_tel: For_Rq_Edit[19],
+                service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
               }
             );
           } catch (error) {
@@ -2714,6 +2734,9 @@ function TransFerDetail() {
                 owner_id: For_Rq_Edit[17],
                 owner_dept: For_Rq_Edit[18],
                 owner_tel: For_Rq_Edit[19],
+                service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
               }
             );
           } catch (error) {
@@ -3216,6 +3239,8 @@ function TransFerDetail() {
               owner_id: For_Req[15],
               owner_dept: For_Req[16],
               owner_tel: For_Req[17],
+              service_close :selectservice_by,
+              owner_by: owner_roting
             }
           );
         } catch (error) {

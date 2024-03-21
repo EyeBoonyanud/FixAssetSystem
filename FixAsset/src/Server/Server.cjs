@@ -148,6 +148,8 @@ app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
 app.get("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
 app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
 app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
+app.get("/getData_showName",VIEW_Fammaster.getData_showName);
+
 
 //app.use('/downloads', express.static('/data/Api/Component/uploads/'));
 app.use('/downloads', express.static(__dirname));

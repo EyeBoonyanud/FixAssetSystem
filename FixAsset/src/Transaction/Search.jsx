@@ -293,8 +293,10 @@ function Issue() {
   };
   const  handleVIEW = async (VIEW_FAM) => {
     console.log(VIEW_FAM,"PDF_FAM");
-    const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-    window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
+    localStorage.setItem("EDIT", VIEW_FAM);
+    // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
+    window.location.href = `/VIEW_Fammaster`;
+    
   };
   // const handleFileShow = async (EditFam, index) => {
   //   setselectindex(index);
@@ -386,7 +388,7 @@ function Issue() {
       localStorage.setItem("page", Path);
     }
     else if(Path=="FAMMASTER"){
-      setTxt_Title("FAM Master")
+      setTxt_Title("FAM Master List")
       localStorage.setItem("page", Path);
     }
   };
@@ -996,6 +998,7 @@ function Issue() {
             <Table sx={{}} aria-label="simple table">
               <TableHead className="Serach-Data">
                 <TableRow>
+                <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
@@ -1011,7 +1014,7 @@ function Issue() {
                 {dataSearch.length > 0 ? (
                   dataSearch.map((item, index) => (
                     <TableRow key={item[2]}>
-                      <TableCell style={{ display: "flex" }}>
+                      <TableCell style={{width:"0px"}}>
                         {Path === "SEARCH" ? (
                           loading === "false" && index === selectindex ? (
                             <LoadingOutlined style={{ fontSize: "30px" }} />
@@ -1033,38 +1036,56 @@ function Issue() {
                         ) :  (
                           loading === "false" && index === selectindex ? (
                             <LoadingOutlined style={{ fontSize: "30px" }} />)
-                            :( <> <FilePdfOutlined
+                            :( <> 
+                            {/* <FilePdfOutlined
                               style={{ color: "red", fontSize: "30px" }}
                               // onClick={() => handleEdit(item[2], index)}
-                            />
-                            <FileSearchOutlined
+                            /> */}
+                            {/* <FileSearchOutlined
                             style={{ color: "#40A2E3", fontSize: "30px" }}
                             onClick={() => handleVIEW(item[2])}
-                          />
+                          /> */}
                           </>
                             )
                          
                           )
                           }
-                        {item[7] === "Create" && (
-                           loading === "false" && index === selectindex_delete ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />
-                          ) : (
-                            <DeleteForeverIcon
-                            style={{
-                              color: "red",
-                              fontSize: "30px",
-                              display: Path === "SEARCH" ? "block" : "none",
-                            }}
-                            onClick={() => {
-                              Delete(item[2], index);
-                             // handleDeleteFile(item[8]);
-                            }}
-                             />
-                          )
-                       
-                        )}
-                      </TableCell>
+                    
+                     
+                      </TableCell> 
+                      <TableCell style={{width:"0px"}}>
+                      {Path === "SEARCH" && (
+  loading === "false" && index === selectindex_delete ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : (
+    <DeleteForeverIcon
+      style={{
+        color: "red",
+        fontSize: "30px",
+        display: "block",
+      }}
+      onClick={() => {
+        Delete(item[2], index);
+        // handleDeleteFile(item[8]);
+      }}
+    />
+  )
+)}
+ 
+{Path === "FAMMASTER" && (
+  loading === "false" && index === selectindex_delete ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : (
+    <FileSearchOutlined
+      style={{ color: "#40A2E3", fontSize: "30px" }}
+      onClick={() => handleVIEW(item[2])}
+    />
+  )
+)}
+ 
+                         
+                                           
+                          </TableCell>
 
                       <TableCell>{item[0]}</TableCell>
                       <TableCell>{item[1]}</TableCell>
@@ -1072,7 +1093,7 @@ function Issue() {
                       <TableCell>{item[4]}</TableCell>
                       <TableCell>{item[3]}</TableCell>
                       <TableCell>{item[5]}</TableCell>
-                      <TableCell>{item[6]}</TableCell>
+                      <TableCell style={{ overflow: 'auto' }}>{item[6]}</TableCell>
                       <TableCell>
                         <Typography
                           style={{

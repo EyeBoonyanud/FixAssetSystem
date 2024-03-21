@@ -73,7 +73,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
       const strFamno = req.query.FamNo;
       const result = await connection.execute(`
       SELECT 
-      FRD_FAM_NO 
+      FRD_FAM_NO,
       FRD_ASSET_CODE,
       FRD_COMP,
       FRD_OWNER_CC,
@@ -183,5 +183,30 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
       res.status(500).json({ error: "An error occurred" });
     }
   };
+
+  module.exports.getData_showName = async function (req, res) {
+    try {
+      console.log("FFFFFF")
+      const connection = await oracledb.getConnection(AVO);
+      const strFamno = req.query.FamNo;
+
+      const result = await connection.execute(`
+      SELECT
+      S.ENAME || '  ' || S.ESURNAME AS NAME_SURNAME 
+      FROM FAM_REQ_HEADER T 
+      LEFT JOIN CUSR.CU_USER_HUMANTRIX S  ON S.EMPCODE = T.FAM_REQ_OWNER 
+      WHERE T.FRH_FAM_NO = :FAM
+    `, { FAM: strFamno });
+    connection.release();
+    console.log(result,"result",strFamno)
+    const rows = result.rows;
+    console.log(rows)
+    res.json(rows);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+      res.status(500).json({ error: "An error occurred" });
+    }
+  };
+
 
   

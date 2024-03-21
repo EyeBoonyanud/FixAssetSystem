@@ -36,17 +36,22 @@ import {
 import { useNavigate } from "react-router-dom";
 import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import PageLoadding from "../Loadding/Pageload";
+
+import PageLoadding from "../Loadding/Pageload";
 
 function ForRequest() {
   const navigate = useNavigate();
-
+ const VIEW_FAM = localStorage.getItem("EDIT")
+ console.log(VIEW_FAM,"VIEW_FAM")
   const  NextPage = async () => {
-    console.log(VIEW_FAM,"PDF_FAM");
-    const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-    window.location.href = `/FamTrans?VIEW_FAM=${encodedVIEW_FAM}`;
+   
+    window.location.href = `/FamTrans`;
   };
-
+  const  Back_page = async () => {
+   
+    window.location.href = `/FAMMaster`;
+    localStorage.removeItem("EDIT")
+  };
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
   // console.log(For_Ed_FixCode, "For_Ed_FixCode");
@@ -68,18 +73,66 @@ function ForRequest() {
   const [Datafamno, setDatafamno] = useState([]);
   const [DataDetailfamno, setDataDetailfamno] = useState([]);
   
+  const [Filedata, setFiledata] = useState([]);
+
   const queryParams = new URLSearchParams(window.location.search);
 
-  const VIEW_FAM = queryParams.get("VIEW_FAM");
-  console.log(VIEW_FAM, "VIEW");
-  console.log(DataDetailfamno, "VIEW2");
+  // const VIEW_FAM = queryParams.get("VIEW_FAM");
+  // console.log(VIEW_FAM, "VIEW");
+  // console.log(DataDetailfamno, "VIEW2");
+  const downloadFile = (fileName) => {
+    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
+      fileName
+    )}`;
 
+    axios({
+      url: downloadUrl,
+      method: "GET",
+      responseType: "blob",
+    })
+      .then((response) => {
+        const blob = new Blob([response.data], {
+          type: response.headers["content-type"],
+        });
+        // console.log(response);
+        // สร้างลิงก์
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+
+        // ดาวน์โหลดไฟล์โดยอัตโนมัติ
+        //   link.download = 'downloaded_file.xlsx';
+        link.download = "downloaded_file";
+        link.click();
+
+        // ลบ URL ที่ถูกสร้างขึ้น
+        window.URL.revokeObjectURL(link.href);
+      })
+      .catch((error) => {
+        console.error("Error downloading file:", error);
+      });
+  };
   useEffect(() => {
+    openPopupLoadding();
+    const fetchData = () => {
+      axios.post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+        FamNo: VIEW_FAM,
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length > 0) {
+          setFiledata(data);
+          // console.log(data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+    };
 
     const FAM_Hearder = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.162.238:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
@@ -91,7 +144,7 @@ function ForRequest() {
     const FAM_Detail = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.162.238:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
@@ -100,10 +153,14 @@ function ForRequest() {
         console.error("Error RequesterORType:", error);
       }
     };
- 
+    
+    fetchData();
     FAM_Hearder();
     FAM_Detail();
-
+    setTimeout(function () {
+      closePopupLoadding();
+    }, 2000);
+;
   }, []);
 
   return (
@@ -111,6 +168,7 @@ function ForRequest() {
       <div style={{ marginTop: "100px" }}>
   <Header/>
       </div>
+      <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
 
       <div className="Box-Insert">
         {/* สำหรับ Gen Fam no */}
@@ -695,8 +753,7 @@ function ForRequest() {
                                 }}
                               >
                                 <TableCell></TableCell>
-                                <TableCell>{item[0]} </TableCell>
-                                <TableCell>{item[1]}</TableCell>
+                                <TableCell>{item[1]} </TableCell>
                                 <TableCell>{item[2]}</TableCell>
                                 <TableCell>{item[3]}</TableCell>
                                 <TableCell>{item[4]}</TableCell>
@@ -704,6 +761,7 @@ function ForRequest() {
                                 <TableCell>{item[6]}</TableCell>
                                 <TableCell>{item[7]}</TableCell>
                                 <TableCell>{item[8]}</TableCell>
+                                <TableCell>{item[9]}</TableCell>
                           
                               </TableRow>
                             </React.Fragment>
@@ -723,16 +781,13 @@ function ForRequest() {
                               Total
                             </TableCell>
                             <TableCell style={{ fontWeight: "bold" }}>
-                              {DataDetailfamno
-                                .reduce((acc, curr) => acc + curr[7], 0)
+                              {DataDetailfamno.reduce((acc, curr) => acc + curr[8], 0)
                                 .toFixed(2)}
                             </TableCell>
 
                             <TableCell style={{ fontWeight: "bold" }}>
-                              {/* {datatable.reduce(
-                                (acc, curr) => acc + curr[10],
-                                0
-                              )} */}
+                              {DataDetailfamno.reduce((acc, curr) => acc + curr[9], 0)
+                                .toFixed(2)}
                             </TableCell>
                           </TableRow>
 
@@ -764,9 +819,10 @@ function ForRequest() {
         {/* สำหรับ Upload File */}
       
        
-          <div className="ShowFile">
+        <div className="ShowFile" >
             <Card
               sx={{
+               // visibility: visibityFile,
                 borderRadius: "8px",
                 border: 2,
                 borderColor: "#88AB8E",
@@ -789,110 +845,96 @@ function ForRequest() {
               >
                 File from request
               </Typography>
-              <table className="TableShow" style={{ padding: "40px" }}>
+              <table className="TableShow"  style={{padding:'40px'}}>
                 <tr>
                   <td>
-                    <div className="ImageShowFile">
-                      <img
-                        src="./src/assets/Image/2.png"
-                        style={{ width: "400px" }}
-                        alt="Description of your image"
-                      />
-                    </div>
+                  <div className="ImageShowFile">
+  <img src="./src/assets/Image/2.png"
+   style={{width:'400px' }}  
+    alt="Description of your image" />
+</div>
+
                   </td>
                   <td>
-                    <div className="FileShow" style={{ marginBottom: "40px" }}>
-                      <TableContainer component={Paper}>
-                        <Table className="File_For_Show">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>No.</TableCell>
-                              <TableCell>File</TableCell>
-                              <TableCell>View</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {/* {Filedata.map((option, index) => (
-                              <TableRow key={index}>
-                                <TableCell>{Filedata[index][2]}</TableCell>
-                                <TableCell>{Filedata[index][3]}</TableCell>
-                                <TableCell
-                                  style={{
-                                    textAlign: "center",
-                                    color: "blue",
-                                    textDecoration: "underline",
-                                  }}
-                                >
-                                  <p
-                                    style={{ cursor: "pointer" }}
-                                    //onClick={() => downloadFile(Filedata[index][4])}
-                                  >
-                                    {Filedata[index][3]}
-                                  </p>
-                                </TableCell>
-                              </TableRow>
-                            ))} */}
-     
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </div>
+<div className="FileShow" style={{ marginBottom: "40px" }}>
+                <TableContainer component={Paper}>
+                  <Table className="File_For_Show">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>No.</TableCell>
+                        <TableCell>File</TableCell>
+                        <TableCell>View</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {Filedata.map((option, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{Filedata[index][2]}</TableCell>
+                          <TableCell>{Filedata[index][3]}</TableCell>
+                          <TableCell
+                            style={{
+                              textAlign: "center",
+                              color: "blue",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <p
+                              style={{ cursor: "pointer" }}
+                              onClick={() => downloadFile(Filedata[index][4])}
+                            >
+                              {Filedata[index][3]}
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {/* <TableRow>
+              <TableCell colSpan={4} style={{ border: "0" }}>
+                
+              </TableCell>
+            </TableRow> */}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
                   </td>
                 </tr>
               </table>
+              
+              
             </Card>
           </div>
        
         {/* ปุ่ม Next Page */}
-        <div
-          className=""
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
-          <table>
-            <tr>
-              <td
-              // style={{
-              //       width: "200px",
-              //       display: "inline-block",
-              //       marginLeft: "400px",
-              //       marginTop: "20px",
-              //     }}
-              >
-                {" "}
-                {/* <Button
-                  style={{
-                    width: "200px",
-                    display: "inline-block",
-                    marginLeft: "400px",
-                    marginTop: "20px",
-                  }}
-                  variant="contained"
-                  onClick={() => window.history.back()}
-                >
-                  BACK PAGE
-                </Button> */}
-              </td>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+  <Button
+    variant="contained"
+    style={{
+      width: "200px",
+      marginTop: "20px",
+      marginBottom: "20px",
+      backgroundColor: "gray",
+      marginLeft :'20px',
+    }}
+    onClick={Back_page}
+  >
+    BACK PAGE
+  </Button>
 
-              <td>
-                {" "}
-                <Button
-                  style={{
-                    width: "200px",
-                    marginTop: "20px",
-                    marginRight: "10px",
-                    marginBottom: "20px",
-                    backgroundColor: "gray",
-                    //visibility: checknext,
-                  }}
-                  variant="contained"
-                  onClick={NextPage}
-                >
-                  Next Page
-                </Button>
-              </td>
-            </tr>
-          </table>
-        </div>
+  <Button
+    style={{
+      width: "200px",
+      marginTop: "20px",
+      marginBottom: "20px",
+      backgroundColor: "gray",
+  
+      marginRight :'20px',
+    }}
+    variant="contained"
+    onClick={NextPage}
+  >
+    Next Page
+  </Button>
+</div>
       </div>
     </>
   );
