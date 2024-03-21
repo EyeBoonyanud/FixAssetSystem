@@ -184,21 +184,21 @@ function Issue() {
   //     console.error("Error during login:", error);
   //   }
   // };
-  const Owner = (Id_owner) => {
-    console.log("////", Id_owner);
-    axios
-      .post("http://10.17.100.183:5000/Id_owner", {
-        owner_id: Id_owner,
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length > 0) {
-          setTxt_user(data[0][1]);
-        } else {
-          setTxt_user("");
-        }
-      });
-  };
+  // const Owner = (Id_owner) => {
+  //   console.log("////", Id_owner);
+  //   axios
+  //     .post("http://10.17.100.183:5000/Id_owner", {
+  //       owner_id: Id_owner,
+  //     })
+  //     .then((res) => {
+  //       const data = res.data;
+  //       if (data.length > 0) {
+  //         setTxt_user(data[0][1]);
+  //       } else {
+  //         setTxt_user("");
+  //       }
+  //     });
+  // };
 
   const CostCenter = () => {
     axios.get("http://10.17.100.183:5000/getcost").then((res) => {
@@ -465,7 +465,7 @@ function Issue() {
           FixCode: FixAsset,
           DateFrom: Date,
           DateTo: DateTo,
-          ByID: Txt_ID_Owner,
+          ByID: Txt_ID_Owner.trim(),
         })
         .then((res) => {
           const data = res.data;
@@ -507,6 +507,14 @@ function Issue() {
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
+    setselectCostCenter([])
+    setselectdeptMul([])
+    setselectcostMul([])
+    setReType([])
+    setSelectedDateFrom("วว/ดด/ปป")
+    setSelectedDateTo("วว/ดด/ปป")
+    setTxt_ID_Owner("")
+    setTxt_user("")
   };
 
   const Delete = async (item,index) => {
@@ -886,21 +894,21 @@ function Issue() {
               <TableRow
                 style={{ display: Path === "FAMMASTER" ? "table-row" : "none" }}
               >
-                <TableCell style={{ border: "0" }}>
+                <TableCell style={{ border: "0" }} colSpan={2}>
                   <TextField
                     id="outlined-basic"
                     label="Request By :"
                     size="small"
                     variant="outlined"
-                    style={{ width: "200px" }}
+                    style={{ width: "414px" }}
                     value={Txt_ID_Owner}
                     onChange={(e) => {
                       setTxt_ID_Owner(e.target.value);
-                      Owner(e.target.value);
+                      // Owner(e.target.value);
                     }}
                   />
                 </TableCell>
-                <TableCell style={{ border: "0" }}>
+                {/* <TableCell style={{ border: "0" }}>
                   <TextField
                     id="outlined-basic"
                     label=""
@@ -913,7 +921,7 @@ function Issue() {
                     value={Txt_user}
                     disabled
                   />
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </Table>
           </div>
