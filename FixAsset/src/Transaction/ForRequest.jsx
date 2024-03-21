@@ -1077,16 +1077,9 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     if (selectFixAssetgroup1.length > 1) {
       group_fix = selectFixAssetgroup1.substring(0, 1);
       console.log(group_fix,"selectFixAssetgroup166")
-    }
-    try {
-      const rollNoSearch = await axios.get(
-        `http://10.17.100.183:5000/get_COMP?fam_no=${Gen_Fam_No}}`
-      );
-      const data = rollNoSearch.data;
-      set_COMP(data);
-      console.log(data, "TTTTTTTTTTTTTTTTTTT");
-    } catch (error) {
-      console.error("Error requesting data:", error);
+    }else{
+      group_fix = selectFixAssetgroup1
+      console.log(group_fix,"selectFixAssetgroup167")
     }
     try {
       const row = await axios.get(
@@ -1103,6 +1096,17 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
           title: "Data is not found",
         });
       }
+    try {
+      const rollNoSearch = await axios.get(
+        `http://10.17.100.183:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+      );
+      const data = rollNoSearch.data;
+      set_COMP(data);
+      console.log(data, "TTTTTTTTTTTTTTTTTTT");
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
+   
       //// console.log(data, "1111111111111111");
     } catch (error) {
       //console.error("Error requesting data:", error);
