@@ -81,7 +81,7 @@ function ForRequest() {
   // console.log(VIEW_FAM, "VIEW");
   // console.log(DataDetailfamno, "VIEW2");
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.100.183:5000/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -114,7 +114,7 @@ function ForRequest() {
   useEffect(() => {
     openPopupLoadding();
     const fetchData = () => {
-      axios.post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+      axios.post("http://10.17.100.183:5000/FAM_FILE_ATTACH", {
         FamNo: VIEW_FAM,
       })
       .then((res) => {
@@ -132,7 +132,7 @@ function ForRequest() {
     const FAM_Hearder = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
@@ -144,7 +144,7 @@ function ForRequest() {
     const FAM_Detail = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
         console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
