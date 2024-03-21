@@ -1782,6 +1782,9 @@ function TransFerDetail() {
             owner_id: For_Rq_Edit[17],
             owner_dept: For_Rq_Edit[18],
             owner_tel: For_Rq_Edit[19],
+            service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
           }
         );
       } catch (error) {
@@ -1884,6 +1887,10 @@ function TransFerDetail() {
             owner_id: For_Req[15],
             owner_dept: For_Req[16],
             owner_tel: For_Req[17],
+            service_close :selectservice_by,
+                owner_by: owner_roting,
+                service_dt:ServiceDept
+            
           }
         );
       } catch (error) {
@@ -1944,40 +1951,7 @@ function TransFerDetail() {
       console.log(ServiceDept,"ServiceDeptServiceDept")
     }
 
-    // const setData_forTranfer_Req_Tranfer_Details = [
-    //   Fam_list,
-    //   ownersend,
-    //   data_fromboi,
-    //   selecttrans_factory,
-    //   selecttrans_cc,
-    //   new_boi,
-    //   [selectnew_owner],
-    //   Tel_for_trans,
-    //   plan_date,
-    //   abnormal,
-    //   receiver,
-    //   sts,
-    // ];
-    // const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-    // localStorage.setItem("For_Transfer", sentdata);
 
-    // const set_data_for_req_details = [
-    //   Fam_list,
-    //   selectdepartment_mana,
-    //   ServiceDept,
-    //   Tel_service,
-    //   selectservice_by,
-    //   selectboi_staff,
-    //   selectboi_manager,
-    //   selectfac_manager,
-    //   selectacc_check,
-    //   owner_roting,
-    //   selectacc_manager,
-    //   selectservice_by,
-    //   text_acc_check,
-    // ];
-    // const sendheader = JSON.stringify(set_data_for_req_details);
-    // localStorage.setItem("For_Routing", sendheader);
 
     const confirmResult = await Swal.fire({
       title: "Are you sure you want to save?",
@@ -2815,7 +2789,7 @@ function TransFerDetail() {
                       else { 
                         try {
                           const row = axios.post(
-                        `http://10.17.74.202:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
+                        `http://10.17.162.238:5000/update_manager_dept?famno=${EditFam}&mgrjud=${selectradio_dept}&mgrcmmt=${cmmtradio_dept}&sts=${Status}`
                           );
              
                           Swal.fire({
