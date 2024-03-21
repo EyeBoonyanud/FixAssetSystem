@@ -479,7 +479,7 @@ function TransFerDetail() {
               // Acc manager
               setaction__acc_manager(For_Edit_Rou[0][29]);
               setselectradio_acc_manager(For_Edit_Rou[0][30]);
-              if(For_Edit_Rou[0][31]){
+              if(For_Edit_Rou[0][31] == "null"){
                 setcmmtradio_acc_manager("")
               }else{
                 setcmmtradio_acc_manager(For_Edit_Rou[0][31]);
