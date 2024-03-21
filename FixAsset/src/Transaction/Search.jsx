@@ -518,8 +518,8 @@ function Issue() {
   };
 
   const Delete = async (item,index) => {
-    setselectindex_delete(index);
-    setloading("false");
+    // setselectindex_delete(index);
+    // setloading("false");
     openPopupLoadding();
     // แสดง SweetAlert เพื่อยืนยันการลบ
     Swal.fire({
@@ -570,8 +570,8 @@ function Issue() {
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
           // โหลดข้อมูลใหม่หลังจากลบข้อมูล
           Search();
-          setloading("True");
-          setselectindex_delete("0")
+          // setloading("True");
+          // setselectindex_delete("0")
           closePopupLoadding();
         } catch (error) {
           console.error("Error deleting data:", error);
@@ -579,6 +579,8 @@ function Issue() {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // ถ้าผู้ใช้ยกเลิกการลบ
         Swal.fire("Cancelled", "Your data is safe :)", "info");
+        closePopupLoadding();
+        
       }
     });
   };
@@ -1062,7 +1064,7 @@ function Issue() {
                      
                       </TableCell> 
                       <TableCell style={{width:"0px"}}>
-                      {Path === "SEARCH" && (
+                      {item[7] === "Create" && (
   loading === "false" && index === selectindex_delete ? (
     <LoadingOutlined style={{ fontSize: "30px" }} />
   ) : (
