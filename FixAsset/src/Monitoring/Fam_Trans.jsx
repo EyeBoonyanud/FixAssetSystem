@@ -90,7 +90,7 @@ function TransFerDetail() {
         );
         const data = await response.data.flat();
         setDataTransferFamno(data) ;
-        setselectradio_receiver(data[12])
+        setselectradio_receiver(data[9])
         console.log(data,"data")
       } catch (error) {
         console.error("Error RequesterORType:", error);
@@ -1159,7 +1159,7 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
         className="Style1"
         size="small"
         disabled
-        value={DataRoutingFamno[11] !== "null" ? DataRoutingFamno[11] : ''}
+        value={DataTransferFamno[11] !== "null" ? DataTransferFamno[11] : ''}
        
       />
     </FormControl>
