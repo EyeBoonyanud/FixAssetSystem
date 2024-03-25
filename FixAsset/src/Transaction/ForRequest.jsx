@@ -74,7 +74,7 @@ function ForRequest() {
   const [selectFixAssetgroup1, setselectFixAssetgroup1] = useState("");
   const [FixAsset_cost, setFixAsset_cost] = useState([]);
   const [selectFixAsset_cost1, setselectFixAsset_cost1] = useState("");
-  const [Request_type1, setRequest_type1] = useState("");
+  const [Request_type1, setRequest_type1] = useState("GP01001");
   const [Request_sts, setRequest_sts] = useState("");
   const [Request_sts1, setRequest_sts1] = useState("");
   const [Remark, setRemark] = useState("");
