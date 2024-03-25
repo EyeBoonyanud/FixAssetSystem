@@ -1070,7 +1070,8 @@ console.log(datatable,"uuu")
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
-    setSelectAll("");
+  console.log("setSelectAll",selectAll,datatable,find_fixasset,COMP)
+
     openPopupLoadding();
 console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       let group_fix =""
@@ -1081,21 +1082,52 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       group_fix = selectFixAssetgroup1
       console.log(group_fix,"selectFixAssetgroup167")
     }
+   
     try {
       const row = await axios.get(
         `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
       );
       const data = row.data;
       setfind_fixasset(data);
-
+      
       if (data.length > 0) {
-        setOpen(true);
+        try {
+          const response = await axios.post("http://10.17.162.238:5000/fix_code_find", { assetcode: find_fixasset1 });
+          const responseData = response.data;
+          setdatafix_for_find(responseData);
+    
+          if (responseData.length !== data.length) {
+            setOpen(true); 
+          } else if (responseData.length === data.length) {
+            const seen = {}; // ใช้เพื่อตรวจสอบค่าที่ซ้ำกัน
+            let uniqueKeys = []; // เก็บ key ที่ไม่ซ้ำกัน
+        
+            // วนลูปผ่าน responseData เพื่อหาค่าที่ไม่ซ้ำกัน
+            responseData.forEach(item => {
+                const key = item[0]; // เราจะใช้ค่า index 0 (A1-R180-24-0004) เป็น key ในการตรวจสอบค่าที่ซ้ำกัน
+        
+                // ตรวจสอบว่าค่านี้เคยปรากฏไปแล้วหรือยัง
+                if (!seen[key]) {
+                    seen[key] = true;
+                    uniqueKeys.push(key); // เพิ่ม key ที่ไม่ซ้ำกันลงใน uniqueKeys
+                }
+            });
+        
+            // แสดงข้อความแจ้งเตือนพร้อมกับ key ที่ไม่ซ้ำกันทั้งหมด
+            alert("Fixed Asset Code has been implemented:\n" + uniqueKeys.join(', '));
+        }
+        
+        
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       } else {
         Swal.fire({
           icon: "error",
           title: "Data is not found",
         });
       }
+     
     try {
       const rollNoSearch = await axios.get(
         `http://10.17.162.238:5000/get_COMP?fam_no=${Gen_Fam_No}}`
@@ -1111,18 +1143,12 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
-    try {
-      const response = await axios.post("http://10.17.162.238:5000/fix_code_find", { assetcode: find_fixasset1 });
-      const data = response.data;
-      console.log(data,"datafayfagai;");
-      setdatafix_for_find(data)
-    } catch (error) {
-      // Handle error here
-      console.error("Error fetching data:", error);
-      // Do something with the error, e.g., set error state
-    }
+    
 
     closePopupLoadding();
+  
+    setSelectAll("");
+
   };
   const updateSelectedData = (selectedItems) => {
     console.log(selectedItems,"RRRR")
@@ -1135,6 +1161,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     newSelectedItems[index] = !newSelectedItems[index];
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
+    console.log(newSelectedItems,"ggg",selectedItems)
   };
   // const handleCheckboxAllChange = () => {
   //   const newSelectedAll = !selectAll;
@@ -1142,6 +1169,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
   //   setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
   //   updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
   // };
+ 
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
     let newSelectedItems = [];
@@ -1167,12 +1195,56 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
-  const handleAdd = () => {
-      const hasTrue = selectedItems.includes(true);
-      if (!hasTrue ||selectedItems.length === 0  ) {
 
-        alert("Please select checkbox")
-      }
+
+  const[CountCOMP, setCountCOMP] =useState([])
+ const [Countdatatable,setCountdatatable]=useState([])
+  const handleAdd = () => {
+    
+    const hasTrue = selectedItems.includes(true);
+
+    if (!hasTrue || selectedItems.length === 0) {
+      let countCOMP = 0;
+      let countTABLE = 0;
+      console.log(find_fixasset1, "yy", find_fixasset1);
+      find_fixasset.map((item, index) => {
+        const filteredItems = COMP.filter(
+            (compItem) =>
+                compItem[1] === item[3] &&
+                compItem[2] !== null &&
+                compItem[3] === find_fixasset1
+        );
+        const filteredItemsDatatable = datatable.filter(
+          (dataItem) =>
+            dataItem[3] === item[3] &&
+            dataItem[0] === item[0]
+        );
+        countCOMP += filteredItems.length;
+        countTABLE += filteredItemsDatatable.length;
+    });
+    setCountCOMP(countCOMP);
+    setCountdatatable(countTABLE);
+  console.log(countCOMP,"yyy",countTABLE);  // const DataCount =  countCOMP
+   
+  if(countTABLE === find_fixasset.length){
+    
+          alert("Duplicate Please Close");
+          
+    
+  }else{
+alert("Please select checkbox");
+  }
+  
+    
+    // console.log(DataCount,"66666",find_fixasset.length)
+    // if(DataCount.length === find_fixasset.length)
+    
+         
+          
+    
+      console.log(CountCOMP, "yyyy", Countdatatable,find_fixasset);
+  }
+  
     else{
       const newDataTable = [...datatable, ...selectedData];
       newDataTable.sort((a, b) => {
@@ -1190,8 +1262,9 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       setOpen(false);
       setbtnSave("visible"); 
       setlocalTable(newDataTable)
+      
      }
-   
+  
     
 
   };
@@ -2587,6 +2660,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
                               <Checkbox
                                   checked={selectedItems[index] || false}
                                   onChange={() => handleCheckboxChange(index)}
+                                  
                                   disabled={
                                     COMP.some(
                                       (compItem) =>

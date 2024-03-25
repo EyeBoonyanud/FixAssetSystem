@@ -84,6 +84,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
       FRD_ACQ_COST,
       FRD_BOOK_VALUE
       FROM FAM_REQ_DETAIL WHERE FRD_FAM_NO = :famno
+      ORDER BY 2,3
     `, { famno: strFamno });
     connection.release();
     const rows = result.rows;

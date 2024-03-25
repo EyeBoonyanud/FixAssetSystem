@@ -107,87 +107,90 @@ function Report() {
   const Search = () => {
     if (selectFactory=== "" && selectCostCenter=== "" && Txt_FamNo_TO=== "" && Txt_ID_Owner=== "" && Txt_user=== "" && selectRequestType === "" && Txt_FamNo === "") {
     
-      Swal.fire({
-        title: "Please fill information",
-        text: `Please enter again`,
-        icon: "warning",
-      });
+      alert("Please fill information")
     } else {
-      setCheckHead("hidden");
-      setCheckEmpty("hidden");
-      setCheckData("visible");
-      axios
-        .post("http://10.17.162.238:5000/FamDetailReport", {
-          Fac:selectFactory,
-          CC:selectCostCenter,
-          RequestType: selectRequestType,
-          FAMNo_From: Txt_FamNo,
-          FamNo_To: Txt_FamNo_TO,
-          OwnerID :Txt_ID_Owner,
-        })
-        .then((res) => {
-          if (res.data.length > 0) {
-            const data = res.data;
-            const dataTablesByFamno = {};
+      if(selectRequestType==""){
+        alert("Please Select Request Type")
 
-            for (let i = 0; i < data.length; i++) {
-              const Famno = data[i][2];
-              const Fac = data[i][0];
-              const currentDataTable = dataTablesByFamno[Famno] || [];
-              if (!dataTablesByFamno[Famno]) {
-                var sumAcqCost = 0;
-                var sumBookvalue = 0;
+      }
+      else{
+        setCheckHead("hidden");
+        setCheckEmpty("hidden");
+        setCheckData("visible");
+        axios
+          .post("http://10.17.162.238:5000/FamDetailReport", {
+            Fac:selectFactory,
+            CC:selectCostCenter,
+            RequestType: selectRequestType,
+            FAMNo_From: Txt_FamNo,
+            FamNo_To: Txt_FamNo_TO,
+            OwnerID :Txt_ID_Owner,
+          })
+          .then((res) => {
+            if (res.data.length > 0) {
+              const data = res.data;
+              const dataTablesByFamno = {};
+  
+              for (let i = 0; i < data.length; i++) {
+                const Famno = data[i][2];
+                const Fac = data[i][0];
+                const currentDataTable = dataTablesByFamno[Famno] || [];
+                if (!dataTablesByFamno[Famno]) {
+                  var sumAcqCost = 0;
+                  var sumBookvalue = 0;
+                }
+                var numericValue = data[i][13].replace(/,/g, "");
+                sumAcqCost += parseFloat(numericValue);
+                sumBookvalue = sumBookvalue + data[i][14];
+  
+                currentDataTable.push([
+                  currentDataTable.length === 0 ? data[i][0] : "",
+                  currentDataTable.length === 0 ? data[i][1] : "",
+                  currentDataTable.length === 0 ? data[i][2] : "",
+                  currentDataTable.length === 0 ? data[i][3] : "",
+  
+                  data[i][4],
+                  data[i][5],
+                  data[i][6],
+                  data[i][7],
+                  data[i][8],
+                  data[i][9],
+                  data[i][10],
+                  data[i][11],
+                  data[i][12],
+                  data[i][13],
+                  data[i][14],
+                  data[i][15],
+                  data[i][16],
+                  data[i][17],
+                  sumAcqCost.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }),
+                  sumBookvalue,
+                  numericValue,
+                  sumAcqCost,
+                ]);
+                dataTablesByFamno[Famno] = currentDataTable;
+                setCheckHead("visible");
               }
-              var numericValue = data[i][13].replace(/,/g, "");
-              sumAcqCost += parseFloat(numericValue);
-              sumBookvalue = sumBookvalue + data[i][14];
-
-              currentDataTable.push([
-                currentDataTable.length === 0 ? data[i][0] : "",
-                currentDataTable.length === 0 ? data[i][1] : "",
-                currentDataTable.length === 0 ? data[i][2] : "",
-                currentDataTable.length === 0 ? data[i][3] : "",
-
-                data[i][4],
-                data[i][5],
-                data[i][6],
-                data[i][7],
-                data[i][8],
-                data[i][9],
-                data[i][10],
-                data[i][11],
-                data[i][12],
-                data[i][13],
-                data[i][14],
-                data[i][15],
-                data[i][16],
-                data[i][17],
-                sumAcqCost.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }),
-                sumBookvalue,
-                numericValue,
-                sumAcqCost,
-              ]);
-              dataTablesByFamno[Famno] = currentDataTable;
-              setCheckHead("visible");
+              setCheckEmpty("visible");
+              setCheckData("hidden");
+              setTableSearch(dataTablesByFamno);
+            } else {
+              Swal.fire({
+                title: "Not Found Data",
+                text: `Not Found ${Txt_FamNo} Please enter again`,
+                icon: "warning",
+              });
+              setcheckvalue("Not Found Data");
             }
-            setCheckEmpty("visible");
-            setCheckData("hidden");
-            setTableSearch(dataTablesByFamno);
-          } else {
-            Swal.fire({
-              title: "Not Found Data",
-              text: `Not Found ${Txt_FamNo} Please enter again`,
-              icon: "warning",
-            });
-            setcheckvalue("Not Found Data");
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      }
+    
     }
   };
 
@@ -548,9 +551,10 @@ function Report() {
                           {/* ตัวอย่างการใส่ Fac */}
                           <TableCell>
                             {rowIndex === 0 ? (
-                              <FilePdfOutlined
-                                style={{ color: "red", fontSize: "20px" }}
-                              />
+                              // <FilePdfOutlined
+                              //   style={{ color: "red", fontSize: "20px" }}
+                              // /> 
+                              <p></p>
                             ) : (
                               ""
                             )}

@@ -74,6 +74,7 @@ app.post("/update_new_cc",Transaction.update_new_cc);
 app.post("/update_for_date_trans",Transaction.update_for_date_trans);
 app.post("/searchFamMaster",Transaction.searchFamMaster);
 app.post("/namefile",Transaction.namefile);
+app.post("/find_asset_fixdata",Transaction.find_asset_fixdata);
 
 
 

@@ -21,6 +21,8 @@ import {
   Button,
   InputLabel,
   Autocomplete,
+  Checkbox
+  
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -39,6 +41,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Swal from "sweetalert2";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import PageLoadding from "../Loadding/Pageload";
+import * as XLSX from "xlsx";
 
 function Issue() {
   const UserLoginn = localStorage.getItem("UserLogin");
@@ -75,7 +78,10 @@ function Issue() {
   const [Txt_Title, setTxt_Title] = useState("");
   const [dataName_file ,setdataName_file] =useState([])
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
    console.log("YYYY",dataName_file)
+   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const openPopupLoadding = () => {
     setPopupOpenLoadding(true);
   };
@@ -88,6 +94,7 @@ function Issue() {
   //   const date = new Date(rawDate);
   //   return date.toLocaleDateString(undefined, options);
   // }
+ 
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
@@ -493,6 +500,94 @@ function Issue() {
     localStorage.removeItem("Type");
   };
 
+  const dataExport = [];
+  const sortedTableFirst = dataSearch.map((item) => [
+    item[0],
+    item[1],
+    item[2],
+    item[3],
+    item[4],
+    item[8],
+    item[6],
+    item[7],
+  ]);
+  dataExport.push(...sortedTableFirst);
+  sortedTableFirst.sort((a, b) => {
+    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+      if (a[i] < b[i]) return -1;
+      if (a[i] > b[i]) return 1;
+    }
+    return 0;
+  });
+  const exportToExcelTable1 = () => {
+    const selectedData = dataSearch.filter((item) =>
+      selectedRows.includes(item[2])
+    );
+
+    if (selectedRows.length > 0 && selectedData.length > 0) {
+      // ถ้ามี checkbox ถูกเลือก
+      const ws = XLSX.utils.aoa_to_sheet([
+        [
+          "Factory",
+          "Cost Center",
+          "FAM NO",
+          "Issue By",
+          "Issue Date",
+          "Type",
+          "Fixed Assets Code",
+          "Request Status",
+        ],
+        ...selectedData,
+      ]);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, `Selected_RollLeaf_.xlsx`);
+    } else {
+      // ถ้าไม่มี checkbox ถูกเลือก หรือไม่มีข้อมูลที่ถูกเลือก
+      const ws = XLSX.utils.aoa_to_sheet([
+        [
+          "Factory",
+          "Cost Center",
+          "FAM NO",
+          "Issue By",
+          "Issue Date",
+          "Type",
+          "Fixed Assets Code",
+          "Request Status",
+        ],
+        ...dataRoll,
+      ]);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, `RollLeaf_.xlsx`);
+    }
+  };
+  const handleCheckboxChange = (id) => {
+    if (selectAll) {
+      // ถ้ากด Select All ให้ยกเลิกการเลือกทั้งหมด
+      setSelectAll(false);
+      setSelectedRows([id]);
+    } else {
+      // ถ้ายังไม่ได้กด Select All ให้ทำการเลือกหรือยกเลิกตามปกติ
+      if (selectedRows.includes(id)) {
+        setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
+      } else {
+        setSelectedRows((prev) => [...prev, id]);
+      }
+    }
+  };
+  const handleSelectAll = () => {
+    const allIds = dataSearch.map((item) => item[2]);
+    if (selectAll) {
+      // ถ้าเลือกทั้งหมดให้ยกเลิกการเลือกทั้งหมด
+      setSelectedRows([]);
+    } else {
+      // ถ้ายังไม่ได้เลือกทั้งหมดให้ทำการเลือกทั้งหมด
+      setSelectedRows(allIds);
+    }
+    // สลับสถานะ SelectAll
+    setSelectAll(!selectAll);
+  };
   const Reset = async () => {
     document.getElementById("FamNo").value = "";
     document.getElementById("FamTo").value = "";
@@ -503,7 +598,7 @@ function Issue() {
     setselecteDatafac("");
     setselectcost("");
     setselectReType("");
-    setdataSearch("");
+    setdataSearch([]);
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
@@ -515,6 +610,8 @@ function Issue() {
     setSelectedDateTo("วว/ดด/ปป")
     setTxt_ID_Owner("")
     setTxt_user("")
+    setSelectAll("")
+    setSelectedRows("")
   };
 
   const Delete = async (item,index) => {
@@ -967,6 +1064,7 @@ function Issue() {
                     New
                   </Button>
                   &nbsp;
+                  {Path === "FAMMASTER" && (
                   <Button
                     className="ButtonSearch"
                     style={{
@@ -974,10 +1072,11 @@ function Issue() {
                       width: "180px",
                     }}
                     variant="contained"
+                    onClick={exportToExcelTable1}
                   >
                     <FileDownloadIcon />
                     Export Excel
-                  </Button>
+                  </Button>)}
                   &nbsp;
                   <Button
                     className="ButtonSearch"
@@ -1008,6 +1107,17 @@ function Issue() {
             <Table sx={{}} aria-label="simple table">
               <TableHead className="Serach-Data">
                 <TableRow>
+                {Path === "FAMMASTER" && (
+                  <TableCell>
+                  
+                  <Checkbox
+                    style={{ color: 'white' }}
+                    {...label}
+                    onChange={handleSelectAll}
+                    checked={selectAll}
+                  />
+                </TableCell>
+                )}
                 <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
@@ -1024,6 +1134,17 @@ function Issue() {
                 {dataSearch.length > 0 ? (
                   dataSearch.map((item, index) => (
                     <TableRow key={item[2]}>
+                {Path === "FAMMASTER" && ( <TableCell>
+                 
+  <Checkbox
+    {...label}
+    onChange={() => handleCheckboxChange(item[2])}
+    checked={selectedRows.includes(item[2])}
+  />
+
+
+                    
+                  </TableCell>)}
                       <TableCell style={{width:"0px"}}>
                         {Path === "SEARCH" ? (
                           loading === "false" && index === selectindex ? (
@@ -1118,7 +1239,7 @@ function Issue() {
                   ))
                 ) : (
                   <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={9}>
+                    <TableCell colSpan={11}>
                       <InfoCircleOutlined
                         style={{
                           visibility: checkData,

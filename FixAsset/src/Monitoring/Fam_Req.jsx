@@ -753,7 +753,11 @@ function ForRequest() {
                                 }}
                               >
                                 <TableCell></TableCell>
-                                <TableCell>{item[1]} </TableCell>
+                                {index === 0 || item[1] !== DataDetailfamno[index - 1][1] ? (
+                <TableCell>{item[1]}</TableCell>
+            ) : (
+                <TableCell></TableCell>
+            )}
                                 <TableCell>{item[2]}</TableCell>
                                 <TableCell>{item[3]}</TableCell>
                                 <TableCell>{item[4]}</TableCell>
