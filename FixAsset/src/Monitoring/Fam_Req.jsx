@@ -764,7 +764,11 @@ function ForRequest() {
                                 <TableCell>{item[5]}</TableCell>
                                 <TableCell>{item[6]}</TableCell>
                                 <TableCell>{item[7]}</TableCell>
-                                <TableCell>{item[8]}</TableCell>
+                                {/* <TableCell>{item[8]}</TableCell> */}
+                                <TableCell>
+  {typeof item[8] === 'number' ? item[8].toLocaleString() : item[8]}
+</TableCell>
+
                                 <TableCell>{item[9]}</TableCell>
                           
                               </TableRow>
@@ -781,18 +785,20 @@ function ForRequest() {
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
+                            
                             <TableCell style={{ fontWeight: "bold" }}>
                               Total
                             </TableCell>
                             <TableCell style={{ fontWeight: "bold" }}>
-                              {DataDetailfamno.reduce((acc, curr) => acc + curr[8], 0)
-                                .toFixed(2)}
-                            </TableCell>
+  {DataDetailfamno
+    .reduce((acc, curr) => acc + parseFloat(curr[8]), 0)
+    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+</TableCell>
 
-                            <TableCell style={{ fontWeight: "bold" }}>
-                              {DataDetailfamno.reduce((acc, curr) => acc + curr[9], 0)
-                                .toFixed(2)}
-                            </TableCell>
+<TableCell style={{ fontWeight: "bold" }}>
+  {DataDetailfamno.reduce((acc, curr) => acc + parseInt(curr[9]), 0).toLocaleString('en-US')}
+</TableCell>
+
                           </TableRow>
 
 

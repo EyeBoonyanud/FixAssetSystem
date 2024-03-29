@@ -59,10 +59,10 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_NEW_BOI_PROJ,
           D.FRD_REMARK
         FROM
-        FAM_REQ_HEADER H
-        LEFT JOIN FAM_REQ_DETAIL D  ON D.FRD_FAM_NO = H.FRH_FAM_NO
+          FAM_REQ_DETAIL D ,
+          FAM_REQ_HEADER H
         LEFT JOIN CUSR.CU_FACTORY_M CF ON
-        CF.FACTORY_CODE = H.FAM_FACTORY
+          CF.FACTORY_CODE = H.FAM_FACTORY
         WHERE 1=1
           AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
@@ -96,10 +96,10 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_NEW_BOI_PROJ,
           D.FRD_REMARK
         FROM
-        FAM_REQ_HEADER H
-        LEFT JOIN FAM_REQ_DETAIL D  ON D.FRD_FAM_NO = H.FRH_FAM_NO
+          FAM_REQ_DETAIL D ,
+          FAM_REQ_HEADER H
         LEFT JOIN CUSR.CU_FACTORY_M CF ON
-        CF.FACTORY_CODE = H.FAM_FACTORY
+          CF.FACTORY_CODE = H.FAM_FACTORY
         WHERE 1=1
           AND(CF.FACTORY_CODE = '${Fac}'OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )

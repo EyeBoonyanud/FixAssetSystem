@@ -303,7 +303,7 @@ console.log(datatable,"uuu")
     request_by();
     factory();
     costcenter();
-    CostforAsset();
+    // CostforAsset();
     keep();
  
     ShowFile();
@@ -598,55 +598,59 @@ console.log(datatable,"uuu")
     }
   };
   //AssetCost
-  const CostforAsset = async () => {
-    try {
-      const response = await axios.get(`http://10.17.162.238:5000/getcost`);
-      const CostData = await response.data;
-      setFixAsset_cost(CostData);
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+  // const CostforAsset = async () => {
+  //   try {
+  //     const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+  //     const CostData = await response.data;
+  //     setFixAsset_cost(CostData);
+  //     if (EditFam != null) {
+  //       if (For_Rq_Edit != null) {
+  //         //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
-          setselectFixAsset_cost1(For_Rq_Edit[9]);
-        }
-      } else {
-        if (For_Req != null) {
-          setselectFixAsset_cost1(For_Req[8]);
-        } else {
-          setselectFixAsset_cost1("");
-        }
-      }
-    } catch (error) {
-      //console.error("Error during login:", error);
-    }
-  };
+  //         setselectFixAsset_cost1(For_Rq_Edit[18]);
+  //       }
+  //     } else {
+  //       if (For_Req != null) {
+  //         setselectFixAsset_cost1(For_Req[16]);
+  //       } else {
+  //         setselectFixAsset_cost1("");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     //console.error("Error during login:", error);
+  //   }
+  // };
   // HandleFixAssetCost
-  const handleCost = async (event) => {
+  const handleCost = async () => {
     
-    let Cost_value = event
-    console.log(Cost_value,"Y66YYYYY")
-    setselectFixAsset_cost1(Cost_value);
+    // // let Cost_value = event
+    // console.log(Cost_value,"Y66YYYYY")
+    // setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
         `http://10.17.162.238:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
       );
       const data = await response.data;
+      console.log("6789",data)
       if (data[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getfind_service?asset_find=${Cost_value}`
+            `http://10.17.162.238:5000/getfind_service?asset_find=${owner_dept}`
           );
           const data_for_servicedept = await response.data;
           console.log("data_for_servicedept",data_for_servicedept)
           setdataFix_Asset_Cost(data_for_servicedept);
           console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+          Gen_No(data_for_servicedept);
         } catch (error) {
           //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
         console.log(data, "ServiceDept---------------------");
+        Gen_No(data);
       }
+     
     } catch (error) {
       //console.error("Error during login:", error);
     }
@@ -660,13 +664,14 @@ console.log(datatable,"uuu")
 
 
   /////////////// Gen Fam and Tranfer_ins //////////////////
-  const Gen_No = async () => {
-    // let StatusId = ""; //
+  const Gen_No = async (asset) => {
+console.log("KKKKKKKKK")
     openPopupLoadding();
     let DataStatus = ""; //
     if (
       selectFixAssetgroup1.length > 0 &&
-      selectFixAsset_cost1.length > 0 &&
+      // selectFixAsset_cost1.length > 0 &&
+      owner_dept.length > 0 &&
       Request_type1.length > 0
     ) {
       try {
@@ -681,8 +686,10 @@ console.log(datatable,"uuu")
       } catch (error) {
         //console.error("Error during login:", error);
       }
-
-      const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
+console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
+      // const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
+      asset
+      const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
       try {
         const response = await axios.get(
           `http://10.17.162.238:5000/getfamno?famno=${Run}`
@@ -692,7 +699,7 @@ console.log(datatable,"uuu")
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-
+        
           Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus);
         } else {
           let FamNo_new = Run + "-0001";
@@ -707,16 +714,19 @@ console.log(datatable,"uuu")
       if (
         Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
-        selectFixAsset_cost1.length === 0
+        owner_dept.length === 0
       ) {
         alert("กรุณาเลือก Request Type , Fix Asset Group และ Fix Asset Code");
       } else if (Request_type1.length === 0) {
         alert("กรุณาเลือก Request Type");
       } else if (selectFixAssetgroup1.length === 0) {
         alert("กรุณาเลือก Fix Asset Group");
-      } else if (selectFixAsset_cost1.length === 0) {
-        alert("กรุณาเลือก Fix Asset Code");
-      }
+      // } else if (selectFixAsset_cost1.length === 0) {
+      //   alert("กรุณาเลือก Fix Asset Code");
+      // }owner_dept
+       } else if (owner_dept.length === 0) {
+          alert("กรุณาเลือก Owner Cost Center");
+        }
     }
     closePopupLoadding();
   };
@@ -731,7 +741,7 @@ console.log(datatable,"uuu")
       selectDept1,
       Request_type1,
       selectFixAssetgroup1,
-      selectFixAsset_cost1,
+      owner_dept,
       dataFix_Asset_Cost[0][2],
       DataStatus[0],
       DataStatus[1],
@@ -749,7 +759,7 @@ console.log(datatable,"uuu")
     localStorage.setItem("ForRequester", sentdata);
     try {
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${selectFixAsset_cost1}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -764,7 +774,7 @@ console.log(datatable,"uuu")
 
     try {
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${selectFixAsset_cost1}`
+        `http://10.17.162.238:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${owner_dept}`
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -821,7 +831,7 @@ console.log(datatable,"uuu")
           selectDept1,
           Request_type1,
           selectFixAssetgroup1,
-          selectFixAsset_cost1,
+          owner_dept,
           "",
           "",
           "",
@@ -1010,7 +1020,7 @@ console.log(datatable,"uuu")
             selectDept1,
             Request_type1,
             selectFixAssetgroup1,
-            selectFixAsset_cost1,
+            owner_dept,
             "",
             "",
             "",
@@ -1070,7 +1080,7 @@ console.log(datatable,"uuu")
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
-  console.log("setSelectAll",selectAll,datatable,find_fixasset,COMP)
+
 
     openPopupLoadding();
 console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
@@ -1082,10 +1092,15 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       group_fix = selectFixAssetgroup1
       console.log(group_fix,"selectFixAssetgroup167")
     }
-   
-    try {
+    console.log(owner_dept,find_fixasset1,group_fix,"owner_dept")
+   //ก่อนแก้ 29/03  selectFixAsset_cost1 จากการลือก asset cost center 
+    // try {
+    //   const row = await axios.get(
+    //     `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
+    //   );
+      try {
       const row = await axios.get(
-        `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
+        `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
       );
       const data = row.data;
       setfind_fixasset(data);
@@ -1302,11 +1317,12 @@ alert("Please select checkbox");
       
     } else {
       try {
+        console.log(Gen_Fam_No,item,"888888888")
         const row = await axios.post(
           `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         //localStorage.removeItem("forDetail");
-        setlocalTable();
+        setlocalTable(newData);
        //Fix_Code();     
       } catch (error) {
         console.error("Error requesting data:", error);
@@ -1435,7 +1451,7 @@ alert("Please select checkbox");
           selectDept1,
           Request_type1,
           selectFixAssetgroup1,
-          selectFixAsset_cost1,
+          owner_dept,
           "",
           "",
           "",
@@ -1522,7 +1538,7 @@ alert("Please select checkbox");
           selectDept1,
           Request_type1,
           selectFixAssetgroup1,
-          selectFixAsset_cost1,
+          owner_dept,
           "",
           "",
           "",
@@ -1607,7 +1623,7 @@ alert("Please select checkbox");
           selectDept1,
           Request_type1,
           selectFixAssetgroup1,
-          selectFixAsset_cost1,
+          owner_dept,
           "",
           "",
           "",
@@ -1886,7 +1902,7 @@ alert("Please select checkbox");
     setselectDept1("");
     setRequest_type1("");
     setselectFixAssetgroup1("");
-    setselectFixAsset_cost1("");
+    //setselectFixAsset_cost1("");
     setRequest_sts1("");
     setRemark("");
     setowner_dept("")
@@ -2375,8 +2391,11 @@ alert("Please select checkbox");
                     </FormControl>
                   </Grid>
                   <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                    <Typography style={{ width: "100%", textAlign: "right" ,display:'none' }}>
                       Asset Cost Center :
+                    </Typography>
+                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                      Request Status :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -2402,7 +2421,7 @@ alert("Please select checkbox");
                           <MenuItem value={option[0]}>{option[0]}</MenuItem>
                         ))}
                       </Select> */}
-                        <Autocomplete
+                        {/* <Autocomplete
                          disabled={read_fix_cost}
                    style={{
                     backgroundColor: read_fix_cost
@@ -2424,12 +2443,39 @@ alert("Please select checkbox");
                           sx={{ textAlign: "left" }}
                         />
                       )}
-                    />
+                    /> */}
+                    {console.log(owner_dept,"99999")}
+                    <TextField
+                     size="small" 
+  disabled={read_fix_cost}
+  style={{
+    backgroundColor: read_fix_cost ? "rgba(169, 169, 169, 0.3)" : ""
+    ,display:'none'
+  }} 
+  value={owner_dept}
+  onChange={(e) => {
+    const value = e.target.value;
+    setowner_dept(value);
+    // handleCost(value);
+  }}
+/>   
+ <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
+                      // value={status}
+                      disabled
+                      value={Request_sts1}
+                      onChange={(e) => setRequest_sts1(e.target.value)}
+                    ></TextField>
+
                     </FormControl>
                   </Grid>
                 </Grid>
                 {/* Request status */}
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid xs={1.7}></Grid>
                   <Grid xs={3}></Grid>
                   <Grid xs={2}>
@@ -2450,7 +2496,7 @@ alert("Please select checkbox");
                       onChange={(e) => setRequest_sts1(e.target.value)}
                     ></TextField>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 {/* Remark */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -2484,7 +2530,7 @@ alert("Please select checkbox");
                       visibility: checkGenNo,
                     }}
                     variant="contained"
-                    onClick={Gen_No}
+                    onClick={handleCost}
                   >
                     Gen FAM No.
                   </Button>
@@ -2505,7 +2551,7 @@ alert("Please select checkbox");
           </Card>
         </div>
         {/* สำหรับ Fixed Assets Code */}
-        <br></br><br></br><br></br><br></br><br></br><br></br>
+        <br></br><br></br><br></br><br></br>
         <div
           className="Fixed-Asset-Code"
           style={{ visibility: visibityDetails }}
@@ -2788,7 +2834,11 @@ alert("Please select checkbox");
                                 <TableCell>{item[5]}</TableCell>
                                 <TableCell>{item[6]}</TableCell>
                                 <TableCell>{item[7]}</TableCell>
-                                <TableCell>{item[9]}</TableCell>
+                                {/* <TableCell>{item[9]}</TableCell> */}
+                                <TableCell>
+  {typeof item[9] === 'number' ? item[9].toLocaleString() : item[9]}
+</TableCell>
+
                                 <TableCell>{item[10]}</TableCell>
                               </TableRow>
                             </React.Fragment>
@@ -2805,7 +2855,7 @@ alert("Please select checkbox");
                             <TableCell style={{ fontWeight: "bold" }}>
                               Total
                             </TableCell>
-                            <TableCell style={{ fontWeight: "bold" }}>
+                            {/* <TableCell style={{ fontWeight: "bold" }}>
                               {datatable
                                 .reduce((acc, curr) => acc + curr[9], 0)
                                 .toFixed(2)}
@@ -2816,7 +2866,17 @@ alert("Please select checkbox");
                                 (acc, curr) => acc + curr[10],
                                 0
                               )}
-                            </TableCell>
+                            </TableCell> */}
+                            <TableCell style={{ fontWeight: "bold" }}>
+  {datatable
+    .reduce((acc, curr) => acc + parseFloat(curr[9]), 0)
+    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+</TableCell>
+
+<TableCell style={{ fontWeight: "bold" }}>
+  {datatable.reduce((acc, curr) => acc + parseInt(curr[10]), 0).toLocaleString('en-US')}
+</TableCell>
+
                           </TableRow>
                         </TableBody>
                       </Table>

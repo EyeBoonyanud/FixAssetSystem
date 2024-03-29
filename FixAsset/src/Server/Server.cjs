@@ -4,6 +4,12 @@ const oracledb = require("oracledb");
 require("dotenv").config();
 const path = require('path');
 const fs = require('fs');
+const nodemailer = require(
+  'nodemailer'
+  );
+const bodyParser = require('body-parser'); 
+const multer = require("multer");
+const upload = multer();
 const app = express();
 const port = 5000;
 app.use(express.json());
@@ -11,6 +17,7 @@ const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
 const ReportSystem=require("../report/Report_system.cjs")
 const VIEW_Fammaster =require("../Monitoring/Monitorind.cjs")
+const Mail =require("../Mail/Mail.cjs")
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
 
@@ -23,7 +30,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
-
+app.use(express.json({ type: 'text/html' }));
 app.get("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
@@ -34,6 +41,7 @@ app.get("/getfactory",Transaction.factory);
 app.get("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
+app.get("/findsts",Transaction.findsts);
 app.get("/getby",Transaction.by);
 app.get("/getstatus",Transaction.status);
 app.get("/getsearch",Transaction.search);
@@ -151,7 +159,40 @@ app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
 app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
 app.get("/getData_showName",VIEW_Fammaster.getData_showName);
 
+//Mail
+// app.post("/sendEmail",Mail.sendEmail)
+app.post("/getMailshow",Mail.getMailshow);
+app.post("/getType",Mail.getType);
+app.post("/getFile",Mail.getFile);
+app.post("/getName_To",Mail.getName_To);
+app.post("/getStatus",Mail.getStatus);
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'boonyanuch.phan@gmail.com',
+    pass: 'vecw nlzo xown vscs',
+  },
+});
+
+app.post("/sendEmail", async (req, res) => {
+  try {
+
+    const mailOptions = {
+      from: "boonyanuch.phan@gmail.com",
+      to: req.body.toEmail,
+      subject: req.body.subject,
+      html: req.body.emailMessage
+    };
+ 
+    console.log("Email Sended");
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "An error occurred while sending email" });
+  }
+});
 //app.use('/downloads', express.static('/data/Api/Component/uploads/'));
 app.use('/downloads', express.static(__dirname));
 //getFAM_FILE_ATTACH

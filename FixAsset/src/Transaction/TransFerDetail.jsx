@@ -26,6 +26,7 @@ import {
   FilePdfOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import Mail from '../Mail/Mail'
 function TransFerDetail() {
   // Local Storage
   const EditFam = localStorage.getItem("EDIT");
@@ -488,7 +489,7 @@ function TransFerDetail() {
               // Service Close By
               setaction__service_close_by(For_Edit_Rou[0][37]);
               setselectradio_service_close_by(For_Edit_Rou[0][43]);
-              if(For_Edit_Rou[0][38]){
+              if(For_Edit_Rou[0][38]  == "null"){
                 setcmmtradio_service_close_by("");
               }else{
                 setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
@@ -2121,6 +2122,8 @@ function TransFerDetail() {
       setOpen(true);
     }
   };
+  
+
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
     let ServiceDept = "";
@@ -2597,7 +2600,7 @@ function TransFerDetail() {
           try {
             // console.log("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
-              "http://10.17.162.238:5000/Update_For_Req_All",
+             "http://10.17.162.238:5000/Update_For_Req_All",
               {
                 famno: For_Rq_Edit[0],
                 dept: For_Rq_Edit[6],
@@ -2632,7 +2635,7 @@ function TransFerDetail() {
               selecttrans_factory
             );
             const response = await axios.post(
-              "http://10.17.162.238:5000/Update_For_Trans_All",
+          "http://10.17.162.238:5000/Update_For_Trans_All",
               {
                 famno: For_Rq_Edit[0],
                 date_plan: plan_date,
@@ -2651,7 +2654,7 @@ function TransFerDetail() {
           }
           try {
             const response = await axios.post(
-              `http://10.17.162.238:5000/update_new_cc?fam=${For_Rq_Edit[0]}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
+          `http://10.17.162.238:5000/update_new_cc?fam=${For_Rq_Edit[0]}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
             );
             //// console(data, "data");
           } catch (error) {
@@ -2679,8 +2682,16 @@ function TransFerDetail() {
               title: "Submit Success",
               icon: "success",
             });
+  
             // setCheckSubmit("False")
-            navigate("/Search");
+            // navigate('/Mail', { state: { selectservice_by } });
+            localStorage.setItem("To",selectdepartment_mana)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
+            navigate("/Mail");
+          //  navigate('/Search');
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -2753,7 +2764,7 @@ function TransFerDetail() {
             const response = await axios.post(
               `http://10.17.162.238:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
             );
-            //// console(data, "data");
+        
           } catch (error) {
             //console.error("Error during login:", error);
           }
@@ -2797,6 +2808,11 @@ function TransFerDetail() {
                             icon: "success",
                           });
                          setCheckSubmit("False")
+                         localStorage.setItem("To",selectservice_by)
+                         localStorage.setItem("Genno",EditFam)
+                         localStorage.setItem("Req_Type",For_Rq_Edit[7])
+                         localStorage.setItem("Req_by",For_Rq_Edit[2])
+                         localStorage.setItem("Status",Status)
                          localStorage.removeItem("ForRequester");
                           localStorage.removeItem("forDetail");
                           localStorage.removeItem("TransForDetail");
@@ -2807,7 +2823,8 @@ function TransFerDetail() {
                           localStorage.removeItem("Edit_Trans");
                           localStorage.removeItem("Edit_Dteail_for_FixedCode");
                           localStorage.removeItem("Edit_routing");
-                        navigate("/ApproveFam");
+                          navigate("/Mail");
+                        // navigate("/ApproveFam");
                         } catch (error) {
                           //     console.error("Error updating submit status:", error.message);
                         }
@@ -2836,6 +2853,11 @@ function TransFerDetail() {
                           icon: "success",
                         });
                         //   setCheckSubmit("False")
+                        localStorage.setItem("To",selectboi_staff)
+                        localStorage.setItem("Genno",EditFam)
+                        localStorage.setItem("Req_Type",For_Rq_Edit[7])
+                        localStorage.setItem("Req_by",For_Rq_Edit[2])
+                        localStorage.setItem("Status",Status)
                         localStorage.removeItem("ForRequester");
                         localStorage.removeItem("forDetail");
                         localStorage.removeItem("TransForDetail");
@@ -2846,7 +2868,8 @@ function TransFerDetail() {
                         localStorage.removeItem("Edit_Trans");
                         localStorage.removeItem("Edit_Dteail_for_FixedCode");
                         localStorage.removeItem("Edit_routing");
-                        navigate("/ApproveFam");
+                        // navigate("/ApproveFam");
+                        navigate("/Mail");
                       } catch (error) {
                         //     console.error("Error updating submit status:", error.message);
                       } }
@@ -2871,6 +2894,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            localStorage.setItem("To",selectboi_manager)
+                        localStorage.setItem("Genno",EditFam)
+                        localStorage.setItem("Req_Type",For_Rq_Edit[7])
+                        localStorage.setItem("Req_by",For_Rq_Edit[2])
+                        localStorage.setItem("Status",Status)
             localStorage.removeItem("ForRequester");
             localStorage.removeItem("forDetail");
             localStorage.removeItem("TransForDetail");
@@ -2881,7 +2909,7 @@ function TransFerDetail() {
             localStorage.removeItem("Edit_Trans");
             localStorage.removeItem("Edit_Dteail_for_FixedCode");
             localStorage.removeItem("Edit_routing");
-            navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }}
@@ -2908,6 +2936,11 @@ function TransFerDetail() {
                           title: "Save Success",
                           icon: "success",
                         });
+                        localStorage.setItem("To",selectfac_manager)
+                        localStorage.setItem("Genno",EditFam)
+                        localStorage.setItem("Req_Type",For_Rq_Edit[7])
+                        localStorage.setItem("Req_by",For_Rq_Edit[2])
+                        localStorage.setItem("Status",Status)
                         localStorage.removeItem("ForRequester");
                         localStorage.removeItem("forDetail");
                         localStorage.removeItem("TransForDetail");
@@ -2918,7 +2951,8 @@ function TransFerDetail() {
                         localStorage.removeItem("Edit_Trans");
                         localStorage.removeItem("Edit_Dteail_for_FixedCode");
                         localStorage.removeItem("Edit_routing");
-                        navigate("/ApproveFam");
+                        // navigate("/ApproveFam");
+                        navigate("/Mail");
                       } catch (error) {
                         //     console.error("Error updating submit status:", error.message);
                       } }
@@ -2944,6 +2978,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            localStorage.setItem("To",selectacc_check)
+                        localStorage.setItem("Genno",EditFam)
+                        localStorage.setItem("Req_Type",For_Rq_Edit[7])
+                        localStorage.setItem("Req_by",For_Rq_Edit[2])
+                        localStorage.setItem("Status",Status)
             localStorage.removeItem("ForRequester");
                           localStorage.removeItem("forDetail");
                           localStorage.removeItem("TransForDetail");
@@ -2954,7 +2993,8 @@ function TransFerDetail() {
                           localStorage.removeItem("Edit_Trans");
                           localStorage.removeItem("Edit_Dteail_for_FixedCode");
                           localStorage.removeItem("Edit_routing");
-            navigate("/ApproveFam");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           } }
@@ -2981,7 +3021,23 @@ function TransFerDetail() {
               icon: "success",
             });
             //  setCheckSubmit("False")
-            navigate("/ApproveFam");
+            localStorage.setItem("To",owner_roting)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
+            localStorage.removeItem("ForRequester");
+            localStorage.removeItem("forDetail");
+            localStorage.removeItem("TransForDetail");
+            localStorage.removeItem("EDIT");
+            localStorage.removeItem("For_Transfer");
+            localStorage.removeItem("For_Routing");
+            localStorage.removeItem("For_Req_Edit");
+            localStorage.removeItem("Edit_Trans");
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            localStorage.removeItem("Edit_routing");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           } }
@@ -3007,6 +3063,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            localStorage.setItem("To",receiver)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
             localStorage.removeItem("ForRequester");
             localStorage.removeItem("forDetail");
             localStorage.removeItem("TransForDetail");
@@ -3017,7 +3078,8 @@ function TransFerDetail() {
             localStorage.removeItem("Edit_Trans");
             localStorage.removeItem("Edit_Dteail_for_FixedCode");
             localStorage.removeItem("Edit_routing");
-            navigate("/ApproveFam");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }}
@@ -3042,7 +3104,23 @@ function TransFerDetail() {
               icon: "success",
             });
             //   setCheckSubmit("False")
-            navigate("/ApproveFam");
+            localStorage.setItem("To",text_acc_check)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
+            localStorage.removeItem("ForRequester");
+            localStorage.removeItem("forDetail");
+            localStorage.removeItem("TransForDetail");
+            localStorage.removeItem("EDIT");
+            localStorage.removeItem("For_Transfer");
+            localStorage.removeItem("For_Routing");
+            localStorage.removeItem("For_Req_Edit");
+            localStorage.removeItem("Edit_Trans");
+            localStorage.removeItem("Edit_Dteail_for_FixedCode");
+            localStorage.removeItem("Edit_routing");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -3088,6 +3166,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            localStorage.setItem("To",selectacc_manager)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
             localStorage.removeItem("ForRequester");
                           localStorage.removeItem("forDetail");
                           localStorage.removeItem("TransForDetail");
@@ -3098,7 +3181,8 @@ function TransFerDetail() {
                           localStorage.removeItem("Edit_Trans");
                           localStorage.removeItem("Edit_Dteail_for_FixedCode");
                           localStorage.removeItem("Edit_routing");
-            navigate("/ApproveFam");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }}
@@ -3124,6 +3208,11 @@ function TransFerDetail() {
               title: "Save Success",
               icon: "success",
             });
+            localStorage.setItem("To",selectservice_by)
+            localStorage.setItem("Genno",EditFam)
+            localStorage.setItem("Req_Type",For_Rq_Edit[7])
+            localStorage.setItem("Req_by",For_Rq_Edit[2])
+            localStorage.setItem("Status",Status)
             localStorage.removeItem("ForRequester");
                           localStorage.removeItem("forDetail");
                           localStorage.removeItem("TransForDetail");
@@ -3134,7 +3223,7 @@ function TransFerDetail() {
                           localStorage.removeItem("Edit_Trans");
                           localStorage.removeItem("Edit_Dteail_for_FixedCode");
                           localStorage.removeItem("Edit_routing");
-            navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           } }
@@ -3160,7 +3249,8 @@ function TransFerDetail() {
               icon: "success",
             });
             //   setCheckSubmit("False")
-            navigate("/ApproveFam");
+            // navigate("/ApproveFam");
+            navigate("/Mail");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           } }
@@ -3246,7 +3336,13 @@ function TransFerDetail() {
         }
       }
       // setCheckSubmit("False")
-      navigate("/Search");
+      
+      localStorage.setItem("To",selectservice_by)
+      localStorage.setItem("Genno",For_Req[0])
+      localStorage.setItem("Req_Type",For_Req[6])
+      localStorage.setItem("Req_by",For_Req[1])
+      localStorage.setItem("Status",Status)
+     navigate("/Mail");
     }
     
     closePopupLoadding();
@@ -3333,9 +3429,15 @@ function TransFerDetail() {
       setselectacc_manager([]);
     }
   };
+
+
   // Const Return
   return (
     <>
+    {/* <Mail 
+    Dept={selectdepartment_mana}
+    isVisible={false}
+    /> */}
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
@@ -4598,7 +4700,7 @@ function TransFerDetail() {
                 {/* Owner */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Owner :</Typography>{" "}
+                    <Typography variant="subtitle2">Requester :</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -5262,8 +5364,11 @@ function TransFerDetail() {
           </div>
         </div>
       </div>
+      
+
     </>
   );
 }
 
 export default TransFerDetail;
+

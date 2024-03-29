@@ -172,6 +172,21 @@ module.exports.type = async function (req, res) {
     // console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+//Status
+module.exports.findsts = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT FFM_CODE ,FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_TYPE = 'TRANSFER'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    // // // // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    // console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
 // RequestBy
 module.exports.by = async function (req, res) {
   try {
@@ -1934,28 +1949,70 @@ module.exports.delect_all_fam_details = async function (req, res) {
     res.status(500).send("Internal Server Error");
   }
 };
+//อันเก่า ก่อนแก้วันที่ 29/03
+// module.exports.delect_all_fam_transfer = async function (req, res) {
+//   try {
+
+//     const FRT_FAM_NO = req.query.famno;
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     DELETE FROM FAM_REQ_TRANSFER 
+//      WHERE FRT_FAM_NO = :fam
+     
+//     `;
+//     const data = {
+//       fam: FRT_FAM_NO,
+//     };
+//     const result = await connect.execute(query, data, { autoCommit: true });
+//     connect.release();
+//     res.json(result);
+//   } catch (error) {
+//     // console.error("Error in querying data:", error.message);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
 module.exports.delect_all_fam_transfer = async function (req, res) {
   try {
-    // // // console.log("JJJJJJJ");
-    const FRT_FAM_NO = req.query.famno;
-    // // // console.log(FRT_FAM_NO, "FRT_FAM_NO");
+    console.log("uuuuu")
+    const {
+      famno,
+      idsts
+    } = req.body; // เปลี่ยนจาก req.body เป็น req.query
+    console.log(famno, idsts)
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    DELETE FROM FAM_REQ_TRANSFER 
-     WHERE FRT_FAM_NO = :fam
-     
+    UPDATE
+    FAM_REQ_HEADER
+  SET
+  FAM_REQ_STATUS = :FAM_REQ_STATUS
+  WHERE
+    FRH_FAM_NO = :FRH_FAM_NO
     `;
+
     const data = {
-      fam: FRT_FAM_NO,
+      FRH_FAM_NO: famno, // เปลี่ยนจาก FRT_FAM_NO เป็น FRH_FAM_NO
+      FAM_REQ_STATUS: idsts, // ใช้ idsts แทน FAM_REQ_STATUS และใช้ค่า famno ที่รับมาจาก req.query
     };
+
     const result = await connect.execute(query, data, { autoCommit: true });
+
+    if (result) {
+      res.json(result);
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+
     connect.release();
-    res.json(result);
   } catch (error) {
-    // console.error("Error in querying data:", error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
+
+
+
+
+
+
 module.exports.delete_all_file = async function (req, res) {
   try {
     const FFA_FAM_NO = req.query.famno;
@@ -3316,7 +3373,7 @@ module.exports.update_for_date_trans = async function (req, res) {
 // Fam Master 
 module.exports.searchFamMaster = async function (req, res) {
   try {
-     const{Fac,OwnerCC,FamFrom,FamTo,Dept,AssetCC,ReqType,FixCode,DateFrom,DateTo,ByID}=  req.body;
+     const{Fac,OwnerCC,FamFrom,FamTo,Dept,AssetCC,ReqType,FixCode,DateFrom,DateTo,ByID,StsID}=  req.body;
      console.log(ByID,"ByID")
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -3336,8 +3393,8 @@ module.exports.searchFamMaster = async function (req, res) {
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
+  LEFT JOIN FAM_FLOW_MASTER TR ON TR.FFM_CODE = T.FAM_REQ_STATUS 
   WHERE 1=1
-  AND (T.FAM_REQ_STATUS != 'FLTR001')
     AND (T.FAM_FACTORY = '${Fac}' OR '${Fac}' IS NULL)
     AND ('${OwnerCC}' IS NULL OR T.FAM_REQ_OWNER_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${OwnerCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${OwnerCC}', ',') + 1))
     AND (T.FRH_FAM_NO >= '${FamFrom}' OR '${FamFrom}' IS NULL)
@@ -3348,7 +3405,9 @@ module.exports.searchFamMaster = async function (req, res) {
     AND ('${FixCode}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixCode}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixCode}', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
-    AND (T.FAM_REQ_BY = '${ByID}' OR '${ByID}' IS NULL) ORDER BY T.FRH_FAM_NO ASC  `
+    AND (T.FAM_REQ_BY = '${ByID}' OR '${ByID}' IS NULL) 
+    AND (T.FAM_REQ_STATUS = '${StsID}' OR '${StsID}' IS NULL)
+    ORDER BY T.FRH_FAM_NO ASC  `
     ;
     console.log(query,"qqqq")
     const result = await connect.execute(query);

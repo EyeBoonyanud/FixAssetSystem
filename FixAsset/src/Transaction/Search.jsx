@@ -56,10 +56,15 @@ function Issue() {
 
   const [selectcostMul, setselectcostMul] = useState([]);
   const [selectReTypeMul, setselectReTypeMul] = useState([]);
+  const [selectStatus, setselectStatus] = useState("");  
+  const [Status, setStatus] = useState([]);
+  const [idStatus, setidStatus] = useState([]);
+  
   const [selectdeptMul, setselectdeptMul] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [Txt_user, setTxt_user] = useState("");
   const [ReType, setReType] = useState([]);
+
   const [selectReType, setselectReType] = useState("");
   const [getCostCenter, setgetCostCenter] = useState([]);
   const [selectCostCenter, setselectCostCenter] = useState([]);
@@ -139,6 +144,7 @@ function Issue() {
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
+  localStorage.setItem("pageshow",cutPath)
   console.log(Path, "///////////////");
   useEffect(() => {
    openPopupLoadding(); 
@@ -168,6 +174,7 @@ function Issue() {
     Factory();
     CostCenter();
     RequestType();
+    findStatus();
     // Remove();
   }, []);
 
@@ -181,31 +188,7 @@ function Issue() {
       console.error("Error during login:", error);
     }
   };
-  // const Costcenter = async () => {
-  //   try {
-  //     const response = await axios.get(`http://10.17.162.238:5000/getcost`);
-  //     const CostData = await response.data;
-  //     setcost(CostData);
-  //     // // console.log(CostData, "CostData :");
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //   }
-  // };
-  // const Owner = (Id_owner) => {
-  //   console.log("////", Id_owner);
-  //   axios
-  //     .post("http://10.17.162.238:5000/Id_owner", {
-  //       owner_id: Id_owner,
-  //     })
-  //     .then((res) => {
-  //       const data = res.data;
-  //       if (data.length > 0) {
-  //         setTxt_user(data[0][1]);
-  //       } else {
-  //         setTxt_user("");
-  //       }
-  //     });
-  // };
+ 
 
   const CostCenter = () => {
     axios.get("http://10.17.162.238:5000/getcost").then((res) => {
@@ -219,6 +202,17 @@ function Issue() {
       const TypeData = await response.data;
       setReType(TypeData);
       // // console.log(TypeData, "TypeData");
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    closePopupLoadding();
+  };
+  const findStatus = async () => {
+    try {
+      const response = await axios.get(`http://10.17.162.238:5000/findsts`);
+      const data = await response.data;
+      setStatus(data);
+    console.log(data,"TTTTT")
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -305,83 +299,7 @@ function Issue() {
     window.location.href = `/VIEW_Fammaster`;
     
   };
-  // const handleFileShow = async (EditFam, index) => {
-  //   setselectindex(index);
-  //   setloading("false");
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.17.162.238:5000/getEdit_request_show?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
-  //     // console.log(data,"ooooo")
-  //     // const DataEdit = data;
-  //     const data_edit = JSON.stringify(data);
-
-  //     localStorage.setItem("For_Req_Edit", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.17.162.238:5000/getEdit_FixAsset?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
-  //     // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
-  //     const DataEdit = data;
-  //     const data_edit = JSON.stringify(DataEdit);
-  //     // console.log(data_edit, "data_editdata_editdata_editdata_edit");
-  //     localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.17.162.238:5000/getEdit_Trans?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
-
-  //     // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-  //     // const DataEdit = data;
-  //     const data_edit = JSON.stringify(data);
-  //     localStorage.setItem("Edit_Trans", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.17.162.238:5000/getEdit_routing?FamNo=${EditFam}`
-  //     );
-  //     const data = await response.data;
-
-  //     // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-  //     // const DataEdit = data;
-  //     const data_edit = JSON.stringify(data);
-  //     localStorage.setItem("Edit_routing", data_edit);
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-
-  //   localStorage.setItem("EDIT", EditFam);
-  //   setloading("True");
-  //   setselectindex("0");
-  //   window.location.href = "/FamReq";
-  //  }
-
-  // const handleDeleteFile = async (fileName) => {
-  
-  //   try {
-  //     const response = await axios.delete(`http://10.17.162.238:5000/deleteFile?data=${fileName}`, 
-  //         // data: { fileName }
-  //     );
-      
-  // } catch (error) {
-  //     console.error('Error deleting file:', error);
-      
-  // }
-  
-  // };
+ 
 
   const TextTitle = () => {
     if(Path=="SEARCH"){
@@ -473,6 +391,7 @@ function Issue() {
           DateFrom: Date,
           DateTo: DateTo,
           ByID: Txt_ID_Owner.trim(),
+          StsID: idStatus
         })
         .then((res) => {
           const data = res.data;
@@ -612,10 +531,16 @@ function Issue() {
     setTxt_user("")
     setSelectAll("")
     setSelectedRows("")
+    setidStatus("")
+    setselectStatus("")
+    
+    
+    
   };
 
   const Delete = async (item,index) => {
     // setselectindex_delete(index);
+   
     // setloading("false");
     openPopupLoadding();
     // แสดง SweetAlert เพื่อยืนยันการลบ
@@ -650,18 +575,25 @@ function Issue() {
           }          
             }     
           });
+          let idDelete = "FLTR999"
           await axios.post(
-          `http://10.17.162.238:5000/delect_all_fam_transfer?famno=${item}`
+            'http://10.17.162.238:5000/delect_all_fam_transfer',
+            { famno: item ,
+              idsts: idDelete
+            }
           );
-          await axios.post(
-         `http://10.17.162.238:5000/delect_all_fam_details?famno=${item}`
-          );
-          await axios.post(
-           `http://10.17.162.238:5000/delete_all_file?famno=${item}`
-          ); 
-          await axios.post(
-          `http://10.17.162.238:5000/delect_all_fam_header?famno=${item}`
-          );
+        //   await axios.post(
+        //   `http://10.17.162.238:5000/delect_all_fam_transfer?famno=${item}`
+        //   );
+        //   await axios.post(
+        //  `http://10.17.162.238:5000/delect_all_fam_details?famno=${item}`
+        //   );
+        //   await axios.post(
+        //    `http://10.17.162.238:5000/delete_all_file?famno=${item}`
+        //   ); 
+        //   await axios.post(
+        //   `http://10.17.162.238:5000/delect_all_fam_header?famno=${item}`
+        //   );
           
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
@@ -681,6 +613,10 @@ function Issue() {
       }
     });
   };
+
+  const selectStatusID = async (id)  =>{
+    setidStatus(id)
+  }
 
   return (
     <>
@@ -969,10 +905,12 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
+              
               <TableRow
                 style={{
                   display:
-                    Path === "SEARCH" || Path === "APPROVEFAM"
+                    Path === "SEARCH" 
+                    //|| Path === "APPROVEFAM"
                       ? "table-row"
                       : "none",
                 }}
@@ -990,6 +928,7 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
+              
               <TableRow
                 style={{ display: Path === "FAMMASTER" ? "table-row" : "none" }}
               >
@@ -1022,6 +961,36 @@ function Issue() {
                   />
                 </TableCell> */}
               </TableRow>
+              <TableRow>
+                <TableCell style={{ border: "0" }}>
+                  {console.log(selectStatus,"iiiii")}
+                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
+<Autocomplete
+    value={selectStatus}
+    onChange={(e, value) => {
+      setselectStatus(value);
+      selectStatusID(value.value); // ตรวจสอบว่า value ไม่เป็น null ก่อนที่จะเรียก selectStatusID
+    }}
+    options={Status.map((item) => ({ label: item[1], value: item[0] }))}
+    getOptionLabel={(option) => option.label}
+    renderInput={(params) => (
+<TextField
+        {...params}
+        label="Status :"
+        size="small"
+        sx={{ textAlign: "left" }}
+      />
+    )}
+  />
+</FormControl>
+
+                </TableCell>
+                <TableCell style={{ border: 0 }}>
+                 
+                </TableCell>
+              </TableRow>
+
+
             </Table>
           </div>
         </div>
@@ -1126,7 +1095,7 @@ function Issue() {
                   <TableCell>Issue By</TableCell>
                   <TableCell>Issue Date</TableCell>
                   <TableCell>Type</TableCell>
-                  <TableCell>Fixed Asset Code</TableCell>
+                  {/* <TableCell>Fixed Asset Code</TableCell> */}
                   <TableCell>Request Status</TableCell>
                 </TableRow>
               </TableHead>
@@ -1185,7 +1154,7 @@ function Issue() {
                      
                       </TableCell> 
                       <TableCell style={{width:"0px"}}>
-                      {item[7] === "Create" && (
+                      {item[7] === "Create" &&Path=="SEARCH" && (
   loading === "false" && index === selectindex_delete ? (
     <LoadingOutlined style={{ fontSize: "30px" }} />
   ) : (
@@ -1224,7 +1193,7 @@ function Issue() {
                       <TableCell>{item[4]}</TableCell>
                       <TableCell>{item[3]}</TableCell>
                       <TableCell>{item[5]}</TableCell>
-                      <TableCell style={{ overflow: 'auto' }}>{item[6]}</TableCell>
+                      {/* <TableCell style={{ overflow: 'auto' }}>{item[6]}</TableCell> */}
                       <TableCell>
                         <Typography
                           style={{

@@ -312,6 +312,7 @@ function TransFerDetail() {
                         className="Style1"
                         size="small"
                         disabled
+                      
                         value={DataTransferFamno[5]}
                       ></TextField>
                     </FormControl>
@@ -409,7 +410,8 @@ function TransFerDetail() {
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[0]}
+                        value={DataRoutingFamno[0] !== "null" ? DataRoutingFamno[0] : ''}
+                        // value={DataRoutingFamno[0]}
                       ></TextField>
                     </FormControl>
                   </td>
@@ -523,7 +525,8 @@ function TransFerDetail() {
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[5]}
+                        value={DataRoutingFamno[5] !== "null" ? DataRoutingFamno[5] : ''}
+                  
                       ></TextField>
                     </FormControl>
                   </td>
@@ -543,7 +546,8 @@ function TransFerDetail() {
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[6]}
+                        value={DataRoutingFamno[6] !== "null" ? DataRoutingFamno[6] : ''}
+                        // value={DataRoutingFamno[6]}
                       ></TextField>
                     </FormControl>
                   </td>
@@ -630,7 +634,7 @@ function TransFerDetail() {
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[10]}
+                        value={DataRoutingFamno[10] !== "null" ? DataRoutingFamno[10] : ''}
                       ></TextField>
                     </FormControl>
                   </td>
@@ -716,7 +720,8 @@ style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null" 
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[14]}
+                        value={DataRoutingFamno[14] !== "null" ? DataRoutingFamno[14] : ''}
+                    
                       ></TextField>
                   
                     
@@ -805,7 +810,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[18]}
+                        value={DataRoutingFamno[18] !== "null" ? DataRoutingFamno[18] : ''}
+                    
                       ></TextField>
                     </FormControl>
                   </td>
@@ -894,7 +900,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[22]}
+                        value={DataRoutingFamno[22] !== "null" ? DataRoutingFamno[22] : ''}
+                 
                       ></TextField>
                   
                     </FormControl>
@@ -966,7 +973,7 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                 {/* Owner */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Owner :</Typography>{" "}
+                    <Typography variant="subtitle2">Requester :</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -978,7 +985,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[26]}
+                        value={DataRoutingFamno[26] !== "null" ? DataRoutingFamno[26] : ''}
+                     
                       ></TextField>
                     
                     </FormControl>
@@ -1095,7 +1103,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                       value={DataTransferFamno[8]}
+                        value={DataTransferFamno[8] !== "null" ? DataTransferFamno[8] : ''}
+                 
                       ></TextField>
                     </FormControl>
                   </td>
@@ -1213,7 +1222,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[30]}
+                        value={DataRoutingFamno[30] !== "null" ? DataRoutingFamno[30] : ''}
+                
                       ></TextField>
                     </FormControl>
                   </td>
@@ -1297,7 +1307,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[34]}
+                        value={DataRoutingFamno[34] !== "null" ? DataRoutingFamno[34] : ''}
+                  
                       ></TextField>
                   
                     </FormControl>
@@ -1384,7 +1395,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[38]}
+                        value={DataRoutingFamno[38] !== "null" ? DataRoutingFamno[38] : ''}
+                      
                       ></TextField>
                     </FormControl>
                   </td>
