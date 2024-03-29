@@ -470,11 +470,25 @@ function ForRequest() {
                     ></TextField>
                   </Grid>
                   <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
+                    <Typography style={{ width: "100%", textAlign: "right",display:'none' }}>
                       Asset Cost Center :
+                    </Typography>
+                    <Typography style={{ width: "100%", textAlign: "right"}}>
+                      Request Status:
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",display:'none'
+                      }}
+                      // value={status}
+                      disabled
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][12] : ""}
+                      // onChange={(e) => setRequest_sts1(e.target.value)}
+                    ></TextField>
                     <TextField
                       size="small"
                       style={{
@@ -483,13 +497,13 @@ function ForRequest() {
                       }}
                       // value={status}
                       disabled
-                      value={Datafamno && Datafamno[0] ? Datafamno[0][12] : ""}
+                      value={Datafamno && Datafamno[0] ? Datafamno[0][13] : ""}
                       // onChange={(e) => setRequest_sts1(e.target.value)}
                     ></TextField>
                   </Grid>
                 </Grid>
                 {/* Request status */}
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid xs={1.7}></Grid>
                   <Grid xs={3}></Grid>
                   <Grid xs={2}>
@@ -510,7 +524,7 @@ function ForRequest() {
                       // onChange={(e) => setRequest_sts1(e.target.value)}
                     ></TextField>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 {/* Remark */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>

@@ -53,28 +53,24 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_QTY,
           D.FRD_INV_NO,
           TO_CHAR( D.FRD_INV_DATE, 'DD/MM/YYYY' ) AS FRD_INV_DATE,
-          TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99') AS FRD_ACQ_COST,
+          TRIM(TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99')) AS FRD_ACQ_COST,
           D.FRD_BOOK_VALUE,
           D.FRD_NEW_CC,
-          D.FRD_NEW_BOI_PROJ,
+          R.FRT_TO_PROJ,
           D.FRD_REMARK
         FROM
-          FAM_REQ_DETAIL D ,
-          FAM_REQ_HEADER H
-        LEFT JOIN CUSR.CU_FACTORY_M CF ON
-          CF.FACTORY_CODE = H.FAM_FACTORY
+          FAM_REQ_DETAIL D 
+          INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
+          INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
+        LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
         WHERE 1=1
           AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
           AND(H.FAM_REQ_TYPE = '${RequestType}' OR '${RequestType}' IS NULL )
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
-          AND (
-                (
-                 (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
-                  AND
-                 (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-                )
-              )
+          AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
+          AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
+              
         UNION ALL      
         SELECT
           CF.FACTORY_NAME AS FACTORY ,
@@ -90,26 +86,23 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_QTY,
           D.FRD_INV_NO,
           TO_CHAR( D.FRD_INV_DATE, 'DD/MM/YYYY' ) AS FRD_INV_DATE,
-          TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99') AS FRD_ACQ_COST,
+          TRIM(TO_CHAR(D.FRD_ACQ_COST, '999,999,999,999,999,999,999.99')) AS FRD_ACQ_COST,
           D.FRD_BOOK_VALUE,
           D.FRD_NEW_CC,
-          D.FRD_NEW_BOI_PROJ,
+          R.FRT_TO_PROJ,
           D.FRD_REMARK
         FROM
-          FAM_REQ_DETAIL D ,
-          FAM_REQ_HEADER H
-        LEFT JOIN CUSR.CU_FACTORY_M CF ON
-          CF.FACTORY_CODE = H.FAM_FACTORY
+          FAM_REQ_DETAIL D 
+          INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
+          INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
+        LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
         WHERE 1=1
-          AND(CF.FACTORY_CODE = '${Fac}'OR '${Fac}' IS NULL )
+          AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
           AND(H.FAM_REQ_TYPE = '${RequestType}' OR '${RequestType}' IS NULL )
-          AND (
-                (H.FRH_FAM_NO LIKE '${FAMNo_From}' || '%' AND '${FAMNo_From}' IS NOT NULL)
-                OR
-                (H.FRH_FAM_NO LIKE '${FamNo_To}' || '%' AND '${FamNo_To}'  IS NOT NULL)
-              )
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
+          AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
+          AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
         )
     ORDER BY 1,2,3
          
