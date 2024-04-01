@@ -58,7 +58,7 @@ module.exports.getData_Hearder_show_VIEW = async function (req, res) {
     `, { famno: strFamno });
     connection.release();
     const rows = result.rows;
-    console.log(rows)
+    // // console.log(rows)
     res.json(rows);
     } catch (error) {
       console.error("Error fetching department data:", error);
@@ -88,7 +88,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
     `, { famno: strFamno });
     connection.release();
     const rows = result.rows;
-    console.log(rows)
+    // // console.log(rows)
     res.json(rows);
     } catch (error) {
       console.error("Error fetching department data:", error);
@@ -146,7 +146,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
     `, { FAM: strFamno });
     connection.release();
     const rows = result.rows;
-    console.log(rows)
+    // // console.log(rows)
     res.json(rows);
     } catch (error) {
       console.error("Error fetching department data:", error);
@@ -177,7 +177,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
     `, { FAM: strFamno });
     connection.release();
     const rows = result.rows;
-    console.log(rows)
+    // // console.log(rows)
     res.json(rows);
     } catch (error) {
       console.error("Error fetching department data:", error);
@@ -187,7 +187,7 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
 
   module.exports.getData_showName = async function (req, res) {
     try {
-      console.log("FFFFFF")
+      // // console.log("FFFFFF")
       const connection = await oracledb.getConnection(AVO);
       const strFamno = req.query.FamNo;
 
@@ -199,9 +199,9 @@ module.exports.getData_Detail_show_VIEW = async function (req, res) {
       WHERE T.FRH_FAM_NO = :FAM
     `, { FAM: strFamno });
     connection.release();
-    console.log(result,"result",strFamno)
+    // // console.log(result,"result",strFamno)
     const rows = result.rows;
-    console.log(rows)
+    // // console.log(rows)
     res.json(rows);
     } catch (error) {
       console.error("Error fetching department data:", error);

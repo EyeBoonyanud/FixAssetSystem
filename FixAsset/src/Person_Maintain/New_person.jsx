@@ -49,7 +49,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const [ErrorUserLogin, setErrorUserLogin] = useState(false);
   const [ErrorEmail, setErrorEmail] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
-  // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
+  // // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
   const onCloseCancel = () => {
@@ -81,7 +81,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setuser_update(UserLoginn);
     } else {
       const EDIT = localStorage.getItem("Person_Edit");
-      // console.log("show data edit", EDIT);
+      // // console.log("show data edit", EDIT);
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
       const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
@@ -99,7 +99,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         DATA_EDIT_03.slice(4)
       );
     
-      // console.log("CASE EDIT", DATA_EDIT);
+      // // console.log("CASE EDIT", DATA_EDIT);
       setselecteDatafac(DATA_EDIT[0]);
       setselecteDatalevel(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[2]);
@@ -115,7 +115,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
+          const response = await axios.get(`http://10.17.100.183:5000/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -125,7 +125,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+          const response = await axios.get(`http://10.17.100.183:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -135,7 +135,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Level = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getlevel`);
+          const response = await axios.get(`http://10.17.100.183:5000/getlevel`);
           const LevelData = await response.data;
           setdatalevel(LevelData);
         } catch (error) {
@@ -170,14 +170,14 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const navigate = useNavigate();
 
   const Save = async () => {
-    // console.log("FACTORY CHECK", selecteDatafac);
-    // console.log("LEVEL CHECK", selecteDatalevel);
-    // console.log("COST CENTER CHECK", selectcost);
-    // console.log("USER LOGIN CHECK", User_Login);
-    // console.log("EMAIL CHECK", email);
-    // console.log("STATUS CHECK", status);
-    // console.log("CREATE BY CHECK", UserLoginn);
-    // console.log("CREATE DATE CHECK", Date_show);
+    // // console.log("FACTORY CHECK", selecteDatafac);
+    // // console.log("LEVEL CHECK", selecteDatalevel);
+    // // console.log("COST CENTER CHECK", selectcost);
+    // // console.log("USER LOGIN CHECK", User_Login);
+    // // console.log("EMAIL CHECK", email);
+    // // console.log("STATUS CHECK", status);
+    // // console.log("CREATE BY CHECK", UserLoginn);
+    // // console.log("CREATE DATE CHECK", Date_show);
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
     }
@@ -226,9 +226,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
+                  `http://10.17.100.183:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
                 );
-                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                // // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
@@ -265,10 +265,10 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
+                  `http://10.17.100.183:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
                 );
 
-                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
+                // // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
@@ -340,13 +340,13 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   };
 
   const Check_Username_Email = async (user_login) => {
-    // console.log("Check_Username_Email :", user_login);
+    // // console.log("Check_Username_Email :", user_login);
     try {
       const getDatalogin_show = await axios.get(
-        `http://10.17.162.238:5000/getData_UserLogin_Person?User_Login=${user_login}`
+        `http://10.17.100.183:5000/getData_UserLogin_Person?User_Login=${user_login}`
       );
       const data = await getDatalogin_show.data;
-      console.log("Show data Email =", data);
+      // console.log("Show data Email =", data);
       if (data && data.length > 0) {
         const USERNAME = data[0][0];
         const EMAIL = data[0][1];
@@ -696,7 +696,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               ></Typography>
             </TableCell>
           </TableRow>
-          {/* {console.log("PAGE_STATUS === TEST", PAGE_STATUS)} */}
+          {/* {// console.log("PAGE_STATUS === TEST", PAGE_STATUS)} */}
           {PAGE_STATUS === "EDIT" && (
             <>
               <TableRow>
@@ -735,7 +735,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                   />
                 </TableCell>
               </TableRow>
-              {/* {console.log("PAGE_STATUS === EDIT")} */}
+              {/* {// console.log("PAGE_STATUS === EDIT")} */}
             </>
           )}
 

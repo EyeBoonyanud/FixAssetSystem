@@ -31,9 +31,9 @@ const CUSR = {
 /// May
 module.exports.getFamDetailReport = async function (req, res) {
   try {
-    // console.log("g-hllll")
+    // // console.log("g-hllll")
     const{Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID }=  req.body;
-    console.log(Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID)
+    // console.log(Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT DISTINCT *
@@ -107,7 +107,7 @@ module.exports.getFamDetailReport = async function (req, res) {
     ORDER BY 1,2,3
          
      `;
-     console.log(query);
+     // console.log(query);
     const result = await connect.execute(query);
  
     connect.release();
@@ -134,9 +134,9 @@ module.exports.getFamDetailReport = async function (req, res) {
    
   module.exports.getFAM_FILE_ATTACH = async function (req, res) {
     try {
-       console.log("g-hllll")
+       // console.log("g-hllll")
        const{FamNo}=  req.body;
-      console.log(FamNo)
+      // console.log(FamNo)
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
@@ -144,7 +144,7 @@ module.exports.getFamDetailReport = async function (req, res) {
       ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
        `;
       const result = await connect.execute(query);
-      console.log(query);
+      // console.log(query);
       connect.release();
       res.json(result.rows);
     } catch (error) {

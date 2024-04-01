@@ -185,7 +185,6 @@ app.post("/sendEmail", async (req, res) => {
       html: req.body.emailMessage
     };
  
-    console.log("Email Sended");
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
@@ -193,30 +192,24 @@ app.post("/sendEmail", async (req, res) => {
     res.status(500).json({ error: "An error occurred while sending email" });
   }
 });
+
+
 //app.use('/downloads', express.static('/data/Api/Component/uploads/'));
-app.use('/downloads', express.static(__dirname));
+app.use('/downloads', express.static('/data/fixasset_service/API_SERVICE/Component/uploads/'));
 //getFAM_FILE_ATTACH
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
-  const filePath = path.join(__dirname, '../Uploads', fileName);
-  console.log(filePath)
-  // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+  const filePath = path.join('/data/fixasset_service/API_SERVICE/Component/uploads/',fileName);
   if (fs.existsSync(filePath)) {
-    // ส่งไฟล์กลับไปยังผู้ใช้
     res.sendFile(filePath);
-    console.log(filePath)
-    // res.sendFile(filePath);
   } else {
-    // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน
     res.status(404).send('File not found');
   }
 });
 app.delete('/deleteFile', (req, res) => {
 
   const fileName = req.query.data; 
-   console.log("////>>>>>>>>>>>",fileName)
-  const filePath = path.join(__dirname, '../Uploads', fileName);
-console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
+   const filePath = path.join('/data/fixasset_service/API_SERVICE/Component/uploads/',fileName);
   fs.unlink(filePath, (err) => {
       if (err) {
           console.error(err);
@@ -229,5 +222,5 @@ console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
 
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+
 });

@@ -70,9 +70,9 @@ function person_maintain() {
 
     const fetchData = async () => {
       try {
-        const factoryPromise = axios.get(`http://10.17.162.238:5000/getfactory`);
-        const levelPromise = axios.get(`http://10.17.162.238:5000/getlevel`);
-        const costPromise = axios.get(`http://10.17.162.238:5000/getcost`);
+        const factoryPromise = axios.get(`http://10.17.100.183:5000/getfactory`);
+        const levelPromise = axios.get(`http://10.17.100.183:5000/getlevel`);
+        const costPromise = axios.get(`http://10.17.100.183:5000/getcost`);
         const [factoryResponse, levelResponse, costResponse] =
           await Promise.all([factoryPromise, levelPromise, costPromise]);
         const factoryData = factoryResponse.data;
@@ -128,7 +128,7 @@ function person_maintain() {
         const User_LoginValue = DATA_SEARCH_S_E[3][0];
 
         const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+          `http://10.17.100.183:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -145,7 +145,7 @@ function person_maintain() {
         console.error("Error requesting data:", error);
       }
     } else {
-      // console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
+      // // console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
     }
     closePopupLoadding();
   };
@@ -160,7 +160,7 @@ function person_maintain() {
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const User_LoginValue = User_Login !== undefined ? User_Login : "";
       const rollNoSearch = await axios.get(
-        `http://10.17.162.238:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+        `http://10.17.100.183:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -202,7 +202,7 @@ function person_maintain() {
     setloading("false");
     try {
       const getEdit_show = await axios.get(
-        `http://10.17.162.238:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
+        `http://10.17.100.183:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
       );
       const data = await getEdit_show.data;
       const DataEdit = data;
@@ -249,10 +249,10 @@ function person_maintain() {
       if (willDelete) {
         try {
           const delete_person_maintain = await axios.post(
-            `http://10.17.162.238:5000/dlt_PERSON_MAINTAIN?FPM_factory_delete=${factory}&FPM_level_delete=${level}&FPM_cost_center_delete=${cost_center}&FPM_user_login_delete=${user_login}`
+            `http://10.17.100.183:5000/dlt_PERSON_MAINTAIN?FPM_factory_delete=${factory}&FPM_level_delete=${level}&FPM_cost_center_delete=${cost_center}&FPM_user_login_delete=${user_login}`
           );
           const data = await delete_person_maintain.data;
-          // console.log("DELETE DATA PERSON =", data);
+          // // console.log("DELETE DATA PERSON =", data);
           Search();
           swal("Your data has been deleted successfully", {
             icon: "success",

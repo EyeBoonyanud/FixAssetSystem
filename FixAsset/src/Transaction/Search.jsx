@@ -85,7 +85,7 @@ function Issue() {
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-   console.log("YYYY",dataName_file)
+   // console.log("YYYY",dataName_file)
    const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const openPopupLoadding = () => {
     setPopupOpenLoadding(true);
@@ -105,7 +105,7 @@ function Issue() {
     let idFactory = event.target.value;
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getdept?idFactory=${idFactory}`
+        `http://10.17.100.183:5000/getdept?idFactory=${idFactory}`
       );
       const data = await response.data;
       setdept(data);
@@ -118,11 +118,11 @@ function Issue() {
   };
   const handleCost = (event) => {
     setselectcost(event.target.value);
-    // console.log(event.target.value, "setselectcost");
+    // // console.log(event.target.value, "setselectcost");
   };
   const handleType = (event) => {
     setselectReType(event.target.value);
-    // // console.log(event.target.value,"Typeeee")
+    // // // console.log(event.target.value,"Typeeee")
   };
 
   const navigate = useNavigate();
@@ -145,7 +145,7 @@ function Issue() {
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
   localStorage.setItem("pageshow",cutPath)
-  console.log(Path, "///////////////");
+  // console.log(Path, "///////////////");
   useEffect(() => {
    openPopupLoadding(); 
     const Statuss = localStorage.getItem("STATUS");
@@ -159,14 +159,14 @@ function Issue() {
         }
         Search();
       } else {
-        console.log("dataStatus ไม่มีข้อมูล");
+        // console.log("dataStatus ไม่มีข้อมูล");
       }
       localStorage.removeItem("STATUS");
-      console.log("ออกมาแล้ว");
+      // console.log("ออกมาแล้ว");
     } else {
       localStorage.removeItem("STATUS");
       setPAGEStatus("");
-      console.log("ว่างเปล่า");
+      // console.log("ว่างเปล่า");
     }
     TextTitle()
     Factory();
@@ -178,10 +178,10 @@ function Issue() {
 
   const Factory = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
+      const response = await axios.get(`http://10.17.100.183:5000/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
-      // // console.log(FactoryData, "Factory");
+      // // // console.log(FactoryData, "Factory");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -189,17 +189,17 @@ function Issue() {
  
 
   const CostCenter = () => {
-    axios.get("http://10.17.162.238:5000/getcost").then((res) => {
+    axios.get("http://10.17.100.183:5000/getcost").then((res) => {
       const data = res.data;
       setgetCostCenter(data);
     });
   };
   const RequestType = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/gettype`);
+      const response = await axios.get(`http://10.17.100.183:5000/gettype`);
       const TypeData = await response.data;
       setReType(TypeData);
-      // // console.log(TypeData, "TypeData");
+      // // // console.log(TypeData, "TypeData");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -207,10 +207,10 @@ function Issue() {
   };
   const findStatus = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/findsts`);
+      const response = await axios.get(`http://10.17.100.183:5000/findsts`);
       const data = await response.data;
       setStatus(data);
-    console.log(data,"TTTTT")
+    // console.log(data,"TTTTT")
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -218,11 +218,11 @@ function Issue() {
   };
 
   const Edit = async (EditFam) => {
-    // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
+    // // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
     //reload_edit();
   };
   const EditFixAsset = async (EditFam) => {
-    // console.log(EditFam, "TTTTTTTTTTTTT");
+    // // console.log(EditFam, "TTTTTTTTTTTTT");
   };
 
   const handleEdit = async (EditFam, index,TextField) => {
@@ -230,10 +230,10 @@ function Issue() {
     setloading("false");
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_request_show?FamNo=${EditFam}`
+        `http://10.17.100.183:5000/getEdit_request_show?FamNo=${EditFam}`
       );
       const data = await response.data;
-      // console.log(data,"ooooo")
+      // // console.log(data,"ooooo")
       // const DataEdit = data;
       const data_edit = JSON.stringify(data);
 
@@ -243,20 +243,20 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_FixAsset?FamNo=${EditFam}`
+        `http://10.17.100.183:5000/getEdit_FixAsset?FamNo=${EditFam}`
       );
       const data = await response.data;
-      // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
+      // // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
-      // console.log(data_edit, "data_editdata_editdata_editdata_edit");
+      // // console.log(data_edit, "data_editdata_editdata_editdata_edit");
       localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
     } catch (error) {
       //console.error("Error during login:", error);
     }
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_Trans?FamNo=${EditFam}`
+        `http://10.17.100.183:5000/getEdit_Trans?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -270,7 +270,7 @@ function Issue() {
     }
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_routing?FamNo=${EditFam}`
+        `http://10.17.100.183:5000/getEdit_routing?FamNo=${EditFam}`
       );
       const data = await response.data;
 
@@ -291,7 +291,7 @@ function Issue() {
     
   };
   const  handleVIEW = async (VIEW_FAM) => {
-    console.log(VIEW_FAM,"PDF_FAM");
+    // console.log(VIEW_FAM,"PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
     // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster`;
@@ -303,7 +303,7 @@ function Issue() {
     if(Path=="SEARCH"){
       setTxt_Title("Issue FAM")
       localStorage.setItem("page", Path);
-      console.log(Path,"TextField")
+      // console.log(Path,"TextField")
  
     }
     else if(Path=="APPROVEFAM"){
@@ -322,14 +322,14 @@ function Issue() {
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
     let chk_sts = ""
-    console.log(selectStatus,"selectStatus")
+    // console.log(selectStatus,"selectStatus")
     // if(selectStatus = null)
 
     if (Path === "SEARCH") {
-      console.log(Date, DateTo, "date");
+      // console.log(Date, DateTo, "date");
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.100.183:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -341,15 +341,15 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // // console.log(rollNoSearch.data,"Search: ")
-        // // console.log(selectdept,"DEPT:")
+        // // // console.log(rollNoSearch.data,"Search: ")
+        // // // console.log(selectdept,"DEPT:")
       } catch (error) {
         console.error("Error requesting data:", error);
       }
     } else if (Path === "APPROVEFAM") {
       try {
         const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+          `http://10.17.100.183:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -361,8 +361,8 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // // console.log(rollNoSearch.data,"Search: ")
-        // // console.log(selectdept,"DEPT:")
+        // // // console.log(rollNoSearch.data,"Search: ")
+        // // // console.log(selectdept,"DEPT:")
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -379,7 +379,7 @@ function Issue() {
       const unwrappedArrayAssetCC = selectcostMul.map((item) => item.replace(/'/g, "") );
       const MultipleAssetCC = unwrappedArrayAssetCC.join(",");
       axios
-        .post("http://10.17.162.238:5000/searchFamMaster", {
+        .post("http://10.17.100.183:5000/searchFamMaster", {
           Fac: selecteDatafac,
           OwnerCC: MultipleOwnerCC,
           FamFrom: FamNo,
@@ -555,7 +555,7 @@ function Issue() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.post("http://10.17.162.238:5000/namefile", 
+          await axios.post("http://10.17.100.183:5000/namefile", 
           {
               fam_no: item
             }
@@ -563,12 +563,12 @@ function Issue() {
             const data1 = response.data
            
             setdataName_file(data1);
-            console.log(data1,"HHHHHHH");
+            // console.log(data1,"HHHHHHH");
             if(data1.length > 0){
                  for (let i=0; i<data1.length ;i++){
-            console.log(i,"////>>>>>>>>>>>",data1[i])
+            // console.log(i,"////>>>>>>>>>>>",data1[i])
                 
-         axios.delete(`http://10.17.162.238:5000/deleteFile?data=${data1[i]}`, 
+         axios.delete(`http://10.17.100.183:5000/deleteFile?data=${data1[i]}`, 
     
           )
       
@@ -577,22 +577,22 @@ function Issue() {
           });
           let idDelete = "FLTR999"
           await axios.post(
-            'http://10.17.162.238:5000/delect_all_fam_transfer',
+            'http://10.17.100.183:5000/delect_all_fam_transfer',
             { famno: item ,
               idsts: idDelete
             }
           );
         //   await axios.post(
-        //   `http://10.17.162.238:5000/delect_all_fam_transfer?famno=${item}`
+        //   `http://10.17.100.183:5000/delect_all_fam_transfer?famno=${item}`
         //   );
         //   await axios.post(
-        //  `http://10.17.162.238:5000/delect_all_fam_details?famno=${item}`
+        //  `http://10.17.100.183:5000/delect_all_fam_details?famno=${item}`
         //   );
         //   await axios.post(
-        //    `http://10.17.162.238:5000/delete_all_file?famno=${item}`
+        //    `http://10.17.100.183:5000/delete_all_file?famno=${item}`
         //   ); 
         //   await axios.post(
-        //   `http://10.17.162.238:5000/delect_all_fam_header?famno=${item}`
+        //   `http://10.17.100.183:5000/delect_all_fam_header?famno=${item}`
         //   );
           
           // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
@@ -882,7 +882,7 @@ function Issue() {
                     value={selectedDateFrom}
                     onChange={(e) => {
                       setSelectedDateFrom(e.target.value);
-                      // console.log(e.target.value);
+                      // // console.log(e.target.value);
                     }}
                   ></TextField>
                 </TableCell>
@@ -963,7 +963,7 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  {console.log(selectStatus,"iiiii")}
+             
                   <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
 <Autocomplete
     value={selectStatus}

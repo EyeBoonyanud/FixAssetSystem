@@ -61,11 +61,11 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const [ErrorCost, setErrorCost] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
   const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
-  // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
+  // // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
   const onCloseCancel = () => {
-    // console.log("ปิด");
+    // // console.log("ปิด");
     setErrorBOI_P(false);
     setErrorFac(false);
     onClose();
@@ -92,7 +92,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setuser_create(UserLoginn);
       setuser_update(UserLoginn);
     } else {
-      // console.log("CASE EDIT", DATA_EDIT);
+      // // console.log("CASE EDIT", DATA_EDIT);
       const EDIT = localStorage.getItem("BOI_Edit");
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
@@ -110,7 +110,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         combinedArray03,
         DATA_EDIT_03.slice(3)
       );
-      console.log(DATA_EDIT,"DATA BOI");
+      // console.log(DATA_EDIT,"DATA BOI");
       set_DATA_EDIT_RESET(DATA_EDIT);
       setselecteDatafac(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[0]);
@@ -126,7 +126,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       const Factory = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getfactory`
+            `http://10.17.100.183:5000/getfactory`
           );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
@@ -137,7 +137,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+          const response = await axios.get(`http://10.17.100.183:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -147,7 +147,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       const BOI_Project_name = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/get_BOI_project_name`
+            `http://10.17.100.183:5000/get_BOI_project_name`
           );
           const BOI_name = await response.data;
           setBOI_name(BOI_name);
@@ -233,7 +233,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.100.183:5000/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
                 );
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
@@ -267,7 +267,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://10.17.162.238:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.100.183:5000/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
                 );
 
                 swal("success", "You save data success", "success");

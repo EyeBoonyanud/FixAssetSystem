@@ -34,19 +34,19 @@ import CloseIcon from "@mui/icons-material/Close";
 
 
 function person_maintain_new({ isOpen, onClose, FamNo }) {
-  // console.log( isOpen, onClose, FamNo ,"//////////////////////////")
+  // // console.log( isOpen, onClose, FamNo ,"//////////////////////////")
   if (!isOpen) return null;
   const [Filedata, setFiledata] = useState([]);
   const File = () => {
     axios
-      .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+      .post("http://10.17.100.183:5000/FAM_FILE_ATTACH", {
         FamNo: FamNo,
       })
       .then((res) => {
         const data = res.data;
         if (data.length > 0) {
           setFiledata(data);
-          // console.log(data);
+          // // console.log(data);
         }
       });
   };
@@ -56,12 +56,12 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
 
   // Popup
   const onCloseCancel = () => {
-    // console.log("ปิด");
+    // // console.log("ปิด");
     onClose();
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(fileName)}`;
+    const downloadUrl = `http://10.17.100.183:5000/downloads?filename=${encodeURIComponent(fileName)}`;
  
     axios({
       url: downloadUrl,

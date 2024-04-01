@@ -20,11 +20,11 @@ function ButtonAppBar() {
   const Menu = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getMenu?userlogin=${UserLogin}&role=${Role}`
+        `http://10.17.100.183:5000/getMenu?userlogin=${UserLogin}&role=${Role}`
       );
       const data = await response.data;
 
-      console.log("ทั้งหมด", data);
+      // console.log("ทั้งหมด", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -32,11 +32,11 @@ function ButtonAppBar() {
   const DataHomepage = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/gethome_page?user_for_login=${UserLogin}`
+        `http://10.17.100.183:5000/gethome_page?user_for_login=${UserLogin}`
       );
       const data = await response.data;
       setData_homepage(data)
-      console.log("HOMEEEEEEEeeeee", data);
+      // console.log("HOMEEEEEEEeeeee", data);
     } catch (error) {
       console.error("Error during login:", error);
     }

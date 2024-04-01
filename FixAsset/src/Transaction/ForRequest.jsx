@@ -121,10 +121,10 @@ const [owner_tel1,setowner_tel1] = useState([])
 
   // สำหรับ check txtbox
   const page = localStorage.getItem("page")
- console.log(page,"page")
+ // console.log(page,"page")
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-   console.log(For_Req,"VVVVVVVVVV");
+   // console.log(For_Req,"VVVVVVVVVV");
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
@@ -140,7 +140,7 @@ const [owner_tel1,setowner_tel1] = useState([])
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
   const [checknext ,setchecknext] =useState("visible");
-console.log(datatable,"uuu")
+// console.log(datatable,"uuu")
   
   //
   // const [chkadd,setchkadd] = useState("hidden");
@@ -149,17 +149,17 @@ console.log(datatable,"uuu")
 
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-  // console.log(For_Ed_FixCode, "For_Ed_FixCode");
+  // // console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit", For_Rq_Edit);
+  // console.log("For_Rq_Edit", For_Rq_Edit);
   let STS = "";
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
 
-  //// console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
+  //// // console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
 
   // var storedFileArray = JSON.parse(FileUp);
   // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
@@ -193,14 +193,14 @@ console.log(datatable,"uuu")
         Gen_Fam_No_Show = For_Req[0];
       }
     }
-    // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
-    // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
+    // // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
+    // // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
     if ( Gen_Fam_No != null) {
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+        // // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
         axios
      axios
-        .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+        .post("http://10.17.100.183:5000/FAM_FILE_ATTACH", {
           FamNo: Gen_Fam_No_Show,
         })  
 
@@ -208,29 +208,29 @@ console.log(datatable,"uuu")
           const data = res.data;
           if (data.length >= 0) {
             setFiledata(data);
-            // console.log(data);
+            // // console.log(data);
           }
         });
       }}
      
     // } else {
-    //   // console.log("เข้าอันนี้จ้า")
+    //   // // console.log("เข้าอันนี้จ้า")
     //   axios
-    //   .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+    //   .post("http://10.17.100.183:5000/FAM_FILE_ATTACH", {
     //     FamNo: Gen_Fam_No,
     //   })
     //   .then((res) => {
     //     const data = res.data;
     //     if (data.length > 0) {
     //       setFiledata(data);
-    //       // console.log(data);
+    //       // // console.log(data);
     //     }
     //   });
     // }
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.100.183:5000/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -243,7 +243,7 @@ console.log(datatable,"uuu")
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],
         });
-        // console.log(response);
+        // // console.log(response);
         // สร้างลิงก์
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
@@ -282,13 +282,13 @@ console.log(datatable,"uuu")
             // Add other properties as needed
           })
       );
-      // console.log(reconstructedFileArray, "//////////////////////////");
+      // // console.log(reconstructedFileArray, "//////////////////////////");
       setUploadedFiles(reconstructedFileArray);
     }
 
     // Edit();
     // EditFixAsset();
-    // // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
+    // // // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
     //handleReload();
     // const TEST = async () => {
     //   await request_by();
@@ -318,7 +318,7 @@ console.log(datatable,"uuu")
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         // มี for_rq_edit
-        // console.log(For_Rq_Edit[16], "");
+        // // console.log(For_Rq_Edit[16], "");
         setSTS1_for_R(For_Rq_Edit[16]);//จะต้องเปลี่ยน
         setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
@@ -351,7 +351,7 @@ console.log(datatable,"uuu")
           }
         }
         if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R") {
-          // console.log("MMMMMMMMMMMMMMMMMMMMMM");
+          // // console.log("MMMMMMMMMMMMMMMMMMMMMM");
           // setchkadd("visible")
           setread_dept(false);
           setread_remark(false);
@@ -397,7 +397,7 @@ console.log(datatable,"uuu")
           }
         }
         if (STS == "FLTR001" || STS == "") {
-          // console.log("YYYYYYYYY");
+          // // console.log("YYYYYYYYY");
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -438,21 +438,21 @@ console.log(datatable,"uuu")
   const request_by = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getby?By=${LocalUserLogin}`
+        `http://10.17.100.183:5000/getby?By=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
       setdataUserLogin(data_insert);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          // console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
+          // // console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
           setdataUserLogin1(For_Rq_Edit[15]);
         }
       } else {
         if (For_Req != null) {
           setdataUserLogin1(For_Req[14]);
         } else {
-          //// console.log("/////////");
+          //// // console.log("/////////");
           setdataUserLogin1(data_insert[4]);
         }
       }
@@ -466,21 +466,21 @@ console.log(datatable,"uuu")
     if (EditFam == null) {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+          `http://10.17.100.183:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
         );
         const data = await response.data;
         data_Fac = data.flat();
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
           }
         } else {
           if (For_Req != null) {
             setFactory1(data_Fac[0]);
           } else {
-            //// console.log("/////////");
+            //// // console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -490,21 +490,21 @@ console.log(datatable,"uuu")
     } else {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+          `http://10.17.100.183:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
         );
         const data = await response.data;
         data_Fac = data.flat();
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
           }
         } else {
           if (For_Req != null) {
             setFactory1(For_Req[4]);
           } else {
-            //// console.log("/////////");
+            //// // console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -515,7 +515,7 @@ console.log(datatable,"uuu")
     if (data_Fac.length >= 0) {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getdept?idFactory=${data_Fac[1]}`
+          `http://10.17.100.183:5000/getdept?idFactory=${data_Fac[1]}`
         );
 
         const data = await response.data;
@@ -523,19 +523,19 @@ console.log(datatable,"uuu")
         setDept(data_dept);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+            //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setselectDept1(For_Rq_Edit[6]);
           }
         } else {
           if (For_Req != null) {
-            //// console.log(For_Req,"DDDDDDDeptttttt")
+            //// // console.log(For_Req,"DDDDDDDeptttttt")
             setselectDept1(For_Req[5]);
           } else {
-            //// console.log("/////////");
+            //// // console.log("/////////");
             setselectDept1("");
           }
         }
-        //// console.log(data_dept, "data_dept");
+        //// // console.log(data_dept, "data_dept");
       } catch (error) {
         //console.error("Error during login:", error);
       }
@@ -546,16 +546,16 @@ console.log(datatable,"uuu")
   const costcenter = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
+        `http://10.17.100.183:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
       );
       const data = await response.data;
       const data_insert = data.flat();
-      //// console.log(data_insert, "data_insert");
+      //// // console.log(data_insert, "data_insert");
       setCostcenter(data_insert);
-      //// console.log(For_Req);
+      //// // console.log(For_Req);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
           setCostcenter1(For_Rq_Edit[5]);
         }
       } else {
@@ -573,16 +573,16 @@ console.log(datatable,"uuu")
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getfix_group?Asset_group=${datafac}`
+        `http://10.17.100.183:5000/getfix_group?Asset_group=${datafac}`
       );
       const data = await response.data;
 
-      //// console.log(data, "data_fixgroup");
+      //// // console.log(data, "data_fixgroup");
       setFixAssetgroup(data);
 
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+          //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
           setselectFixAssetgroup1(For_Rq_Edit[8]);
         }
@@ -600,12 +600,12 @@ console.log(datatable,"uuu")
   //AssetCost
   // const CostforAsset = async () => {
   //   try {
-  //     const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+  //     const response = await axios.get(`http://10.17.100.183:5000/getcost`);
   //     const CostData = await response.data;
   //     setFixAsset_cost(CostData);
   //     if (EditFam != null) {
   //       if (For_Rq_Edit != null) {
-  //         //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
+  //         //// // console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
 
   //         setselectFixAsset_cost1(For_Rq_Edit[18]);
   //       }
@@ -624,30 +624,30 @@ console.log(datatable,"uuu")
   const handleCost = async () => {
     
     // // let Cost_value = event
-    // console.log(Cost_value,"Y66YYYYY")
+    // // console.log(Cost_value,"Y66YYYYY")
     // setselectFixAsset_cost1(Cost_value);
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
+        `http://10.17.100.183:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
       );
       const data = await response.data;
-      console.log("6789",data)
+      // console.log("6789",data)
       if (data[0][0] === "EACH CC") {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getfind_service?asset_find=${owner_dept}`
+            `http://10.17.100.183:5000/getfind_service?asset_find=${owner_dept}`
           );
           const data_for_servicedept = await response.data;
-          console.log("data_for_servicedept",data_for_servicedept)
+          // console.log("data_for_servicedept",data_for_servicedept)
           setdataFix_Asset_Cost(data_for_servicedept);
-          console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+          // console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
           Gen_No(data_for_servicedept);
         } catch (error) {
           //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-        console.log(data, "ServiceDept---------------------");
+        // console.log(data, "ServiceDept---------------------");
         Gen_No(data);
       }
      
@@ -665,7 +665,7 @@ console.log(datatable,"uuu")
 
   /////////////// Gen Fam and Tranfer_ins //////////////////
   const Gen_No = async (asset) => {
-console.log("KKKKKKKKK")
+// console.log("KKKKKKKKK")
     openPopupLoadding();
     let DataStatus = ""; //
     if (
@@ -675,7 +675,7 @@ console.log("KKKKKKKKK")
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`http://10.17.162.238:5000/getstatus`);
+        const response = await axios.get(`http://10.17.100.183:5000/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
@@ -686,31 +686,31 @@ console.log("KKKKKKKKK")
       } catch (error) {
         //console.error("Error during login:", error);
       }
-console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
+// console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
       // const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
      
       const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getfamno?famno=${Run}`
+          `http://10.17.100.183:5000/getfamno?famno=${Run}`
         );
         const get_runno = await response.data;
 
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-        console.log("yyyyy")
+        // console.log("yyyyy")
           Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus,asset[0][2]);
         } else {
           let FamNo_new = Run + "-0001";
-          console.log("ooooo")
+          // console.log("ooooo")
           Tranfer_ins(FamNo_new, DataStatus,asset[0][2]);
         }
       } catch (error) {
         //console.error("Error during login:", error);
       }
     } else {
-      // console.log("444444");
+      // // console.log("444444");
       if (
         Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
@@ -731,26 +731,26 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
     closePopupLoadding();
   };
   const Tranfer_ins = async (running_no, DataStatus,nameasset) => {
-    console.log("running_no:", running_no);
-    console.log("LocalUserLogin:", LocalUserLogin);
-    console.log("Tel1:", Tel1);
-    console.log("Factory[1]:", Factory[1]);
-    console.log("Costcenter1:", Costcenter1);
-    console.log("selectDept1:", selectDept1);
-    console.log("Request_type1:", Request_type1);
-    console.log("selectFixAssetgroup1:", selectFixAssetgroup1);
-    console.log("owner_dept:", owner_dept);
-    // console.log("dataFix_Asset_Cost[0][2]:", dataFix_Asset_Cost[0][2]);
-    console.log("datasset",nameasset)
-    console.log("DataStatus[0]:", DataStatus[0]);
-    console.log("DataStatus[1]:", DataStatus[1]);
-    console.log("Remark:", Remark);
-    console.log("selectFixAssetgroup1[1]:", selectFixAssetgroup1[1]);
-    console.log("Emp_name:", Emp_name);
-    console.log("owner_req:", owner_req);
-    console.log("owner_dept:", owner_dept);
-    console.log("owner_tel:", owner_tel);
-    console.log("name_req:", name_req, "44444");
+    // console.log("running_no:", running_no);
+    // console.log("LocalUserLogin:", LocalUserLogin);
+    // console.log("Tel1:", Tel1);
+    // console.log("Factory[1]:", Factory[1]);
+    // console.log("Costcenter1:", Costcenter1);
+    // console.log("selectDept1:", selectDept1);
+    // console.log("Request_type1:", Request_type1);
+    // console.log("selectFixAssetgroup1:", selectFixAssetgroup1);
+    // console.log("owner_dept:", owner_dept);
+    // // console.log("dataFix_Asset_Cost[0][2]:", dataFix_Asset_Cost[0][2]);
+    // console.log("datasset",nameasset)
+    // console.log("DataStatus[0]:", DataStatus[0]);
+    // console.log("DataStatus[1]:", DataStatus[1]);
+    // console.log("Remark:", Remark);
+    // console.log("selectFixAssetgroup1[1]:", selectFixAssetgroup1[1]);
+    // console.log("Emp_name:", Emp_name);
+    // console.log("owner_req:", owner_req);
+    // console.log("owner_dept:", owner_dept);
+    // console.log("owner_tel:", owner_tel);
+    // console.log("name_req:", name_req, "44444");
     
 
     setGen_Fam_No(running_no);
@@ -776,13 +776,13 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
       name_req
      
     ];
-    console.log(setData_ForRequester, "datadata");
+    // console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
-      console.log("เข้า")
+      // console.log("เข้า")
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${nameasset}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        `http://10.17.100.183:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${nameasset}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -797,7 +797,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
     try {
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${owner_dept}`
+        `http://10.17.100.183:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${owner_dept}`
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -805,10 +805,10 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
   };
 
   const handleOwner_tel = async (event) => {
-    console.log(event.target.value,"Tel")
+    // console.log(event.target.value,"Tel")
     setowner_tel(event.target.value)
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
+      // // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -835,7 +835,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
       
       ];
-      // console.log("/////////////////");
+      // // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
@@ -844,7 +844,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
+        // // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -866,11 +866,11 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           event.target.value,
           name_req
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
+        // // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -892,7 +892,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           event.target.value,
           For_Req[18]
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -904,7 +904,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 //   const handleOwnerDept = async (event) => {
 //     setowner_dept(event.target.value,"Dept")
 // if (EditFam != null) {
-//       // console.log(">>>>>>>>..", For_Rq_Edit);
+//       // // console.log(">>>>>>>>..", For_Rq_Edit);
 //       const setData_ForRequester = [
 //         For_Rq_Edit[0],
 //         For_Rq_Edit[1],
@@ -925,7 +925,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 //         event.target.value,
 //         For_Rq_Edit[17],
 //       ];
-//       // console.log("/////////////////");
+//       // // console.log("/////////////////");
 //       const sentdata = JSON.stringify(setData_ForRequester);
 //       localStorage.setItem("For_Req_Edit", sentdata);
 //       //edit
@@ -934,7 +934,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
 //       if (For_Req[0] == "" && For_Req[0] == null) {
 //         // ยังไม่genfam
-//         // console.log("------>>>>>>>>>>>>>>>>---------");
+//         // // console.log("------>>>>>>>>>>>>>>>>---------");
 //         const setData_ForRequester = [
 //           "",
 //           LocalUserLogin,
@@ -955,11 +955,11 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 //           event.target.value,
 //           owner_tel
 //         ];
-//         //// console.log(setData_ForRequester, "datadata");
+//         //// // console.log(setData_ForRequester, "datadata");
 //         const sentdata = JSON.stringify(setData_ForRequester);
 //         localStorage.setItem("ForRequester", sentdata);
 //       } else {
-//         // console.log("------///////////----------", For_Req);
+//         // // console.log("------///////////----------", For_Req);
 //         const setData_ForRequester = [
 //           For_Req[0],
 //           For_Req[1],
@@ -980,7 +980,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 //           event.target.value,
 //           For_Req[17],
 //         ];
-//         //// console.log(setData_ForRequester, "datadata");
+//         //// // console.log(setData_ForRequester, "datadata");
 //         const sentdata = JSON.stringify(setData_ForRequester);
 //         localStorage.setItem("ForRequester", sentdata);
 //       }
@@ -989,18 +989,18 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
 
   const handleEmpUser = async (event) => {
-    console.log(event, "owner_req")
+    // console.log(event, "owner_req")
 
     try {
-      const response = await axios.post("http://10.17.162.238:5000/Id_owner", { owner_id: event });
+      const response = await axios.post("http://10.17.100.183:5000/Id_owner", { owner_id: event });
       const data = response.data
-      console.log(data[0][2], "DATA");
+      // console.log(data[0][2], "DATA");
       // กำหนดค่าให้กับ state หรือตัวแปรต่าง ๆ ด้วย setter functions
       setowner_dept(data[0][0]);
       setname_req(data[0][1]);
       setowner_dept(data[0][2]);
       if (EditFam != null) {
-        // console.log(">>>>>>>>..", For_Rq_Edit);
+        // // console.log(">>>>>>>>..", For_Rq_Edit);
         const setData_ForRequester = [
           For_Rq_Edit[0],
           For_Rq_Edit[1],
@@ -1024,7 +1024,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           For_Rq_Edit[19],
           data[0][1]
         ];
-        // console.log("/////////////////");
+        // // console.log("/////////////////");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("For_Req_Edit", sentdata);
         //edit
@@ -1033,7 +1033,7 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
   
         if (For_Req[0] == "" && For_Req[0] == null) {
           // ยังไม่genfam
-          // console.log("------>>>>>>>>>>>>>>>>---------");
+          // // console.log("------>>>>>>>>>>>>>>>>---------");
           const setData_ForRequester = [
             "",
             LocalUserLogin,
@@ -1055,12 +1055,12 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
             owner_tel,
             data[0][1]
           ];
-          //// console.log(setData_ForRequester, "datadata");
+          //// // console.log(setData_ForRequester, "datadata");
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
         } else {
-          console.log("00000000000000",For_Req);
-          console.log(data[0][1], "DATA0000");
+          // console.log("00000000000000",For_Req);
+          // console.log(data[0][1], "DATA0000");
           const setData_ForRequester = [
             For_Req[0],
             For_Req[1],
@@ -1082,8 +1082,8 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
             For_Req[17],
             data[0][1]
           ];
-          console.log("------///////////----------", setData_ForRequester);
-          //// console.log(setData_ForRequester, "datadata");
+          // console.log("------///////////----------", setData_ForRequester);
+          //// // console.log(setData_ForRequester, "datadata");
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
         }
@@ -1106,31 +1106,31 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
 
     openPopupLoadding();
-console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
+// console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
       let group_fix =""
     if (selectFixAssetgroup1.length > 1) {
       group_fix = selectFixAssetgroup1.substring(0, 1);
-      console.log(group_fix,"selectFixAssetgroup166")
+      // console.log(group_fix,"selectFixAssetgroup166")
     }else{
       group_fix = selectFixAssetgroup1
-      console.log(group_fix,"selectFixAssetgroup167")
+      // console.log(group_fix,"selectFixAssetgroup167")
     }
-    console.log(owner_dept,find_fixasset1,group_fix,"owner_dept")
+    // console.log(owner_dept,find_fixasset1,group_fix,"owner_dept")
    //ก่อนแก้ 29/03  selectFixAsset_cost1 จากการลือก asset cost center 
     // try {
     //   const row = await axios.get(
-    //     `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
+    //     `http://10.17.100.183:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
     //   );
       try {
       const row = await axios.get(
-        `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
+        `http://10.17.100.183:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
       );
       const data = row.data;
       setfind_fixasset(data);
       
       if (data.length > 0) {
         try {
-          const response = await axios.post("http://10.17.162.238:5000/fix_code_find", { assetcode: find_fixasset1 });
+          const response = await axios.post("http://10.17.100.183:5000/fix_code_find", { assetcode: find_fixasset1 });
           const responseData = response.data;
           setdatafix_for_find(responseData);
     
@@ -1168,16 +1168,16 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
      
     try {
       const rollNoSearch = await axios.get(
-        `http://10.17.162.238:5000/get_COMP?fam_no=${Gen_Fam_No}}`
+        `http://10.17.100.183:5000/get_COMP?fam_no=${Gen_Fam_No}}`
       );
       const data = rollNoSearch.data;
       set_COMP(data);
-      console.log(data, "TTTTTTTTTTTTTTTTTTT");
+      // console.log(data, "TTTTTTTTTTTTTTTTTTT");
     } catch (error) {
       console.error("Error requesting data:", error);
     }
    
-      //// console.log(data, "1111111111111111");
+      //// // console.log(data, "1111111111111111");
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
@@ -1189,17 +1189,17 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
 
   };
   const updateSelectedData = (selectedItems) => {
-    console.log(selectedItems,"RRRR")
+    // console.log(selectedItems,"RRRR")
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {
-    console.log(index,"PPPP",[...selectedItems])
+    // console.log(index,"PPPP",[...selectedItems])
     const newSelectedItems = [...selectedItems];
     newSelectedItems[index] = !newSelectedItems[index];
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
-    console.log(newSelectedItems,"ggg",selectedItems)
+    // console.log(newSelectedItems,"ggg",selectedItems)
   };
   // const handleCheckboxAllChange = () => {
   //   const newSelectedAll = !selectAll;
@@ -1244,7 +1244,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     if (!hasTrue || selectedItems.length === 0) {
       let countCOMP = 0;
       let countTABLE = 0;
-      console.log(find_fixasset1, "yy", find_fixasset1);
+      // console.log(find_fixasset1, "yy", find_fixasset1);
       find_fixasset.map((item, index) => {
         const filteredItems = COMP.filter(
             (compItem) =>
@@ -1262,7 +1262,7 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     });
     setCountCOMP(countCOMP);
     setCountdatatable(countTABLE);
-  console.log(countCOMP,"yyy",countTABLE);  // const DataCount =  countCOMP
+  // console.log(countCOMP,"yyy",countTABLE);  // const DataCount =  countCOMP
    
   if(countTABLE === find_fixasset.length){
     
@@ -1274,13 +1274,13 @@ alert("Please select checkbox");
   }
   
     
-    // console.log(DataCount,"66666",find_fixasset.length)
+    // // console.log(DataCount,"66666",find_fixasset.length)
     // if(DataCount.length === find_fixasset.length)
     
          
           
     
-      console.log(CountCOMP, "yyyy", Countdatatable,find_fixasset);
+      // console.log(CountCOMP, "yyyy", Countdatatable,find_fixasset);
   }
   
     else{
@@ -1308,7 +1308,7 @@ alert("Please select checkbox");
   };
   
   const setlocalTable = async (newData) => {
-    console.log(newData,"nongmay")
+    // console.log(newData,"nongmay")
     const data = JSON.stringify(newData)
     localStorage.setItem("Edit_Dteail_for_FixedCode",data)
     localStorage.setItem("forDetail",data)
@@ -1320,10 +1320,10 @@ alert("Please select checkbox");
     setdatatable(newData);
     if (EditFam !== null) {
       
-      // console.log("index", item, EditFam);
+      // // console.log("index", item, EditFam);
       try {
         const row = await axios.post(
-          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+          `http://10.17.100.183:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
         );
        //localStorage.removeItem("Edit_Dteail_for_FixedCode");
         // Fix_Code();
@@ -1334,9 +1334,9 @@ alert("Please select checkbox");
       
     } else {
       try {
-        console.log(Gen_Fam_No,item,"888888888")
+        // console.log(Gen_Fam_No,item,"888888888")
         const row = await axios.post(
-          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+          `http://10.17.100.183:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
         );
         //localStorage.removeItem("forDetail");
         setlocalTable(newData);
@@ -1351,15 +1351,15 @@ alert("Please select checkbox");
   const Fix_Code = async () => {
     try {
       const response = await axios.post(
-        `http://10.17.162.238:5000/getFixcode?Fam=${Gen_Fam_No}`
+        `http://10.17.100.183:5000/getFixcode?Fam=${Gen_Fam_No}`
       );
       const dataStatus = await response.data;
-      console.log(dataStatus,"dataStatus")
+      // console.log(dataStatus,"dataStatus")
       setdatatable(dataStatus);
       const sentdata = JSON.stringify(dataStatus);
   localStorage.setItem("forDetail", sentdata);
   localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
-      // console.log(dataStatus, "dataStatus");
+      // // console.log(dataStatus, "dataStatus");
 
       // StatusId = dataStatus.flat();
     } catch (error) {
@@ -1373,14 +1373,14 @@ alert("Please select checkbox");
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       if (EditFam !== null) {
-        console.log("datatable888",datatable[i][5])
+        // console.log("datatable888",datatable[i][5])
         localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
       } else {
         localStorage.setItem("forDetail", sentdata);
       }
-      console.log("datatable888",datatable[i][5])
+      // console.log("datatable888",datatable[i][5])
       try {
-        await axios.post("http://10.17.162.238:5000/ins_REQ_DETAIL", {
+        await axios.post("http://10.17.100.183:5000/ins_REQ_DETAIL", {
           famno: Gen_Fam_No,
           assetcode: datatable[i][0],
           assetname: datatable[i][3],
@@ -1400,10 +1400,10 @@ alert("Please select checkbox");
         console.error("Error during POST request:", error);
       }
       
-       console.log(datatable[i][5],"8888")
+       // console.log(datatable[i][5],"8888")
        try {
         const response = await axios.post(
-          `http://10.17.162.238:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
+          `http://10.17.100.183:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
         );
         setvisibityFile("visible");
       } catch (error) {
@@ -1425,7 +1425,7 @@ alert("Please select checkbox");
     setTel1(event.target.value);
 
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
+      // // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1449,7 +1449,7 @@ alert("Please select checkbox");
         For_Rq_Edit[19],
         For_Rq_Edit[20]
       ];
-      // console.log("/////////////////");
+      // // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
@@ -1458,7 +1458,7 @@ alert("Please select checkbox");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
+        // // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1476,11 +1476,11 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
+        // // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1498,20 +1498,20 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
     }
   };
   const handleDept = async (event) => {
-    console.log(event,"uuuuuuuuu")
+    // console.log(event,"uuuuuuuuu")
     setselectDept1(event);
     // setselectDept1(event.target.value);
-    // console.log("/////");
+    // // console.log("/////");
 
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
+      // // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1535,17 +1535,17 @@ alert("Please select checkbox");
         For_Rq_Edit[19],
         For_Rq_Edit[20]
       ];
-      // console.log("/////////////////");
+      // // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
     } else {
       //insert
-      // console.log("------bbbbbb---------", For_Req[0]);
+      // // console.log("------bbbbbb---------", For_Req[0]);
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
+        // // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1563,11 +1563,11 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
+        // // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1585,7 +1585,7 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1593,10 +1593,10 @@ alert("Please select checkbox");
   };
   const handleRemark = async (event) => {
     setRemark(event.target.value);
-    // console.log("/////");
+    // // console.log("/////");
 
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
+      // // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1620,17 +1620,17 @@ alert("Please select checkbox");
         For_Rq_Edit[19],
         For_Rq_Edit[20]
       ];
-      // console.log("/////////////////");
+      // // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
       //edit
     } else {
       //insert
-      // console.log("------bbbbbb---------");
+      // // console.log("------bbbbbb---------");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
+        // // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1648,11 +1648,11 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
+        // // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1670,7 +1670,7 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
+        //// // console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1721,7 +1721,7 @@ alert("Please select checkbox");
   //   // Store JSON string in local storage with key "Type"
   //   const fileArrayString = JSON.stringify(jsonDataArray);
   //   localStorage.setItem("Type", fileArrayString);
-  //   // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
+  //   // // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
   // };
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
@@ -1770,7 +1770,7 @@ alert("Please select checkbox");
     // Store JSON string in local storage with key "Type"
     const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
-    // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
+    // // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
   };
   
 
@@ -1781,7 +1781,7 @@ alert("Please select checkbox");
     event.preventDefault();
     const files = event.dataTransfer?.files;
     if (files) {
-      //// console.log("///////////////////////////////", files);
+      //// // console.log("///////////////////////////////", files);
       handleFileUpload({ target: { files } });
     }
   };
@@ -1801,7 +1801,7 @@ alert("Please select checkbox");
         let new_run_seq = "";
         try {
           const response_seq = await axios.get(
-            `http://10.17.162.238:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
+            `http://10.17.100.183:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
           );
           const get_run_seq = await response_seq.data;
           const lastValue =
@@ -1815,11 +1815,11 @@ alert("Please select checkbox");
 
         try {
           const response = await axios.post(
-            `http://10.17.162.238:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            `http://10.17.100.183:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
-          // console.log(data, "dataYpload");
-          //// console.log("อัฟโหลดไฟล์สำเร็จ =", response);
+          // // console.log(data, "dataYpload");
+          //// // console.log("อัฟโหลดไฟล์สำเร็จ =", response);
         } catch (error) {
           console.error("Error Upload File Request:", error);
         }
@@ -1832,10 +1832,10 @@ alert("Please select checkbox");
           });
 
           await axios.post(
-            "http://10.17.162.238:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "http://10.17.100.183:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
-          //// console.log("Files saved successfully");
+          //// // console.log("Files saved successfully");
         } catch (error) {
           console.error("Error saving files:", error);
         }
@@ -1858,22 +1858,22 @@ alert("Please select checkbox");
   };
 
   const handleDeleteFile = async (index, file,fileName) => {
-    // console.log(index, "index", file);
-    //console.log(fileName, "filefilefilefilefile");
+    // // console.log(index, "index", file);
+    //// console.log(fileName, "filefilefilefilefile");
     openPopupLoadding();
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
     setUploadedFiles(updatedFiles);
     
     try {
       await axios.post(
-        `http://10.17.162.238:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+        `http://10.17.100.183:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
       );
       localStorage.removeItem("Type");
     } catch (error) {
       console.error("Error deleting file:", error);
     }
     try {
-      const response = await axios.delete(`http://10.17.162.238:5000/deleteFile?data=${fileName}`, 
+      const response = await axios.delete(`http://10.17.100.183:5000/deleteFile?data=${fileName}`, 
           // data: { fileName }
       );
       
@@ -2091,7 +2091,7 @@ alert("Please select checkbox");
                       value={owner_req}
                       onChange={(e) => {
                         setowner_req(e.target.value);
-                        console.log(e.target.value);
+                        // console.log(e.target.value);
                         handleEmpUser(e.target.value);
                     }}error={
                       (Gen_Fam_No || EditFam) &&
@@ -2272,7 +2272,7 @@ alert("Please select checkbox");
                       onChange={(e, value) => {
                         setselectDept1(value);
                         handleDept(value)
-                        console.log(value, "MMMMM");
+                        // console.log(value, "MMMMM");
                     }}
                     
                       options={Dept.map((item) => item)}
@@ -2461,7 +2461,7 @@ alert("Please select checkbox");
                         />
                       )}
                     /> */}
-                    {console.log(owner_dept,"99999")}
+               
                     <TextField
                      size="small" 
   disabled={read_fix_cost}

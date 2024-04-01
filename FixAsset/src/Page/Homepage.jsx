@@ -38,7 +38,7 @@ export default function BasicGrid() {
       const Transfer = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransfer?UserLogin=${UserLogin}`
+            `http://10.17.100.183:5000/getCountTransfer?UserLogin=${UserLogin}`
           );
           const Transfer = await response.data;
           setdataTransfer(Transfer);
@@ -50,11 +50,11 @@ export default function BasicGrid() {
       const Transferlistallname = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLLname`
+            `http://10.17.100.183:5000/getCountTransferlistaLLname`
           );
           const Transferallname = await response.data;
           setdataTransferallname(Transferallname);
-          console.log(Transferallname, "ดูข้อมูล");
+          // console.log(Transferallname, "ดูข้อมูล");
         } catch (error) {
           console.error("Error Transferdataall:", error);
         }
@@ -63,7 +63,7 @@ export default function BasicGrid() {
       const Transferlistall = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
+            `http://10.17.100.183:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
           );
           const Transferall = await response.data;
           setdataTransferall(Transferall);
@@ -81,7 +81,7 @@ export default function BasicGrid() {
   }, []);
 
   const handleClickNextToSearch = (value) => {
-    console.log("Received value:", value);
+    // console.log("Received value:", value);
     if (value === "Create") {
       localStorage.setItem("STATUS", value);
       window.location.href = `/Search`;     

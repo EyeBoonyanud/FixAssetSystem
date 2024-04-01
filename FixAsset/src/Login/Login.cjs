@@ -16,21 +16,21 @@ const CUSR = {
   password: process.env.PASS_CUSR,
   connectString: process.env.CON_CUSR,
 };
-// console.log(CUSR,"-------------------------------------------------------------")
+// // console.log(CUSR,"-------------------------------------------------------------")
 
 // const CUSR = {
 //   user: import.meta.env.VITE_USER_CUSR,
 //   password: import.meta.env.VITE_PASS_CUSR,
 //   connectString: import.meta.env.VITE_CON_CUSR,
 // };
-// // console.log(CUSR,"-------------------------------------------------------------")
+// // // console.log(CUSR,"-------------------------------------------------------------")
 
 // Login
 module.exports.login = async function (req, res) {
   try {
     const  User  = req.query.username;
     const  Password  = req.query.password;
-    // console.log(User,Password)
+    // // console.log(User,Password)
     const connect = await oracledb.getConnection(CUSR);
     const query = `
         SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
@@ -44,7 +44,7 @@ module.exports.login = async function (req, res) {
        `;
     const result = await connect.execute(query);
     connect.release();
-    // // console.log(result.rows);
+    // // // console.log(result.rows);
     res.json(result.rows);
     
   } catch (error) {
@@ -56,7 +56,7 @@ module.exports.menu = async function (req, res) {
   try {
     const  Userlogin  = req.query.userlogin;
     const  Role  = req.query.role;
-    // // console.log(Userlogin,Role)
+    // // // console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
     const query = 
     `SELECT DISTINCT M.MENU_ID,
@@ -73,7 +73,7 @@ module.exports.menu = async function (req, res) {
                 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
     const result = await connect.execute(query);
     connect.release();
-    // // console.log(result.rows);
+    // // // console.log(result.rows);
     res.json(result.rows);
     
   } catch (error) {
@@ -87,7 +87,7 @@ module.exports.menu = async function (req, res) {
 //   try {
 //     const  Userlogin  = req.query.userlogin;
 //     const  Role  = req.query.role;
-//     // // console.log(Userlogin,Role)
+//     // // // console.log(Userlogin,Role)
 //     const connect = await oracledb.getConnection(CUSR);
 //     const query = 
 //     `SELECT DISTINCT M.MENU_ID,
@@ -105,7 +105,7 @@ module.exports.menu = async function (req, res) {
 //                 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
 //     const result = await connect.execute(query);
 //     connect.release();
-//     // // console.log(result.rows);
+//     // // // console.log(result.rows);
 //     res.json(result.rows);
     
 //   } catch (error) {
@@ -124,7 +124,7 @@ module.exports.menu = async function (req, res) {
 //   try {
 //     const  Userlogin  = req.query.userlogin;
 //     const  Role  = req.query.role;
-//     // console.log(Userlogin,Role)
+//     // // console.log(Userlogin,Role)
 //     const connect = await oracledb.getConnection(CUSR);
 //     const query = 
 //     `SELECT DISTINCT M.MENU_ID,
@@ -143,7 +143,7 @@ module.exports.menu = async function (req, res) {
 // ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
 //     const result = await connect.execute(query);
 //     connect.release();
-//     // console.log(result.rows);
+//     // // console.log(result.rows);
 //     res.json(result.rows);
     
 //   } catch (error) {
@@ -169,7 +169,7 @@ AND M.MENU_PARENT_ID IS NULL
 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
     const result = await connect.execute(query);
     connect.release();
-    // // console.log(result.rows);
+    // // // console.log(result.rows);
     res.json(result.rows);
     
   } catch (error) {
@@ -182,7 +182,7 @@ module.exports.submenu = async function (req, res) {
   try {
     const  Userlogin  = req.query.userlogin;
     const  Role  = req.query.role;
-    // // console.log(Userlogin,Role)
+    // // // console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
     const query = 
     `SELECT DISTINCT M.MENU_ID,
@@ -200,7 +200,7 @@ AND M.MENU_PARENT_ID IS NOT NULL
 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
     const result = await connect.execute(query);
     connect.release();
-    // // console.log(result.rows);
+    // // // console.log(result.rows);
     res.json(result.rows);
     
   } catch (error) {
@@ -212,7 +212,7 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
 //   try {
 //     const  Userlogin  = req.query.userlogin;
 //     const  Role  = req.query.role;
-//     // // console.log(Userlogin,Role)
+//     // // // console.log(Userlogin,Role)
 //     const connect = await oracledb.getConnection(CUSR);
 //     const query = 
 //     `SELECT DISTINCT M.MENU_ID,
@@ -231,7 +231,7 @@ ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SOR
 // ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
 //     const result = await connect.execute(query);
 //     connect.release();
-//     // // console.log(result.rows);
+//     // // // console.log(result.rows);
 //     res.json(result.rows);
     
 //   } catch (error) {

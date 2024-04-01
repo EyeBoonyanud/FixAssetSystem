@@ -64,11 +64,11 @@ function TransFerDetail() {
     const FAM_Routing  = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Routing_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Routing_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data.flat();
         setDataRoutingFamno(data);
-        console.log(data,"JJJJjj")
+        // console.log(data,"JJJJjj")
         setselectradio_dept(data[1])
         setselectradio_serviceby(data[7])
         setselectradio_boistaff(data[11])
@@ -87,12 +87,12 @@ function TransFerDetail() {
     const FAM_Transfer = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Transfer_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Transfer_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data.flat();
         setDataTransferFamno(data) ;
         setselectradio_receiver(data[9])
-        console.log(data,"data")
+        // console.log(data,"data")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -100,12 +100,12 @@ function TransFerDetail() {
     const Name = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_showName?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_showName?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
 
         setDataName(data) ;
-        console.log(data,"datauuuuuuuuuuuu")
+        // console.log(data,"datauuuuuuuuuuuu")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -123,10 +123,10 @@ function TransFerDetail() {
 
   // const queryParams = new URLSearchParams(window.location.search);
   // const VIEW_FAM = queryParams.get("VIEW_FAM");
-  // console.log(VIEW_FAM, "VIEW");
+  // // console.log(VIEW_FAM, "VIEW");
 
   const  BackPage = async () => {
-    console.log(VIEW_FAM,"PDF_FAM");
+    // console.log(VIEW_FAM,"PDF_FAM");
     const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
   };
@@ -280,7 +280,7 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5" colSpan={3}></td>
                 </tr>
-                {/* {// console.log("PAGE_STATUS === EDIT", STS)} */}
+                {/* {// // console.log("PAGE_STATUS === EDIT", STS)} */}
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">New Owner :</Typography>
@@ -325,7 +325,7 @@ function TransFerDetail() {
                       Plan Remove Date :
                     </Typography>
                   </td>
-                  {/* {// console.log(ErrorDate, plan_date, "************")} */}
+                  {/* {// // console.log(ErrorDate, plan_date, "************")} */}
                   <td>
                   <FormControl className="Style1">
    <TextField
@@ -416,7 +416,7 @@ function TransFerDetail() {
                       ></TextField>
                     </FormControl>
                   </td>
-{console.log(selectradio_dept,"DataRoutingFamno[1]")}
+
                   <td className="Style5">
   <FormControl style={{ visibility: selectradio_dept==null || selectradio_dept=="null"  ? "hidden" : "visibled" }}>
     <RadioGroup
@@ -1401,7 +1401,7 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       ></TextField>
                     </FormControl>
                   </td>
-               {console.log(selectradio_service_close_by,"selectradio_service_close_by")}
+            
                   <td className="Style5">
                     <FormControl style={{ visibility: selectradio_service_close_by==null || selectradio_service_close_by=="null"  ? "hidden" : "visibled" }}>
                       <RadioGroup

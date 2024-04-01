@@ -17,7 +17,7 @@ const AVO = {
   module.exports.getMailshow = async (req, res) => {
     try {
       const { Name } = req.body;
-      console.log(Name)
+      // console.log(Name)
       const connect = await oracledb.getConnection(AVO);
       const query = `
         SELECT DISTINCT FPM_EMAIL , USER_FNAME ||' '|| USER_SURNAME  
@@ -25,9 +25,9 @@ const AVO = {
         LEFT JOIN CUSR.CU_USER_M cum ON USER_LOGIN = FPM_USER_LOGIN 
         WHERE FPM_USER_LOGIN ='${Name}'
       `;
-  console.log('UUU',query)
+  // console.log('UUU',query)
       const result = await connect.execute(query);
-      console.log(result)
+      // console.log(result)
       connect.release();
       let Email = []
       let dataName = []

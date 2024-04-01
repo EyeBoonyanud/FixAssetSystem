@@ -47,7 +47,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const UserLogin = localStorage.getItem("UserLogin");
   const Menu = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/getmainmenu`);
+      const response = await axios.get(`http://10.17.100.183:5000/getmainmenu`);
  
       const data = await response.data;
       let datamenu = [];
@@ -58,7 +58,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       }
       setmenuId(datamenuid);
       setmenu(datamenu);
-      // console.log("Maindata", data);
+      // // console.log("Maindata", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -67,7 +67,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const subMenu = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/getsubmenu?userlogin=${UserLogin}&role=${Role}`
+        `http://10.17.100.183:5000/getsubmenu?userlogin=${UserLogin}&role=${Role}`
       );
       const data = await response.data;
       let datasubmenu = [];
@@ -87,7 +87,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
  
   const handleButtonClick = (id) => {
-    console.log(id,"YYYYYY")
+    // console.log(id,"YYYYYY")
     if (id === "Issue FAM") {
       window.location.href = "/Search";
     }
@@ -102,7 +102,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       window.location.href = "/Search_person";
     }
     if (id === "BOI Maintain") {
-      console.log(id,"UUUUU")
+      // console.log(id,"UUUUU")
       window.location.href = "/BOIMaintain";
     }
     if (id === "FAM Master") {
@@ -127,8 +127,8 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     setIcondrop2(!Icondrop2);
     setSubMenuOpen2(!subMenuOpen2);
   };
-  // console.log(menudataId,"///////////")
-  // console.log(menuId,"-----------")
+  // // console.log(menudataId,"///////////")
+  // // console.log(menuId,"-----------")
  
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose} sx={{ border: "10" }}>

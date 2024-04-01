@@ -25,14 +25,14 @@ function Mail() {
   }, []);
 const Datamail = async (Name,File,Type,Status) => {
   try {
-    const response = await axios.post("http://10.17.162.238:5000/getMailshow", {
+    const response = await axios.post("http://10.17.100.183:5000/getMailshow", {
       Name: To_Send
     });
     const dataEmail = response.data.dataEmail; // เปลี่ยนจาก DataEmail เป็น dataEmail
     const dataName = response.data.rowName; // เปลี่ยนจาก DataName เป็น dataName
   
-    console.log(response.data.message, "KKKKKKK", dataName, dataEmail,Name,File,Type,Status);
-    console.log("5")
+    // console.log(response.data.message, "KKKKKKK", dataName, dataEmail,Name,File,Type,Status);
+    // console.log("5")
     emailMessage(dataEmail,Name,File,Type,Status)
   } catch (error) {
     console.error("Error sending email:", error);
@@ -44,11 +44,11 @@ const Status_Show = async () => {
   let Type = "";
   let Status = "";
   try {
-    const response = await axios.post("http://10.17.162.238:5000/getStatus", {
+    const response = await axios.post("http://10.17.100.183:5000/getStatus", {
       sts: status,
     });
     const data = response.data;
-    console.log(data, "response");
+    // console.log(data, "response");
 
     Status = data[0];
    
@@ -57,11 +57,11 @@ const Status_Show = async () => {
   }
 
   try {
-    const response = await axios.post("http://10.17.162.238:5000/getName_To", {
+    const response = await axios.post("http://10.17.100.183:5000/getName_To", {
       name: To_Send,
     });
     const data = response.data;
-    console.log(data, "response");
+    // console.log(data, "response");
 
     Name = data[0];
    
@@ -70,11 +70,11 @@ const Status_Show = async () => {
   }
 
   try {
-    const response = await axios.post("http://10.17.162.238:5000/getType", {
+    const response = await axios.post("http://10.17.100.183:5000/getType", {
       Type_show: RequestType,
     });
     const data = response.data;
-    console.log(data, "response");
+    // console.log(data, "response");
 
     Type = data[0];
   
@@ -83,11 +83,11 @@ const Status_Show = async () => {
   }
 
   try {
-    const response = await axios.post("http://10.17.162.238:5000/getFile", {
+    const response = await axios.post("http://10.17.100.183:5000/getFile", {
       Type_show: RequestType,
     });
     const data = response.data;
-    console.log(data, "response");
+    // console.log(data, "response");
 
     File = data[0];
 
@@ -131,9 +131,9 @@ const emailMessage = `
   </html>
   `;
   if(dataEmail !== undefined && Name!=="" &&File!=""&&Type!=""&&Status!=""){
-    console.log("เข้าาาาาาา")
+    // console.log("เข้าาาาาาา")
      try {
-    const response = await axios.post("http://10.17.162.238:5000/sendEmail", {
+    const response = await axios.post("http://10.17.100.183:5000/sendEmail", {
       headers: {
         'Content-Type': 'text/html',
       },
@@ -142,8 +142,8 @@ const emailMessage = `
       emailMessage: emailMessage
     });
 
-    console.log(response.data.message);
-    console.log("15")
+    // console.log(response.data.message);
+    // console.log("15")
   } catch (error) {
     console.error("Error sending email:", error);
   }

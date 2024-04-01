@@ -26,21 +26,21 @@ function TransFerDetail() {
   // LocalStorage สำหรับการรับค่าแบบ table
   const RQ = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(RQ);
-  console.log(For_Req, "For_ReqFor_ReqFor_ReqFor_ReqFor_Req");
+  // console.log(For_Req, "For_ReqFor_ReqFor_ReqFor_ReqFor_Req");
   const Fam_no = For_Req[0];
   
   const Service = For_Req[13];
   const CC_for_request = For_Req[9];
   const Sts = For_Req[10];
-   console.log(Sts,"SSSSSSSS")
+   // console.log(Sts,"SSSSSSSS")
   const DATA = localStorage.getItem("forDetail"); // list สำหรับ Detail AssetCode หน้า Forrequest
   const DATA_FOR = JSON.parse(DATA);
   const fromdatatable = localStorage.getItem("TransForDetail"); //list สำหรับ TransferDetails
   const For_Trans = JSON.parse(fromdatatable);
-  console.log(For_Trans, "For_Trans");
+  // console.log(For_Trans, "For_Trans");
   const fromrouting = localStorage.getItem("Routing"); //list สำหรับ TransferDetails
   const For_Rou = JSON.parse(fromrouting);
-//  console.log(For_Rou, "For_Rou");
+//  // console.log(For_Rou, "For_Rou");
 
 
 
@@ -100,7 +100,7 @@ const [Owner_Send, setOwner_Send] = useState("");
 
   const [mgr_chk, setmgr_chk] = useState("hidden");
 
-  // console.log(New_own, "New_own");
+  // // console.log(New_own, "New_own");
 
   const Acc_mana = localStorage.getItem("ACC_Manager"); // เก็บแยก ไม่เก็บdata
   
@@ -109,7 +109,7 @@ const [Owner_Send, setOwner_Send] = useState("");
    
    if (For_Req != null){
       if(For_Trans==null){
-        console.log("เข้าสาาา1",For_Trans)
+        // console.log("เข้าสาาา1",For_Trans)
         setuser_login(ReqBy);
         setOwner_Send(ReqBy);
        setselecteDatafac("");
@@ -133,7 +133,7 @@ const [Owner_Send, setOwner_Send] = useState("");
        setselectacc_manager("");
       }
 else{
-  console.log("เข้าสาาา2",For_Trans)
+  // console.log("เข้าสาาา2",For_Trans)
   setuser_login(For_Req[2])
   setOwner_Send(For_Req[2]);
 setselecteDatafac(For_Trans[2]);
@@ -162,7 +162,7 @@ setselectacc_manager(Acc_mana);
    } 
   
   // else {
-  //   console.log("เข้าสาาา3",)
+  //   // console.log("เข้าสาาา3",)
   //   setOwner_Send("");
   //   setselecteDatafac(For_Trans[2]);
   //   setselectcost(For_Trans[3]);
@@ -188,11 +188,11 @@ setselectacc_manager(Acc_mana);
 
   useEffect(() => {
     if(EditFam!=null){
-      console.log("-------------------------------")
+      // console.log("-------------------------------")
       EditTrans();
       // EditUpload();
      }
-    console.log(">>>>>>>>>>>>>>>>>>", For_Trans);
+    // console.log(">>>>>>>>>>>>>>>>>>", For_Trans);
     Factory();
     BOI_FROM();
     Costcenter();
@@ -224,7 +224,7 @@ setselectacc_manager(Acc_mana);
     ];
     
     const sentdata = JSON.stringify(dataTable);
-    // console.log(sentdata)
+    // // console.log(sentdata)
     localStorage.setItem("TransForDetail", sentdata);
   };
 
@@ -241,7 +241,7 @@ setselectacc_manager(Acc_mana);
     ];
 
     const sentdata = JSON.stringify(data_Routing);
-    // ////console.log(sentdata)
+    // ////// console.log(sentdata)
     localStorage.setItem("Routing", sentdata);
   };
   const handleDatePlan = (event) => {  
@@ -261,12 +261,12 @@ setselectacc_manager(Acc_mana);
 
   ];
   const sentdata = JSON.stringify(dataTable);
-    // console.log(sentdata)
+    // // console.log(sentdata)
     localStorage.setItem("TransForDetail", sentdata);
 };
   const handleRadioDept_Mana = (event) => {
     setradio_dept(event.target.value);
-    // console.log("ค่า", event.target.value);
+    // // console.log("ค่า", event.target.value);
   };
   const handleRadioService_By = (event) => {
     setradio_serviceby(event.target.value);
@@ -289,11 +289,11 @@ setselectacc_manager(Acc_mana);
   const BOI_FROM = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/select_BOI_from?running_no=${Fam_no}`
+        `http://10.17.100.183:5000/select_BOI_from?running_no=${Fam_no}`
       );
       const data = response.data;
       setdataBoi_from(data[0][0]);
-      // console.log(data[0][0], "มาจาก fromBOI :");
+      // // console.log(data[0][0], "มาจาก fromBOI :");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -301,10 +301,10 @@ setselectacc_manager(Acc_mana);
   // Transfer to Factory
   const Factory = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
+      const response = await axios.get(`http://10.17.100.183:5000/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
-      // console.log(FactoryData, "Factory");
+      // // console.log(FactoryData, "Factory");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -332,11 +332,11 @@ setselectacc_manager(Acc_mana);
   // Tranfer To CC
   const Costcenter = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/cc_for_transfer`);
+      const response = await axios.get(`http://10.17.100.183:5000/cc_for_transfer`);
       const CostData = await response.data;
       setcost(CostData);
 
-      // console.log(CostData, "CostData :");
+      // // console.log(CostData, "CostData :");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -345,24 +345,24 @@ setselectacc_manager(Acc_mana);
   // Newowner
   const handleCost = async (event) => {
     let Cost = event.target.value; //ตัวแปรสำหรับเก็บค่า selectCostที่จะเอาไปส่งให้ New owner
-    //////console.log(newboi,"<<<<<<<<<<<<<<")
+    //////// console.log(newboi,"<<<<<<<<<<<<<<")
     setselectcost(Cost);
     New_Owner(Cost, selecteDatafac);
 
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
+        `http://10.17.100.183:5000/new_boi?fac=${selecteDatafac}&cc=${Cost}`
       );
       const data = response.data;
       const boi = data.flat();
-      console.log(boi,"gggggggggggg")
+      // console.log(boi,"gggggggggggg")
       if (!boi || boi.length === 0) {
         setnewboi("NON BOI");
       } else {
         setnewboi(boi);
       }
       if (dataBoi_from == boi) {
-        ////console.log("เข้า1");
+        ////// console.log("เข้า1");
         setsts("N");
         setabnormal("");
         const dataTable = [
@@ -382,7 +382,7 @@ setselectacc_manager(Acc_mana);
 
         localStorage.setItem("TransForDetail", sentdata);
       } else {
-        ////console.log("เข้า2");
+        ////// console.log("เข้า2");
         setsts("Y");
         const txt_abnormal = "Transfer to difference project";
         setabnormal(txt_abnormal);
@@ -412,7 +412,7 @@ setselectacc_manager(Acc_mana);
   const New_Owner = async (cost, selectFac) => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/new_owner?fac=${selectFac}&cc=${cost}`
+        `http://10.17.100.183:5000/new_owner?fac=${selectFac}&cc=${cost}`
       );
       const data1 = await response.data;
       const data = response.data.flat();
@@ -442,18 +442,18 @@ setselectacc_manager(Acc_mana);
 
     ];
     const sentdata = JSON.stringify(dataTable);
-    console.log(sentdata);
+    // console.log(sentdata);
     localStorage.setItem("TransForDetail", sentdata);
   };
   // Department Manager
   const Department_Mana = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/level?level=${Fac_to_request}&cc=${CC_for_request}`
+        `http://10.17.100.183:5000/level?level=${Fac_to_request}&cc=${CC_for_request}`
       );
       const data = response.data.flat();
       setdepartment(data);
-      //console.log("Department :", data);
+      //// console.log("Department :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -471,19 +471,19 @@ setselectacc_manager(Acc_mana);
     ];
 
     const sentdata = JSON.stringify(data_Routing);
-    // ////console.log(sentdata)
+    // ////// console.log(sentdata)
     localStorage.setItem("Routing", sentdata);
   };
   // ServiceBy
   const Service_By = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
+        `http://10.17.100.183:5000/service_by?level=${Fac_to_request}&cc=${Service_ID}`
       );
-      //console.log(response, "hhhhhhhhhhhhhhhhhha");
+      //// console.log(response, "hhhhhhhhhhhhhhhhhha");
       const data = response.data.flat();
       setservice_by(data);
-      //console.log("setservice_by :", data);
+      //// console.log("setservice_by :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -507,11 +507,11 @@ setselectacc_manager(Acc_mana);
   const BOI_Staff = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/boi_staff?fac=${Fac_to_request}`
+        `http://10.17.100.183:5000/boi_staff?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setboistaff(data);
-      //console.log("setboistaff :", data);
+      //// console.log("setboistaff :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -534,11 +534,11 @@ setselectacc_manager(Acc_mana);
   const BOI_Manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/boi_manager?fac=${Fac_to_request}`
+        `http://10.17.100.183:5000/boi_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setboimanager(data);
-      //console.log("setboimanager :", data);
+      //// console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -561,11 +561,11 @@ setselectacc_manager(Acc_mana);
   const Fac_manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/fac_manager?fac=${Fac_to_request}`
+        `http://10.17.100.183:5000/fac_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setfac_manager(data);
-      //console.log("setboimanager :", data);
+      //// console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -588,11 +588,11 @@ setselectacc_manager(Acc_mana);
   const ACC_Check = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/acc_check?fac=${Fac_to_request}`
+        `http://10.17.100.183:5000/acc_check?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setacc_check(data);
-      //console.log("setboimanager :", data);
+      //// console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -615,11 +615,11 @@ setselectacc_manager(Acc_mana);
   const ACC_Manager = async () => {
     try {
       const response = await axios.get(
-        `http://10.17.162.238:5000/acc_manager?fac=${Fac_to_request}`
+        `http://10.17.100.183:5000/acc_manager?fac=${Fac_to_request}`
       );
       const data = response.data.flat();
       setacc_manager(data);
-      //console.log("setboimanager :", data);
+      //// console.log("setboimanager :", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -635,7 +635,7 @@ setselectacc_manager(Acc_mana);
     const Plan_date = document.getElementById("Plan_Remove").value;
     const Tel = document.getElementById("Tel").value;
     const Tel_Service = document.getElementById("Tel_Service").value;
-    console.log(sts, "ssssssssssssssssssssssssss");
+    // console.log(sts, "ssssssssssssssssssssssssss");
     // const setData_TransDetail = [
     //   Fam_no,
     //   Plan_date,
@@ -648,15 +648,15 @@ setselectacc_manager(Acc_mana);
     // ];
     // const data_for_detail = JSON.stringify(setData_TransDetail);
     // localStorage.setItem("TransDetails", data_for_detail);
-    //console.log("data_for_detail", data_for_detail);
+    //// console.log("data_for_detail", data_for_detail);
 
     // const Fixcode = document.getElementById("Fixcode").value;
     // setFixcode1(Fixcode);
 
     try {
       const row = axios.post(
-        // console.log(New_BOI,"New_BOI")
-        `http://10.17.162.238:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${newboi}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
+        // // console.log(New_BOI,"New_BOI")
+        `http://10.17.100.183:5000/ins_transfer?running_no=${Fam_no}&date_plan=${Plan_date}&fac=${selecteDatafac}&cc=${selectcost}&to_proj=${newboi}&by=${result1}&tel=${Tel}&status=${sts}&abnormal=${abnormal}`
       );
 
       const data = row.data;
@@ -666,12 +666,12 @@ setselectacc_manager(Acc_mana);
     }
     try {
       const row = axios.post(
-        // //console.log(New_BOI,"New_BOI")
-        `http://10.17.162.238:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
+        // //// console.log(New_BOI,"New_BOI")
+        `http://10.17.100.183:5000/routing_tran?running_no=${Fam_no}&m_dept=${selectdepartment}&s_dept=${Service_ID}&s_tel=${Tel_Service}&s_by=${selectservice_by}&chk_by=${selectboistaff}&boi_by=${selectboimanager}&fmby=${selectfac_manager}&acc_by=${selectacc_check}&own_by=${ReqBy}`
       );
 
       const data = row.data;
-      //console.log(data, "data");
+      //// console.log(data, "data");
 
       setdataFixCode(data);
     } catch (error) {
@@ -679,7 +679,7 @@ setselectacc_manager(Acc_mana);
     }
     try {
       const receiver = await axios.post(
-        "http://10.17.162.238:5000/receiver_tranfer",
+        "http://10.17.100.183:5000/receiver_tranfer",
         {
           famno: Fam_no,
           receiver: result1,
@@ -693,7 +693,7 @@ setselectacc_manager(Acc_mana);
     }
     try {
       const close_service = await axios.post(
-        "http://10.17.162.238:5000/close_routing_tran",
+        "http://10.17.100.183:5000/close_routing_tran",
         {
           famno: Fam_no,
           acc_record: selectacc_check,
@@ -719,11 +719,11 @@ setselectacc_manager(Acc_mana);
   const SUBMIT = async () => {
     // if (Sts === "FLTR001") {
     //   const status_submit = "FLTR002";
-    //   //console.log(status_submit, "status_submit");
-    //   //console.log(Fam_no, "Fam_no");
+    //   //// console.log(status_submit, "status_submit");
+    //   //// console.log(Fam_no, "Fam_no");
     //   try {
     //     const response = await axios.post(
-    //       "http://10.17.162.238:5000/update_submit",
+    //       "http://10.17.100.183:5000/update_submit",
     //       {
     //         famno: Fam_no,
     //         sts_submit: status_submit,
@@ -734,18 +734,18 @@ setselectacc_manager(Acc_mana);
     //       icon: "success",
     //     });
 
-    //     //console.log(response.data, "Status submit successfully updated");
+    //     //// console.log(response.data, "Status submit successfully updated");
     //   } catch (error) {
     //     console.error("Error updating submit status:", error.message);
     //   }
     // } else if (Sts === "FLTR002") {
     //   const status_submit = "FLTR003";
     //   setmgr_chk("visible");
-    //   //console.log(status_submit, "status_submit");
-    //   //console.log(Fam_no, "Fam_no");
+    //   //// console.log(status_submit, "status_submit");
+    //   //// console.log(Fam_no, "Fam_no");
     //   try {
     //     const response = await axios.post(
-    //       "http://10.17.162.238:5000/update_submit",
+    //       "http://10.17.100.183:5000/update_submit",
     //       {
     //         famno: Fam_no,
     //         sts_submit: status_submit,
@@ -756,7 +756,7 @@ setselectacc_manager(Acc_mana);
     //       icon: "success",
     //     });
 
-    //     //console.log(response.data, "Status submit successfully updated");
+    //     //// console.log(response.data, "Status submit successfully updated");
     //   } catch (error) {
     //     console.error("Error updating submit status:", error.message);
     //   }
@@ -772,12 +772,12 @@ setselectacc_manager(Acc_mana);
       });
     } else {
       // ทำงานตามปกติเมื่อไม่มีค่าใน array ที่ส่งมาเป็น null
-      console.log(Sts,"")
+      // console.log(Sts,"")
       if (Sts === "FLTR001") {
         const status_submit = "FLTR002";
         try {
               const response = await axios.post(
-                "http://10.17.162.238:5000/update_submit",
+                "http://10.17.100.183:5000/update_submit",
                 {
                   famno: Fam_no,
                   sts_submit: status_submit,
@@ -788,7 +788,7 @@ setselectacc_manager(Acc_mana);
                 icon: "success",
               });
       
-              //console.log(response.data, "Status submit successfully updated");
+              //// console.log(response.data, "Status submit successfully updated");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -800,14 +800,14 @@ setselectacc_manager(Acc_mana);
   };
   //getEdit_Trans
   const EditTrans = async () => {
-    console.log(EditFam,"EditFamKHUNNNN")
+    // console.log(EditFam,"EditFamKHUNNNN")
       try {
         const response = await axios
           .get(
-            `http://10.17.162.238:5000/getEdit_Trans?FamNo=${EditFam}`
+            `http://10.17.100.183:5000/getEdit_Trans?FamNo=${EditFam}`
           );
           const data = await response.data;
-          console.log(data,"dataaaaaaaaSSSSSSSSSSSS")
+          // console.log(data,"dataaaaaaaaSSSSSSSSSSSS")
           const date = new Date(data[0][8]); // สร้างวัตถุ Date จากวันที่
           const month = date.getMonth() + 1;
           const formattedMonth = month < 10 ? '0' + month : month; // เดือน (จำนวนเดือนเริ่มจาก 0)
@@ -841,7 +841,7 @@ setselectacc_manager(Acc_mana);
             data[0][42]
      
           ]
-          console.log(DataTrans,"<<<<<<<<<<<<<")
+          // console.log(DataTrans,"<<<<<<<<<<<<<")
           const data_trans = JSON.stringify(DataTrans);
           localStorage.setItem("TransForDetail", data_trans);
           const data_routing = JSON.stringify(DataRouting);

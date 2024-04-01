@@ -8,7 +8,7 @@ function Pageload({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const onCloseCancel = () => {
-    console.log("ปิด");
+    // console.log("ปิด");
     onClose();
   };
 

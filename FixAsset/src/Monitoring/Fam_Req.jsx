@@ -42,7 +42,7 @@ import PageLoadding from "../Loadding/Pageload";
 function ForRequest() {
   const navigate = useNavigate();
  const VIEW_FAM = localStorage.getItem("EDIT")
- console.log(VIEW_FAM,"VIEW_FAM")
+ // console.log(VIEW_FAM,"VIEW_FAM")
   const  NextPage = async () => {
    
     window.location.href = `/FamTrans`;
@@ -54,11 +54,11 @@ function ForRequest() {
   };
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-  // console.log(For_Ed_FixCode, "For_Ed_FixCode");
+  // // console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit", For_Rq_Edit);
+  // console.log("For_Rq_Edit", For_Rq_Edit);
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
@@ -78,10 +78,10 @@ function ForRequest() {
   const queryParams = new URLSearchParams(window.location.search);
 
   // const VIEW_FAM = queryParams.get("VIEW_FAM");
-  // console.log(VIEW_FAM, "VIEW");
-  // console.log(DataDetailfamno, "VIEW2");
+  // // console.log(VIEW_FAM, "VIEW");
+  // // console.log(DataDetailfamno, "VIEW2");
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `http://10.17.100.183:5000/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -94,7 +94,7 @@ function ForRequest() {
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],
         });
-        // console.log(response);
+        // // console.log(response);
         // สร้างลิงก์
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
@@ -114,14 +114,14 @@ function ForRequest() {
   useEffect(() => {
     openPopupLoadding();
     const fetchData = () => {
-      axios.post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
+      axios.post("http://10.17.100.183:5000/FAM_FILE_ATTACH", {
         FamNo: VIEW_FAM,
       })
       .then((res) => {
         const data = res.data;
         if (data.length > 0) {
           setFiledata(data);
-          // console.log(data);
+          // // console.log(data);
         }
       })
       .catch((error) => {
@@ -132,10 +132,10 @@ function ForRequest() {
     const FAM_Hearder = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Hearder_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
-        console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
+        // console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
         setDatafamno(data);
       } catch (error) {
         console.error("Error RequesterORType:", error);
@@ -144,10 +144,10 @@ function ForRequest() {
     const FAM_Detail = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
+          `http://10.17.100.183:5000/getData_Detail_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
-        console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
+        // console.log(data, "ข้อมูลที่ไปทำการเช็ค FAM NO Header");
         setDataDetailfamno(data);
       } catch (error) {
         console.error("Error RequesterORType:", error);
@@ -697,7 +697,7 @@ function ForRequest() {
                               <TableCell>
                                 {COMP.map((compItem) => {
                                   if (compItem[1] === item[3]) {
-                                    console.log(compItem[0], "RRRRRR");
+                                    // console.log(compItem[0], "RRRRRR");
                                     return compItem[2];
                                   }
                                   return null;
