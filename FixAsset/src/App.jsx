@@ -16,7 +16,7 @@ import FAMMaster from './Transaction/Search'
 import FamReq from './Monitoring/Fam_Req'
 import FamTrans from './Monitoring/Fam_Trans'
 import VIEW_Fammaster from './Monitoring/Fam_Req';
-import Mail from './Mail/Mail'
+// import Mail from './Mail/Mail'
 
 // process.env.NODE_ENV = 'production';
 
@@ -42,7 +42,7 @@ const App = () => {
         <Route path="/FamReq" element={<FamReq />} />
         <Route path="/FamTrans" element={<FamTrans />} />
         <Route path="/VIEW_Fammaster" element={<VIEW_Fammaster />} />
-        <Route path="/Mail" element={<Mail />} />
+        {/* <Route path="/Mail" element={<Mail />} /> */}
         
         
         
