@@ -3272,7 +3272,8 @@ module.exports.fix_code_find = async function (req, res) {
     F.FRD_COMP ,T.FAM_REQ_STATUS 
     FROM FAM_REQ_DETAIL F 
     LEFT JOIN FAM_REQ_HEADER T ON T.FRH_FAM_NO = F.FRD_FAM_NO 
-    WHERE F.FRD_ASSET_CODE  = :assetcode AND T.FAM_REQ_STATUS <> 'FLTR013'
+    WHERE F.FRD_ASSET_CODE  = :assetcode 
+    AND T.FAM_REQ_STATUS NOT IN ('FLTR013','FLTR999')
     ORDER BY FRD_COMP ASC
            `;
            const data = {
@@ -3298,7 +3299,7 @@ module.exports.get_COMP = async function (req, res) {
     FROM AVO.FAM_REQ_HEADER FH 
     INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
     WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${Fam_no}', 1, 6)
-        AND (FH.FAM_REQ_STATUS <> 'FLTR013')
+        AND FH.FAM_REQ_STATUS NOT IN ('FLTR013','FLTR999')
            `;
     const result = await connect.execute(query);
     connect.release();

@@ -686,9 +686,9 @@ console.log("KKKKKKKKK")
       } catch (error) {
         //console.error("Error during login:", error);
       }
-console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
+console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
       // const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
-      asset
+     
       const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
       try {
         const response = await axios.get(
@@ -699,12 +699,12 @@ console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-        
-          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus);
+        console.log("yyyyy")
+          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus,asset[0][2]);
         } else {
           let FamNo_new = Run + "-0001";
-
-          Tranfer_ins(FamNo_new, DataStatus);
+          console.log("ooooo")
+          Tranfer_ins(FamNo_new, DataStatus,asset[0][2]);
         }
       } catch (error) {
         //console.error("Error during login:", error);
@@ -730,7 +730,29 @@ console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
     }
     closePopupLoadding();
   };
-  const Tranfer_ins = async (running_no, DataStatus) => {
+  const Tranfer_ins = async (running_no, DataStatus,nameasset) => {
+    console.log("running_no:", running_no);
+    console.log("LocalUserLogin:", LocalUserLogin);
+    console.log("Tel1:", Tel1);
+    console.log("Factory[1]:", Factory[1]);
+    console.log("Costcenter1:", Costcenter1);
+    console.log("selectDept1:", selectDept1);
+    console.log("Request_type1:", Request_type1);
+    console.log("selectFixAssetgroup1:", selectFixAssetgroup1);
+    console.log("owner_dept:", owner_dept);
+    // console.log("dataFix_Asset_Cost[0][2]:", dataFix_Asset_Cost[0][2]);
+    console.log("datasset",nameasset)
+    console.log("DataStatus[0]:", DataStatus[0]);
+    console.log("DataStatus[1]:", DataStatus[1]);
+    console.log("Remark:", Remark);
+    console.log("selectFixAssetgroup1[1]:", selectFixAssetgroup1[1]);
+    console.log("Emp_name:", Emp_name);
+    console.log("owner_req:", owner_req);
+    console.log("owner_dept:", owner_dept);
+    console.log("owner_tel:", owner_tel);
+    console.log("name_req:", name_req, "44444");
+    
+
     setGen_Fam_No(running_no);
     const setData_ForRequester = [
       running_no,
@@ -742,7 +764,7 @@ console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
       Request_type1,
       selectFixAssetgroup1,
       owner_dept,
-      dataFix_Asset_Cost[0][2],
+      nameasset,
       DataStatus[0],
       DataStatus[1],
       Remark,
@@ -758,8 +780,9 @@ console.log(asset[0][0],"dataFix_Asset_Cost[0][0]")
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
+      console.log("เข้า")
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${dataFix_Asset_Cost[0][2]}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${nameasset}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
       );
       const data = await response.data;
       setcheckGenNo("hidden");
@@ -1283,13 +1306,7 @@ alert("Please select checkbox");
     
 
   };
-  // const setlocalTable1 = async (newDataTable) => {
-  //   console.log(newDataTable,"nongmay")
-  //   const data = JSON.stringify(newDataTable)
-  //   localStorage.setItem("Edit_Dteail_for_FixedCode",data)
-  //   localStorage.setItem("forDetail",data)
-  // }
-
+  
   const setlocalTable = async (newData) => {
     console.log(newData,"nongmay")
     const data = JSON.stringify(newData)

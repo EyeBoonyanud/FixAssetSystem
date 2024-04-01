@@ -68,6 +68,7 @@ function TransFerDetail() {
         );
         const data = await response.data.flat();
         setDataRoutingFamno(data);
+        console.log(data,"JJJJjj")
         setselectradio_dept(data[1])
         setselectradio_serviceby(data[7])
         setselectradio_boistaff(data[11])

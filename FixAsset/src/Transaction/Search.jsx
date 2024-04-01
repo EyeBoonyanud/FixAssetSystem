@@ -56,7 +56,7 @@ function Issue() {
 
   const [selectcostMul, setselectcostMul] = useState([]);
   const [selectReTypeMul, setselectReTypeMul] = useState([]);
-  const [selectStatus, setselectStatus] = useState("");  
+  const [selectStatus, setselectStatus] = useState(null);  
   const [Status, setStatus] = useState([]);
   const [idStatus, setidStatus] = useState([]);
   
@@ -149,9 +149,7 @@ function Issue() {
   useEffect(() => {
    openPopupLoadding(); 
     const Statuss = localStorage.getItem("STATUS");
-    console.log("Received Status:", Statuss);
     if (Statuss !== null) {
-      console.log("เข้ามาแล้ว", Statuss);
       setdataStatus(Statuss);
       if (dataStatus !== undefined) {
         if (Statuss === "Create") {
@@ -323,7 +321,9 @@ function Issue() {
     const FixAsset = document.getElementById("FixAsset").value;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
-   
+    let chk_sts = ""
+    console.log(selectStatus,"selectStatus")
+    // if(selectStatus = null)
 
     if (Path === "SEARCH") {
       console.log(Date, DateTo, "date");
@@ -532,7 +532,7 @@ function Issue() {
     setSelectAll("")
     setSelectedRows("")
     setidStatus("")
-    setselectStatus("")
+    setselectStatus(null)
     
     
     

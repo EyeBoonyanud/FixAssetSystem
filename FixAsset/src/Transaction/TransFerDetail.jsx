@@ -1990,8 +1990,8 @@ function TransFerDetail() {
               owner_dept: For_Rq_Edit[18],
               owner_tel: For_Rq_Edit[19],
               service_close :selectservice_by,
-                owner_by: owner_roting,
-                service_dt:ServiceDept
+              owner_by: owner_roting,
+              service_dt:ServiceDept
             }
           );
         } catch (error) {
@@ -2070,8 +2070,8 @@ function TransFerDetail() {
               owner_dept: For_Req[16],
               owner_tel: For_Req[17],
               service_close :selectservice_by,
-                owner_by: owner_roting,
-                service_dt:ServiceDept
+              owner_by: owner_roting,
+              service_dt:ServiceDept
             }
           );
         } catch (error) {
@@ -3304,7 +3304,8 @@ function TransFerDetail() {
               owner_dept: For_Req[16],
               owner_tel: For_Req[17],
               service_close :selectservice_by,
-              owner_by: owner_roting
+              owner_by: owner_roting,
+              service_dt:ServiceDept
             }
           );
         } catch (error) {
@@ -3326,7 +3327,13 @@ function TransFerDetail() {
               abnormal_for: abnormal,
               create_by: User,
             }
-          );
+          ); 
+          localStorage.setItem("To",selectservice_by)
+      localStorage.setItem("Genno",For_Req[0])
+      localStorage.setItem("Req_Type",For_Req[6])
+      localStorage.setItem("Req_by",For_Req[1])
+      localStorage.setItem("Status",Status)
+      navigate("/Mail");
           Swal.fire({
             title: "Save Success",
             icon: "success",
@@ -3337,12 +3344,9 @@ function TransFerDetail() {
       }
       // setCheckSubmit("False")
       
-      localStorage.setItem("To",selectservice_by)
-      localStorage.setItem("Genno",For_Req[0])
-      localStorage.setItem("Req_Type",For_Req[6])
-      localStorage.setItem("Req_by",For_Req[1])
-      localStorage.setItem("Status",Status)
-     navigate("/Mail");
+     
+
+     
     }
     
     closePopupLoadding();
