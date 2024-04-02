@@ -31,7 +31,6 @@ function TransFerDetail() {
   // Local Storage
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
-  const View = localStorage.getItem("page")
   const navigate = useNavigate();
 
   // กรณี Insert Localstorage
@@ -43,8 +42,7 @@ function TransFerDetail() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
-  // console.log(For_Req, "VVVVVVVVVV");
-  // // console.log(For_Trans, "For_Trans");
+
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -53,21 +51,11 @@ function TransFerDetail() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
-  // console.log(For_Rq_Edit, "For_Rq_Edit");
-  // console.log(For_edit_trans, "For_edit_trans");
-  // console.log(For_Edit_Rou, "For_Edit_Rou");
 
   // เก็บตัวแปร
   let STS = "";
   let Fam_list = "";
   let servivedept = "";
-  
-
-  // if (ForRequester !== null) {
-  //  STS = For_Req[10];
-  // } else {
-  //   STS = For_Rq_Edit[10];
-  // }
 
   if (For_Req !== null) {
     Fam_list = For_Req[0];
@@ -81,7 +69,6 @@ function TransFerDetail() {
   const SERVICEDEPT = () => {
     setservice_dept(servivedept);
   };
-  let data1_fromboi = "NAKP";
   ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -294,10 +281,8 @@ function TransFerDetail() {
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         openPopupLoadding();
-        // console.log("For_edit_trans[0][6]", For_edit_trans);
         STS = For_Rq_Edit[10];
         Fam_list = For_Rq_Edit[0];
-        // console.log(For_edit_trans[0][5], "For_edit_trans[0][5]");
         setownersend(For_Rq_Edit[20]);
         New_Owner(For_edit_trans[0][1], For_edit_trans[0][0]);
         if (For_edit_trans != null || EditFam != null) {
@@ -379,7 +364,7 @@ function TransFerDetail() {
           //setsts(For_edit_trans[0][14]);
           edit_New_BOI();
           if (For_Edit_Rou != null) {
-            // // console.log("ppp",For_Edit_Rou,"kk",For_edit_trans);
+           
             //set Submit
             if (
               For_Edit_Rou[0][7] === null ||
@@ -394,7 +379,7 @@ function TransFerDetail() {
         
            // 
             if (STS != "FLTR001") {
-               // console.log("For_Edit_Rou[0][2]",For_Edit_Rou[0][2])
+               ("For_Edit_Rou[0][2]",For_Edit_Rou[0][2])
               //setbtnsave("hidden")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
@@ -498,7 +483,7 @@ function TransFerDetail() {
               //readonly
 
               if (STS == "FLTR001" || For_Rq_Edit[16] === "R") {
-                // // console.log("Reject OR Approve", For_Rq_Edit[16]);
+                // ("Reject OR Approve", For_Rq_Edit[16]);
                 setReadTransFac(false);
                 setReadTransCC(false);
                 setReadTel(false);
@@ -1213,7 +1198,7 @@ function TransFerDetail() {
   const handleFactoryCC = async (event) => {
     setselecttrans_factory(event.target.value);
 
-    // // // console.log(For_edit_trans, "rrrrr");
+    // // (For_edit_trans, "rrrrr");
     if (EditFam != null) {
       if (For_edit_trans)  console.log(">>>>>>>>..", event.target.value);
       const data = [
@@ -1233,16 +1218,16 @@ function TransFerDetail() {
       ];
 
       const data_edit = JSON.stringify(data);
-      // // console.log("/////////////////");
+      // ("/////////////////");
       localStorage.setItem("Edit_Trans", data_edit);
       //edit
     } else {
       //insert
-      // // console.log("------bbbbbb---------");
+      // ("------bbbbbb---------");
 
       if (For_Req[0] == "" && For_Req[0] == null) {
         // ยังไม่genfam
-        // // console.log("------>>>>>>>>>>>>>>>>---------");
+        // ("------>>>>>>>>>>>>>>>>---------");
         const setData_forTranfer_Req_Tranfer_Details = [
           Fam_list,
           ownersend,
@@ -1259,7 +1244,7 @@ function TransFerDetail() {
         const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
         localStorage.setItem("For_Transfer", sentdata);
       } else {
-        // // console.log("------///////////----------", For_Trans);
+        // ("------///////////----------", For_Trans);
         const setData_forTranfer_Req_Tranfer_Details = [
           For_Trans[0],
           For_Trans[1],
@@ -1320,7 +1305,7 @@ function TransFerDetail() {
   //     );
   //     const data = response.data;
   //     const boi = data.flat();
-  //     // console.log(boi)
+  //     (boi)
   //     setnew_boi(boi);
 
   //     if (!boi || boi.length === 0) {
@@ -1329,14 +1314,14 @@ function TransFerDetail() {
   //       setnew_boi(boi);
   //     }
   //     if (data_fromboi == "NON BOI" || data_fromboi == boi) {
-  //          // console.log(abnormal,"Nuuuuuuuuuuuuu")
+  //          (abnormal,"Nuuuuuuuuuuuuu")
   //       setsts("N");
   //       setabnormal("");
   //     } else {
-  //       // console.log(abnormal,"Nuuuuuuuuuuuuu")
+  //       (abnormal,"Nuuuuuuuuuuuuu")
 
   //       setsts("Y");
-  //       // // // console.log(abnormal,"Y")
+  //       // // (abnormal,"Y")
   //       setabnormal("Transfer to difference project");
   //     }
   //   } catch (error) {
@@ -1351,7 +1336,7 @@ function TransFerDetail() {
       const data = response.data;
       const boi = data.flat();
       setdatanew_boi(boi);
-      // console.log(boi, "YYYYY");
+      (boi, "YYYYY");
       if (!boi || boi.length === 0) {
         //setnew_boi(boi);
         setdatanew_boi(["NON BOI"]);
@@ -1371,7 +1356,7 @@ function TransFerDetail() {
 
     setErrorCC(false);
     setselecttrans_cc(event);
-    // console.log(event, "55555");
+    (event, "55555");
     New_Owner(transCC, selecttrans_factory);
 
     try {
@@ -1381,7 +1366,7 @@ function TransFerDetail() {
       const data = response.data;
       const boi = data.flat();
       setdatanew_boi(boi);
-      // console.log(boi, "YYYYY");
+      (boi, "YYYYY");
       if (!boi || boi.length === 0) {
         //setnew_boi(boi);
         setdatanew_boi(["NON BOI"]);
@@ -1390,14 +1375,14 @@ function TransFerDetail() {
         setdatanew_boi(boi);
       }
       // if (data_fromboi == "NON BOI" || data_fromboi == boi) {
-      //   // console.log(abnormal,"Nuuuuuuuuuuuuu")
+      //   (abnormal,"Nuuuuuuuuuuuuu")
       //   setsts("N");
       //   setabnormal("");
       // } else {
-      //   // console.log(abnormal,"Nuuuuuuuuuuuuu")
+      //   (abnormal,"Nuuuuuuuuuuuuu")
 
       //   setsts("Y");
-      //   // // // console.log(abnormal,"Y")
+      //   // // (abnormal,"Y")
       //   setabnormal("Transfer to difference project");
       // }
     } catch (error) {
@@ -1405,17 +1390,17 @@ function TransFerDetail() {
     }
   };
   const handleNewboi_proj = async (value) => {
-    // console.log(value, "VVVVVVV");
+    (value, "VVVVVVV");
     let NewPoroj = value;
     if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
-      // console.log(abnormal, "Nuuuuuuuuuuuuu");
+      (abnormal, "Nuuuuuuuuuuuuu");
       setsts("N");
       setabnormal("");
     } else {
       setsts("Y");
-      // // // console.log(abnormal,"Y")
+      // // (abnormal,"Y")
       setabnormal("Transfer to difference project");
-      // console.log(abnormal, "Nuuuuuuuuuuuuu");
+      (abnormal, "Nuuuuuuuuuuuuu");
     }
   };
 
@@ -1427,7 +1412,7 @@ function TransFerDetail() {
         `http://10.17.100.183:5000/new_owner?fac=${selecttrans_factory}&cc=${selecttrans_cc}`
       );
       let data = response.data.flat();
-      // console.log(data, "response.data.flat");
+      (data, "response.data.flat");
       if (data.length == 0) {
         setnew_owner(["No Data"]);
       } else {
@@ -1439,7 +1424,7 @@ function TransFerDetail() {
   };
   const handleNewOwner = (event) => {
     let New_own = event;
-    // console.log(New_own, "event");
+    (New_own, "event");
     if (New_own == "No Data") {
       setselectnew_owner(New_own); // เก็บ select ของ new owner
       setreceiver(New_own);
@@ -1462,7 +1447,7 @@ function TransFerDetail() {
     } else {
       level = For_Req[3];
       cc = For_Req[16];
-      // console.log(For_Req[16], "((((([16]");
+      (For_Req[16], "((((([16]");
     }
 
     try {
@@ -1471,7 +1456,7 @@ function TransFerDetail() {
       );
       const data = response.data.flat();
       setdepartment_mana(data);
-      // console.log(data, "dataDept");
+      (data, "dataDept");
 
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
@@ -1491,7 +1476,7 @@ function TransFerDetail() {
   };
   const Service_By = async () => {
     
-    // console.log(For_Rq_Edit,"For_Req[8]")
+    (For_Rq_Edit,"For_Req[8]")
     let level = "";
     let cc = "";
     if (EditFam != null) {
@@ -1503,14 +1488,14 @@ function TransFerDetail() {
       level = For_Req[3];
       cc = For_Req[0].split("-")[1] ;
     }
-    // console.log(cc,"7777")
+    (cc,"7777")
     try {
       const response = await axios.get(
         `http://10.17.100.183:5000/service_by?level=${level}&cc=${cc}`
       );
       const data = response.data.flat();
       setservice_by(data);
-      // console.log(data,"dataaaaa")
+      (data,"dataaaaa")
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           if (
@@ -1747,7 +1732,7 @@ function TransFerDetail() {
   };
   const Back_page = async () => {
     openPopupLoadding();
-    // console.log("selecttrans_cc", selecttrans_cc);
+    ("selecttrans_cc", selecttrans_cc);
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1756,12 +1741,12 @@ function TransFerDetail() {
     } else {
       
       ServiceDept = For_Req[0].split("-")[1];
-      // console.log(ServiceDept,"ServiceDeptServiceDept")
+      (ServiceDept,"ServiceDeptServiceDept")
     }
 
     if (EditFam != null) {
-      // console.log("kulllllllllllllllllllllllllllllll");
-      // // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
+      ("kulllllllllllllllllllllllllllllll");
+      // ("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
       try {
         const response = await axios.post(
           "http://10.17.100.183:5000/Update_For_Req_All",
@@ -1814,7 +1799,7 @@ function TransFerDetail() {
         //console.error("Error during login:", error);
       }
       try {
-        // console.log(For_Rq_Edit[1], "For_Rq_Edit[1]");
+        (For_Rq_Edit[1], "For_Rq_Edit[1]");
         const response = await axios.post(
           `http://10.17.100.183:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
         );
@@ -1823,7 +1808,7 @@ function TransFerDetail() {
         //console.error("Error during login:", error);
       }
       try {
-        // console.log("bbbb");
+        ("bbbb");
         const response = await axios.post(
           `http://10.17.100.183:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
         );
@@ -1866,7 +1851,7 @@ function TransFerDetail() {
       ];
       const sendheader = JSON.stringify(set_data_for_req_details);
       localStorage.setItem("For_Routing", sendheader);
-      // // console.log("TTTTTTTTTTTT")
+      // ("TTTTTTTTTTTT")
       try {
         const response = await axios.post(
           "http://10.17.100.183:5000/Update_For_Req_All",
@@ -1897,7 +1882,7 @@ function TransFerDetail() {
       } catch (error) {
         //     console.error("Error updating submit status:", error.message);
       }
-      // // console.log("sts", sts);
+      // ("sts", sts);
       try {
         const response = await axios.post(
           `http://10.17.100.183:5000/create_date?tranfer=${Fam_list}`
@@ -1936,11 +1921,11 @@ function TransFerDetail() {
   };
   // ปุ่ม SAVE
   const SAVE = async () => {
-    // console.log("EditFam", EditFam);
-    // console.log("data_fromboi", data_fromboi);
-    // console.log(text_acc_check,"UUU",selectacc_check,service_by)
+    ("EditFam", EditFam);
+    ("data_fromboi", data_fromboi);
+    (text_acc_check,"UUU",selectacc_check,service_by)
 
-    // // console.log(For_Req,)
+    // (For_Req,)
     let ServiceDept = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
@@ -1949,7 +1934,7 @@ function TransFerDetail() {
     } else {
       
       ServiceDept = For_Req[0].split("-")[1];
-      // console.log(ServiceDept,"ServiceDeptServiceDept")
+      (ServiceDept,"ServiceDeptServiceDept")
     }
 
 
@@ -1967,7 +1952,7 @@ function TransFerDetail() {
     if (confirmResult.isConfirmed) {
       setCheckSave("True");
       if (EditFam != null) {
-        // // console.log("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
+        // ("มาจ้า อิอิ",For_Rq_Edit[0],For_Rq_Edit[12],For_Rq_Edit[3])
         try {
           const response = await axios.post(
             "http://10.17.100.183:5000/Update_For_Req_All",
@@ -2020,7 +2005,7 @@ function TransFerDetail() {
           //console.error("Error during login:", error);
         }
         try {
-          // console.log(For_Rq_Edit[1], "For_Rq_Edit[1]");
+          (For_Rq_Edit[1], "For_Rq_Edit[1]");
           const response = await axios.post(
             `http://10.17.100.183:5000/update_new_cc?fam=${EditFam}&New_cc=${selecttrans_cc}&updateby=${For_Rq_Edit[2]}`
           );
@@ -2029,7 +2014,7 @@ function TransFerDetail() {
           //console.error("Error during login:", error);
         }
         try {
-          // console.log("bbbb");
+          ("bbbb");
           const response = await axios.post(
             `http://10.17.100.183:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
           );
@@ -2047,7 +2032,7 @@ function TransFerDetail() {
         setCheckSave("False");
         // navigate("/Search")
       } else {
-        // // console.log("TTTTTTTTTTTT")
+        // ("TTTTTTTTTTTT")
         try {
           const response = await axios.post(
             "http://10.17.100.183:5000/Update_For_Req_All",
@@ -2077,7 +2062,7 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        // // console.log("sts", sts);
+        // ("sts", sts);
         try {
           const response = await axios.post(
             `http://10.17.100.183:5000/create_date?tranfer=${Fam_list}`
@@ -2134,7 +2119,7 @@ function TransFerDetail() {
     } else {
       
       ServiceDept = For_Req[0].split("-")[1];
-      // console.log(ServiceDept,"ServiceDeptServiceDept")
+      (ServiceDept,"ServiceDeptServiceDept")
     }
 
     if (EditFam != null) {
@@ -2254,7 +2239,7 @@ function TransFerDetail() {
         plan_date === "" ||
         plan_date === "null"
       ) {
-        // // console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
+        // ("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU", plan_date);
         setErrorDate(true);
         alert("Please fill in information: Date");
         return;
@@ -2436,7 +2421,7 @@ function TransFerDetail() {
         setErrorCC(true);
         return;
       } else {
-        // // console.log("YYYYYYYY");
+        // ("YYYYYYYY");
         setErrorCC(false);
       }
 
@@ -2595,10 +2580,10 @@ function TransFerDetail() {
       // SUBMIT ตามเงื่อนไข Status
       if (For_Rq_Edit != null) {
         if (For_Rq_Edit[10] === "FLTR001") {
-          // console.log(For_Rq_Edit[0], " For_Rq_Edit[0]");
+          (For_Rq_Edit[0], " For_Rq_Edit[0]");
           let Status = "FLTR002";
           try {
-            // // console.log("For_Rq_Edit", For_Rq_Edit[0]);
+            // ("For_Rq_Edit", For_Rq_Edit[0]);
             const response = await axios.post(
              "http://10.17.100.183:5000/Update_For_Req_All",
               {
@@ -2656,7 +2641,7 @@ function TransFerDetail() {
             //console.error("Error during login:", error);
           }
           try {
-            // console.log("bbbb");
+            ("bbbb");
             const response = await axios.post(
               `http://10.17.100.183:5000/update_for_date_trans?fam=${For_Rq_Edit[0]}&updateby=${For_Rq_Edit[2]}`
             );
@@ -2783,7 +2768,7 @@ function TransFerDetail() {
           }
         } else if (For_Rq_Edit[10] === "FLTR002") {
           let Status = "";
-          // console.log(selectradio_dept,"[[[[selectradio_dept")
+          (selectradio_dept,"[[[[selectradio_dept")
           if (selectradio_dept == "A") {
             Status = "FLTR003";
           } else if (selectradio_dept == "R") {
@@ -3258,7 +3243,7 @@ function TransFerDetail() {
     } else {
       // Submit กรณี insert
       if (For_Req[10] === "FLTR001") {
-        // // console.log(For_Req[10], "Vkppppppppppppppppppp");
+        // (For_Req[10], "Vkppppppppppppppppppp");
         let Status = "FLTR002";
         try {
           const response = await axios.post(
@@ -3308,7 +3293,7 @@ function TransFerDetail() {
         } catch (error) {
           //     console.error("Error updating submit status:", error.message);
         }
-        // // console.log("sts", sts);
+        // ("sts", sts);
         try {
           const response = await axios.post(
             "http://10.17.100.183:5000/Update_For_Trans_All",
@@ -3710,7 +3695,7 @@ function TransFerDetail() {
                   </td>
                   <td className="Style5" colSpan={3}></td>
                 </tr>
-                {/* {// // console.log("PAGE_STATUS === EDIT", STS)} */}
+                {/* {// ("PAGE_STATUS === EDIT", STS)} */}
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">New Owner :</Typography>
@@ -3808,7 +3793,7 @@ function TransFerDetail() {
                       Plan Remove Date :
                     </Typography>
                   </td>
-                  {/* {// // console.log(ErrorDate, plan_date, "************")} */}
+                  {/* {// (ErrorDate, plan_date, "************")} */}
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -4007,7 +3992,7 @@ function TransFerDetail() {
                 </tr>
                 {/* { STS === "FLTR002" && (    
                   <> */}
-                {/* {// console.log(STS1,":::::::::::::::::::::::::::::::")} */}
+                {/* {(STS1,":::::::::::::::::::::::::::::::")} */}
                 <tr
                   // style={{display:''}}
                   style={{ display: CM_DepartmentManager }}
@@ -5264,7 +5249,7 @@ function TransFerDetail() {
       <div>
         <div className="Style8">
           <Box>
-            {/* {// console.log(STS1, "GGGGGGGGGG")} */}
+            {/* {(STS1, "GGGGGGGGGG")} */}
             <table>
               <tr>
                 <td

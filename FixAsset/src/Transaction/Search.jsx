@@ -588,9 +588,9 @@ function Issue() {
         //   await axios.post(
         //  `http://10.17.100.183:5000/delect_all_fam_details?famno=${item}`
         //   );
-        //   await axios.post(
-        //    `http://10.17.100.183:5000/delete_all_file?famno=${item}`
-        //   ); 
+          await axios.post(
+           `http://10.17.100.183:5000/delete_all_file?famno=${item}`
+          ); 
         //   await axios.post(
         //   `http://10.17.100.183:5000/delect_all_fam_header?famno=${item}`
         //   );
