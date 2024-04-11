@@ -1,73 +1,58 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Page/Hearder";
 import "../Page/Style.css";
-import Paper from "@mui/material/Paper";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import Tooltip from "@mui/material/Tooltip";
 import {
   Typography,
   FormControl,
   TableRow,
   Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   Select,
   MenuItem,
-  Grid,
   TextField,
   Button,
   InputLabel,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
 import CloseIcon from "@mui/icons-material/Close";
 import Autocomplete from "@mui/material/Autocomplete";
 import PageLoadding from "../Loadding/Pageload";
 
-function Boi_maintain({ isOpen, onClose, searchFunction }) {
+function person_maintain_new({ isOpen, onClose, searchFunction }) {
   if (!isOpen) return null;
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
-  const API ='10.17.74.202';
-
+  const [datafac, setdatafac] = useState([]);
+  const [datalevel, setdatalevel] = useState([]);
+  const [selecteDatalevel, setselecteDatalevel] = useState("");
   const [selecteDatafac, setselecteDatafac] = useState("");
-  const [BOI_Project, setBOI_Project] = useState("");
+  const [cost, setcost] = useState([]);
   const [selectcost, setselectcost] = useState("");
+  const [username, setusername] = useState("");
+  const [email, setemail] = useState("");
   const [Date_show, setDate_show] = useState("");
   const [Date_show_update, setDate_show_update] = useState("");
   const [user_create, setuser_create] = useState("");
   const [user_update, setuser_update] = useState("");
-  const [Comment, setComment] = useState("");
-  const [status, setStatus] = useState("A");
-  const [datafac, setdatafac] = useState([]);
-  const [BOI_name, setBOI_name] = useState([]);
-  const [cost, setcost] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [User_Login, setUser_Login] = useState("");
+  const [status, setStatus] = useState("A");
   const PAGE_STATUS = localStorage.getItem("PAGE_STATUS");
-  const [ErrorBOI_P, setErrorBOI_P] = useState(false); //
   const [ErrorFac, setErrorFac] = useState(false);
+  const [ErrorLevel, setErrorLevel] = useState(false);
   const [ErrorCost, setErrorCost] = useState(false);
+  const [ErrorUserLogin, setErrorUserLogin] = useState(false);
+  const [ErrorEmail, setErrorEmail] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
-  const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
   // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
   const onCloseCancel = () => {
-    // console.log("ปิด");
-    setErrorBOI_P(false);
     setErrorFac(false);
     onClose();
   };
@@ -86,15 +71,17 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
 
     if (PAGE_STATUS === "NEW") {
       setselecteDatafac("");
+      setselecteDatalevel("");
       setselectcost("");
-      setBOI_Project("");
-      setComment("");
+      setUser_Login("");
+      setusername("");
+      setemail("");
       setStatus("A");
       setuser_create(UserLoginn);
       setuser_update(UserLoginn);
     } else {
-      // console.log("CASE EDIT", DATA_EDIT);
-      const EDIT = localStorage.getItem("BOI_Edit");
+      const EDIT = localStorage.getItem("Person_Edit");
+      // console.log("show data edit", EDIT);
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
       const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
@@ -106,59 +93,59 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         combinedArray02,
         DATA_EDIT_02.slice(3)
       );
-      const combinedArray03 = [DATA_EDIT_03.slice(2, 3)];
+      const combinedArray03 = [DATA_EDIT_03.slice(2, 4)];
       const DATA_EDIT = DATA_EDIT_03.slice(0, 2).concat(
         combinedArray03,
-        DATA_EDIT_03.slice(3)
+        DATA_EDIT_03.slice(4)
       );
-      console.log(DATA_EDIT,"DATA BOI");
-      set_DATA_EDIT_RESET(DATA_EDIT);
-      setselecteDatafac(DATA_EDIT[1]);
-      setselectcost(DATA_EDIT[0]);
-      setBOI_Project(DATA_EDIT[2]);
-      setStatus(DATA_EDIT[3]);
-      setComment(DATA_EDIT[4]);
+    
+      // console.log("CASE EDIT", DATA_EDIT);
+      setselecteDatafac(DATA_EDIT[0]);
+      setselecteDatalevel(DATA_EDIT[1]);
+      setselectcost(DATA_EDIT[2]);
+      setUser_Login(DATA_EDIT[3]);
+      Check_Username_Email(DATA_EDIT[3]);
+      setemail(DATA_EDIT[4]);
+      setStatus(DATA_EDIT[5]);
       setuser_create(DATA_EDIT[6]);
       setuser_update(UserLoginn);
-      setDate_show(DATA_EDIT[5]);
+      setDate_show(DATA_EDIT[7]);
       setDate_show_update(formattedDate);
     }
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(
-            `/getfactory`
-          );
+          const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
-          console.error("Error during login:", error);
+          console.error("Error during fetching factory data:", error);
         }
       };
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`/getcost`);
+          const response = await axios.get(`http://10.17.162.238:5000/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
-          console.error("Error during login:", error);
+          console.error("Error during fetching cost data:", error);
         }
       };
-      const BOI_Project_name = async () => {
+
+      const Level = async () => {
         try {
-          const response = await axios.get(
-            `/get_BOI_project_name`
-          );
-          const BOI_name = await response.data;
-          setBOI_name(BOI_name);
+          const response = await axios.get(`http://10.17.162.238:5000/getlevel`);
+          const LevelData = await response.data;
+          setdatalevel(LevelData);
         } catch (error) {
-          console.error("Error during login:", error);
+          console.error("Error during fetching level data:", error);
         }
       };
+
       await Factory();
       await Costcenter();
-      await BOI_Project_name();
+      await Level();
       closePopupLoadding();
     };
 
@@ -170,42 +157,45 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     setErrorFac(false);
   };
 
+  const handlelevel = (event, newValue) => {
+    setselecteDatalevel(newValue);
+    setErrorLevel(false);
+  };
+
   const handleCost = (event, newValue) => {
     setselectcost(newValue);
     setErrorCost(false);
   };
 
-  const handleSelectBOI_name = async (event, newValue) => {
-    setBOI_Project(newValue);
-    setErrorBOI_P(false);
-  };
+  const navigate = useNavigate();
 
   const Save = async () => {
+    // console.log("FACTORY CHECK", selecteDatafac);
+    // console.log("LEVEL CHECK", selecteDatalevel);
+    // console.log("COST CENTER CHECK", selectcost);
+    // console.log("USER LOGIN CHECK", User_Login);
+    // console.log("EMAIL CHECK", email);
+    // console.log("STATUS CHECK", status);
+    // console.log("CREATE BY CHECK", UserLoginn);
+    // console.log("CREATE DATE CHECK", Date_show);
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
     }
-    if (selectcost.toString().trim() === "") {
+    if (!selecteDatalevel || selecteDatalevel.toString().trim() === "") {
+      setErrorLevel(true);
+    }
+    if (!selectcost || selectcost.toString().trim() === "") {
       setErrorCost(true);
     }
-    if (BOI_Project.toString().trim() === "") {
-      setErrorBOI_P(true);
+    if (!User_Login || User_Login.toString().trim() === "") {
+      setErrorUserLogin(true);
     }
-    if (status.trim() === "") {
+    if (!email || email.toString().trim() === "") {
+      setErrorEmail(true);
+    }
+    if (!status || status.toString().trim() === "") {
       setErrorStatus(true);
     }
-    if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
-      document.getElementById("selecteDatafac").focus();
-    }
-    if (selectcost.toString().trim() === "") {
-      document.getElementById("selectcost").focus();
-    }
-    if (BOI_Project.toString().trim() === "") {
-      document.getElementById("BOI_Project").focus();
-    }
-    if (status.trim() === "") {
-      document.getElementById("status").focus();
-    }
-
     swal(
       "Do you want to save information",
 
@@ -226,27 +216,31 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           if (PAGE_STATUS === "NEW") {
             if (
               selecteDatafac &&
+              selecteDatalevel &&
               selectcost &&
-              BOI_Project &&
+              User_Login &&
+              email &&
               status &&
               UserLoginn &&
               Date_show
             ) {
               try {
                 const response = await axios.post(
-                  `/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.162.238:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
                 );
+                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
+                  selecteDatalevel,
                   selectcost,
-                  BOI_Project,
+                  [User_Login],
                 ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-                
-                onClose();
+
                 searchFunction();
+                onClose();
               } catch (error) {
                 console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
               }
@@ -261,27 +255,32 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           } else {
             if (
               selecteDatafac &&
+              selecteDatalevel &&
               selectcost &&
-              BOI_Project &&
+              User_Login &&
+              email &&
               status &&
               UserLoginn &&
               Date_show
             ) {
               try {
                 const response = await axios.post(
-                  `/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}&FBMC_update_by=${UserLoginn}`
+                  `http://10.17.162.238:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
                 );
 
+                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
+                  selecteDatalevel,
                   selectcost,
-                  BOI_Project,
+                  [User_Login],
                 ];
                 const sentdata_back_search = JSON.stringify(DATA_BACK_SEARCH);
                 localStorage.setItem("DATA_BACK_SEARCH", sentdata_back_search);
-                onClose();
+
                 searchFunction();
+                onClose();
               } catch (error) {
                 console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
               }
@@ -299,41 +298,75 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
     });
   };
 
+
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
       setErrorFac(false);
-      setErrorBOI_P(false);
+      setErrorLevel(false);
       setErrorCost(false);
+      setErrorUserLogin(false);
+      setErrorEmail(false);
+      setErrorStatus(false);
       setselecteDatafac("");
+      setselecteDatalevel("");
       setselectcost("");
-      setBOI_Project("");
-      setComment("");
+      setUser_Login("");
+      setusername("");
+      setemail("");
       setStatus("A");
+      UserLoginn("");
+      setDate_show("");
+      setDate_show_update("");
     } else {
-      setErrorFac(false);
-      setErrorBOI_P(false);
-      setErrorCost(false);
-      setselecteDatafac(DATA_EDIT_RESET[1]);
-      setselectcost(DATA_EDIT_RESET[0]);
-      setBOI_Project(DATA_EDIT_RESET[2]);
-      setComment(DATA_EDIT_RESET[4]);
-      setStatus(DATA_EDIT_RESET[3]);
-      setuser_create(DATA_EDIT_RESET[6]);
-      setuser_update(UserLoginn);
-      setDate_show(DATA_EDIT_RESET[5]);
-      setDate_show_update(formattedDate);
+      setErrorEmail(false);
+      setErrorStatus(false);
+      setemail(DATA_EDIT[4]);
+      setStatus(DATA_EDIT[5]);
     }
   };
 
-  const handleBOI_Project = (event) => {
-    const dataBoi_P = event.target.value;
-    setBOI_Project(dataBoi_P);
-    setErrorBOI_P(false);
+  const handleUserLogin = (event) => {
+    const user_login = event.target.value;
+    Check_Username_Email(user_login);
+    setUser_Login(user_login);
+    setErrorUserLogin(false);
+    setErrorEmail(false);
   };
 
-  const handleComment = (event) => {
-    const dataComment = event.target.value;
-    setComment(dataComment);
+  const handleEmail = (event) => {
+    const Email = event.target.value;
+    setemail(Email);
+    setErrorEmail(false);
+  };
+
+  const Check_Username_Email = async (user_login) => {
+    // console.log("Check_Username_Email :", user_login);
+    try {
+      const getDatalogin_show = await axios.get(
+        `http://10.17.162.238:5000/getData_UserLogin_Person?User_Login=${user_login}`
+      );
+      const data = await getDatalogin_show.data;
+      console.log("Show data Email =", data);
+      if (data && data.length > 0) {
+        const USERNAME = data[0][0];
+        const EMAIL = data[0][1];
+        if (PAGE_STATUS === "NEW") {
+          setusername(data[0][0]);
+          setemail(data[0][1]);
+        } else {
+          setusername(data[0][0]);
+        }
+
+        localStorage.setItem("USERNAME", USERNAME);
+        localStorage.setItem("EMAIL", EMAIL);
+      } else {
+        setusername("");
+        setemail("");
+        console.error("User Login file");
+      }
+    } catch (error) {
+      console.error("Error requesting data:", error);
+    }
   };
 
   const handleChange = (event) => {
@@ -357,6 +390,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           isOpen={isPopupOpenLoadding}
           onClose={closePopupLoadding}
         />
+        {/* Factiory and Level */}
         <Table className="PopupEditPerson">
           <TableRow>
             <TableCell>
@@ -366,7 +400,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             </TableCell>
             <TableCell>
               <Typography>
-                Cost Center <span class="red-star">*</span>
+                Level <span class="red-star">*</span>
               </Typography>
             </TableCell>
           </TableRow>
@@ -381,6 +415,13 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   }
                   value={selecteDatafac || null}
                   onChange={handleSelectChange}
+                  disabled={PAGE_STATUS === "EDIT"}
+                  sx={{
+                    backgroundColor:
+                      PAGE_STATUS === "EDIT"
+                        ? "rgba(169, 169, 169, 0.3)"
+                        : "inherit",
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -395,6 +436,59 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             </TableCell>
             <TableCell>
               {" "}
+              <FormControl fullWidth>
+                <Autocomplete
+                  options={datalevel}
+                  getOptionLabel={(option) =>
+                    typeof option[1] !== "undefined" ? option[1] : ""
+                  }
+                  value={selecteDatalevel || null}
+                  onChange={handlelevel}
+                  disabled={PAGE_STATUS === "EDIT"}
+                  sx={{
+                    backgroundColor:
+                      PAGE_STATUS === "EDIT"
+                        ? "rgba(169, 169, 169, 0.3)"
+                        : "inherit",
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={!selecteDatalevel ? "Select" : undefined}
+                      size="small"
+                      variant="outlined"
+                      error={ErrorLevel}
+                    />
+                  )}
+                />
+              </FormControl>
+            </TableCell>
+          </TableRow>
+
+          <TableRow style={{ height: "25px" }}>
+            <TableCell>
+              <Typography style={{ fontSize: "small", color: "red" }}>
+                {ErrorFac ? "Please key value in factory" : null}
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography style={{ fontSize: "small", color: "red" }}>
+                {ErrorLevel ? "Please key value in level" : null}
+              </Typography>
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell colSpan={2}>
+              {" "}
+              <Typography>
+                Cost Center <span class="red-star">*</span>
+              </Typography>
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell colSpan={2}>
               <FormControl fullWidth>
                 <Autocomplete
                   options={cost}
@@ -425,12 +519,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           </TableRow>
 
           <TableRow style={{ height: "25px" }}>
-            <TableCell>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorFac ? "Please key value in factory" : null}
-              </Typography>
-            </TableCell>
-            <TableCell>
+            <TableCell colSpan={2}>
               <Typography style={{ fontSize: "small", color: "red" }}>
                 {ErrorCost ? "Please key value in cost center" : null}
               </Typography>
@@ -441,71 +530,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
             <TableCell>
               {" "}
               <Typography>
-                BOI Project <span class="red-star">*</span>
-              </Typography>
-            </TableCell>
-          </TableRow>
-
-          <TableRow>
-            {/* <TableCell colSpan={2}>
-              {" "}
-              <TextField
-                id="UserLogin"
-                size="small"
-                value={BOI_Project}
-                onChange={handleBOI_Project}
-                disabled={PAGE_STATUS === "EDIT"}
-                sx={{
-                  backgroundColor:
-                    PAGE_STATUS === "EDIT"
-                      ? "rgba(169, 169, 169, 0.3)"
-                      : "inherit",
-                }}
-                style={{
-                  width: "100%",
-                  borderColor: ErrorBOI_P ? "red" : undefined,
-                }}
-                error={ErrorBOI_P}
-              ></TextField>
-            </TableCell> */}
-            <TableCell colSpan={2}>
-              {" "}
-              <FormControl fullWidth>
-                <Autocomplete
-                  options={BOI_name}
-                  getOptionLabel={(option) =>
-                    typeof option[0] !== "undefined" ? option[0] : ""
-                  }
-                  value={BOI_Project || null}
-                  onChange={handleSelectBOI_name}
-                  disabled={PAGE_STATUS === "EDIT"}
-                  sx={{
-                    backgroundColor:
-                      PAGE_STATUS === "EDIT"
-                        ? "rgba(169, 169, 169, 0.3)"
-                        : "inherit",
-                  }}
-                  style={{
-                    width: "100%",
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={!BOI_Project ? "Select" : undefined}
-                      size="small"
-                      variant="outlined"
-                      error={ErrorBOI_P}
-                    />
-                  )}
-                />
-              </FormControl>
-            </TableCell>
-          </TableRow>
-
-          <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography style={{ fontSize: "small", color: "red" }}>
-                {ErrorBOI_P ? "Please key value in BOI project" : null}
+                User Login <span class="red-star">*</span>
               </Typography>
             </TableCell>
           </TableRow>
@@ -513,28 +538,52 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>Comment</Typography>
-            </TableCell>
-          </TableRow>
-
-          <TableRow>
-            <TableCell colSpan={2}>
-              {" "}
               <TextField
                 id="UserLogin"
                 size="small"
-                value={Comment}
-                onChange={handleComment}
-                style={{
-                  width: "100%",
+                value={User_Login}
+                onChange={handleUserLogin}
+                disabled={PAGE_STATUS === "EDIT"}
+                sx={{
+                  backgroundColor:
+                    PAGE_STATUS === "EDIT"
+                      ? "rgba(169, 169, 169, 0.3)"
+                      : "inherit",
+                }}
+                error={ErrorUserLogin}
+                style={{ width: "100%" }}
+              ></TextField>
+            </TableCell>
+            <TableCell>
+              {" "}
+              <TextField
+                id="Username"
+                size="small"
+                style={{ width: "100%" }}
+                value={username}
+                disabled
+                sx={{
+                  backgroundColor: "rgba(169, 169, 169, 0.3)",
                 }}
               ></TextField>
             </TableCell>
           </TableRow>
 
-          <TableRow style={{ height: "25px" }}></TableRow>
+          <TableRow style={{ height: "25px" }}>
+            <TableCell colSpan={2}>
+              <Typography style={{ fontSize: "small", color: "red" }}>
+                {ErrorUserLogin ? "Please key value in user login" : null}
+              </Typography>
+            </TableCell>
+          </TableRow>
 
           <TableRow>
+            <TableCell>
+              {" "}
+              <Typography>
+                Email <span class="red-star">*</span>
+              </Typography>
+            </TableCell>
             <TableCell>
               {" "}
               <Typography>
@@ -544,6 +593,17 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           </TableRow>
 
           <TableRow>
+            <TableCell>
+              {" "}
+              <TextField
+                id="Email"
+                size="small"
+                value={email}
+                onChange={handleEmail}
+                style={{ width: "100%" }}
+                error={ErrorEmail}
+              ></TextField>
+            </TableCell>
             <TableCell>
               {" "}
               <FormControl fullWidth>
@@ -557,18 +617,12 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   labelId="demo-simple-select-label"
                   label={!status ? "Select" : undefined}
                   size="small"
-                  value={status} // Set the value from state
-                  onChange={handleChange}
                   style={{
                     width: "100%",
-                    borderColor: ErrorStatus ? "red" : undefined,
                   }}
+                  value={status} // Set the value from state
+                  onChange={handleChange}
                   error={ErrorStatus}
-                  helperText={
-                    ErrorStatus
-                      ? "กรุณาใส่ค่าใน Factory ก่อนกด Save"
-                      : undefined
-                  }
                 >
                   <MenuItem value="A">Active</MenuItem>
                   <MenuItem value="I">In Active</MenuItem>
@@ -578,17 +632,22 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           </TableRow>
 
           <TableRow style={{ height: "25px" }}>
-            <TableCell colSpan={2}>
-              <Typography
-                style={{ fontSize: "small", color: "red" }}
-              ></Typography>
+            <TableCell>
+              <Typography style={{ fontSize: "small", color: "red" }}>
+                {ErrorEmail ? "Please key value in email" : null}
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Typography style={{ fontSize: "small", color: "red" }}>
+                {ErrorStatus ? "Please key value in status" : null}
+              </Typography>
             </TableCell>
           </TableRow>
 
           <TableRow>
             <TableCell>
               {" "}
-              <Typography>Create By</Typography>{" "}
+              <Typography>Create By </Typography>{" "}
             </TableCell>
             <TableCell>
               {" "}
@@ -624,6 +683,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               ></TextField>
             </TableCell>
           </TableRow>
+
           <TableRow style={{ height: "25px" }}>
             <TableCell>
               <Typography
@@ -636,7 +696,8 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               ></Typography>
             </TableCell>
           </TableRow>
-          {PAGE_STATUS !== "NEW" && (
+          {/* {console.log("PAGE_STATUS === TEST", PAGE_STATUS)} */}
+          {PAGE_STATUS === "EDIT" && (
             <>
               <TableRow>
                 <TableCell>
@@ -674,8 +735,10 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
                   />
                 </TableCell>
               </TableRow>
+              {/* {console.log("PAGE_STATUS === EDIT")} */}
             </>
           )}
+
           <TableRow style={{ height: "25px" }}>
             <TableCell>
               <Typography
@@ -733,4 +796,4 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   );
 }
 
-export default Boi_maintain;
+export default person_maintain_new;

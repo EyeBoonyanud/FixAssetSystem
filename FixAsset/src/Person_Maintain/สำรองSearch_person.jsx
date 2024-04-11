@@ -25,7 +25,7 @@ import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
 import "./Person_maintain.css";
-import Popup from "../Person_Maintain/New_person";
+import Popup from "./New_person";
 import Autocomplete from "@mui/material/Autocomplete";
 import PageLoadding from "../Loadding/Pageload";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -70,11 +70,9 @@ function person_maintain() {
 
     const fetchData = async () => {
       try {
-        const factoryPromise = axios.get(
-          `/getfactory`
-        );
-        const levelPromise = axios.get(`/getlevel`);
-        const costPromise = axios.get(`/getcost`);
+        const factoryPromise = axios.get(`http://10.17.162.238:5000/getfactory`);
+        const levelPromise = axios.get(`http://10.17.162.238:5000/getlevel`);
+        const costPromise = axios.get(`http://10.17.162.238:5000/getcost`);
         const [factoryResponse, levelResponse, costResponse] =
           await Promise.all([factoryPromise, levelPromise, costPromise]);
         const factoryData = factoryResponse.data;
@@ -128,16 +126,10 @@ function person_maintain() {
         const levelValue = DATA_SEARCH_S_E[1][0];
         const costValue = DATA_SEARCH_S_E[2][0];
         const User_LoginValue = DATA_SEARCH_S_E[3][0];
-        const rollNoSearch = await axios.post(
-          "/Search_Person_Maintain",
-          {
-            FPM_factory: factoryValue,
-            FPM_level: levelValue,
-            FPM_cost_center: costValue,
-            FPM_user_login: User_LoginValue,
-          }
-        );
 
+        const rollNoSearch = await axios.get(
+          `http://10.17.162.238:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+        );
         const data = rollNoSearch.data;
         setCheckHead("visible");
         setdataSearch(data);
@@ -167,14 +159,8 @@ function person_maintain() {
         selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const User_LoginValue = User_Login !== undefined ? User_Login : "";
-      const rollNoSearch = await axios.post(
-        "/Search_Person_Maintain",
-        {
-          FPM_factory: factoryValue,
-          FPM_level: levelValue,
-          FPM_cost_center: costValue,
-          FPM_user_login: User_LoginValue,
-        }
+      const rollNoSearch = await axios.get(
+        `http://10.17.162.238:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -215,17 +201,10 @@ function person_maintain() {
     setselectindex(index);
     setloading("false");
     try {
-      const getEdit_show = await axios.post(
-        "/Search_Person_Maintain_Edit",
-        {
-          FPM_factory: factory,
-          FPM_level: level,
-          FPM_cost_center: cost_center,
-          FPM_user_login: user_login,
-        }
+      const getEdit_show = await axios.get(
+        `http://10.17.162.238:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
       );
       const data = await getEdit_show.data;
-      console.log(data,"jjjjjjjj88888")
       const DataEdit = data;
       const PAGE_STATUS = "EDIT";
 
@@ -268,15 +247,12 @@ function person_maintain() {
     }).then(async (willDelete) => {
       openPopupLoadding();
       if (willDelete) {
-          try {
-            const delete_person_maintain = await axios.post("/dlt_PERSON_MAINTAIN", {
-              FPM_factory_delete: factory,
-              FPM_level_delete : level,
-              FPM_cost_center_delete: cost_center,
-              FPM_user_login_delete: user_login
-                   });
- 
+        try {
+          const delete_person_maintain = await axios.post(
+            `http://10.17.162.238:5000/dlt_PERSON_MAINTAIN?FPM_factory_delete=${factory}&FPM_level_delete=${level}&FPM_cost_center_delete=${cost_center}&FPM_user_login_delete=${user_login}`
+          );
           const data = await delete_person_maintain.data;
+          // console.log("DELETE DATA PERSON =", data);
           Search();
           swal("Your data has been deleted successfully", {
             icon: "success",

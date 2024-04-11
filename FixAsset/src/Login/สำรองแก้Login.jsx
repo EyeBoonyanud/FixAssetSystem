@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -35,13 +37,19 @@ export default function SignInSide() {
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const onFinish = (values) => {
+    // // console.log("Received values of form: ", values);
+  };
+  // Loading
   const [loading, setLoading] = useState(false);
 
-  let Name = "";
-  let Lastname = "";
-  let Role = ""; 
+  let Name = ""; //สร้างตัวแปรที่รับค่ากลับมา
+  let Lastname = ""; //สร้างตัวแปรที่รับค่ากลับมา
+  let Role = ""; //สร้างตัวแปรที่รับค่ากลับมา
   let UserLogin = "";
   let Emp = "";
   let NameRole = "";
@@ -55,14 +63,16 @@ export default function SignInSide() {
     if (usernameElement && passwordElement) {
       const user = usernameElement.value;
       const password = passwordElement.value;
+
       try {
-        const response = await axios.post("/login", {
-          User: user,
-          Password: password
-        });
-        const data = response.data;
-        console.log(data,"/////////////",data.length)
+        const response = await fetch(
+          `http://10.17.162.238:5000/login?username=${user}&password=${password}`
+        );
+        const data = await response.json();
+        // console.log(data,"/////////////",data.length)
         if (data.length>0) {
+          // console.log("Login successful", data[0][0]);
+       
           Name = data[0][1];
           Lastname = data[0][2];
           Role = data[0][0];
@@ -84,7 +94,7 @@ export default function SignInSide() {
       } catch (error) {
         console.error("Error during login:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // สิ้นสุดการโหลด
       }
     } else {
       console.error("Username or password element not found");
@@ -92,6 +102,7 @@ export default function SignInSide() {
   };
 
   return (
+    // <Grid container component="main" sx={{ height: "100vh"  }} className="Grad">
     <Grid
       container
       component="main"
@@ -137,7 +148,8 @@ export default function SignInSide() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center", 
+            justifyContent: "center", // จัดวางตรงกลางแนวตั้ง
+            // border: "1px solid #000",
             height: "100%",
           }}
         ><Card className="Card-Login">
@@ -158,7 +170,7 @@ export default function SignInSide() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "100%", 
+                  width: "100%", // Set width to 100% to center the content horizontally
                 }}
               >
                 <TextField

@@ -31,44 +31,46 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.json({ type: 'text/html' }));
-app.get("/Login", Login.login);
+// app.get("/Login", Login.login);
+app.post("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
 app.get("/gethome_page",Transaction.gethome_page);
-app.get("/getsubmenu",Login.submenu);
+app.post("/getsubmenu",Login.submenu);
 app.get("/getemp",Transaction.emp);
 app.get("/getfactory",Transaction.factory);
-app.get("/getdept",Transaction.dept);
+app.post("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
 app.get("/findsts",Transaction.findsts);
-app.get("/getby",Transaction.by);
+app.post("/getby",Transaction.by);
 app.get("/getstatus",Transaction.status);
-app.get("/getsearch",Transaction.search);
-app.get("/getsearch2",Transaction.search2);
-app.get("/getfixcode",Transaction.fixcode);
-app.get("/getfac_insert",Transaction.fac_insert);
-app.get("/getcost_insert",Transaction.cost_insert);
-app.get("/getfix_group",Transaction.fix_group);
-app.get("/getid_service",Transaction.id_service);
-app.get("/getfind_service",Transaction.find_service);
-app.get("/getfamno",Transaction.fam_no);
+app.post("/getsearch",Transaction.search);
+app.post("/getsearch2",Transaction.search2);
+app.post("/getfixcode",Transaction.fixcode);
+app.post("/getfac_insert",Transaction.fac_insert);
+app.post("/getcost_insert",Transaction.cost_insert);
+app.post("/getfix_group",Transaction.fix_group);
+app.post("/getid_service",Transaction.id_service);
+app.post("/getfind_service",Transaction.find_service);
+app.post("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/create_date",Transaction.create_date);
 app.post("/update_date",Transaction.update_date);
 app.post("/get_asset_transfer",Transaction.insert_asset_transfer);
 app.post("/ins_REQ_DETAIL",Transaction.insert_FAM_REQ_DETAIL);
 app.post("/ins_from_Boi",Transaction.ins_from_Boi);
-app.get("/select_BOI_from",Transaction.select_BOI_from);
-app.get("/new_owner",Transaction.new_owner);
+// app.get("/select_BOI_from",Transaction.select_BOI_from);
+app.post("/select_BOI_from",Transaction.select_BOI_from);
+app.post("/new_owner",Transaction.new_owner);
 app.get("/cc_for_transfer",Transaction.cc);
-app.get("/level",Transaction.level_mana);
-app.get("/service_by",Transaction.service_by);
-app.get("/boi_staff",Transaction.boi_staff);
-app.get("/boi_manager",Transaction.boi_manager);
-app.get("/fac_manager",Transaction.fac_manager);
-app.get("/acc_check",Transaction.acc_check);
-app.get("/acc_manager",Transaction.acc_manager);
+app.post("/level",Transaction.level_mana);
+app.post("/service_by",Transaction.service_by);
+app.post("/boi_staff",Transaction.boi_staff);
+app.post("/boi_manager",Transaction.boi_manager);
+app.post("/fac_manager",Transaction.fac_manager);
+app.post("/acc_check",Transaction.acc_check);
+app.post("/acc_manager",Transaction.acc_manager);
 app.post("/ins_transfer",Transaction.ins_transfer);
 app.post("/routing_tran",Transaction.routing_tran);
 app.post("/receiver_tranfer",Transaction.receiver_tranfer);
@@ -77,7 +79,7 @@ app.post("/close_routing_tran",Transaction.close_routing_tran);
 app.post("/update_submit",Transaction.update_submit);
 app.post("/Id_owner",Transaction.Id_owner);
 app.post("/fix_code_find",Transaction.fix_code_find);
-app.get("/get_COMP",Transaction.get_COMP);
+app.post("/get_COMP",Transaction.get_COMP);
 app.post("/update_new_cc",Transaction.update_new_cc);
 app.post("/update_for_date_trans",Transaction.update_for_date_trans);
 app.post("/searchFamMaster",Transaction.searchFamMaster);
@@ -88,16 +90,16 @@ app.post("/find_asset_fixdata",Transaction.find_asset_fixdata);
 
 //MAY 
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
-app.get("/get_seq_request", Transaction.get_run_seq_request);
+app.post("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 //
-app.get("/new_boi",Transaction.new_boi);
+app.post("/new_boi",Transaction.new_boi);
 //
-app.get("/getEdit_request_show",Transaction.getEdit_Request_Show);
-app.get("/getEdit_FixAsset",Transaction.getEdit_FixAsset);
+app.post("/getEdit_request_show",Transaction.getEdit_Request_Show);
+app.post("/getEdit_FixAsset",Transaction.getEdit_FixAsset);
 app.get("/getEdit_FileUpload",Transaction.getEdit_FileUpload);
-app.get("/getEdit_Trans",Transaction.getEdit_Trans);
-app.get("/getEdit_routing",Transaction.getEdit_routing);
+app.post("/getEdit_Trans",Transaction.getEdit_Trans);
+app.post("/getEdit_routing",Transaction.getEdit_routing);
 app.post("/Update_For_Req_All",Transaction.Update_For_Req_All);
 app.post("/Update_For_Trans_All",Transaction.Update_For_Trans_All);
 
@@ -127,14 +129,14 @@ app.post("/update_receiver",Transaction.update_receiver);
 app.post("/update_for_nullRouting_All",Transaction.update_for_nullRouting_All);
 app.post("/update_All_for_receive",Transaction.update_All_for_receive);
 // Person and BOI
-app.get("/getData_UserLogin_Person",Transaction.getData_UserLogin_Person);
-app.get("/Search_Person_Maintain",Transaction.search_person_maintain);
-app.get("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
+app.post("/getData_UserLogin_Person",Transaction.getData_UserLogin_Person);
+app.post("/Search_Person_Maintain",Transaction.search_person_maintain);
+app.post("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
 app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.get("/search_BOI_project",Transaction.search_BOI_project);
 app.get("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
-app.get("/getCountTransfer",Transaction.getCountTransfer);
-app.get("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
+app.post("/getCountTransfer",Transaction.getCountTransfer);
+app.post("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
 app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);
 app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
@@ -152,12 +154,18 @@ app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
 
 
-// VIEW Fammaster
-app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
-app.get("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
-app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
-app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
-app.get("/getData_showName",VIEW_Fammaster.getData_showName);
+// VIEW Fammaster ก่อนแก้
+// app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
+//app.get("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
+//app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
+//app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW)
+//app.get("/getData_showName",VIEW_Fammaster.getData_showName);
+// VIEW Fammaster หลังแก้
+app.post("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
+app.post("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
+app.post("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
+app.post("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
+app.post("/getData_showName",VIEW_Fammaster.getData_showName);
 
 //Mail
 // app.post("/sendEmail",Mail.sendEmail)
@@ -166,20 +174,38 @@ app.post("/getType",Mail.getType);
 app.post("/getFile",Mail.getFile);
 app.post("/getName_To",Mail.getName_To);
 app.post("/getStatus",Mail.getStatus);
+app.post("/get_req_mail",Mail.get_req_mail);
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+
+// const transporter = nodemailer.createTransport({
+//   service: '',
+//   auth: {
+//     user: 'boonyanuch.phan@gmail.com',
+//     pass: 'vecw nlzo xown vscs',
+//   },
+// });
+// const transporter = nodemailer.createTransport({
+//   host: 'boonyanud.p@th.fujikura.com',
+//   secure: false, // ถ้าไม่ใช้ SSL/TLS
+// });
+const smtpConfig = {
+  host: '10.17.220.200', // แทนที่ด้วยที่อยู่ IP ของเซิร์ฟเวอร์ SMTP
+  port: 25, // แทนที่ด้วยพอร์ตของเซิร์ฟเวอร์ SMTP
+  secure: false, // กำหนดเป็น true หากต้องการใช้ SSL/TLS
   auth: {
-    user: 'boonyanuch.phan@gmail.com',
-    pass: 'vecw nlzo xown vscs',
-  },
-});
+    user: 'FAMsystem@th.fujikura.com', // แทนที่ด้วยที่อยู่อีเมลของคุณ
+    pass: '' // แทนที่ด้วยรหัสผ่านอีเมลของคุณ
+  }
+};
+
+const transporter = nodemailer.createTransport(smtpConfig);
+
 
 app.post("/sendEmail", async (req, res) => {
   try {
 
     const mailOptions = {
-      from: "boonyanuch.phan@gmail.com",
+      from: "FAMsystem@th.fujikura.com",
       to: req.body.toEmail,
       subject: req.body.subject,
       html: req.body.emailMessage

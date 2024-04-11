@@ -24,12 +24,12 @@ import {
   MenuItem,
   InputLabel,
   Autocomplete,
-  FormHelperText
+  FormHelperText,
 } from "@mui/material";
 import axios from "axios";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
+import PlagiarismIcon from "@mui/icons-material/Plagiarism";
 import { Empty } from "antd";
 import "../Page/Style.css";
 import {
@@ -41,15 +41,12 @@ import {
   FileWordOutlined,
   FileUnknownOutlined,
   CloudUploadOutlined,
-
-  
 } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
-
 
 function ForRequest() {
   const EditFam = localStorage.getItem("EDIT");
@@ -82,20 +79,13 @@ function ForRequest() {
   const Year = currentYear.toString().slice(-2);
   const [Gen_Fam_No, setGen_Fam_No] = useState("");
   const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); //Servicept
-  const [datafix_for_find,setdatafix_for_find] = useState([]);
+  const [datafix_for_find, setdatafix_for_find] = useState([]);
   const [COMP, set_COMP] = useState([]);
 
-  const [owner_req,setowner_req] = useState("")
-const [owner_req1,setowner_req1] = useState([])
-
-const [owner_dept,setowner_dept] = useState("")
-const [owner_dept1,setowner_dept1] = useState([])
-
-const [name_req,setname_req] = useState("")
-const [name_req1,setname_req1]= useState([])
-
-const [owner_tel,setowner_tel] = useState("")
-const [owner_tel1,setowner_tel1] = useState([])
+  const [owner_req, setowner_req] = useState("");
+  const [owner_dept, setowner_dept] = useState("");
+  const [name_req, setname_req] = useState("");
+  const [owner_tel, setowner_tel] = useState("");
 
   const [find_fixasset, setfind_fixasset] = useState([]);
   const [find_fixasset1, setfind_fixasset1] = useState("");
@@ -110,21 +100,16 @@ const [owner_tel1,setowner_tel1] = useState([])
   const [btnSave, setbtnSave] = useState("hidden");
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
-  const [chktable, setchktable] = useState("hidden");
 
   // Upload File
   const fileInputRef = useRef();
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [uploadedFilesDATA, setUploadedFilesDATA] = useState([]);
 
-  const [Newdata_addfix , setNewdata_addfix] = useState([]);
-
   // สำหรับ check txtbox
-  const page = localStorage.getItem("page")
- console.log(page,"page")
+  const page = localStorage.getItem("page");
   const ForRequester = localStorage.getItem("ForRequester");
   const For_Req = JSON.parse(ForRequester);
-   console.log(For_Req,"VVVVVVVVVV");
 
   const ForDt = localStorage.getItem("forDetail");
   const For_detail = JSON.parse(ForDt);
@@ -139,37 +124,16 @@ const [owner_tel1,setowner_tel1] = useState([])
   const [delete_fix, setdelete_fix] = useState("hidden");
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
-  const [checknext ,setchecknext] =useState("visible");
-console.log(datatable,"uuu")
-  
-  //
-  // const [chkadd,setchkadd] = useState("hidden");
-
-  
-
+  const [checknext, setchecknext] = useState("visible");
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
   const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-  // console.log(For_Ed_FixCode, "For_Ed_FixCode");
 
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit", For_Rq_Edit);
   let STS = "";
 
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
-
-  //// console.log(">>>>>>>>>>>>>>>>>>>>...", storedFileArray);
-
-  // var storedFileArray = JSON.parse(FileUp);
-  // var reconstructedFileArray = storedFileArray.map(data => new File([], data.name, {
-  //   type: data.type,
-  //   lastModified: new Date(data.lastModified),
-  //   size: data.size,
-
-  //   // Add other properties as needed
-  // }));
-
   //////////////////////////////Loading /////////////////////////
 
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -183,7 +147,7 @@ console.log(datatable,"uuu")
 
   const ShowFile = () => {
     let Gen_Fam_No_Show = "";
-   
+
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         Gen_Fam_No_Show = For_Rq_Edit[0];
@@ -193,44 +157,26 @@ console.log(datatable,"uuu")
         Gen_Fam_No_Show = For_Req[0];
       }
     }
-    // console.log("gen fam no มายังเอ่ย :"," = ",Gen_Fam_No_Show);
-    // console.log("OOOOOOOOOOOOOO",Gen_Fam_No);
-    if ( Gen_Fam_No != null) {
+    if (Gen_Fam_No != null) {
       if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        // console.log("มาแล้ววววววววววววววว",Gen_Fam_No_Show);
+        axios;
         axios
-     axios
-        .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
-          FamNo: Gen_Fam_No_Show,
-        })  
+          .post("/FAM_FILE_ATTACH", {
+            FamNo: Gen_Fam_No_Show,
+          })
 
-        .then((res) => {
-          const data = res.data;
-          if (data.length >= 0) {
-            setFiledata(data);
-            // console.log(data);
-          }
-        });
-      }}
-     
-    // } else {
-    //   // console.log("เข้าอันนี้จ้า")
-    //   axios
-    //   .post("http://10.17.162.238:5000/FAM_FILE_ATTACH", {
-    //     FamNo: Gen_Fam_No,
-    //   })
-    //   .then((res) => {
-    //     const data = res.data;
-    //     if (data.length > 0) {
-    //       setFiledata(data);
-    //       // console.log(data);
-    //     }
-    //   });
-    // }
+          .then((res) => {
+            const data = res.data;
+            if (data.length >= 0) {
+              setFiledata(data);
+            }
+          });
+      }
+    }
   };
 
   const downloadFile = (fileName) => {
-    const downloadUrl = `http://10.17.162.238:5000/downloads?filename=${encodeURIComponent(
+    const downloadUrl = `/downloads?filename=${encodeURIComponent(
       fileName
     )}`;
 
@@ -243,17 +189,10 @@ console.log(datatable,"uuu")
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],
         });
-        // console.log(response);
-        // สร้างลิงก์
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-
-        // ดาวน์โหลดไฟล์โดยอัตโนมัติ
-        //   link.download = 'downloaded_file.xlsx';
         link.download = "downloaded_file";
         link.click();
-
-        // ลบ URL ที่ถูกสร้างขึ้น
         window.URL.revokeObjectURL(link.href);
       })
       .catch((error) => {
@@ -262,15 +201,6 @@ console.log(datatable,"uuu")
   };
   useEffect(() => {
     openPopupLoadding();
-
-    //  if(EditFam){
-    //   if(For_Rq_Edit != null){
-
-    //   }}
-    //   if(For_Req !=null ){
-
-    //   }
-
     if (storedFileArray != null) {
       var reconstructedFileArray = storedFileArray.map(
         (data) =>
@@ -278,36 +208,15 @@ console.log(datatable,"uuu")
             type: data.type,
             lastModified: new Date(data.lastModified),
             size: data.size,
-
-            // Add other properties as needed
           })
       );
-      // console.log(reconstructedFileArray, "//////////////////////////");
       setUploadedFiles(reconstructedFileArray);
     }
-
-    // Edit();
-    // EditFixAsset();
-    // // console.log(">>>>>>>>>>>>>>>>>>", For_Rq_Edit, EditFam);
-    //handleReload();
-    // const TEST = async () => {
-    //   await request_by();
-    //   await factory();
-    //   await costcenter();
-    //   await CostforAsset();
-    //   await keep();
-
-    // };
-
-    // TEST();
     request_by();
     factory();
     costcenter();
-    // CostforAsset();
     keep();
- 
     ShowFile();
-  
 
     setTimeout(function () {
       closePopupLoadding();
@@ -317,9 +226,8 @@ console.log(datatable,"uuu")
   const keep = () => {
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
-        // มี for_rq_edit
-        // console.log(For_Rq_Edit[16], "");
-        setSTS1_for_R(For_Rq_Edit[16]);//จะต้องเปลี่ยน
+      
+        setSTS1_for_R(For_Rq_Edit[16]);
         setSTS1_Req(For_Rq_Edit[10]);
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
@@ -340,7 +248,6 @@ console.log(datatable,"uuu")
         setvisibityDetails("visible");
         setvisibityFile("visible");
         if (For_Ed_FixCode != null) {
-          //มี edit detail fixassetcode
           setdatatable(For_Ed_FixCode);
           if (For_Ed_FixCode.length > 0) {
             setTableOpen(true);
@@ -351,7 +258,6 @@ console.log(datatable,"uuu")
           }
         }
         if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R") {
-          // console.log("MMMMMMMMMMMMMMMMMMMMMM");
           // setchkadd("visible")
           setread_dept(false);
           setread_remark(false);
@@ -397,14 +303,11 @@ console.log(datatable,"uuu")
           }
         }
         if (STS == "FLTR001" || STS == "") {
-          // console.log("YYYYYYYYY");
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          //setchkadd("visible")
-          //setbtnSave("visible");
         } else {
         }
       } else {
@@ -416,43 +319,37 @@ console.log(datatable,"uuu")
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
-          setchecknext("hidden")
-          // setchkadd("visible")
-          //  setbtnSave("visible");
+          setchecknext("hidden");
         } else {
         }
       }
     }
   };
-
-  // const formattedDate = `${(currentDate.getMonth() + 1)
-  //   .toString()
-  //   .padStart(2, "0")}/${currentDate
-  //   .getDate()
-  //   .toString()
-  //   .padStart(2, "0")}/${currentDate.getFullYear()}`;
-  const formattedDate = `${currentDate.getDate().toString().padStart(2, "0")}/${(currentDate.getMonth() + 1).toString().padStart(2, "0")}/${currentDate.getFullYear()}`;
-
+  const formattedDate = `${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
   //Request By /////////////////////////////////////////
   const request_by = async () => {
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getby?By=${LocalUserLogin}`
-      );
+      const response = await axios.post("/getby", {
+        By: LocalUserLogin,
+      });
       const data = await response.data;
+
       const data_insert = data.flat();
       setdataUserLogin(data_insert);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          // console.log(For_Rq_Edit[15], "AAAAAAAAAAAAAAAAAAAAAAAAA");
           setdataUserLogin1(For_Rq_Edit[15]);
         }
       } else {
         if (For_Req != null) {
           setdataUserLogin1(For_Req[14]);
         } else {
-          //// console.log("/////////");
           setdataUserLogin1(data_insert[4]);
         }
       }
@@ -465,22 +362,25 @@ console.log(datatable,"uuu")
     let data_Fac = "";
     if (EditFam == null) {
       try {
-        const response = await axios.get(
-          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${LocalUserLogin}`
+        const response = await axios.post(
+          "/getfac_insert",
+          {
+            Fac_Login: LocalUserLogin,
+          }
         );
         const data = await response.data;
         data_Fac = data.flat();
         setFactory(data_Fac);
+
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
+          
           }
         } else {
           if (For_Req != null) {
             setFactory1(data_Fac[0]);
           } else {
-            //// console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -489,22 +389,23 @@ console.log(datatable,"uuu")
       }
     } else {
       try {
-        const response = await axios.get(
-          `http://10.17.162.238:5000/getfac_insert?Fac_Login=${For_Rq_Edit[2]}`
+        const response = await axios.post(
+          "/getfac_insert",
+          {
+            Fac_Login: For_Rq_Edit[2],
+          }
         );
         const data = await response.data;
         data_Fac = data.flat();
         setFactory(data_Fac);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setFactory1(For_Rq_Edit[4]);
           }
         } else {
           if (For_Req != null) {
             setFactory1(For_Req[4]);
           } else {
-            //// console.log("/////////");
             setFactory1(data_Fac[0]);
           }
         }
@@ -513,29 +414,25 @@ console.log(datatable,"uuu")
       }
     }
     if (data_Fac.length >= 0) {
+     
       try {
-        const response = await axios.get(
-          `http://10.17.162.238:5000/getdept?idFactory=${data_Fac[1]}`
-        );
-
+        const response = await axios.post("/getdept", {
+          id_fac: data_Fac[1],
+        });
         const data = await response.data;
         const data_dept = data.flat();
         setDept(data_dept);
         if (EditFam != null) {
           if (For_Rq_Edit != null) {
-            //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
             setselectDept1(For_Rq_Edit[6]);
           }
         } else {
           if (For_Req != null) {
-            //// console.log(For_Req,"DDDDDDDeptttttt")
             setselectDept1(For_Req[5]);
           } else {
-            //// console.log("/////////");
             setselectDept1("");
           }
         }
-        //// console.log(data_dept, "data_dept");
       } catch (error) {
         //console.error("Error during login:", error);
       }
@@ -544,18 +441,19 @@ console.log(datatable,"uuu")
   };
   //Cost Center/////////////////////////////////////////
   const costcenter = async () => {
-    try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getcost_insert?Cost_Login=${LocalUserLogin}`
-      );
+
+      try {
+        const response = await axios.post(
+          "/getcost_insert",
+          {
+            Cost_Login: LocalUserLogin,
+          }
+        );
       const data = await response.data;
       const data_insert = data.flat();
-      //// console.log(data_insert, "data_insert");
       setCostcenter(data_insert);
-      //// console.log(For_Req);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
           setCostcenter1(For_Rq_Edit[5]);
         }
       } else {
@@ -571,19 +469,17 @@ console.log(datatable,"uuu")
   };
   //AssetGroup //////////////////////////////////////
   const fixasset_group = async (datafac) => {
-    try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getfix_group?Asset_group=${datafac}`
-      );
+      try {
+        const response = await axios.post(
+          "/getfix_group",
+          {
+            Asset_group: datafac,
+          }
+        );
       const data = await response.data;
-
-      //// console.log(data, "data_fixgroup");
       setFixAssetgroup(data);
-
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
-          //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-
           setselectFixAssetgroup1(For_Rq_Edit[8]);
         }
       } else {
@@ -597,75 +493,47 @@ console.log(datatable,"uuu")
       //console.error("Error during login:", error);
     }
   };
-  //AssetCost
-  // const CostforAsset = async () => {
-  //   try {
-  //     const response = await axios.get(`http://10.17.162.238:5000/getcost`);
-  //     const CostData = await response.data;
-  //     setFixAsset_cost(CostData);
-  //     if (EditFam != null) {
-  //       if (For_Rq_Edit != null) {
-  //         //// console.log(For_Rq_Edit,"AAAAAAAAAAAAAAAAAAAAAAAAA")
-
-  //         setselectFixAsset_cost1(For_Rq_Edit[18]);
-  //       }
-  //     } else {
-  //       if (For_Req != null) {
-  //         setselectFixAsset_cost1(For_Req[16]);
-  //       } else {
-  //         setselectFixAsset_cost1("");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     //console.error("Error during login:", error);
-  //   }
-  // };
+  
   // HandleFixAssetCost
   const handleCost = async () => {
-    
-    // // let Cost_value = event
-    // console.log(Cost_value,"Y66YYYYY")
-    // setselectFixAsset_cost1(Cost_value);
-    try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getid_service?fac=${Factory[1]}&fixgroub=${selectFixAssetgroup1}`
-      );
+      try {
+        const response = await axios.post(
+          "/getid_service",
+          {
+            fac: Factory[1],
+            fixgroub: selectFixAssetgroup1
+          }
+        );
       const data = await response.data;
-      console.log("6789",data)
       if (data[0][0] === "EACH CC") {
-        try {
-          const response = await axios.get(
-            `http://10.17.162.238:5000/getfind_service?asset_find=${owner_dept}`
-          );
+          try {
+            const response = await axios.post(
+              "/getfind_service",
+              {
+                asset_find: owner_dept
+              }
+            );
           const data_for_servicedept = await response.data;
-          console.log("data_for_servicedept",data_for_servicedept)
+         
           setdataFix_Asset_Cost(data_for_servicedept);
-          console.log(data_for_servicedept, "ServiceDept>>>>>>>>>>>");
+         
           Gen_No(data_for_servicedept);
         } catch (error) {
           //console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-        console.log(data, "ServiceDept---------------------");
+       
         Gen_No(data);
       }
-     
     } catch (error) {
       //console.error("Error during login:", error);
     }
   };
 
-  
-
-
-
-
-
-
   /////////////// Gen Fam and Tranfer_ins //////////////////
   const Gen_No = async (asset) => {
-console.log("KKKKKKKKK")
+
     openPopupLoadding();
     let DataStatus = ""; //
     if (
@@ -675,42 +543,37 @@ console.log("KKKKKKKKK")
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`http://10.17.162.238:5000/getstatus`);
+        const response = await axios.get(`/getstatus`);
         const dataStatus = await response.data;
         const data = dataStatus.flat();
         setRequest_sts1(data[1]);
         DataStatus = data;
         setRequest_sts1(data[1]);
-
-        // StatusId = dataStatus.flat();
       } catch (error) {
         //console.error("Error during login:", error);
       }
-console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
-      // const Run = Factory[0] + "-" + dataFix_Asset_Cost[0][0] + "-" + Year;
-     
+
       const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
       try {
-        const response = await axios.get(
-          `http://10.17.162.238:5000/getfamno?famno=${Run}`
+        const response = await axios.post(
+          "/getfamno",
+          {
+            famno: Run,
+          }
         );
         const get_runno = await response.data;
-
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-        console.log("yyyyy")
-          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus,asset[0][2]);
+          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus, asset[0][2]);
         } else {
           let FamNo_new = Run + "-0001";
-          console.log("ooooo")
-          Tranfer_ins(FamNo_new, DataStatus,asset[0][2]);
+          Tranfer_ins(FamNo_new, DataStatus, asset[0][2]);
         }
       } catch (error) {
         //console.error("Error during login:", error);
       }
     } else {
-      // console.log("444444");
       if (
         Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
@@ -721,38 +584,13 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
         alert("กรุณาเลือก Request Type");
       } else if (selectFixAssetgroup1.length === 0) {
         alert("กรุณาเลือก Fix Asset Group");
-      // } else if (selectFixAsset_cost1.length === 0) {
-      //   alert("กรุณาเลือก Fix Asset Code");
-      // }owner_dept
-       } else if (owner_dept.length === 0) {
-          alert("กรุณาเลือก Owner Cost Center");
-        }
+      } else if (owner_dept.length === 0) {
+        alert("กรุณาเลือก Owner Cost Center");
+      }
     }
     closePopupLoadding();
   };
-  const Tranfer_ins = async (running_no, DataStatus,nameasset) => {
-    console.log("running_no:", running_no);
-    console.log("LocalUserLogin:", LocalUserLogin);
-    console.log("Tel1:", Tel1);
-    console.log("Factory[1]:", Factory[1]);
-    console.log("Costcenter1:", Costcenter1);
-    console.log("selectDept1:", selectDept1);
-    console.log("Request_type1:", Request_type1);
-    console.log("selectFixAssetgroup1:", selectFixAssetgroup1);
-    console.log("owner_dept:", owner_dept);
-    // console.log("dataFix_Asset_Cost[0][2]:", dataFix_Asset_Cost[0][2]);
-    console.log("datasset",nameasset)
-    console.log("DataStatus[0]:", DataStatus[0]);
-    console.log("DataStatus[1]:", DataStatus[1]);
-    console.log("Remark:", Remark);
-    console.log("selectFixAssetgroup1[1]:", selectFixAssetgroup1[1]);
-    console.log("Emp_name:", Emp_name);
-    console.log("owner_req:", owner_req);
-    console.log("owner_dept:", owner_dept);
-    console.log("owner_tel:", owner_tel);
-    console.log("name_req:", name_req, "44444");
-    
-
+  const Tranfer_ins = async (running_no, DataStatus, nameasset) => {
     setGen_Fam_No(running_no);
     const setData_ForRequester = [
       running_no,
@@ -769,26 +607,41 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
       DataStatus[1],
       Remark,
       selectFixAssetgroup1[1],
-      Emp_name, 
+      Emp_name,
       owner_req,
       owner_dept,
       owner_tel,
-      name_req
-     
+      name_req,
     ];
-    console.log(setData_ForRequester, "datadata");
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
     try {
-      console.log("เข้า")
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_gen_famno?tranfer=${running_no}&reqby=${LocalUserLogin}&reTel=${Tel1}&fac=${Factory[1]}&cc=${Costcenter1}&dept=${selectDept1}&type=${Request_type1}&assetgroup=${selectFixAssetgroup1}&assetcc=${owner_dept}&assetname=${nameasset}&status=${DataStatus[0]}&remark=${Remark}&user=${LocalUserLogin}&owner_id=${owner_req}&owner_CC=${owner_dept}&owner_Tel=${owner_tel}`
+        "/get_gen_famno",
+        {
+          tranfer: running_no,
+          reqby:LocalUserLogin,
+          reTel:Tel1,
+          fac:Factory[1],
+          cc:Costcenter1,
+          dept:selectDept1,
+          type:Request_type1,
+          assetgroup:selectFixAssetgroup1,
+          assetcc:owner_dept,
+          assetname:nameasset,
+          status:DataStatus[0],
+          remark:Remark,
+          user_log:LocalUserLogin,
+          owner_id:owner_req,
+          owner_CC:owner_dept,
+          owner_Tel:owner_tel
+        }
       );
       const data = await response.data;
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
-      setchecknext("visible")
+      setchecknext("visible");
       setread_fix_group(true);
       setread_fix_cost(true);
     } catch (error) {
@@ -797,7 +650,12 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
 
     try {
       const response = await axios.post(
-        `http://10.17.162.238:5000/get_asset_transfer?tranfer=${running_no}&reqby=${LocalUserLogin}&assetcc=${owner_dept}`
+        "/get_asset_transfer",
+        {
+          tranfer: running_no,
+          reqby:LocalUserLogin,
+          assetcc:owner_dept
+        }
       );
     } catch (error) {
       //console.error("Error during login:", error);
@@ -805,10 +663,8 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
   };
 
   const handleOwner_tel = async (event) => {
-    console.log(event.target.value,"Tel")
-    setowner_tel(event.target.value)
+    setowner_tel(event.target.value);
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -831,20 +687,11 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
         For_Rq_Edit[18],
         event.target.value,
         For_Rq_Edit[20],
-        
-
-      
       ];
-      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
-      //edit
     } else {
-      //insert
-
       if (For_Req[0] == "" && For_Req[0] == null) {
-        // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -864,13 +711,11 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           owner_req,
           owner_dept,
           event.target.value,
-          name_req
+          name_req,
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -890,117 +735,23 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           For_Req[15],
           For_Req[16],
           event.target.value,
-          For_Req[18]
+          For_Req[18],
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
     }
-  }
-
-
-
-//   const handleOwnerDept = async (event) => {
-//     setowner_dept(event.target.value,"Dept")
-// if (EditFam != null) {
-//       // console.log(">>>>>>>>..", For_Rq_Edit);
-//       const setData_ForRequester = [
-//         For_Rq_Edit[0],
-//         For_Rq_Edit[1],
-//         For_Rq_Edit[2],
-//         For_Rq_Edit[3],
-//         For_Rq_Edit[4],
-//         For_Rq_Edit[5],
-//         For_Rq_Edit[6],
-//         For_Rq_Edit[7],
-//         For_Rq_Edit[8],
-//         For_Rq_Edit[9],
-//         For_Rq_Edit[10],
-//         For_Rq_Edit[11],
-//         For_Rq_Edit[12],
-//         For_Rq_Edit[13],
-//         For_Rq_Edit[14],
-//         For_Rq_Edit[15],
-//         event.target.value,
-//         For_Rq_Edit[17],
-//       ];
-//       // console.log("/////////////////");
-//       const sentdata = JSON.stringify(setData_ForRequester);
-//       localStorage.setItem("For_Req_Edit", sentdata);
-//       //edit
-//     } else {
-//       //insert
-
-//       if (For_Req[0] == "" && For_Req[0] == null) {
-//         // ยังไม่genfam
-//         // console.log("------>>>>>>>>>>>>>>>>---------");
-//         const setData_ForRequester = [
-//           "",
-//           LocalUserLogin,
-//           Tel1,
-//           Factory[1],
-//           Costcenter1,
-//           selectDept1,
-//           Request_type1,
-//           selectFixAssetgroup1,
-//           selectFixAsset_cost1,
-//           "",
-//           "",
-//           "",
-//           Remark,
-//           "",
-//           Emp_name,
-//           owner_req,
-//           event.target.value,
-//           owner_tel
-//         ];
-//         //// console.log(setData_ForRequester, "datadata");
-//         const sentdata = JSON.stringify(setData_ForRequester);
-//         localStorage.setItem("ForRequester", sentdata);
-//       } else {
-//         // console.log("------///////////----------", For_Req);
-//         const setData_ForRequester = [
-//           For_Req[0],
-//           For_Req[1],
-//           For_Req[2],
-//           For_Req[3],
-//           For_Req[4],
-//           For_Req[5],
-//           For_Req[6],
-//           For_Req[7],
-//           For_Req[8],
-//           For_Req[9],
-//           For_Req[10],
-//           For_Req[11],
-//           For_Req[12],
-//           For_Req[13],
-//           For_Req[14],
-//           For_Req[15],
-//           event.target.value,
-//           For_Req[17],
-//         ];
-//         //// console.log(setData_ForRequester, "datadata");
-//         const sentdata = JSON.stringify(setData_ForRequester);
-//         localStorage.setItem("ForRequester", sentdata);
-//       }
-//     }
-//   }
-
-
+  };
   const handleEmpUser = async (event) => {
-    console.log(event, "owner_req")
-
     try {
-      const response = await axios.post("http://10.17.162.238:5000/Id_owner", { owner_id: event });
-      const data = response.data
-      console.log(data[0][2], "DATA");
-      // กำหนดค่าให้กับ state หรือตัวแปรต่าง ๆ ด้วย setter functions
+      const response = await axios.post("/Id_owner", {
+        owner_id: event,
+      });
+      const data = response.data;
       setowner_dept(data[0][0]);
       setname_req(data[0][1]);
       setowner_dept(data[0][2]);
       if (EditFam != null) {
-        // console.log(">>>>>>>>..", For_Rq_Edit);
         const setData_ForRequester = [
           For_Rq_Edit[0],
           For_Rq_Edit[1],
@@ -1022,18 +773,12 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
           event,
           data[0][2],
           For_Rq_Edit[19],
-          data[0][1]
+          data[0][1],
         ];
-        // console.log("/////////////////");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("For_Req_Edit", sentdata);
-        //edit
       } else {
-        //insert
-  
         if (For_Req[0] == "" && For_Req[0] == null) {
-          // ยังไม่genfam
-          // console.log("------>>>>>>>>>>>>>>>>---------");
           const setData_ForRequester = [
             "",
             LocalUserLogin,
@@ -1053,14 +798,11 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
             event,
             data[0][2],
             owner_tel,
-            data[0][1]
+            data[0][1],
           ];
-          //// console.log(setData_ForRequester, "datadata");
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
         } else {
-          console.log("00000000000000",For_Req);
-          console.log(data[0][1], "DATA0000");
           const setData_ForRequester = [
             For_Req[0],
             For_Req[1],
@@ -1080,82 +822,78 @@ console.log(asset[0][2],"dataFix_Asset_Cost[0][0]")
             event,
             data[0][2],
             For_Req[17],
-            data[0][1]
+            data[0][1],
           ];
-          console.log("------///////////----------", setData_ForRequester);
-          //// console.log(setData_ForRequester, "datadata");
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
         }
       }
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  
-    
   };
-  
-
-  
 
   /////////////////////////////////////////////////////////////
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
-
-
     openPopupLoadding();
-console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
-      let group_fix =""
+  
+    let group_fix = "";
     if (selectFixAssetgroup1.length > 1) {
       group_fix = selectFixAssetgroup1.substring(0, 1);
-      console.log(group_fix,"selectFixAssetgroup166")
-    }else{
-      group_fix = selectFixAssetgroup1
-      console.log(group_fix,"selectFixAssetgroup167")
+    } else {
+      group_fix = selectFixAssetgroup1;
+      
     }
-    console.log(owner_dept,find_fixasset1,group_fix,"owner_dept")
-   //ก่อนแก้ 29/03  selectFixAsset_cost1 จากการลือก asset cost center 
+    
+    //ก่อนแก้ 29/03  selectFixAsset_cost1 จากการลือก asset cost center
     // try {
     //   const row = await axios.get(
-    //     `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
+    //     `/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
     //   );
-      try {
-      const row = await axios.get(
-        `http://10.17.162.238:5000/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
+    // try {
+    //   const row = await axios.get(
+    //     `/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
+    //   );
+    try {
+      const response = await axios.post(
+        "/getfixcode",
+        {
+          Fixcode: find_fixasset1,
+          asset_cc:owner_dept,
+          fixgroup:group_fix
+        }
       );
-      const data = row.data;
-      setfind_fixasset(data);
       
+      const data = response.data; 
+      setfind_fixasset(data);
+
       if (data.length > 0) {
         try {
-          const response = await axios.post("http://10.17.162.238:5000/fix_code_find", { assetcode: find_fixasset1 });
+          const response = await axios.post(
+            "/fix_code_find",
+            { assetcode: find_fixasset1 }
+          );
           const responseData = response.data;
           setdatafix_for_find(responseData);
-    
+
           if (responseData.length !== data.length) {
-            setOpen(true); 
+            setOpen(true);
           } else if (responseData.length === data.length) {
-            const seen = {}; // ใช้เพื่อตรวจสอบค่าที่ซ้ำกัน
-            let uniqueKeys = []; // เก็บ key ที่ไม่ซ้ำกัน
-        
-            // วนลูปผ่าน responseData เพื่อหาค่าที่ไม่ซ้ำกัน
-            responseData.forEach(item => {
-                const key = item[0]; // เราจะใช้ค่า index 0 (A1-R180-24-0004) เป็น key ในการตรวจสอบค่าที่ซ้ำกัน
-        
-                // ตรวจสอบว่าค่านี้เคยปรากฏไปแล้วหรือยัง
-                if (!seen[key]) {
-                    seen[key] = true;
-                    uniqueKeys.push(key); // เพิ่ม key ที่ไม่ซ้ำกันลงใน uniqueKeys
-                }
+            const seen = {}; 
+            let uniqueKeys = []; 
+            responseData.forEach((item) => {
+              const key = item[0]; 
+              if (!seen[key]) {
+                seen[key] = true;
+                uniqueKeys.push(key); 
+              }
             });
-        
-            // แสดงข้อความแจ้งเตือนพร้อมกับ key ที่ไม่ซ้ำกันทั้งหมด
-            alert("Fixed Asset Code has been implemented:\n" + uniqueKeys.join(', '));
-        }
-        
-        
+            alert(
+              "Fixed Asset Code has been implemented:\n" + uniqueKeys.join(", ")
+            );
+          }
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -1165,49 +903,45 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
           title: "Data is not found",
         });
       }
-     
-    try {
-      const rollNoSearch = await axios.get(
-        `http://10.17.162.238:5000/get_COMP?fam_no=${Gen_Fam_No}}`
-      );
-      const data = rollNoSearch.data;
-      set_COMP(data);
-      console.log(data, "TTTTTTTTTTTTTTTTTTT");
-    } catch (error) {
-      console.error("Error requesting data:", error);
-    }
-   
-      //// console.log(data, "1111111111111111");
+
+      // try {
+      //   const rollNoSearch = await axios.get(
+      //     `/get_COMP?fam_no=${Gen_Fam_No}}`
+      //   );
+        try {
+          const response = await axios.post(
+            "/get_COMP",
+            {
+              fam_no: Gen_Fam_No,
+            }
+          );
+        const data = response.data;
+
+        set_COMP(data);
+      } catch (error) {
+        console.error("Error requesting data:", error);
+      }
     } catch (error) {
       //console.error("Error requesting data:", error);
     }
-    
 
     closePopupLoadding();
-  
-    setSelectAll("");
 
+    setSelectAll("");
   };
   const updateSelectedData = (selectedItems) => {
-    console.log(selectedItems,"RRRR")
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {
-    console.log(index,"PPPP",[...selectedItems])
     const newSelectedItems = [...selectedItems];
     newSelectedItems[index] = !newSelectedItems[index];
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
-    console.log(newSelectedItems,"ggg",selectedItems)
+   
   };
-  // const handleCheckboxAllChange = () => {
-  //   const newSelectedAll = !selectAll;
-  //   setSelectAll(newSelectedAll);
-  //   setSelectedItems(newSelectedAll ? find_fixasset.map(() => true) : []);
-  //   updateSelectedData(newSelectedAll ? find_fixasset.map(() => true) : []);
-  // };
  
+
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
     let newSelectedItems = [];
@@ -1218,14 +952,11 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
           compItem[2] !== null &&
           compItem[3] === find_fixasset1
       );
- 
-      const isItemInDatatable =
-        datatable.some(
-          (dataItem) =>
-            dataItem[3] === item[3] &&
-            dataItem[0] === item[0]
-        )
- 
+
+      const isItemInDatatable = datatable.some(
+        (dataItem) => dataItem[3] === item[3] && dataItem[0] === item[0]
+      );
+
       newSelectedItems[index] =
         isDisabled || isItemInDatatable ? false : newSelectedAll;
     });
@@ -1234,153 +965,125 @@ console.log(selectFixAssetgroup1,"selectFixAssetgroup1")
     updateSelectedData(newSelectedItems);
   };
 
-
-  const[CountCOMP, setCountCOMP] =useState([])
- const [Countdatatable,setCountdatatable]=useState([])
+  const [CountCOMP, setCountCOMP] = useState([]);
+  const [Countdatatable, setCountdatatable] = useState([]);
   const handleAdd = () => {
-    
     const hasTrue = selectedItems.includes(true);
 
     if (!hasTrue || selectedItems.length === 0) {
       let countCOMP = 0;
       let countTABLE = 0;
-      console.log(find_fixasset1, "yy", find_fixasset1);
       find_fixasset.map((item, index) => {
         const filteredItems = COMP.filter(
-            (compItem) =>
-                compItem[1] === item[3] &&
-                compItem[2] !== null &&
-                compItem[3] === find_fixasset1
+          (compItem) =>
+            compItem[1] === item[3] &&
+            compItem[2] !== null &&
+            compItem[3] === find_fixasset1
         );
         const filteredItemsDatatable = datatable.filter(
-          (dataItem) =>
-            dataItem[3] === item[3] &&
-            dataItem[0] === item[0]
+          (dataItem) => dataItem[3] === item[3] && dataItem[0] === item[0]
         );
         countCOMP += filteredItems.length;
         countTABLE += filteredItemsDatatable.length;
-    });
-    setCountCOMP(countCOMP);
-    setCountdatatable(countTABLE);
-  console.log(countCOMP,"yyy",countTABLE);  // const DataCount =  countCOMP
-   
-  if(countTABLE === find_fixasset.length){
-    
-          alert("Duplicate Please Close");
-          
-    
-  }else{
-alert("Please select checkbox");
-  }
-  
-    
-    // console.log(DataCount,"66666",find_fixasset.length)
-    // if(DataCount.length === find_fixasset.length)
-    
-         
-          
-    
-      console.log(CountCOMP, "yyyy", Countdatatable,find_fixasset);
-  }
-  
-    else{
+      });
+      setCountCOMP(countCOMP);
+      setCountdatatable(countTABLE);
+      if (countTABLE === find_fixasset.length) {
+        alert("Duplicate Please Close");
+      } else {
+        alert("Please select checkbox");
+      }
+    } else {
       const newDataTable = [...datatable, ...selectedData];
       newDataTable.sort((a, b) => {
-        // เรียงคอลัมน์ที่ 1
         if (a[0] < b[0]) return -1;
         if (a[0] > b[0]) return 1;
-        // ถ้าคอลัมน์ที่ 1 เท่ากัน ให้เรียงคอลัมน์ที่ 2
         if (a[1] < b[1]) return -1;
         if (a[1] > b[1]) return 1;
-        return 0; // ไม่ต้องการเปลี่ยนเรียง
-    });
-    setdatatable(newDataTable);
-    setSelectedItems([]);
+        return 0;
+      });
+      setdatatable(newDataTable);
+      setSelectedItems([]);
       setTableOpen(true);
       setOpen(false);
-      setbtnSave("visible"); 
-      setlocalTable(newDataTable)
-      
-     }
-  
-    
-
+      setbtnSave("visible");
+      setlocalTable(newDataTable);
+    }
   };
-  
+
   const setlocalTable = async (newData) => {
-    console.log(newData,"nongmay")
-    const data = JSON.stringify(newData)
-    localStorage.setItem("Edit_Dteail_for_FixedCode",data)
-    localStorage.setItem("forDetail",data)
-  }
+    const data = JSON.stringify(newData);
+    localStorage.setItem("Edit_Dteail_for_FixedCode", data);
+    localStorage.setItem("forDetail", data);
+  };
 
   const handleDelete = async (item, index) => {
     openPopupLoadding();
     const newData = datatable.filter((data) => data[0] !== item);
     setdatatable(newData);
     if (EditFam !== null) {
-      
-      // console.log("index", item, EditFam);
-      try {
-        const row = await axios.post(
-          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
-        );
-       //localStorage.removeItem("Edit_Dteail_for_FixedCode");
+      // try {
+      //   const row = await axios.post(
+      //     `/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
+      //   );
+        
+try {
+  const row = await axios.post(
+    "/delete_FAM_REQ_DETAIL",
+    {
+      famno: EditFam,
+      fixcode:item
+    }
+  );
+        //localStorage.removeItem("Edit_Dteail_for_FixedCode");
         // Fix_Code();
         setlocalTable(newData);
       } catch (error) {
         console.error("Error requesting data:", error);
       }
-      
     } else {
       try {
-        console.log(Gen_Fam_No,item,"888888888")
         const row = await axios.post(
-          `http://10.17.162.238:5000/delete_FAM_REQ_DETAIL?famno=${Gen_Fam_No}&fixcode=${item}`
+          "/delete_FAM_REQ_DETAIL",
+          {
+            famno: EditFam,
+            fixcode:item
+          }
         );
         //localStorage.removeItem("forDetail");
         setlocalTable(newData);
-       //Fix_Code();     
+        //Fix_Code();
       } catch (error) {
         console.error("Error requesting data:", error);
       }
-      
     }
     closePopupLoadding();
   };
-  const Fix_Code = async () => {
-    try {
-      const response = await axios.post(
-        `http://10.17.162.238:5000/getFixcode?Fam=${Gen_Fam_No}`
-      );
-      const dataStatus = await response.data;
-      console.log(dataStatus,"dataStatus")
-      setdatatable(dataStatus);
-      const sentdata = JSON.stringify(dataStatus);
-  localStorage.setItem("forDetail", sentdata);
-  localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
-      // console.log(dataStatus, "dataStatus");
-
-      // StatusId = dataStatus.flat();
-    } catch (error) {
-      console.error("Error requesting data:", error);
-    }
-  };
+  // const Fix_Code = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `/getFixcode?Fam=${Gen_Fam_No}`
+  //     );
+  //     const dataStatus = await response.data;
+  //     setdatatable(dataStatus);
+  //     const sentdata = JSON.stringify(dataStatus);
+  //     localStorage.setItem("forDetail", sentdata);
+  //     localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
+  //   } catch (error) {
+  //     console.error("Error requesting data:", error);
+  //   }
+  // };
   const Insert_Fam_detail = async () => {
-    
-
     openPopupLoadding();
     for (let i = 0; i < datatable.length; i++) {
       const sentdata = JSON.stringify(datatable);
       if (EditFam !== null) {
-        console.log("datatable888",datatable[i][5])
         localStorage.setItem("Edit_Dteail_for_FixedCode", sentdata);
       } else {
         localStorage.setItem("forDetail", sentdata);
       }
-      console.log("datatable888",datatable[i][5])
       try {
-        await axios.post("http://10.17.162.238:5000/ins_REQ_DETAIL", {
+        await axios.post("/ins_REQ_DETAIL", {
           famno: Gen_Fam_No,
           assetcode: datatable[i][0],
           assetname: datatable[i][3],
@@ -1393,30 +1096,32 @@ alert("Please select checkbox");
           val: datatable[i][10],
           by: LocalUserLogin,
         });
-        
+
         setvisibityFile("visible");
-        
       } catch (error) {
         console.error("Error during POST request:", error);
       }
-      
-       console.log(datatable[i][5],"8888")
-       try {
-        const response = await axios.post(
-          `http://10.17.162.238:5000/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
-        );
+      // try {
+      //   const response = await axios.post(
+      //     `/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
+      //   );
+        try {
+          const response = await axios.post(
+            "/ins_from_Boi",
+            {
+              running_no: Gen_Fam_No,
+              from_boi: datatable[i][5]
+            }
+          );
         setvisibityFile("visible");
       } catch (error) {
         //console.error("Error during login:", error);
       }
-      
     }
-    closePopupLoadding(); 
-   
-  
+    closePopupLoadding();
   };
   const handleClose = () => {
-    setSelectedItems([])
+    setSelectedItems([]);
     setOpen(false);
   };
   /////////////////////////////////////////////////////////////////////////////
@@ -1425,7 +1130,6 @@ alert("Please select checkbox");
     setTel1(event.target.value);
 
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1447,18 +1151,12 @@ alert("Please select checkbox");
         For_Rq_Edit[17],
         For_Rq_Edit[18],
         For_Rq_Edit[19],
-        For_Rq_Edit[20]
+        For_Rq_Edit[20],
       ];
-      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
-      //edit
     } else {
-      //insert
-
       if (For_Req[0] == "" && For_Req[0] == null) {
-        // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1476,11 +1174,9 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1498,20 +1194,14 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
     }
   };
   const handleDept = async (event) => {
-    console.log(event,"uuuuuuuuu")
     setselectDept1(event);
-    // setselectDept1(event.target.value);
-    // console.log("/////");
-
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1533,19 +1223,12 @@ alert("Please select checkbox");
         For_Rq_Edit[17],
         For_Rq_Edit[18],
         For_Rq_Edit[19],
-        For_Rq_Edit[20]
+        For_Rq_Edit[20],
       ];
-      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
-      //edit
     } else {
-      //insert
-      // console.log("------bbbbbb---------", For_Req[0]);
-
       if (For_Req[0] == "" && For_Req[0] == null) {
-        // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1563,11 +1246,9 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1585,7 +1266,6 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1593,10 +1273,7 @@ alert("Please select checkbox");
   };
   const handleRemark = async (event) => {
     setRemark(event.target.value);
-    // console.log("/////");
-
     if (EditFam != null) {
-      // console.log(">>>>>>>>..", For_Rq_Edit);
       const setData_ForRequester = [
         For_Rq_Edit[0],
         For_Rq_Edit[1],
@@ -1618,19 +1295,12 @@ alert("Please select checkbox");
         For_Rq_Edit[17],
         For_Rq_Edit[18],
         For_Rq_Edit[19],
-        For_Rq_Edit[20]
+        For_Rq_Edit[20],
       ];
-      // console.log("/////////////////");
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
-      //edit
     } else {
-      //insert
-      // console.log("------bbbbbb---------");
-
       if (For_Req[0] == "" && For_Req[0] == null) {
-        // ยังไม่genfam
-        // console.log("------>>>>>>>>>>>>>>>>---------");
         const setData_ForRequester = [
           "",
           LocalUserLogin,
@@ -1648,11 +1318,9 @@ alert("Please select checkbox");
           "",
           Emp_name,
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       } else {
-        // console.log("------///////////----------", For_Req);
         const setData_ForRequester = [
           For_Req[0],
           For_Req[1],
@@ -1670,7 +1338,6 @@ alert("Please select checkbox");
           For_Req[13],
           For_Req[14],
         ];
-        //// console.log(setData_ForRequester, "datadata");
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
       }
@@ -1678,84 +1345,36 @@ alert("Please select checkbox");
   };
   ////////////////////////////////////////////////////////////////////////////
 
-  ///////////////////////// Upload File ///////////////////////////////////
-  // const handleFileUpload = (event) => {
-  //   const selectedFiles = event.target.files;
-  //   const allowedTypes = ["image/png"]; // Allowed file types (add more if needed)
-  //   const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
-
-  //   // Check file types and sizes
-  //   for (let i = 0; i < selectedFiles.length; i++) {
-  //     const file = selectedFiles[i];
-  //     const fileType = file.type;
-
-  //     // Check if file type is allowed
-  //     if (allowedTypes.includes(fileType)) {
-  //       alert("PNG files are not allowed.");
-  //       return; // Stop further processing
-  //     }
-
-  //     // Check file size
-  //     if (file.size > maxSize) {
-  //       alert("File size exceeds 10 MB.");
-  //       return; // Stop further processing
-  //     }
-  //   }
-
-  //   // If all files passed the checks, proceed to add them to uploadedFiles
-  //   setUploadedFiles([...uploadedFiles, ...selectedFiles]);
-  //   setUploadedFilesDATA([...uploadedFilesDATA, ...selectedFiles]);
-
-  //   // Convert files to JSON format
-  //   const jsonDataArray = uploadedFilesDATA.map((file) => ({
-  //     name: file.name,
-  //     lastModified: file.lastModified,
-  //     lastModifiedDate: file.lastModifiedDate
-  //       ? file.lastModifiedDate.toISOString()
-  //       : null,
-  //     webkitRelativePath: file.webkitRelativePath,
-  //     size: file.size,
-  //     type: file.type,
-  //   }));
-
-  //   // Store JSON string in local storage with key "Type"
-  //   const fileArrayString = JSON.stringify(jsonDataArray);
-  //   localStorage.setItem("Type", fileArrayString);
-  //   // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
-  // };
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
-    //const acceptedTypes = [".xlsx", ".pdf", ".jpg", ".jpeg",".xls"];
 
+    const allowedTypes = [
+      "application/pdf",
+      "image/jpeg",
+      "image/jpg",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel",
+    ];
 
+    const maxSize = 10 * 1024 * 1024; 
 
-   const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg" , "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"]
-   
-    const maxSize = 10 * 1024 * 1024; // Maximum file size in bytes (10 MB)
-  
-    
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       const fileType = file.type;
-  
-      // Check if file type is allowed
+
       if (!allowedTypes.includes(fileType)) {
         alert("Only PDF, JPG, and XLS files are allowed.");
-        return; // Stop further processing
+        return;
       }
-  
-     // Check file size
+
+   
       if (file.size > maxSize) {
         alert("File size exceeds 10 MB.");
-        return; // Stop further processing
+        return; 
       }
-   }
-  
-    // If all files passed the checks, proceed to add them to uploadedFiles
+    }
     setUploadedFiles([...uploadedFiles, ...selectedFiles]);
     setUploadedFilesDATA([...uploadedFilesDATA, ...selectedFiles]);
-  
-    // Convert files to JSON format
     const jsonDataArray = uploadedFilesDATA.map((file) => ({
       name: file.name,
       lastModified: file.lastModified,
@@ -1766,13 +1385,9 @@ alert("Please select checkbox");
       size: file.size,
       type: file.type,
     }));
-  
-    // Store JSON string in local storage with key "Type"
     const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
-    // console.log(uploadedFiles, "Uploaded Files", jsonDataArray);
   };
-  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -1781,7 +1396,6 @@ alert("Please select checkbox");
     event.preventDefault();
     const files = event.dataTransfer?.files;
     if (files) {
-      //// console.log("///////////////////////////////", files);
       handleFileUpload({ target: { files } });
     }
   };
@@ -1799,10 +1413,17 @@ alert("Please select checkbox");
         const lastDotIndex = file.name.lastIndexOf(".");
         const fileExtension = file.name.slice(lastDotIndex + 1);
         let new_run_seq = "";
-        try {
-          const response_seq = await axios.get(
-            `http://10.17.162.238:5000/get_seq_request?FAM_no=${Gen_Fam_No}`
-          );
+        // try {
+        //   const response_seq = await axios.get(
+        //     `/get_seq_request?FAM_no=${Gen_Fam_No}`
+        //   );
+          try {
+            const response_seq = await axios.post(
+              "/get_seq_request",
+              {
+                FAM_no: Gen_Fam_No,
+              }
+            );
           const get_run_seq = await response_seq.data;
           const lastValue =
             get_run_seq.length > 0 ? get_run_seq[get_run_seq.length - 1][0] : 0;
@@ -1815,11 +1436,9 @@ alert("Please select checkbox");
 
         try {
           const response = await axios.post(
-            `http://10.17.162.238:5000/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
           );
           const data = await response.data;
-          // console.log(data, "dataYpload");
-          //// console.log("อัฟโหลดไฟล์สำเร็จ =", response);
         } catch (error) {
           console.error("Error Upload File Request:", error);
         }
@@ -1827,15 +1446,11 @@ alert("Please select checkbox");
           const formData = new FormData();
           uploadedFilesDATA.forEach((file) => {
             formData.append("files", file);
-
-            // formData.append('filesname', file.name);
           });
-
           await axios.post(
-            "http://10.17.162.238:5000/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
+            "/ins_FILE_FROM_REQUEST_TO_PROJECT_ME",
             formData
           );
-          //// console.log("Files saved successfully");
         } catch (error) {
           console.error("Error saving files:", error);
         }
@@ -1848,73 +1463,71 @@ alert("Please select checkbox");
       title: "Uploads File Success",
       icon: "success",
     });
-    
+
     setUploadedFilesDATA([]);
-    setUploadedFiles([])
+    setUploadedFiles([]);
     localStorage.removeItem("Type");
     ShowFile();
     closePopupLoadding();
-    
   };
 
-  const handleDeleteFile = async (index, file,fileName) => {
-    // console.log(index, "index", file);
-    //console.log(fileName, "filefilefilefilefile");
+  const handleDeleteFile = async (index, file, fileName) => {
     openPopupLoadding();
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
     setUploadedFiles(updatedFiles);
-    
-    try {
-      await axios.post(
-        `http://10.17.162.238:5000/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
-      );
+
+    // try {
+    //   await axios.post(
+    //     `/deletefile?famno=${Gen_Fam_No}&name_for_file=${file}`
+    //   );
+      try {
+        const response = await axios.post(
+          "/deletefile",
+          {
+            famno: Gen_Fam_No,
+            name_for_file:file
+          }
+        );
       localStorage.removeItem("Type");
     } catch (error) {
       console.error("Error deleting file:", error);
     }
     try {
-      const response = await axios.delete(`http://10.17.162.238:5000/deleteFile?data=${fileName}`, 
-          // data: { fileName }
+      const response = await axios.delete(
+        `/deleteFile?data=${fileName}`
       );
-      
-  } catch (error) {
-      console.error('Error deleting file:', error);
-      
-  }
+    } catch (error) {
+      console.error("Error deleting file:", error);
+    }
     closePopupLoadding();
-      ShowFile();
+    ShowFile();
   };
-  const clearLocal = async () =>  {
+  const clearLocal = async () => {
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
-    localStorage.removeItem("TransForDetail")
-    localStorage.removeItem("EDIT")
-    localStorage.removeItem("For_Transfer")
-    localStorage.removeItem("For_Routing")
-    localStorage.removeItem("For_Req_Edit")
-    localStorage.removeItem("Edit_Trans")
-    localStorage.removeItem("Edit_Dteail_for_FixedCode") 
-    localStorage.removeItem("Edit_routing") 
-    localStorage.removeItem("Type")
-  }
+    localStorage.removeItem("TransForDetail");
+    localStorage.removeItem("EDIT");
+    localStorage.removeItem("For_Transfer");
+    localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Req_Edit");
+    localStorage.removeItem("Edit_Trans");
+    localStorage.removeItem("Edit_Dteail_for_FixedCode");
+    localStorage.removeItem("Edit_routing");
+    localStorage.removeItem("Type");
+  };
   const Back_page = async () => {
-   if(page == "SEARCH"){
-    clearLocal();
-     navigate("/Search");
-   }else if (page == "APPROVEFAM"){
-    clearLocal();
-    navigate("/ApproveFam"); 
-   }
-   //else if (page == "APPROVEFAM"){
-  //   navigate("/ApproveFam");
-  //  }
-   
+    if (page == "SEARCH") {
+      clearLocal();
+      navigate("/Search");
+    } else if (page == "APPROVEFAM") {
+      clearLocal();
+      navigate("/ApproveFam");
+    }
   };
 
   ////////////////////////////////////////////////////////////////////////////
   ////// ปุ่ม Reset ///////////
   const Reset = async () => {
-    
     setTel1("");
     setselectDept1("");
     setRequest_type1("");
@@ -1922,10 +1535,10 @@ alert("Please select checkbox");
     //setselectFixAsset_cost1("");
     setRequest_sts1("");
     setRemark("");
-    setowner_dept("")
-    setowner_req("")
-    setname_req("")
-    setowner_tel("")
+    setowner_dept("");
+    setowner_req("");
+    setname_req("");
+    setowner_tel("");
   };
 
   const navigate = useNavigate();
@@ -1940,7 +1553,6 @@ alert("Please select checkbox");
       title: "Save Details Success",
       icon: "success",
     });
-   
   };
 
   return (
@@ -2043,37 +1655,42 @@ alert("Please select checkbox");
                   </Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                    Request By Tel :
+                      Request By Tel :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                  <TextField
-  size="small"
-  style={{
-    width: "100%",
-    backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
-  }}
-  disabled={read_tel}
-  id="Txt_Tel"
-  value={Tel1}
-  onChange={handleTel}
-  error={(Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null)}
-  FormHelperTextProps={{
-    error: (Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null),
-  }}
->
-  <FormHelperText>
-    {(Gen_Fam_No || EditFam) && (Tel1 === "" || Tel1 === undefined || Tel1 === null)
-      ? ""
-      : "Please enter your mobile phone number"}
-  </FormHelperText>
-</TextField>
-
-
-                      
+                    <TextField
+                      size="small"
+                      style={{
+                        width: "100%",
+                        backgroundColor: read_tel
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
+                      }}
+                      disabled={read_tel}
+                      id="Txt_Tel"
+                      value={Tel1}
+                      onChange={handleTel}
+                      error={
+                        (Gen_Fam_No || EditFam) &&
+                        (Tel1 === "" || Tel1 === undefined || Tel1 === null)
+                      }
+                      FormHelperTextProps={{
+                        error:
+                          (Gen_Fam_No || EditFam) &&
+                          (Tel1 === "" || Tel1 === undefined || Tel1 === null),
+                      }}
+                    >
+                      <FormHelperText>
+                        {(Gen_Fam_No || EditFam) &&
+                        (Tel1 === "" || Tel1 === undefined || Tel1 === null)
+                          ? ""
+                          : "Please enter your mobile phone number"}
+                      </FormHelperText>
+                    </TextField>
                   </Grid>
                 </Grid>
-             
+
                 {/* Owner and TelOwner */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -2086,19 +1703,25 @@ alert("Please select checkbox");
                       size="small"
                       disabled={read_tel}
                       style={{
-                        width: "100%" , backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",}}
+                        width: "100%",
+                        backgroundColor: read_tel
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
+                      }}
                       id="Txt_user"
                       value={owner_req}
                       onChange={(e) => {
                         setowner_req(e.target.value);
-                        console.log(e.target.value);
+                    
                         handleEmpUser(e.target.value);
-                    }}error={
-                      (Gen_Fam_No || EditFam) &&
-                      (owner_req === "" || owner_req === undefined || owner_req === null)
-                    }
-  
-                    ></TextField> 
+                      }}
+                      error={
+                        (Gen_Fam_No || EditFam) &&
+                        (owner_req === "" ||
+                          owner_req === undefined ||
+                          owner_req === null)
+                      }
+                    ></TextField>
                   </Grid>
                   <Grid xs={2}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
@@ -2109,14 +1732,17 @@ alert("Please select checkbox");
                     <TextField
                       size="small"
                       id="Txt_Tel"
-                      style={{width:'100%',backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      }}
                       disabled
                       value={owner_dept}
-                      onChange={(e) =>setowner_dept(e.target.value)}
+                      onChange={(e) => setowner_dept(e.target.value)}
                     />
                   </Grid>
-                </Grid>  
-             
+                </Grid>
+
                 {/* Owner and TelOwner */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -2145,34 +1771,24 @@ alert("Please select checkbox");
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      style={{width:'100%' , backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",}}
-                      // style={{ width: "100%"  , 
-                      //   backgroundColor: read_tel ? "rgba(169, 169, 169, 0.3)" : "",
-                      // }}
+                      style={{
+                        width: "100%",
+                        backgroundColor: read_tel
+                          ? "rgba(169, 169, 169, 0.3)"
+                          : "",
+                      }}
                       disabled={read_tel}
-                      
-                      // style={{
-
-                      //   width: "100%",
-                      // }}
-                      // style={{
-                      //   borderColor: errorTelReq ? "red" : undefined,  width: "100%",
-                      // }}
-                      // error={
-                      //   (Gen_Fam_No || EditFam) &&
-                      //   (Tel1 === "" || Tel1 === undefined || Tel1 === null)
-                      // }
-                     
                       value={owner_tel}
                       onChange={handleOwner_tel}
-                       error={
+                      error={
                         (Gen_Fam_No || EditFam) &&
-                        (owner_tel === "" || owner_tel === undefined || owner_tel === null)
+                        (owner_tel === "" ||
+                          owner_tel === undefined ||
+                          owner_tel === null)
                       }
                     />
                   </Grid>
-                </Grid>  
-
+                </Grid>
 
                 {/* Factory and Cost center */}
                 <Grid container spacing={3}>
@@ -2193,25 +1809,8 @@ alert("Please select checkbox");
                       disabled
                     ></TextField>
                   </Grid>
-                  {/* <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request by Cost Center :
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "rgba(169, 169, 169, 0.3)",
-                      }}
-                      value={Costcenter1}
-                      onChange={(e) => setCostcenter1(e.target.value)}
-                      disabled
-                    ></TextField>
-                  </Grid> */}
                 </Grid>
-                
+
                 {/* Dept  */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -2220,72 +1819,41 @@ alert("Please select checkbox");
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                  {STS1_Req === "FLTR001" ||
+                    {STS1_Req === "FLTR001" ||
                     STS1_Req === "" ||
                     STS1_for_R === "R" ? (
-                    <FormControl fullWidth>
-                      {/* <InputLabel size="small" id="demo-simple-select-label">
-                        Select
-                      </InputLabel> */}
-
-                      {/* <Select
-                        id="factorycbt"
-                        label="Select"
-                        size="small"
-                        disabled={read_dept}
-                        value={selectDept1}
-                        onChange={handleDept}
-                        style={{
-                          width: "100%",
-                          backgroundColor: read_dept
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                        }}
-                        error={
-                          (Gen_Fam_No || EditFam) &&
-                          (selectDept1 === "" ||
-                            selectDept1 === undefined ||
-                            selectDept1 === null)
-                        }
-                      >
-                        {Dept.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </Select> */}
-                      <Autocomplete
-                       disabled={read_dept}
-                  style={{
-                    width: "100%",
-                          backgroundColor: read_dept
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                  }}
-                  error={
-                    (Gen_Fam_No || EditFam) &&
-                    (selectDept1 === "" ||
-                      selectDept1 === undefined ||
-                      selectDept1 === null)
-                  }
-                      value={selectDept1}
-                      onChange={(e, value) => {
-                        setselectDept1(value);
-                        handleDept(value)
-                        console.log(value, "MMMMM");
-                    }}
-                    
-                      options={Dept.map((item) => item)}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Select"
-                          size="small"
-                          sx={{ textAlign: "left" }}
+                      <FormControl fullWidth>
+                        <Autocomplete
+                          disabled={read_dept}
+                          style={{
+                            width: "100%",
+                            backgroundColor: read_dept
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          error={
+                            (Gen_Fam_No || EditFam) &&
+                            (selectDept1 === "" ||
+                              selectDept1 === undefined ||
+                              selectDept1 === null)
+                          }
+                          value={selectDept1}
+                          onChange={(e, value) => {
+                            setselectDept1(value);
+                            handleDept(value);
+                          }}
+                          options={Dept.map((item) => item)}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select"
+                              size="small"
+                              sx={{ textAlign: "left" }}
+                            />
+                          )}
                         />
-                      )}
-                    />
-                    </FormControl> ) : (
+                      </FormControl>
+                    ) : (
                       <TextField
                         style={{
                           backgroundColor: read_dept
@@ -2398,7 +1966,7 @@ alert("Please select checkbox");
                         }}
                         disabled={read_fix_group}
                       >
-                        {/* <MenuItem value="test">test</MenuItem> */}
+                     
                         {FixAssetgroup.map((option, index) => (
                           <MenuItem key={index} value={FixAssetgroup[index][0]}>
                             {FixAssetgroup[index][1]}
@@ -2408,7 +1976,13 @@ alert("Please select checkbox");
                     </FormControl>
                   </Grid>
                   <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" ,display:'none' }}>
+                    <Typography
+                      style={{
+                        width: "100%",
+                        textAlign: "right",
+                        display: "none",
+                      }}
+                    >
                       Asset Cost Center :
                     </Typography>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
@@ -2417,77 +1991,33 @@ alert("Please select checkbox");
                   </Grid>
                   <Grid xs={3}>
                     <FormControl fullWidth>
-                      {/* <InputLabel size="small" id="demo-simple-select-label">
-                        Select
-                      </InputLabel>
-                      <Select
-                        // labelId="demo-simple-select-label"
-                        id="factorycbt"
-                        label="Select"
+                      <TextField
                         size="small"
-                        value={selectFixAsset_cost1}
-                        onChange={handleCost}
+                        disabled={read_fix_cost}
                         style={{
                           backgroundColor: read_fix_cost
                             ? "rgba(169, 169, 169, 0.3)"
                             : "",
+                          display: "none",
                         }}
-                        disabled={read_fix_cost}
-                      >
-                        {FixAsset_cost.map((option) => (
-                          <MenuItem value={option[0]}>{option[0]}</MenuItem>
-                        ))}
-                      </Select> */}
-                        {/* <Autocomplete
-                         disabled={read_fix_cost}
-                   style={{
-                    backgroundColor: read_fix_cost
-                      ? "rgba(169, 169, 169, 0.3)"
-                      : "",
-                  }}
-                      value={selectFixAsset_cost1}
-                      onChange={(e, value) => {
-                        setselectFixAsset_cost1(value);
-                        handleCost(value);
-                    }}
-                    
-                      options={FixAsset_cost.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Select"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    /> */}
-                    {console.log(owner_dept,"99999")}
-                    <TextField
-                     size="small" 
-  disabled={read_fix_cost}
-  style={{
-    backgroundColor: read_fix_cost ? "rgba(169, 169, 169, 0.3)" : ""
-    ,display:'none'
-  }} 
-  value={owner_dept}
-  onChange={(e) => {
-    const value = e.target.value;
-    setowner_dept(value);
-    // handleCost(value);
-  }}
-/>   
- <TextField
-                      size="small"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "rgba(169, 169, 169, 0.3)",
-                      }}
-                      // value={status}
-                      disabled
-                      value={Request_sts1}
-                      onChange={(e) => setRequest_sts1(e.target.value)}
-                    ></TextField>
-
+                        value={owner_dept}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setowner_dept(value);
+            
+                        }}
+                      />
+                      <TextField
+                        size="small"
+                        style={{
+                          width: "100%",
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+          
+                        disabled
+                        value={Request_sts1}
+                        onChange={(e) => setRequest_sts1(e.target.value)}
+                      ></TextField>
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -2533,7 +2063,6 @@ alert("Please select checkbox");
                       }}
                       disabled={reac_remark}
                       value={Remark}
-                      //onChange={(e) => setRemark(e.target.value)}
                       onChange={handleRemark}
                     ></TextField>
                   </Grid>
@@ -2568,7 +2097,10 @@ alert("Please select checkbox");
           </Card>
         </div>
         {/* สำหรับ Fixed Assets Code */}
-        <br></br><br></br><br></br><br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
         <div
           className="Fixed-Asset-Code"
           style={{ visibility: visibityDetails }}
@@ -2694,7 +2226,7 @@ alert("Please select checkbox");
                               <TableCell>{item[3]}</TableCell>
                             </TableRow>
                           ))} */}
-                                         <Table className="Modal-Table">
+                      <Table className="Modal-Table">
                         <TableHead>
                           <TableRow>
                             <TableCell>
@@ -2720,10 +2252,9 @@ alert("Please select checkbox");
                               }}
                             >
                               <TableCell>
-                              <Checkbox
+                                <Checkbox
                                   checked={selectedItems[index] || false}
                                   onChange={() => handleCheckboxChange(index)}
-                                  
                                   disabled={
                                     COMP.some(
                                       (compItem) =>
@@ -2757,7 +2288,6 @@ alert("Please select checkbox");
                           ))}
                         </TableBody>
                       </Table>
-                   
                     </TableContainer>
                     <DialogActions style={{ marginTop: "20px" }}>
                       <Button
@@ -2853,8 +2383,10 @@ alert("Please select checkbox");
                                 <TableCell>{item[7]}</TableCell>
                                 {/* <TableCell>{item[9]}</TableCell> */}
                                 <TableCell>
-  {typeof item[9] === 'number' ? item[9].toLocaleString() : item[9]}
-</TableCell>
+                                  {typeof item[9] === "number"
+                                    ? item[9].toLocaleString()
+                                    : item[9]}
+                                </TableCell>
 
                                 <TableCell>{item[10]}</TableCell>
                               </TableRow>
@@ -2885,15 +2417,25 @@ alert("Please select checkbox");
                               )}
                             </TableCell> */}
                             <TableCell style={{ fontWeight: "bold" }}>
-  {datatable
-    .reduce((acc, curr) => acc + parseFloat(curr[9]), 0)
-    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-</TableCell>
+                              {datatable
+                                .reduce(
+                                  (acc, curr) => acc + parseFloat(curr[9]),
+                                  0
+                                )
+                                .toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })}
+                            </TableCell>
 
-<TableCell style={{ fontWeight: "bold" }}>
-  {datatable.reduce((acc, curr) => acc + parseInt(curr[10]), 0).toLocaleString('en-US')}
-</TableCell>
-
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {datatable
+                                .reduce(
+                                  (acc, curr) => acc + parseInt(curr[10]),
+                                  0
+                                )
+                                .toLocaleString("en-US")}
+                            </TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
@@ -2930,7 +2472,7 @@ alert("Please select checkbox");
         </div>
         {/* สำหรับ Upload File */}
         {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ? (
-          <div >
+          <div>
             <Card
               sx={{
                 visibility: visibityFile,
@@ -2955,199 +2497,199 @@ alert("Please select checkbox");
                 File from request
               </Typography>
 
-<table className="Table_file_for_req">
-<tr >
-  <td className="Table_Show_req1">
-  <td
+              <table className="Table_file_for_req">
+                <tr>
+                  <td className="Table_Show_req1">
+                    <td
                       className="Show-Data-File"
                       style={{ textAlign: "center" }}
                     >
                       <div
-                        // style={{
-                        //   display: "inline-block",
-                        //   marginBottom: "40px",
-                        //   width: "500px",
-                        // }}
+                      // style={{
+                      //   display: "inline-block",
+                      //   marginBottom: "40px",
+                      //   width: "500px",
+                      // }}
                       >
-                       <TableContainer component={Paper}>
-  <Table className="FamFilePopUp">
-    <TableHead>
-      <TableRow>
-        <TableCell></TableCell>
-        <TableCell>No.</TableCell>
-        <TableCell>File</TableCell>
-        <TableCell>View</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {Filedata.length === 0 ? (
-        <TableRow>
-          <TableCell colSpan={4} style={{ textAlign: "center" }}>
-            <Empty />
-          </TableCell>
-        </TableRow>
-      ) : (
-        Filedata.map((option, index) => (
-          <TableRow key={index}>
-            <TableCell>
-              <DeleteOutlined
-                onClick={() =>
-                  handleDeleteFile(Filedata[index][0], Filedata[index][3], Filedata[index][4])
-                }
-                className="Icon_DeleteFile"
-              />
-            </TableCell>
-            <TableCell>{Filedata[index][2]}</TableCell>
-            <TableCell>{Filedata[index][3]}</TableCell>
-            <TableCell
-              style={{
-                textAlign: "center",
-                color: "blue",
-                textDecoration: "underline",
-              }}
-            >
-              <PlagiarismIcon
-                style={{ cursor: "pointer" ,fontSize:'30px' }}
-                onClick={() => downloadFile(Filedata[index][4])}
-              >
-                {Filedata[index][3]}
-              </PlagiarismIcon>
-            </TableCell>
-          </TableRow>
-        ))
-      )}
-    </TableBody>
-  </Table>
-</TableContainer>
-
+                        <TableContainer component={Paper}>
+                          <Table className="FamFilePopUp">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>No.</TableCell>
+                                <TableCell>File</TableCell>
+                                <TableCell>View</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {Filedata.length === 0 ? (
+                                <TableRow>
+                                  <TableCell
+                                    colSpan={4}
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <Empty />
+                                  </TableCell>
+                                </TableRow>
+                              ) : (
+                                Filedata.map((option, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>
+                                      <DeleteOutlined
+                                        onClick={() =>
+                                          handleDeleteFile(
+                                            Filedata[index][0],
+                                            Filedata[index][3],
+                                            Filedata[index][4]
+                                          )
+                                        }
+                                        className="Icon_DeleteFile"
+                                      />
+                                    </TableCell>
+                                    <TableCell>{Filedata[index][2]}</TableCell>
+                                    <TableCell>{Filedata[index][3]}</TableCell>
+                                    <TableCell
+                                      style={{
+                                        textAlign: "center",
+                                        color: "blue",
+                                        textDecoration: "underline",
+                                      }}
+                                    >
+                                      <PlagiarismIcon
+                                        style={{
+                                          cursor: "pointer",
+                                          fontSize: "30px",
+                                        }}
+                                        onClick={() =>
+                                          downloadFile(Filedata[index][4])
+                                        }
+                                      >
+                                        {Filedata[index][3]}
+                                      </PlagiarismIcon>
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
                       </div>
                     </td>
-  </td>
-  <td style={{width:'20px'}}></td>
-  <td className="Table_Show_req2">
-  <input
+                  </td>
+                  <td style={{ width: "20px" }}></td>
+                  <td className="Table_Show_req2">
+                    <input
                       type="file"
                       multiple
                       onChange={handleFileUpload}
                       style={{ display: "none" }}
                       id="fileInput"
                       ref={fileInputRef}
-                   
-                    /> 
-                    <div style={{width:'400px'}}>
-                    <label
-                      htmlFor="fileInput"
-                      onDragOver={handleDragOver}
-                      onDrop={handleDrop}
-                      className="bt_ChooseFile"
-                    >
-                      <CloudUploadOutlined
-                        style={{ fontSize: "30px", color: "#86B6F6" }}
-                      />
-                      <br />
-                      <span style={{ fontWeight: "bold" }}>
-                        Drop your files here
-                      </span>
-                      <br />
-                      or
-                      <br />
-                      <Button size="small" component="span">
-                        <b> Browse files</b>
-                      </Button>
-                    </label>
-                  
-                    {uploadedFiles.length > 0 && (
-                      <div>
-                        <ul>
-                          {uploadedFiles.map((file, index) => (
-                            <div key={index} className="BorderFile">
-                              <Typography className="Font_File">
-                                <span style={{ marginLeft: "10px" }}>
-                                  {file.type.startsWith("image/") ? (
-                                    <img
-                                      src={URL.createObjectURL(file)}
-                                      alt={file.name}
-                                      className="Img_file"
-                                    />
-                                  ) : (
-                                    <>
-                                      {file.name.endsWith(".xlsx") ? (
-                                        <FileExcelOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#65B741" }}
-                                        />
-                                      ) : file.name.endsWith(".pdf") ? (
-                                        <FilePdfOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#FF6347" }}
-                                        />
-                                      ) : file.name.endsWith(".docx") ? (
-                                        <FileWordOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#3468C0" }}
-                                        />
-                                      ) : file.name.endsWith(".txt") ? (
-                                        <FileTextOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#B6BBC4" }}
-                                        />
-                                      ) : (
-                                        <FileUnknownOutlined
-                                          className="Icon_file"
-                                          style={{ color: "#FFD3A3" }}
-                                        />
-                                      )}
-                                    </>
-                                  )}
-                                  {index + 1} {file.name}
-                                </span>
-                               
-                                <DeleteOutlined
-                                
-                                  onClick={() =>
-                                    handleDeleteFile(index, file.name)
-                                    
-                                  } 
-                                  
-                                  className="Icon_DeleteFile"
-                                />
-                                
-                              </Typography>
-                            </div>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    <div
-                      style={{
-                        textAlign: "right",
-                        marginTop: "5px",
-                        display:
-                          STS1_Req == "" ||
-                          STS1_Req == "FLTR001" ||
-                          STS1_for_R === "R"
-                            ? "block"
-                            : "none",
-                      }}
-                    >
-                      <Button variant="contained" onClick={handleSave}>
-                        Save
-                      </Button>
-                    </div>
-</div>
-  </td>
-</tr>
-</table>
+                    />
+                    <div style={{ width: "400px" }}>
+                      <label
+                        htmlFor="fileInput"
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                        className="bt_ChooseFile"
+                      >
+                        <CloudUploadOutlined
+                          style={{ fontSize: "30px", color: "#86B6F6" }}
+                        />
+                        <br />
+                        <span style={{ fontWeight: "bold" }}>
+                          Drop your files here
+                        </span>
+                        <br />
+                        or
+                        <br />
+                        <Button size="small" component="span">
+                          <b> Browse files</b>
+                        </Button>
+                      </label>
 
+                      {uploadedFiles.length > 0 && (
+                        <div>
+                          <ul>
+                            {uploadedFiles.map((file, index) => (
+                              <div key={index} className="BorderFile">
+                                <Typography className="Font_File">
+                                  <span style={{ marginLeft: "10px" }}>
+                                    {file.type.startsWith("image/") ? (
+                                      <img
+                                        src={URL.createObjectURL(file)}
+                                        alt={file.name}
+                                        className="Img_file"
+                                      />
+                                    ) : (
+                                      <>
+                                        {file.name.endsWith(".xlsx") ? (
+                                          <FileExcelOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#65B741" }}
+                                          />
+                                        ) : file.name.endsWith(".pdf") ? (
+                                          <FilePdfOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FF6347" }}
+                                          />
+                                        ) : file.name.endsWith(".docx") ? (
+                                          <FileWordOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#3468C0" }}
+                                          />
+                                        ) : file.name.endsWith(".txt") ? (
+                                          <FileTextOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#B6BBC4" }}
+                                          />
+                                        ) : (
+                                          <FileUnknownOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FFD3A3" }}
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                    {index + 1} {file.name}
+                                  </span>
+
+                                  <DeleteOutlined
+                                    onClick={() =>
+                                      handleDeleteFile(index, file.name)
+                                    }
+                                    className="Icon_DeleteFile"
+                                  />
+                                </Typography>
+                              </div>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      <div
+                        style={{
+                          textAlign: "right",
+                          marginTop: "5px",
+                          display:
+                            STS1_Req == "" ||
+                            STS1_Req == "FLTR001" ||
+                            STS1_for_R === "R"
+                              ? "block"
+                              : "none",
+                        }}
+                      >
+                        <Button variant="contained" onClick={handleSave}>
+                          Save
+                        </Button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
               <table className="All-Layout-File">
                 <tr>
-                  
-                   
-                
-                  <td className="">
-                   
-                  </td>
+                  <td className=""></td>
                 </tr>
                 <tr></tr>
                 <tr
@@ -3158,13 +2700,10 @@ alert("Please select checkbox");
                   }}
                 ></tr>
               </table>
-
-
-
             </Card>
           </div>
         ) : (
-          <div className="ShowFile" >
+          <div className="ShowFile">
             <Card
               sx={{
                 visibility: visibityFile,
@@ -3190,98 +2729,98 @@ alert("Please select checkbox");
               >
                 File from request
               </Typography>
-              <table className="TableShow"  style={{padding:'40px'}}>
+              <table className="TableShow" style={{ padding: "40px" }}>
                 <tr>
                   <td>
-                  <div className="ImageShowFile">
-  <img src="./src/assets/Image/2.png"
-   style={{width:'400px' }}  
-    alt="Description of your image" />
-</div>
-
+                    <div className="ImageShowFile">
+                      <img
+                        src="./src/assets/Image/2.png"
+                        style={{ width: "400px" }}
+                        alt="Description of your image"
+                      />
+                    </div>
                   </td>
                   <td>
-<div className="FileShow" style={{ marginBottom: "40px" }}>
-                <TableContainer component={Paper}>
-                  <Table className="File_For_Show">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>No.</TableCell>
-                        <TableCell>File</TableCell>
-                        <TableCell>View</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Filedata.map((option, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{Filedata[index][2]}</TableCell>
-                          <TableCell>{Filedata[index][3]}</TableCell>
-                          <TableCell
-                            style={{
-                              textAlign: "center",
-                              color: "blue",
-                              textDecoration: "underline",
-                            }}
-                          >
-                            <p
-                              style={{ cursor: "pointer" }}
-                              onClick={() => downloadFile(Filedata[index][4])}
-                            >
-                              {Filedata[index][3]}
-                            </p>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                      {/* <TableRow>
+                    <div className="FileShow" style={{ marginBottom: "40px" }}>
+                      <TableContainer component={Paper}>
+                        <Table className="File_For_Show">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>No.</TableCell>
+                              <TableCell>File</TableCell>
+                              <TableCell>View</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {Filedata.map((option, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{Filedata[index][2]}</TableCell>
+                                <TableCell>{Filedata[index][3]}</TableCell>
+                                <TableCell
+                                  style={{
+                                    textAlign: "center",
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  <p
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      downloadFile(Filedata[index][4])
+                                    }
+                                  >
+                                    {Filedata[index][3]}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                            {/* <TableRow>
               <TableCell colSpan={4} style={{ border: "0" }}>
                 
               </TableCell>
             </TableRow> */}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </div>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
                   </td>
                 </tr>
               </table>
-              
-              
             </Card>
           </div>
         )}
         {/* ปุ่ม Next Page */}
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-  <Button
-    variant="contained"
-    style={{
-      width: "200px",
-      marginTop: "20px",
-      marginBottom: "20px",
-      backgroundColor: "gray",
-      marginLeft :'20px',
-      visibility: checknext
-    }}
-    onClick={Back_page}
-  >
-    BACK PAGE
-  </Button>
+          <Button
+            variant="contained"
+            style={{
+              width: "200px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              backgroundColor: "gray",
+              marginLeft: "20px",
+              visibility: checknext,
+            }}
+            onClick={Back_page}
+          >
+            BACK PAGE
+          </Button>
 
-  <Button
-    style={{
-      width: "200px",
-      marginTop: "20px",
-      marginBottom: "20px",
-      backgroundColor: "gray",
-      visibility: checknext,
-      marginRight :'20px',
-    }}
-    variant="contained"
-    onClick={NextPage}
-  >
-    Next Page
-  </Button>
-</div>
-
+          <Button
+            style={{
+              width: "200px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              backgroundColor: "gray",
+              visibility: checknext,
+              marginRight: "20px",
+            }}
+            variant="contained"
+            onClick={NextPage}
+          >
+            Next Page
+          </Button>
+        </div>
       </div>
     </>
   );

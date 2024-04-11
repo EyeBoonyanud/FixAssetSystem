@@ -51,7 +51,9 @@ function TransFerDetail() {
   };
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
-  }
+  };
+
+  ////////////////////// ตัวแปร ทั่วไป  //////////////////////////////
  
 
 
@@ -60,12 +62,13 @@ function TransFerDetail() {
   useEffect(() => {
     openPopupLoadding();
     const FAM_Routing  = async () => {
-        try {
-          const response = await axios.post("/getData_Routing_show_VIEW", {
-            famno: VIEW_FAM,
-          });
+      try {
+        const response = await axios.get(
+          `http://10.17.162.238:5000/getData_Routing_show_VIEW?FamNo=${VIEW_FAM}`
+        );
         const data = await response.data.flat();
         setDataRoutingFamno(data);
+        console.log(data,"JJJJjj")
         setselectradio_dept(data[1])
         setselectradio_serviceby(data[7])
         setselectradio_boistaff(data[11])
@@ -82,27 +85,27 @@ function TransFerDetail() {
       }
     };
     const FAM_Transfer = async () => {
-
-        try {
-          const response = await axios.post("/getData_Transfer_show_VIEW", {
-            famno: VIEW_FAM,
-          });
+      try {
+        const response = await axios.get(
+          `http://10.17.162.238:5000/getData_Transfer_show_VIEW?FamNo=${VIEW_FAM}`
+        );
         const data = await response.data.flat();
         setDataTransferFamno(data) ;
         setselectradio_receiver(data[9])
-        console.log(data,"data99999999999999999")
+        console.log(data,"data")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
     };
     const Name = async () => {
       try {
-        const response = await axios.post("/getData_showName", {
-          famno: VIEW_FAM,
-        });
+        const response = await axios.get(
+          `http://10.17.162.238:5000/getData_showName?FamNo=${VIEW_FAM}`
+        );
         const data = await response.data;
 
-        setDataName(data);
+        setDataName(data) ;
+        console.log(data,"datauuuuuuuuuuuu")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }

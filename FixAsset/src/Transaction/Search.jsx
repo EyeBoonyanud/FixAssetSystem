@@ -21,8 +21,7 @@ import {
   Button,
   InputLabel,
   Autocomplete,
-  Checkbox
-  
+  Checkbox,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -56,10 +55,10 @@ function Issue() {
 
   const [selectcostMul, setselectcostMul] = useState([]);
   const [selectReTypeMul, setselectReTypeMul] = useState([]);
-  const [selectStatus, setselectStatus] = useState(null);  
+  const [selectStatus, setselectStatus] = useState(null);
   const [Status, setStatus] = useState([]);
   const [idStatus, setidStatus] = useState([]);
-  
+
   const [selectdeptMul, setselectdeptMul] = useState([]);
   const [selectcost, setselectcost] = useState("");
   const [Txt_user, setTxt_user] = useState("");
@@ -69,9 +68,9 @@ function Issue() {
   const [getCostCenter, setgetCostCenter] = useState([]);
   const [selectCostCenter, setselectCostCenter] = useState([]);
   const [dataSearch, setdataSearch] = useState([]);
-  const [checkHead, setCheckHead] = useState("hidden"); //ตัวแปรเช็คค่าของ ตาราง
-  const [checkEmpty, setCheckEmpty] = useState("hidden"); // ตัวแปรเช็คค่าว่าง
-  const [checkData, setCheckData] = useState("visible"); // ตัวแปร datashow warning
+  const [checkHead, setCheckHead] = useState("hidden"); 
+  const [checkEmpty, setCheckEmpty] = useState("hidden"); 
+  const [checkData, setCheckData] = useState("visible"); 
   const [loading, setloading] = useState("true");
   const [selectindex, setselectindex] = useState("0");
   const [selectindex_delete, setselectindex_delete] = useState("0");
@@ -81,12 +80,12 @@ function Issue() {
   const [dataStatus, setdataStatus] = useState("");
   const [PAGEStatus, setPAGEStatus] = useState("");
   const [Txt_Title, setTxt_Title] = useState("");
-  const [dataName_file ,setdataName_file] =useState([])
+  const [dataName_file, setdataName_file] = useState([]);
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-   console.log("YYYY",dataName_file)
-   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  console.log("YYYY", dataName_file);
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const openPopupLoadding = () => {
     setPopupOpenLoadding(true);
   };
@@ -94,37 +93,20 @@ function Issue() {
     setPopupOpenLoadding(false);
   };
 
-  // function formatDateString(rawDate) {
-  //   const options = { year: "numeric", month: "numeric", day: "numeric" };
-  //   const date = new Date(rawDate);
-  //   return date.toLocaleDateString(undefined, options);
-  // }
- 
   const handleSelectChange = async (event) => {
     setselecteDatafac(event.target.value);
     let idFactory = event.target.value;
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getdept?idFactory=${idFactory}`
-      );
+      const response = await axios.post("/getdept", {
+        id_fac: idFactory,
+      });
       const data = await response.data;
       setdept(data);
+      console.log("data67hehsb", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
-  const handleDept = (event) => {
-    setselectdept(event.target.value);
-  };
-  const handleCost = (event) => {
-    setselectcost(event.target.value);
-    // console.log(event.target.value, "setselectcost");
-  };
-  const handleType = (event) => {
-    setselectReType(event.target.value);
-    // // console.log(event.target.value,"Typeeee")
-  };
-
   const navigate = useNavigate();
   const New = () => {
     localStorage.removeItem("ForRequester");
@@ -144,10 +126,10 @@ function Issue() {
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
-  localStorage.setItem("pageshow",cutPath)
-  console.log(Path, "///////////////");
+  localStorage.setItem("pageshow", cutPath);
   useEffect(() => {
-   openPopupLoadding(); 
+    console.log("mmmmmaamamamamaamam")
+    openPopupLoadding();
     const Statuss = localStorage.getItem("STATUS");
     if (Statuss !== null) {
       setdataStatus(Statuss);
@@ -159,47 +141,41 @@ function Issue() {
         }
         Search();
       } else {
-        console.log("dataStatus ไม่มีข้อมูล");
       }
       localStorage.removeItem("STATUS");
-      console.log("ออกมาแล้ว");
     } else {
       localStorage.removeItem("STATUS");
       setPAGEStatus("");
-      console.log("ว่างเปล่า");
     }
-    TextTitle()
+    TextTitle();
     Factory();
     CostCenter();
     RequestType();
     findStatus();
-    // Remove();
   }, []);
 
   const Factory = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
+      const response = await axios.get(`/getfactory`);
       const FactoryData = await response.data;
       setdatafac(FactoryData);
-      // // console.log(FactoryData, "Factory");
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
- 
 
   const CostCenter = () => {
-    axios.get("http://10.17.162.238:5000/getcost").then((res) => {
+    axios.get("/getcost").then((res) => {
       const data = res.data;
       setgetCostCenter(data);
     });
   };
   const RequestType = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/gettype`);
+      const response = await axios.get(`/gettype`);
       const TypeData = await response.data;
+      console.log();
       setReType(TypeData);
-      // // console.log(TypeData, "TypeData");
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -207,76 +183,66 @@ function Issue() {
   };
   const findStatus = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/findsts`);
+      const response = await axios.get(`/findsts`);
       const data = await response.data;
       setStatus(data);
-    console.log(data,"TTTTT")
     } catch (error) {
       console.error("Error during login:", error);
     }
     closePopupLoadding();
   };
-
-  const Edit = async (EditFam) => {
-    // console.log(EditFam, "XXXXXXXXXXXXXXXxx");
-    //reload_edit();
-  };
-  const EditFixAsset = async (EditFam) => {
-    // console.log(EditFam, "TTTTTTTTTTTTT");
-  };
-
-  const handleEdit = async (EditFam, index,TextField) => {
+  const handleEdit = async (EditFam, index, TextField) => {
     setselectindex(index);
     setloading("false");
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_request_show?FamNo=${EditFam}`
+      const response = await axios.post(
+        "/getEdit_request_show",
+        {
+          FamNo: EditFam,
+        }
       );
-      const data = await response.data;
-      // console.log(data,"ooooo")
-      // const DataEdit = data;
-      const data_edit = JSON.stringify(data);
 
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
       localStorage.setItem("For_Req_Edit", data_edit);
     } catch (error) {
       //console.error("Error during login:", error);
     }
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_FixAsset?FamNo=${EditFam}`
+      const response = await axios.post(
+        "/getEdit_FixAsset",
+        {
+          FamNo: EditFam,
+        }
       );
       const data = await response.data;
-      // // console.log(data, "FIXEDDDDDDDDDDDDDDDd");
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
-      // console.log(data_edit, "data_editdata_editdata_editdata_edit");
       localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
     } catch (error) {
       //console.error("Error during login:", error);
     }
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_Trans?FamNo=${EditFam}`
+      const response = await axios.post(
+        "/getEdit_Trans",
+        {
+          FamNo: EditFam,
+        }
       );
       const data = await response.data;
-
-      // // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-      // const DataEdit = data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Trans", data_edit);
     } catch (error) {
       //console.error("Error during login:", error);
     }
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getEdit_routing?FamNo=${EditFam}`
+      const response = await axios.post(
+        "/getEdit_routing",
+        {
+          FamNo: EditFam,
+        }
       );
       const data = await response.data;
-
-      // console(data, "dataaaaaaaaSSSSSSSSSSSS");
-
-      // const DataEdit = data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_routing", data_edit);
     } catch (error) {
@@ -286,32 +252,26 @@ function Issue() {
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-   
-   window.location.href = "/ForRe";
-    
+
+    window.location.href = "/ForRe";
   };
-  const  handleVIEW = async (VIEW_FAM) => {
-    console.log(VIEW_FAM,"PDF_FAM");
+  const handleVIEW = async (VIEW_FAM) => {
+    console.log(VIEW_FAM, "PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
     // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster`;
-    
   };
- 
 
   const TextTitle = () => {
-    if(Path=="SEARCH"){
-      setTxt_Title("Issue FAM")
+    if (Path == "SEARCH") {
+      setTxt_Title("Issue FAM");
       localStorage.setItem("page", Path);
-      console.log(Path,"TextField")
- 
-    }
-    else if(Path=="APPROVEFAM"){
-      setTxt_Title("Approve FAM")
+      console.log(Path, "TextField");
+    } else if (Path == "APPROVEFAM") {
+      setTxt_Title("Approve FAM");
       localStorage.setItem("page", Path);
-    }
-    else if(Path=="FAMMASTER"){
-      setTxt_Title("FAM Master List")
+    } else if (Path == "FAMMASTER") {
+      setTxt_Title("FAM Master List");
       localStorage.setItem("page", Path);
     }
   };
@@ -321,17 +281,29 @@ function Issue() {
     const FixAsset = document.getElementById("FixAsset").value;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
-    let chk_sts = ""
-    console.log(selectStatus,"selectStatus")
+    let chk_sts = "";
+    console.log(selectStatus, "selectStatus");
     // if(selectStatus = null)
 
     if (Path === "SEARCH") {
       console.log(Date, DateTo, "date");
       try {
-        const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/getsearch?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        const response = await axios.post(
+          "/getsearch",
+          {
+            UserLogin: UserLoginn,
+            FacCode: selecteDatafac,
+            DeptCode: selectdept,
+            FamNo: FamNo,
+            FamTo: FamTo,
+            Costcenter: selectcost,
+            FixAsset: FixAsset,
+            ReType: selectReType,
+            ReDate: Date,
+            ReDateTo: DateTo,
+          }
         );
-        const data = rollNoSearch.data;
+        const data = response.data;
         setCheckHead("visible");
         setdataSearch(data);
         if (data.length === 0) {
@@ -341,17 +313,27 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // // console.log(rollNoSearch.data,"Search: ")
-        // // console.log(selectdept,"DEPT:")
       } catch (error) {
         console.error("Error requesting data:", error);
       }
     } else if (Path === "APPROVEFAM") {
       try {
-        const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/getsearch2?UserLogin=${UserLoginn}&FacCode=${selecteDatafac}&DeptCode=${selectdept}&FamNo=${FamNo}&FamTo=${FamTo}&Costcenter=${selectcost}&FixAsset=${FixAsset}&ReType=${selectReType}&ReDate=${Date}&ReDateTo=${DateTo}`
+        const response = await axios.post(
+          "/getsearch2",
+          {
+            UserLogin: UserLoginn,
+            FacCode: selecteDatafac,
+            DeptCode: selectdept,
+            FamNo: FamNo,
+            FamTo: FamTo,
+            Costcenter: selectcost,
+            FixAsset: FixAsset,
+            ReType: selectReType,
+            ReDate: Date,
+            ReDateTo: DateTo,
+          }
         );
-        const data = rollNoSearch.data;
+        const data = response.data;
         setCheckHead("visible");
         setdataSearch(data);
         if (data.length === 0) {
@@ -361,25 +343,31 @@ function Issue() {
           setCheckEmpty("hidden");
           setCheckData("visible");
         }
-        // // console.log(rollNoSearch.data,"Search: ")
-        // // console.log(selectdept,"DEPT:")
       } catch (error) {
         console.error("Error requesting data:", error);
       }
     } else if (Path === "FAMMASTER") {
-      const unwrappedArrayOwnerCC = selectCostCenter.map((item) => item.replace(/'/g, "") );
+      const unwrappedArrayOwnerCC = selectCostCenter.map((item) =>
+        item.replace(/'/g, "")
+      );
       const MultipleOwnerCC = unwrappedArrayOwnerCC.join(",");
 
-      const unwrappedArrayDept = selectdeptMul.map((item) => item.replace(/'/g, "") );
+      const unwrappedArrayDept = selectdeptMul.map((item) =>
+        item.replace(/'/g, "")
+      );
       const MultipleDept = unwrappedArrayDept.join(",");
 
-      const unwrappedArrayReqType = selectReTypeMul.map((item) => item.replace(/'/g, "") );
+      const unwrappedArrayReqType = selectReTypeMul.map((item) =>
+        item.replace(/'/g, "")
+      );
       const MultipleReqType = unwrappedArrayReqType.join(",");
 
-      const unwrappedArrayAssetCC = selectcostMul.map((item) => item.replace(/'/g, "") );
+      const unwrappedArrayAssetCC = selectcostMul.map((item) =>
+        item.replace(/'/g, "")
+      );
       const MultipleAssetCC = unwrappedArrayAssetCC.join(",");
       axios
-        .post("http://10.17.162.238:5000/searchFamMaster", {
+        .post("/searchFamMaster", {
           Fac: selecteDatafac,
           OwnerCC: MultipleOwnerCC,
           FamFrom: FamNo,
@@ -391,7 +379,7 @@ function Issue() {
           DateFrom: Date,
           DateTo: DateTo,
           ByID: Txt_ID_Owner.trim(),
-          StsID: idStatus
+          StsID: idStatus,
         })
         .then((res) => {
           const data = res.data;
@@ -521,26 +509,23 @@ function Issue() {
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
-    setselectCostCenter([])
-    setselectdeptMul([])
-    setselectcostMul([])
-    setReType([])
-    setSelectedDateFrom("วว/ดด/ปป")
-    setSelectedDateTo("วว/ดด/ปป")
-    setTxt_ID_Owner("")
-    setTxt_user("")
-    setSelectAll("")
-    setSelectedRows("")
-    setidStatus("")
-    setselectStatus(null)
-    
-    
-    
+    setselectCostCenter([]);
+    setselectdeptMul([]);
+    setselectcostMul([]);
+    setReType([]);
+    setSelectedDateFrom("วว/ดด/ปป");
+    setSelectedDateTo("วว/ดด/ปป");
+    setTxt_ID_Owner("");
+    setTxt_user("");
+    setSelectAll("");
+    setSelectedRows("");
+    setidStatus("");
+    setselectStatus(null);
   };
 
-  const Delete = async (item,index) => {
+  const Delete = async (item, index) => {
     // setselectindex_delete(index);
-   
+
     // setloading("false");
     openPopupLoadding();
     // แสดง SweetAlert เพื่อยืนยันการลบ
@@ -555,98 +540,75 @@ function Issue() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.post("http://10.17.162.238:5000/namefile", 
-          {
-              fam_no: item
-            }
-          ).then((response) => {
-            const data1 = response.data
-           
-            setdataName_file(data1);
-            console.log(data1,"HHHHHHH");
-            if(data1.length > 0){
-                 for (let i=0; i<data1.length ;i++){
-            console.log(i,"////>>>>>>>>>>>",data1[i])
-                
-         axios.delete(`http://10.17.162.238:5000/deleteFile?data=${data1[i]}`, 
-    
-          )
-      
-          }          
-            }     
-          });
-          let idDelete = "FLTR999"
+          await axios
+            .post("/namefile", {
+              fam_no: item,
+            })
+            .then((response) => {
+              const data1 = response.data;
+
+              setdataName_file(data1);
+              console.log(data1, "HHHHHHH");
+              if (data1.length > 0) {
+                for (let i = 0; i < data1.length; i++) {
+                  console.log(i, "////>>>>>>>>>>>", data1[i]);
+
+                  axios.delete(
+                    `/deleteFile?data=${data1[i]}`
+                  );
+                  
+                }
+              }
+            });
+          let idDelete = "FLTR999";
           await axios.post(
-            'http://10.17.162.238:5000/delect_all_fam_transfer',
-            { famno: item ,
-              idsts: idDelete
-            }
+            "/delect_all_fam_transfer",
+            { famno: item, idsts: idDelete }
           );
-        //   await axios.post(
-        //   `http://10.17.162.238:5000/delect_all_fam_transfer?famno=${item}`
-        //   );
-        //   await axios.post(
-        //  `http://10.17.162.238:5000/delect_all_fam_details?famno=${item}`
-        //   );
-        //   await axios.post(
-        //    `http://10.17.162.238:5000/delete_all_file?famno=${item}`
-        //   ); 
-        //   await axios.post(
-        //   `http://10.17.162.238:5000/delect_all_fam_header?famno=${item}`
-        //   );
-          
-          // แสดง SweetAlert แจ้งให้ทราบว่าลบข้อมูลเรียบร้อยแล้ว
+          await axios.post("/delete_all_file", {
+            famno: item,
+          });
           Swal.fire("Deleted!", "Your data has been deleted.", "success");
-          // โหลดข้อมูลใหม่หลังจากลบข้อมูล
           Search();
-          // setloading("True");
-          // setselectindex_delete("0")
           closePopupLoadding();
         } catch (error) {
           console.error("Error deleting data:", error);
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // ถ้าผู้ใช้ยกเลิกการลบ
         Swal.fire("Cancelled", "Your data is safe :)", "info");
         closePopupLoadding();
-        
       }
     });
   };
 
-  const selectStatusID = async (id)  =>{
-    setidStatus(id)
-  }
+  const selectStatusID = async (id) => {
+    setidStatus(id);
+  };
 
   return (
     <>
-      {/* <PageLoadding 
-    isOpen={isPopupOpenLoadding}
-    onClose={closePopupLoadding}
-    /> */}
       <Header />
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
       <div className="body">
-      <div
-        style={{
-         
-          marginLeft: "90px",
-          justifyContent: "left",
-          display: "flex",
-        }}
-      >
-        <div>
-          <h1
-            style={{
-              fontFamily: "Verdana, sans-serif",
-              color: "#3AA6B9",
-              fontWeight: "bold",
-            }}
-          >
-           {Txt_Title}
-          </h1>
+        <div
+          style={{
+            marginLeft: "90px",
+            justifyContent: "left",
+            display: "flex",
+          }}
+        >
+          <div>
+            <h1
+              style={{
+                fontFamily: "Verdana, sans-serif",
+                color: "#3AA6B9",
+                fontWeight: "bold",
+              }}
+            >
+              {Txt_Title}
+            </h1>
+          </div>
         </div>
-      </div>
         <div className="Filter">
           <div
             style={{
@@ -721,7 +683,6 @@ function Issue() {
                     }}
                   ></TextField>
                 </TableCell>
-                {/* <TableCell>&nbsp; - &nbsp;</TableCell> */}
                 <TableCell style={{ border: "0" }}>
                   <TextField
                     id="FamTo"
@@ -737,16 +698,22 @@ function Issue() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{ border: "0" }} >
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
-                     <Autocomplete
-                    
+                <TableCell style={{ border: "0" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "block"
+                          : "none",
+                    }}
+                  >
+                    <Autocomplete
                       value={selectdept}
                       onChange={(e, value) => setselectdept(value)}
                       options={dept.map((item) => item[0])}
                       renderInput={(params) => (
                         <TextField
-                         
                           {...params}
                           label="Dept :"
                           size="small"
@@ -755,16 +722,17 @@ function Issue() {
                       )}
                     />
                   </FormControl>
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
-                  
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  >
                     <Autocomplete
-                     multiple
+                      multiple
                       value={selectdeptMul}
                       onChange={(e, value) => setselectdeptMul(value)}
                       options={dept.map((item) => item[0])}
                       renderInput={(params) => (
                         <TextField
-                         
                           {...params}
                           label="Dept :"
                           size="small"
@@ -772,11 +740,18 @@ function Issue() {
                         />
                       )}
                     />
-                  
                   </FormControl>
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "block"
+                          : "none",
+                    }}
+                  >
                     <Autocomplete
                       value={selectcost}
                       onChange={(e, value) => setselectcost(value)}
@@ -791,7 +766,10 @@ function Issue() {
                       )}
                     />
                   </FormControl>
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER"? "block" : "none" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  >
                     <Autocomplete
                       multiple
                       value={selectcostMul}
@@ -811,7 +789,15 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "SEARCH" || Path==="APPROVEFAM"? "block" : "none" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "block"
+                          : "none",
+                    }}
+                  >
                     <InputLabel size="small" id="demo-simple-select-label">
                       Request Type :
                     </InputLabel>
@@ -831,7 +817,10 @@ function Issue() {
                       ))}
                     </Select>
                   </FormControl>
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  >
                     <InputLabel size="small" id="demo-simple-select-label">
                       Request Type :
                     </InputLabel>
@@ -882,7 +871,7 @@ function Issue() {
                     value={selectedDateFrom}
                     onChange={(e) => {
                       setSelectedDateFrom(e.target.value);
-                      // console.log(e.target.value);
+
                     }}
                   ></TextField>
                 </TableCell>
@@ -905,13 +894,13 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
-              
+
               <TableRow
                 style={{
                   display:
-                    Path === "SEARCH" 
-                    //|| Path === "APPROVEFAM"
-                      ? "table-row"
+                    Path === "SEARCH"
+                      ? //|| Path === "APPROVEFAM"
+                        "table-row"
                       : "none",
                 }}
               >
@@ -928,7 +917,7 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
-              
+
               <TableRow
                 style={{ display: Path === "FAMMASTER" ? "table-row" : "none" }}
               >
@@ -942,7 +931,7 @@ function Issue() {
                     value={Txt_ID_Owner}
                     onChange={(e) => {
                       setTxt_ID_Owner(e.target.value);
-                      // Owner(e.target.value);
+               
                     }}
                   />
                 </TableCell>
@@ -963,34 +952,35 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  {console.log(selectStatus,"iiiii")}
-                  <FormControl sx={{ width: 200 }} style={{ display: Path === "FAMMASTER" ? "block" : "none" }}>
-<Autocomplete
-    value={selectStatus}
-    onChange={(e, value) => {
-      setselectStatus(value);
-      selectStatusID(value.value); // ตรวจสอบว่า value ไม่เป็น null ก่อนที่จะเรียก selectStatusID
-    }}
-    options={Status.map((item) => ({ label: item[1], value: item[0] }))}
-    getOptionLabel={(option) => option.label}
-    renderInput={(params) => (
-<TextField
-        {...params}
-        label="Status :"
-        size="small"
-        sx={{ textAlign: "left" }}
-      />
-    )}
-  />
-</FormControl>
-
+                  {console.log(selectStatus, "iiiii")}
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  >
+                    <Autocomplete
+                      value={selectStatus}
+                      onChange={(e, value) => {
+                        setselectStatus(value);
+                        selectStatusID(value.value); 
+                      }}
+                      options={Status.map((item) => ({
+                        label: item[1],
+                        value: item[0],
+                      }))}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Status :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl>
                 </TableCell>
-                <TableCell style={{ border: 0 }}>
-                 
-                </TableCell>
+                <TableCell style={{ border: 0 }}></TableCell>
               </TableRow>
-
-
             </Table>
           </div>
         </div>
@@ -1034,18 +1024,19 @@ function Issue() {
                   </Button>
                   &nbsp;
                   {Path === "FAMMASTER" && (
-                  <Button
-                    className="ButtonSearch"
-                    style={{
-                      backgroundColor: "#00C344",
-                      width: "180px",
-                    }}
-                    variant="contained"
-                    onClick={exportToExcelTable1}
-                  >
-                    <FileDownloadIcon />
-                    Export Excel
-                  </Button>)}
+                    <Button
+                      className="ButtonSearch"
+                      style={{
+                        backgroundColor: "#00C344",
+                        width: "180px",
+                      }}
+                      variant="contained"
+                      onClick={exportToExcelTable1}
+                    >
+                      <FileDownloadIcon />
+                      Export Excel
+                    </Button>
+                  )}
                   &nbsp;
                   <Button
                     className="ButtonSearch"
@@ -1076,18 +1067,17 @@ function Issue() {
             <Table sx={{}} aria-label="simple table">
               <TableHead className="Serach-Data">
                 <TableRow>
-                {Path === "FAMMASTER" && (
-                  <TableCell>
-                  
-                  <Checkbox
-                    style={{ color: 'white' }}
-                    {...label}
-                    onChange={handleSelectAll}
-                    checked={selectAll}
-                  />
-                </TableCell>
-                )}
-                <TableCell></TableCell>
+                  {Path === "FAMMASTER" && (
+                    <TableCell>
+                      <Checkbox
+                        style={{ color: "white" }}
+                        {...label}
+                        onChange={handleSelectAll}
+                        checked={selectAll}
+                      />
+                    </TableCell>
+                  )}
+                  <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
                   <TableCell>Cost Center</TableCell>
@@ -1103,18 +1093,16 @@ function Issue() {
                 {dataSearch.length > 0 ? (
                   dataSearch.map((item, index) => (
                     <TableRow key={item[2]}>
-                {Path === "FAMMASTER" && ( <TableCell>
-                 
-  <Checkbox
-    {...label}
-    onChange={() => handleCheckboxChange(item[2])}
-    checked={selectedRows.includes(item[2])}
-  />
-
-
-                    
-                  </TableCell>)}
-                      <TableCell style={{width:"0px"}}>
+                      {Path === "FAMMASTER" && (
+                        <TableCell>
+                          <Checkbox
+                            {...label}
+                            onChange={() => handleCheckboxChange(item[2])}
+                            checked={selectedRows.includes(item[2])}
+                          />
+                        </TableCell>
+                      )}
+                      <TableCell style={{ width: "0px" }}>
                         {Path === "SEARCH" ? (
                           loading === "false" && index === selectindex ? (
                             <LoadingOutlined style={{ fontSize: "30px" }} />
@@ -1133,10 +1121,10 @@ function Issue() {
                               onClick={() => handleEdit(item[2], index)}
                             />
                           )
-                        ) :  (
-                          loading === "false" && index === selectindex ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />)
-                            :( <> 
+                        ) : loading === "false" && index === selectindex ? (
+                          <LoadingOutlined style={{ fontSize: "30px" }} />
+                        ) : (
+                          <>
                             {/* <FilePdfOutlined
                               style={{ color: "red", fontSize: "30px" }}
                               // onClick={() => handleEdit(item[2], index)}
@@ -1146,46 +1134,39 @@ function Issue() {
                             onClick={() => handleVIEW(item[2])}
                           /> */}
                           </>
-                            )
-                         
-                          )
-                          }
-                    
-                     
-                      </TableCell> 
-                      <TableCell style={{width:"0px"}}>
-                      {item[7] === "Create" &&Path=="SEARCH" && (
-  loading === "false" && index === selectindex_delete ? (
-    <LoadingOutlined style={{ fontSize: "30px" }} />
-  ) : (
-    <DeleteForeverIcon
-      style={{
-        color: "red",
-        fontSize: "30px",
-        display: "block",
-      }}
-      onClick={() => {
-        Delete(item[2], index);
-        // handleDeleteFile(item[8]);
-      }}
-    />
-  )
-)}
- 
-{Path === "FAMMASTER" && (
-  loading === "false" && index === selectindex_delete ? (
-    <LoadingOutlined style={{ fontSize: "30px" }} />
-  ) : (
-    <FileSearchOutlined
-      style={{ color: "#40A2E3", fontSize: "30px" }}
-      onClick={() => handleVIEW(item[2])}
-    />
-  )
-)}
- 
-                         
-                                           
-                          </TableCell>
+                        )}
+                      </TableCell>
+                      <TableCell style={{ width: "0px" }}>
+                        {item[7] === "Create" &&
+                          Path == "SEARCH" &&
+                          (loading === "false" &&
+                          index === selectindex_delete ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <DeleteForeverIcon
+                              style={{
+                                color: "red",
+                                fontSize: "30px",
+                                display: "block",
+                              }}
+                              onClick={() => {
+                                Delete(item[2], index);
+                            
+                              }}
+                            />
+                          ))}
+
+                        {Path === "FAMMASTER" &&
+                          (loading === "false" &&
+                          index === selectindex_delete ? (
+                            <LoadingOutlined style={{ fontSize: "30px" }} />
+                          ) : (
+                            <FileSearchOutlined
+                              style={{ color: "#40A2E3", fontSize: "30px" }}
+                              onClick={() => handleVIEW(item[2])}
+                            />
+                          ))}
+                      </TableCell>
 
                       <TableCell>{item[0]}</TableCell>
                       <TableCell>{item[1]}</TableCell>
@@ -1193,7 +1174,7 @@ function Issue() {
                       <TableCell>{item[4]}</TableCell>
                       <TableCell>{item[3]}</TableCell>
                       <TableCell>{item[5]}</TableCell>
-                      {/* <TableCell style={{ overflow: 'auto' }}>{item[6]}</TableCell> */}
+          
                       <TableCell>
                         <Typography
                           style={{
@@ -1240,4 +1221,3 @@ function Issue() {
 }
 
 export default Issue;
-

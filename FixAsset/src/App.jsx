@@ -17,14 +17,16 @@ import FamReq from './Monitoring/Fam_Req'
 import FamTrans from './Monitoring/Fam_Trans'
 import VIEW_Fammaster from './Monitoring/Fam_Req';
 import Mail from './Mail/Mail'
+import axios from "axios";
 
 // process.env.NODE_ENV = 'production';
-
+const backendURL = "http://10.17.74.202:5000";
+axios.defaults.baseURL = backendURL;
 
 const App = () => {
   
   return (
-    <StrictMode>
+    // <StrictMode>
       <BrowserRouter>
         <Routes>
         <Route path="/" element={<Login />} />
@@ -50,7 +52,7 @@ const App = () => {
 
         </Routes>
       </BrowserRouter>
-    </StrictMode>
+    // </StrictMode>
   );
 };
 const rootElement = document.getElementById("root");

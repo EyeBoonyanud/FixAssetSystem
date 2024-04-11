@@ -21,14 +21,11 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const [menuId, setmenuId] = useState([]);
   const [menudata, setmenudata] = useState([]);
   const [menudataId, setmenudataId] = useState([]);
- 
+
   const toggleSubMenu1 = () => {
     setIcondrop1(!Icondrop1);
     setSubMenuOpen1(!subMenuOpen1);
   };
-  // const toggleSubMenu2 = () => {
-  //   setSubMenuOpen2(!subMenuOpen2);
-  // };
   const toggleSubMenu3 = () => {
     setIcondrop3(!Icondrop3);
     setSubMenuOpen3(!subMenuOpen3);
@@ -41,14 +38,14 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     setIcondrop5(!Icondrop5);
     setSubMenuOpen5(!subMenuOpen5);
   };
- 
+
   // ตัวแปรที่รับมาจาก role และ userlogin
   const Role = localStorage.getItem("Role");
   const UserLogin = localStorage.getItem("UserLogin");
   const Menu = async () => {
     try {
-      const response = await axios.get(`http://10.17.162.238:5000/getmainmenu`);
- 
+      const response = await axios.get(`/getmainmenu`);
+
       const data = await response.data;
       let datamenu = [];
       let datamenuid = [];
@@ -58,16 +55,19 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       }
       setmenuId(datamenuid);
       setmenu(datamenu);
-      // console.log("Maindata", data);
     } catch (error) {
       console.error("Error during login:", error);
     }
   };
- 
+
   const subMenu = async () => {
     try {
-      const response = await axios.get(
-        `http://10.17.162.238:5000/getsubmenu?userlogin=${UserLogin}&role=${Role}`
+      const response = await axios.post(
+        "/getsubmenu",
+        {
+          userlogin: UserLogin,
+          role: Role,
+        }
       );
       const data = await response.data;
       let datasubmenu = [];
@@ -82,12 +82,12 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       console.error("Error during login:", error);
     }
   };
- 
+
   // Path
   const navigate = useNavigate();
- 
+
   const handleButtonClick = (id) => {
-    console.log(id,"YYYYYY")
+    console.log(id, "YYYYYY");
     if (id === "Issue FAM") {
       window.location.href = "/Search";
     }
@@ -98,18 +98,17 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       window.location.href = "/FamDetails";
     }
     if (id === "Person Maintain") {
-     
       window.location.href = "/Search_person";
     }
     if (id === "BOI Maintain") {
-      console.log(id,"UUUUU")
+      console.log(id, "UUUUU");
       window.location.href = "/BOIMaintain";
     }
     if (id === "FAM Master") {
       window.location.href = "/FAMMaster";
     }
   };
- 
+
   const Home = () => {
     navigate("/Homepage");
   };
@@ -122,14 +121,12 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const [Icondrop3, setIcondrop3] = useState(false);
   const [Icondrop4, setIcondrop4] = useState(false);
   const [Icondrop5, setIcondrop5] = useState(false);
- 
+
   const toggleSubMenu2 = () => {
     setIcondrop2(!Icondrop2);
     setSubMenuOpen2(!subMenuOpen2);
   };
-  // console.log(menudataId,"///////////")
-  // console.log(menuId,"-----------")
- 
+
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose} sx={{ border: "10" }}>
       <List sx={{ width: "300px", bgcolor: "background.paper" }}>
@@ -147,7 +144,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <ListItemIcon>
               <SensorsOutlinedIcon color="success" />
             </ListItemIcon>
-            <ListItemText primary={menu[0]}  />
+            <ListItemText primary={menu[0]} />
           </ListItem>
           {subMenuOpen1 && (
             <>
@@ -172,7 +169,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             </>
           )}
         </div>
- 
+
         {/* Menu Transaction */}
         <div style={{ display: Role === "214" ? "none" : "block" }}>
           <ListItem className="ListItem" onClick={toggleSubMenu2}>
@@ -205,7 +202,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             </>
           )}
         </div>
- 
+
         {/* Menu Monitoring Function */}
         <div>
           <ListItem className="ListItem" onClick={toggleSubMenu3}>
@@ -237,7 +234,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             </>
           )}
         </div>
- 
+
         {/* Menu Master Data Function */}
         <div style={{ display: Role === "214" ? "none" : "block" }}>
           <ListItem className="ListItem" onClick={toggleSubMenu4}>
@@ -270,7 +267,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             </>
           )}
         </div>
- 
+
         {/* Menu Report Function  */}
         <div>
           <ListItem className="ListItem" onClick={toggleSubMenu5}>
@@ -307,5 +304,5 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     </Drawer>
   );
 };
- 
+
 export default SidebarMenu;

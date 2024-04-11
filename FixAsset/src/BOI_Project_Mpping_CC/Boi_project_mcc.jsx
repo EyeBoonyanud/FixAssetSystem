@@ -84,7 +84,7 @@ function Boi_project_mcc() {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getfactory`);
+          const response = await axios.get(`/getfactory`);
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -94,7 +94,7 @@ function Boi_project_mcc() {
       const BOI_Project = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/get_BOI_project`
+            `/get_BOI_project`
           );
           const BOIData = await response.data;
           setdataBOI(BOIData);
@@ -104,7 +104,7 @@ function Boi_project_mcc() {
       };
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://10.17.162.238:5000/getcost`);
+          const response = await axios.get(`/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -133,7 +133,7 @@ function Boi_project_mcc() {
         const BOIValue = DATA_SEARCH_S_E[2][0];
         console.log(BOIValue,"BOIValue");
         const rollNoSearch = await axios.get(
-          `http://10.17.162.238:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+          `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
         );
         const data = rollNoSearch.data;
         setCheckHead("visible");
@@ -162,7 +162,7 @@ function Boi_project_mcc() {
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : "";
       const rollNoSearch = await axios.get(
-        `http://10.17.162.238:5000/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+        `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -199,7 +199,7 @@ function Boi_project_mcc() {
           console.log(cost_center,"cost_center");
           try {
             const getEdit_show = await axios.get(
-              `http://10.17.162.238:5000/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
+              `/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
             );
             const data = await getEdit_show.data;
             const DataEdit = data;
@@ -232,7 +232,7 @@ function Boi_project_mcc() {
       if (willDelete) {
         try {
           const delete_BOI_maintain = await axios.post(
-            `http://10.17.162.238:5000/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
+            `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
           );
           const data = await delete_BOI_maintain.data;
           Search();

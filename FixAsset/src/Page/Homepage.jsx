@@ -36,11 +36,12 @@ export default function BasicGrid() {
     
     const fetchData = async () => {
       const Transfer = async () => {
-        try {
-          const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransfer?UserLogin=${UserLogin}`
-          );
+          try {
+            const response = await axios.post("/getCountTransfer", {
+              UserLogin:UserLogin
+                   });
           const Transfer = await response.data;
+          console.log(Transfer,"Transfer")
           setdataTransfer(Transfer);
         } catch (error) {
           console.error("Error Transferdata:", error);
@@ -50,23 +51,26 @@ export default function BasicGrid() {
       const Transferlistallname = async () => {
         try {
           const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLLname`
+            `/getCountTransferlistaLLname`
           );
+      
           const Transferallname = await response.data;
           setdataTransferallname(Transferallname);
-          console.log(Transferallname, "ดูข้อมูล");
+    
         } catch (error) {
           console.error("Error Transferdataall:", error);
         }
       };
 
       const Transferlistall = async () => {
-        try {
-          const response = await axios.get(
-            `http://10.17.162.238:5000/getCountTransferlistaLL?UserLogin=${UserLogin}`
-          );
+  
+          try {
+            const response = await axios.post("/getCountTransferlistaLL", {
+              UserLogin:UserLogin
+                   });
           const Transferall = await response.data;
           setdataTransferall(Transferall);
+        
         } catch (error) {
           console.error("Error Transferdataall:", error);
         }
