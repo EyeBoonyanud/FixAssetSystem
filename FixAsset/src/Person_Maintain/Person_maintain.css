@@ -9,7 +9,9 @@
     z-index: 1;
     background-color: #436850;
     color: #ffffff;
+
   }
+ 
   
   .DD {
     padding: 60px;
@@ -40,9 +42,9 @@
   }
   
   
-  .TexttableA {
+  /* .TexttableA {
     text-align: left !important;
-  }
+  } */
   
   .PopupEditPerson {
     display: flex;

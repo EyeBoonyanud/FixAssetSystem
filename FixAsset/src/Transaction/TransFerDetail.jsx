@@ -43,6 +43,7 @@ function TransFerDetail() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
+ 
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -50,7 +51,8 @@ function TransFerDetail() {
   const For_edit_request = localStorage.getItem("For_Req_Edit");
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const Edit_rout = localStorage.getItem("Edit_routing");
-  const For_Edit_Rou = JSON.parse(Edit_rout);
+  const For_Edit_Rou = JSON.parse(Edit_rout); 
+  console.log('Routing',For_Edit_Rou)
   // เก็บตัวแปร
   let STS = "";
   let Fam_list = "";
@@ -2729,6 +2731,7 @@ function TransFerDetail() {
           }
         } else if (For_Rq_Edit[16] === "R") {
           // update สำหรับ === "R" reject
+          console.log("Reject",For_Rq_Edit[16])
           let Status = "FLTR002";
           try {
             const response = await axios.post(
@@ -2828,7 +2831,24 @@ function TransFerDetail() {
               icon: "success",
             });
             // setCheckSubmit("False")
-            navigate("/Search");
+            localStorage.setItem("status_formail", null);
+            localStorage.setItem("To", selectdepartment_mana);
+            localStorage.setItem("Genno", EditFam);
+            localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+            localStorage.setItem("Req_by", For_Rq_Edit[2]);
+          localStorage.setItem("Status", Status);
+          localStorage.removeItem("ForRequester");
+          localStorage.removeItem("forDetail");
+          localStorage.removeItem("TransForDetail");
+          localStorage.removeItem("EDIT");
+          localStorage.removeItem("For_Transfer");
+          localStorage.removeItem("For_Routing");
+          localStorage.removeItem("For_Req_Edit");
+          localStorage.removeItem("Edit_Trans");
+          localStorage.removeItem("Edit_Dteail_for_FixedCode");
+          localStorage.removeItem("Edit_routing");
+         navigate("/Mail");
+            // navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
           }
@@ -2858,17 +2878,44 @@ function TransFerDetail() {
                     sts:Status
                   }
                 );
+                
+            
+            if(selectradio_dept != "R"){
+              localStorage.setItem("status_formail", selectradio_dept);
+              localStorage.setItem("To", selectservice_by);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+            localStorage.setItem("Status", Status);
+            }else{
+              localStorage.setItem("status_formail", selectradio_dept);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              const Approver = [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+
+              ];
+              const sentdata = JSON.stringify(Approver);
+              localStorage.setItem("Approver_formail", sentdata);
+            }
 
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
               setCheckSubmit("False");
-              localStorage.setItem("To", selectservice_by);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+             
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -2879,7 +2926,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+             navigate("/Mail");
               // navigate("/ApproveFam");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
@@ -2911,17 +2958,42 @@ function TransFerDetail() {
                     sts:Status
                   }
                 );
-
+                if(selectradio_serviceby != "R"){
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                }else{
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+    
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+    
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
               //   setCheckSubmit("False")
-              localStorage.setItem("To", selectboi_staff);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+              
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -2954,20 +3026,55 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
-            try {
-              const row = axios.post(
-                `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
-              );
+            // try {
+            //   const row = axios.post(
+            //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+            //   );
+              try {
+                const response = await axios.post(
+                  "/update_boi_staff",
+                  {
+                    famno: EditFam,
+                    stff_jud:selectradio_boistaff,
+                    stff_cmmt:cmmtradio_boistaff,
+                    sts:Status
+                  }
+                );
 
-              Swal.fire({
-                title: "Save Success",
-                icon: "success",
-              });
-              localStorage.setItem("To", selectboi_manager);
+              if(selectradio_boistaff != "R"){
+                localStorage.setItem("status_formail", selectradio_boistaff);
+                localStorage.setItem("To", selectboi_manager);
               localStorage.setItem("Genno", EditFam);
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_boistaff);
+                localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
+              Swal.fire({
+                title: "Save Success",
+                icon: "success",
+              });
+              
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -2978,7 +3085,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+             navigate("/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3000,20 +3107,51 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
+            
             try {
-              const row = axios.post(
-                `/update_boi_mana?famno=${EditFam}&boimana_jud=${selectradio_boimanager}&boimana_cmmt=${cmmtradio_boimanager}&sts=${Status}`
+              const response = await axios.post(
+                "/update_boi_mana",
+                {
+                  famno: EditFam,
+                  boimana_jud:selectradio_boimanager,
+                  boimana_cmmt:cmmtradio_boimanager,
+                  sts:Status
+                }
               );
-
+              if(selectradio_boimanager != "R"){
+                localStorage.setItem("status_formail", selectradio_boimanager);
+                localStorage.setItem("To", selectfac_manager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_boimanager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
-              localStorage.setItem("To", selectfac_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+             
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3048,19 +3186,50 @@ function TransFerDetail() {
             alert("Please fill in information");
           } else {
             try {
-              const row = axios.post(
-                `/update_facmanager?famno=${EditFam}&fm_jud=${selectradio_facmanager}&fm_cmmt=${cmmtradio_facmanager}&sts=${Status}`
+              const response = await axios.post(
+                "/update_facmanager",
+                {
+                  famno: EditFam,
+                  fm_jud:selectradio_facmanager,
+                  fm_cmmt:cmmtradio_facmanager,
+                  sts:Status
+                }
               );
 
-              Swal.fire({
-                title: "Save Success",
-                icon: "success",
-              });
-              localStorage.setItem("To", selectacc_check);
+              if(selectradio_boimanager != "R"){
+                localStorage.setItem("status_formail", selectradio_boimanager);
+                localStorage.setItem("To", selectacc_check);
               localStorage.setItem("Genno", EditFam);
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_boimanager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
+              Swal.fire({
+                title: "Save Success",
+                icon: "success",
+              });
+           
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3095,20 +3264,50 @@ function TransFerDetail() {
             alert("Please fill in information");
           } else {
             try {
-              const row = axios.post(
-                `/update_acccheck?famno=${EditFam}&chk_jud=${selectradio_acc_check}&chk_cmmt=${cmmtradio_acc_check}&sts=${Status}`
+              const response = await axios.post(
+                "/update_acccheck",
+                {
+                  famno: EditFam,
+                  chk_jud:selectradio_acc_check,
+                  chk_cmmt:cmmtradio_acc_check,
+                  sts:Status
+                }
               );
-
+              if(selectradio_acc_check != "R"){
+                localStorage.setItem("status_formail", selectradio_acc_check);
+                localStorage.setItem("To", owner_roting);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_acc_check);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
               //  setCheckSubmit("False")
-              localStorage.setItem("To", owner_roting);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+            
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3119,7 +3318,6 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/ApproveFam");
               navigate("/Mail");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -3143,19 +3341,48 @@ function TransFerDetail() {
             alert("Please fill in information");
           } else {
             try {
-              const row = axios.post(
-                `/update_owner?famno=${EditFam}&owner_jud=${selectradio_owner}&owner_cmmt=${cmmtradio_owner}&sts=${Status}`
-              );
-
+              const response = await axios.post(
+                "/update_owner",
+                {
+                  famno: EditFam,
+                  owner_jud:selectradio_owner,
+                  owner_cmmt:cmmtradio_owner,
+                  sts:Status
+                });
+              if(selectradio_owner != "R"){
+                localStorage.setItem("status_formail", selectradio_owner);
+                localStorage.setItem("To", receiver);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_owner);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  null,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
-              localStorage.setItem("To", receiver);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+            
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3166,8 +3393,9 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/ApproveFam");
               navigate("/Mail");
+              // navigate("/ApproveFam");
+              
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3188,21 +3416,51 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
-            try {
-              const row = axios.post(
-                `/update_receiver?famno=${EditFam}&receiver_jud=${selectradio_receiver}&receiver_cmmt=${cmmtradio_receiver}`
-              );
+              try {
+                const response = await axios.post(
+                  "/update_receiver",
+                  {
+                    famno: EditFam,
+                    receiver_jud:selectradio_receiver,
+                    receiver_cmmt:cmmtradio_receiver
+                  }
+                );
 
+              if(selectradio_receiver != "R"){
+                localStorage.setItem("status_formail", selectradio_receiver);
+                localStorage.setItem("To", text_acc_check);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_receiver);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  null,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
               //   setCheckSubmit("False")
-              localStorage.setItem("To", text_acc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+         
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3257,20 +3515,55 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
-            try {
-              const row = axios.post(
-                `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
-              );
+            // try {
+            //   const row = axios.post(
+            //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+            //   );
+              try {
+                const response = await axios.post(
+                  "/update_recode",
+                  {
+                    famno: EditFam,
+                    rec_jud:selectradio_record,
+                    rec_cmmt:cmmtradio_record,
+                    sts:Status
+                  }
+                );
 
+              if(selectradio_record != "R"){
+                localStorage.setItem("status_formail", selectradio_record);
+                localStorage.setItem("To", selectacc_manager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_record);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  null,
+                  null
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
-              localStorage.setItem("To", selectacc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
+             
               localStorage.removeItem("ForRequester");
               localStorage.removeItem("forDetail");
               localStorage.removeItem("TransForDetail");
@@ -3303,11 +3596,47 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
+          
             try {
-              const row = axios.post(
-                `/update_accmanager?famno=${EditFam}&acc_manajud=${selectradio_acc_manager}&acc_manacmmt=${cmmtradio_acc_manager}&sts=${Status}`
+              const response = await axios.post(
+                "/update_accmanager",
+                {
+                  famno: EditFam,
+                  acc_manajud:selectradio_acc_manager,
+                  acc_manacmmt:cmmtradio_acc_manager,
+                  sts:Status
+                }
               );
-
+              if(selectradio_acc_manager != "R"){
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+                localStorage.setItem("To", selectacc_manager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  text_acc_check,
+                  null
+                 
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
@@ -3349,17 +3678,67 @@ function TransFerDetail() {
           ) {
             alert("Please fill in information");
           } else {
-            try {
-              const row = axios.post(
-                `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
-              );
+            // try {
+            //   const row = axios.post(
+            //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+            //   );
+              try {
+                const response = await axios.post(
+                  "/update_service_close",
+                  {
+                    famno: EditFam,
+                    cls_jud:selectradio_service_close_by,
+                    cls_cmmt:cmmtradio_service_close_by,
+                    sts:Status
+                  }
+                );
 
+              if(selectradio_service_close_by != "R"){
+                localStorage.setItem("status_formail", selectradio_service_close_by);
+                localStorage.setItem("To", For_Rq_Edit[2]);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              }else{
+                localStorage.setItem("status_formail", selectradio_service_close_by);
+                
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  text_acc_check,
+                  selectacc_manager
+                 
+  
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
               Swal.fire({
                 title: "Save Success",
                 icon: "success",
               });
-              //   setCheckSubmit("False")
-              // navigate("/ApproveFam");
+              
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
               navigate("/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);

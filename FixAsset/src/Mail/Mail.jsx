@@ -12,42 +12,135 @@ function Mail() {
   
   const navigate = useNavigate();
   const Fam = localStorage.getItem("Genno")
-  const To_Send =localStorage.getItem("To")
-  console.log(To_Send,"To_Send")
+  let To_Send =localStorage.getItem("To")
+  
   const RequestType =localStorage.getItem("Req_Type")
   const RequestBy =localStorage.getItem("Req_by")
   const status =localStorage.getItem("Status")
-  const [emailSent, setEmailSent] = useState(false); // สร้าง state สำหรับเก็บสถานะการส่งอีเมล
-
+  let Reject = localStorage.getItem("Approver_formail")
+  const Reject_forApprover = JSON.parse(Reject);
+ 
+  //const สำหรับเช็คค่า Approve and Reject 
+  const sts_A_or_R = localStorage.getItem("status_formail")
+  const [emailSent, setEmailSent] = useState(false); 
+  console.log(sts_A_or_R,"Sts")
+  
  
   useEffect(() => {  
-    console.log("Ltyyyyyy")
+    if(sts_A_or_R == "R"){
+      
+      localStorage.removeItem("To")
+      To_Send = null
+      
+    }else{
+      console.log("เข้า")
+      localStorage.removeItem("Approver_formail")
+      Reject= null
+      
+    }
+    console.log(Reject_forApprover,"Reject_forApprover22")
+   console.log(To_Send,"To_Send")
     Status_Show();
    navigate(`/${PAGE}`);
    
     
   }, []);
-const Datamail = async (Name,File,Type,Status) => {
-  console.log(RequestBy,"NameNameName")
-  let dataEmail = ""
-  let datareq=""
-  try {
-    const response = await axios.post("/getMailshow", {
-      Name: To_Send
-    });
-    dataEmail  = response.data.dataEmail; 
-    const dataName = response.data.rowName; 
-    console.log(dataEmail,"dataEmail")
+
+  const Status_Show = async () => {
+    let Name = "";
+    let File = "";
+    let Type = "";
+    let Status = "";
+    try {
+      const response = await axios.post("/getStatus", {
+        sts: status,
+      });
+      const data = response.data;
+      console.log(data, "response");
+  
+      Status = data[0];
+     
+    } catch (error) {
+      console.error("Error getting status:", error);
+    }
+ 
     
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
+  
+    try {
+      const response = await axios.post("/getType", {
+        Type_show: RequestType,
+      });
+      const data = response.data;
+      console.log(data, "response");
+  
+      Type = data[0];
+    
+    } catch (error) {
+      console.error("Error getting type:", error);
+    }
+  
+    try {
+      const response = await axios.post("/getFile", {
+        Type_show: RequestType,
+      });
+      const data = response.data;
+      console.log(data, "response");
+  
+      File = data[0];
+  
+    } catch (error) {
+      console.error("Error getting file:", error);
+    }
+
+  //   if(sts_A_or_R == "R"){
+  //     for (let i = 0; i < Reject_forApprover.length; i++) {
+  //       console.log(Reject_forApprover[i],"Reject_forApprover[i]")
+  //       if(Reject_forApprover[i] != null){
+  //         try {
+  //           const response = await axios.post("/getName_To", {
+  //             name: Reject_forApprover[i],
+  //           });
+  //           const data = response.data;
+  //           console.log(data, "response");
+        
+  //           Name = data[0];
+  //          console.log(Name,"Name")
+  //         } catch (error) {
+  //           console.error("Error getting name:", error);
+  //         }
+  //         // Datamail(Name, File, Type, Status);
+  //   }
+   
+  //   }
+  // }else{
+  //     try {
+  //       const response = await axios.post("/getName_To", {
+  //         name: To_Send,
+  //       });
+  //       const data = response.data;
+  //       console.log(data, "response");
+    
+  //       Name = data[0];
+       
+  //     } catch (error) {
+  //       console.error("Error getting name:", error);
+  //     }
+    
+  //   }
+    Datamail( File, Type, Status);
+  };
+  let datareq=""
+const Datamail = async (File,Type,Status) => {
+  console.log("CCCCCCCC",File,Type,Status)
+  let dataEmail = ""
+
+
+ 
   try {
     const row = await axios.post("/get_req_mail", {
       Name: RequestBy
     });
     const data1 = row.data 
-    console.log(data1,"kkkkkkkkk")
     datareq = data1[0][0]
    
     
@@ -55,68 +148,42 @@ const Datamail = async (Name,File,Type,Status) => {
   } catch (error) {
     console.error("Error sending email:", error);
   }
-emailMessage(dataEmail,Name,File,Type,Status,datareq)
-};
-const Status_Show = async () => {
-  let Name = "";
-  let File = "";
-  let Type = "";
-  let Status = "";
-  try {
-    const response = await axios.post("/getStatus", {
-      sts: status,
-    });
-    const data = response.data;
-    console.log(data, "response");
-
-    Status = data[0];
-   
-  } catch (error) {
-    console.error("Error getting status:", error);
+  if(sts_A_or_R == "R"){
+    for (let i = 0; i < Reject_forApprover.length; i++) {
+      if(Reject_forApprover[i] != null){
+        try {
+          const response = await axios.post("/getMailshow", {
+            Name: Reject_forApprover[i]
+          });
+          dataEmail  = response.data.dataEmail; 
+          const dataName = response.data.rowName; 
+          
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
+        emailMessage(dataEmail,File,Type,Status,datareq)
+      }
+     
   }
-
-  try {
-    const response = await axios.post("/getName_To", {
-      name: To_Send,
-    });
-    const data = response.data;
-    console.log(data, "response");
-
-    Name = data[0];
-   
-  } catch (error) {
-    console.error("Error getting name:", error);
-  }
-
-  try {
-    const response = await axios.post("/getType", {
-      Type_show: RequestType,
-    });
-    const data = response.data;
-    console.log(data, "response");
-
-    Type = data[0];
   
-  } catch (error) {
-    console.error("Error getting type:", error);
+  }else{
+    try {
+      const response = await axios.post("/getMailshow", {
+        Name: To_Send
+      });
+      dataEmail  = response.data.dataEmail; 
+      const dataName = response.data.rowName; 
+      
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+    emailMessage(dataEmail,File,Type,Status,datareq)
   }
-
-  try {
-    const response = await axios.post("/getFile", {
-      Type_show: RequestType,
-    });
-    const data = response.data;
-    console.log(data, "response");
-
-    File = data[0];
-
-  } catch (error) {
-    console.error("Error getting file:", error);
-  }
-  Datamail(Name, File, Type, Status);
+  senttoReq(File,Type,Status,datareq)
 };
 
-const emailMessage = async (dataEmail,Name,File,Type,Status,datareq) => {
+
+const emailMessage = async (dataEmail,File,Type,Status) => {
  
 const emailMessage = `
   <html>
@@ -126,7 +193,7 @@ const emailMessage = `
       <h1>FAM system information</h1>
   </div>
   <div className="content" style="border-radius: 3px; border: 1px solid #ddd; padding: 20px; font-size: 12px;">
-      <h2 style="color: red;">Dear ${Name}</h2>
+      <h2 style="color: red;">Dear All Concern </h2>
       <table className="table" style="width: 100%; border-collapse: collapse; border-radius: 3px;">
           <tr>
               <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">Fam No.</th>
@@ -151,8 +218,7 @@ const emailMessage = `
   </html> 
   <br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br><br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br>
   `;
-  if (!emailSent && dataEmail !== undefined && Name !== "" && File !== "" && Type !== "" && Status !== "" && datareq !== undefined) {
-    console.log("เข้าาาาาาา", datareq);
+  if (!emailSent && dataEmail !== undefined  && File !== "" && Type !== "" && Status !== "" ) {
 
     try {
       const response1 = await axios.post("http://10.17.74.202:5000/sendEmail", {
@@ -163,23 +229,66 @@ const emailMessage = `
         subject: "FAM system information",
         emailMessage: emailMessage
       });
-
-      const response2 = await axios.post("http://10.17.74.202:5000/sendEmail", {
-        headers: {
-          'Content-Type': 'text/html',
-        },
-        toEmail: datareq,
-        subject: "FAM system information",
-        emailMessage: emailMessage
-      });
-    } catch (error) {
+    }catch (error) {
       console.error("Error sending email:", error);
     }
+ 
   } else {
     return;
   }
 };
 
+const senttoReq = async (File,Type,Status,datareq) => {
+  console.log("เข้าาาาาาา333",datareq);
+  const emailMessage = `
+  <html>
+  <body style="font-family: sans-serif; font-size: 16px; color: #333; margin: 0; padding: 0;">
+  <div className="container" style="width: 700px; margin: 0 auto; padding: 20px; height: 30px; font-family: Tahoma;">
+  <div className="header" style="border-radius: 3px; background-color: #93E9BE; color: #ffff; padding: 10px; text-align: center; font-size: 10px;">
+      <h1>FAM system information</h1>
+  </div>
+  <div className="content" style="border-radius: 3px; border: 1px solid #ddd; padding: 20px; font-size: 12px;">
+      <h2 style="color: red;">Dear All Concern </h2>
+      <table className="table" style="width: 100%; border-collapse: collapse; border-radius: 3px;">
+          <tr>
+              <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">Fam No.</th>
+              <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">Request Type</th>
+              <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">AttachFile</th>
+              <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">Request By</th>
+              <th style="border-radius: 3px; border: 1px solid #ddd; padding: 5px;">Status</th>
+          </tr>
+          <tr>
+              <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${Fam}</td>
+              <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${Type}</td>
+              <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${File}</td>
+              <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${RequestBy}</td>
+              <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${Status}</td>
+          </tr>
+      </table>
+      <p style="color: red;"><a href="http://10.17.100.183:8080/" style="color: red;">Click here for action</a></p>
+     
+  </div>
+</div>
+</body>
+  </html> 
+  <br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br><br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br>
+  `;
+  if (File !== "" && Type !== "" && Status !== "" && datareq !== undefined) {
+     try {
+    const response2 = await axios.post("http://10.17.74.202:5000/sendEmail", {
+       headers: {
+         'Content-Type': 'text/html',
+       },
+       toEmail: datareq,
+       subject: "FAM system information",
+       emailMessage: emailMessage
+     });
+   } catch (error) {
+     console.error("Error sending email:", error);
+   }}
+
+
+}
 
 
 

@@ -563,7 +563,7 @@ function Report() {
                           <TableCell>{row[1]}</TableCell>
                           <TableCell>{row[2]}</TableCell>
                           <TableCell>{row[3]}</TableCell>
-                          <TableCell style={{ textAlign: "left" }}>
+                          <TableCell>
                             {row[4]}
                           </TableCell>
                           <TableCell>{row[5]}</TableCell>

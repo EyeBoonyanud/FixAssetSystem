@@ -526,8 +526,8 @@ function person_maintain() {
                       <TableCell className="TexttableA">{item[2]}</TableCell>
                       <TableCell className="TexttableA">{item[5]}</TableCell>
                       <TableCell className="TexttableA">{item[6]}</TableCell>
-                      <TableCell className="TexttableA">{item[7]}</TableCell>
-                      <TableCell className="TexttableA">{item[8]}</TableCell>
+                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[7]}</TableCell>
+                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[8]}</TableCell>
                       <TableCell className="TexttableA">{item[9]}</TableCell>
                       <TableCell className="TexttableA">{item[10]}</TableCell>
                       <TableCell>{item[11]}</TableCell>

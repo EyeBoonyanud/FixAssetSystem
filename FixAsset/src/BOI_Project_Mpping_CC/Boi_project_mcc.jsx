@@ -130,11 +130,19 @@ function Boi_project_mcc() {
       try {
         const factoryValue = DATA_SEARCH_S_E[0][0];
         const costValue = DATA_SEARCH_S_E[1][0];
-        const BOIValue = DATA_SEARCH_S_E[2][0];
-        console.log(BOIValue,"BOIValue");
-        const rollNoSearch = await axios.get(
-          `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
-        );
+        const BOIValue = DATA_SEARCH_S_E[2][0];;
+        // const rollNoSearch = await axios.get(
+        //   `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+        // );
+        
+          const rollNoSearch = await axios.post(
+            "/search_BOI_project",
+            {
+              FBMC_factory: factoryValue,
+              FBMC_cost_center:costValue,
+              FBMC_BOI_project:BOIValue
+            }
+          );
         const data = rollNoSearch.data;
         setCheckHead("visible");
         setdataSearch(data);
@@ -161,8 +169,16 @@ function Boi_project_mcc() {
         selecteDatafac[0] !== undefined ? selecteDatafac[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const BOIValue = selecteDataBOI[0] !== undefined ? selecteDataBOI[0] : "";
-      const rollNoSearch = await axios.get(
-        `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+      // const rollNoSearch = await axios.get(
+      //   `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
+      // );
+      const rollNoSearch = await axios.post(
+        "/search_BOI_project",
+        {
+          FBMC_factory: factoryValue,
+          FBMC_cost_center:costValue,
+          FBMC_BOI_project:BOIValue
+        }
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -197,10 +213,18 @@ function Boi_project_mcc() {
           setselectindex(index);
           setloading("false");
           console.log(cost_center,"cost_center");
-          try {
-            const getEdit_show = await axios.get(
-              `/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
-            );
+          // try {
+          //   const getEdit_show = await axios.get(
+          //     `/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
+          //   );
+           try {
+          const getEdit_show = await axios.post(
+            "/Search_BOI_Maintain_Edit",
+            {
+              FBMC_cost_center: factoryValue,
+              FBMC_BOI_Project:BOIValue
+            }
+          );
             const data = await getEdit_show.data;
             const DataEdit = data;
           console.log(DataEdit,"DataEdit");
@@ -231,8 +255,15 @@ function Boi_project_mcc() {
       openPopupLoadding();
       if (willDelete) {
         try {
+          // const delete_BOI_maintain = await axios.post(
+          //   `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
+          // );
           const delete_BOI_maintain = await axios.post(
-            `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
+            "/Search_BOI_Maintain_Edit",
+            {
+              FBMC_cost_center_delete: cost_center,
+              FBMC_BOI_Project_delete:boi_project
+            }
           );
           const data = await delete_BOI_maintain.data;
           Search();
@@ -457,7 +488,7 @@ function Boi_project_mcc() {
                       </TableCell>
                       <TableCell className="TexttableA">{item[1]}</TableCell>
                       <TableCell className="TexttableA">{item[3]}</TableCell>
-                      <TableCell className="TexttableA">{item[4]}</TableCell>
+                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[4]}</TableCell>
                       <TableCell className="TexttableA">{item[5]}</TableCell>
                       <TableCell className="TexttableA">{item[6]}</TableCell>
                       <TableCell>{item[7]}</TableCell>

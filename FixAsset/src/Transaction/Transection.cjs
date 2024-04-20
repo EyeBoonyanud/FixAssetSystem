@@ -339,7 +339,6 @@ module.exports.fixcode = async function (req, res) {
 //FactoryForInsert
 module.exports.fac_insert = async function (req, res) {
   try {
-    // const UserLogin = req.query.Fac_Login;
     const {Fac_Login} = req.body
     const connect = await oracledb.getConnection(CUSR);
     const query = `
@@ -359,7 +358,6 @@ module.exports.fac_insert = async function (req, res) {
 //Costcenter
 module.exports.cost_insert = async function (req, res) {
   try {
-    // const User_cost = req.query.Cost_Login;
     const {Cost_Login} = req.body
     const connect = await oracledb.getConnection(CUSR);
     const query = `
@@ -378,7 +376,6 @@ module.exports.cost_insert = async function (req, res) {
 // Fixed Asset Group
 module.exports.fix_group = async function (req, res) {
   try {
-    // const Fixasset = req.query.Asset_group;
     const {Asset_group} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -414,8 +411,6 @@ module.exports.status = async function (req, res) {
 //หา Service  AssetGroup
 module.exports.id_service = async function (req, res) {
   try {
-    // const Fac = req.query.fac;
-    // const FixGroup = req.query.fixgroub;
     const {fac,fixgroub} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -536,7 +531,6 @@ module.exports.create_date = async function (req, res) {
 };
 module.exports.update_date = async function (req, res) {
   try {
-    // const Tranfer_id = req.query.tranfer;
     const {tranfer} =req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -686,8 +680,6 @@ module.exports.insert_FAM_REQ_DETAIL = async function (req, res) {
 //Delete  Fixed Assets Code
 module.exports.delete_FAM_REQ_DETAIL = async function (req, res) {
   try {
-    // const FRD_FAM_NO = req.query.famno;
-    // const FRD_ASSET_CODE = req.query.fixcode;
     const {famno,fixcode} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -771,8 +763,6 @@ module.exports.select_BOI_from = async (req, res) => {
 // new Owner
 module.exports.new_owner = async function (req, res) {
   try {
-    // const Fac = req.query.fac;
-    // const CC = req.query.cc;
     const {fac,cc} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -1705,8 +1695,8 @@ module.exports.delect_all_fam_transfer = async function (req, res) {
     `;
 
     const data = {
-      FRH_FAM_NO: famno, // เปลี่ยนจาก FRT_FAM_NO เป็น FRH_FAM_NO
-      FAM_REQ_STATUS: idsts, // ใช้ idsts แทน FAM_REQ_STATUS และใช้ค่า famno ที่รับมาจาก req.query
+      FRH_FAM_NO: famno, 
+      FAM_REQ_STATUS: idsts
     };
 
     const result = await connect.execute(query, data, { autoCommit: true });
@@ -1823,28 +1813,24 @@ WHERE FRH_FAM_NO = :famno
 // Update BOI staff
 module.exports.update_boi_staff = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_BOI_CHK_JUD = req.query.stff_jud;
-    const FAM_BOI_CHK_CMMT = req.query.stff_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
-
+    const {famno,stff_jud,stff_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER
     SET 
         FAM_BOI_CHK_DATE = SYSDATE,
-        FAM_BOI_CHK_JUD = :FAM_BOI_CHK_JUD,
-        FAM_BOI_CHK_CMMT = :FAM_BOI_CHK_CMMT,
-        FAM_REQ_STATUS = :FAM_REQ_STATUS
-    WHERE FRH_FAM_NO = :Fam_no
+        FAM_BOI_CHK_JUD = :stff_jud,
+        FAM_BOI_CHK_CMMT = :stff_cmmt,
+        FAM_REQ_STATUS = :sts
+    WHERE FRH_FAM_NO = :famno
     
   `;
 
     const data = {
-      Fam_no,
-      FAM_BOI_CHK_JUD,
-      FAM_BOI_CHK_CMMT,
-      FAM_REQ_STATUS,
+      famno,
+      stff_jud,
+      stff_cmmt,
+      sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1857,29 +1843,25 @@ module.exports.update_boi_staff = async function (req, res) {
 //uUpdate BOI manager
 module.exports.update_boi_mana = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_BOI_MGR_JUD = req.query.boimana_jud;
-    const FAM_BOI_MGR_CMMT = req.query.boimana_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
-
+    const {famno,boimana_jud,boimana_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_BOI_MGR_DATE = SYSDATE,
-    FAM_BOI_MGR_JUD = :FAM_BOI_MGR_JUD,
-    FAM_BOI_MGR_CMMT = :FAM_BOI_MGR_CMMT,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_BOI_MGR_JUD = :boimana_jud,
+    FAM_BOI_MGR_CMMT = :boimana_cmmt,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   `;
 
     const data = {
-      Fam_no,
-      FAM_BOI_MGR_JUD,
-      FAM_BOI_MGR_CMMT,
-      FAM_REQ_STATUS,
+      famno,
+      boimana_jud,
+      boimana_cmmt,
+      sts,
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1892,29 +1874,23 @@ module.exports.update_boi_mana = async function (req, res) {
 //update fac_manager
 module.exports.update_facmanager = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_FM_JUD = req.query.fm_jud;
-    const FAM_FM_CMMT = req.query.fm_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,fm_jud,fm_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_FM_DATE  = SYSDATE,
-    FAM_FM_JUD  = :FAM_FM_JUD,
-    FAM_FM_CMMT  = :FAM_FM_CMMT,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_FM_JUD  = :fm_jud,
+    FAM_FM_CMMT  = :fm_cmmt,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   
   `;
 
     const data = {
-      Fam_no,
-      FAM_FM_JUD,
-      FAM_FM_CMMT,
-      FAM_REQ_STATUS,
+      famno,fm_jud,fm_cmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1927,29 +1903,23 @@ module.exports.update_facmanager = async function (req, res) {
 //update acc check
 module.exports.update_acccheck = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_ACC_CHK_JUD = req.query.chk_jud;
-    const FAM_ACC_CHK_CMMT = req.query.chk_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,chk_jud,chk_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_ACC_CHK_DATE = SYSDATE,
-    FAM_ACC_CHK_JUD = :FAM_ACC_CHK_JUD,
-    FAM_ACC_CHK_CMMT = :FAM_ACC_CHK_CMMT,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_ACC_CHK_JUD = :chk_jud,
+    FAM_ACC_CHK_CMMT = :chk_cmmt,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   
   `;
 
     const data = {
-      Fam_no,
-      FAM_ACC_CHK_JUD,
-      FAM_ACC_CHK_CMMT,
-      FAM_REQ_STATUS,
+      famno,chk_jud,chk_cmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1962,29 +1932,22 @@ module.exports.update_acccheck = async function (req, res) {
 //update owner
 module.exports.update_owner = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_OWNER_SEND_JUD = req.query.owner_jud;
-    const FAM_OWNER_SEND_CMMT = req.query.owner_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,owner_jud,owner_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_OWNER_SEND_DATE    = SYSDATE,
-    FAM_OWNER_SEND_JUD    = :FAM_OWNER_SEND_JUD,
-    FAM_OWNER_SEND_CMMT    = :FAM_OWNER_SEND_CMMT,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_OWNER_SEND_JUD    = :owner_jud,
+    FAM_OWNER_SEND_CMMT    = :owner_cmmt,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
-  
+    FRH_FAM_NO = :famno
   `;
 
     const data = {
-      Fam_no,
-      FAM_OWNER_SEND_JUD,
-      FAM_OWNER_SEND_CMMT,
-      FAM_REQ_STATUS,
+      famno,owner_jud,owner_cmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -1997,28 +1960,22 @@ module.exports.update_owner = async function (req, res) {
 //update Recode
 module.exports.update_recode = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_ACC_REC_JUD = req.query.rec_jud;
-    const FAM_ACC_REC_CMMT = req.query.rec_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,rec_jud,rec_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_ACC_REC_DATE  = SYSDATE,
-    FAM_ACC_REC_JUD  = :FAM_ACC_REC_JUD,
-    FAM_ACC_REC_CMMT  = :FAM_ACC_REC_CMMT,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_ACC_REC_JUD  = :rec_jud,
+    FAM_ACC_REC_CMMT  = :rec_cmmt,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   `;
 
     const data = {
-      Fam_no,
-      FAM_ACC_REC_JUD,
-      FAM_ACC_REC_CMMT,
-      FAM_REQ_STATUS,
+      famno,rec_jud,rec_cmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2031,28 +1988,22 @@ module.exports.update_recode = async function (req, res) {
 // update Acc Manager
 module.exports.update_accmanager = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_ACC_MGR_JUD = req.query.acc_manajud;
-    const FAM_ACC_MGR_CMMT = req.query.acc_manacmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,acc_manajud,acc_manacmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
     FAM_ACC_MGR_DATE   = SYSDATE,
-    FAM_ACC_MGR_JUD   = :FAM_ACC_MGR_JUD ,
-    FAM_ACC_MGR_CMMT   = :FAM_ACC_MGR_CMMT ,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+    FAM_ACC_MGR_JUD   = :acc_manajud ,
+    FAM_ACC_MGR_CMMT   = :acc_manacmmt ,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   `;
 
     const data = {
-      Fam_no,
-      FAM_ACC_MGR_JUD,
-      FAM_ACC_MGR_CMMT,
-      FAM_REQ_STATUS,
+      famno,acc_manajud,acc_manacmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2065,28 +2016,22 @@ module.exports.update_accmanager = async function (req, res) {
 //update service close by
 module.exports.update_service_close = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FAM_SERVICE_CLOSE_JUD = req.query.cls_jud;
-    const FAM_SERVICE_CLOSE_CMMT = req.query.cls_cmmt;
-    const FAM_REQ_STATUS = req.query.sts;
+    const {famno,cls_jud,cls_cmmt,sts} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
     FAM_REQ_HEADER
   SET
   FAM_SERVICE_CLOSE_DATE    = SYSDATE,
-  FAM_SERVICE_CLOSE_JUD    = :FAM_SERVICE_CLOSE_JUD  ,
-  FAM_SERVICE_CLOSE_CMMT    = :FAM_SERVICE_CLOSE_CMMT  ,
-    FAM_REQ_STATUS = :FAM_REQ_STATUS
+  FAM_SERVICE_CLOSE_JUD    = :cls_jud  ,
+  FAM_SERVICE_CLOSE_CMMT    = :cls_cmmt  ,
+    FAM_REQ_STATUS = :sts
   WHERE
-    FRH_FAM_NO = :Fam_no
+    FRH_FAM_NO = :famno
   `;
 
     const data = {
-      Fam_no,
-      FAM_SERVICE_CLOSE_JUD,
-      FAM_SERVICE_CLOSE_CMMT,
-      FAM_REQ_STATUS,
+      famno,cls_jud,cls_cmmt,sts
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2099,27 +2044,22 @@ module.exports.update_service_close = async function (req, res) {
 // update receiver
 module.exports.update_receiver = async function (req, res) {
   try {
-    const Fam_no = req.query.famno;
-    const FRT_RECEIVER_JUD = req.query.receiver_jud;
-    const FRT_RECEIVE_CMMT = req.query.receiver_cmmt;
-
+    const {famno,receiver_jud,receiver_cmmt} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
 	FAM_REQ_TRANSFER 
   SET
 	FRT_RECEIVE_DATE  = SYSDATE,
-	FRT_RECEIVER_JUD  = :FRT_RECEIVER_JUD,
-	FRT_RECEIVE_CMMT  = :FRT_RECEIVE_CMMT
+	FRT_RECEIVER_JUD  = :receiver_jud,
+	FRT_RECEIVE_CMMT  = :receiver_cmmt
 WHERE
-	FRT_FAM_NO  = :Fam_no
+	FRT_FAM_NO  = :famno
 
   `;
 
     const data = {
-      Fam_no,
-      FRT_RECEIVER_JUD,
-      FRT_RECEIVE_CMMT,
+      famno,receiver_jud,receiver_cmmt
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2189,8 +2129,6 @@ module.exports.update_for_nullRouting_All = async function (req, res) {
 //
 module.exports.update_All_for_receive = async function (req, res) {
   try {
-    // const Fam_no = req.query.famno;
-    // const User_by = req.query.user;
     const {famno,user_re} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -2491,9 +2429,10 @@ module.exports.get_BOI_project = async function (req, res) {
 //Search BOI Project
 module.exports.search_BOI_project = async function (req, res) {
   try {
-    const factory = req.query.FBMC_factory;
-    const cost_center = req.query.FBMC_cost_center;
-    const BOI_Project = req.query.FBMC_BOI_project;
+    // const factory = req.query.FBMC_factory;
+    // const cost_center = req.query.FBMC_cost_center;
+    // const BOI_Project = req.query.FBMC_BOI_project;
+    const {FBMC_factory,FBMC_cost_center,FBMC_BOI_project} =req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
       SELECT
@@ -2517,12 +2456,12 @@ LEFT JOIN CUSR.CU_FACTORY_M C ON
 LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CMCC ON
     CMCC.CC_CTR = T.FBMC_COST_CENTER
 WHERE
-    (T.FBMC_FACTORY = '${factory}'
-        OR '${factory}' IS NULL)
-    AND (TRIM(T.FBMC_COST_CENTER) = '${cost_center}'
-        OR '${cost_center}' IS NULL)
-    AND (T.FBMC_BOI_PROJ = '${BOI_Project}'
-        OR '${BOI_Project}' IS NULL)
+    (T.FBMC_FACTORY = '${FBMC_factory}'
+        OR '${FBMC_factory}' IS NULL)
+    AND (TRIM(T.FBMC_COST_CENTER) = '${FBMC_cost_center}'
+        OR '${FBMC_cost_center}' IS NULL)
+    AND (T.FBMC_BOI_PROJ = '${FBMC_BOI_project}'
+        OR '${FBMC_BOI_project}' IS NULL)
 ORDER BY
     C.FACTORY_NAME,
     CMCC.CC_DESC,
@@ -2541,27 +2480,22 @@ ORDER BY
 // insert BOI project
 module.exports.insertBOI_Maintain = async function (req, res) {
   try {
-    const fbmc_person_cost_center = req.query.FBMC_cost_center;
-    const fbmc_factory = req.query.FBMC_factory;
-    const fbmc_boiproject = req.query.FBMC_BOI_Project;
-    const fbmc_status = req.query.FBMC_status;
-    const fbmc_comment = req.query.FBMC_comment;
-    const fbmc_create_by = req.query.FBMC_create_by;
-    const fbmc_update_by = req.query.FBMC_update_by;
+    // const fbmc_person_cost_center = req.query.FBMC_cost_center;
+    // const fbmc_factory = req.query.FBMC_factory;
+    // const fbmc_boiproject = req.query.FBMC_BOI_Project;
+    // const fbmc_status = req.query.FBMC_status;
+    // const fbmc_comment = req.query.FBMC_comment;
+    // const fbmc_create_by = req.query.FBMC_create_by;
+    // const fbmc_update_by = req.query.FBMC_update_by;
+    const {FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_create_by,FBMC_update_by} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     INSERT INTO FAM_BOIPROJ_MAP_CC (FBMC_COST_CENTER,FBMC_FACTORY,FBMC_BOI_PROJ,FBMC_STATUS,FBMC_COMMENT,FBMC_CREATE_DATE,FBMC_CREATE_BY,FBMC_UPDATE_DATE,FBMC_UPDATE_BY)
-    VALUES (:fbmc_person_cost_center,:fbmc_factory,:fbmc_boiproject,:fbmc_status,:fbmc_comment,SYSDATE,:fbmc_create_by,SYSDATE,:fbmc_update_by)
+    VALUES (:FBMC_cost_center,:FBMC_factory,:FBMC_BOI_Project,:FBMC_status,:FBMC_comment,SYSDATE,:FBMC_create_by,SYSDATE,:FBMC_update_by)
 
          `;
     const data = {
-      fbmc_person_cost_center,
-      fbmc_factory,
-      fbmc_boiproject,
-      fbmc_status,
-      fbmc_comment,
-      fbmc_create_by,
-      fbmc_update_by,
+      FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_create_by,FBMC_update_by
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2574,33 +2508,29 @@ module.exports.insertBOI_Maintain = async function (req, res) {
 // update BOI maintian
 module.exports.updateBOI_Maintain = async function (req, res) {
   try {
-    const fbmc_cost_center_a = req.query.FBMC_cost_center;
-    const fbmc_factory_a = req.query.FBMC_factory;
-    const fbmc_boi_project_a = req.query.FBMC_BOI_Project;
-    const fbmc_status_a = req.query.FBMC_status;
-    const fbmc_comment_a = req.query.FBMC_comment;
-    const fbmc_update_by_a = req.query.FBMC_update_by;
+    // const fbmc_cost_center_a = req.query.FBMC_cost_center;
+    // const fbmc_factory_a = req.query.FBMC_factory;
+    // const fbmc_boi_project_a = req.query.FBMC_BOI_Project;
+    // const fbmc_status_a = req.query.FBMC_status;
+    // const fbmc_comment_a = req.query.FBMC_comment;
+    // const fbmc_update_by_a = req.query.FBMC_update_by;
+    const {FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_update_by} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
         FAM_BOIPROJ_MAP_CC
     SET
-        FBMC_FACTORY = :fbmc_factory_a,
-        FBMC_STATUS = :fbmc_status_a,
-        FBMC_COMMENT = :fbmc_comment_a,
+        FBMC_FACTORY = :FBMC_factory,
+        FBMC_STATUS = :FBMC_status,
+        FBMC_COMMENT = :FBMC_comment,
         FBMC_UPDATE_DATE = SYSDATE,
-        FBMC_UPDATE_BY = :fbmc_update_by_a
+        FBMC_UPDATE_BY = :FBMC_update_by
     WHERE
-        FBMC_COST_CENTER = :fbmc_cost_center_a
-        AND FBMC_BOI_PROJ = :fbmc_boi_project_a
+        FBMC_COST_CENTER = :FBMC_cost_center
+        AND FBMC_BOI_PROJ = :FBMC_BOI_Project
          `;
     const data = {
-      fbmc_cost_center_a,
-      fbmc_factory_a,
-      fbmc_boi_project_a,
-      fbmc_status_a,
-      fbmc_comment_a,
-      fbmc_update_by_a,
+      FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_update_by
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2613,8 +2543,9 @@ module.exports.updateBOI_Maintain = async function (req, res) {
 // get show data edit BOI
 module.exports.getEdit_BOI_Show = async function (req, res) {
   try {
-    const cost_center = req.query.FBMC_cost_center;
-    const BOI_Project = req.query.FBMC_BOI_Project;
+    // const cost_center = req.query.FBMC_cost_center;
+    // const BOI_Project = req.query.FBMC_BOI_Project;
+    const {FBMC_cost_center,FBMC_BOI_Project} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT DISTINCT 
@@ -2634,8 +2565,8 @@ FROM
     LEFT JOIN CUSR.CU_FACTORY_M CU ON CU.FACTORY_CODE = T.FBMC_FACTORY 
     LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR CTM ON CTM.CC_CTR = T.FBMC_COST_CENTER 
 WHERE
-    T.FBMC_COST_CENTER = '${cost_center}'
-    AND T.FBMC_BOI_PROJ = '${BOI_Project}'
+    T.FBMC_COST_CENTER = '${FBMC_cost_center}'
+    AND T.FBMC_BOI_PROJ = '${FBMC_BOI_Project}'
     `;
     const result = await connect.execute(query);
     connect.release();
@@ -2681,20 +2612,20 @@ module.exports.get_BOI_project_name = async function (req, res) {
 // Delete BOI Maintain
 module.exports.deleteBOI_Maintain = async function (req, res) {
   try {
-    const cost_center_a = req.query.FBMC_cost_center_delete;
-    const BOI_Project_a = req.query.FBMC_BOI_Project_delete;
+    // const cost_center_a = req.query.FBMC_cost_center_delete;
+    // const BOI_Project_a = req.query.FBMC_BOI_Project_delete;
+    const{FBMC_cost_center_delete,FBMC_BOI_Project_delete} = req.body
     const connect = await oracledb.getConnection(AVO);
     const query = `
     DELETE
     FROM
       FAM_BOIPROJ_MAP_CC T
     WHERE
-      T.FBMC_COST_CENTER = :cost_center_a
-      AND T.FBMC_BOI_PROJ = :BOI_Project_a  
+      T.FBMC_COST_CENTER = :FBMC_cost_center_delete
+      AND T.FBMC_BOI_PROJ = :FBMC_BOI_Project_delete  
          `;
     const data = {
-      cost_center_a,
-      BOI_Project_a,
+      FBMC_cost_center_delete,FBMC_BOI_Project_delete
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();

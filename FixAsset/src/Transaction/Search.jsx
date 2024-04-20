@@ -255,6 +255,15 @@ function Issue() {
 
     window.location.href = "/ForRe";
   };
+
+  const handlePDF = async (PDF_FAM) => {
+    console.log(PDF_FAM,"PDF_FAM");
+    localStorage.removeItem("PDF_FAM_DATA");
+    const PDF_FAM_DATA = PDF_FAM;
+    localStorage.setItem("PDF_FAM_DATA", PDF_FAM_DATA);
+    window.location.href = `/PDF_download
+    `;
+  };
   const handleVIEW = async (VIEW_FAM) => {
     console.log(VIEW_FAM, "PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
@@ -1125,10 +1134,10 @@ function Issue() {
                           <LoadingOutlined style={{ fontSize: "30px" }} />
                         ) : (
                           <>
-                            {/* <FilePdfOutlined
+                            <FilePdfOutlined
                               style={{ color: "red", fontSize: "30px" }}
-                              // onClick={() => handleEdit(item[2], index)}
-                            /> */}
+                              onClick={() => handlePDF(item[2], index)}
+                            />
                             {/* <FileSearchOutlined
                             style={{ color: "#40A2E3", fontSize: "30px" }}
                             onClick={() => handleVIEW(item[2])}

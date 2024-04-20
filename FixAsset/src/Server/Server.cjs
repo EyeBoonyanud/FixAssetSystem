@@ -17,6 +17,7 @@ const Login =require("../Login/Login.cjs")
 const Transaction =require("../Transaction/Transection.cjs")
 const ReportSystem=require("../report/Report_system.cjs")
 const VIEW_Fammaster =require("../Monitoring/Monitorind.cjs")
+const PDF_Fammaster =require("../PDF_fam_master/PDF_fammaster_service.cjs")
 const Mail =require("../Mail/Mail.cjs")
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
@@ -133,8 +134,8 @@ app.post("/getData_UserLogin_Person",Transaction.getData_UserLogin_Person);
 app.post("/Search_Person_Maintain",Transaction.search_person_maintain);
 app.post("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
 app.get("/get_BOI_project",Transaction.get_BOI_project);
-app.get("/search_BOI_project",Transaction.search_BOI_project);
-app.get("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
+app.post("/search_BOI_project",Transaction.search_BOI_project);
+app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.post("/getCountTransfer",Transaction.getCountTransfer);
 app.post("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
 app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
@@ -152,7 +153,13 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
-
+// PDF Fammaster
+app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
+app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
+app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
+app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
+app.post("/SumCost",PDF_Fammaster.SumCost);
+app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
 
 // VIEW Fammaster ก่อนแก้
 // app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
