@@ -1518,10 +1518,10 @@ try {
   const Back_page = async () => {
     if (page == "SEARCH") {
       clearLocal();
-      navigate("/Search");
+      navigate("/FAMsystem/Search");
     } else if (page == "APPROVEFAM") {
       clearLocal();
-      navigate("/ApproveFam");
+      navigate("/FAMsystem/ApproveFam");
     }
   };
 
@@ -1544,7 +1544,7 @@ try {
   const navigate = useNavigate();
   const NextPage = async () => {
     Insert_Fam_detail();
-    navigate("/TransDetail");
+    navigate("/FAMsystem/TransDetail");
   };
   //////////// Next Page ///////////
   const Next = async (value) => {

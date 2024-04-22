@@ -75,7 +75,7 @@ export default function SignInSide() {
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
-            window.location.href = "/Homepage";
+            window.location.href = "/FAMsystem/Homepage";
           
         } else {
           console.error("Login failed");

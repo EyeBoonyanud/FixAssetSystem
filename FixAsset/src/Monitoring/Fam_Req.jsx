@@ -44,10 +44,10 @@ function ForRequest() {
   const VIEW_FAM = localStorage.getItem("EDIT");
   console.log(VIEW_FAM, "VIEW_FAM");
   const NextPage = async () => {
-    window.location.href = `/FamTrans`;
+    window.location.href = `/FAMsystem/FamTrans`;
   };
   const Back_page = async () => {
-    window.location.href = `/FAMMaster`;
+    window.location.href = `/FAMsystem/FAMMaster`;
     localStorage.removeItem("EDIT");
   };
   const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");

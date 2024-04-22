@@ -120,7 +120,7 @@ function Issue() {
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
     localStorage.removeItem("Type");
-    navigate("/ForRe");
+    navigate("/FAMsystem/ForRe");
   };
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
@@ -128,7 +128,6 @@ function Issue() {
   const Path = cutPath.toUpperCase();
   localStorage.setItem("pageshow", cutPath);
   useEffect(() => {
-    console.log("mmmmmaamamamamaamam")
     openPopupLoadding();
     const Statuss = localStorage.getItem("STATUS");
     if (Statuss !== null) {
@@ -253,7 +252,7 @@ function Issue() {
     setloading("True");
     setselectindex("0");
 
-    window.location.href = "/ForRe";
+    window.location.href = "/FAMsystem/ForRe";
   };
 
   const handlePDF = async (PDF_FAM) => {
@@ -261,14 +260,14 @@ function Issue() {
     localStorage.removeItem("PDF_FAM_DATA");
     const PDF_FAM_DATA = PDF_FAM;
     localStorage.setItem("PDF_FAM_DATA", PDF_FAM_DATA);
-    window.location.href = `/PDF_download
+    window.location.href = `/FAMsystem/PDF_download
     `;
   };
   const handleVIEW = async (VIEW_FAM) => {
     console.log(VIEW_FAM, "PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
     // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-    window.location.href = `/VIEW_Fammaster`;
+    window.location.href = `/FAMsystem/VIEW_Fammaster`;
   };
 
   const TextTitle = () => {

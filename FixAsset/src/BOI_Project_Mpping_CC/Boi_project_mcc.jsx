@@ -255,9 +255,6 @@ function Boi_project_mcc() {
       openPopupLoadding();
       if (willDelete) {
         try {
-          // const delete_BOI_maintain = await axios.post(
-          //   `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
-          // );
           const delete_BOI_maintain = await axios.post(
             "/Search_BOI_Maintain_Edit",
             {

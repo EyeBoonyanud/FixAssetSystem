@@ -88,10 +88,10 @@ export default function BasicGrid() {
     console.log("Received value:", value);
     if (value === "Create") {
       localStorage.setItem("STATUS", value);
-      window.location.href = `/Search`;     
+      window.location.href = `/FAMsystem/Search`;     
     } else {
       localStorage.setItem("STATUS", value);
-      window.location.href = `/ApproveFam`;
+      window.location.href = `/FAMsystem/ApproveFam`;
     }
 
   };

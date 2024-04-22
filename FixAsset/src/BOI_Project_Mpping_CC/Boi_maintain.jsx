@@ -232,12 +232,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               UserLoginn &&
               Date_show
             ) {
-              // try {
-              //   const response = await axios.post(
-              //     `/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=
-              //${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=$
-              //{status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
-              //   );
+              
               try {
                 const response = await axios.post("/ins_BOI_MAINTAIN", {
                   FBMC_cost_center: selectcost[0],
@@ -279,13 +274,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               UserLoginn &&
               Date_show
             ) {
-              // try {
-              //   const response = await axios.post(
-              //     `/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}
-              //&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=$
-              //{BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}
-              //&FBMC_update_by=${UserLoginn}`
-              //   );
+              
               try {
                 const response = await axios.post("/update_BOI_MAINTAIN", {
                   FBMC_cost_center: selectcost[0],

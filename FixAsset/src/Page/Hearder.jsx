@@ -36,7 +36,7 @@ function ButtonAppBar({ isOpen, onClose }) {
     localStorage.removeItem("Edit_routing") 
     localStorage.removeItem("Type")
     
-    navigate("/");
+    navigate("/FAMsystem/");
   };
 
   return (

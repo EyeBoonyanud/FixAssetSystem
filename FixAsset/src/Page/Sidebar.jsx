@@ -89,28 +89,28 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const handleButtonClick = (id) => {
     console.log(id, "YYYYYY");
     if (id === "Issue FAM") {
-      window.location.href = "/Search";
+      window.location.href = "/FAMsystem/Search";
     }
     if (id === "Approve FAM") {
-      window.location.href = "/ApproveFam";
+      window.location.href = "/FAMsystem/ApproveFam";
     }
     if (id === "FAM Detail Report") {
-      window.location.href = "/FamDetails";
+      window.location.href = "/FAMsystem/FamDetails";
     }
     if (id === "Person Maintain") {
-      window.location.href = "/Search_person";
+      window.location.href = "/FAMsystem/Search_person";
     }
     if (id === "BOI Maintain") {
       console.log(id, "UUUUU");
-      window.location.href = "/BOIMaintain";
+      window.location.href = "/FAMsystem/BOIMaintain";
     }
     if (id === "FAM Master") {
-      window.location.href = "/FAMMaster";
+      window.location.href = "/FAMsystem/FAMMaster";
     }
   };
 
   const Home = () => {
-    navigate("/Homepage");
+    navigate("/FAMsystem/Homepage");
   };
   useEffect(() => {
     Menu();

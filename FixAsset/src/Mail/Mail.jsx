@@ -41,7 +41,7 @@ function Mail() {
     console.log(Reject_forApprover,"Reject_forApprover22")
    console.log(To_Send,"To_Send")
     Status_Show();
-   navigate(`/${PAGE}`);
+   navigate(`/FAMsystem/${PAGE}`);
    
     
   }, []);

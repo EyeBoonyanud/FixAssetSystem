@@ -1915,7 +1915,7 @@ function TransFerDetail() {
     }
     getDatatest();
     closePopupLoadding();
-    navigate("/ForRe");
+    navigate("/FAMsystem/ForRe");
   };
   // ปุ่ม SAVE
   const SAVE = async () => {
@@ -2183,7 +2183,7 @@ function TransFerDetail() {
       ) {
         setErrorTel_Rq(true);
         alert("Please fill in information: Tel For Requester");
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       } else {
         setErrorTel_Rq(false);
@@ -2196,7 +2196,7 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information: Dept ");
         setErrorDept(true);
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
 
@@ -2208,7 +2208,7 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information: Request Owner");
         setErrorDept(true);
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
       if (
@@ -2219,7 +2219,7 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information:  Owner Tel ");
         setErrorDept(true);
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
 
@@ -2414,7 +2414,7 @@ function TransFerDetail() {
         alert("Please fill in information: Tel Requester");
         let ErrorTel_Req = "true";
 
-        navigate("/ForRe", ErrorTel_Req);
+        navigate("/FAMsystem/ForRe", ErrorTel_Req);
         return;
       } else {
         setErrorTel_Rq(false);
@@ -2428,7 +2428,7 @@ function TransFerDetail() {
       ) {
         alert("Please fill in information: Dept");
         setErrorDept(true);
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
       if (
@@ -2438,7 +2438,7 @@ function TransFerDetail() {
         For_Req[15] === "null"
       ) {
         alert("Please fill in information: Request Owner");
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
       if (
@@ -2448,7 +2448,7 @@ function TransFerDetail() {
         For_Req[17] === "null"
       ) {
         alert("Please fill in information: Owner Tel");
-        navigate("/ForRe");
+        navigate("/FAMsystem/ForRe");
         return;
       }
       if (
@@ -2724,7 +2724,7 @@ function TransFerDetail() {
             localStorage.setItem("Req_Type", For_Rq_Edit[7]);
             localStorage.setItem("Req_by", For_Rq_Edit[2]);
             localStorage.setItem("Status", Status);
-            navigate("/Mail");
+            navigate("/FAMsystem/Mail");
             //  navigate('/Search');
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2847,7 +2847,7 @@ function TransFerDetail() {
           localStorage.removeItem("Edit_Trans");
           localStorage.removeItem("Edit_Dteail_for_FixedCode");
           localStorage.removeItem("Edit_routing");
-         navigate("/Mail");
+         navigate("/FAMsystem/Mail");
             // navigate("/Search");
           } catch (error) {
             //     console.error("Error updating submit status:", error.message);
@@ -2926,7 +2926,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-             navigate("/Mail");
+             navigate("/FAMsystem/Mail");
               // navigate("/ApproveFam");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
@@ -3005,7 +3005,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               // navigate("/ApproveFam");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3085,7 +3085,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-             navigate("/Mail");
+             navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3163,7 +3163,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               // navigate("/ApproveFam");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3241,7 +3241,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               // navigate("/ApproveFam");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3318,7 +3318,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -3393,7 +3393,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
               // navigate("/ApproveFam");
               
             } catch (error) {
@@ -3472,7 +3472,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               // navigate("/ApproveFam");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3575,7 +3575,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               // navigate("/ApproveFam");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3656,7 +3656,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3739,7 +3739,7 @@ function TransFerDetail() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               //     console.error("Error updating submit status:", error.message);
             }
@@ -3824,7 +3824,7 @@ function TransFerDetail() {
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/Mail");
+          navigate("/FAMsystem/Mail");
           Swal.fire({
             title: "Save Success",
             icon: "success",

@@ -21,7 +21,7 @@ import PDF_download from './PDF_fam_master/PDF_design'
 import axios from "axios";
 
 // process.env.NODE_ENV = 'production';
-const backendURL = "http://10.17.74.202:5000";
+const backendURL = "http://10.17.100.183:5000";
 axios.defaults.baseURL = backendURL;
 
 const App = () => {
@@ -30,23 +30,23 @@ const App = () => {
     // <StrictMode>
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Homepage" element={<Homepage />} />
-        <Route path="/Search" element={<Search />} />
-        <Route path="/Approve" element={<Approve />} />
-        <Route path="/InsertIssue" element={<InsertIssue />} />
-        <Route path="/ForRe" element={<ForRe />} />
-        <Route path="/TransDetail" element={<TransDetail />} />
-        <Route path="/ApproveFam" element={<ApproveFam />} />
-        <Route path="/FamDetails" element={<FamDetails />} />
-        <Route path="/Search_person" element={<Search_person />} />
-        <Route path="/BOIMaintain" element={<Boi_main />} />
-        <Route path="/FAMMaster" element={<FAMMaster />} />
-        <Route path="/FamReq" element={<FamReq />} />
-        <Route path="/FamTrans" element={<FamTrans />} />
-        <Route path="/VIEW_Fammaster" element={<VIEW_Fammaster />} />
-        <Route path="/Mail" element={<Mail />} />
-        <Route path="/PDF_download" element={<PDF_download />} />
+        <Route path="/FAMsystem" element={<Login />} />
+        <Route path="/FAMsystem/Homepage" element={<Homepage />} />
+        <Route path="/FAMsystem/Search" element={<Search />} />
+        <Route path="/FAMsystem/Approve" element={<Approve />} />
+        <Route path="/FAMsystem/InsertIssue" element={<InsertIssue />} />
+        <Route path="/FAMsystem/ForRe" element={<ForRe />} />
+        <Route path="/FAMsystem/TransDetail" element={<TransDetail />} />
+        <Route path="/FAMsystem/ApproveFam" element={<ApproveFam />} />
+        <Route path="/FAMsystem/FamDetails" element={<FamDetails />} />
+        <Route path="/FAMsystem/Search_person" element={<Search_person />} />
+        <Route path="/FAMsystem/BOIMaintain" element={<Boi_main />} />
+        <Route path="/FAMsystem/FAMMaster" element={<FAMMaster />} />
+        <Route path="/FAMsystem/FamReq" element={<FamReq />} />
+        <Route path="/FAMsystem/FamTrans" element={<FamTrans />} />
+        <Route path="/FAMsystem/VIEW_Fammaster" element={<VIEW_Fammaster />} />
+        <Route path="/FAMsystem/Mail" element={<Mail />} />
+        <Route path="/FAMsystem/PDF_download" element={<PDF_download />} />
         
         
         
