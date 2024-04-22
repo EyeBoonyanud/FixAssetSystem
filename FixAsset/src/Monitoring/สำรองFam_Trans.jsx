@@ -64,7 +64,7 @@ function TransFerDetail() {
     const FAM_Routing  = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Routing_show_VIEW?FamNo=${VIEW_FAM}`
+          `/getData_Routing_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data.flat();
         setDataRoutingFamno(data);
@@ -87,7 +87,7 @@ function TransFerDetail() {
     const FAM_Transfer = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_Transfer_show_VIEW?FamNo=${VIEW_FAM}`
+          `/getData_Transfer_show_VIEW?FamNo=${VIEW_FAM}`
         );
         const data = await response.data.flat();
         setDataTransferFamno(data) ;
@@ -100,7 +100,7 @@ function TransFerDetail() {
     const Name = async () => {
       try {
         const response = await axios.get(
-          `http://10.17.162.238:5000/getData_showName?FamNo=${VIEW_FAM}`
+          `/getData_showName?FamNo=${VIEW_FAM}`
         );
         const data = await response.data;
 
