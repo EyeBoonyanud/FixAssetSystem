@@ -246,7 +246,7 @@ module.exports.search = async function (req, res) {
 module.exports.search2 = async function (req, res) {
   try {
     const {UserLogin,FacCode,DeptCode,FamNo,FamTo,Costcenter,FixAsset,ReType,ReDate,ReDateTo} = req.body
-    console.log(UserLogin,FacCode,DeptCode,FamNo,FamTo,Costcenter,FixAsset,ReType,ReDate,ReDateTo)
+   
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -532,6 +532,7 @@ module.exports.create_date = async function (req, res) {
 module.exports.update_date = async function (req, res) {
   try {
     const {tranfer} =req.body
+    console.log(tranfer)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER 
@@ -2479,6 +2480,7 @@ ORDER BY
 
 // insert BOI project
 module.exports.insertBOI_Maintain = async function (req, res) {
+ 
   try {
     // const fbmc_person_cost_center = req.query.FBMC_cost_center;
     // const fbmc_factory = req.query.FBMC_factory;
@@ -2488,6 +2490,7 @@ module.exports.insertBOI_Maintain = async function (req, res) {
     // const fbmc_create_by = req.query.FBMC_create_by;
     // const fbmc_update_by = req.query.FBMC_update_by;
     const {FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_create_by,FBMC_update_by} = req.body
+    
     const connect = await oracledb.getConnection(AVO);
     const query = `
     INSERT INTO FAM_BOIPROJ_MAP_CC (FBMC_COST_CENTER,FBMC_FACTORY,FBMC_BOI_PROJ,FBMC_STATUS,FBMC_COMMENT,FBMC_CREATE_DATE,FBMC_CREATE_BY,FBMC_UPDATE_DATE,FBMC_UPDATE_BY)
@@ -2495,7 +2498,13 @@ module.exports.insertBOI_Maintain = async function (req, res) {
 
          `;
     const data = {
-      FBMC_cost_center,FBMC_factory,FBMC_BOI_Project,FBMC_status,FBMC_comment,FBMC_create_by,FBMC_update_by
+      FBMC_cost_center,
+      FBMC_factory,
+      FBMC_BOI_Project,
+      FBMC_status,
+      FBMC_comment,
+      FBMC_create_by,
+      FBMC_update_by
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -2912,7 +2921,8 @@ module.exports.searchFamMaster = async function (req, res) {
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
     (SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
-    F.FFM_DESC AS STATUS
+    F.FFM_DESC AS STATUS,
+    T.FAM_REQ_TYPE 
   FROM
     FAM_REQ_HEADER T
   LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY

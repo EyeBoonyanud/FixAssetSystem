@@ -212,11 +212,11 @@ module.exports. submenu = async function (req, res) {
     AND R.SYSTEM_ID = '65'
     AND M.MENU_PARENT_ID IS NOT NULL 
     ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
-              console.log(query);  
+           
           const result = await connect.execute(query);
     
           connect.release();
-    // // // // console.log(result.rows);
+
     res.json(result.rows);
   } catch (error) {
     // console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);

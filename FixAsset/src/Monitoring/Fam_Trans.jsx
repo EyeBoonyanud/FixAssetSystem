@@ -24,6 +24,8 @@ import "../Page/Style.css";
 
 function TransFerDetail() {
   const VIEW_FAM = localStorage.getItem("EDIT")
+  const VIEW_TYPE = localStorage.getItem("TYPE_flow")
+  console.log("TYPE_flow",VIEW_TYPE)
   const [DataTransferFamno, setDataTransferFamno] = useState([]);
   const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
   const [ DataName, setDataName] = useState("");
@@ -140,7 +142,9 @@ function TransFerDetail() {
 
 </div>
       <div>
+        {VIEW_TYPE === 'GP01001' &&(
         <Card className="Style100">
+          
           <Card
             sx={{
               borderRadius: "8px",
@@ -363,7 +367,7 @@ function TransFerDetail() {
               </table>
             </div>
           </Card>
-        </Card>
+        </Card>)}
         <Card className="Style100">
           <Card
             sx={{
@@ -413,7 +417,7 @@ function TransFerDetail() {
                       ></TextField>
                     </FormControl>
                   </td>
-{console.log(selectradio_dept,"DataRoutingFamno[1]")}
+
                   <td className="Style5">
   <FormControl style={{ visibility: selectradio_dept==null || selectradio_dept=="null"  ? "hidden" : "visibled" }}>
     <RadioGroup
@@ -1056,7 +1060,7 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
               </table>
             </div>
           </Card>
-        </Card>
+        </Card> {VIEW_TYPE === 'GP01001' &&(
         <Card className="Style100">
           <Card
             sx={{
@@ -1176,7 +1180,7 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
               </table>
             </div>
           </Card>
-        </Card>
+        </Card> )}
         <Card className="Style100">
           <Card
             sx={{
@@ -1398,7 +1402,6 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       ></TextField>
                     </FormControl>
                   </td>
-               {console.log(selectradio_service_close_by,"selectradio_service_close_by")}
                   <td className="Style5">
                     <FormControl style={{ visibility: selectradio_service_close_by==null || selectradio_service_close_by=="null"  ? "hidden" : "visibled" }}>
                       <RadioGroup

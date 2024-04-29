@@ -221,8 +221,8 @@ function Boi_project_mcc() {
           const getEdit_show = await axios.post(
             "/Search_BOI_Maintain_Edit",
             {
-              FBMC_cost_center: factoryValue,
-              FBMC_BOI_Project:BOIValue
+              FBMC_cost_center: cost_center,
+              FBMC_BOI_Project:boi_project
             }
           );
             const data = await getEdit_show.data;
@@ -259,7 +259,7 @@ function Boi_project_mcc() {
           //   `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
           // );
           const delete_BOI_maintain = await axios.post(
-            "/Search_BOI_Maintain_Edit",
+            "/dlt_BOI_MAINTAIN",
             {
               FBMC_cost_center_delete: cost_center,
               FBMC_BOI_Project_delete:boi_project
@@ -474,9 +474,10 @@ function Boi_project_mcc() {
                         ) : (
                           <EditNoteIcon
                             style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() =>
-                              handleOpenEdit(item[1], item[3], item[4], index)
-                            }
+                            onClick={() => {
+                              handleOpenEdit(item[1], item[3], item[4], index);
+                              console.log("UUUUUUUI",item[1], item[3], item[4], index);
+                            }}
                           />
                         )}
                         <DeleteForeverIcon

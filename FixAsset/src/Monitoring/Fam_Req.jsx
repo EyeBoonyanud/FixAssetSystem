@@ -42,7 +42,8 @@ import PageLoadding from "../Loadding/Pageload";
 function ForRequest() {
   const navigate = useNavigate();
   const VIEW_FAM = localStorage.getItem("EDIT");
-  console.log(VIEW_FAM, "VIEW_FAM");
+  const VIEW_TYPE = localStorage.getItem("TYPE_flow")
+  console.log(VIEW_FAM, "VIEW_FAM",VIEW_TYPE);
   const NextPage = async () => {
     window.location.href = `/FamTrans`;
   };

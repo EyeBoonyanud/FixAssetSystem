@@ -238,11 +238,12 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               //${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=$
               //{status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
               //   );
+              
               try {
                 const response = await axios.post("/ins_BOI_MAINTAIN", {
                   FBMC_cost_center: selectcost[0],
                   FBMC_factory: selecteDatafac[0],
-                  FBMC_BOI_Project: BOI_Project ,
+                  FBMC_BOI_Project: BOI_Project[0] ,
                   FBMC_status:status ,
                   FBMC_comment:Comment ,
                   FBMC_create_by:UserLoginn ,
@@ -287,10 +288,11 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               //&FBMC_update_by=${UserLoginn}`
               //   );
               try {
+                console.log(" CCCCCCCCC",BOI_Project)
                 const response = await axios.post("/update_BOI_MAINTAIN", {
                   FBMC_cost_center: selectcost[0],
                   FBMC_factory: selecteDatafac[0],
-                  FBMC_BOI_Project: BOI_Project ,
+                  FBMC_BOI_Project: BOI_Project[0] ,
                   FBMC_status:status ,
                   FBMC_comment:Comment ,
                   FBMC_update_by:UserLoginn

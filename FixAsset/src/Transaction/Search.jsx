@@ -264,9 +264,10 @@ function Issue() {
     window.location.href = `/PDF_download
     `;
   };
-  const handleVIEW = async (VIEW_FAM) => {
+  const handleVIEW = async (VIEW_FAM,TYPE) => {
     console.log(VIEW_FAM, "PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
+    localStorage.setItem("TYPE_flow", TYPE);
     // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster`;
   };
@@ -961,7 +962,6 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  {console.log(selectStatus, "iiiii")}
                   <FormControl
                     sx={{ width: 200 }}
                     style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
@@ -1172,7 +1172,11 @@ function Issue() {
                           ) : (
                             <FileSearchOutlined
                               style={{ color: "#40A2E3", fontSize: "30px" }}
-                              onClick={() => handleVIEW(item[2])}
+                              onClick={() => {
+                                handleVIEW(item[2],item[8]);
+                                
+                              }}
+                              
                             />
                           ))}
                       </TableCell>
