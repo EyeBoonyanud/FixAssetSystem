@@ -248,12 +248,27 @@ function Issue() {
     } catch (error) {
       //console.error("Error during login:", error);
     }
+    try {
+      const response = await axios.post(
+        "/getEditdate_certaficate",
+        {
+          famno: EditFam,
+        }
+      );
+      
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_cer_date", data_edit);
+      console.log(data,"data")
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
 
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
 
-    window.location.href = "/ForRe";
+   window.location.href = "/ForRe";
   };
 
   const handlePDF = async (PDF_FAM) => {

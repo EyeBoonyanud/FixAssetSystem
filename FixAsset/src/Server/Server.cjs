@@ -45,7 +45,7 @@ app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
 app.get("/findsts",Transaction.findsts);
 app.post("/getby",Transaction.by);
-app.get("/getstatus",Transaction.status);
+app.post("/getstatus",Transaction.status);
 app.post("/getsearch",Transaction.search);
 app.post("/getsearch2",Transaction.search2);
 app.post("/getfixcode",Transaction.fixcode);
@@ -86,6 +86,12 @@ app.post("/update_for_date_trans",Transaction.update_for_date_trans);
 app.post("/searchFamMaster",Transaction.searchFamMaster);
 app.post("/namefile",Transaction.namefile);
 app.post("/find_asset_fixdata",Transaction.find_asset_fixdata);
+//Donation 
+app.post("/date_certificate",Transaction.date_certificate);
+app.post("/getEditdate_certaficate",Transaction.getEditdate_certaficate);
+
+
+
 
 
 
@@ -137,6 +143,8 @@ app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.post("/search_BOI_project",Transaction.search_BOI_project);
 app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.post("/getCountTransfer",Transaction.getCountTransfer);
+app.post("/getCountLoss",Transaction.getCountLoss);
+
 app.post("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
 app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);

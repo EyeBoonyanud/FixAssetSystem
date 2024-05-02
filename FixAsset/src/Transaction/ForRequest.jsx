@@ -393,7 +393,7 @@ function ForRequest() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                    {STS1_Req === "FLTR001" ||
+                    {STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" ||
                     STS1_Req === "" ||
                     STS1_for_R === "R" ? (
                       <FormControl fullWidth>
@@ -1042,7 +1042,7 @@ function ForRequest() {
           </Card>
         </div>
         {/* สำหรับ Upload File */}
-        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ? (
+        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_for_R === "R" ? (
           <div>
             <Card
               sx={{

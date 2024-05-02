@@ -57,12 +57,15 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_BOOK_VALUE,
           D.FRD_NEW_CC,
           R.FRT_TO_PROJ,
-          D.FRD_REMARK
+          D.FRD_REMARK,
+          M.FFM_FLG, 
+          H.FAM_REQ_STATUS 
         FROM
           FAM_REQ_DETAIL D 
           INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
           INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
         LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
+        LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
         WHERE 1=1
           AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
@@ -70,7 +73,8 @@ module.exports.getFamDetailReport = async function (req, res) {
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
           AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
           AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-              
+          AND (FAM_REQ_STATUS NOT IN ('FLTR001') )
+          AND (FFM_FLG NOT IN ('R') OR FFM_FLG IS NULL)     
         UNION ALL      
         SELECT
           CF.FACTORY_NAME AS FACTORY ,
@@ -90,12 +94,15 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_BOOK_VALUE,
           D.FRD_NEW_CC,
           R.FRT_TO_PROJ,
-          D.FRD_REMARK
+          D.FRD_REMARK,
+          M.FFM_FLG, 
+          H.FAM_REQ_STATUS
         FROM
           FAM_REQ_DETAIL D 
           INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
           INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
         LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
+        LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
         WHERE 1=1
           AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
@@ -103,6 +110,8 @@ module.exports.getFamDetailReport = async function (req, res) {
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
           AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
           AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
+          AND (FAM_REQ_STATUS NOT IN ('FLTR001') )
+          AND (FFM_FLG NOT IN ('R') OR FFM_FLG IS NULL)
         )
     ORDER BY 1,2,3
          

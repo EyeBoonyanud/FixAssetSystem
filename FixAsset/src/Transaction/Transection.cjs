@@ -265,17 +265,17 @@ module.exports.search2 = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  WHERE  (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLTR002'
-    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR003')
-    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR004')
-    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR005')
-    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR006')
-    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR007')
-    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR008')
-    OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR009')
-    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR010')
-    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR011')
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLTR012'))
+  WHERE  (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002'))
+    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003'))
+    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004'))
+    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005'))
+    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006'))
+    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007'))
+    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008'))
+    OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
+    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010'))
+    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012'))
     AND (T.FAM_FACTORY = '${FacCode}' OR '${FacCode}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${DeptCode}' OR '${DeptCode}' IS NULL)
     AND (T.FRH_FAM_NO >= '${FamNo}' OR '${FamNo}' IS NULL)
@@ -394,11 +394,14 @@ module.exports.fix_group = async function (req, res) {
 //Status
 module.exports.status = async function (req, res) {
   try {
+    console.log("FGGGG")
+    const {type} = req.body
+    console.log("type",type)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT T.FFM_CODE, T.FFM_DESC 
     FROM FAM_FLOW_MASTER T 
-    WHERE T.FFM_TYPE = 'TRANSFER' 
+    WHERE T.FFM_TYPE = '${type}' 
     AND T.FFM_SEQ = 1 AND T.FFM_STATUS = 'A' `;
     const result = await connect.execute(query);
     connect.release();
@@ -1424,6 +1427,7 @@ module.exports.getEdit_routing = async function (req, res) {
 	FAM_SERVICE_JUD,
 	FAM_SERVICE_CMMT,
 	FAM_SERVICE_CLOSE_JUD
+  
 FROM
 	AVO.FAM_REQ_HEADER WHERE FRH_FAM_NO = '${FamNo}'
     `;
@@ -1436,6 +1440,7 @@ FROM
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 // Update For Req_All
 module.exports.Update_For_Req_All = async function (req, res) {
@@ -2689,6 +2694,47 @@ module.exports. getCountTransfer = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+module.exports. getCountLoss = async function (req, res) {
+  try {
+    const { UserLogin } = req.body;
+    
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT  COUNT(T.FRH_FAM_NO)
+    FROM FAM_REQ_HEADER T
+    LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
+    WHERE 1=1
+        AND (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLS001'
+        OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLS002')
+        OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLS003')
+        OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLS004')
+        OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS005')
+        OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS006')
+        OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS007')
+        OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS008')
+        OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS010')
+        OR (T.FAM_ACC_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLS011')
+        OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS012')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS092')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS093')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS094')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS095')
+        OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS096')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS907')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS908')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS910')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS911')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLS912'))
+       AND T.FAM_REQ_TYPE  = 'GP01004'
+    
+           `;
+          const result = await connect.execute(query);
+          connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
 //CountTransferListALL
 module.exports. getCountTransferlistaLL = async function (req, res) {
   try {
@@ -2978,6 +3024,46 @@ module.exports.find_asset_fixdata = async function (req, res) {
     FROM FAM_REQ_DETAIL F
     LEFT JOIN FAM_REQ_HEADER T ON T.FRH_FAM_NO = F.FRD_FAM_NO
     WHERE F.FRD_ASSET_CODE = :assetcode AND T.FAM_REQ_STATUS <> 'FLTR013'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message)
+  }
+};
+
+//Donation 
+module.exports.date_certificate = async function (req, res) {
+  try {
+    const {famno,date_cer} = req.body
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+UPDATE FAM_REQ_HEADER  
+SET FAM_ACC_CHK_CER_DATE = TO_DATE(:date_cer, 'YYYY-MM-DD')
+WHERE FRH_FAM_NO = :famno
+  `;
+    const data = {
+      famno,
+      date_cer
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.getEditdate_certaficate = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    console.log("DATEEEEEEEEe",famno)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+     TO_CHAR(FAM_ACC_CHK_CER_DATE, 'YYYY-MM-DD') AS FAM_ACC_CHK_CER_DATE
+FROM FAM_REQ_HEADER frh WHERE FRH_FAM_NO = '${famno}'
            `;
     const result = await connect.execute(query);
     connect.release();

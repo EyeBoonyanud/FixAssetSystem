@@ -18,6 +18,8 @@ function Get_Data() {
   const For_Trans = JSON.parse(ForTransfer);
   const Routing = localStorage.getItem("For_Routing");
   const For_Rou = JSON.parse(Routing);
+  const For_edit_date_cer = localStorage.getItem("Edit_cer_date");
+  const Edit_Date_cer = JSON.parse(For_edit_date_cer);
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -26,6 +28,7 @@ function Get_Data() {
   const For_Rq_Edit = JSON.parse(For_edit_request);
   const Edit_rout = localStorage.getItem("Edit_routing");
   const For_Edit_Rou = JSON.parse(Edit_rout);
+  console.log("For_Edit_Rou",For_Edit_Rou,Edit_Date_cer)
 
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -64,6 +67,7 @@ function Get_Data() {
   const [Tel_service, setTel_service] = useState("");
   const [CheckSubmit, setCheckSubmit] = useState("False");
   const [CheckSave, setCheckSave] = useState("False");
+  const [certificate_date ,setcertificate_date] = useState("")
 
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
@@ -126,7 +130,6 @@ function Get_Data() {
   const [cmmtradio_acc_manager, setcmmtradio_acc_manager] = useState("");
   const [cmmtradio_service_close_by, setcmmtradio_service_close_by] =
     useState("");
-
   /////////////// ตัวแปร Check Action Date //////////////////////////////
   const [action_dept, setaction__dept] = useState("");
   const [action__serviceby, setaction__serviceby] = useState("");
@@ -176,6 +179,7 @@ function Get_Data() {
   const [read_close_radio, setReadCloseRadio] = useState(true);
   const [read_close_cmmt, setReadCloseCmmt] = useState(true);
 
+
   /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
   const [checkrdo, setcheckrdo] = useState("hidden");
   const [chkservice_by, setchkservice_by] = useState("hidden");
@@ -188,6 +192,7 @@ function Get_Data() {
   const [chkacc_record, setchkacc_record] = useState("hidden");
   const [chkacc_manager, setchkacc_manager] = useState("hidden");
   const [chkservice_close, setchkservice_close] = useState("hidden");
+
   // comment ซ่อน ไม่ซ่อน
   const [CM_DepartmentManager, setCM_DepartmentManager] = useState("none");
   const [CM_service_by, setCM_service_by] = useState("none");
@@ -200,6 +205,9 @@ function Get_Data() {
   const [CM_acc_record, setCM_acc_record] = useState("none");
   const [CM_acc_manager, setCM_acc_manager] = useState("none");
   const [CM_service_close, setCM_service_close] = useState("none");
+ 
+  // Donation check 
+  const [chk_cer_date ,setchk_cer_date] = useState("")
 
   const [Showtype, setShowtype] = useState("");
   /////////////// ตัวแปร FormatDate //////////////////////////////
@@ -227,28 +235,23 @@ function Get_Data() {
       setFor_sts_reject(For_Rq_Edit[16]);
       Service_By();
       setShowtype(For_Rq_Edit[7]);
-      if(For_Rq_Edit[7] == 'GP01001'){
+      if (For_Rq_Edit[7] == "GP01001") {
         FactoryCC();
-      TransCC();
-      BOI_FROM();
+        TransCC();
+        BOI_FROM();
       }
     }
     if (For_Req != null) {
       setSTS1(For_Req[10]);
       Service_By();
       setShowtype(For_Req[6]);
-      console.log(For_Req[6],"Showtype")
-      if(For_Req[6] == 'GP01001'){
+      console.log(For_Req[6], "Showtype");
+      if (For_Req[6] == "GP01001") {
         FactoryCC();
-      TransCC();
-      BOI_FROM();
+        TransCC();
+        BOI_FROM();
       }
-      
     }
-    // if (Showtype == "GP01001") {
-      
-      
-    // }
 
     Department_Mana();
     SERVICEDEPT();
@@ -361,7 +364,6 @@ function Get_Data() {
 
             //
             if (STS != "FLTR001") {
-              //setbtnsave("hidden")
               //Depat Mana
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
@@ -1021,8 +1023,10 @@ function Get_Data() {
               //Save
             }
           }
-        } else if (For_Rq_Edit[7] == "GP01004") {
+        } else if (For_Rq_Edit[7] == "GP01004" || For_Rq_Edit[7] == "GP01005" ||  For_Rq_Edit[7] == "GP01007") {
+        
           if (For_Edit_Rou != null) {
+            console.log("STS",STS)
             if (
               For_Edit_Rou[0][7] === null ||
               For_Edit_Rou[0][7] === "" ||
@@ -1033,8 +1037,10 @@ function Get_Data() {
             } else {
               setTel_service(For_Edit_Rou[0][7]);
             }
-            if (STS != "FLTR001") {
+            if (STS != "FLWO001" || STS != "FLLS001" || STS != "FLDN001") {
+              
               //Depat Mana
+              setcertificate_date(Edit_Date_cer[0])
               setaction__dept(For_Edit_Rou[0][1]);
               setselectradio_dept(For_Edit_Rou[0][2]);
               if (For_Edit_Rou[0][3] == "null") {
@@ -1042,7 +1048,6 @@ function Get_Data() {
               } else {
                 setcmmtradio_dept(For_Edit_Rou[0][3]);
               }
-
               // Serviceby
               setaction__serviceby(For_Edit_Rou[0][6]);
               setselectradio_serviceby(For_Edit_Rou[0][41]);
@@ -1092,16 +1097,6 @@ function Get_Data() {
                 setcmmtradio_owner(For_Edit_Rou[0][35]);
               }
 
-              // Receiver
-              setaction__receiver(For_edit_trans[0][11]);
-              setselectradio_receiver(For_edit_trans[0][10]);
-
-              if (For_edit_trans[0][12] == "null") {
-                setcmmtradio_receiver("");
-              } else {
-                setcmmtradio_receiver(For_edit_trans[0][12]);
-              }
-
               // Record
               setaction__record(For_Edit_Rou[0][25]);
               setselectradio_record(For_Edit_Rou[0][26]);
@@ -1128,15 +1123,18 @@ function Get_Data() {
               } else {
                 setcmmtradio_service_close_by(For_Edit_Rou[0][38]);
               }
-
+            if (Edit_Date_cer != null){
+              if(Edit_Date_cer == "null"){
+                setcertificate_date("")
+              } else{
+                setcertificate_date(Edit_Date_cer[0])
+              }
+            }
               //readonly
 
-              if (STS == "FLTR001" || For_Rq_Edit[16] === "R") {
-                setReadTransFac(false);
-                setReadTransCC(false);
+              if (STS == "FLWO001" || For_Rq_Edit[16] === "R" || STS == "FLLS001" || STS == "FLDN001"  ) {
+
                 setReadTel(false);
-                setReadPlanDate(false);
-                setReadNewOwnerCmmt(false);
                 setReadDept(false);
                 setReadDeptRadio(false);
                 setReadDeptCmmt(false);
@@ -1157,8 +1155,6 @@ function Get_Data() {
                 setReadAccchkCmmt(false);
                 setReadOwnerRadio(false);
                 setReadOwnerCmmt(false);
-                setReadReceiveRadio(false);
-                setReadReceiveCmmt(false);
                 setReadRecordRadio(false);
                 setReadRecordCmmt(false);
                 setReadAccMana(false);
@@ -1166,13 +1162,13 @@ function Get_Data() {
                 setReadAccManaCmmt(false);
                 setReadCloseRadio(false);
                 setReadCloseCmmt(false);
-                if (STS == "FLTR092") {
+                if (STS == "FLWO092" || STS == "FLLS092" || STS == "FLDN092") {
                   setcheckrdo("visible");
                   setReadDeptRadio(true);
                   setReadDeptCmmt(true);
                   setCM_DepartmentManager("table-row");
                 }
-                if (STS == "FLTR093") {
+                if (STS == "FLWO093" || STS == "FLLS093" || STS == "FLDN093") {
                   setchkservice_by("visible");
                   setcheckrdo("visible");
                   setCM_service_by("table-row");
@@ -1182,7 +1178,7 @@ function Get_Data() {
                   setReadServiceByRadio(true);
                   setReadServiceByCmmt(true);
                 }
-                if (STS == "FLTR094") {
+                if (STS == "FLWO094" || STS == "FLLS094" || STS == "FLDN094") {
                   setchkboistaff("visible");
                   setchkservice_by("visible");
                   setcheckrdo("visible");
@@ -1196,7 +1192,7 @@ function Get_Data() {
                   setReadBoistffRadio(true);
                   setReadBoistffCmmt(true);
                 }
-                if (STS == "FLTR095") {
+                if (STS == "FLWO095" || STS == "FLLS095" || STS == "FLDN095") {
                   setchkboimanager("visible");
                   setchkboistaff("visible");
                   setchkservice_by("visible");
@@ -1214,7 +1210,7 @@ function Get_Data() {
                   setCM_boistaff("table-row");
                   setCM_boimanager("table-row");
                 }
-                if (STS == "FLTR096") {
+                if (STS == "FLWO096"  || STS == "FLLS096" || STS == "FLDN096") {
                   setchkfacmanager("visible");
                   setchkboimanager("visible");
                   setchkboistaff("visible");
@@ -1236,7 +1232,7 @@ function Get_Data() {
                   setCM_boimanager("table-row");
                   setCM_facmanager("table-row");
                 }
-                if (STS == "FLTR907") {
+                if (STS == "FLWO907"  || STS == "FLLS907" || STS == "FLDN907") {
                   setchkacc_check("visible");
                   setchkfacmanager("visible");
                   setchkboimanager("visible");
@@ -1262,7 +1258,7 @@ function Get_Data() {
                   setCM_facmanager("table-row");
                   setCM_acc_check("table-row");
                 }
-                if (STS == "FLTR908") {
+                if (STS == "FLWO908"  || STS == "FLDN908" || STS == "FLLS908") {
                   setchkowner("visible");
                   setchkacc_check("visible");
                   setchkfacmanager("visible");
@@ -1292,41 +1288,8 @@ function Get_Data() {
                   setCM_acc_check("table-row");
                   setCM_owner("table-row");
                 }
-                if (STS == "FLTR909") {
-                  setchkreceiver("visible");
-                  setchkowner("visible");
-                  setchkacc_check("visible");
-                  setchkfacmanager("visible");
-                  setchkboimanager("visible");
-                  setchkboistaff("visible");
-                  setchkservice_by("visible");
-                  setcheckrdo("visible");
-                  setReadDeptRadio(true);
-                  setReadDeptCmmt(true);
-                  setReadServiceByRadio(true);
-                  setReadServiceByCmmt(true);
-                  setReadBoistffRadio(true);
-                  setReadBoistffCmmt(true);
-                  setReadBoimanaRadio(true);
-                  setReadBoimanaCmmt(true);
-                  setReadFacManaRadio(true);
-                  setReadFacManaCmmt(true);
-                  setReadAccchkRadio(true);
-                  setReadAccchkCmmt(true);
-                  setReadOwnerRadio(true);
-                  setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
-                  setCM_service_by("table-row");
-                  setCM_DepartmentManager("table-row");
-                  setCM_boistaff("table-row");
-                  setCM_boimanager("table-row");
-                  setCM_facmanager("table-row");
-                  setCM_acc_check("table-row");
-                  setCM_owner("table-row");
-                  setCM_receiver("table-row");
-                }
-                if (STS == "FLTR910") {
+
+                if (STS == "FLWO910" || STS == "FLLS910" || STS == "FLDN910") {
                   setchkacc_record("visible");
                   setchkreceiver("visible");
                   setchkowner("visible");
@@ -1350,8 +1313,6 @@ function Get_Data() {
                   setReadAccchkCmmt(true);
                   setReadOwnerRadio(true);
                   setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
                   setReadRecordRadio(true);
                   setReadRecordCmmt(true);
                   setCM_service_by("table-row");
@@ -1364,7 +1325,7 @@ function Get_Data() {
                   setCM_owner("table-row");
                   setCM_receiver("table-row");
                 }
-                if (STS == "FLTR911") {
+                if (STS == "FLWO911" || STS == "FLLS911" || STS == "FLDN911") {
                   setchkacc_manager("visible");
                   setchkacc_record("visible");
                   setchkreceiver("visible");
@@ -1389,8 +1350,6 @@ function Get_Data() {
                   setReadAccchkCmmt(true);
                   setReadOwnerRadio(true);
                   setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
                   setReadRecordRadio(true);
                   setReadRecordCmmt(true);
                   setReadAccManaRadio(true);
@@ -1406,7 +1365,7 @@ function Get_Data() {
                   setCM_acc_record("table-row");
                   setCM_acc_manager("table-row");
                 }
-                if (STS == "FLTR912") {
+                if (STS == "FLWO912" || STS == "FLLS912" || STS == "FLDN912") {
                   setchkservice_close("visible");
                   setchkacc_manager("visible");
                   setchkacc_record("visible");
@@ -1432,8 +1391,6 @@ function Get_Data() {
                   setReadAccchkCmmt(true);
                   setReadOwnerRadio(true);
                   setReadOwnerCmmt(true);
-                  setReadReceiveRadio(true);
-                  setReadReceiveCmmt(true);
                   setReadRecordRadio(true);
                   setReadRecordCmmt(true);
                   setReadAccManaRadio(true);
@@ -1454,17 +1411,13 @@ function Get_Data() {
                 }
 
                 //Saveelse if
-              }
-              // else if(For_Rq_Edit[16]==="R"){
-
-              // }
-              else if (STS == "FLTR002") {
+              } else if (STS == "FLWO002"|| STS == "FLLS002" || STS == "FLDN002") {
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
                 setReadDeptRadio(false);
                 setReadDeptCmmt(false);
                 setCM_DepartmentManager("table-row");
-              } else if (STS == "FLTR003") {
+              } else if (STS == "FLWO003" || STS == "FLLS003" || STS == "FLDN003") {
                 setaction__serviceby(formattedDate);
                 setchkservice_by("visible");
                 setcheckrdo("visible");
@@ -1472,7 +1425,7 @@ function Get_Data() {
                 setReadServiceByCmmt(false);
                 setCM_service_by("table-row");
                 setCM_DepartmentManager("table-row");
-              } else if (STS == "FLTR004") {
+              } else if (STS == "FLWO004" || STS == "FLLS004" || STS == "FLDN004") {
                 setaction__boistaff(formattedDate);
                 setchkboistaff("visible");
                 setchkservice_by("visible");
@@ -1482,7 +1435,7 @@ function Get_Data() {
                 setCM_service_by("table-row");
                 setCM_DepartmentManager("table-row");
                 setCM_boistaff("table-row");
-              } else if (STS == "FLTR005") {
+              } else if (STS == "FLWO005" ||  STS == "FLLS005" || STS == "FLDN005") {
                 setaction__boimanager(formattedDate);
                 setchkboimanager("visible");
                 setchkboistaff("visible");
@@ -1494,7 +1447,7 @@ function Get_Data() {
                 setCM_service_by("table-row");
                 setCM_boistaff("table-row");
                 setCM_boimanager("table-row");
-              } else if (STS == "FLTR006") {
+              } else if (STS == "FLWO006" || STS == "FLLS006" || STS == "FLDN006") {
                 setaction__facmanager(formattedDate);
                 setchkfacmanager("visible");
                 setchkboimanager("visible");
@@ -1508,7 +1461,13 @@ function Get_Data() {
                 setCM_boistaff("table-row");
                 setCM_boimanager("table-row");
                 setCM_facmanager("table-row");
-              } else if (STS == "FLTR007") {
+              } else if (STS == "FLWO007" ||STS == "FLLS007"  || STS == "FLDN007") {
+              
+              
+                if(STS == "FLDN007"){
+                  console.log("เข้า Donation")
+                  setcertificate_date(Edit_Date_cer[0][0])
+                }
                 setaction__acc_check(formattedDate);
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
@@ -1524,7 +1483,7 @@ function Get_Data() {
                 setCM_boimanager("table-row");
                 setCM_facmanager("table-row");
                 setCM_acc_check("table-row");
-              } else if (STS == "FLTR008") {
+              } else if (STS == "FLWO008" ||STS == "FLLS008"  || STS == "FLDN008") {
                 setaction__owner(formattedDate);
                 setchkowner("visible");
                 setchkacc_check("visible");
@@ -1542,30 +1501,9 @@ function Get_Data() {
                 setCM_facmanager("table-row");
                 setCM_acc_check("table-row");
                 setCM_owner("table-row");
-              } else if (STS == "FLTR009") {
-                setaction__receiver(formattedDate);
-                setchkreceiver("visible");
-                setchkowner("visible");
-                setchkacc_check("visible");
-                setchkfacmanager("visible");
-                setchkboimanager("visible");
-                setchkboistaff("visible");
-                setchkservice_by("visible");
-                setcheckrdo("visible");
-                setReadReceiveRadio(false);
-                setReadReceiveCmmt(false);
-                setCM_boistaff("table-row");
-                setCM_service_by("table-row");
-                setCM_DepartmentManager("table-row");
-                setCM_boimanager("table-row");
-                setCM_facmanager("table-row");
-                setCM_acc_check("table-row");
-                setCM_owner("table-row");
-                setCM_receiver("table-row");
-              } else if (STS == "FLTR010") {
+              } else if (STS == "FLWO010" || STS == "FLLS010" || STS == "FLDN010") {
                 setaction__record(formattedDate);
                 setchkacc_record("visible");
-                setchkreceiver("visible");
                 setchkowner("visible");
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
@@ -1583,12 +1521,10 @@ function Get_Data() {
                 setCM_acc_check("table-row");
                 setCM_acc_record("table-row");
                 setCM_owner("table-row");
-                setCM_receiver("table-row");
-              } else if (STS == "FLTR011") {
+              } else if (STS == "FLWO011" || STS == "FLLS011" || STS == "FLDN011") {
                 setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
                 setchkacc_record("visible");
-                setchkreceiver("visible");
                 setchkowner("visible");
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
@@ -1605,15 +1541,13 @@ function Get_Data() {
                 setCM_facmanager("table-row");
                 setCM_acc_check("table-row");
                 setCM_owner("table-row");
-                setCM_receiver("table-row");
                 setCM_acc_record("table-row");
                 setCM_acc_manager("table-row");
-              } else if (STS == "FLTR012") {
+              } else if (STS == "FLWO012"|| STS == "FLLS012" || STS == "FLDN012") {
                 setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
                 setchkacc_manager("visible");
                 setchkacc_record("visible");
-                setchkreceiver("visible");
                 setchkowner("visible");
                 setchkacc_check("visible");
                 setchkfacmanager("visible");
@@ -1630,16 +1564,12 @@ function Get_Data() {
                 setCM_facmanager("table-row");
                 setCM_acc_check("table-row");
                 setCM_owner("table-row");
-                setCM_receiver("table-row");
                 setCM_acc_record("table-row");
                 setCM_acc_manager("table-row");
                 setCM_service_close("table-row");
               }
-            } else if (STS == "FLTR001") {
-              setReadTransFac(false);
-              setReadTransCC(false);
+            } else if (STS == "FLWO001" || STS == "FLLS001" || STS == "FLDN001") {
               setReadTel(false);
-              setReadPlanDate(false);
               setReadNewOwnerCmmt(false);
               setReadDept(false);
               setReadServiceBy(false);
@@ -1651,11 +1581,8 @@ function Get_Data() {
               //setbtnsave("visible");
             }
           } else {
-            if (STS == "FLTR001") {
-              setReadTransFac(false);
-              setReadTransCC(false);
+            if (STS == "FLWO001" || STS == "FLLS001" || STS == "FLDN001") {
               setReadTel(false);
-              setReadPlanDate(false);
               setReadNewOwnerCmmt(false);
               setReadDept(false);
               setReadDeptRadio(false);
@@ -1677,8 +1604,6 @@ function Get_Data() {
               setReadAccchkCmmt(false);
               setReadOwnerRadio(false);
               setReadOwnerCmmt(false);
-              setReadReceiveRadio(false);
-              setReadReceiveCmmt(false);
               setReadRecordRadio(false);
               setReadRecordCmmt(false);
               setReadAccMana(false);
@@ -1707,6 +1632,20 @@ function Get_Data() {
       setReadFacMana(false);
       setReadAccchk(false);
       setReadAccMana(false);
+      if (For_Rou != null) {
+        if (
+          For_Rou[3] === null ||
+          For_Rou[3] === "" ||
+          For_Rou[3] === undefined ||
+          For_Rou[3] === "null"
+        ) {
+          setTel_service("");
+        } else {
+          setTel_service(For_Rou[3]);
+        }
+
+        setowner_roting(For_Rou[9]);
+      }
       if (For_Trans != null) {
         setownersend(For_Req[18]);
         setowner_roting(For_Req[1]);
@@ -1771,20 +1710,6 @@ function Get_Data() {
           setplan_date("");
         } else {
           setplan_date(For_Trans[8]);
-        }
-        if (For_Rou != null) {
-          if (
-            For_Rou[3] === null ||
-            For_Rou[3] === "" ||
-            For_Rou[3] === undefined ||
-            For_Rou[3] === "null"
-          ) {
-            setTel_service("");
-          } else {
-            setTel_service(For_Rou[3]);
-          }
-
-          setowner_roting(For_Rou[9]);
         }
       } else {
         if (For_Req != null) {
@@ -1945,361 +1870,384 @@ function Get_Data() {
   };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const getDatatest = async () => {
-    try {
-      const response = await axios.post("/getEdit_Trans", {
-        FamNo: EditFam,
-      });
-      const data = await response.data;
-      const data_edit = JSON.stringify(data);
+    console.log("เข้า หาข้อมูล");
+    if (EditFam != null) {
+      try {
+        const response = await axios.post("/getEdit_Trans", {
+          FamNo: EditFam,
+        });
+        const data = await response.data;
+        const data_edit = JSON.stringify(data);
 
-      localStorage.setItem("Edit_Trans", data_edit);
-    } catch (error) {
-      console.error("Error during login:", error);
+        localStorage.setItem("Edit_Trans", data_edit);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+      try {
+        const response = await axios.post("/getEdit_routing", {
+          FamNo: EditFam,
+        });
+        const data = await response.data;
+        const data_edit = JSON.stringify(data);
+        localStorage.setItem("Edit_routing", data_edit);
+      } catch (error) {}
+    } else {
+      try {
+        const response = await axios.post("/getEdit_Trans", {
+          FamNo: Fam_list,
+        });
+        const data = await response.data;
+        const data_edit = JSON.stringify(data);
+
+        localStorage.setItem("For_Trans ", data_edit);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+      try {
+        const response = await axios.post("/getEdit_routing", {
+          FamNo: Fam_list,
+        });
+        const data = await response.data;
+        const data_edit = JSON.stringify(data);
+        localStorage.setItem("For_Rou", data_edit);
+        console.log(data, "data_edit");
+      } catch (error) {}
     }
-    try {
-      const response = await axios.post("/getEdit_routing", {
-        FamNo: EditFam,
-      });
-      const data = await response.data;
-      const data_edit = JSON.stringify(data);
-      localStorage.setItem("Edit_routing", data_edit);
-    } catch (error) {}
   };
   const Back_page = async () => {
-
+    console.log("JJJJJJ");
     openPopupLoadding();
     let ServiceDept = "";
-    let Type ="";
+    let Type = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
         ServiceDept = For_Rq_Edit[0].split("-")[1];
-        Type =For_Rq_Edit[7]
+        Type = For_Rq_Edit[7];
       }
     } else {
       ServiceDept = For_Req[0].split("-")[1];
-      Type = For_Req[6]
+      Type = For_Req[6];
+      console.log("JJJJJJ", For_Req[6]);
     }
 
     if (EditFam != null) {
-      console.log("Type",Type)
-      if(Type == 'GP01001'){ 
-        console.log("Type Tranfer",Type)
+      console.log("Type", Type);
+      if (Type == "GP01001") {
+        console.log("Type Tranfer", Type);
         try {
-        const response = await axios.post("/Update_For_Req_All", {
-          famno: For_Rq_Edit[0],
-          dept: For_Rq_Edit[6],
-          tel: For_Rq_Edit[3],
-          remark: For_Rq_Edit[12],
-          mrg_dept: selectdepartment_mana,
-          serviceby: selectservice_by,
-          servicetel: Tel_service,
-          boisff: selectboi_staff,
-          boimrg: selectboi_manager,
-          fmby: selectfac_manager,
-          accchk: selectacc_check,
-          accmrg: selectacc_manager,
-          updateby: For_Rq_Edit[2],
-          record_by: text_acc_check,
-          owner_id: For_Rq_Edit[17],
-          owner_dept: For_Rq_Edit[18],
-          owner_tel: For_Rq_Edit[19],
-          service_close: selectservice_by,
-          owner_by: owner_roting,
-          service_dt: ServiceDept,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
+          const response = await axios.post("/Update_For_Req_All", {
+            famno: For_Rq_Edit[0],
+            dept: For_Rq_Edit[6],
+            tel: For_Rq_Edit[3],
+            remark: For_Rq_Edit[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Rq_Edit[2],
+            record_by: text_acc_check,
+            owner_id: For_Rq_Edit[17],
+            owner_dept: For_Rq_Edit[18],
+            owner_tel: For_Rq_Edit[19],
+            service_close: selectservice_by,
+            owner_by: owner_roting,
+            service_dt: ServiceDept,
+          });
+        } catch (error) {
+          console.error("Error updating submit status:", error.message);
+        }
+        try {
+          const response = await axios.post("/ins_transfer", {
+            running_no: EditFam,
+            date_plan: plan_date,
+            fac: selecttrans_factory,
+            cc: selecttrans_cc,
+            to_proj: new_boi,
+            by_re: receiver,
+            tel: Tel_for_trans,
+            status: sts,
+            abnormal: abnormal,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
+        try {
+          const response = await axios.post("/routing_tran", {
+            running_no: EditFam,
+            m_dept: selectdepartment_mana,
+            s_dept: ServiceDept,
+            s_tel: Tel_service,
+            s_by: selectservice_by,
+            chk_by: selectboi_staff,
+            boi_by: selectboi_manager,
+            fmby: selectfac_manager,
+            acc_by: selectacc_check,
+            own_by: owner_roting,
+            acc_record: selectacc_check,
+            acc_manager: selectacc_manager,
+            service_close_by: selectservice_by,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
+        try {
+          const response = await axios.post("/update_date", {
+            tranfer: EditFam,
+          });
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+        try {
+          const response = await axios.post("/update_new_cc", {
+            fam: EditFam,
+            New_cc: selecttrans_cc,
+            updateby: For_Rq_Edit[2],
+          });
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+        try {
+          const response = await axios.post("/update_for_date_trans", {
+            fam: For_Rq_Edit[0],
+            updateby: For_Rq_Edit[2],
+          });
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      } else if (Type == "GP01004" || Type == "GP01005") {
+        try {
+          const response = await axios.post("/Update_For_Req_All", {
+            famno: For_Rq_Edit[0],
+            dept: For_Rq_Edit[6],
+            tel: For_Rq_Edit[3],
+            remark: For_Rq_Edit[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Rq_Edit[2],
+            record_by: text_acc_check,
+            owner_id: For_Rq_Edit[17],
+            owner_dept: For_Rq_Edit[18],
+            owner_tel: For_Rq_Edit[19],
+            service_close: selectservice_by,
+            owner_by: owner_roting,
+            service_dt: ServiceDept,
+          });
+        } catch (error) {
+          console.error("Error updating submit status:", error.message);
+        }
+        try {
+          const response = await axios.post("/routing_tran", {
+            running_no: EditFam,
+            m_dept: selectdepartment_mana,
+            s_dept: ServiceDept,
+            s_tel: Tel_service,
+            s_by: selectservice_by,
+            chk_by: selectboi_staff,
+            boi_by: selectboi_manager,
+            fmby: selectfac_manager,
+            acc_by: selectacc_check,
+            own_by: owner_roting,
+            acc_record: selectacc_check,
+            acc_manager: selectacc_manager,
+            service_close_by: selectservice_by,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
       }
-      try {
-        const response = await axios.post("/ins_transfer", {
-          running_no: EditFam,
-          date_plan: plan_date,
-          fac: selecttrans_factory,
-          cc: selecttrans_cc,
-          to_proj: new_boi,
-          by_re: receiver,
-          tel: Tel_for_trans,
-          status: sts,
-          abnormal: abnormal,
-        });
-      } catch (error) {
-        console.error("Error requesting data:", error);
-      }
-      try {
-        const response = await axios.post("/routing_tran", {
-          running_no: EditFam,
-          m_dept: selectdepartment_mana,
-          s_dept: ServiceDept,
-          s_tel: Tel_service,
-          s_by: selectservice_by,
-          chk_by: selectboi_staff,
-          boi_by: selectboi_manager,
-          fmby: selectfac_manager,
-          acc_by: selectacc_check,
-          own_by: owner_roting,
-          acc_record: selectacc_check,
-          acc_manager: selectacc_manager,
-          service_close_by: selectservice_by,
-        });
-      } catch (error) {
-        console.error("Error requesting data:", error);
-      }
-      try {
-        const response = await axios.post("/update_date", {
-          tranfer: EditFam,
-        });
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-      try {
-        const response = await axios.post("/update_new_cc", {
-          fam: EditFam,
-          New_cc: selecttrans_cc,
-          updateby: For_Rq_Edit[2],
-        });
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-      try {
-        const response = await axios.post("/update_for_date_trans", {
-          fam: For_Rq_Edit[0],
-          updateby: For_Rq_Edit[2],
-        });
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-    }else if(Type == 'GP01004'){
-      console.log("Type Loss",Type)
-      try {
-        const response = await axios.post("/Update_For_Req_All", {
-          famno: For_Rq_Edit[0],
-          dept: For_Rq_Edit[6],
-          tel: For_Rq_Edit[3],
-          remark: For_Rq_Edit[12],
-          mrg_dept: selectdepartment_mana,
-          serviceby: selectservice_by,
-          servicetel: Tel_service,
-          boisff: selectboi_staff,
-          boimrg: selectboi_manager,
-          fmby: selectfac_manager,
-          accchk: selectacc_check,
-          accmrg: selectacc_manager,
-          updateby: For_Rq_Edit[2],
-          record_by: text_acc_check,
-          owner_id: For_Rq_Edit[17],
-          owner_dept: For_Rq_Edit[18],
-          owner_tel: For_Rq_Edit[19],
-          service_close: selectservice_by,
-          owner_by: owner_roting,
-          service_dt: ServiceDept,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-      try {
-        const response = await axios.post("/routing_tran", {
-          running_no: EditFam,
-          m_dept: selectdepartment_mana,
-          s_dept: ServiceDept,
-          s_tel: Tel_service,
-          s_by: selectservice_by,
-          chk_by: selectboi_staff,
-          boi_by: selectboi_manager,
-          fmby: selectfac_manager,
-          acc_by: selectacc_check,
-          own_by: owner_roting,
-          acc_record: selectacc_check,
-          acc_manager: selectacc_manager,
-          service_close_by: selectservice_by,
-        });
-      } catch (error) {
-        console.error("Error requesting data:", error);
-      }
-      }
-     
-      
     } else {
-    if(Type == 'GP01001'){     
-      const setData_forTranfer_Req_Tranfer_Details = [
-      Fam_list,
-      ownersend,
-      data_fromboi,
-      selecttrans_factory,
-      selecttrans_cc,
-      new_boi,
-      [selectnew_owner],
-      Tel_for_trans,
-      plan_date,
-      abnormal,
-      receiver,
-      sts,
-    ];
-    const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
-    localStorage.setItem("For_Transfer", sentdata);
+      if (Type == "GP01001") {
+        console.log("เข้า Transfer BAck");
+        const setData_forTranfer_Req_Tranfer_Details = [
+          Fam_list,
+          ownersend,
+          data_fromboi,
+          selecttrans_factory,
+          selecttrans_cc,
+          new_boi,
+          [selectnew_owner],
+          Tel_for_trans,
+          plan_date,
+          abnormal,
+          receiver,
+          sts,
+        ];
+        const sentdata = JSON.stringify(setData_forTranfer_Req_Tranfer_Details);
+        localStorage.setItem("For_Transfer", sentdata);
 
-    const set_data_for_req_details = [
-      Fam_list,
-      selectdepartment_mana,
-      ServiceDept,
-      Tel_service,
-      selectservice_by,
-      selectboi_staff,
-      selectboi_manager,
-      selectfac_manager,
-      selectacc_check,
-      owner_roting,
-      selectacc_manager,
-      selectservice_by,
-      text_acc_check,
-    ];
-    const sendheader = JSON.stringify(set_data_for_req_details);
-    localStorage.setItem("For_Routing", sendheader);
-    try {
-      const response = await axios.post("/Update_For_Req_All", {
-        famno: For_Req[0],
-        dept: For_Req[5],
-        tel: For_Req[2],
-        remark: For_Req[12],
-        mrg_dept: selectdepartment_mana,
-        serviceby: selectservice_by,
-        servicetel: Tel_service,
-        boisff: selectboi_staff,
-        boimrg: selectboi_manager,
-        fmby: selectfac_manager,
-        accchk: selectacc_check,
-        accmrg: selectacc_manager,
-        updateby: For_Req[1],
-        record_by: text_acc_check,
-        owner_id: For_Req[15],
-        owner_dept: For_Req[16],
-        owner_tel: For_Req[17],
-        service_close: selectservice_by,
-        owner_by: owner_roting,
-        service_dt: ServiceDept,
-      });
-    } catch (error) {
-      console.error("Error updating submit status:", error.message);
-    }
-    try {
-      const response = await axios.post("/create_date", {
-        tranfer: Fam_list,
-      });
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-    try {
-    const response = await axios.post("/ins_transfer", {
-      running_no: Fam_list,
-      date_plan: plan_date,
-      fac: selecttrans_factory,
-      cc: selecttrans_cc,
-      to_proj: new_boi,
-      by_re: receiver,
-      tel: Tel_for_trans,
-      status: sts,
-      abnormal: abnormal,
-    });
-  } catch (error) {
-    console.error("Error requesting data:", error);
-  }
-  try {
-    const response = await axios.post("/routing_tran", {
-      running_no: Fam_list,
-      m_dept: selectdepartment_mana,
-      s_dept: ServiceDept,
-      s_tel: Tel_service,
-      s_by: selectservice_by,
-      chk_by: selectboi_staff,
-      boi_by: selectboi_manager,
-      fmby: selectfac_manager,
-      acc_by: selectacc_check,
-      own_by: owner_roting,
-      acc_record: selectacc_check,
-      acc_manager: selectacc_manager,
-      service_close_by: selectservice_by,
-    });
-  } catch (error) {
-    console.error("Error requesting data:", error);
-  }
-  try {
-    const response = await axios.post("/update_new_cc", {
-      fam: Fam_list,
-      New_cc: selecttrans_cc,
-      updateby: For_Req[1],
-    });
-  } catch (error) {
-    console.error("Error during login:", error);
-  }
-}else if(Type == 'GP01004'){
-  const set_data_for_req_details = [
-    Fam_list,
-    selectdepartment_mana,
-    ServiceDept,
-    Tel_service,
-    selectservice_by,
-    selectboi_staff,
-    selectboi_manager,
-    selectfac_manager,
-    selectacc_check,
-    owner_roting,
-    selectacc_manager,
-    selectservice_by,
-    text_acc_check,
-  ];
-  const sendheader = JSON.stringify(set_data_for_req_details);
-  localStorage.setItem("For_Routing", sendheader);
-  try {
-    const response = await axios.post("/Update_For_Req_All", {
-      famno: For_Req[0],
-      dept: For_Req[5],
-      tel: For_Req[2],
-      remark: For_Req[12],
-      mrg_dept: selectdepartment_mana,
-      serviceby: selectservice_by,
-      servicetel: Tel_service,
-      boisff: selectboi_staff,
-      boimrg: selectboi_manager,
-      fmby: selectfac_manager,
-      accchk: selectacc_check,
-      accmrg: selectacc_manager,
-      updateby: For_Req[1],
-      record_by: text_acc_check,
-      owner_id: For_Req[15],
-      owner_dept: For_Req[16],
-      owner_tel: For_Req[17],
-      service_close: selectservice_by,
-      owner_by: owner_roting,
-      service_dt: ServiceDept,
-    });
-  } catch (error) {
-    console.error("Error updating submit status:", error.message);
-  }
-try {
-  const response = await axios.post("/routing_tran", {
-    running_no: Fam_list,
-    m_dept: selectdepartment_mana,
-    s_dept: ServiceDept,
-    s_tel: Tel_service,
-    s_by: selectservice_by,
-    chk_by: selectboi_staff,
-    boi_by: selectboi_manager,
-    fmby: selectfac_manager,
-    acc_by: selectacc_check,
-    own_by: owner_roting,
-    acc_record: selectacc_check,
-    acc_manager: selectacc_manager,
-    service_close_by: selectservice_by,
-  });
-} catch (error) {
-  console.error("Error requesting data:", error);
-}
-  }
+        const set_data_for_req_details = [
+          Fam_list,
+          selectdepartment_mana,
+          ServiceDept,
+          Tel_service,
+          selectservice_by,
+          selectboi_staff,
+          selectboi_manager,
+          selectfac_manager,
+          selectacc_check,
+          owner_roting,
+          selectacc_manager,
+          selectservice_by,
+          text_acc_check,
+        ];
+        const sendheader = JSON.stringify(set_data_for_req_details);
+        localStorage.setItem("For_Routing", sendheader);
+        try {
+          const response = await axios.post("/Update_For_Req_All", {
+            famno: For_Req[0],
+            dept: For_Req[5],
+            tel: For_Req[2],
+            remark: For_Req[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Req[1],
+            record_by: text_acc_check,
+            owner_id: For_Req[15],
+            owner_dept: For_Req[16],
+            owner_tel: For_Req[17],
+            service_close: selectservice_by,
+            owner_by: owner_roting,
+            service_dt: ServiceDept,
+          });
+        } catch (error) {
+          console.error("Error updating submit status:", error.message);
+        }
+        try {
+          const response = await axios.post("/create_date", {
+            tranfer: Fam_list,
+          });
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+        try {
+          const response = await axios.post("/ins_transfer", {
+            running_no: Fam_list,
+            date_plan: plan_date,
+            fac: selecttrans_factory,
+            cc: selecttrans_cc,
+            to_proj: new_boi,
+            by_re: receiver,
+            tel: Tel_for_trans,
+            status: sts,
+            abnormal: abnormal,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
+        try {
+          const response = await axios.post("/routing_tran", {
+            running_no: Fam_list,
+            m_dept: selectdepartment_mana,
+            s_dept: ServiceDept,
+            s_tel: Tel_service,
+            s_by: selectservice_by,
+            chk_by: selectboi_staff,
+            boi_by: selectboi_manager,
+            fmby: selectfac_manager,
+            acc_by: selectacc_check,
+            own_by: owner_roting,
+            acc_record: selectacc_check,
+            acc_manager: selectacc_manager,
+            service_close_by: selectservice_by,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
+        try {
+          const response = await axios.post("/update_new_cc", {
+            fam: Fam_list,
+            New_cc: selecttrans_cc,
+            updateby: For_Req[1],
+          });
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      } else if (Type == "GP01004" || Type == "GP01005") {
+        const set_data_for_req_details = [
+          Fam_list,
+          selectdepartment_mana,
+          ServiceDept,
+          Tel_service,
+          selectservice_by,
+          selectboi_staff,
+          selectboi_manager,
+          selectfac_manager,
+          selectacc_check,
+          owner_roting,
+          selectacc_manager,
+          selectservice_by,
+          text_acc_check,
+        ];
+        const sendheader = JSON.stringify(set_data_for_req_details);
+        localStorage.setItem("For_Routing", sendheader);
+        console.log(set_data_for_req_details);
+        try {
+          const response = await axios.post("/Update_For_Req_All", {
+            famno: For_Req[0],
+            dept: For_Req[5],
+            tel: For_Req[2],
+            remark: For_Req[12],
+            mrg_dept: selectdepartment_mana,
+            serviceby: selectservice_by,
+            servicetel: Tel_service,
+            boisff: selectboi_staff,
+            boimrg: selectboi_manager,
+            fmby: selectfac_manager,
+            accchk: selectacc_check,
+            accmrg: selectacc_manager,
+            updateby: For_Req[1],
+            record_by: text_acc_check,
+            owner_id: For_Req[15],
+            owner_dept: For_Req[16],
+            owner_tel: For_Req[17],
+            service_close: selectservice_by,
+            owner_by: owner_roting,
+            service_dt: ServiceDept,
+          });
+        } catch (error) {
+          console.error("Error updating submit status:", error.message);
+        }
+        try {
+          const response = await axios.post("/routing_tran", {
+            running_no: Fam_list,
+            m_dept: selectdepartment_mana,
+            s_dept: ServiceDept,
+            s_tel: Tel_service,
+            s_by: selectservice_by,
+            chk_by: selectboi_staff,
+            boi_by: selectboi_manager,
+            fmby: selectfac_manager,
+            acc_by: selectacc_check,
+            own_by: owner_roting,
+            acc_record: selectacc_check,
+            acc_manager: selectacc_manager,
+            service_close_by: selectservice_by,
+          });
+        } catch (error) {
+          console.error("Error requesting data:", error);
+        }
+      }
     }
     getDatatest();
     closePopupLoadding();
-   navigate("/ForRe");
+    navigate("/ForRe");
   };
-
 
   // ปุ่ม SAVE
   const SAVE = async () => {
@@ -2315,7 +2263,7 @@ try {
       Type = For_Req[6];
     }
 
-   if (Type === "GP01001") {
+    if (Type === "GP01001") {
       const confirmResult = await Swal.fire({
         title: "Are you sure you want to save?",
         text: "You won't be able to revert this!",
@@ -2424,7 +2372,6 @@ try {
           });
           setCheckSave("False");
           // navigate("/Search")
-        
         } else {
           try {
             const response = await axios.post("/Update_For_Req_All", {
@@ -2503,7 +2450,7 @@ try {
           } catch (error) {
             console.error("Error during login:", error);
           }
-  
+
           Swal.fire({
             title: "Save Success",
             text: "Your data has been saved successfully!",
@@ -2512,13 +2459,11 @@ try {
           });
         }
 
-       
         setCheckSave("False");
         // navigate("/Search")
-        setOpen(true);
       }
-    }else if (Type === "GP01004") {
-      console.log('เข้ามาตอนครั้งแรก')
+    } else if (Type === "GP01004" || Type == "GP01005" || Type == "GP01007") {
+      console.log("เข้ามาตอนครั้งแรก");
       const confirmResult = await Swal.fire({
         title: "Are you sure you want to save?",
         text: "You won't be able to revert this!",
@@ -2530,11 +2475,10 @@ try {
         cancelButtonText: "No, cancel!",
       });
       if (confirmResult.isConfirmed) {
-      
         setCheckSave("True");
-        console.log("เข้าLoss")
+        console.log("เข้าLoss");
         if (EditFam != null) {
-          console.log("เข้าLoss1")
+          console.log("เข้าLoss1");
           try {
             const response = await axios.post("/Update_For_Req_All", {
               famno: For_Rq_Edit[0],
@@ -2589,10 +2533,10 @@ try {
             confirmButtonText: "OK",
           });
           setCheckSave("False");
-         
+
           // navigate("/Search")
         } else {
-          console.log("เข้าLoss2")
+          console.log("เข้าLoss2");
           try {
             const response = await axios.post("/Update_For_Req_All", {
               famno: For_Req[0],
@@ -2640,2843 +2584,5375 @@ try {
           }
 
           Swal.fire({
-          title: "Save Success",
-          text: "Your data has been saved successfully!",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
+            title: "Save Success",
+            text: "Your data has been saved successfully!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
         }
 
-       
-
-        
         setCheckSave("False");
         // navigate("/Search")
-        setOpen(true);
+        // setOpen(true);
       }
     }
-   
   };
 
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
-   
     let ServiceDept = "";
-    let Type ="";
+    let Type = "";
     if (EditFam != null) {
       if (For_Rq_Edit[9] != null) {
-        console.log("SUBMIT66",For_Rq_Edit[7])
+        console.log("SUBMIT66", For_Rq_Edit[7]);
         ServiceDept = For_Rq_Edit[0].split("-")[1];
-        Type = For_Rq_Edit[7]
+        Type = For_Rq_Edit[7];
       }
     } else {
       ServiceDept = For_Req[0].split("-")[1];
-      Type = For_Req[6]
+      Type = For_Req[6];
     }
-if(Type == 'GP01001'){
-  console.log("SUBMITTranfer",Type)
-  if (EditFam != null) {
-    if (
-      For_Rq_Edit[3] === null ||
-      For_Rq_Edit[3] === undefined ||
-      For_Rq_Edit[3] === "" ||
-      For_Rq_Edit[3] === "null"
-    ) {
-      setErrorTel_Rq(true);
-      alert("Please fill in information: Tel For Requester");
-      navigate("/ForRe");
-      return;
-    } else {
-      setErrorTel_Rq(false);
-    }
-    if (
-      For_Rq_Edit[6] === null ||
-      For_Rq_Edit[6] === undefined ||
-      For_Rq_Edit[6] === "" ||
-      For_Rq_Edit[6] === "null"
-    ) {
-      alert("Please fill in information: Dept ");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-
-    if (
-      For_Rq_Edit[17] === null ||
-      For_Rq_Edit[17] === undefined ||
-      For_Rq_Edit[17] === "" ||
-      For_Rq_Edit[17] === "null"
-    ) {
-      alert("Please fill in information: Request Owner");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Rq_Edit[19] === null ||
-      For_Rq_Edit[19] === undefined ||
-      For_Rq_Edit[19] === "" ||
-      For_Rq_Edit[19] === "null"
-    ) {
-      alert("Please fill in information:  Owner Tel ");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-
-    if (
-      selecttrans_factory === null ||
-      selecttrans_factory === undefined ||
-      selecttrans_factory === "" ||
-      selecttrans_factory === "null"
-    ) {
-      alert("Please fill in information: Factory");
-      setErrorFac(true);
-      return;
-    } else {
-      setErrorFac(false);
-    }
-    if (
-      selecttrans_cc === null ||
-      selecttrans_cc === undefined ||
-      selecttrans_cc === "" ||
-      selecttrans_cc === "null"
-    ) {
-      alert("Please fill in information: CC");
-      setErrorCC(true);
-      return;
-    } else {
-      setErrorCC(false);
-    }
-    if (
-      new_boi === null ||
-      new_boi === undefined ||
-      new_boi === "" ||
-      new_boi === "null"
-    ) {
-      setErrNewboi(true);
-      alert("Please fill in information: New BOI Project  ");
-      return;
-    } else {
-      setErrNewboi(false);
-    }
-    if (
-      selectnew_owner === null ||
-      selectnew_owner === undefined ||
-      selectnew_owner === "" ||
-      selectnew_owner === "null"
-    ) {
-      setErrorNewOwn(true);
-      alert("Please fill in information: New Owner ");
-      return;
-    } else {
-      setErrorNewOwn(false);
-    }
-
-    if (
-      Tel_for_trans === null ||
-      Tel_for_trans === undefined ||
-      Tel_for_trans === "" ||
-      Tel_for_trans === "null"
-    ) {
-      alert("Please fill in information: Tel ");
-      setErrorTel(true);
-      return;
-    } else {
-      setErrorTel(false);
-    }
-
-    if (
-      plan_date === null ||
-      plan_date === undefined ||
-      plan_date === "" ||
-      plan_date === "null"
-    ) {
-      setErrorDate(true);
-      alert("Please fill in information: Date");
-      return;
-    } else {
-      setErrorDate(false);
-    }
-    if (
-      selectdepartment_mana === null ||
-      selectdepartment_mana === undefined ||
-      selectdepartment_mana === "" ||
-      selectdepartment_mana === "null"
-    ) {
-      setErrorManager(true);
-      alert("Please fill in information: Department Manager ");
-      return;
-    } else {
-      setErrorManager(false);
-    }
-    if (
-      Tel_service === "" ||
-      Tel_service === undefined ||
-      Tel_service === null ||
-      Tel_service === "null"
-    ) {
-      setErrorTel_service(true);
-      alert("Please fill in information: Tel_Service By");
-
-      return;
-    } else {
-      setErrorTel_service(false);
-    }
-    if (
-      selectservice_by === null ||
-      selectservice_by === undefined ||
-      selectservice_by === "" ||
-      selectservice_by === "null"
-    ) {
-      setErrorService_by(true);
-      alert("Please fill in information: Service By");
-      return;
-    } else {
-      setErrorService_by(false);
-    }
-
-    if (
-      selectboi_staff === null ||
-      selectboi_staff === undefined ||
-      selectboi_staff === "" ||
-      selectboi_staff === "null"
-    ) {
-      setErrorBoi_Staff(true);
-      alert("Please fill in information: BOI Staff");
-      return;
-    } else {
-      setErrorBoi_Staff(false);
-    }
-    if (
-      selectboi_manager === null ||
-      selectboi_manager === undefined ||
-      selectboi_manager === "" ||
-      selectboi_manager === "null"
-    ) {
-      setErrorBoi_manager(true);
-      alert("Please fill in information: BOI Manager");
-      return;
-    } else {
-      setErrorBoi_manager(false);
-    }
-    if (
-      selectfac_manager === null ||
-      selectfac_manager === undefined ||
-      selectfac_manager === "" ||
-      selectfac_manager === "null"
-    ) {
-      setErrorMana_Fac(true);
-      alert("Please fill in information: Factory Manager");
-      return;
-    } else {
-      setErrorMana_Fac(false);
-    }
-    if (
-      selectacc_check === null ||
-      selectacc_check === undefined ||
-      selectacc_check === "" ||
-      selectacc_check === "null"
-    ) {
-      alert("Please fill in information: ACC Check");
-      setErrorAcc_check(true);
-      return;
-    } else {
-      setErrorAcc_check(false);
-    }
-
-    if (
-      selectacc_manager === null ||
-      selectacc_manager === undefined ||
-      selectacc_manager === "" ||
-      selectacc_manager === "null"
-    ) {
-      alert("Please fill in information: ACC Manager");
-      setErrorAcc_Mana(true);
-      return;
-    } else {
-      setErrorAcc_Mana(false);
-    }
-    // try {
-    //   const response = await axios.get(`/getEdit_FixAsset?FamNo=${EditFam}`);
-    // } catch (error) {
-    //   console.error("Error during login:", error);
-    // }
-    openPopupLoadding();
-    //setCheckSubmit("True")
-    // SUBMIT ตามเงื่อนไข Status
-    if (For_Rq_Edit != null) {
-      if (For_Rq_Edit[10] === "FLTR001") {
-        let Status = "FLTR002";
-        try {
-          const response = await axios.post("/Update_For_Req_All", {
-            famno: For_Rq_Edit[0],
-            dept: For_Rq_Edit[6],
-            tel: For_Rq_Edit[3],
-            remark: For_Rq_Edit[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[2],
-            record_by: text_acc_check,
-            owner_id: For_Rq_Edit[17],
-            owner_dept: For_Rq_Edit[18],
-            owner_tel: For_Rq_Edit[19],
-            service_close: selectservice_by,
-            owner_by: owner_roting,
-            service_dt: ServiceDept,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-        try {
-          const response = await axios.post("/Update_For_Trans_All", {
-            famno: For_Rq_Edit[0],
-            date_plan: plan_date,
-            fac_trans: selecttrans_factory,
-            cc_trans: selecttrans_cc,
-            to_proj: new_boi,
-            rec_by: receiver,
-            tel: Tel_for_trans,
-            sts_for: sts,
-            abnormal_for: abnormal,
-            create_by: User,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-        try {
-          const response = await axios.post("/update_new_cc", {
-            fam: For_Rq_Edit[0],
-            New_cc: selecttrans_cc,
-            updateby: For_Rq_Edit[2],
-          });
-        } catch (error) {
-          console.error("Error during login:", error);
-        }
-        try {
-          const response = await axios.post("/update_for_date_trans", {
-            fam: For_Rq_Edit[0],
-            updateby: For_Rq_Edit[2],
-          });
-        } catch (error) {
-          console.error("Error during login:", error);
-        }
-
-        try {
-          const response = await axios.post("/update_submit", {
-            famno: EditFam,
-            sts_submit: Status,
-          });
-          Swal.fire({
-            title: "Submit Success",
-            icon: "success",
-          });
-
-          // setCheckSubmit("False")
-          // navigate('/Mail', { state: { selectservice_by } });
-          localStorage.setItem("To", selectdepartment_mana);
-          localStorage.setItem("Genno", EditFam);
-          localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-          localStorage.setItem("Req_by", For_Rq_Edit[2]);
-          localStorage.setItem("Status", Status);
-          // navigate("/Mail");
-          //  navigate('/Search');
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-      } else if (For_Rq_Edit[16] === "R") {
-        // update สำหรับ === "R" reject
-        console.log("Reject", For_Rq_Edit[16]);
-        let Status = "FLTR002";
-        try {
-          const response = await axios.post("/Update_For_Req_All", {
-            famno: For_Rq_Edit[0],
-            dept: For_Rq_Edit[6],
-            tel: For_Rq_Edit[3],
-            remark: For_Rq_Edit[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[2],
-            record_by: text_acc_check,
-            owner_id: For_Rq_Edit[17],
-            owner_dept: For_Rq_Edit[18],
-            owner_tel: For_Rq_Edit[19],
-            service_close: selectservice_by,
-            owner_by: owner_roting,
-            service_dt: ServiceDept,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-        try {
-          const response = await axios.post("/Update_For_Trans_All", {
-            famno: For_Rq_Edit[0],
-            date_plan: plan_date,
-            fac_trans: selecttrans_factory,
-            cc_trans: selecttrans_cc,
-            to_proj: new_boi,
-            rec_by: receiver,
-            tel: Tel_for_trans,
-            sts_for: sts,
-            abnormal_for: abnormal,
-            create_by: User,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-        try {
-          const response = await axios.post("/update_for_nullRouting_All", {
-            famno: EditFam,
-            user_a: User,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-
-        try {
-          const response = await axios.post("/update_All_for_receive", {
-            famno: EditFam,
-            user_re: User,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-        try {
-          const response = await axios.post("/update_new_cc", {
-            fam: EditFam,
-            New_cc: selecttrans_cc,
-            updateby: For_Rq_Edit[2],
-          });
-        } catch (error) {
-          console.error("Error during login:", error);
-        }
-        try {
-          const response = await axios.post("/update_submit", {
-            famno: EditFam,
-            sts_submit: Status,
-          });
-
-          Swal.fire({
-            title: "Submit Success",
-            icon: "success",
-          });
-          // setCheckSubmit("False")
-          localStorage.setItem("status_formail", null);
-          localStorage.setItem("To", selectdepartment_mana);
-          localStorage.setItem("Genno", EditFam);
-          localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-          localStorage.setItem("Req_by", For_Rq_Edit[2]);
-          localStorage.setItem("Status", Status);
-          localStorage.removeItem("ForRequester");
-          localStorage.removeItem("forDetail");
-          localStorage.removeItem("TransForDetail");
-          localStorage.removeItem("EDIT");
-          localStorage.removeItem("For_Transfer");
-          localStorage.removeItem("For_Routing");
-          localStorage.removeItem("For_Req_Edit");
-          localStorage.removeItem("Edit_Trans");
-          localStorage.removeItem("Edit_Dteail_for_FixedCode");
-          localStorage.removeItem("Edit_routing");
-          // navigate("/Mail");
-          // navigate("/Search");
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-      } else if (For_Rq_Edit[10] === "FLTR002") {
-        let Status = "";
-        if (selectradio_dept == "A") {
-          Status = "FLTR003";
-        } else if (selectradio_dept == "R") {
-          Status = "FLTR092";
+    if (Type == "GP01001") {
+     // Tranfer
+      if (EditFam != null) {
+        if (
+          For_Rq_Edit[3] === null ||
+          For_Rq_Edit[3] === undefined ||
+          For_Rq_Edit[3] === "" ||
+          For_Rq_Edit[3] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel For Requester");
+          navigate("/ForRe");
+          return;
+        } else {
+          setErrorTel_Rq(false);
         }
         if (
-          selectradio_dept == "R" &&
-          (cmmtradio_dept == "" ||
-            cmmtradio_dept == null ||
-            cmmtradio_dept == "null" ||
-            cmmtradio_dept == "undifined")
+          For_Rq_Edit[6] === null ||
+          For_Rq_Edit[6] === undefined ||
+          For_Rq_Edit[6] === "" ||
+          For_Rq_Edit[6] === "null"
         ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_manager_dept", {
-              famno: EditFam,
-              mgrjud: selectradio_dept,
-              mgrcmmt: cmmtradio_dept,
-              sts: Status,
-            });
-
-            if (selectradio_dept != "R") {
-              localStorage.setItem("status_formail", selectradio_dept);
-              localStorage.setItem("To", selectservice_by);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_dept);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            setCheckSubmit("False");
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-            // navigate("/ApproveFam");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR003") {
-        let Status = "";
-        if (selectradio_serviceby == "A") {
-          Status = "FLTR004";
-        } else if (selectradio_serviceby == "R") {
-          Status = "FLTR093";
-        }
-        if (
-          selectradio_serviceby == "R" &&
-          (cmmtradio_serviceby == "" ||
-            cmmtradio_serviceby == null ||
-            cmmtradio_serviceby == "null" ||
-            cmmtradio_serviceby == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_service_by", {
-              famno: EditFam,
-              serjud: selectradio_serviceby,
-              sercmmt: cmmtradio_serviceby,
-              sts: Status,
-            });
-            if (selectradio_serviceby != "R") {
-              localStorage.setItem("status_formail", selectradio_serviceby);
-              localStorage.setItem("To", selectboi_staff);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_serviceby);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //   setCheckSubmit("False")
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR004") {
-        let Status = "";
-        if (selectradio_boistaff == "A") {
-          Status = "FLTR005";
-        } else if (selectradio_boistaff == "R") {
-          Status = "FLTR094";
-        }
-        if (
-          selectradio_boistaff == "R" &&
-          (cmmtradio_boistaff == "" ||
-            cmmtradio_boistaff == null ||
-            cmmtradio_boistaff == "null" ||
-            cmmtradio_boistaff == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
-          //   );
-          try {
-            const response = await axios.post("/update_boi_staff", {
-              famno: EditFam,
-              stff_jud: selectradio_boistaff,
-              stff_cmmt: cmmtradio_boistaff,
-              sts: Status,
-            });
-
-            if (selectradio_boistaff != "R") {
-              localStorage.setItem("status_formail", selectradio_boistaff);
-              localStorage.setItem("To", selectboi_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boistaff);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR005") {
-        let Status = "";
-        if (selectradio_boimanager == "A") {
-          Status = "FLTR006";
-        } else if (selectradio_boimanager == "R") {
-          Status = "FLTR095";
+          alert("Please fill in information: Dept ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
 
         if (
-          selectradio_boimanager == "R" &&
-          (cmmtradio_boimanager == "" ||
-            cmmtradio_boimanager == null ||
-            cmmtradio_boimanager == "null" ||
-            cmmtradio_boimanager == "undefined")
+          For_Rq_Edit[17] === null ||
+          For_Rq_Edit[17] === undefined ||
+          For_Rq_Edit[17] === "" ||
+          For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_boi_mana", {
-              famno: EditFam,
-              boimana_jud: selectradio_boimanager,
-              boimana_cmmt: cmmtradio_boimanager,
-              sts: Status,
-            });
-            if (selectradio_boimanager != "R") {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("To", selectfac_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
+          alert("Please fill in information: Request Owner");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
-      } else if (For_Rq_Edit[10] === "FLTR006") {
-        let Status = "";
-        if (selectradio_facmanager == "A") {
-          Status = "FLTR007";
-        } else if (selectradio_facmanager == "R") {
-          Status = "FLTR096";
+        if (
+          For_Rq_Edit[19] === null ||
+          For_Rq_Edit[19] === undefined ||
+          For_Rq_Edit[19] === "" ||
+          For_Rq_Edit[19] === "null"
+        ) {
+          alert("Please fill in information:  Owner Tel ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
 
         if (
-          selectradio_facmanager == "R" &&
-          (cmmtradio_facmanager == "" ||
-            cmmtradio_facmanager == null ||
-            cmmtradio_facmanager == "null" ||
-            cmmtradio_facmanager == "undefined")
+          selecttrans_factory === null ||
+          selecttrans_factory === undefined ||
+          selecttrans_factory === "" ||
+          selecttrans_factory === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: Factory");
+          setErrorFac(true);
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_facmanager", {
-              famno: EditFam,
-              fm_jud: selectradio_facmanager,
-              fm_cmmt: cmmtradio_facmanager,
-              sts: Status,
-            });
-
-            if (selectradio_boimanager != "R") {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("To", selectacc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
+          setErrorFac(false);
         }
-      } else if (For_Rq_Edit[10] === "FLTR007") {
-        let Status = "";
-        if (selectradio_acc_check == "A") {
-          Status = "FLTR008";
-        } else if (selectradio_acc_check == "R") {
-          Status = "FLTR907";
+        if (
+          selecttrans_cc === null ||
+          selecttrans_cc === undefined ||
+          selecttrans_cc === "" ||
+          selecttrans_cc === "null"
+        ) {
+          alert("Please fill in information: CC");
+          setErrorCC(true);
+          return;
+        } else {
+          setErrorCC(false);
+        }
+        if (
+          new_boi === null ||
+          new_boi === undefined ||
+          new_boi === "" ||
+          new_boi === "null"
+        ) {
+          setErrNewboi(true);
+          alert("Please fill in information: New BOI Project  ");
+          return;
+        } else {
+          setErrNewboi(false);
+        }
+        if (
+          selectnew_owner === null ||
+          selectnew_owner === undefined ||
+          selectnew_owner === "" ||
+          selectnew_owner === "null"
+        ) {
+          setErrorNewOwn(true);
+          alert("Please fill in information: New Owner ");
+          return;
+        } else {
+          setErrorNewOwn(false);
         }
 
         if (
-          selectradio_acc_check == "R" &&
-          (cmmtradio_acc_check == "" ||
-            cmmtradio_acc_check == null ||
-            cmmtradio_acc_check == "null" ||
-            cmmtradio_acc_check == "undefined")
+          Tel_for_trans === null ||
+          Tel_for_trans === undefined ||
+          Tel_for_trans === "" ||
+          Tel_for_trans === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: Tel ");
+          setErrorTel(true);
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_acccheck", {
-              famno: EditFam,
-              chk_jud: selectradio_acc_check,
-              chk_cmmt: cmmtradio_acc_check,
-              sts: Status,
-            });
-            if (selectradio_acc_check != "R") {
-              localStorage.setItem("status_formail", selectradio_acc_check);
-              localStorage.setItem("To", owner_roting);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_acc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //  setCheckSubmit("False")
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR008") {
-        let Status = "";
-        if (selectradio_owner == "A") {
-          Status = "FLTR009";
-        } else if (selectradio_owner == "R") {
-          Status = "FLTR908";
+          setErrorTel(false);
         }
 
         if (
-          selectradio_owner == "R" &&
-          (cmmtradio_owner == "" ||
-            cmmtradio_owner == null ||
-            cmmtradio_owner == "null" ||
-            cmmtradio_owner == "undefined")
+          plan_date === null ||
+          plan_date === undefined ||
+          plan_date === "" ||
+          plan_date === "null"
         ) {
-          alert("Please fill in information");
+          setErrorDate(true);
+          alert("Please fill in information: Date");
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_owner", {
-              famno: EditFam,
-              owner_jud: selectradio_owner,
-              owner_cmmt: cmmtradio_owner,
-              sts: Status,
-            });
-            if (selectradio_owner != "R") {
-              localStorage.setItem("status_formail", selectradio_owner);
-              localStorage.setItem("To", receiver);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_owner);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-            // navigate("/ApproveFam");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR009") {
-        let Status = "";
-        if (selectradio_receiver == "A") {
-          Status = "FLTR010";
-        } else if (selectradio_receiver == "R") {
-          Status = "FLTR909";
+          setErrorDate(false);
         }
         if (
-          selectradio_receiver == "R" &&
-          (cmmtradio_receiver == "" ||
-            cmmtradio_receiver == null ||
-            cmmtradio_receiver == "null" ||
-            cmmtradio_receiver == "undefined")
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information");
+          setErrorManager(true);
+          alert("Please fill in information: Department Manager ");
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_receiver", {
-              famno: EditFam,
-              receiver_jud: selectradio_receiver,
-              receiver_cmmt: cmmtradio_receiver,
-            });
+          setErrorManager(false);
+        }
+        if (
+          Tel_service === "" ||
+          Tel_service === undefined ||
+          Tel_service === null ||
+          Tel_service === "null"
+        ) {
+          setErrorTel_service(true);
+          alert("Please fill in information: Tel_Service By");
 
-            if (selectradio_receiver != "R") {
-              localStorage.setItem("status_formail", selectradio_receiver);
-              localStorage.setItem("To", text_acc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_receiver);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          setErrorService_by(true);
+          alert("Please fill in information: Service By");
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          setErrorBoi_Staff(true);
+          alert("Please fill in information: BOI Staff");
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          setErrorBoi_manager(true);
+          alert("Please fill in information: BOI Manager");
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          setErrorMana_Fac(true);
+          alert("Please fill in information: Factory Manager");
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        // try {
+        //   const response = await axios.get(`/getEdit_FixAsset?FamNo=${EditFam}`);
+        // } catch (error) {
+        //   console.error("Error during login:", error);
+        // }
+        openPopupLoadding();
+        //setCheckSubmit("True")
+        // SUBMIT ตามเงื่อนไข Status
+        if (For_Rq_Edit != null) {
+          if (For_Rq_Edit[10] === "FLTR001") {
+            let Status = "FLTR002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
             }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //   setCheckSubmit("False")
+            try {
+              const response = await axios.post("/Update_For_Trans_All", {
+                famno: For_Rq_Edit[0],
+                date_plan: plan_date,
+                fac_trans: selecttrans_factory,
+                cc_trans: selecttrans_cc,
+                to_proj: new_boi,
+                rec_by: receiver,
+                tel: Tel_for_trans,
+                sts_for: sts,
+                abnormal_for: abnormal,
+                create_by: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_new_cc", {
+                fam: For_Rq_Edit[0],
+                New_cc: selecttrans_cc,
+                updateby: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error during login:", error);
+            }
+            try {
+              const response = await axios.post("/update_for_date_trans", {
+                fam: For_Rq_Edit[0],
+                updateby: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error during login:", error);
+            }
 
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              // setCheckSubmit("False")
+              // navigate('/Mail', { state: { selectservice_by } });
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              // navigate("/Mail");
+              //  navigate('/Search');
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[16] === "R") {
+            // update สำหรับ === "R" reject
+            console.log("Reject", For_Rq_Edit[16]);
+            let Status = "FLTR002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/Update_For_Trans_All", {
+                famno: For_Rq_Edit[0],
+                date_plan: plan_date,
+                fac_trans: selecttrans_factory,
+                cc_trans: selecttrans_cc,
+                to_proj: new_boi,
+                rec_by: receiver,
+                tel: Tel_for_trans,
+                sts_for: sts,
+                abnormal_for: abnormal,
+                create_by: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_for_nullRouting_All", {
+                famno: EditFam,
+                user_a: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_All_for_receive", {
+                famno: EditFam,
+                user_re: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_new_cc", {
+                fam: EditFam,
+                New_cc: selecttrans_cc,
+                updateby: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error during login:", error);
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              // setCheckSubmit("False")
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              // navigate("/Mail");
+              // navigate("/Search");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLTR002") {
+            let Status = "";
+            if (selectradio_dept == "A") {
+              Status = "FLTR003";
+            } else if (selectradio_dept == "R") {
+              Status = "FLTR092";
+            }
+            if (
+              selectradio_dept == "R" &&
+              (cmmtradio_dept == "" ||
+                cmmtradio_dept == null ||
+                cmmtradio_dept == "null" ||
+                cmmtradio_dept == "undifined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_manager_dept", {
+                  famno: EditFam,
+                  mgrjud: selectradio_dept,
+                  mgrcmmt: cmmtradio_dept,
+                  sts: Status,
+                });
+
+                if (selectradio_dept != "R") {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("To", selectservice_by);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                setCheckSubmit("False");
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR003") {
+            let Status = "";
+            if (selectradio_serviceby == "A") {
+              Status = "FLTR004";
+            } else if (selectradio_serviceby == "R") {
+              Status = "FLTR093";
+            }
+            if (
+              selectradio_serviceby == "R" &&
+              (cmmtradio_serviceby == "" ||
+                cmmtradio_serviceby == null ||
+                cmmtradio_serviceby == "null" ||
+                cmmtradio_serviceby == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_by", {
+                  famno: EditFam,
+                  serjud: selectradio_serviceby,
+                  sercmmt: cmmtradio_serviceby,
+                  sts: Status,
+                });
+                if (selectradio_serviceby != "R") {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR004") {
+            let Status = "";
+            if (selectradio_boistaff == "A") {
+              Status = "FLTR005";
+            } else if (selectradio_boistaff == "R") {
+              Status = "FLTR094";
+            }
+            if (
+              selectradio_boistaff == "R" &&
+              (cmmtradio_boistaff == "" ||
+                cmmtradio_boistaff == null ||
+                cmmtradio_boistaff == "null" ||
+                cmmtradio_boistaff == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_boi_staff", {
+                  famno: EditFam,
+                  stff_jud: selectradio_boistaff,
+                  stff_cmmt: cmmtradio_boistaff,
+                  sts: Status,
+                });
+
+                if (selectradio_boistaff != "R") {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("To", selectboi_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR005") {
+            let Status = "";
+            if (selectradio_boimanager == "A") {
+              Status = "FLTR006";
+            } else if (selectradio_boimanager == "R") {
+              Status = "FLTR095";
+            }
+
+            if (
+              selectradio_boimanager == "R" &&
+              (cmmtradio_boimanager == "" ||
+                cmmtradio_boimanager == null ||
+                cmmtradio_boimanager == "null" ||
+                cmmtradio_boimanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_mana", {
+                  famno: EditFam,
+                  boimana_jud: selectradio_boimanager,
+                  boimana_cmmt: cmmtradio_boimanager,
+                  sts: Status,
+                });
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectfac_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR006") {
+            let Status = "";
+            if (selectradio_facmanager == "A") {
+              Status = "FLTR007";
+            } else if (selectradio_facmanager == "R") {
+              Status = "FLTR096";
+            }
+
+            if (
+              selectradio_facmanager == "R" &&
+              (cmmtradio_facmanager == "" ||
+                cmmtradio_facmanager == null ||
+                cmmtradio_facmanager == "null" ||
+                cmmtradio_facmanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_facmanager", {
+                  famno: EditFam,
+                  fm_jud: selectradio_facmanager,
+                  fm_cmmt: cmmtradio_facmanager,
+                  sts: Status,
+                });
+
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectacc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR007") {
+            let Status = "";
+            if (selectradio_acc_check == "A") {
+              Status = "FLTR008";
+            } else if (selectradio_acc_check == "R") {
+              Status = "FLTR907";
+            }
+
+            if (
+              selectradio_acc_check == "R" &&
+              (cmmtradio_acc_check == "" ||
+                cmmtradio_acc_check == null ||
+                cmmtradio_acc_check == "null" ||
+                cmmtradio_acc_check == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_acccheck", {
+                  famno: EditFam,
+                  chk_jud: selectradio_acc_check,
+                  chk_cmmt: cmmtradio_acc_check,
+                  sts: Status,
+                });
+                if (selectradio_acc_check != "R") {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("To", owner_roting);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //  setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR008") {
+            let Status = "";
+            if (selectradio_owner == "A") {
+              Status = "FLTR009";
+            } else if (selectradio_owner == "R") {
+              Status = "FLTR908";
+            }
+
+            if (
+              selectradio_owner == "R" &&
+              (cmmtradio_owner == "" ||
+                cmmtradio_owner == null ||
+                cmmtradio_owner == "null" ||
+                cmmtradio_owner == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_owner", {
+                  famno: EditFam,
+                  owner_jud: selectradio_owner,
+                  owner_cmmt: cmmtradio_owner,
+                  sts: Status,
+                });
+                if (selectradio_owner != "R") {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("To", receiver);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR009") {
+            let Status = "";
+            if (selectradio_receiver == "A") {
+              Status = "FLTR010";
+            } else if (selectradio_receiver == "R") {
+              Status = "FLTR909";
+            }
+            if (
+              selectradio_receiver == "R" &&
+              (cmmtradio_receiver == "" ||
+                cmmtradio_receiver == null ||
+                cmmtradio_receiver == "null" ||
+                cmmtradio_receiver == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_receiver", {
+                  famno: EditFam,
+                  receiver_jud: selectradio_receiver,
+                  receiver_cmmt: cmmtradio_receiver,
+                });
+
+                if (selectradio_receiver != "R") {
+                  localStorage.setItem("status_formail", selectradio_receiver);
+                  localStorage.setItem("To", text_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_receiver);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR010") {
+            let Status = "";
+            if (selectradio_record == "A") {
+              Status = "FLTR011";
+            } else if (selectradio_record == "R") {
+              Status = "FLTR910";
+            }
+
+            if (
+              selectradio_record == "R" &&
+              (cmmtradio_record == "" ||
+                cmmtradio_record == null ||
+                cmmtradio_record == "null" ||
+                cmmtradio_record == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_recode", {
+                  famno: EditFam,
+                  rec_jud: selectradio_record,
+                  rec_cmmt: cmmtradio_record,
+                  sts: Status,
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR011") {
+            let Status = "";
+            if (selectradio_acc_manager == "A") {
+              Status = "FLTR012";
+            } else if (selectradio_acc_manager == "R") {
+              Status = "FLTR911";
+            }
+            if (
+              selectradio_acc_manager == "R" &&
+              (cmmtradio_acc_manager == "" ||
+                cmmtradio_acc_manager == null ||
+                cmmtradio_acc_manager == "null" ||
+                cmmtradio_acc_manager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_accmanager", {
+                  famno: EditFam,
+                  acc_manajud: selectradio_acc_manager,
+                  acc_manacmmt: cmmtradio_acc_manager,
+                  sts: Status,
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR012") {
+            let Status = "";
+            if (selectradio_service_close_by == "A") {
+              Status = "FLTR013";
+            } else if (selectradio_service_close_by == "R") {
+              Status = "FLTR912";
+            }
+
+            if (
+              selectradio_service_close_by == "R" &&
+              (cmmtradio_service_close_by == "" ||
+                cmmtradio_service_close_by == null ||
+                cmmtradio_service_close_by == "null" ||
+                cmmtradio_service_close_by == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_service_close", {
+                  famno: EditFam,
+                  cls_jud: selectradio_service_close_by,
+                  cls_cmmt: cmmtradio_service_close_by,
+                  sts: Status,
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
           }
+        }
+      } else {
+        if (
+          For_Req[2] === null ||
+          For_Req[2] === undefined ||
+          For_Req[2] === "" ||
+          For_Req[2] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel Requester");
+          let ErrorTel_Req = "true";
+
+          navigate("/ForRe", ErrorTel_Req);
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+
+        if (
+          For_Req[5] === null ||
+          For_Req[5] === undefined ||
+          For_Req[5] === "" ||
+          For_Req[5] === "null"
+        ) {
+          alert("Please fill in information: Dept");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[15] === null ||
+          For_Req[15] === undefined ||
+          For_Req[15] === "" ||
+          For_Req[15] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[17] === null ||
+          For_Req[17] === undefined ||
+          For_Req[17] === "" ||
+          For_Req[17] === "null"
+        ) {
+          alert("Please fill in information: Owner Tel");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selecttrans_factory === null ||
+          selecttrans_factory === undefined ||
+          selecttrans_factory === "" ||
+          selecttrans_factory === "null"
+        ) {
+          alert("Please fill in information: Factory");
+          setErrorFac(true);
+          return;
+        } else {
+        }
+        if (
+          selecttrans_cc === null ||
+          selecttrans_cc === undefined ||
+          selecttrans_cc === "" ||
+          selecttrans_cc === "null"
+        ) {
+          alert("Please fill in information: CC");
+          setErrorCC(true);
+          return;
+        } else {
+          setErrorCC(false);
+        }
+
+        if (
+          new_boi === null ||
+          new_boi === undefined ||
+          new_boi === "" ||
+          new_boi === "null"
+        ) {
+          setErrNewboi(true);
+          alert("Please fill in information: New BOI Project  ");
+          return;
+        } else {
+          setErrNewboi(false);
+        }
+        if (
+          selectnew_owner === null ||
+          selectnew_owner === undefined ||
+          selectnew_owner === "" ||
+          selectnew_owner === "null"
+        ) {
+          setErrorNewOwn(true);
+          alert("Please fill in information: New Owner ");
+          return;
+        } else {
+          setErrorNewOwn(false);
+        }
+        if (
+          Tel_for_trans === null ||
+          Tel_for_trans === undefined ||
+          Tel_for_trans === "" ||
+          Tel_for_trans === "null"
+        ) {
+          alert("Please fill in information: Tel ");
+          setErrorTel(true);
+          return;
+        } else {
+          setErrorTel(false);
+        }
+        if (
+          plan_date === null ||
+          plan_date === undefined ||
+          plan_date === "" ||
+          plan_date === "null"
+        ) {
+          setErrorDate(true);
+          alert("Please fill in information: Date");
+          return;
+        } else {
+          setErrorDate(false);
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          alert("Please fill in information: Department Manager");
+          setErrorManager(true);
+          return;
+        } else {
+          setErrorManager(false);
+        }
+
+        if (
+          Tel_service === null ||
+          Tel_service === undefined ||
+          Tel_service === "" ||
+          Tel_service === "null"
+        ) {
+          alert("Please fill in information: Tel_Service By");
+          setErrorTel_service(true);
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          alert("Please fill in information: Service By");
+          setErrorService_by(true);
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          alert("Please fill in information: BOI Staff");
+          setErrorBoi_Staff(true);
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          alert("Please fill in information: BOI Manager");
+          setErrorBoi_manager(true);
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          alert("Please fill in information: Factory Manager");
+          setErrorMana_Fac(true);
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        // Submit กรณี insert
+        if (For_Req[10] === "FLTR001") {
+          let Status = "FLTR002";
           try {
             const response = await axios.post("/update_submit", {
-              famno: EditFam,
+              famno: For_Req[0],
               sts_submit: Status,
             });
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR010") {
-        let Status = "";
-        if (selectradio_record == "A") {
-          Status = "FLTR011";
-        } else if (selectradio_record == "R") {
-          Status = "FLTR910";
-        }
-
-        if (
-          selectradio_record == "R" &&
-          (cmmtradio_record == "" ||
-            cmmtradio_record == null ||
-            cmmtradio_record == "null" ||
-            cmmtradio_record == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
-          //   );
           try {
-            const response = await axios.post("/update_recode", {
-              famno: EditFam,
-              rec_jud: selectradio_record,
-              rec_cmmt: cmmtradio_record,
-              sts: Status,
+            const response = await axios.post("/update_new_cc", {
+              fam: For_Req[0],
+              New_cc: selecttrans_cc,
+              updateby: For_Req[1],
             });
-
-            if (selectradio_record != "R") {
-              localStorage.setItem("status_formail", selectradio_record);
-              localStorage.setItem("To", selectacc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_record);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
+            //// console(data, "data");
+          } catch (error) {
+            console.error("Error during login:", error);
+          }
+          try {
+            const response = await axios.post("/Update_For_Req_All", {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+              service_close: selectservice_by,
+              owner_by: owner_roting,
+              service_dt: ServiceDept,
             });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR011") {
-        let Status = "";
-        if (selectradio_acc_manager == "A") {
-          Status = "FLTR012";
-        } else if (selectradio_acc_manager == "R") {
-          Status = "FLTR911";
-        }
-        if (
-          selectradio_acc_manager == "R" &&
-          (cmmtradio_acc_manager == "" ||
-            cmmtradio_acc_manager == null ||
-            cmmtradio_acc_manager == "null" ||
-            cmmtradio_acc_manager == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
           try {
-            const response = await axios.post("/update_accmanager", {
-              famno: EditFam,
-              acc_manajud: selectradio_acc_manager,
-              acc_manacmmt: cmmtradio_acc_manager,
-              sts: Status,
+            const response = await axios.post("/Update_For_Trans_All", {
+              famno: For_Req[0],
+              date_plan: plan_date,
+              fac_trans: selecttrans_factory,
+              cc_trans: selecttrans_cc,
+              to_proj: new_boi,
+              rec_by: receiver,
+              tel: Tel_for_trans,
+              sts_for: sts,
+              abnormal_for: abnormal,
+              create_by: User,
             });
-            if (selectradio_acc_manager != "R") {
-              localStorage.setItem("status_formail", selectradio_acc_manager);
-              localStorage.setItem("To", selectacc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_acc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                text_acc_check,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            localStorage.setItem("To", selectservice_by);
-            localStorage.setItem("Genno", EditFam);
-            localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-            localStorage.setItem("Req_by", For_Rq_Edit[2]);
+            localStorage.setItem("To", selectdepartment_mana);
+            localStorage.setItem("Genno", For_Req[0]);
+            localStorage.setItem("Req_Type", For_Req[6]);
+            localStorage.setItem("Req_by", For_Req[1]);
             localStorage.setItem("Status", Status);
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
             // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR012") {
-        let Status = "";
-        if (selectradio_service_close_by == "A") {
-          Status = "FLTR013";
-        } else if (selectradio_service_close_by == "R") {
-          Status = "FLTR912";
-        }
-
-        if (
-          selectradio_service_close_by == "R" &&
-          (cmmtradio_service_close_by == "" ||
-            cmmtradio_service_close_by == null ||
-            cmmtradio_service_close_by == "null" ||
-            cmmtradio_service_close_by == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
-          //   );
-          try {
-            const response = await axios.post("/update_service_close", {
-              famno: EditFam,
-              cls_jud: selectradio_service_close_by,
-              cls_cmmt: cmmtradio_service_close_by,
-              sts: Status,
-            });
-
-            if (selectradio_service_close_by != "R") {
-              localStorage.setItem(
-                "status_formail",
-                selectradio_service_close_by
-              );
-              localStorage.setItem("To", For_Rq_Edit[2]);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem(
-                "status_formail",
-                selectradio_service_close_by
-              );
-
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                text_acc_check,
-                selectacc_manager,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
             Swal.fire({
               title: "Save Success",
               icon: "success",
             });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           }
         }
+        // setCheckSubmit("False")
       }
-    }
-  } else {
-    if (
-      For_Req[2] === null ||
-      For_Req[2] === undefined ||
-      For_Req[2] === "" ||
-      For_Req[2] === "null"
-    ) {
-      setErrorTel_Rq(true);
-      alert("Please fill in information: Tel Requester");
-      let ErrorTel_Req = "true";
-
-      navigate("/ForRe", ErrorTel_Req);
-      return;
-    } else {
-      setErrorTel_Rq(false);
-    }
-
-    if (
-      For_Req[5] === null ||
-      For_Req[5] === undefined ||
-      For_Req[5] === "" ||
-      For_Req[5] === "null"
-    ) {
-      alert("Please fill in information: Dept");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Req[15] === null ||
-      For_Req[15] === undefined ||
-      For_Req[15] === "" ||
-      For_Req[15] === "null"
-    ) {
-      alert("Please fill in information: Request Owner");
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Req[17] === null ||
-      For_Req[17] === undefined ||
-      For_Req[17] === "" ||
-      For_Req[17] === "null"
-    ) {
-      alert("Please fill in information: Owner Tel");
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      selecttrans_factory === null ||
-      selecttrans_factory === undefined ||
-      selecttrans_factory === "" ||
-      selecttrans_factory === "null"
-    ) {
-      alert("Please fill in information: Factory");
-      setErrorFac(true);
-      return;
-    } else {
-    }
-    if (
-      selecttrans_cc === null ||
-      selecttrans_cc === undefined ||
-      selecttrans_cc === "" ||
-      selecttrans_cc === "null"
-    ) {
-      alert("Please fill in information: CC");
-      setErrorCC(true);
-      return;
-    } else {
-      setErrorCC(false);
-    }
-
-    if (
-      new_boi === null ||
-      new_boi === undefined ||
-      new_boi === "" ||
-      new_boi === "null"
-    ) {
-      setErrNewboi(true);
-      alert("Please fill in information: New BOI Project  ");
-      return;
-    } else {
-      setErrNewboi(false);
-    }
-    if (
-      selectnew_owner === null ||
-      selectnew_owner === undefined ||
-      selectnew_owner === "" ||
-      selectnew_owner === "null"
-    ) {
-      setErrorNewOwn(true);
-      alert("Please fill in information: New Owner ");
-      return;
-    } else {
-      setErrorNewOwn(false);
-    }
-    if (
-      Tel_for_trans === null ||
-      Tel_for_trans === undefined ||
-      Tel_for_trans === "" ||
-      Tel_for_trans === "null"
-    ) {
-      alert("Please fill in information: Tel ");
-      setErrorTel(true);
-      return;
-    } else {
-      setErrorTel(false);
-    }
-    if (
-      plan_date === null ||
-      plan_date === undefined ||
-      plan_date === "" ||
-      plan_date === "null"
-    ) {
-      setErrorDate(true);
-      alert("Please fill in information: Date");
-      return;
-    } else {
-      setErrorDate(false);
-    }
-    if (
-      selectdepartment_mana === null ||
-      selectdepartment_mana === undefined ||
-      selectdepartment_mana === "" ||
-      selectdepartment_mana === "null"
-    ) {
-      alert("Please fill in information: Department Manager");
-      setErrorManager(true);
-      return;
-    } else {
-      setErrorManager(false);
-    }
-
-    if (
-      Tel_service === null ||
-      Tel_service === undefined ||
-      Tel_service === "" ||
-      Tel_service === "null"
-    ) {
-      alert("Please fill in information: Tel_Service By");
-      setErrorTel_service(true);
-      return;
-    } else {
-      setErrorTel_service(false);
-    }
-    if (
-      selectservice_by === null ||
-      selectservice_by === undefined ||
-      selectservice_by === "" ||
-      selectservice_by === "null"
-    ) {
-      alert("Please fill in information: Service By");
-      setErrorService_by(true);
-      return;
-    } else {
-      setErrorService_by(false);
-    }
-
-    if (
-      selectboi_staff === null ||
-      selectboi_staff === undefined ||
-      selectboi_staff === "" ||
-      selectboi_staff === "null"
-    ) {
-      alert("Please fill in information: BOI Staff");
-      setErrorBoi_Staff(true);
-      return;
-    } else {
-      setErrorBoi_Staff(false);
-    }
-    if (
-      selectboi_manager === null ||
-      selectboi_manager === undefined ||
-      selectboi_manager === "" ||
-      selectboi_manager === "null"
-    ) {
-      alert("Please fill in information: BOI Manager");
-      setErrorBoi_manager(true);
-      return;
-    } else {
-      setErrorBoi_manager(false);
-    }
-    if (
-      selectfac_manager === null ||
-      selectfac_manager === undefined ||
-      selectfac_manager === "" ||
-      selectfac_manager === "null"
-    ) {
-      alert("Please fill in information: Factory Manager");
-      setErrorMana_Fac(true);
-      return;
-    } else {
-      setErrorMana_Fac(false);
-    }
-    if (
-      selectacc_check === null ||
-      selectacc_check === undefined ||
-      selectacc_check === "" ||
-      selectacc_check === "null"
-    ) {
-      alert("Please fill in information: ACC Check");
-      setErrorAcc_check(true);
-      return;
-    } else {
-      setErrorAcc_check(false);
-    }
-
-    if (
-      selectacc_manager === null ||
-      selectacc_manager === undefined ||
-      selectacc_manager === "" ||
-      selectacc_manager === "null"
-    ) {
-      alert("Please fill in information: ACC Manager");
-      setErrorAcc_Mana(true);
-      return;
-    } else {
-      setErrorAcc_Mana(false);
-    }
-    // Submit กรณี insert
-    if (For_Req[10] === "FLTR001") {
-      let Status = "FLTR002";
-      try {
-        const response = await axios.post("/update_submit", {
-          famno: For_Req[0],
-          sts_submit: Status,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-      try {
-        const response = await axios.post("/update_new_cc", {
-          fam: For_Req[0],
-          New_cc: selecttrans_cc,
-          updateby: For_Req[1],
-        });
-        //// console(data, "data");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-      try {
-        const response = await axios.post("/Update_For_Req_All", {
-          famno: For_Req[0],
-          dept: For_Req[5],
-          tel: For_Req[2],
-          remark: For_Req[12],
-          mrg_dept: selectdepartment_mana,
-          serviceby: selectservice_by,
-          servicetel: Tel_service,
-          boisff: selectboi_staff,
-          boimrg: selectboi_manager,
-          fmby: selectfac_manager,
-          accchk: selectacc_check,
-          accmrg: selectacc_manager,
-          updateby: For_Req[1],
-          record_by: text_acc_check,
-          owner_id: For_Req[15],
-          owner_dept: For_Req[16],
-          owner_tel: For_Req[17],
-          service_close: selectservice_by,
-          owner_by: owner_roting,
-          service_dt: ServiceDept,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-      try {
-        const response = await axios.post("/Update_For_Trans_All", {
-          famno: For_Req[0],
-          date_plan: plan_date,
-          fac_trans: selecttrans_factory,
-          cc_trans: selecttrans_cc,
-          to_proj: new_boi,
-          rec_by: receiver,
-          tel: Tel_for_trans,
-          sts_for: sts,
-          abnormal_for: abnormal,
-          create_by: User,
-        });
-        localStorage.setItem("To", selectdepartment_mana);
-        localStorage.setItem("Genno", For_Req[0]);
-        localStorage.setItem("Req_Type", For_Req[6]);
-        localStorage.setItem("Req_by", For_Req[1]);
-        localStorage.setItem("Status", Status);
-        // navigate("/Mail");
-        Swal.fire({
-          title: "Save Success",
-          icon: "success",
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-    }
-    // setCheckSubmit("False")
-  }
-}else if(Type == 'GP01004',Type){
-  console.log("SUBMITLoss")
-  if (EditFam != null) {
-    if (
-      For_Rq_Edit[3] === null ||
-      For_Rq_Edit[3] === undefined ||
-      For_Rq_Edit[3] === "" ||
-      For_Rq_Edit[3] === "null"
-    ) {
-      setErrorTel_Rq(true);
-      alert("Please fill in information: Tel For Requester");
-      navigate("/ForRe");
-      return;
-    } else {
-      setErrorTel_Rq(false);
-    }
-    if (
-      For_Rq_Edit[6] === null ||
-      For_Rq_Edit[6] === undefined ||
-      For_Rq_Edit[6] === "" ||
-      For_Rq_Edit[6] === "null"
-    ) {
-      alert("Please fill in information: Dept ");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-
-    if (
-      For_Rq_Edit[17] === null ||
-      For_Rq_Edit[17] === undefined ||
-      For_Rq_Edit[17] === "" ||
-      For_Rq_Edit[17] === "null"
-    ) {
-      alert("Please fill in information: Request Owner");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Rq_Edit[19] === null ||
-      For_Rq_Edit[19] === undefined ||
-      For_Rq_Edit[19] === "" ||
-      For_Rq_Edit[19] === "null"
-    ) {
-      alert("Please fill in information:  Owner Tel ");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      selectdepartment_mana === null ||
-      selectdepartment_mana === undefined ||
-      selectdepartment_mana === "" ||
-      selectdepartment_mana === "null"
-    ) {
-      setErrorManager(true);
-      alert("Please fill in information: Department Manager ");
-      return;
-    } else {
-      setErrorManager(false);
-    }
-    if (
-      Tel_service === "" ||
-      Tel_service === undefined ||
-      Tel_service === null ||
-      Tel_service === "null"
-    ) {
-      setErrorTel_service(true);
-      alert("Please fill in information: Tel_Service By");
-
-      return;
-    } else {
-      setErrorTel_service(false);
-    }
-    if (
-      selectservice_by === null ||
-      selectservice_by === undefined ||
-      selectservice_by === "" ||
-      selectservice_by === "null"
-    ) {
-      setErrorService_by(true);
-      alert("Please fill in information: Service By");
-      return;
-    } else {
-      setErrorService_by(false);
-    }
-
-    if (
-      selectboi_staff === null ||
-      selectboi_staff === undefined ||
-      selectboi_staff === "" ||
-      selectboi_staff === "null"
-    ) {
-      setErrorBoi_Staff(true);
-      alert("Please fill in information: BOI Staff");
-      return;
-    } else {
-      setErrorBoi_Staff(false);
-    }
-    if (
-      selectboi_manager === null ||
-      selectboi_manager === undefined ||
-      selectboi_manager === "" ||
-      selectboi_manager === "null"
-    ) {
-      setErrorBoi_manager(true);
-      alert("Please fill in information: BOI Manager");
-      return;
-    } else {
-      setErrorBoi_manager(false);
-    }
-    if (
-      selectfac_manager === null ||
-      selectfac_manager === undefined ||
-      selectfac_manager === "" ||
-      selectfac_manager === "null"
-    ) {
-      setErrorMana_Fac(true);
-      alert("Please fill in information: Factory Manager");
-      return;
-    } else {
-      setErrorMana_Fac(false);
-    }
-    if (
-      selectacc_check === null ||
-      selectacc_check === undefined ||
-      selectacc_check === "" ||
-      selectacc_check === "null"
-    ) {
-      alert("Please fill in information: ACC Check");
-      setErrorAcc_check(true);
-      return;
-    } else {
-      setErrorAcc_check(false);
-    }
-
-    if (
-      selectacc_manager === null ||
-      selectacc_manager === undefined ||
-      selectacc_manager === "" ||
-      selectacc_manager === "null"
-    ) {
-      alert("Please fill in information: ACC Manager");
-      setErrorAcc_Mana(true);
-      return;
-    } else {
-      setErrorAcc_Mana(false);
-    }
-    try {
-      const response = await axios.get(`/getEdit_FixAsset?FamNo=${EditFam}`);
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-    openPopupLoadding();
-    if (For_Rq_Edit != null) {
-      if (For_Rq_Edit[10] === "FLTR001") {
-        let Status = "FLLS002";
-        try {
-          const response = await axios.post("/Update_For_Req_All", {
-            famno: For_Rq_Edit[0],
-            dept: For_Rq_Edit[6],
-            tel: For_Rq_Edit[3],
-            remark: For_Rq_Edit[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[2],
-            record_by: text_acc_check,
-            owner_id: For_Rq_Edit[17],
-            owner_dept: For_Rq_Edit[18],
-            owner_tel: For_Rq_Edit[19],
-            service_close: selectservice_by,
-            owner_by: owner_roting,
-            service_dt: ServiceDept,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
+    } else if (Type == "GP01004" ) {
+      //Loss
+      if (EditFam != null) {
+        if (
+          For_Rq_Edit[3] === null ||
+          For_Rq_Edit[3] === undefined ||
+          For_Rq_Edit[3] === "" ||
+          For_Rq_Edit[3] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel For Requester");
+          navigate("/ForRe");
+          return;
+        } else {
+          setErrorTel_Rq(false);
         }
-        try {
-          const response = await axios.post("/update_submit", {
-            famno: EditFam,
-            sts_submit: Status,
-          });
-          Swal.fire({
-            title: "Submit Success",
-            icon: "success",
-          });
+        if (
+          For_Rq_Edit[6] === null ||
+          For_Rq_Edit[6] === undefined ||
+          For_Rq_Edit[6] === "" ||
+          For_Rq_Edit[6] === "null"
+        ) {
+          alert("Please fill in information: Dept ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
 
-          // setCheckSubmit("False")
-          // navigate('/Mail', { state: { selectservice_by } });
+        if (
+          For_Rq_Edit[17] === null ||
+          For_Rq_Edit[17] === undefined ||
+          For_Rq_Edit[17] === "" ||
+          For_Rq_Edit[17] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Rq_Edit[19] === null ||
+          For_Rq_Edit[19] === undefined ||
+          For_Rq_Edit[19] === "" ||
+          For_Rq_Edit[19] === "null"
+        ) {
+          alert("Please fill in information:  Owner Tel ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          setErrorManager(true);
+          alert("Please fill in information: Department Manager ");
+          return;
+        } else {
+          setErrorManager(false);
+        }
+        if (
+          Tel_service === "" ||
+          Tel_service === undefined ||
+          Tel_service === null ||
+          Tel_service === "null"
+        ) {
+          setErrorTel_service(true);
+          alert("Please fill in information: Tel_Service By");
+
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          setErrorService_by(true);
+          alert("Please fill in information: Service By");
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          setErrorBoi_Staff(true);
+          alert("Please fill in information: BOI Staff");
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          setErrorBoi_manager(true);
+          alert("Please fill in information: BOI Manager");
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          setErrorMana_Fac(true);
+          alert("Please fill in information: Factory Manager");
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+       
+        openPopupLoadding();
+        if (For_Rq_Edit != null) {
+          console.log("fdffdfdfd")
+          if (For_Rq_Edit[10] === "FLLS001") {
+            let Status = "FLLS002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              // setCheckSubmit("False")
+              // navigate('/Mail', { state: { selectservice_by } });
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              // navigate("/Mail");
+              //  navigate('/Search');
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[16] === "R") {
+            let Status = "FLLS002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_for_nullRouting_All", {
+                famno: EditFam,
+                user_a: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              // setCheckSubmit("False")
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              // navigate("/Mail");
+              // navigate("/Search");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLLS002") {
+            let Status = "";
+            if (selectradio_dept == "A") {
+              Status = "FLTR003";
+            } else if (selectradio_dept == "R") {
+              Status = "FLLS092";
+            }
+            if (
+              selectradio_dept == "R" &&
+              (cmmtradio_dept == "" ||
+                cmmtradio_dept == null ||
+                cmmtradio_dept == "null" ||
+                cmmtradio_dept == "undifined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_manager_dept", {
+                  famno: EditFam,
+                  mgrjud: selectradio_dept,
+                  mgrcmmt: cmmtradio_dept,
+                  sts: Status,
+                });
+
+                if (selectradio_dept != "R") {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("To", selectservice_by);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                setCheckSubmit("False");
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLTR003") {
+            let Status = "";
+            if (selectradio_serviceby == "A") {
+              Status = "FLLS004";
+            } else if (selectradio_serviceby == "R") {
+              Status = "FLLS093";
+            }
+            if (
+              selectradio_serviceby == "R" &&
+              (cmmtradio_serviceby == "" ||
+                cmmtradio_serviceby == null ||
+                cmmtradio_serviceby == "null" ||
+                cmmtradio_serviceby == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_by", {
+                  famno: EditFam,
+                  serjud: selectradio_serviceby,
+                  sercmmt: cmmtradio_serviceby,
+                  sts: Status,
+                });
+                if (selectradio_serviceby != "R") {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS004") {
+            let Status = "";
+            if (selectradio_boistaff == "A") {
+              Status = "FLLS005";
+            } else if (selectradio_boistaff == "R") {
+              Status = "FLLS094";
+            }
+            if (
+              selectradio_boistaff == "R" &&
+              (cmmtradio_boistaff == "" ||
+                cmmtradio_boistaff == null ||
+                cmmtradio_boistaff == "null" ||
+                cmmtradio_boistaff == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_boi_staff", {
+                  famno: EditFam,
+                  stff_jud: selectradio_boistaff,
+                  stff_cmmt: cmmtradio_boistaff,
+                  sts: Status,
+                });
+
+                if (selectradio_boistaff != "R") {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("To", selectboi_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS005") {
+            let Status = "";
+            if (selectradio_boimanager == "A") {
+              Status = "FLLS006";
+            } else if (selectradio_boimanager == "R") {
+              Status = "FLLS095";
+            }
+
+            if (
+              selectradio_boimanager == "R" &&
+              (cmmtradio_boimanager == "" ||
+                cmmtradio_boimanager == null ||
+                cmmtradio_boimanager == "null" ||
+                cmmtradio_boimanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_mana", {
+                  famno: EditFam,
+                  boimana_jud: selectradio_boimanager,
+                  boimana_cmmt: cmmtradio_boimanager,
+                  sts: Status,
+                });
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectfac_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS006") {
+            let Status = "";
+            if (selectradio_facmanager == "A") {
+              Status = "FLLS007";
+            } else if (selectradio_facmanager == "R") {
+              Status = "FLLS096";
+            }
+
+            if (
+              selectradio_facmanager == "R" &&
+              (cmmtradio_facmanager == "" ||
+                cmmtradio_facmanager == null ||
+                cmmtradio_facmanager == "null" ||
+                cmmtradio_facmanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_facmanager", {
+                  famno: EditFam,
+                  fm_jud: selectradio_facmanager,
+                  fm_cmmt: cmmtradio_facmanager,
+                  sts: Status,
+                });
+
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectacc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS007") {
+            console.log(certificate_date,"DATEEEEEEEEE:")
+            let Status = "";
+            if (selectradio_acc_check == "A") {
+              Status = "FLLS008";
+            } else if (selectradio_acc_check == "R") {
+              Status = "FLLS907";
+            }
+
+            if (
+              selectradio_acc_check == "R" &&
+              (cmmtradio_acc_check == "" ||
+                cmmtradio_acc_check == null ||
+                cmmtradio_acc_check == "null" ||
+                cmmtradio_acc_check == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+             
+              try {
+                const response = await axios.post("/update_acccheck", {
+                  famno: EditFam,
+                  chk_jud: selectradio_acc_check,
+                  chk_cmmt: cmmtradio_acc_check,
+                  sts: Status,
+                });
+                if (selectradio_acc_check != "R") {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("To", owner_roting);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //  setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS008") {
+            let Status = "";
+            if (selectradio_owner == "A") {
+              Status = "FLLS010";
+            } else if (selectradio_owner == "R") {
+              Status = "FLLS908";
+            }
+
+            if (
+              selectradio_owner == "R" &&
+              (cmmtradio_owner == "" ||
+                cmmtradio_owner == null ||
+                cmmtradio_owner == "null" ||
+                cmmtradio_owner == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_owner", {
+                  famno: EditFam,
+                  owner_jud: selectradio_owner,
+                  owner_cmmt: cmmtradio_owner,
+                  sts: Status,
+                });
+                if (selectradio_owner != "R") {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("To", receiver);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS010") {
+            let Status = "";
+            if (selectradio_record == "A") {
+              Status = "FLLS011";
+            } else if (selectradio_record == "R") {
+              Status = "FLLS910";
+            }
+
+            if (
+              selectradio_record == "R" &&
+              (cmmtradio_record == "" ||
+                cmmtradio_record == null ||
+                cmmtradio_record == "null" ||
+                cmmtradio_record == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_recode", {
+                  famno: EditFam,
+                  rec_jud: selectradio_record,
+                  rec_cmmt: cmmtradio_record,
+                  sts: Status,
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS011") {
+            let Status = "";
+            if (selectradio_acc_manager == "A") {
+              Status = "FLLS012";
+            } else if (selectradio_acc_manager == "R") {
+              Status = "FLLS911";
+            }
+            if (
+              selectradio_acc_manager == "R" &&
+              (cmmtradio_acc_manager == "" ||
+                cmmtradio_acc_manager == null ||
+                cmmtradio_acc_manager == "null" ||
+                cmmtradio_acc_manager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_accmanager", {
+                  famno: EditFam,
+                  acc_manajud: selectradio_acc_manager,
+                  acc_manacmmt: cmmtradio_acc_manager,
+                  sts: Status,
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLLS012") {
+            let Status = "";
+            if (selectradio_service_close_by == "A") {
+              Status = "FLLS013";
+            } else if (selectradio_service_close_by == "R") {
+              Status = "FLLS912";
+            }
+
+            if (
+              selectradio_service_close_by == "R" &&
+              (cmmtradio_service_close_by == "" ||
+                cmmtradio_service_close_by == null ||
+                cmmtradio_service_close_by == "null" ||
+                cmmtradio_service_close_by == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_close", {
+                  famno: EditFam,
+                  cls_jud: selectradio_service_close_by,
+                  cls_cmmt: cmmtradio_service_close_by,
+                  sts: Status,
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          }
+        }
+      } else {
+        if (
+          For_Req[2] === null ||
+          For_Req[2] === undefined ||
+          For_Req[2] === "" ||
+          For_Req[2] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel Requester");
+          let ErrorTel_Req = "true";
+
+          navigate("/ForRe", ErrorTel_Req);
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+
+        if (
+          For_Req[5] === null ||
+          For_Req[5] === undefined ||
+          For_Req[5] === "" ||
+          For_Req[5] === "null"
+        ) {
+          alert("Please fill in information: Dept");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[15] === null ||
+          For_Req[15] === undefined ||
+          For_Req[15] === "" ||
+          For_Req[15] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[17] === null ||
+          For_Req[17] === undefined ||
+          For_Req[17] === "" ||
+          For_Req[17] === "null"
+        ) {
+          alert("Please fill in information: Owner Tel");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          alert("Please fill in information: Department Manager");
+          setErrorManager(true);
+          return;
+        } else {
+          setErrorManager(false);
+        }
+
+        if (
+          Tel_service === null ||
+          Tel_service === undefined ||
+          Tel_service === "" ||
+          Tel_service === "null"
+        ) {
+          alert("Please fill in information: Tel_Service By");
+          setErrorTel_service(true);
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          alert("Please fill in information: Service By");
+          setErrorService_by(true);
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          alert("Please fill in information: BOI Staff");
+          setErrorBoi_Staff(true);
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          alert("Please fill in information: BOI Manager");
+          setErrorBoi_manager(true);
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          alert("Please fill in information: Factory Manager");
+          setErrorMana_Fac(true);
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        // Submit กรณี insert
+        if (For_Req[10] === "FLTR001") {
+          let Status = "FLLS002";
+          try {
+            const response = await axios.post("/update_submit", {
+              famno: For_Req[0],
+              sts_submit: Status,
+            });
+          } catch (error) {
+            console.error("Error updating update_submit:", error.message);
+          }
+          try {
+            const response = await axios.post("/Update_For_Req_All", {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+              service_close: selectservice_by,
+              owner_by: owner_roting,
+              service_dt: ServiceDept,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
           localStorage.setItem("To", selectdepartment_mana);
-          localStorage.setItem("Genno", EditFam);
-          localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-          localStorage.setItem("Req_by", For_Rq_Edit[2]);
+          localStorage.setItem("Genno", For_Req[0]);
+          localStorage.setItem("Req_Type", For_Req[6]);
+          localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
           // navigate("/Mail");
-          //  navigate('/Search');
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-      } else if (For_Rq_Edit[16] === "R") {
-        let Status = "FLLS002";
-        try {
-          const response = await axios.post("/Update_For_Req_All", {
-            famno: For_Rq_Edit[0],
-            dept: For_Rq_Edit[6],
-            tel: For_Rq_Edit[3],
-            remark: For_Rq_Edit[12],
-            mrg_dept: selectdepartment_mana,
-            serviceby: selectservice_by,
-            servicetel: Tel_service,
-            boisff: selectboi_staff,
-            boimrg: selectboi_manager,
-            fmby: selectfac_manager,
-            accchk: selectacc_check,
-            accmrg: selectacc_manager,
-            updateby: For_Rq_Edit[2],
-            record_by: text_acc_check,
-            owner_id: For_Rq_Edit[17],
-            owner_dept: For_Rq_Edit[18],
-            owner_tel: For_Rq_Edit[19],
-            service_close: selectservice_by,
-            owner_by: owner_roting,
-            service_dt: ServiceDept,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-
-        try {
-          const response = await axios.post("/update_for_nullRouting_All", {
-            famno: EditFam,
-            user_a: User,
-          });
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
-        }
-
-        try {
-          const response = await axios.post("/update_submit", {
-            famno: EditFam,
-            sts_submit: Status,
-          });
-
           Swal.fire({
-            title: "Submit Success",
+            title: "Save Success",
             icon: "success",
           });
-          // setCheckSubmit("False")
-          localStorage.setItem("status_formail", null);
+        }
+        // setCheckSubmit("False")
+      }
+    } else if (Type == "GP01005") {
+      //Write-Off
+      if (EditFam != null) {
+        if (
+          For_Rq_Edit[3] === null ||
+          For_Rq_Edit[3] === undefined ||
+          For_Rq_Edit[3] === "" ||
+          For_Rq_Edit[3] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel For Requester");
+          navigate("/ForRe");
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+        if (
+          For_Rq_Edit[6] === null ||
+          For_Rq_Edit[6] === undefined ||
+          For_Rq_Edit[6] === "" ||
+          For_Rq_Edit[6] === "null"
+        ) {
+          alert("Please fill in information: Dept ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+
+        if (
+          For_Rq_Edit[17] === null ||
+          For_Rq_Edit[17] === undefined ||
+          For_Rq_Edit[17] === "" ||
+          For_Rq_Edit[17] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Rq_Edit[19] === null ||
+          For_Rq_Edit[19] === undefined ||
+          For_Rq_Edit[19] === "" ||
+          For_Rq_Edit[19] === "null"
+        ) {
+          alert("Please fill in information:  Owner Tel ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          setErrorManager(true);
+          alert("Please fill in information: Department Manager ");
+          return;
+        } else {
+          setErrorManager(false);
+        }
+        if (
+          Tel_service === "" ||
+          Tel_service === undefined ||
+          Tel_service === null ||
+          Tel_service === "null"
+        ) {
+          setErrorTel_service(true);
+          alert("Please fill in information: Tel_Service By");
+
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          setErrorService_by(true);
+          alert("Please fill in information: Service By");
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          setErrorBoi_Staff(true);
+          alert("Please fill in information: BOI Staff");
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          setErrorBoi_manager(true);
+          alert("Please fill in information: BOI Manager");
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          setErrorMana_Fac(true);
+          alert("Please fill in information: Factory Manager");
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        openPopupLoadding();
+        if (For_Rq_Edit != null) {
+          if (For_Rq_Edit[10] === "FLWO001") {
+            let Status = "FLWO002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              // setCheckSubmit("False")
+              // navigate('/Mail', { state: { selectservice_by } });
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              // navigate("/Mail");
+              //  navigate('/Search');
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[16] === "R") {
+            let Status = "FLWO002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_for_nullRouting_All", {
+                famno: EditFam,
+                user_a: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              // setCheckSubmit("False")
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              // navigate("/Mail");
+              // navigate("/Search");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLWO002") {
+            console.log("เข้าาาาาาาาาา Dept")
+            let Status = "";
+            if (selectradio_dept == "A") {
+              Status = "FLWO003";
+            } else if (selectradio_dept == "R") {
+              Status = "FLWO092";
+            }
+            if (
+              selectradio_dept == "R" &&
+              (cmmtradio_dept == "" ||
+                cmmtradio_dept == null ||
+                cmmtradio_dept == "null" ||
+                cmmtradio_dept == "undifined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_manager_dept", {
+                  famno: EditFam,
+                  mgrjud: selectradio_dept,
+                  mgrcmmt: cmmtradio_dept,
+                  sts: Status,
+                });
+
+                if (selectradio_dept != "R") {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("To", selectservice_by);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                setCheckSubmit("False");
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO003") {
+            let Status = "";
+            if (selectradio_serviceby == "A") {
+              Status = "FLWO004";
+            } else if (selectradio_serviceby == "R") {
+              Status = "FLWO093";
+            }
+            if (
+              selectradio_serviceby == "R" &&
+              (cmmtradio_serviceby == "" ||
+                cmmtradio_serviceby == null ||
+                cmmtradio_serviceby == "null" ||
+                cmmtradio_serviceby == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_by", {
+                  famno: EditFam,
+                  serjud: selectradio_serviceby,
+                  sercmmt: cmmtradio_serviceby,
+                  sts: Status,
+                });
+                if (selectradio_serviceby != "R") {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO004") {
+            let Status = "";
+            if (selectradio_boistaff == "A") {
+              Status = "FLWO005";
+            } else if (selectradio_boistaff == "R") {
+              Status = "FLWO094";
+            }
+            if (
+              selectradio_boistaff == "R" &&
+              (cmmtradio_boistaff == "" ||
+                cmmtradio_boistaff == null ||
+                cmmtradio_boistaff == "null" ||
+                cmmtradio_boistaff == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_boi_staff", {
+                  famno: EditFam,
+                  stff_jud: selectradio_boistaff,
+                  stff_cmmt: cmmtradio_boistaff,
+                  sts: Status,
+                });
+
+                if (selectradio_boistaff != "R") {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("To", selectboi_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO005") {
+            let Status = "";
+            if (selectradio_boimanager == "A") {
+              Status = "FLWO006";
+            } else if (selectradio_boimanager == "R") {
+              Status = "FLWO095";
+            }
+
+            if (
+              selectradio_boimanager == "R" &&
+              (cmmtradio_boimanager == "" ||
+                cmmtradio_boimanager == null ||
+                cmmtradio_boimanager == "null" ||
+                cmmtradio_boimanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_mana", {
+                  famno: EditFam,
+                  boimana_jud: selectradio_boimanager,
+                  boimana_cmmt: cmmtradio_boimanager,
+                  sts: Status,
+                });
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectfac_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO006") {
+            let Status = "";
+            if (selectradio_facmanager == "A") {
+              Status = "FLWO007";
+            } else if (selectradio_facmanager == "R") {
+              Status = "FLWO096";
+            }
+
+            if (
+              selectradio_facmanager == "R" &&
+              (cmmtradio_facmanager == "" ||
+                cmmtradio_facmanager == null ||
+                cmmtradio_facmanager == "null" ||
+                cmmtradio_facmanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_facmanager", {
+                  famno: EditFam,
+                  fm_jud: selectradio_facmanager,
+                  fm_cmmt: cmmtradio_facmanager,
+                  sts: Status,
+                });
+
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectacc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO007") {
+            let Status = "";
+            if (selectradio_acc_check == "A") {
+              Status = "FLWO008";
+            } else if (selectradio_acc_check == "R") {
+              Status = "FLWO907";
+            }
+
+            if (
+              selectradio_acc_check == "R" &&
+              (cmmtradio_acc_check == "" ||
+                cmmtradio_acc_check == null ||
+                cmmtradio_acc_check == "null" ||
+                cmmtradio_acc_check == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_acccheck", {
+                  famno: EditFam,
+                  chk_jud: selectradio_acc_check,
+                  chk_cmmt: cmmtradio_acc_check,
+                  sts: Status,
+                });
+                if (selectradio_acc_check != "R") {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("To", owner_roting);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //  setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO008") {
+            let Status = "";
+            if (selectradio_owner == "A") {
+              Status = "FLWO010";
+            } else if (selectradio_owner == "R") {
+              Status = "FLWO908";
+            }
+
+            if (
+              selectradio_owner == "R" &&
+              (cmmtradio_owner == "" ||
+                cmmtradio_owner == null ||
+                cmmtradio_owner == "null" ||
+                cmmtradio_owner == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_owner", {
+                  famno: EditFam,
+                  owner_jud: selectradio_owner,
+                  owner_cmmt: cmmtradio_owner,
+                  sts: Status,
+                });
+                if (selectradio_owner != "R") {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("To", receiver);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO010") {
+            let Status = "";
+            if (selectradio_record == "A") {
+              Status = "FLWO011";
+            } else if (selectradio_record == "R") {
+              Status = "FLWO910";
+            }
+
+            if (
+              selectradio_record == "R" &&
+              (cmmtradio_record == "" ||
+                cmmtradio_record == null ||
+                cmmtradio_record == "null" ||
+                cmmtradio_record == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_recode", {
+                  famno: EditFam,
+                  rec_jud: selectradio_record,
+                  rec_cmmt: cmmtradio_record,
+                  sts: Status,
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO011") {
+            let Status = "";
+            if (selectradio_acc_manager == "A") {
+              Status = "FLWO012";
+            } else if (selectradio_acc_manager == "R") {
+              Status = "FLWO911";
+            }
+            if (
+              selectradio_acc_manager == "R" &&
+              (cmmtradio_acc_manager == "" ||
+                cmmtradio_acc_manager == null ||
+                cmmtradio_acc_manager == "null" ||
+                cmmtradio_acc_manager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_accmanager", {
+                  famno: EditFam,
+                  acc_manajud: selectradio_acc_manager,
+                  acc_manacmmt: cmmtradio_acc_manager,
+                  sts: Status,
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLWO012") {
+            let Status = "";
+            if (selectradio_service_close_by == "A") {
+              Status = "FLWO013";
+            } else if (selectradio_service_close_by == "R") {
+              Status = "FLWO912";
+            }
+
+            if (
+              selectradio_service_close_by == "R" &&
+              (cmmtradio_service_close_by == "" ||
+                cmmtradio_service_close_by == null ||
+                cmmtradio_service_close_by == "null" ||
+                cmmtradio_service_close_by == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_service_close", {
+                  famno: EditFam,
+                  cls_jud: selectradio_service_close_by,
+                  cls_cmmt: cmmtradio_service_close_by,
+                  sts: Status,
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          }
+        }
+      } else {
+        if (
+          For_Req[2] === null ||
+          For_Req[2] === undefined ||
+          For_Req[2] === "" ||
+          For_Req[2] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel Requester");
+          let ErrorTel_Req = "true";
+
+          navigate("/ForRe", ErrorTel_Req);
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+
+        if (
+          For_Req[5] === null ||
+          For_Req[5] === undefined ||
+          For_Req[5] === "" ||
+          For_Req[5] === "null"
+        ) {
+          alert("Please fill in information: Dept");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[15] === null ||
+          For_Req[15] === undefined ||
+          For_Req[15] === "" ||
+          For_Req[15] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[17] === null ||
+          For_Req[17] === undefined ||
+          For_Req[17] === "" ||
+          For_Req[17] === "null"
+        ) {
+          alert("Please fill in information: Owner Tel");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          alert("Please fill in information: Department Manager");
+          setErrorManager(true);
+          return;
+        } else {
+          setErrorManager(false);
+        }
+
+        if (
+          Tel_service === null ||
+          Tel_service === undefined ||
+          Tel_service === "" ||
+          Tel_service === "null"
+        ) {
+          alert("Please fill in information: Tel_Service By");
+          setErrorTel_service(true);
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          alert("Please fill in information: Service By");
+          setErrorService_by(true);
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          alert("Please fill in information: BOI Staff");
+          setErrorBoi_Staff(true);
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          alert("Please fill in information: BOI Manager");
+          setErrorBoi_manager(true);
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          alert("Please fill in information: Factory Manager");
+          setErrorMana_Fac(true);
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        // Submit กรณี insert
+        if (For_Req[10] === "FLTR001") {
+          let Status = "FLLS002";
+          try {
+            const response = await axios.post("/update_submit", {
+              famno: For_Req[0],
+              sts_submit: Status,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
+          try {
+            const response = await axios.post("/update_new_cc", {
+              fam: For_Req[0],
+              New_cc: selecttrans_cc,
+              updateby: For_Req[1],
+            });
+            //// console(data, "data");
+          } catch (error) {
+            console.error("Error during login:", error);
+          }
+          try {
+            const response = await axios.post("/Update_For_Req_All", {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+              service_close: selectservice_by,
+              owner_by: owner_roting,
+              service_dt: ServiceDept,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
           localStorage.setItem("To", selectdepartment_mana);
-          localStorage.setItem("Genno", EditFam);
-          localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-          localStorage.setItem("Req_by", For_Rq_Edit[2]);
+          localStorage.setItem("Genno", For_Req[0]);
+          localStorage.setItem("Req_Type", For_Req[6]);
+          localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          localStorage.removeItem("ForRequester");
-          localStorage.removeItem("forDetail");
-          localStorage.removeItem("TransForDetail");
-          localStorage.removeItem("EDIT");
-          localStorage.removeItem("For_Transfer");
-          localStorage.removeItem("For_Routing");
-          localStorage.removeItem("For_Req_Edit");
-          localStorage.removeItem("Edit_Trans");
-          localStorage.removeItem("Edit_Dteail_for_FixedCode");
-          localStorage.removeItem("Edit_routing");
           // navigate("/Mail");
-          // navigate("/Search");
-        } catch (error) {
-          console.error("Error updating submit status:", error.message);
+          Swal.fire({
+            title: "Save Success",
+            icon: "success",
+          });
         }
-      } else if (For_Rq_Edit[10] === "FLLS002") {
-        let Status = "";
-        if (selectradio_dept == "A") {
-          Status = "FLTR003";
-        } else if (selectradio_dept == "R") {
-          Status = "FLLS092";
+        // setCheckSubmit("False")
+      }
+    }  else if (Type == "GP01007") {
+      //Donation
+      
+      if (EditFam != null) {
+     
+        if (
+          For_Rq_Edit[3] === null ||
+          For_Rq_Edit[3] === undefined ||
+          For_Rq_Edit[3] === "" ||
+          For_Rq_Edit[3] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel For Requester");
+          navigate("/ForRe");
+          return;
+        } else {
+          setErrorTel_Rq(false);
         }
         if (
-          selectradio_dept == "R" &&
-          (cmmtradio_dept == "" ||
-            cmmtradio_dept == null ||
-            cmmtradio_dept == "null" ||
-            cmmtradio_dept == "undifined")
+          For_Rq_Edit[6] === null ||
+          For_Rq_Edit[6] === undefined ||
+          For_Rq_Edit[6] === "" ||
+          For_Rq_Edit[6] === "null"
         ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_manager_dept", {
-              famno: EditFam,
-              mgrjud: selectradio_dept,
-              mgrcmmt: cmmtradio_dept,
-              sts: Status,
-            });
-
-            if (selectradio_dept != "R") {
-              localStorage.setItem("status_formail", selectradio_dept);
-              localStorage.setItem("To", selectservice_by);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_dept);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            setCheckSubmit("False");
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-            // navigate("/ApproveFam");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLTR003") {
-        let Status = "";
-        if (selectradio_serviceby == "A") {
-          Status = "FLLS004";
-        } else if (selectradio_serviceby == "R") {
-          Status = "FLLS093";
-        }
-        if (
-          selectradio_serviceby == "R" &&
-          (cmmtradio_serviceby == "" ||
-            cmmtradio_serviceby == null ||
-            cmmtradio_serviceby == "null" ||
-            cmmtradio_serviceby == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_service_by", {
-              famno: EditFam,
-              serjud: selectradio_serviceby,
-              sercmmt: cmmtradio_serviceby,
-              sts: Status,
-            });
-            if (selectradio_serviceby != "R") {
-              localStorage.setItem("status_formail", selectradio_serviceby);
-              localStorage.setItem("To", selectboi_staff);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_serviceby);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //   setCheckSubmit("False")
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLLS004") {
-        let Status = "";
-        if (selectradio_boistaff == "A") {
-          Status = "FLLS005";
-        } else if (selectradio_boistaff == "R") {
-          Status = "FLLS094";
-        }
-        if (
-          selectradio_boistaff == "R" &&
-          (cmmtradio_boistaff == "" ||
-            cmmtradio_boistaff == null ||
-            cmmtradio_boistaff == "null" ||
-            cmmtradio_boistaff == "undefined")
-        ) {
-          alert("Please fill in information");
-        } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
-          //   );
-          try {
-            const response = await axios.post("/update_boi_staff", {
-              famno: EditFam,
-              stff_jud: selectradio_boistaff,
-              stff_cmmt: cmmtradio_boistaff,
-              sts: Status,
-            });
-
-            if (selectradio_boistaff != "R") {
-              localStorage.setItem("status_formail", selectradio_boistaff);
-              localStorage.setItem("To", selectboi_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boistaff);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLLS005") {
-        let Status = "";
-        if (selectradio_boimanager == "A") {
-          Status = "FLLS006";
-        } else if (selectradio_boimanager == "R") {
-          Status = "FLLS095";
+          alert("Please fill in information: Dept ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
 
         if (
-          selectradio_boimanager == "R" &&
-          (cmmtradio_boimanager == "" ||
-            cmmtradio_boimanager == null ||
-            cmmtradio_boimanager == "null" ||
-            cmmtradio_boimanager == "undefined")
+          For_Rq_Edit[17] === null ||
+          For_Rq_Edit[17] === undefined ||
+          For_Rq_Edit[17] === "" ||
+          For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_boi_mana", {
-              famno: EditFam,
-              boimana_jud: selectradio_boimanager,
-              boimana_cmmt: cmmtradio_boimanager,
-              sts: Status,
-            });
-            if (selectradio_boimanager != "R") {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("To", selectfac_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
+          alert("Please fill in information: Request Owner");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
-      } else if (For_Rq_Edit[10] === "FLLS006") {
-        let Status = "";
-        if (selectradio_facmanager == "A") {
-          Status = "FLLS007";
-        } else if (selectradio_facmanager == "R") {
-          Status = "FLLS096";
+        if (
+          For_Rq_Edit[19] === null ||
+          For_Rq_Edit[19] === undefined ||
+          For_Rq_Edit[19] === "" ||
+          For_Rq_Edit[19] === "null"
+        ) {
+          alert("Please fill in information:  Owner Tel ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          setErrorManager(true);
+          alert("Please fill in information: Department Manager ");
+          return;
+        } else {
+          setErrorManager(false);
+        }
+        if (
+          Tel_service === "" ||
+          Tel_service === undefined ||
+          Tel_service === null ||
+          Tel_service === "null"
+        ) {
+          setErrorTel_service(true);
+          alert("Please fill in information: Tel_Service By");
+
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          setErrorService_by(true);
+          alert("Please fill in information: Service By");
+          return;
+        } else {
+          setErrorService_by(false);
         }
 
         if (
-          selectradio_facmanager == "R" &&
-          (cmmtradio_facmanager == "" ||
-            cmmtradio_facmanager == null ||
-            cmmtradio_facmanager == "null" ||
-            cmmtradio_facmanager == "undefined")
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
         ) {
-          alert("Please fill in information");
+          setErrorBoi_Staff(true);
+          alert("Please fill in information: BOI Staff");
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_facmanager", {
-              famno: EditFam,
-              fm_jud: selectradio_facmanager,
-              fm_cmmt: cmmtradio_facmanager,
-              sts: Status,
-            });
-
-            if (selectradio_boimanager != "R") {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("To", selectacc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_boimanager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
+          setErrorBoi_Staff(false);
         }
-      } else if (For_Rq_Edit[10] === "FLLS007") {
-        let Status = "";
-        if (selectradio_acc_check == "A") {
-          Status = "FLLS008";
-        } else if (selectradio_acc_check == "R") {
-          Status = "FLLS907";
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          setErrorBoi_manager(true);
+          alert("Please fill in information: BOI Manager");
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          setErrorMana_Fac(true);
+          alert("Please fill in information: Factory Manager");
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
         }
 
         if (
-          selectradio_acc_check == "R" &&
-          (cmmtradio_acc_check == "" ||
-            cmmtradio_acc_check == null ||
-            cmmtradio_acc_check == "null" ||
-            cmmtradio_acc_check == "undefined")
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_acccheck", {
-              famno: EditFam,
-              chk_jud: selectradio_acc_check,
-              chk_cmmt: cmmtradio_acc_check,
-              sts: Status,
-            });
-            if (selectradio_acc_check != "R") {
-              localStorage.setItem("status_formail", selectradio_acc_check);
-              localStorage.setItem("To", owner_roting);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_acc_check);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                null,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
+          setErrorAcc_Mana(false);
+        }
+        openPopupLoadding();
+        if (For_Rq_Edit != null) {
+         
+          if (For_Rq_Edit[10] === "FLDN001") {
+            let Status = "FLWO002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
             }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            //  setCheckSubmit("False")
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
 
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
+              // setCheckSubmit("False")
+              // navigate('/Mail', { state: { selectservice_by } });
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              // navigate("/Mail");
+              //  navigate('/Search');
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[16] === "R") {
+            let Status = "FLDN002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_for_nullRouting_All", {
+                famno: EditFam,
+                user_a: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              // setCheckSubmit("False")
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              // navigate("/Mail");
+              // navigate("/Search");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLDN002") {
+            console.log("เข้าาาาาาาาาา Dept")
+            let Status = "";
+            if (selectradio_dept == "A") {
+              Status = "FLDN003";
+            } else if (selectradio_dept == "R") {
+              Status = "FLDN092";
+            }
+            if (
+              selectradio_dept == "R" &&
+              (cmmtradio_dept == "" ||
+                cmmtradio_dept == null ||
+                cmmtradio_dept == "null" ||
+                cmmtradio_dept == "undifined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_manager_dept", {
+                  famno: EditFam,
+                  mgrjud: selectradio_dept,
+                  mgrcmmt: cmmtradio_dept,
+                  sts: Status,
+                });
+
+                if (selectradio_dept != "R") {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("To", selectservice_by);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                setCheckSubmit("False");
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN003") {
+            let Status = "";
+            if (selectradio_serviceby == "A") {
+              Status = "FLDN004";
+            } else if (selectradio_serviceby == "R") {
+              Status = "FLDN093";
+            }
+            if (
+              selectradio_serviceby == "R" &&
+              (cmmtradio_serviceby == "" ||
+                cmmtradio_serviceby == null ||
+                cmmtradio_serviceby == "null" ||
+                cmmtradio_serviceby == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_by", {
+                  famno: EditFam,
+                  serjud: selectradio_serviceby,
+                  sercmmt: cmmtradio_serviceby,
+                  sts: Status,
+                });
+                if (selectradio_serviceby != "R") {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN004") {
+            let Status = "";
+            if (selectradio_boistaff == "A") {
+              Status = "FLDN005";
+            } else if (selectradio_boistaff == "R") {
+              Status = "FLDN094";
+            }
+            if (
+              selectradio_boistaff == "R" &&
+              (cmmtradio_boistaff == "" ||
+                cmmtradio_boistaff == null ||
+                cmmtradio_boistaff == "null" ||
+                cmmtradio_boistaff == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_boi_staff?famno=${EditFam}&stff_jud=${selectradio_boistaff}&stff_cmmt=${cmmtradio_boistaff}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_boi_staff", {
+                  famno: EditFam,
+                  stff_jud: selectradio_boistaff,
+                  stff_cmmt: cmmtradio_boistaff,
+                  sts: Status,
+                });
+
+                if (selectradio_boistaff != "R") {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("To", selectboi_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN005") {
+            let Status = "";
+            if (selectradio_boimanager == "A") {
+              Status = "FLDN006";
+            } else if (selectradio_boimanager == "R") {
+              Status = "FLDN095";
+            }
+
+            if (
+              selectradio_boimanager == "R" &&
+              (cmmtradio_boimanager == "" ||
+                cmmtradio_boimanager == null ||
+                cmmtradio_boimanager == "null" ||
+                cmmtradio_boimanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_mana", {
+                  famno: EditFam,
+                  boimana_jud: selectradio_boimanager,
+                  boimana_cmmt: cmmtradio_boimanager,
+                  sts: Status,
+                });
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectfac_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN006") {
+            let Status = "";
+            if (selectradio_facmanager == "A") {
+              Status = "FLDN007";
+            } else if (selectradio_facmanager == "R") {
+              Status = "FLDN096";
+            }
+
+            if (
+              selectradio_facmanager == "R" &&
+              (cmmtradio_facmanager == "" ||
+                cmmtradio_facmanager == null ||
+                cmmtradio_facmanager == "null" ||
+                cmmtradio_facmanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_facmanager", {
+                  famno: EditFam,
+                  fm_jud: selectradio_facmanager,
+                  fm_cmmt: cmmtradio_facmanager,
+                  sts: Status,
+                });
+
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectacc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN007") { 
+            console.log("UUUUUUUUU:::::::::::",certificate_date)
+            let Status = "";
+            if (selectradio_acc_check == "A") {
+              Status = "FLDN008";
+            } else if (selectradio_acc_check == "R") {
+              Status = "FLDN907";
+            }
+            
+            if (
+              selectradio_acc_check == "R" &&
+              (cmmtradio_acc_check == "" ||
+                cmmtradio_acc_check == null ||
+                cmmtradio_acc_check == "null" ||
+                cmmtradio_acc_check == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+             
+              // try {
+              //   const response = await axios.post("/date_certificate", {
+              //     famno: EditFam,
+              //     date_cer: certificate_date,
+                  
+              //   });
+              //   //// console(data, "data");
+              // } catch (error) {
+              //   console.error("Error during login:", error);
+              // }
+              // try {
+              //   const response = await axios.post("/update_acccheck", {
+              //     famno: EditFam,
+              //     chk_jud: selectradio_acc_check,
+              //     chk_cmmt: cmmtradio_acc_check,
+              //     sts: Status,
+              //   });
+              //   if (selectradio_acc_check != "R") {
+              //     localStorage.setItem("status_formail", selectradio_acc_check);
+              //     localStorage.setItem("To", owner_roting);
+              //     localStorage.setItem("Genno", EditFam);
+              //     localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              //     localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              //     localStorage.setItem("Status", Status);
+              //   } else {
+              //     localStorage.setItem("status_formail", selectradio_acc_check);
+              //     localStorage.setItem("Genno", EditFam);
+              //     localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              //     localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              //     localStorage.setItem("Status", Status);
+              //     const Approver = [
+              //       selectdepartment_mana,
+              //       selectservice_by,
+              //       selectboi_staff,
+              //       selectboi_manager,
+              //       selectfac_manager,
+              //       null,
+              //       null,
+              //       null,
+              //       null,
+              //       null,
+              //     ];
+              //     const sentdata = JSON.stringify(Approver);
+              //     localStorage.setItem("Approver_formail", sentdata);
+              //   }
+              //   Swal.fire({
+              //     title: "Save Success",
+              //     icon: "success",
+              //   });
+              //   //  setCheckSubmit("False")
+
+              //   localStorage.removeItem("ForRequester");
+              //   localStorage.removeItem("forDetail");
+              //   localStorage.removeItem("TransForDetail");
+              //   localStorage.removeItem("EDIT");
+              //   localStorage.removeItem("For_Transfer");
+              //   localStorage.removeItem("For_Routing");
+              //   localStorage.removeItem("For_Req_Edit");
+              //   localStorage.removeItem("Edit_Trans");
+              //   localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              //   localStorage.removeItem("Edit_routing");
+              //   // navigate("/Mail");
+              // } catch (error) {
+              //   console.error("Error updating submit status:", error.message);
+              // }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN008") {
+            let Status = "";
+            if (selectradio_owner == "A") {
+              Status = "FLDN010";
+            } else if (selectradio_owner == "R") {
+              Status = "FLDN908";
+            }
+
+            if (
+              selectradio_owner == "R" &&
+              (cmmtradio_owner == "" ||
+                cmmtradio_owner == null ||
+                cmmtradio_owner == "null" ||
+                cmmtradio_owner == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_owner", {
+                  famno: EditFam,
+                  owner_jud: selectradio_owner,
+                  owner_cmmt: cmmtradio_owner,
+                  sts: Status,
+                });
+                if (selectradio_owner != "R") {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("To", receiver);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+                // navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN010") {
+            let Status = "";
+            if (selectradio_record == "A") {
+              Status = "FLDN011";
+            } else if (selectradio_record == "R") {
+              Status = "FLDN910";
+            }
+
+            if (
+              selectradio_record == "R" &&
+              (cmmtradio_record == "" ||
+                cmmtradio_record == null ||
+                cmmtradio_record == "null" ||
+                cmmtradio_record == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_recode", {
+                  famno: EditFam,
+                  rec_jud: selectradio_record,
+                  rec_cmmt: cmmtradio_record,
+                  sts: Status,
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/ApproveFam");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN011") {
+            let Status = "";
+            if (selectradio_acc_manager == "A") {
+              Status = "FLDN012";
+            } else if (selectradio_acc_manager == "R") {
+              Status = "FLDN911";
+            }
+            if (
+              selectradio_acc_manager == "R" &&
+              (cmmtradio_acc_manager == "" ||
+                cmmtradio_acc_manager == null ||
+                cmmtradio_acc_manager == "null" ||
+                cmmtradio_acc_manager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_accmanager", {
+                  famno: EditFam,
+                  acc_manajud: selectradio_acc_manager,
+                  acc_manacmmt: cmmtradio_acc_manager,
+                  sts: Status,
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLDN012") {
+            let Status = "";
+            if (selectradio_service_close_by == "A") {
+              Status = "FLDN013";
+            } else if (selectradio_service_close_by == "R") {
+              Status = "FLDN912";
+            }
+
+            if (
+              selectradio_service_close_by == "R" &&
+              (cmmtradio_service_close_by == "" ||
+                cmmtradio_service_close_by == null ||
+                cmmtradio_service_close_by == "null" ||
+                cmmtradio_service_close_by == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              // try {
+              //   const row = axios.post(
+              //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
+              //   );
+              try {
+                const response = await axios.post("/update_service_close", {
+                  famno: EditFam,
+                  cls_jud: selectradio_service_close_by,
+                  cls_cmmt: cmmtradio_service_close_by,
+                  sts: Status,
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
           }
         }
-      } else if (For_Rq_Edit[10] === "FLLS008") {
-        let Status = "";
-        if (selectradio_owner == "A") {
-          Status = "FLLS010";
-        } else if (selectradio_owner == "R") {
-          Status = "FLLS908";
+      } else {
+       
+        if (
+          For_Req[2] === null ||
+          For_Req[2] === undefined ||
+          For_Req[2] === "" ||
+          For_Req[2] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel Requester");
+          let ErrorTel_Req = "true";
+
+          navigate("/ForRe", ErrorTel_Req);
+          return;
+        } else {
+          setErrorTel_Rq(false);
         }
 
         if (
-          selectradio_owner == "R" &&
-          (cmmtradio_owner == "" ||
-            cmmtradio_owner == null ||
-            cmmtradio_owner == "null" ||
-            cmmtradio_owner == "undefined")
+          For_Req[5] === null ||
+          For_Req[5] === undefined ||
+          For_Req[5] === "" ||
+          For_Req[5] === "null"
         ) {
-          alert("Please fill in information");
-        } else {
-          try {
-            const response = await axios.post("/update_owner", {
-              famno: EditFam,
-              owner_jud: selectradio_owner,
-              owner_cmmt: cmmtradio_owner,
-              sts: Status,
-            });
-            if (selectradio_owner != "R") {
-              localStorage.setItem("status_formail", selectradio_owner);
-              localStorage.setItem("To", receiver);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_owner);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                null,
-                null,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-            // navigate("/ApproveFam");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
+          alert("Please fill in information: Dept");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
         }
-      } else if (For_Rq_Edit[10] === "FLLS010") {
-        let Status = "";
-        if (selectradio_record == "A") {
-          Status = "FLLS011";
-        } else if (selectradio_record == "R") {
-          Status = "FLLS910";
+        if (
+          For_Req[15] === null ||
+          For_Req[15] === undefined ||
+          For_Req[15] === "" ||
+          For_Req[15] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[17] === null ||
+          For_Req[17] === undefined ||
+          For_Req[17] === "" ||
+          For_Req[17] === "null"
+        ) {
+          alert("Please fill in information: Owner Tel");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          alert("Please fill in information: Department Manager");
+          setErrorManager(true);
+          return;
+        } else {
+          setErrorManager(false);
         }
 
         if (
-          selectradio_record == "R" &&
-          (cmmtradio_record == "" ||
-            cmmtradio_record == null ||
-            cmmtradio_record == "null" ||
-            cmmtradio_record == "undefined")
+          Tel_service === null ||
+          Tel_service === undefined ||
+          Tel_service === "" ||
+          Tel_service === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: Tel_Service By");
+          setErrorTel_service(true);
+          return;
         } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_recode?famno=${EditFam}&rec_jud=${selectradio_record}&rec_cmmt=${cmmtradio_record}&sts=${Status}`
-          //   );
-          try {
-            const response = await axios.post("/update_recode", {
-              famno: EditFam,
-              rec_jud: selectradio_record,
-              rec_cmmt: cmmtradio_record,
-              sts: Status,
-            });
-
-            if (selectradio_record != "R") {
-              localStorage.setItem("status_formail", selectradio_record);
-              localStorage.setItem("To", selectacc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_record);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                null,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/ApproveFam");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLLS011") {
-        let Status = "";
-        if (selectradio_acc_manager == "A") {
-          Status = "FLLS012";
-        } else if (selectradio_acc_manager == "R") {
-          Status = "FLLS911";
+          setErrorTel_service(false);
         }
         if (
-          selectradio_acc_manager == "R" &&
-          (cmmtradio_acc_manager == "" ||
-            cmmtradio_acc_manager == null ||
-            cmmtradio_acc_manager == "null" ||
-            cmmtradio_acc_manager == "undefined")
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: Service By");
+          setErrorService_by(true);
+          return;
         } else {
-          try {
-            const response = await axios.post("/update_accmanager", {
-              famno: EditFam,
-              acc_manajud: selectradio_acc_manager,
-              acc_manacmmt: cmmtradio_acc_manager,
-              sts: Status,
-            });
-            if (selectradio_acc_manager != "R") {
-              localStorage.setItem("status_formail", selectradio_acc_manager);
-              localStorage.setItem("To", selectacc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem("status_formail", selectradio_acc_manager);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                text_acc_check,
-                null,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-            localStorage.setItem("To", selectservice_by);
-            localStorage.setItem("Genno", EditFam);
-            localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-            localStorage.setItem("Req_by", For_Rq_Edit[2]);
-            localStorage.setItem("Status", Status);
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
-          } catch (error) {
-            console.error("Error updating submit status:", error.message);
-          }
-        }
-      } else if (For_Rq_Edit[10] === "FLLS012") {
-        let Status = "";
-        if (selectradio_service_close_by == "A") {
-          Status = "FLLS013";
-        } else if (selectradio_service_close_by == "R") {
-          Status = "FLLS912";
+          setErrorService_by(false);
         }
 
         if (
-          selectradio_service_close_by == "R" &&
-          (cmmtradio_service_close_by == "" ||
-            cmmtradio_service_close_by == null ||
-            cmmtradio_service_close_by == "null" ||
-            cmmtradio_service_close_by == "undefined")
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
         ) {
-          alert("Please fill in information");
+          alert("Please fill in information: BOI Staff");
+          setErrorBoi_Staff(true);
+          return;
         } else {
-          // try {
-          //   const row = axios.post(
-          //     `/update_service_close?famno=${EditFam}&cls_jud=${selectradio_service_close_by}&cls_cmmt=${cmmtradio_service_close_by}&sts=${Status}`
-          //   );
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          alert("Please fill in information: BOI Manager");
+          setErrorBoi_manager(true);
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          alert("Please fill in information: Factory Manager");
+          setErrorMana_Fac(true);
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        // Submit กรณี insert
+        if (For_Req[10] === "FLDN001") {
+          let Status = "FLDN002";
           try {
-            const response = await axios.post("/update_service_close", {
-              famno: EditFam,
-              cls_jud: selectradio_service_close_by,
-              cls_cmmt: cmmtradio_service_close_by,
-              sts: Status,
+            const response = await axios.post("/update_submit", {
+              famno: For_Req[0],
+              sts_submit: Status,
             });
-
-            if (selectradio_service_close_by != "R") {
-              localStorage.setItem(
-                "status_formail",
-                selectradio_service_close_by
-              );
-              localStorage.setItem("To", For_Rq_Edit[2]);
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-            } else {
-              localStorage.setItem(
-                "status_formail",
-                selectradio_service_close_by
-              );
-
-              localStorage.setItem("Genno", EditFam);
-              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-              localStorage.setItem("Req_by", For_Rq_Edit[2]);
-              localStorage.setItem("Status", Status);
-              const Approver = [
-                selectdepartment_mana,
-                selectservice_by,
-                selectboi_staff,
-                selectboi_manager,
-                selectfac_manager,
-                selectacc_check,
-                owner_roting,
-                receiver,
-                text_acc_check,
-                selectacc_manager,
-              ];
-              const sentdata = JSON.stringify(Approver);
-              localStorage.setItem("Approver_formail", sentdata);
-            }
-            Swal.fire({
-              title: "Save Success",
-              icon: "success",
-            });
-
-            localStorage.removeItem("ForRequester");
-            localStorage.removeItem("forDetail");
-            localStorage.removeItem("TransForDetail");
-            localStorage.removeItem("EDIT");
-            localStorage.removeItem("For_Transfer");
-            localStorage.removeItem("For_Routing");
-            localStorage.removeItem("For_Req_Edit");
-            localStorage.removeItem("Edit_Trans");
-            localStorage.removeItem("Edit_Dteail_for_FixedCode");
-            localStorage.removeItem("Edit_routing");
-            // navigate("/Mail");
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           }
+          
+          try {
+            const response = await axios.post("/Update_For_Req_All", {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+              service_close: selectservice_by,
+              owner_by: owner_roting,
+              service_dt: ServiceDept,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
+          localStorage.setItem("To", selectdepartment_mana);
+          localStorage.setItem("Genno", For_Req[0]);
+          localStorage.setItem("Req_Type", For_Req[6]);
+          localStorage.setItem("Req_by", For_Req[1]);
+          localStorage.setItem("Status", Status);
+          // navigate("/Mail");
+          Swal.fire({
+            title: "Save Success",
+            icon: "success",
+          });
         }
+        // setCheckSubmit("False")
       }
     }
-  } else {
-    if (
-      For_Req[2] === null ||
-      For_Req[2] === undefined ||
-      For_Req[2] === "" ||
-      For_Req[2] === "null"
-    ) {
-      setErrorTel_Rq(true);
-      alert("Please fill in information: Tel Requester");
-      let ErrorTel_Req = "true";
-
-      navigate("/ForRe", ErrorTel_Req);
-      return;
-    } else {
-      setErrorTel_Rq(false);
-    }
-
-    if (
-      For_Req[5] === null ||
-      For_Req[5] === undefined ||
-      For_Req[5] === "" ||
-      For_Req[5] === "null"
-    ) {
-      alert("Please fill in information: Dept");
-      setErrorDept(true);
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Req[15] === null ||
-      For_Req[15] === undefined ||
-      For_Req[15] === "" ||
-      For_Req[15] === "null"
-    ) {
-      alert("Please fill in information: Request Owner");
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      For_Req[17] === null ||
-      For_Req[17] === undefined ||
-      For_Req[17] === "" ||
-      For_Req[17] === "null"
-    ) {
-      alert("Please fill in information: Owner Tel");
-      navigate("/ForRe");
-      return;
-    }
-    if (
-      selectdepartment_mana === null ||
-      selectdepartment_mana === undefined ||
-      selectdepartment_mana === "" ||
-      selectdepartment_mana === "null"
-    ) {
-      alert("Please fill in information: Department Manager");
-      setErrorManager(true);
-      return;
-    } else {
-      setErrorManager(false);
-    }
-
-    if (
-      Tel_service === null ||
-      Tel_service === undefined ||
-      Tel_service === "" ||
-      Tel_service === "null"
-    ) {
-      alert("Please fill in information: Tel_Service By");
-      setErrorTel_service(true);
-      return;
-    } else {
-      setErrorTel_service(false);
-    }
-    if (
-      selectservice_by === null ||
-      selectservice_by === undefined ||
-      selectservice_by === "" ||
-      selectservice_by === "null"
-    ) {
-      alert("Please fill in information: Service By");
-      setErrorService_by(true);
-      return;
-    } else {
-      setErrorService_by(false);
-    }
-
-    if (
-      selectboi_staff === null ||
-      selectboi_staff === undefined ||
-      selectboi_staff === "" ||
-      selectboi_staff === "null"
-    ) {
-      alert("Please fill in information: BOI Staff");
-      setErrorBoi_Staff(true);
-      return;
-    } else {
-      setErrorBoi_Staff(false);
-    }
-    if (
-      selectboi_manager === null ||
-      selectboi_manager === undefined ||
-      selectboi_manager === "" ||
-      selectboi_manager === "null"
-    ) {
-      alert("Please fill in information: BOI Manager");
-      setErrorBoi_manager(true);
-      return;
-    } else {
-      setErrorBoi_manager(false);
-    }
-    if (
-      selectfac_manager === null ||
-      selectfac_manager === undefined ||
-      selectfac_manager === "" ||
-      selectfac_manager === "null"
-    ) {
-      alert("Please fill in information: Factory Manager");
-      setErrorMana_Fac(true);
-      return;
-    } else {
-      setErrorMana_Fac(false);
-    }
-    if (
-      selectacc_check === null ||
-      selectacc_check === undefined ||
-      selectacc_check === "" ||
-      selectacc_check === "null"
-    ) {
-      alert("Please fill in information: ACC Check");
-      setErrorAcc_check(true);
-      return;
-    } else {
-      setErrorAcc_check(false);
-    }
-
-    if (
-      selectacc_manager === null ||
-      selectacc_manager === undefined ||
-      selectacc_manager === "" ||
-      selectacc_manager === "null"
-    ) {
-      alert("Please fill in information: ACC Manager");
-      setErrorAcc_Mana(true);
-      return;
-    } else {
-      setErrorAcc_Mana(false);
-    }
-    // Submit กรณี insert
-    if (For_Req[10] === "FLTR001") {
-      let Status = "FLLS002";
-      try {
-        const response = await axios.post("/update_submit", {
-          famno: For_Req[0],
-          sts_submit: Status,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      }
-      try {
-        const response = await axios.post("/update_new_cc", {
-          fam: For_Req[0],
-          New_cc: selecttrans_cc,
-          updateby: For_Req[1],
-        });
-        //// console(data, "data");
-      } catch (error) {
-        console.error("Error during login:", error);
-      }
-      try {
-        const response = await axios.post("/Update_For_Req_All", {
-          famno: For_Req[0],
-          dept: For_Req[5],
-          tel: For_Req[2],
-          remark: For_Req[12],
-          mrg_dept: selectdepartment_mana,
-          serviceby: selectservice_by,
-          servicetel: Tel_service,
-          boisff: selectboi_staff,
-          boimrg: selectboi_manager,
-          fmby: selectfac_manager,
-          accchk: selectacc_check,
-          accmrg: selectacc_manager,
-          updateby: For_Req[1],
-          record_by: text_acc_check,
-          owner_id: For_Req[15],
-          owner_dept: For_Req[16],
-          owner_tel: For_Req[17],
-          service_close: selectservice_by,
-          owner_by: owner_roting,
-          service_dt: ServiceDept,
-        });
-      } catch (error) {
-        console.error("Error updating submit status:", error.message);
-      } localStorage.setItem("To", selectdepartment_mana);
-        localStorage.setItem("Genno", For_Req[0]);
-        localStorage.setItem("Req_Type", For_Req[6]);
-        localStorage.setItem("Req_by", For_Req[1]);
-        localStorage.setItem("Status", Status);
-        // navigate("/Mail");
-        Swal.fire({
-          title: "Save Success",
-          icon: "success",
-        });
-    }
-    // setCheckSubmit("False")
-  }
-}
     closePopupLoadding();
   };
   // ปุ่ม Reset
@@ -5883,239 +8359,34 @@ if(Type == 'GP01001'){
     }
   };
   return {
-    STS1,
-    setSTS1,
-    For_sts_reject,
-    setFor_sts_reject,
-    ownersend,
-    setownersend,
-    trans_factory,
-    settrans_factory,
-    selecttrans_factory,
-    setselecttrans_factory,
-    trans_cc,
-    settrans_cc,
-    selecttrans_cc,
-    setselecttrans_cc,
-    datanew_boi,
-    setdatanew_boi,
-    new_boi,
-    setnew_boi,
-    data_fromboi,
-    setdata_fromboi,
-    new_owner,
-    setnew_owner,
-    selectnew_owner,
-    setselectnew_owner,
-    receiver,
-    setreceiver,
-    sts,
-    setsts,
-    abnormal,
-    setabnormal,
-    Tel_for_trans,
-    setTel_for_trans,
-    plan_date,
-    setplan_date,
-    department_mana,
-    setdepartment_mana,
-    selectdepartment_mana,
-    setselectdepartment_mana,
-    service_dept,
-    setservice_dept,
-    service_by,
-    setservice_by,
-    selectservice_by,
-    setselectservice_by,
-    boi_staff,
-    setboi_staff,
-    selectboi_staff,
-    setselectboi_staff,
-    boi_manager,
-    setboi_manager,
-    selectboi_manager,
-    setselectboi_manager,
-    fac_manager,
-    setfac_manager,
-    selectfac_manager,
-    setselectfac_manager,
-    acc_check,
-    setacc_check,
-    selectacc_check,
-    setselectacc_check,
-    text_acc_check,
-    settext_acc_check,
-    owner_roting,
-    setowner_roting,
-    acc_manager,
-    setacc_manager,
-    selectacc_manager,
-    setselectacc_manager,
-    Tel_service,
-    setTel_service,
-    CheckSubmit,
-    setCheckSubmit,
-    CheckSave,
-    setCheckSave,
-    FactoryCC,
-    TransCC,
-    Department_Mana,
-    Service_By,
-    BOI_Staff,
-    BOI_Manager,
-    Fac_manager,
-    ACC_Check,
-    ACC_Manager,
-    EditFam,
-    User,
-    View,
-    navigate,
-    For_Req,
-    For_Fix,
-    For_Trans,
-    For_Rou,
-    For_edit_trans,
-    For_Rq_Edit,
-    For_Edit_Rou,
-    edit_New_BOI,
-    ErrorTel,
-    setErrorTel,
-    ErrorFac,
-    setErrorFac,
-    ErrorCC,
-    setErrorCC,
-    ErrorNewOwn,
-    setErrorNewOwn,
-    ErrorManager,
-    setErrorManager,
-    ErrorService_by,
-    setErrorService_by,
-    ErrorBoi_Staff,
-    setErrorBoi_Staff,
-    ErrorBoi_manager,
-    setErrorBoi_manager,
-    ErrorMana_Fac,
-    setErrorMana_Fac,
-    ErrorAcc_check,
-    setErrorAcc_check,
-    ErrorAcc_Mana,
-    setErrorAcc_Mana,
-    ErrorTel_service,
-    setErrorTel_service,
-    ErrorDate,
-    setErrorDate,
-    ErrorTel_Rq,
-    setErrorTel_Rq,
-    ErrorDept,
-    setErrorDept,
-    ErrNewboi,
-    setErrNewboi,
-    isPopupOpenLoadding,
-    closePopupLoadding,
-    selectradio_dept,
-    setselectradio_dept,
-    selectradio_serviceby,
-    setselectradio_serviceby,
-    selectradio_boistaff,
-    setselectradio_boistaff,
-    selectradio_boimanager,
-    setselectradio_boimanager,
-    selectradio_facmanager,
-    setselectradio_facmanager,
-    selectradio_acc_check,
-    setselectradio_acc_check,
-    selectradio_owner,
-    selectradio_receiver,
-    selectradio_record,
-    selectradio_acc_manager,
-    selectradio_service_close_by,
-    cmmtradio_dept,
-    cmmtradio_serviceby,
-    cmmtradio_boistaff,
-    cmmtradio_boimanager,
-    cmmtradio_facmanager,
-    cmmtradio_acc_check,
-    cmmtradio_owner,
-    cmmtradio_receiver,
-    cmmtradio_record,
-    cmmtradio_acc_manager,
-    cmmtradio_service_close_by,
-    action_dept,
-    action__serviceby,
-    action__boistaff,
-    action__boimanager,
-    action__facmanager,
-    action__acc_check,
-    action__owner,
-    action__receiver,
-    action__record,
-    action__acc_manager,
-    action__service_close_by,
-    read_trans_fac,
-    read_trans_cc,
-    read_tel,
-    read_plan_date,
-    read_newowner,
-    read_dept,
-    read_dept_radio,
-    read_dept_cmmt,
-    read_serviceby,
-    read_serviceby_radio,
-    read_serviceby_cmmt,
-    read_boistff,
-    read_boistff_radio,
-    read_boistff_cmmt,
-    read_boimana,
-    read_boimana_radio,
-    read_boimana_cmmt,
-    read_fac_mana,
-    read_fac_mana_radio,
-    read_fac_mana_cmmt,
-    read_accchk,
-    read_accchk_radio,
-    read_accchk_cmmt,
-    read_owner_radio,
-    read_owner_cmmt,
-    read_receive_radio,
-    read_receive_cmmt,
-    read_record_radio,
-    read_record_cmmt,
-    read_acc_mana,
-    read_acc_mana_radio,
-    read_acc_mana_cmmt,
-    read_close_radio,
-    read_close_cmmt,
-    checkrdo,
-    chkservice_by,
-    chkboistaff,
-    chkboimanager,
-    chkfacmanager,
-    chkacc_check,
-    chkowner,
-    chkreceiver,
-    chkacc_record,
-    chkacc_manager,
-    chkservice_close,
-    CM_DepartmentManager,
-    CM_service_by,
-    CM_boistaff,
-    CM_boimanager,
-    CM_facmanager,
-    CM_acc_check,
-    CM_owner,
-    CM_receiver,
-    CM_acc_record,
-    CM_acc_manager,
-    CM_service_close,
-    handleFactoryCC,
-    SAVE,
-    SUBMIT,
-    Reset,
-    Back_page,
-    handleNew_BOI,
-    handleNewOwner,
-    handleNewboi_proj,
-    Showtype,
+    STS1,setSTS1,For_sts_reject,setFor_sts_reject,ownersend,setownersend,trans_factory,
+    settrans_factory,selecttrans_factory,setselecttrans_factory,trans_cc,settrans_cc,
+    selecttrans_cc,setselecttrans_cc,datanew_boi,setdatanew_boi,new_boi,setnew_boi,data_fromboi,
+    setdata_fromboi,new_owner,setnew_owner,selectnew_owner,setselectnew_owner,receiver, setreceiver,sts,
+    setsts,abnormal, setabnormal, Tel_for_trans, setTel_for_trans, plan_date, setplan_date, department_mana,
+    setdepartment_mana,selectdepartment_mana, setselectdepartment_mana,service_dept, setservice_dept, service_by,
+    setservice_by, selectservice_by, setselectservice_by,boi_staff, setboi_staff, selectboi_staff, setselectboi_staff,
+    boi_manager, setboi_manager, selectboi_manager, setselectboi_manager, fac_manager, setfac_manager, selectfac_manager, 
+    setselectfac_manager,acc_check, setacc_check, selectacc_check, setselectacc_check, text_acc_check, settext_acc_check,owner_roting,
+    setowner_roting, acc_manager, setacc_manager, selectacc_manager, setselectacc_manager, 
+    Tel_service, setTel_service, CheckSubmit, setCheckSubmit,CheckSave, setCheckSave, FactoryCC, TransCC, Department_Mana, Service_By,
+    BOI_Staff, BOI_Manager, Fac_manager, ACC_Check, ACC_Manager, EditFam, User, View, navigate
+    ,For_Req, For_Fix, For_Trans, For_Rou, For_edit_trans, For_Rq_Edit, For_Edit_Rou, edit_New_BOI, ErrorTel, setErrorTel, ErrorFac, setErrorFac,
+    ErrorCC, setErrorCC, ErrorNewOwn, setErrorNewOwn, ErrorManager, setErrorManager, ErrorService_by, setErrorService_by
+    ,ErrorBoi_Staff, setErrorBoi_Staff, ErrorBoi_manager, setErrorBoi_manager, ErrorMana_Fac, setErrorMana_Fac, ErrorAcc_check, setErrorAcc_check,
+    ErrorAcc_Mana, setErrorAcc_Mana, ErrorTel_service, setErrorTel_service, ErrorDate, setErrorDate, ErrorTel_Rq, setErrorTel_Rq,
+    ErrorDept, setErrorDept,ErrNewboi, setErrNewboi, isPopupOpenLoadding, closePopupLoadding, selectradio_dept, setselectradio_dept, selectradio_serviceby, setselectradio_serviceby, selectradio_boistaff, setselectradio_boistaff, selectradio_boimanager, setselectradio_boimanager
+    ,selectradio_facmanager,setselectradio_facmanager, selectradio_acc_check, setselectradio_acc_check, selectradio_owner, selectradio_receiver, 
+    selectradio_record, selectradio_acc_manager, selectradio_service_close_by, cmmtradio_dept, cmmtradio_serviceby, cmmtradio_boistaff, cmmtradio_boimanager, cmmtradio_facmanager
+    ,cmmtradio_acc_check, cmmtradio_owner, cmmtradio_receiver, cmmtradio_record, cmmtradio_acc_manager, cmmtradio_service_close_by,action_dept, action__serviceby, action__boistaff, action__boimanager, action__facmanager, action__acc_check, action__owner, action__receiver, action__record, action__acc_manager, action__service_close_by,
+    read_trans_fac, read_trans_cc, read_tel, read_plan_date, read_newowner, read_dept, read_dept_radio, read_dept_cmmt, read_serviceby, read_serviceby_radio, read_serviceby_cmmt, read_boistff, read_boistff_radio, read_boistff_cmmt, read_boimana, read_boimana_radio, read_boimana_cmmt, read_fac_mana, read_fac_mana_radio,
+    read_fac_mana_cmmt, read_accchk, read_accchk_radio, read_accchk_cmmt, read_owner_radio, read_owner_cmmt, read_receive_radio, read_receive_cmmt, read_record_radio, read_record_cmmt, read_acc_mana, read_acc_mana_radio, read_acc_mana_cmmt, read_close_radio, read_close_cmmt
+    ,checkrdo, chkservice_by, chkboistaff, chkboimanager, chkfacmanager, chkacc_check, chkowner, chkreceiver, chkacc_record, chkacc_manager, chkservice_close
+    ,CM_DepartmentManager, CM_service_by, CM_boistaff, CM_boimanager, CM_facmanager, CM_acc_check, CM_owner, CM_receiver, CM_acc_record, CM_acc_manager, CM_service_close
+    ,handleFactoryCC, SAVE, SUBMIT, Reset, Back_page, handleNew_BOI, handleNewOwner, handleNewboi_proj, Showtype, setselectradio_owner, setselectradio_receiver, setselectradio_record, setselectradio_acc_manager, setselectradio_service_close_by, setcmmtradio_dept, setcmmtradio_serviceby, setcmmtradio_boistaff, setcmmtradio_boimanager, 
+    setcmmtradio_facmanager, setcmmtradio_acc_check, setcmmtradio_owner, setcmmtradio_receiver, setcmmtradio_record, setcmmtradio_acc_manager, setcmmtradio_service_close_by, setaction__dept, setaction__serviceby, setaction__boistaff, setaction__boimanager, setaction__facmanager, setaction__acc_check, setaction__owner, setaction__receiver, 
+    setaction__record, setaction__acc_manager, setaction__service_close_by,certificate_date ,setcertificate_date
+
   };
 }
 

@@ -204,6 +204,34 @@ function TransFerDetail() {
     handleNewOwner,
     handleNewboi_proj,
     Showtype,
+    setselectradio_owner,
+    setselectradio_receiver,
+    setselectradio_record,
+    setselectradio_acc_manager,
+    setselectradio_service_close_by,  
+    setcmmtradio_dept,
+    setcmmtradio_serviceby,
+    setcmmtradio_boistaff,
+    setcmmtradio_boimanager,
+    setcmmtradio_facmanager,
+    setcmmtradio_acc_check,
+    setcmmtradio_owner,
+    setcmmtradio_receiver,
+    setcmmtradio_record,
+    setcmmtradio_acc_manager,
+    setcmmtradio_service_close_by,
+    setaction__dept,
+  setaction__serviceby,
+  setaction__boistaff,
+  setaction__boimanager,
+  setaction__facmanager,
+  setaction__acc_check,
+  setaction__owner,
+  setaction__receiver,
+  setaction__record,
+  setaction__acc_manager,
+  setaction__service_close_by,
+  certificate_date ,setcertificate_date
   } = Get_Data();
   // เก็บตัวแปร
   console.log(Showtype, "STS1STS1");
@@ -758,6 +786,7 @@ function TransFerDetail() {
                     {" "}
                     <Typography variant="subtitle2">Tel :</Typography>
                   </td>
+                  {console.log(Tel_service,'Tel_service')}
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -1258,10 +1287,11 @@ function TransFerDetail() {
                   </tr>
                 </>
                 {/* ACC Check */}
-                <tr>
-                  <td className="Style4">
+                <tr >
+                  <td className="Style4" >
                     <Typography variant="subtitle2">ACC Check :</Typography>{" "}
                   </td>
+                  
                   <td>
                     <FormControl className="Style3">
                       <Select
@@ -1357,6 +1387,39 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
+                {Showtype == 'GP01007' && STS1 == 'FLDN007' &&(
+                <tr >
+                  <td className="Style4" >
+                    <Typography variant="subtitle2">Receive certificate date :</Typography>{" "}
+                  </td>
+                  
+                  <td>
+                  <FormControl className="Style1">
+                        <TextField
+                          id="Plan_Remove"
+                          size="small"
+                          type="date"
+                          disabled={read_accchk_cmmt}
+                          style={{
+                            backgroundColor: read_accchk_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          value={certificate_date }
+                          // error={
+                          //   ErrorDate && (!certificate_date || plan_date == "null")
+                          // }
+                          onChange={(e) => setcertificate_date(e.target.value)}
+                          // helperText={
+                          //   ErrorDate && (!plan_date || plan_date == "null")
+                          //     ? "Please select date"
+                          //     : undefined
+                          // }
+                        />
+                      </FormControl>
+                  </td>
+                </tr>
+              )} 
                 <tr style={{ display: CM_acc_check }}>
                   <td className="Style4">
                     {" "}
@@ -1956,11 +2019,19 @@ function TransFerDetail() {
       <div>
         <div className="Style8">
           <Box>
+            {console.log(STS1,"STS1")}
             <table>
               <tr>
                 <td
                   style={{
-                    display: STS1 == "" || STS1 == "FLTR001" ? "block" : "none",
+                    display:
+                      STS1 == "" ||
+                      STS1 == "FLTR001" ||
+                      STS1 == "FLLS001" ||
+                      STS1 == "FLWO001" ||
+                      STS1 == "FLDN001"
+                        ? "block"
+                        : "none",
                   }}
                 >
                   {CheckSave == "False" ? (

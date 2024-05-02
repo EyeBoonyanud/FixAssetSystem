@@ -210,11 +210,11 @@ function ForReq_fn() {
             setbtnSave("hidden");
           }
         }
-        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R") {
+        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R" || STS == "FLLS001" || STS == "FLWO001"  ) {
           // setchkadd("visible")
           setread_dept(false);
           setread_remark(false);
-          setread_type(false);
+          setread_type(true);
           setread_tel(false);
           setdelete_fix("visible");
           //setbtnSave("visible");
@@ -266,7 +266,7 @@ function ForReq_fn() {
       } else {
         STS = "";
         setRequest_date(formattedDate);
-        if (STS == "FLTR001" || STS == "") {
+        if (STS == "FLTR001" || STS == "" || STS == "FLLS001" || STS == "FLWO001" ) {
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -307,7 +307,7 @@ function ForReq_fn() {
         }
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
   //Request_Factory//////////////////////////////////////
@@ -334,7 +334,7 @@ function ForReq_fn() {
           }
         }
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
     } else {
       try {
@@ -356,7 +356,7 @@ function ForReq_fn() {
           }
         }
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
     }
     if (data_Fac.length >= 0) {
@@ -379,7 +379,7 @@ function ForReq_fn() {
           }
         }
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
     }
     fixasset_group(data_Fac[1]);
@@ -405,7 +405,7 @@ function ForReq_fn() {
         }
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
   //AssetGroup //////////////////////////////////////
@@ -428,7 +428,7 @@ function ForReq_fn() {
         }
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
 
@@ -448,42 +448,73 @@ function ForReq_fn() {
           const data_for_servicedept = await response.data;
 
           setdataFix_Asset_Cost(data_for_servicedept);
-
+         
           Gen_No(data_for_servicedept);
         } catch (error) {
-          //console.error("Error during login:", error);
+          console.error("Error during login:", error);
         }
       } else {
         setdataFix_Asset_Cost(data);
-
+      
         Gen_No(data);
       }
     } catch (error) {
-      //console.error("Error during login:", error);
+      console.error("Error during login:", error);
     }
   };
 
   /////////////// Gen Fam and Tranfer_ins //////////////////
   const Gen_No = async (asset) => {
+    
     openPopupLoadding();
     let DataStatus = ""; //
+    let StatusType = "";
     if (
       selectFixAssetgroup1.length > 0 &&
-      // selectFixAsset_cost1.length > 0 &&
       owner_dept.length > 0 &&
       Request_type1.length > 0
     ) {
       try {
-        const response = await axios.get(`/getstatus`);
-        const dataStatus = await response.data;
-        const data = dataStatus.flat();
-        setRequest_sts1(data[1]);
-        DataStatus = data;
-        setRequest_sts1(data[1]);
+        let StatusType;
+        switch (Request_type1) {
+          case 'GP01001':
+            StatusType = "TRANSFER";
+            break;
+          case 'GP01002':
+              StatusType = "SCRAP";
+            break;
+            case 'GP01003':
+              StatusType = "SALE";
+            break;
+          case 'GP01004':
+            StatusType = "LOSS";
+            break;
+          case 'GP01005':
+            StatusType = "WRITE-OFF";
+            break;
+            case 'GP01006':
+              StatusType = "LENDING";
+            break;
+            case 'GP01007':
+              StatusType = "DONATION";
+            break;
+          default:
+            break;
+        }
+      
+        if (StatusType) {
+          const response = await axios.post("/getstatus", {
+            type: StatusType,
+          });
+          const dataStatus = await response.data;
+          const data = dataStatus.flat();
+          setRequest_sts1(data[1]);
+          DataStatus = data;
+          console.log(data[1], DataStatus,"IIIIIII");
+        }
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
-
       const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
       try {
         const response = await axios.post("/getfamno", {
@@ -499,7 +530,7 @@ function ForReq_fn() {
           Tranfer_ins(FamNo_new, DataStatus, asset[0][2]);
         }
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
     } else {
       if (
@@ -568,6 +599,7 @@ function ForReq_fn() {
       setvisibityDetails("visible");
       setchecknext("visible");
       setread_fix_group(true);
+      setread_type(true)
       setread_fix_cost(true);
       if (For_Req == null && Request_type1 === "GP01001") {
         try {
@@ -837,7 +869,7 @@ function ForReq_fn() {
         console.error("Error requesting data:", error);
       }
     } catch (error) {
-      //console.error("Error requesting data:", error);
+      console.error("Error requesting data:", error);
     }
 
     closePopupLoadding();
@@ -1006,7 +1038,7 @@ function ForReq_fn() {
         });
         setvisibityFile("visible");
       } catch (error) {
-        //console.error("Error during login:", error);
+        console.error("Error during login:", error);
       }
     }
     closePopupLoadding();

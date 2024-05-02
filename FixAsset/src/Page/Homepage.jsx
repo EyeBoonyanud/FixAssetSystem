@@ -29,6 +29,7 @@ import MenuWallpaper from "../assets/Image/Wallpaper_Menulist2.jpg";
 export default function BasicGrid() {
   const UserLogin = localStorage.getItem("UserLogin");
   const [dataTransfer, setdataTransfer] = useState([]);
+  const [dataLoss, setdataLoss] = useState([]);
   const [dataTransferall, setdataTransferall] = useState([]);
   const [dataTransferallname, setdataTransferallname] = useState([]);
   useEffect(() => {
@@ -47,6 +48,17 @@ export default function BasicGrid() {
           console.error("Error Transferdata:", error);
         }
       };
+      const Loss = async () => {
+        try {
+          const response = await axios.post("/getCountLoss", {
+            UserLogin:UserLogin
+                 });
+        const Loss = await response.data;
+        setdataLoss(Loss);
+      } catch (error) {
+        console.error("Error Transferdata:", error);
+      }
+    };
 
       const Transferlistallname = async () => {
         try {
@@ -80,6 +92,7 @@ export default function BasicGrid() {
       await Transfer();
       await Transferlistallname();
       await Transferlistall();
+      await Loss ();
     };
     fetchData();
   }, []);
@@ -93,7 +106,6 @@ export default function BasicGrid() {
       localStorage.setItem("STATUS", value);
       window.location.href = `/ApproveFam`;
     }
-
   };
 
   // Loadding
@@ -445,7 +457,7 @@ export default function BasicGrid() {
                               className="Icon-style"
                             />
                             <br />
-                            Lost
+                            Loss
                           </Typography>
 
                           <Typography
@@ -453,7 +465,7 @@ export default function BasicGrid() {
                             variant="h5"
                             className="Number-menu-list White-background"
                           >
-                            0
+                            {dataLoss[0] || 0}
                           </Typography>
                         </CardContent>
                       </CardActionArea>
