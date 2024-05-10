@@ -129,7 +129,7 @@ function ForRequest() {
     STS1_for_R, setSTS1_for_R,
     checknext, setchecknext,fileInputRef
   } = ForReq_fn();
-
+console.log(STS1_Req,"STS1_Req")
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -393,9 +393,9 @@ function ForRequest() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                    {STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" ||
+                    {STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
                     STS1_Req === "" ||
-                    STS1_for_R === "R" ? (
+                    STS1_for_R === "R" || STS1_Req == "FLLD001"? (
                       <FormControl fullWidth>
                         <Autocomplete
                           disabled={read_dept}
@@ -714,9 +714,9 @@ function ForRequest() {
                   style={{
                     marginLeft: "10px",
                     display:
-                      STS1_Req == "" ||
-                      STS1_Req == "FLTR001" ||
-                      STS1_for_R == "R"
+                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                    STS1_Req === "" ||
+                    STS1_for_R === "R" || STS1_Req == "FLLD001"
                         ? "block"
                         : "none",
                   }}
@@ -731,9 +731,9 @@ function ForRequest() {
                   style={{
                     marginLeft: "10px",
                     display:
-                      STS1_Req == "" ||
-                      STS1_Req == "FLTR001" ||
-                      STS1_for_R == "R"
+                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                    STS1_Req === "" ||
+                    STS1_for_R === "R" || STS1_Req == "FLLD001"
                         ? "block"
                         : "none",
                   }}
@@ -743,9 +743,9 @@ function ForRequest() {
                     marginTop: "3px",
                     marginLeft: "10px",
                     display:
-                      STS1_Req == "" ||
-                      STS1_Req == "FLTR001" ||
-                      STS1_for_R == "R"
+                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                    STS1_Req === "" ||
+                    STS1_for_R === "R" || STS1_Req == "FLLD001"
                         ? "block"
                         : "none",
                   }}
@@ -928,9 +928,9 @@ function ForRequest() {
                                         color: "red",
                                         marginLeft: "10px",
                                         display:
-                                          STS1_Req == "" ||
-                                          STS1_Req == "FLTR001" ||
-                                          STS1_for_R === "R"
+                                        STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                                        STS1_Req === "" ||
+                                        STS1_for_R === "R" || STS1_Req == "FLLD001"
                                             ? "block"
                                             : "none",
                                       }}
@@ -1027,9 +1027,9 @@ function ForRequest() {
                     backgroundColor: "",
                     visibility: btnSave,
                     display:
-                      STS1_Req == "" ||
-                      STS1_Req == "FLTR001" ||
-                      STS1_for_R === "R"
+                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                    STS1_Req === "" ||
+                    STS1_for_R === "R" || STS1_Req == "FLLD001"
                         ? "block"
                         : "none",
                   }}
@@ -1042,7 +1042,7 @@ function ForRequest() {
           </Card>
         </div>
         {/* สำหรับ Upload File */}
-        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_for_R === "R" ? (
+        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001"||  STS1_Req === "FLDN001"  || STS1_for_R === "R"  || STS1_Req == "FLLD001"? (
           <div>
             <Card
               sx={{
@@ -1237,19 +1237,21 @@ function ForRequest() {
                           </ul>
                         </div>
                       )}
+                      
                       <div
                         style={{
                           textAlign: "right",
                           marginTop: "5px",
                           display:
-                            STS1_Req == "" ||
-                            STS1_Req == "FLTR001" ||
-                            STS1_for_R === "R"
+                          STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                          STS1_Req === "" ||
+                          STS1_for_R === "R" || STS1_Req === "FLLD001"
                               ? "block"
                               : "none",
                         }}
                       >
-                        <Button variant="contained" onClick={handleSave}>
+                        <Button variant="contained" onClick={handleSave}
+>
                           Save
                         </Button>
                       </div>

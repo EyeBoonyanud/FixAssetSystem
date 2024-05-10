@@ -143,17 +143,49 @@ module.exports.getFamDetailReport = async function (req, res) {
    
   module.exports.getFAM_FILE_ATTACH = async function (req, res) {
     try {
-       console.log("g-hllll")
        const{FamNo}=  req.body;
-      console.log(FamNo)
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}'                                                                        
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='REQUEST'                                                                      
       ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
        `;
       const result = await connect.execute(query);
-      console.log(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
+
+  module.exports.getFAM_FILE_OWNER_CHK = async function (req, res) {
+    try {
+       const{FamNo}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='OWNER CHECK'                                                                      
+      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+       `;
+      const result = await connect.execute(query);
+      console.log(result);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
+  module.exports.getFAM_FILE_Req_Return = async function (req, res) {
+    try {
+       const{FamNo}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='OWNER RETURN'                                                                      
+      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+       `;
+      const result = await connect.execute(query);
+      console.log(result);
       connect.release();
       res.json(result.rows);
     } catch (error) {

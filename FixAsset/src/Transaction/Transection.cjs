@@ -265,17 +265,20 @@ module.exports.search2 = async function (req, res) {
   LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  WHERE  (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002'))
-    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003'))
-    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004'))
-    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005'))
-    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006'))
-    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007'))
-    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008'))
+  LEFT JOIN FAM_REQ_LENDING L ON L.FRL_FAM_NO = T.FRH_FAM_NO
+  WHERE  (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002'))
+    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003'))
+    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004'))
+    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005'))
+    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006'))
+    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007'))
+    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008'))
     OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
-    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010'))
-    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011'))
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012'))
+    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010'))
+    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012'))
+    OR (L.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD009'))
+    OR (L.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD100'))
     AND (T.FAM_FACTORY = '${FacCode}' OR '${FacCode}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${DeptCode}' OR '${DeptCode}' IS NULL)
     AND (T.FRH_FAM_NO >= '${FamNo}' OR '${FamNo}' IS NULL)
@@ -1102,7 +1105,9 @@ module.exports.header = async function (req, res) {
 //update submit
 module.exports.update_submit = async function (req, res) {
   try {
+   
     const { famno, sts_submit } = req.body;
+    console.log("เข้า",famno, sts_submit)
     const connect = await oracledb.getConnection(AVO);
     const query = `
       UPDATE FAM_REQ_HEADER T
@@ -1166,9 +1171,6 @@ WHEN NOT MATCHED THEN
   INSERT (FFA_FAM_NO, FFA_ATT_FROM, FFA_FILE_SEQ, FFA_FILE_NAME, FFA_FILE_SERVER, FFA_CREATE_BY, FFA_CREATE_DATE, FFA_UPDATE_BY, FFA_UPDATE_DATE)
   VALUES (S.FFA_FAM_NO, S.FFA_ATT_FROM, S.FFA_FILE_SEQ, S.FFA_FILE_NAME, S.FFA_FILE_SERVER, S.FFA_CREATE_BY, S.FFA_CREATE_DATE, S.FFA_UPDATE_BY, S.FFA_UPDATE_DATE)
 
-
-
-
          `;
     const data = {
       fam_no,
@@ -1196,6 +1198,55 @@ module.exports.get_run_seq_request = async function (req, res) {
     SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
     FROM FAM_FILE_ATTACH T
     WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'REQUEST'
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      FAM_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// get run ownersend
+module.exports.get_run_owner_file = async function (req, res) {
+  console.log("GGGGGGGGGGGGGGGGGG")
+  try {
+    const {FAM_no}= req.body
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'OWNER CHECK'
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      FAM_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+// get run ownersend_return
+module.exports.get_run_owner_file_return = async function (req, res) {
+  try {
+    const {FAM_no}= req.body
+    console.log(FAM_no,"Return")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'OWNER RETURN'
     ORDER BY T.FFA_FILE_SEQ ASC
 
          `;
@@ -3058,7 +3109,6 @@ WHERE FRH_FAM_NO = :famno
 module.exports.getEditdate_certaficate = async function (req, res) {
   try {
     const { famno } = req.body;
-    console.log("DATEEEEEEEEe",famno)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -3070,5 +3120,130 @@ FROM FAM_REQ_HEADER frh WHERE FRH_FAM_NO = '${famno}'
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message)
+  }
+};
+
+//Leading
+module.exports.insert_leading = async function (req, res) {
+  try {
+    const { tranfer,acc_return ,req_reuturn,req_reuturn_by } = req.body;
+    console.log(tranfer,acc_return ,req_reuturn,req_reuturn_by,"LLLLLLLLLLLLLLLLLLLLLLLLL")
+    const connect = await oracledb.getConnection(AVO); 
+    const query = `
+    INSERT INTO FAM_REQ_LENDING
+    (FRL_FAM_NO,
+    FRL_ACC_MGR_BY,
+    FRL_OWNER_RETURN_BY,
+    FRL_CREATE_DATE,
+    FRL_CREATE_BY
+    )
+  VALUES(
+  :tranfer,
+  :acc_return,
+  :req_reuturn,
+  SYSDATE,
+  :req_reuturn_by ) `;
+
+    const data = {
+      tranfer,acc_return ,req_reuturn,req_reuturn_by
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.status(200).json({ success: true }); // send response
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_lending = async function (req, res) {
+  try {
+    const {tranfer,acc_return, req_reuturn ,req_reuturn_by} = req.body
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_LENDING 
+    SET 
+    FRL_ACC_MGR_BY = :acc_return ,
+    FRL_OWNER_RETURN_BY = :req_reuturn,
+    FRL_UPDATE_DATE = SYSDATE ,
+    FRL_UPDATE_BY= :req_reuturn_by
+    WHERE FRL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,acc_return, req_reuturn ,req_reuturn_by
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.getEdit_lenging = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT FRL_FAM_NO , FRL_ACC_MGR_BY,TO_CHAR(FRL_ACC_MGR_DATE, 'DD/MM/YYYY') 
+    ,TO_CHAR(FRL_ACC_MGR_RETURN, 'YYYY-MM-DD')  ,FRL_ACC_MGR_JUD ,FRL_ACC_MGR_CMMT ,FRL_OWNER_RETURN_BY ,
+    TO_CHAR(FRL_OWNER_DATE, 'DD/MM/YYYY') ,FRL_OWNER_CMMT FROM FAM_REQ_LENDING
+    WHERE FRL_FAM_NO  = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message)
+  }
+};
+module.exports.update_leading_acc_return = async function (req, res) {
+  try {
+    const {tranfer,return_date_acc, acc_return_jud ,acc_return_cmmt} = req.body
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_LENDING 
+    SET 
+    FRL_ACC_MGR_DATE = SYSDATE ,
+    FRL_ACC_MGR_RETURN = TO_DATE(:return_date_acc, 'YYYY-MM-DD'),
+    FRL_ACC_MGR_JUD = :acc_return_jud ,
+    FRL_ACC_MGR_CMMT= :acc_return_cmmt
+    WHERE FRL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,return_date_acc, acc_return_jud ,acc_return_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_leading_own_return = async function (req, res) {
+  try {
+    const {tranfer, own_return_cmmt} = req.body
+    console.log("UIUI",tranfer, own_return_cmmt)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_LENDING 
+    SET 
+    FRL_OWNER_DATE = SYSDATE ,
+    FRL_OWNER_CMMT= :own_return_cmmt
+    WHERE FRL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer, own_return_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
   }
 };

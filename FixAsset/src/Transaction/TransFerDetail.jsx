@@ -13,17 +13,34 @@ import {
   Button,
   Autocomplete,
   FormHelperText,
+  TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  Paper
 } from "@mui/material";
 import Header from "../Page/Hearder";
 import PageLoadding from "../Loadding/Pageload";
 import {
-  InfoCircleOutlined,
   LoadingOutlined,
-  FileSearchOutlined,
   FilePdfOutlined,
-  SearchOutlined,
+  DeleteOutlined,
+  FileTextOutlined,
+  FileExcelOutlined,
+  FileWordOutlined,
+  FileUnknownOutlined,
+  CloudUploadOutlined,
 } from "@ant-design/icons";
+import PlagiarismIcon from "@mui/icons-material/Plagiarism";
+import { Empty } from "antd";
 import { Get_Data } from "../Function/Tranfer_fn";
+ import {ForReq_fn} from "../Function/ForReq_fn"
+ import  {Get_show_file} from "../Function/Get_show_file"
+ import "../Page/Style.css";
+
+
 function TransFerDetail() {
   const {
     STS1,
@@ -231,12 +248,82 @@ function TransFerDetail() {
   setaction__record,
   setaction__acc_manager,
   setaction__service_close_by,
-  certificate_date ,setcertificate_date
-  } = Get_Data();
-  // เก็บตัวแปร
-  console.log(Showtype, "STS1STS1");
-
+  certificate_date ,setcertificate_date,return_date , setreturn_date,return_acc_manager,setreturn_acc_manager,return_selectacc_manager,setreturn_selectacc_manager,
+  req_return ,setreq_return,chkreturn_acc ,setchkreturn_acc,chkreturn_owner ,setchkreturn_owner,
+  CM_return_acc ,setCM_return_acc,CM_return_owner ,setCM_return_owner,chk_cer_date ,setchk_cer_date,read_return_acc_cmmt,setReadReturnACCCmmt,read_return_own_cmmt,setReadReturnOwnCmmt,
+  action__return_acc, setaction__return_acc,action__return_own, setaction__return_own,read_return_acc_radio, setReadReturnACCRadio,read_return_own_radio, setReadReturnOwnRadio,
+  selectradio_return_acc, setselectradio_return_acc,selectradio_return_own, setselectradio_return_own
+,cmmtradio_return_acc, setcmmtradio_return_acc,cmmtradio_return_own, setcmmtradio_return_own,read_return_acc,setReadReturnACC,read_return_own, setReadReturnOwn,ErrorACCReturn
+  ,ErrorDate_Certificate,setErrorDate_Certificate,ErrorDate_return,setErrorDate_return
+} = Get_Data();
+  
+ const {
+  Dept,
+  selectDept1,
+  setselectDept1,
+  FixAssetgroup,
+  selectFixAssetgroup1,
+  setselectFixAssetgroup1,
+  Request_type1,
+  setRequest_type1,
+  Request_sts1,
+  setRequest_sts1,
+  Remark,
+  Gen_Fam_No,
+  setGen_Fam_No,
+  COMP,
+  owner_req,
+  setowner_req,
+  owner_dept,
+  setowner_dept,
+  name_req,
+  setname_req,
+  owner_tel,
+  find_fixasset,
+  find_fixasset1,
+  setfind_fixasset1,
+  open,
+  selectAll,
+  selectedItems,
+  datatable,
+  isTableOpen,
+  checkGenNo,
+  checkReset,
+  btnSave,
+  visibityDetails,
+  visibityFile,
+  For_Rq_Edit,
+  handleCost,
+  handleOwner_tel,
+  handleEmpUser,
+  ADD,
+  handleCheckboxChange,
+  handleCheckboxAllChange,
+  handleAdd,
+  handleDelete,
+  handleClose,
+  handleTel,
+  handleDept,
+  handleRemark,
+  NextPage,
+  Next,read_fix_group, setread_fix_group,
+  read_fix_cost, setread_fix_cost,
+  reac_remark, setread_remark,
+  reac_type, setread_type,
+  delete_fix, setdelete_fix,
+  STS1_Req, setSTS1_Req,
+  STS1_for_R, setSTS1_for_R,
+  checknext, setchecknext,
+  handleSave,handleDrop,handleDragOver,handleFileUpload,handleDeleteFile ,uploadedFiles,
+fileInputRef,Filedata,downloadFile,storedFileArray
+ } = ForReq_fn();
+ const {
+  showfile_owner,handleDL_File_Owner,uploadedFiles_Own,handleDragOve_Own,handleDrop_Own,handleFileUpload_Own,
+  handleSav_Own,showfile_owner_return,uploadedFiles_Own_return
+ } = Get_show_file();
   // Const Return
+  console.log("DATA",showfile_owner)
+  let Radio_ACC_check ="A"
   return (
     <>
       {/* <Mail 
@@ -255,7 +342,7 @@ function TransFerDetail() {
           fontSize: "15px",
         }}
       >
-        <Typography> FAM NO : {EditFam ? EditFam : For_Req[0]}</Typography>
+        <Typography> FAM NO: {EditFam ? EditFam: For_Req[0]}</Typography>
       </div>
       <br></br>
       <div>
@@ -290,7 +377,7 @@ function TransFerDetail() {
                     <td className="Style4">
                       {" "}
                       <Typography variant="subtitle2">
-                        Owner (Send from) :
+                        Owner (Send from):
                       </Typography>
                     </td>
                     <td>
@@ -310,7 +397,7 @@ function TransFerDetail() {
                     <td className="Style5"></td>
                     <td className="Style7">
                       <Typography variant="subtitle2">
-                        From BOI Project :
+                        From BOI Project:
                       </Typography>
                     </td>
                     <td className="Style6">
@@ -332,7 +419,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        Transfer to Factory :
+                        Transfer to Factory:
                       </Typography>
                     </td>
                     <td>
@@ -351,7 +438,7 @@ function TransFerDetail() {
                             helperText={
                               ErrorFac && !selecttrans_factory
                                 ? "Please select: Transfer To factory"
-                                : undefined
+                        : undefined
                             }
                           >
                             {trans_factory.map((option, index) => (
@@ -361,12 +448,12 @@ function TransFerDetail() {
                             ))}
                           </Select>
                         </FormControl>
-                      ) : (
+                      ): (
                         <TextField
                           style={{
                             backgroundColor: read_trans_fac
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           className="Style1"
                           size="small"
@@ -378,7 +465,7 @@ function TransFerDetail() {
                     <td className="Style5"></td>
                     <td className="Style7">
                       <Typography variant="subtitle2">
-                        Transfer to CC :
+                        Transfer to CC:
                       </Typography>
                     </td>
                     <td className="Style6">
@@ -391,7 +478,7 @@ function TransFerDetail() {
                             style={{
                               backgroundColor: read_trans_cc
                                 ? "rgba(169, 169, 169, 0.3)"
-                                : "",
+                        : "",
                             }}
                             value={selecttrans_cc}
                             onChange={(e, value) => {
@@ -412,16 +499,16 @@ function TransFerDetail() {
 
                           {ErrorCC && !selecttrans_cc && (
                             <FormHelperText style={{ color: "red" }}>
-                              Please select : Transfer To CC
+                              Please select: Transfer To CC
                             </FormHelperText>
                           )}
                         </FormControl>
-                      ) : (
+                      ): (
                         <TextField
                           style={{
                             backgroundColor: selecttrans_cc
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           className="Style1"
                           size="small"
@@ -435,7 +522,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        New BOI Project :
+                        New BOI Project:
                       </Typography>
                     </td>
                     <td>
@@ -445,7 +532,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_trans_cc
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           error={ErrNewboi && (!new_boi || new_boi == "null")}
                           disablePortal
@@ -460,7 +547,7 @@ function TransFerDetail() {
                         />
                         {ErrNewboi && !new_boi && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : New BOI Project{" "}
+                            Please select: New BOI Project{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -469,7 +556,7 @@ function TransFerDetail() {
                   </tr>
                   <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2">New Owner :</Typography>
+                      <Typography variant="subtitle2">New Owner:</Typography>
                     </td>
                     <td>
                       <FormControl className="Style1">
@@ -478,7 +565,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_newowner
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           disabled={read_newowner}
                           value={selectnew_owner}
@@ -491,14 +578,14 @@ function TransFerDetail() {
                         />
                         {ErrorNewOwn && !selectnew_owner && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : New Owner{" "}
+                            Please select: New Owner{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
                     </td>
                     <td className="Style5"></td>
                     <td className="Style7">
-                      <Typography variant="subtitle2">Tel :</Typography>
+                      <Typography variant="subtitle2">Tel:</Typography>
                     </td>
                     <td className="Style6">
                       <FormControl className="Style1">
@@ -509,7 +596,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_tel
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           onChange={(e) => setTel_for_trans(e.target.value)}
                           size="small"
@@ -521,7 +608,7 @@ function TransFerDetail() {
                             ErrorTel &&
                             (!Tel_for_trans || Tel_for_trans == "null")
                               ? "Please enter your mobile phone number"
-                              : undefined
+                      : undefined
                           }
                         />
                       </FormControl>
@@ -530,7 +617,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        Plan Remove Date :
+                        Plan Remove Date:
                       </Typography>
                     </td>
 
@@ -544,7 +631,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_plan_date
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           value={plan_date}
                           error={
@@ -554,7 +641,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorDate && (!plan_date || plan_date == "null")
                               ? "Please select date"
-                              : undefined
+                      : undefined
                           }
                         />
                       </FormControl>
@@ -564,7 +651,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        Transfer Abnormal :
+                        Transfer Abnormal:
                       </Typography>
                     </td>
                     <td colSpan={4}>
@@ -580,14 +667,14 @@ function TransFerDetail() {
                                 "Transfer to difference project"
                               )
                                 ? "rgba(255, 0, 0, 0.3)"
-                                : "rgba(169, 169, 169, 0.3)",
+                        : "rgba(169, 169, 169, 0.3)",
                             color:
                               abnormal &&
                               abnormal.includes(
                                 "Transfer to difference project"
                               )
                                 ? "red"
-                                : "black",
+                        : "black",
                           }}
                           onChange={(e) => setabnormal(e.target.value)}
                           disabled
@@ -631,7 +718,7 @@ function TransFerDetail() {
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">
-                      Department Manager :
+                      Department Manager:
                     </Typography>
                   </td>
                   <td>
@@ -646,10 +733,10 @@ function TransFerDetail() {
                         }
                         size="small"
                         style={{
-                          borderColor: ErrorManager ? "red" : undefined,
+                          borderColor: ErrorManager ? "red": undefined,
                           backgroundColor: read_dept
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorManager &&
@@ -659,7 +746,7 @@ function TransFerDetail() {
                         helperText={
                           ErrorManager && !selectdepartment_mana
                             ? "Department Manager"
-                            : undefined
+                    : undefined
                         }
                       >
                         {department_mana.length > 0 ? (
@@ -668,7 +755,7 @@ function TransFerDetail() {
                               {option}
                             </MenuItem>
                           ))
-                        ) : (
+                        ): (
                           <MenuItem disabled>No data</MenuItem>
                         )}
                       </Select>
@@ -676,7 +763,7 @@ function TransFerDetail() {
                         (!selectdepartment_mana ||
                           !selectdepartment_mana == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : Department Manager
+                            Please select: Department Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -691,7 +778,7 @@ function TransFerDetail() {
                         value={
                           selectradio_dept === null
                             ? setselectradio_dept("A")
-                            : selectradio_dept
+                    : selectradio_dept
                         }
                         onChange={(e) => setselectradio_dept(e.target.value)}
                         style={{
@@ -721,7 +808,7 @@ function TransFerDetail() {
                       }}
                     >
                       {" "}
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -742,7 +829,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_DepartmentManager }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                    <Typography variant="subtitle2"> Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -754,7 +841,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_dept_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_dept(e.target.value)}
                       />
@@ -765,7 +852,7 @@ function TransFerDetail() {
                 <tr>
                   <td className="Style4">
                     {" "}
-                    <Typography variant="subtitle2"> Service Dept :</Typography>
+                    <Typography variant="subtitle2"> Service Dept:</Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">
@@ -784,9 +871,8 @@ function TransFerDetail() {
                   <td className="Style5"></td>
                   <td className="Style7">
                     {" "}
-                    <Typography variant="subtitle2">Tel :</Typography>
+                    <Typography variant="subtitle2">Tel:</Typography>
                   </td>
-                  {console.log(Tel_service,'Tel_service')}
                   <td>
                     <FormControl className="Style1">
                       <TextField
@@ -797,7 +883,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_tel
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setTel_service(e.target.value)}
                         error={
@@ -808,7 +894,7 @@ function TransFerDetail() {
                           ErrorTel_service &&
                           (!Tel_service || Tel_service == "null")
                             ? "Please enter your mobile phone number"
-                            : undefined
+                    : undefined
                         }
                       />
                     </FormControl>
@@ -817,7 +903,7 @@ function TransFerDetail() {
                 {/* Servide By */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Service By :</Typography>
+                    <Typography variant="subtitle2">Service By:</Typography>
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -828,10 +914,10 @@ function TransFerDetail() {
                         value={selectservice_by}
                         onChange={(e) => setselectservice_by(e.target.value)}
                         style={{
-                          borderColor: ErrorService_by ? "red" : undefined,
+                          borderColor: ErrorService_by ? "red": undefined,
                           backgroundColor: read_serviceby
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorService_by &&
@@ -848,7 +934,7 @@ function TransFerDetail() {
                       {ErrorService_by &&
                         (!selectservice_by || selectservice_by == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : Service By
+                            Please select: Service By
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -862,7 +948,7 @@ function TransFerDetail() {
                         value={
                           selectradio_serviceby === null
                             ? setselectradio_serviceby("A")
-                            : selectradio_serviceby
+                    : selectradio_serviceby
                         }
                         onChange={(e) =>
                           setselectradio_serviceby(e.target.value)
@@ -889,7 +975,7 @@ function TransFerDetail() {
                       variant="subtitle2"
                       style={{ visibility: chkservice_by }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -910,7 +996,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_service_by }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                    <Typography variant="subtitle2">Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -922,7 +1008,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_serviceby_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_serviceby(e.target.value)}
                       />
@@ -932,7 +1018,7 @@ function TransFerDetail() {
                 {/* BOI Staff */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">BOI Staff :</Typography>{" "}
+                    <Typography variant="subtitle2">BOI Staff:</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -946,10 +1032,10 @@ function TransFerDetail() {
                           setselectboi_staff(e.target.value);
                         }}
                         style={{
-                          borderColor: ErrorBoi_Staff ? "red" : undefined,
+                          borderColor: ErrorBoi_Staff ? "red": undefined,
                           backgroundColor: read_boistff
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorBoi_Staff &&
@@ -965,7 +1051,7 @@ function TransFerDetail() {
                       {ErrorBoi_Staff &&
                         (!selectboi_staff || selectboi_staff == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : BOI Manager
+                            Please select: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -979,7 +1065,7 @@ function TransFerDetail() {
                         value={
                           selectradio_boistaff === null
                             ? setselectradio_boistaff("A")
-                            : selectradio_boistaff
+                    : selectradio_boistaff
                         }
                         onChange={(e) =>
                           setselectradio_boistaff(e.target.value)
@@ -1006,7 +1092,7 @@ function TransFerDetail() {
                       variant="subtitle2"
                       style={{ visibility: chkboistaff }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1027,7 +1113,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_boistaff }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                    <Typography variant="subtitle2"> Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1039,7 +1125,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_boistff_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_boistaff(e.target.value)}
                       />
@@ -1049,7 +1135,7 @@ function TransFerDetail() {
                 {/* BOI Manager */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">BOI Manager :</Typography>{" "}
+                    <Typography variant="subtitle2">BOI Manager:</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -1061,10 +1147,10 @@ function TransFerDetail() {
                         onChange={(e) => setselectboi_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorBoi_manager ? "red" : undefined,
+                          borderColor: ErrorBoi_manager ? "red": undefined,
                           backgroundColor: read_boimana
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorBoi_manager &&
@@ -1080,7 +1166,7 @@ function TransFerDetail() {
                       {ErrorBoi_manager &&
                         (!selectboi_manager || selectboi_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : BOI Manager
+                            Please select: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1095,7 +1181,7 @@ function TransFerDetail() {
                         value={
                           selectradio_boimanager === null
                             ? setselectradio_boimanager("A")
-                            : selectradio_boimanager
+                    : selectradio_boimanager
                         }
                         onChange={(e) =>
                           setselectradio_boimanager(e.target.value)
@@ -1121,7 +1207,7 @@ function TransFerDetail() {
                       variant="subtitle2"
                       style={{ visibility: chkboimanager }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1142,7 +1228,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_boimanager }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                    <Typography variant="subtitle2"> Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1154,7 +1240,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_boimana_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) =>
                           setcmmtradio_boimanager(e.target.value)
@@ -1167,7 +1253,7 @@ function TransFerDetail() {
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">
-                      Factory Manager :
+                      Factory Manager:
                     </Typography>{" "}
                   </td>
                   <td>
@@ -1180,10 +1266,10 @@ function TransFerDetail() {
                         onChange={(e) => setselectfac_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorMana_Fac ? "red" : undefined,
+                          borderColor: ErrorMana_Fac ? "red": undefined,
                           backgroundColor: read_fac_mana
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorMana_Fac &&
@@ -1199,7 +1285,7 @@ function TransFerDetail() {
                       {ErrorMana_Fac &&
                         (!selectfac_manager || selectfac_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : Factory Manager
+                            Please select: Factory Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1214,7 +1300,7 @@ function TransFerDetail() {
                         value={
                           selectradio_facmanager === null
                             ? setselectradio_facmanager("A")
-                            : selectradio_facmanager
+                    : selectradio_facmanager
                         }
                         onChange={(e) =>
                           setselectradio_facmanager(e.target.value)
@@ -1242,7 +1328,7 @@ function TransFerDetail() {
                       variant="subtitle2"
                       style={{ visibility: chkfacmanager }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1264,7 +1350,7 @@ function TransFerDetail() {
                 <>
                   <tr style={{ display: CM_facmanager }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2"> Comment :</Typography>
+                      <Typography variant="subtitle2"> Comment:</Typography>
                     </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
@@ -1276,7 +1362,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_fac_mana_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           onChange={(e) =>
                             setcmmtradio_facmanager(e.target.value)
@@ -1289,7 +1375,7 @@ function TransFerDetail() {
                 {/* ACC Check */}
                 <tr >
                   <td className="Style4" >
-                    <Typography variant="subtitle2">ACC Check :</Typography>{" "}
+                    <Typography variant="subtitle2">ACC Check:</Typography>{" "}
                   </td>
                   
                   <td>
@@ -1305,10 +1391,10 @@ function TransFerDetail() {
                         }}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_check ? "red" : undefined,
+                          borderColor: ErrorAcc_check ? "red": undefined,
                           backgroundColor: read_accchk
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorAcc_check &&
@@ -1324,43 +1410,38 @@ function TransFerDetail() {
                       {ErrorAcc_check &&
                         (!selectacc_check || selectacc_check == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : ACC Check :
+                            Please select: ACC Check:
                           </FormHelperText>
                         )}
                     </FormControl>
                   </td>
-
+                
                   <td className="Style5">
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={
-                          selectradio_acc_check === null
-                            ? setselectradio_acc_check("A")
-                            : selectradio_acc_check
-                        }
-                        // value={selectradio_acc_check}
-                        onChange={(e) =>
-                          setselectradio_acc_check(e.target.value)
-                        }
-                        style={{ visibility: chkacc_check }}
-                      >
-                        <FormControlLabel
-                          value="A"
-                          control={<Radio size="small" />}
-                          label="Accept"
-                          disabled={read_accchk_radio}
-                        />
-                        <FormControlLabel
-                          value="R"
-                          control={<Radio size="small" />}
-                          label="No Accept"
-                          disabled={read_accchk_radio}
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                 
+  <FormControl>
+    <RadioGroup
+      row
+      aria-labelledby="demo-row-radio-buttons-group-label"
+      name="row-radio-buttons-group"
+      value={selectradio_acc_check === null ? setselectradio_acc_check("A") : selectradio_acc_check}
+      onChange={(e) => setselectradio_acc_check(e.target.value)}
+      style={{ visibility: chkacc_check }}
+    >
+      <FormControlLabel
+        value="A"
+        control={<Radio size="small" />}
+        label="Accept"
+        disabled={read_accchk_radio}
+      />
+      <FormControlLabel
+        value="R"
+        control={<Radio size="small" />}
+        label="No Accept"
+        disabled={read_accchk_radio}
+      />
+    </RadioGroup>
+  </FormControl>
+
                   </td>
                   <td className="Style7">
                     <Typography
@@ -1368,7 +1449,7 @@ function TransFerDetail() {
                       style={{ visibility: chkacc_check }}
                     >
                       {" "}
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1387,34 +1468,35 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>
-                {Showtype == 'GP01007' && STS1 == 'FLDN007' &&(
+                {Showtype == 'GP01007' && (STS1 !="FLDN001"&& STS1 != "FLDN002"&& STS1!= "FLDN003" && STS1 != "FLDN004" && STS1 != "FLDN005" && STS1 != "FLDN006")  &&(
                 <tr >
                   <td className="Style4" >
-                    <Typography variant="subtitle2">Receive certificate date :</Typography>{" "}
+                    <Typography variant="subtitle2">Receive certificate date:</Typography>{" "}
                   </td>
-                  
                   <td>
                   <FormControl className="Style1">
                         <TextField
                           id="Plan_Remove"
                           size="small"
                           type="date"
+                          format="dd/mm/yyyy"
                           disabled={read_accchk_cmmt}
+                          
                           style={{
-                            backgroundColor: read_accchk_cmmt
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                            backgroundColor: selectradio_acc_check === "R" ? "rgba(169, 169, 169, 0.3)": (read_accchk_cmmt ? "rgba(169, 169, 169, 0.3)": "")
+                            ,pointerEvents: selectradio_acc_check === "R" && read_accchk_cmmt ? "none": "auto",
                           }}
+                          
                           value={certificate_date }
-                          // error={
-                          //   ErrorDate && (!certificate_date || plan_date == "null")
-                          // }
+                          error={
+                            ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
+                          }
                           onChange={(e) => setcertificate_date(e.target.value)}
-                          // helperText={
-                          //   ErrorDate && (!plan_date || plan_date == "null")
-                          //     ? "Please select date"
-                          //     : undefined
-                          // }
+                          helperText={
+                            ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
+                              ? "Receive certificate date"
+                          : undefined
+                          }
                         />
                       </FormControl>
                   </td>
@@ -1423,7 +1505,7 @@ function TransFerDetail() {
                 <tr style={{ display: CM_acc_check }}>
                   <td className="Style4">
                     {" "}
-                    <Typography variant="subtitle2">Comment :</Typography>{" "}
+                    <Typography variant="subtitle2">Comment:</Typography>{" "}
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1435,7 +1517,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_accchk_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_acc_check(e.target.value)}
                       />
@@ -1445,7 +1527,7 @@ function TransFerDetail() {
                 {/* Owner */}
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Requester :</Typography>{" "}
+                    <Typography variant="subtitle2">Requester:</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -1461,8 +1543,10 @@ function TransFerDetail() {
                       />
                     </FormControl>
                   </td>
+                 
                   <td className="Style5">
-                    <FormControl>
+                  {Showtype !='GP01006' && Showtype !='GP01007'? (
+                     <FormControl>
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -1471,7 +1555,7 @@ function TransFerDetail() {
                         value={
                           selectradio_owner === null
                             ? setselectradio_owner("A")
-                            : selectradio_owner
+                    : selectradio_owner
                         }
                         onChange={(e) => setselectradio_owner(e.target.value)}
                         style={{ visibility: chkowner }}
@@ -1490,13 +1574,44 @@ function TransFerDetail() {
                         />
                       </RadioGroup>
                     </FormControl>
+                    ) : (
+                      <div style={{display:'none'}}>
+                       <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        // value={selectradio_owner}
+                        value={
+                          selectradio_owner === null
+                            ? setselectradio_owner("A")
+                    : selectradio_owner
+                        }
+                        onChange={(e) => setselectradio_owner(e.target.value)}
+                        style={{ visibility: chkowner }}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          disabled={read_owner_radio}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disabled={read_owner_radio}
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                        />
+                      </RadioGroup>
+                    </FormControl> 
+                      </div>)}
                   </td>
                   <td className="Style7">
                     <Typography
                       variant="subtitle2"
                       style={{ visibility: chkowner }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1515,9 +1630,10 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
+               
                 <tr style={{ display: CM_owner }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                    <Typography variant="subtitle2">Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1529,13 +1645,225 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_owner_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_owner(e.target.value)}
                       />
                     </FormControl>
                   </td>
                 </tr>{" "}
+                {
+  (Showtype === 'GP01007' || Showtype === 'GP01006') && (
+    (STS1 !== "FLDN001" && STS1 !== "FLLD001") &&
+    (STS1 !== "FLDN002" && STS1 !== "FLLD003") &&
+    (STS1 !== "FLDN003" && STS1 !== "FLLD003") &&
+    (STS1 !== "FLDN004" && STS1 !== "FLLD004") &&
+    (STS1 !== "FLDN005" && STS1 !== "FLLD005") &&
+    (STS1 !== "FLDN006" && STS1 !== "FLLD006") &&
+    (STS1 !== "FLDN007" && STS1 !== "FLLD007")
+  ) && (
+    <tr>
+      <td className="Style4"></td>
+      <td colSpan={5}>
+        <div style={{ margin: '20px' }}>
+          <table>
+            <tr>
+              <td className="Table_Show_req1">
+                <td className="Show-Data-File" style={{ textAlign: "center" }}>
+                  <div>
+                    <TableContainer component={Paper}>
+                      <Table className="FamFilePopUp">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell>No.</TableCell>
+                            <TableCell>File</TableCell>
+                            <TableCell>View</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {showfile_owner.length === 0 ? (
+                            <TableRow>
+                              <TableCell colSpan={4} style={{ textAlign: "center" }}>
+                                <Empty />
+                              </TableCell>
+                            </TableRow>
+                          ) : (
+                            showfile_owner.map((option, index) => (
+                              <TableRow key={index}>
+                                <TableCell>
+                                  {(STS1 === 'FLDN008'||STS1 === 'FLLD008') && (
+                                    <DeleteOutlined
+                                      onClick={() =>
+                                        handleDL_File_Owner(
+                                          showfile_owner[index][0],
+                                          showfile_owner[index][3],
+                                          showfile_owner[index][4]
+                                        )
+                                      }
+                                      className="Icon_DeleteFile"
+                                    />
+                                  )}
+                                </TableCell>
+                                <TableCell>{showfile_owner[index][2]}</TableCell>
+                                <TableCell>{showfile_owner[index][3]}</TableCell>
+                                <TableCell
+                                  style={{
+                                    textAlign: "center",
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  <PlagiarismIcon
+                                    style={{
+                                      cursor: "pointer",
+                                      fontSize: "30px",
+                                    }}
+                                    onClick={() =>
+                                      downloadFile(showfile_owner[index][4])
+                                    }
+                                  >
+                                    {showfile_owner[index][3]}
+                                  </PlagiarismIcon>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                </td>
+              </td>
+              <td style={{ width: "20px" }}></td>
+              <td className="Table_Show_req2">
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileUpload_Own}
+                  style={{ display: "none" }}
+                  id="fileInput"
+                  ref={fileInputRef}
+                />
+                {(STS1 === 'FLDN008' || STS1 === 'FLLD008') && (
+                  <div style={{ width: "400px" }}>
+                    <label
+                      htmlFor="fileInput"
+                      onDragOver={handleDragOve_Own}
+                      onDrop={handleDrop_Own}
+                      className="bt_ChooseFile"
+                    >
+                      <CloudUploadOutlined
+                        style={{ fontSize: "30px", color: "#86B6F6" }}
+                      />
+                      <br />
+                      <span style={{ fontWeight: "bold" }}>
+                        Drop your files here
+                      </span>
+                      <br />
+                      or
+                      <br />
+                      <Button size="small" component="span">
+                        <b> Browse files</b>
+                      </Button>
+                    </label>
+
+                    {uploadedFiles_Own.length > 0 && (
+                      <div>
+                        <ul>
+                          {uploadedFiles_Own.map((file, index) => (
+                            <div key={index} className="BorderFile">
+                              <Typography className="Font_File">
+                                <span style={{ marginLeft: "10px" }}>
+                                  {file.type.startsWith("image/") ? (
+                                    <img
+                                      src={URL.createObjectURL(file)}
+                                      alt={file.name}
+                                      className="Img_file"
+                                    />
+                                  ) : (
+                                    <>
+                                      {file.name.endsWith(".xlsx") ? (
+                                        <FileExcelOutlined
+                                          className="Icon_file"
+                                          style={{ color: "#65B741" }}
+                                        />
+                                      ) : file.name.endsWith(".pdf") ? (
+                                        <FilePdfOutlined
+                                          className="Icon_file"
+                                          style={{ color: "#FF6347" }}
+                                        />
+                                      ) : file.name.endsWith(".docx") ? (
+                                        <FileWordOutlined
+                                          className="Icon_file"
+                                          style={{ color: "#3468C0" }}
+                                        />
+                                      ) : file.name.endsWith(".txt") ? (
+                                        <FileTextOutlined
+                                          className="Icon_file"
+                                          style={{ color: "#B6BBC4" }}
+                                        />
+                                      ) : (
+                                        <FileUnknownOutlined
+                                          className="Icon_file"
+                                          style={{ color: "#FFD3A3" }}
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                  {index + 1} {file.name}
+                                </span>
+
+                                <DeleteOutlined
+                                  onClick={() =>
+                                    handleDL_File_Owner(index, file.name)
+                                  }
+                                  className="Icon_DeleteFile"
+                                />
+                              </Typography>
+                            </div>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    <div
+                      style={{
+                        textAlign: "right",
+                        marginTop: "5px",
+                      }}
+                    >
+                      {(STS1 === 'FLDN008' || STS1 === 'FLLD008') && (
+                        <Button variant="contained" onClick={handleSav_Own}>
+                          Save
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td className=""></td>
+            </tr>
+            <tr></tr>
+            <tr
+              style={{
+                width: "100%",
+                marginBottom: "20px",
+                marginTop: "20px",
+              }}
+            ></tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+
               </table>
             </div>
           </Card>
@@ -1572,7 +1900,7 @@ function TransFerDetail() {
                       {" "}
                       <Typography variant="subtitle2">
                         {" "}
-                        Receiver :
+                        Receiver:
                       </Typography>{" "}
                     </td>
                     <td>
@@ -1600,7 +1928,7 @@ function TransFerDetail() {
                           value={
                             selectradio_receiver === null
                               ? setselectradio_receiver("A")
-                              : selectradio_receiver
+                      : selectradio_receiver
                           }
                           onChange={(e) =>
                             setselectradio_receiver(e.target.value)
@@ -1627,7 +1955,7 @@ function TransFerDetail() {
                         variant="subtitle2"
                         style={{ visibility: chkreceiver }}
                       >
-                        Action Date :
+                        Action Date:
                       </Typography>
                     </td>
                     <td className="Style6">
@@ -1649,7 +1977,7 @@ function TransFerDetail() {
 
                   <tr style={{ display: CM_receiver }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2"> Comment :</Typography>
+                      <Typography variant="subtitle2"> Comment:</Typography>
                     </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
@@ -1661,7 +1989,7 @@ function TransFerDetail() {
                           style={{
                             backgroundColor: read_receive_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",
+                      : "",
                           }}
                           onChange={(e) =>
                             setcmmtradio_receiver(e.target.value)
@@ -1675,6 +2003,491 @@ function TransFerDetail() {
             </Card>
           </Card>
         )}
+         {Showtype === "GP01006" && (
+        <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 0,
+
+                  justifyContent: "center",
+                }}
+              ></Typography>
+              <div className="Style2">
+                <table className="Style3">
+                <tr>
+                  <td className="Style4">
+                    <Typography variant="subtitle2">ACC Manager(Set Return date):</Typography>
+                  </td>
+                  <td>
+                  <FormControl className="Style3">
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={return_selectacc_manager}
+                        disabled={read_return_acc}
+                        onChange={(e) => setreturn_selectacc_manager(e.target.value)}
+                        size="small"
+                        style={{
+                          borderColor: ErrorACCReturn ? "red": undefined,
+                          backgroundColor: read_return_acc
+                            ? "rgba(169, 169, 169, 0.3)"
+                    : "",
+                        }}
+                        error={
+                         ErrorACCReturn &&
+                          (!return_selectacc_manager || return_selectacc_manager == "null")
+                        }
+                      >
+                        {acc_manager.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {ErrorACCReturn &&
+                        (!return_selectacc_manager || return_selectacc_manager == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: ACC Manager Return
+                          </FormHelperText>
+                        )}
+                    </FormControl>
+                  </td>
+                 
+                  <td className="Style5">
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={
+                          selectradio_return_acc === null || selectradio_return_acc === "" 
+                            ? setselectradio_return_acc("A")
+                    : selectradio_return_acc
+                        }
+                        onChange={(e) => setselectradio_return_acc(e.target.value)}
+                        style={{ visibility: chkreturn_acc }}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          disabled={read_return_acc_radio}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disabled={read_return_acc_radio}
+                          control={<Radio size="small" />}
+                          label="Reject"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </td>
+                  <td className="Style7">
+                    <Typography
+                      variant="subtitle2"
+                      style={{ visibility: chkreturn_acc }}
+                    >
+                      {" "}
+                      Action Date:
+                    </Typography>
+                  </td>
+                  <td className="Style6">
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        size="small"
+                        value={action__return_acc}
+                        onChange={(e) => setaction__return_acc(e.target.value)}
+                        disabled
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: chkreturn_acc,
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                {Showtype == 'GP01006' && (STS1 !="FLLD001"&& STS1 != "FLLD002"&& STS1!= "FLLD003" && STS1 != "FLLD004" && STS1 != "FLLD005" && STS1 != "FLLD006"
+                  && STS1 != "FLLD007" && STS1 != "FLLD008" 
+                )   && (
+                <tr >
+                  <td className="Style4" >
+                    <Typography variant="subtitle2">Return Date:</Typography>{" "}
+                  </td>
+                  <td>
+                  <FormControl className="Style1">
+                        <TextField
+                          id="Plan_Remove"
+                          size="small"
+                          type="date"
+                          disabled={read_return_acc_cmmt}
+                          
+                          style={{
+                            backgroundColor: selectradio_return_acc === "R" ? "rgba(169, 169, 169, 0.3)": (read_return_acc_cmmt ? "rgba(169, 169, 169, 0.3)": "")
+                            ,pointerEvents: selectradio_return_acc === "R" && read_return_acc_cmmt ? "none": "auto",
+                          }}
+                          
+                          value={return_date}
+                          error={
+                            ErrorDate_return && (!return_date || return_date == "null")
+                          }
+                          
+                          onChange={(e) => setreturn_date(e.target.value)}
+                          helperText={
+                            ErrorDate_return && (!return_date || return_date == "null")
+                              ? "Please Select Return Date "
+                          : undefined
+                          }
+                        />
+                      </FormControl>
+                  </td>
+                </tr>)}
+                <tr style={{ display: CM_return_acc }}>
+                  <td className="Style4">
+                    <Typography variant="subtitle2">Comment:</Typography>
+                  </td>
+                  <td colSpan={4}>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        value={cmmtradio_return_acc}
+                        disabled={read_return_acc_cmmt}
+                        style={{
+                          backgroundColor: read_return_acc_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                    : "",
+                        }}
+                        onChange={(e) => setcmmtradio_return_acc(e.target.value)}
+                        size="small"
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="Style4">
+                    <Typography variant="subtitle2"> Requester Return FA:</Typography>
+                  </td>
+                  <td>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        size="small"
+                        value={req_return}
+                        onChange={(e) => setreq_return(e.target.value)}
+                        disabled
+                        sx={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                  <td className="Style5">
+                    {/* <FormControl>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={
+                          selectradio_return_own === null || selectradio_return_own === "" 
+                            ? setselectradio_return_own("A")
+                    : selectradio_return_own
+                        }
+                        onChange={(e) => setselectradio_record(e.target.value)}
+                        style={{ visibility: chkreturn_owner }}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Accept"
+                          disabled={read_return_own_radio}
+                        />
+                        <FormControlLabel
+                          value="R"
+                          disabled={read_return_own_radio}
+                          control={<Radio size="small" />}
+                          label="No Accept"
+                        />
+                      </RadioGroup>
+                    </FormControl> */}
+                  </td>
+                  <td className="Style7">
+                    <Typography
+                      variant="subtitle2"
+                      style={{ visibility: chkreturn_owner }}
+                    >
+                      {" "}
+                      Action Date:
+                    </Typography>
+                  </td>
+                  <td className="Style6">
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        size="small"
+                        value={action__return_own}
+                        onChange={(e) => setaction__record(e.target.value)}
+                        disabled
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility: chkreturn_owner,
+                        }}
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                <tr style={{ display: CM_return_owner }}>
+                  <td className="Style4">
+                    <Typography variant="subtitle2">Comment:</Typography>
+                  </td>
+                  <td colSpan={4}>
+                    <FormControl className="Style1">
+                      <TextField
+                        id="outlined-size-small"
+                        value={cmmtradio_return_own}
+                        disabled={read_return_own_cmmt}
+                        style={{
+                          backgroundColor: read_return_own_cmmt
+                            ? "rgba(169, 169, 169, 0.3)"
+                    : "",
+                        }}
+                        onChange={(e) => setcmmtradio_return_own(e.target.value)}
+                        size="small"
+                      />
+                    </FormControl>
+                  </td>
+                </tr>
+                
+                {Showtype == 'GP01006' && (STS1 !="FLLD001"&& STS1 != "FLLD002"&& STS1!= "FLLD003" && STS1 != "FLLD004" && STS1 != "FLLD005" && STS1 != "FLLD006" && STS1 != "FLLD007"
+                  && STS1!= "FLLD008" && STS1 != "FLLD009" && For_sts_reject !=='R' ) && (
+                <tr>
+                 <td className="Style4" >
+                  
+                 </td>
+                 <td colSpan={5} 
+                 >
+                 <div style={{margin:'20px'}}>
+              <table >
+                <tr>
+                  <td className="Table_Show_req1">
+                    <td
+                      className="Show-Data-File"
+                      style={{ textAlign: "center" }}
+                    >
+                      <div
+                      >
+                        <TableContainer component={Paper}>
+                          <Table className="FamFilePopUp">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>No.</TableCell>
+                                <TableCell>File</TableCell>
+                                <TableCell>View</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {showfile_owner_return.length === 0 ? (
+                                <TableRow>
+                                  <TableCell
+                                    colSpan={4}
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <Empty />
+                                  </TableCell>
+                                </TableRow>
+                              ): (
+                                showfile_owner_return.map((option, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>
+                                      {STS1 =='FLLD100' &&(
+                                      <DeleteOutlined
+                                        onClick={() =>
+                                          handleDL_File_Owner(
+                                            showfile_owner_return[index][0],
+                                            showfile_owner_return[index][3],
+                                            showfile_owner_return[index][4]
+                                          )
+                                        }
+                                        className="Icon_DeleteFile"
+                                      />)}
+                                    </TableCell>
+                                    <TableCell>{showfile_owner_return[index][2]}</TableCell>
+                                    <TableCell>{showfile_owner_return[index][3]}</TableCell>
+                                    <TableCell
+                                      style={{
+                                        textAlign: "center",
+                                        color: "blue",
+                                        textDecoration: "underline",
+                                      }}
+                                    >
+                                      <PlagiarismIcon
+                                        style={{
+                                          cursor: "pointer",
+                                          fontSize: "30px",
+                                        }}
+                                        onClick={() =>
+                                          downloadFile(showfile_owner_return[index][4])
+                                        }
+                                      >
+                                        {showfile_owner_return[index][3]}
+                                      </PlagiarismIcon>
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              )}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </div>
+                    </td>
+                  </td>
+                  <td style={{ width: "20px" }}></td>
+                  <td className="Table_Show_req2">
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileUpload_Own}
+                      style={{ display: "none" }}
+                      id="fileInput"
+                     ref={fileInputRef}
+                    />
+                    {STS1 ==='FLLD100'&&(
+                    <div style={{ width: "400px" }}>
+                      <label
+                        htmlFor="fileInput"
+                      onDragOver={handleDragOve_Own}
+                       onDrop={handleDrop_Own}
+                        className="bt_ChooseFile"
+                      >
+                        <CloudUploadOutlined
+                          style={{ fontSize: "30px", color: "#86B6F6" }}
+                        />
+                        <br />
+                        <span style={{ fontWeight: "bold" }}>
+                          Drop your files here
+                        </span>
+                        <br />
+                        or
+                        <br />
+                        <Button size="small" component="span">
+                          <b> Browse files</b>
+                        </Button>
+                      </label>
+
+                      {uploadedFiles_Own_return.length > 0 && (
+                        <div>
+                          <ul>
+                            {uploadedFiles_Own_return.map((file, index) => (
+                              <div key={index} className="BorderFile">
+                                <Typography className="Font_File">
+                                  <span style={{ marginLeft: "10px" }}>
+                                    {file.type.startsWith("image/") ? (
+                                      <img
+                                        src={URL.createObjectURL(file)}
+                                        alt={file.name}
+                                        className="Img_file"
+                                      />
+                                    ): (
+                                      <>
+                                        {file.name.endsWith(".xlsx") ? (
+                                          <FileExcelOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#65B741" }}
+                                          />
+                                        ): file.name.endsWith(".pdf") ? (
+                                          <FilePdfOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FF6347" }}
+                                          />
+                                        ): file.name.endsWith(".docx") ? (
+                                          <FileWordOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#3468C0" }}
+                                          />
+                                        ): file.name.endsWith(".txt") ? (
+                                          <FileTextOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#B6BBC4" }}
+                                          />
+                                        ): (
+                                          <FileUnknownOutlined
+                                            className="Icon_file"
+                                            style={{ color: "#FFD3A3" }}
+                                          />
+                                        )}
+                                      </>
+                                    )}
+                                    {index + 1} {file.name}
+                                  </span>
+
+                                  <DeleteOutlined
+                                    onClick={() =>
+                                      handleDL_File_Owner(index, file.name)
+                                    }
+                                    className="Icon_DeleteFile"
+                                  />
+                                </Typography>
+                              </div>
+                            ))}
+                          </ul>
+                        </div>
+                      )} 
+                      <div
+                        style={{
+                          textAlign: "right",
+                          marginTop: "5px",
+                        }}
+                      >
+                        {STS1 ==='FLLD100'&&(
+                        <Button variant="contained" 
+                      onClick={handleSav_Own}
+
+                        >
+                          Save
+                        </Button>)}
+                      </div>
+                    </div>)}
+                  </td>
+                </tr>
+              </table>
+
+              <table >
+                <tr>
+                  <td className=""></td>
+                </tr>
+                <tr></tr>
+                <tr
+                  style={{
+                    width: "100%",
+                    marginBottom: "20px",
+                    marginTop: "20px",
+                  }}
+                ></tr>
+              </table>
+            </div>
+                 </td>
+                </tr>
+              )}
+                </table>
+              </div>
+            </Card>
+          </Card>)}
         <Card className="Style100">
           <Card
             sx={{
@@ -1703,7 +2516,7 @@ function TransFerDetail() {
               <table className="Style3">
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2"> ACC Record :</Typography>
+                    <Typography variant="subtitle2"> ACC Record:</Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">
@@ -1728,7 +2541,7 @@ function TransFerDetail() {
                         value={
                           selectradio_record === null
                             ? setselectradio_record("A")
-                            : selectradio_record
+                    : selectradio_record
                         }
                         onChange={(e) => setselectradio_record(e.target.value)}
                         style={{ visibility: chkacc_record }}
@@ -1754,7 +2567,7 @@ function TransFerDetail() {
                       style={{ visibility: chkacc_record }}
                     >
                       {" "}
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1775,7 +2588,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_acc_record }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                    <Typography variant="subtitle2">Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1786,7 +2599,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_record_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) => setcmmtradio_record(e.target.value)}
                         size="small"
@@ -1796,7 +2609,7 @@ function TransFerDetail() {
                 </tr>
                 <tr>
                   <td className="Style4">
-                    <Typography variant="subtitle2">ACC Manager :</Typography>{" "}
+                    <Typography variant="subtitle2">ACC Manager:</Typography>{" "}
                   </td>
                   <td>
                     <FormControl className="Style3">
@@ -1808,10 +2621,10 @@ function TransFerDetail() {
                         onChange={(e) => setselectacc_manager(e.target.value)}
                         size="small"
                         style={{
-                          borderColor: ErrorAcc_Mana ? "red" : undefined,
+                          borderColor: ErrorAcc_Mana ? "red": undefined,
                           backgroundColor: read_acc_mana
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         error={
                           ErrorAcc_Mana &&
@@ -1827,7 +2640,7 @@ function TransFerDetail() {
                       {ErrorAcc_Mana &&
                         (!selectacc_manager || selectacc_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select : ACC Manager
+                            Please select: ACC Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1841,7 +2654,7 @@ function TransFerDetail() {
                         value={
                           selectradio_acc_manager === null
                             ? setselectradio_acc_manager("A")
-                            : selectradio_acc_manager
+                    : selectradio_acc_manager
                         }
                         onChange={(e) =>
                           setselectradio_acc_manager(e.target.value)
@@ -1869,7 +2682,7 @@ function TransFerDetail() {
                       style={{ visibility: chkacc_manager }}
                     >
                       {" "}
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1890,7 +2703,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_acc_manager }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2"> Comment :</Typography>
+                    <Typography variant="subtitle2"> Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -1901,7 +2714,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_acc_mana_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                         onChange={(e) =>
                           setcmmtradio_acc_manager(e.target.value)
@@ -1914,7 +2727,7 @@ function TransFerDetail() {
                 <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">
-                      Service Close By :
+                      Service Close By:
                     </Typography>{" "}
                   </td>
                   <td>
@@ -1940,7 +2753,7 @@ function TransFerDetail() {
                         value={
                           selectradio_service_close_by === null
                             ? setselectradio_service_close_by("A")
-                            : selectradio_service_close_by
+                    : selectradio_service_close_by
                         }
                         onChange={(e) =>
                           setselectradio_service_close_by(e.target.value)
@@ -1967,7 +2780,7 @@ function TransFerDetail() {
                       variant="subtitle2"
                       style={{ visibility: chkservice_close }}
                     >
-                      Action Date :
+                      Action Date:
                     </Typography>
                   </td>
                   <td className="Style6">
@@ -1990,7 +2803,7 @@ function TransFerDetail() {
                 </tr>
                 <tr style={{ display: CM_service_close }}>
                   <td className="Style4">
-                    <Typography variant="subtitle2">Comment :</Typography>
+                    <Typography variant="subtitle2">Comment:</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
@@ -2005,7 +2818,7 @@ function TransFerDetail() {
                         style={{
                           backgroundColor: read_close_cmmt
                             ? "rgba(169, 169, 169, 0.3)"
-                            : "",
+                    : "",
                         }}
                       />
                     </FormControl>
@@ -2019,7 +2832,6 @@ function TransFerDetail() {
       <div>
         <div className="Style8">
           <Box>
-            {console.log(STS1,"STS1")}
             <table>
               <tr>
                 <td
@@ -2029,9 +2841,10 @@ function TransFerDetail() {
                       STS1 == "FLTR001" ||
                       STS1 == "FLLS001" ||
                       STS1 == "FLWO001" ||
-                      STS1 == "FLDN001"
+                      STS1 == "FLDN001" ||
+                      STS1 == "FLLD001"
                         ? "block"
-                        : "none",
+                : "none",
                   }}
                 >
                   {CheckSave == "False" ? (
@@ -2044,7 +2857,7 @@ function TransFerDetail() {
                     >
                       Save
                     </Button>
-                  ) : (
+                  ): (
                     <Button
                       variant="contained"
                       size="medium"
@@ -2068,7 +2881,7 @@ function TransFerDetail() {
                     >
                       Submit
                     </Button>
-                  ) : (
+                  ): (
                     <Button
                       variant="contained"
                       size="medium"

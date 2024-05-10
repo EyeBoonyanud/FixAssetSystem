@@ -123,7 +123,7 @@ function TransFerDetail() {
   // const queryParams = new URLSearchParams(window.location.search);
   // const VIEW_FAM = queryParams.get("VIEW_FAM");
   // console.log(VIEW_FAM, "VIEW");
-
+console.log(selectradio_service_close_by,"selectradio_service_close_by")
   const  BackPage = async () => {
     console.log(VIEW_FAM,"PDF_FAM");
     const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
@@ -940,6 +940,8 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       Action Date :
                     </Typography>
                   </td>
+                  {console.log(VIEW_TYPE,"VIEW_TYPE")}
+                 
                   <td className="Style6">
                     <FormControl className="Style1" style={{ visibility: selectradio_acc_check==null || selectradio_acc_check=="null"  ? "hidden" : "visibled" }}>
                       <TextField
@@ -953,6 +955,40 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>
                 </tr>
+                {(VIEW_TYPE == 'GP01007'|| VIEW_TYPE == 'GP01006')  && (
+                <tr >
+                  <td className="Style4" >
+                    <Typography variant="subtitle2">Receive certificate date:</Typography>{" "}
+                  </td>
+                  <td>
+                  <FormControl className="Style1">
+                        <TextField
+                          id="Plan_Remove"
+                          size="small"
+                          type="date"
+                          format="dd/mm/yyyy"
+                          // disabled={read_accchk_cmmt}
+                          
+                          // style={{
+                          //   backgroundColor: selectradio_acc_check === "R" ? "rgba(169, 169, 169, 0.3)": (read_accchk_cmmt ? "rgba(169, 169, 169, 0.3)": "")
+                          //   ,pointerEvents: selectradio_acc_check === "R" && read_accchk_cmmt ? "none": "auto",
+                          // }}
+                          
+                          // value={certificate_date }
+                          // error={
+                          //   ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
+                          // }
+                          // onChange={(e) => setcertificate_date(e.target.value)}
+                          // helperText={
+                          //   ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
+                          //     ? "Receive certificate date"
+                          // : undefined
+                          // }
+                        />
+                      </FormControl>
+                  </td>
+                </tr>
+              )} 
                 <tr style={{ display: (DataRoutingFamno[25] === null || DataRoutingFamno[25] === "" ) ? "none" : "table-row" }}>
                   <td className="Style4">
                     {" "}

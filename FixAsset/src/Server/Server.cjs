@@ -18,6 +18,7 @@ const Transaction =require("../Transaction/Transection.cjs")
 const ReportSystem=require("../report/Report_system.cjs")
 const VIEW_Fammaster =require("../Monitoring/Monitorind.cjs")
 const PDF_Fammaster =require("../PDF_fam_master/PDF_fammaster_service.cjs")
+const Homepage =require('../Server/Homepage.cjs')
 const Mail =require("../Mail/Mail.cjs")
 oracledb.initOracleClient({
   tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
@@ -90,6 +91,12 @@ app.post("/find_asset_fixdata",Transaction.find_asset_fixdata);
 app.post("/date_certificate",Transaction.date_certificate);
 app.post("/getEditdate_certaficate",Transaction.getEditdate_certaficate);
 
+//Lending
+app.post("/insert_leading",Transaction.insert_leading)
+app.post("/getEdit_lenging",Transaction.getEdit_lenging);
+app.post("/update_lending",Transaction.update_lending);
+app.post("/update_leading_acc_return",Transaction.update_leading_acc_return);
+app.post("/update_leading_own_return",Transaction.update_leading_own_return);
 
 
 
@@ -98,6 +105,9 @@ app.post("/getEditdate_certaficate",Transaction.getEditdate_certaficate);
 //MAY 
 app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request); 
 app.post("/get_seq_request", Transaction.get_run_seq_request);
+app.post("/get_run_owner_file", Transaction.get_run_owner_file);
+app.post("/get_run_owner_file_return", Transaction.get_run_owner_file_return);
+
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 //
 app.post("/new_boi",Transaction.new_boi);
@@ -142,13 +152,32 @@ app.post("/Search_Person_Maintain_Edit",Transaction.getEdit_Person_Show);
 app.get("/get_BOI_project",Transaction.get_BOI_project);
 app.post("/search_BOI_project",Transaction.search_BOI_project);
 app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
-app.post("/getCountTransfer",Transaction.getCountTransfer);
-app.post("/getCountLoss",Transaction.getCountLoss);
-
-app.post("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
-app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
 app.get("/getlevel",Transaction.level_person_maintain);
 app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
+
+// app.post("/getCountTransfer",Transaction.getCountTransfer);
+// app.post("/getCountLoss",Transaction.getCountLoss);
+// app.post("/getCountTransferlistaLL",Transaction.getCountTransferlistaLL);
+// app.get("/getCountTransferlistaLLname",Transaction.getCountTransferlistaLLname);
+
+// Homepage 
+app.post("/getCountTransfer",Homepage.getCountTransfer);
+app.post("/getCountLoss",Homepage.getCountLoss);
+app.post("/getCountWrite_off",Homepage.getCountWrite_off);
+app.post("/getCountLending",Homepage.getCountLending);
+app.post("/getCountDonation",Homepage.getCountDonation);
+app.post("/getCountTransferlistaLL",Homepage.getCountTransferlistaLL);
+app.get("/getCountTransferlistaLLname",Homepage.getCountTransferlistaLLname);
+app.post("/getCountLosslistaLL",Homepage.getCountLosslistaLL);
+app.get("/getCountLosslistaLLname",Homepage.getCountLosslistaLLname);
+app.post("/getCountWrite_offlistaLL",Homepage.getCountWrite_offlistaLL);
+app.get("/getCountWrite_offlistaLLname",Homepage.getCountWrite_offlistaLLname);
+app.post("/getCountLendinglistaLL",Homepage.getCountLendinglistaLL);
+app.get("/getCountLendinglistaLLname",Homepage.getCountLendinglistaLLname);
+app.post("/getCountDonationlistaLL",Homepage.getCountDonationlistaLL);
+app.get("/getCountDonationlistaLLname",Homepage.getCountDonationlistaLLname);
+
+
 
 app.post("/ins_PERSON_MAINTAIN",Transaction.insertPerson_Maintain);
 app.post("/update_PERSON_MAINTAIN",Transaction.updatePerson_Maintain);
@@ -161,6 +190,11 @@ app.post("/dlt_BOI_MAINTAIN",Transaction.deleteBOI_Maintain);
 app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
+//Donation 
+app.post("/getFAM_FILE_OWNER_CHK",ReportSystem.getFAM_FILE_OWNER_CHK)
+//Lending
+app.post("/getFAM_FILE_Req_Return",ReportSystem.getFAM_FILE_Req_Return)
+
 // PDF Fammaster
 app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
 app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);

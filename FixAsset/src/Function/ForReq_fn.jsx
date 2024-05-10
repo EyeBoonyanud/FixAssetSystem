@@ -3,7 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+
 function ForReq_fn() {
+ 
   const EditFam = localStorage.getItem("EDIT");
   const LocalUserLogin = localStorage.getItem("UserLogin");
   const Name = localStorage.getItem("Name");
@@ -24,16 +26,13 @@ function ForReq_fn() {
   const [selectDept1, setselectDept1] = useState("");
   const [FixAssetgroup, setFixAssetgroup] = useState([]);
   const [selectFixAssetgroup1, setselectFixAssetgroup1] = useState("");
-  const [FixAsset_cost, setFixAsset_cost] = useState([]);
-  const [selectFixAsset_cost1, setselectFixAsset_cost1] = useState("");
   const [Request_type1, setRequest_type1] = useState("GP01001");
-  const [Request_sts, setRequest_sts] = useState("");
   const [Request_sts1, setRequest_sts1] = useState("");
   const [Remark, setRemark] = useState("");
   const currentYear = new Date().getFullYear();
   const Year = currentYear.toString().slice(-2);
   const [Gen_Fam_No, setGen_Fam_No] = useState("");
-  const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); //Servicept
+  const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); 
   const [datafix_for_find, setdatafix_for_find] = useState([]);
   const [COMP, set_COMP] = useState([]);
 
@@ -102,6 +101,7 @@ function ForReq_fn() {
   const [Filedata, setFiledata] = useState([]);
 
   const ShowFile = () => {
+    
     let Gen_Fam_No_Show = "";
 
     if (EditFam != null) {
@@ -114,8 +114,7 @@ function ForReq_fn() {
       }
     }
     if (Gen_Fam_No != null) {
-      if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R") {
-        axios;
+     // if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ) {
         axios
           .post("/FAM_FILE_ATTACH", {
             FamNo: Gen_Fam_No_Show,
@@ -127,7 +126,7 @@ function ForReq_fn() {
               setFiledata(data);
             }
           });
-      }
+      //}
     }
   };
 
@@ -174,7 +173,7 @@ function ForReq_fn() {
 
     setTimeout(function () {
       closePopupLoadding();
-    }, 5000);
+    }, 2000);
   }, []);
 
   const keep = () => {
@@ -185,7 +184,6 @@ function ForReq_fn() {
         STS = For_Rq_Edit[10];
         setGen_Fam_No(For_Rq_Edit[0]);
         setRequest_date(For_Rq_Edit[1]);
-        //setdataUserLogin1(For_Rq_Edit[2]);
         setTel1(For_Rq_Edit[3]);
         setRequest_type1(For_Rq_Edit[7]);
         setRequest_sts1(For_Rq_Edit[11]);
@@ -206,28 +204,25 @@ function ForReq_fn() {
             setTableOpen(true);
             setbtnSave("visible");
           } else {
-            //setTableOpen(false);
             setbtnSave("hidden");
           }
         }
-        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R" || STS == "FLLS001" || STS == "FLWO001"  ) {
-          // setchkadd("visible")
+        if (STS == "FLTR001" || STS == "" || For_Rq_Edit[16] === "R" || STS == "FLLS001" || STS == "FLWO001"  || STS == "FLDN001"  || STS == "FLLD001" ) {
           setread_dept(false);
           setread_remark(false);
           setread_type(true);
           setread_tel(false);
           setdelete_fix("visible");
-          //setbtnSave("visible");
         } else {
         }
       }
     } else {
       if (For_Req != null) {
         setSTS1_Req(For_Req[10]);
+
         STS = For_Req[10];
         setGen_Fam_No(For_Req[0]);
         setRequest_date(formattedDate);
-        //setdataUserLogin1(For_Req[2]);
         setTel1(For_Req[2]);
         setRequest_type1(For_Req[6]);
         setdataFix_Asset_Cost(For_Req[9]);
@@ -255,18 +250,19 @@ function ForReq_fn() {
             setbtnSave("hidden");
           }
         }
-        if (STS == "FLTR001" || STS == "") {
+        if (STS == "FLTR001" || STS == ""  || STS == "FLLS001" || STS == "FLWO001" || STS == "FLDN001"  || STS == "FLLD001"  ) {
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
           setread_tel(false);
           setdelete_fix("visible");
         } else {
+          
         }
       } else {
         STS = "";
         setRequest_date(formattedDate);
-        if (STS == "FLTR001" || STS == "" || STS == "FLLS001" || STS == "FLWO001" ) {
+        if (STS == "FLTR001" || STS == "" || STS == "FLLS001" || STS == "FLWO001" || STS == "FLDN001"  || STS == "FLLD001" ) {
           setread_dept(false);
           setread_remark(false);
           setread_type(false);
@@ -467,7 +463,7 @@ function ForReq_fn() {
   const Gen_No = async (asset) => {
     
     openPopupLoadding();
-    let DataStatus = ""; //
+    let DataStatus = ""; 
     let StatusType = "";
     if (
       selectFixAssetgroup1.length > 0 &&
@@ -510,7 +506,6 @@ function ForReq_fn() {
           const data = dataStatus.flat();
           setRequest_sts1(data[1]);
           DataStatus = data;
-          console.log(data[1], DataStatus,"IIIIIII");
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -609,11 +604,9 @@ function ForReq_fn() {
             assetcc: owner_dept,
           });
         } catch (error) {
-          // Handle error if needed
         }
       }
     } catch (error) {
-      // Handle error if needed
     }
   };
 
@@ -787,8 +780,6 @@ function ForReq_fn() {
       console.error("Error fetching data:", error);
     }
   };
-
-  /////////////////////////////////////////////////////////////
   ////////////// Select Fixed Assets Code ///////////////////////////////
   //Find FixAsset Group
   const ADD = async () => {
@@ -800,16 +791,6 @@ function ForReq_fn() {
     } else {
       group_fix = selectFixAssetgroup1;
     }
-
-    //ก่อนแก้ 29/03  selectFixAsset_cost1 จากการลือก asset cost center
-    // try {
-    //   const row = await axios.get(
-    //     `/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${selectFixAsset_cost1}&fixgroup=${group_fix}`
-    //   );
-    // try {
-    //   const row = await axios.get(
-    //     `/getfixcode?Fixcode=${find_fixasset1}&asset_cc=${owner_dept}&fixgroup=${group_fix}`
-    //   );
     try {
       const response = await axios.post("/getfixcode", {
         Fixcode: find_fixasset1,
@@ -853,11 +834,6 @@ function ForReq_fn() {
           title: "Data is not found",
         });
       }
-
-      // try {
-      //   const rollNoSearch = await axios.get(
-      //     `/get_COMP?fam_no=${Gen_Fam_No}}`
-      //   );
       try {
         const response = await axios.post("/get_COMP", {
           fam_no: Gen_Fam_No,
@@ -967,11 +943,6 @@ function ForReq_fn() {
     const newData = datatable.filter((data) => data[0] !== item);
     setdatatable(newData);
     if (EditFam !== null) {
-      // try {
-      //   const row = await axios.post(
-      //     `/delete_FAM_REQ_DETAIL?famno=${EditFam}&fixcode=${item}`
-      //   );
-
       try {
         const row = await axios.post("/delete_FAM_REQ_DETAIL", {
           famno: EditFam,
@@ -1027,10 +998,6 @@ function ForReq_fn() {
       } catch (error) {
         console.error("Error during POST request:", error);
       }
-      // try {
-      //   const response = await axios.post(
-      //     `/ins_from_Boi?running_no=${Gen_Fam_No}&from_boi=${datatable[i][5]}`
-      //   );
       try {
         const response = await axios.post("/ins_from_Boi", {
           running_no: Gen_Fam_No,
@@ -1047,7 +1014,7 @@ function ForReq_fn() {
     setSelectedItems([]);
     setOpen(false);
   };
-  /////////////////////////////////////////////////////////////////////////////
+
   //////////// Handle set localstorage ////////////////
   const handleTel = async (event) => {
     setTel1(event.target.value);
@@ -1426,14 +1393,12 @@ function ForReq_fn() {
     }
   };
 
-  ////////////////////////////////////////////////////////////////////////////
   ////// ปุ่ม Reset ///////////
   const Reset = async () => {
     setTel1("");
     setselectDept1("");
     setRequest_type1("");
     setselectFixAssetgroup1("");
-    //setselectFixAsset_cost1("");
     setRequest_sts1("");
     setRemark("");
     setowner_dept("");
@@ -1534,7 +1499,9 @@ function ForReq_fn() {
       delete_fix, setdelete_fix,
       STS1_Req, setSTS1_Req,
       STS1_for_R, setSTS1_for_R,
-      checknext, setchecknext,fileInputRef
+      checknext, setchecknext,fileInputRef,
+      handleSave,handleDrop,handleDragOver,handleFileUpload,handleDeleteFile ,uploadedFiles,
+    fileInputRef,Filedata,downloadFile,storedFileArray,LocalUserLogin
   }
 }
 

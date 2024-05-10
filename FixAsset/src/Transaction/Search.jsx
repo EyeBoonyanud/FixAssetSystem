@@ -119,6 +119,8 @@ function Issue() {
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
+    localStorage.removeItem("Edit_cer_date");
+    localStorage.removeItem("Edit_Lending");
     localStorage.removeItem("Type");
     navigate("/ForRe");
   };
@@ -128,7 +130,6 @@ function Issue() {
   const Path = cutPath.toUpperCase();
   localStorage.setItem("pageshow", cutPath);
   useEffect(() => {
-    console.log("mmmmmaamamamamaamam")
     openPopupLoadding();
     const Statuss = localStorage.getItem("STATUS");
     if (Statuss !== null) {
@@ -259,7 +260,22 @@ function Issue() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_cer_date", data_edit);
-      console.log(data,"data")
+      
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.post(
+        "/getEdit_lenging",
+        {
+          famno: EditFam,
+        }
+      );
+      
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Lending", data_edit);
+     console.log(data_edit,"data_edit")
     } catch (error) {
       console.error("Error during login:", error);
     }
