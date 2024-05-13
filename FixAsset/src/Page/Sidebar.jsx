@@ -87,7 +87,6 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const handleButtonClick = (id) => {
-    console.log(id, "YYYYYY");
     if (id === "Issue FAM") {
       window.location.href = "/Search";
     }
@@ -101,7 +100,6 @@ const SidebarMenu = ({ isOpen, onClose }) => {
       window.location.href = "/Search_person";
     }
     if (id === "BOI Maintain") {
-      console.log(id, "UUUUU");
       window.location.href = "/BOIMaintain";
     }
     if (id === "FAM Master") {

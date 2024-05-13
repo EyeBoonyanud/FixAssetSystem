@@ -172,9 +172,11 @@ module.exports.type = async function (req, res) {
 //Status
 module.exports.findsts = async function (req, res) {
   try {
+    const {Type} = req.body
+    console.log(Type,"Type")
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT FFM_CODE ,FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_TYPE = 'TRANSFER'
+    SELECT FFM_CODE ,FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_TYPE = '${Type}'
          `;
     const result = await connect.execute(query);
     connect.release();
@@ -3188,8 +3190,9 @@ module.exports.getEdit_lenging = async function (req, res) {
     const query = `
     SELECT FRL_FAM_NO , FRL_ACC_MGR_BY,TO_CHAR(FRL_ACC_MGR_DATE, 'DD/MM/YYYY') 
     ,TO_CHAR(FRL_ACC_MGR_RETURN, 'YYYY-MM-DD')  ,FRL_ACC_MGR_JUD ,FRL_ACC_MGR_CMMT ,FRL_OWNER_RETURN_BY ,
-    TO_CHAR(FRL_OWNER_DATE, 'DD/MM/YYYY') ,FRL_OWNER_CMMT FROM FAM_REQ_LENDING
-    WHERE FRL_FAM_NO  = '${famno}'
+    TO_CHAR(FRL_OWNER_DATE, 'DD/MM/YYYY') ,FRL_OWNER_CMMT ,
+    TO_CHAR(FRL_ACC_MGR_RETURN, 'DD/MM/YYYY') AS SHOW_FAM_MASTER_LIST
+    FROM FAM_REQ_LENDING WHERE FRL_FAM_NO  = '${famno}'
            `;
     const result = await connect.execute(query);
     connect.release();

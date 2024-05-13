@@ -6,368 +6,275 @@ import {
   RadioGroup,
   FormControlLabel,
   Card,
-  Select,
   FormControl,
-  MenuItem,
-  Box,
   Button,
-  Autocomplete,
-  FormHelperText
+  TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  Paper,
 } from "@mui/material";
-import axios from "axios";
-import Swal from "sweetalert2";
+
 import Header from "../Page/Hearder";
-import { useNavigate } from "react-router-dom";
 import PageLoadding from "../Loadding/Pageload";
 import "../Page/Style.css";
-
+import { Empty } from "antd";
+import { FAM_TRANSECTION } from "../Function/FN_MASTER_LIST/FAM_TRANSECTION";
 
 function TransFerDetail() {
-  const VIEW_FAM = localStorage.getItem("EDIT")
-  const VIEW_TYPE = localStorage.getItem("TYPE_flow")
-  console.log("TYPE_flow",VIEW_TYPE)
-  const [DataTransferFamno, setDataTransferFamno] = useState([]);
-  const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
-  const [ DataName, setDataName] = useState("");
- 
-  const [selectradio_dept, setselectradio_dept] = useState("");
-  const [selectradio_serviceby, setselectradio_serviceby] = useState("");
-  const [selectradio_boistaff, setselectradio_boistaff] = useState("");
-  const [selectradio_boimanager, setselectradio_boimanager] = useState("");
-  const [selectradio_facmanager, setselectradio_facmanager] = useState("");
-  const [selectradio_acc_check, setselectradio_acc_check] = useState("");
-  const [selectradio_owner, setselectradio_owner] = useState("");
-  const [selectradio_receiver, setselectradio_receiver] = useState("");
-  const [selectradio_record, setselectradio_record] = useState("");
-  const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] =
-    useState("");
+  const {
+    VIEW_FAM,
+    VIEW_TYPE,
+    DataTransferFamno,
+    DataRoutingFamno,
+    DataName,
+    DataLending,
+    selectradio_dept,
+    selectradio_serviceby,
+    selectradio_boistaff,
+    selectradio_boimanager,
+    selectradio_facmanager,
+    selectradio_acc_check,
+    selectradio_owner,
+    selectradio_receiver,
+    selectradio_record,
+    selectradio_acc_manager,
+    selectradio_service_close_by,
+    selectradio_acc_return,
+    chkaction_date,
+    Filedata,
+    FiledataReturn,
+    isPopupOpenLoadding,
+    closePopupLoadding,
+    BackPage,
+    downloadFile,
+  } = FAM_TRANSECTION();
   
-
-
-
-
-    const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-  const openPopupLoadding = () => {
-    setPopupOpenLoadding(true);
-  };
-  const closePopupLoadding = () => {
-    setPopupOpenLoadding(false);
-  }
- 
-
-
-  
-  ////////////////////// Use Effect /////////////////////////////////
-  useEffect(() => {
-    openPopupLoadding();
-    const FAM_Routing  = async () => {
-        try {
-          const response = await axios.post("/getData_Routing_show_VIEW", {
-            famno: VIEW_FAM,
-          });
-        const data = await response.data.flat();
-        setDataRoutingFamno(data);
-        setselectradio_dept(data[1])
-        setselectradio_serviceby(data[7])
-        setselectradio_boistaff(data[11])
-        setselectradio_boimanager(data[15])
-        setselectradio_facmanager(data[19])
-        setselectradio_acc_check(data[23])
-        setselectradio_owner(data[27])
-        setselectradio_record(data[31])
-        setselectradio_acc_manager(data[35])
-        setselectradio_service_close_by(data[39])
-
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
-    const FAM_Transfer = async () => {
-
-        try {
-          const response = await axios.post("/getData_Transfer_show_VIEW", {
-            famno: VIEW_FAM,
-          });
-        const data = await response.data.flat();
-        setDataTransferFamno(data) ;
-        setselectradio_receiver(data[9])
-        console.log(data,"data99999999999999999")
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
-    const Name = async () => {
-      try {
-        const response = await axios.post("/getData_showName", {
-          famno: VIEW_FAM,
-        });
-        const data = await response.data;
-
-        setDataName(data);
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
-
-    Name();
-    FAM_Transfer();
-    FAM_Routing();
-    setTimeout(function () {
-      closePopupLoadding();
-    }, 2000);
-;
-    }
-  , []);
-
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const VIEW_FAM = queryParams.get("VIEW_FAM");
-  // console.log(VIEW_FAM, "VIEW");
-console.log(selectradio_service_close_by,"selectradio_service_close_by")
-  const  BackPage = async () => {
-    console.log(VIEW_FAM,"PDF_FAM");
-    const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-    window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
-  };
-
-
+  console.log("VIEW_TYPE5555",VIEW_TYPE)
   return (
     <>
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
-      <div  style={{ display: 'flex', justifyContent: 'flex-end', marginRight:'40px' ,fontSize:'15px'}}>
-        <Typography>  FAM NO : {VIEW_FAM}</Typography>
-
-</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginRight: "40px",
+          fontSize: "15px",
+        }}
+      >
+        <Typography> FAM NO : {VIEW_FAM}</Typography>
+      </div>
       <div>
-        {VIEW_TYPE === 'GP01001' &&(
-        <Card className="Style100">
-          
-          <Card
-            sx={{
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "rgba(64,131,65, 1.5)",
-              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-            }}
-            className="Style1"
-          >
-            <Typography
+        {VIEW_TYPE === "GP01001" && (
+          <Card className="Style100">
+            <Card
               sx={{
-                position: "absolute",
-                backgroundColor: "#fff",
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "8%",
-                display: "flex",
-
-                justifyContent: "center",
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
               }}
+              className="Style1"
             >
-              Tranfer Detail
-            </Typography>
-            <div className="Style2">
-              <table className="Style3">
-                <tr>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2">
-                      Owner (Send from) :
-                    </Typography>
-                  </td>
-                  <td>
-                    <FormControl className="Style1">
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Tranfer Detail
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <td className="Style4">
+                      {" "}
+                      <Typography variant="subtitle2">
+                        Owner (Send from) :
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          disabled
+                          value={DataName}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                    <td className="Style7">
+                      <Typography variant="subtitle2">
+                        From BOI Project :
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={DataTransferFamno[0]}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          disabled
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Transfer to Factory :
+                      </Typography>
+                    </td>
+                    <td>
                       <TextField
-                        id="outlined-size-small"
-                        size="small"
-                        disabled
-                        value={DataName}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                        ////  onChange={(e) => setownersend(e.target.value)}
-                      />
-                    </FormControl>
-                  </td>
-                  <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">
-                      From BOI Project :
-                    </Typography>
-                  </td>
-                  <td className="Style6">
-                    <FormControl className="Style1">
-                      <TextField
-                        id="outlined-size-small"
-                        //defaultFactoryValue=""
-                        size="small"
-                     value={DataTransferFamno[0]}
-                      
-                        style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
-                        }}
-                        ////  onChange={(e) => setdata_fromboi(e.target.value)}
-                        disabled
-                      />
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Transfer to Factory :
-                    </Typography>
-                  </td>
-                  <td>
-                  
-                      <TextField
-                        style={{
-                          backgroundColor :"rgba(169, 169, 169, 0.3)"
-                            
                         }}
                         className="Style1"
                         size="small"
                         disabled
-                       value={DataTransferFamno[1]}
+                        value={DataTransferFamno[1]}
                       ></TextField>
-                  
-                  </td>
-                  <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">
-                      Transfer to CC :
-                    </Typography>
-                  </td>
-                  <td className="Style6">
-                   
-                    
-               
-             
+                    </td>
+                    <td className="Style5"></td>
+                    <td className="Style7">
+                      <Typography variant="subtitle2">
+                        Transfer to CC :
+                      </Typography>
+                    </td>
+                    <td className="Style6">
                       <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
                         value={DataTransferFamno[2]}
                       ></TextField>
-                    
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      New BOI Project :
-                    </Typography>
-                  </td>
-                  <td>
-                    <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataTransferFamno[3]}
-                      ></TextField>
-                    </FormControl>
-                  </td>
-                  <td className="Style5" colSpan={3}></td>
-                </tr>
-                {/* {// console.log("PAGE_STATUS === EDIT", STS)} */}
-                <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">New Owner :</Typography>
-                  </td>
-                  <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataTransferFamno[4]}
-                      ></TextField>
-                    </FormControl>
-                  </td>
-                  <td className="Style5"></td>
-                  <td className="Style7">
-                    <Typography variant="subtitle2">Tel :</Typography>
-                  </td>
-                  <td className="Style6">
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                      
-                        value={DataTransferFamno[5]}
-                      ></TextField>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Plan Remove Date :
-                    </Typography>
-                  </td>
-                  {/* {// console.log(ErrorDate, plan_date, "************")} */}
-                  <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataTransferFamno[6]}
-                      ></TextField>
-                    </FormControl>
-                  </td>
-                  <td className="Style5" colSpan={3}></td>
-                </tr>
-                <tr>
-                  <td className="Style4">
-                    <Typography variant="subtitle2">
-                      Transfer Abnormal :
-                    </Typography>
-                  </td>
-                  <td colSpan={4}>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataTransferFamno[7]}
-                      ></TextField>
-                    </FormControl>
-                  </td>
-                </tr>
-              </table>
-            </div>
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        New BOI Project :
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataTransferFamno[3]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                    <td className="Style5" colSpan={3}></td>
+                  </tr>
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">New Owner :</Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataTransferFamno[4]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                    <td className="Style7">
+                      <Typography variant="subtitle2">Tel :</Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataTransferFamno[5]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Plan Remove Date :
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataTransferFamno[6]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                    <td className="Style5" colSpan={3}></td>
+                  </tr>
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Transfer Abnormal :
+                      </Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataTransferFamno[7]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
           </Card>
-        </Card>)}
+        )}
         <Card className="Style100">
           <Card
             sx={{
@@ -396,119 +303,139 @@ console.log(selectradio_service_close_by,"selectradio_service_close_by")
             <div className="Style2">
               <table className="Style3">
                 {/* Department Manager */}
-                <tr >
+                <tr>
                   <td className="Style4">
                     <Typography variant="subtitle2">
                       Department Manager :
                     </Typography>
                   </td>
                   <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[0] !== "null" ? DataRoutingFamno[0] : ''}
+                        value={
+                          DataRoutingFamno[0] !== "null"
+                            ? DataRoutingFamno[0]
+                            : ""
+                        }
                         // value={DataRoutingFamno[0]}
                       ></TextField>
                     </FormControl>
                   </td>
 
                   <td className="Style5">
-  <FormControl style={{ visibility: selectradio_dept==null || selectradio_dept=="null"  ? "hidden" : "visibled" }}>
-    <RadioGroup
-      row
-      aria-labelledby="demo-row-radio-buttons-group-label"
-      name="row-radio-buttons-group"
-      value={selectradio_dept}
-      // onChange={(e) => setselectradio_dept(e.target.value)}
-    >
-      <FormControlLabel
-        value="A"
-        control={<Radio size="small" />}
-        label="Approve"
-        disabled
-      />
-      <FormControlLabel
-        value="R"
-        control={<Radio size="small" />}
-        label="Reject"
-        disabled
-      />
-    </RadioGroup>
-  </FormControl>
-</td>
-
-                  <td className="Style7"style={{ visibility: selectradio_dept==null || selectradio_dept=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                     
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_dept == null || selectradio_dept == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
                     >
-                      {" "}
-                      Action Date :
-                    </Typography>
-                  </td >
-                  <td className="Style6" style={{ visibility: selectradio_dept==null || selectradio_dept=="null"  ? "hidden" : "visibled" }}>
-                    <FormControl className="Style1" >
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                        value={selectradio_dept}
+                      >
+                        <FormControlLabel
+                          value="A"
+                          control={<Radio size="small" />}
+                          label="Approve"
+                          disabled
+                        />
+                        <FormControlLabel
+                          value="R"
+                          control={<Radio size="small" />}
+                          label="Reject"
+                          disabled
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </td>
+
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_dept == null || selectradio_dept == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2"> Action Date :</Typography>
+                  </td>
+                  <td
+                    className="Style6"
+                    style={{
+                      visibility:
+                        selectradio_dept == null || selectradio_dept == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
                         size="small"
                         disabled
-                       value={DataRoutingFamno[2]}
-                        //  onChange={(e) => setaction__dept(e.target.value)}
+                        value={DataRoutingFamno[2]}
                         style={{
                           backgroundColor: "rgba(169, 169, 169, 0.3)",
-                         
                         }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-               
                 <tr
-                  style={{ display: (DataRoutingFamno[3] === null || DataRoutingFamno[3] === "" ) ? "none" : "table-row" }}
-                 
+                  style={{
+                    display:
+                      DataRoutingFamno[3] === null || DataRoutingFamno[3] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
                 >
                   <td className="Style4">
                     <Typography variant="subtitle2"> Comment :</Typography>
                   </td>
                   <td colSpan={4}>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[3] !== "null" ? DataRoutingFamno[3] : ''}
-                       
+                        value={
+                          DataRoutingFamno[3] !== "null"
+                            ? DataRoutingFamno[3]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
                 </tr>
-              
                 <tr>
                   <td className="Style4">
                     {" "}
                     <Typography variant="subtitle2"> Service Dept :</Typography>
                   </td>
                   <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                       value={DataRoutingFamno[4]}
+                        value={DataRoutingFamno[4]}
                       ></TextField>
                     </FormControl>
                   </td>
@@ -518,17 +445,19 @@ console.log(selectradio_service_close_by,"selectradio_service_close_by")
                     <Typography variant="subtitle2">Tel :</Typography>
                   </td>
                   <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[5] !== "null" ? DataRoutingFamno[5] : ''}
-                  
+                        value={
+                          DataRoutingFamno[5] !== "null"
+                            ? DataRoutingFamno[5]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
@@ -539,29 +468,37 @@ console.log(selectradio_service_close_by,"selectradio_service_close_by")
                     <Typography variant="subtitle2">Service By :</Typography>
                   </td>
                   <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[6] !== "null" ? DataRoutingFamno[6] : ''}
-                        // value={DataRoutingFamno[6]}
+                        value={
+                          DataRoutingFamno[6] !== "null"
+                            ? DataRoutingFamno[6]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
-               
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_serviceby==null || selectradio_serviceby=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_serviceby == null ||
+                          selectradio_serviceby == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
                         value={selectradio_serviceby}
-              
                       >
                         <FormControlLabel
                           value="A"
@@ -578,45 +515,66 @@ console.log(selectradio_service_close_by,"selectradio_service_close_by")
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_serviceby==null || selectradio_serviceby=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_serviceby == null ||
+                        selectradio_serviceby == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1"  style={{ visibility: selectradio_serviceby==null ||selectradio_serviceby=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      className="Style1"
+                      style={{
+                        visibility:
+                          selectradio_serviceby == null ||
+                          selectradio_serviceby == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <TextField
                         id="outlined-size-small"
                         size="small"
                         disabled
                         value={DataRoutingFamno[8]}
                         style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)"
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
                 <tr
-               style={{ display: (DataRoutingFamno[9] === null || DataRoutingFamno[9] === "" ) ? "none" : "table-row" }}
+                  style={{
+                    display:
+                      DataRoutingFamno[9] === null || DataRoutingFamno[9] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
                 >
                   <td className="Style4">
                     <Typography variant="subtitle2">Comment :</Typography>
                   </td>
                   <td colSpan={4}>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[9] !== "null" ? DataRoutingFamno[9] : ''}
-                        
+                        value={
+                          DataRoutingFamno[9] !== "null"
+                            ? DataRoutingFamno[9]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
@@ -627,22 +585,32 @@ console.log(selectradio_service_close_by,"selectradio_service_close_by")
                     <Typography variant="subtitle2">BOI Staff :</Typography>{" "}
                   </td>
                   <td>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[10] !== "null" ? DataRoutingFamno[10] : ''}
+                        value={
+                          DataRoutingFamno[10] !== "null"
+                            ? DataRoutingFamno[10]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl   
-style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null"  ? "hidden" : "visibled" }} >
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_boistaff == null ||
+                          selectradio_boistaff == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -664,45 +632,67 @@ style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null" 
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" 
-style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                      
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_boistaff == null ||
+                        selectradio_boistaff == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      className="Style1"
+                      style={{
+                        visibility:
+                          selectradio_boistaff == null ||
+                          selectradio_boistaff == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <TextField
                         id="outlined-size-small"
                         size="small"
                         disabled
                         value={DataRoutingFamno[12]}
                         style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)"
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       />
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[13] === null || DataRoutingFamno[13] === "") ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[13] === null ||
+                      DataRoutingFamno[13] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2"> Comment :</Typography>
                   </td>
                   <td colSpan={4}>
-                  <FormControl className="Style1">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                    <FormControl className="Style1">
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[13] !== "null" ? DataRoutingFamno[13] : ''}
-                       
+                        value={
+                          DataRoutingFamno[13] !== "null"
+                            ? DataRoutingFamno[13]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
@@ -714,24 +704,31 @@ style={{ visibility: selectradio_boistaff==null || selectradio_boistaff=="null" 
                   </td>
                   <td>
                     <FormControl className="Style3">
-   <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[14] !== "null" ? DataRoutingFamno[14] : ''}
-                    
+                        value={
+                          DataRoutingFamno[14] !== "null"
+                            ? DataRoutingFamno[14]
+                            : ""
+                        }
                       ></TextField>
-                  
-                    
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl 
-style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_boimanager == null ||
+                          selectradio_boimanager == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -753,17 +750,29 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  
-                  <td className="Style7" style={{ visibility:selectradio_boimanager==null || selectradio_boimanager=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_boimanager == null ||
+                        selectradio_boimanager == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility:selectradio_boimanager==null || selectradio_boimanager=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      className="Style1"
+                      style={{
+                        visibility:
+                          selectradio_boimanager == null ||
+                          selectradio_boimanager == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <TextField
                         id="outlined-size-small"
                         size="small"
@@ -776,7 +785,15 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[17] === null || DataRoutingFamno[17] === "") ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[17] === null ||
+                      DataRoutingFamno[17] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2"> Comment :</Typography>
                   </td>
@@ -785,11 +802,14 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       <TextField
                         id="outlined-size-small"
                         size="small"
-                        value={DataRoutingFamno[17] !== "null" ? DataRoutingFamno[17] : ''}
-                    
+                        value={
+                          DataRoutingFamno[17] !== "null"
+                            ? DataRoutingFamno[17]
+                            : ""
+                        }
                         disabled
                         style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)"
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       />
                     </FormControl>
@@ -804,22 +824,32 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style3">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[18] !== "null" ? DataRoutingFamno[18] : ''}
-                    
+                        value={
+                          DataRoutingFamno[18] !== "null"
+                            ? DataRoutingFamno[18]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
 
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_facmanager==null || selectradio_facmanager=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_facmanager == null ||
+                          selectradio_facmanager == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -842,15 +872,29 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>
 
-                  <td className="Style7" style={{ visibility: selectradio_facmanager==null || selectradio_facmanager=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_facmanager == null ||
+                        selectradio_facmanager == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_facmanager==null || selectradio_facmanager=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      className="Style1"
+                      style={{
+                        visibility:
+                          selectradio_facmanager == null ||
+                          selectradio_facmanager == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <TextField
                         id="outlined-size-small"
                         size="small"
@@ -865,7 +909,13 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                 </tr>
                 <>
                   <tr
-                  style={{ display: (DataRoutingFamno[21] === null || DataRoutingFamno[21] === "" ) ? "none" : "table-row" }}
+                    style={{
+                      display:
+                        DataRoutingFamno[21] === null ||
+                        DataRoutingFamno[21] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2"> Comment :</Typography>
@@ -875,13 +925,16 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                         <TextField
                           id="outlined-size-small"
                           disabled
-                          value={DataRoutingFamno[21] !== "null" ? DataRoutingFamno[21] : ''}
-
+                          value={
+                            DataRoutingFamno[21] !== "null"
+                              ? DataRoutingFamno[21]
+                              : ""
+                          }
                           // value={DataRoutingFamno[21]}
                           size="small"
                           style={{
-                            backgroundColor:"rgba(169, 169, 169, 0.3)"
-                          }} 
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
                         />
                       </FormControl>
                     </td>
@@ -894,23 +947,32 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style3">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[22] !== "null" ? DataRoutingFamno[22] : ''}
-                 
+                        value={
+                          DataRoutingFamno[22] !== "null"
+                            ? DataRoutingFamno[22]
+                            : ""
+                        }
                       ></TextField>
-                  
                     </FormControl>
                   </td>
 
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_acc_check==null || selectradio_acc_check=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_acc_check == null ||
+                          selectradio_acc_check == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -932,80 +994,90 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_acc_check==null || selectradio_acc_check=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_acc_check == null ||
+                        selectradio_acc_check == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
-                  {console.log(VIEW_TYPE,"VIEW_TYPE")}
-                 
+
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_acc_check==null || selectradio_acc_check=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      className="Style1"
+                      style={{
+                        visibility:
+                          selectradio_acc_check == null ||
+                          selectradio_acc_check == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <TextField
                         id="outlined-size-small"
                         size="small"
                         disabled
                         value={DataRoutingFamno[24]}
                         style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",}}
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                       />
                     </FormControl>
                   </td>
                 </tr>
-                {(VIEW_TYPE == 'GP01007'|| VIEW_TYPE == 'GP01006')  && (
-                <tr >
-                  <td className="Style4" >
-                    <Typography variant="subtitle2">Receive certificate date:</Typography>{" "}
-                  </td>
-                  <td>
-                  <FormControl className="Style1">
+                {(VIEW_TYPE == "GP01007" || VIEW_TYPE == "GP01006") && (
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Receive certificate date:
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
                         <TextField
-                          id="Plan_Remove"
+                          disabled
                           size="small"
-                          type="date"
-                          format="dd/mm/yyyy"
-                          // disabled={read_accchk_cmmt}
-                          
-                          // style={{
-                          //   backgroundColor: selectradio_acc_check === "R" ? "rgba(169, 169, 169, 0.3)": (read_accchk_cmmt ? "rgba(169, 169, 169, 0.3)": "")
-                          //   ,pointerEvents: selectradio_acc_check === "R" && read_accchk_cmmt ? "none": "auto",
-                          // }}
-                          
-                          // value={certificate_date }
-                          // error={
-                          //   ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
-                          // }
-                          // onChange={(e) => setcertificate_date(e.target.value)}
-                          // helperText={
-                          //   ErrorDate_Certificate && (!certificate_date || certificate_date == "null")
-                          //     ? "Receive certificate date"
-                          // : undefined
-                          // }
+                          value={DataRoutingFamno[42]}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
                         />
                       </FormControl>
-                  </td>
-                </tr>
-              )} 
-                <tr style={{ display: (DataRoutingFamno[25] === null || DataRoutingFamno[25] === "" ) ? "none" : "table-row" }}>
+                    </td>
+                  </tr>
+                )}
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[25] === null ||
+                      DataRoutingFamno[25] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     {" "}
                     <Typography variant="subtitle2">Comment :</Typography>{" "}
                   </td>
                   <td colSpan={4}>
-                  <TextField
+                    <TextField
                       style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
+                        backgroundColor: "rgba(169, 169, 169, 0.3)",
                       }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataRoutingFamno[25] !== "null" ? DataRoutingFamno[25] : ''}
-                       
-                      ></TextField>
+                      className="Style1"
+                      size="small"
+                      disabled
+                      value={
+                        DataRoutingFamno[25] !== "null"
+                          ? DataRoutingFamno[25]
+                          : ""
+                      }
+                    ></TextField>
                   </td>
                 </tr>{" "}
                 {/* Owner */}
@@ -1015,56 +1087,110 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style3">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[26] !== "null" ? DataRoutingFamno[26] : ''}
-                     
+                        value={
+                          DataRoutingFamno[26] !== "null"
+                            ? DataRoutingFamno[26]
+                            : ""
+                        }
                       ></TextField>
-                    
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_owner==null || selectradio_owner=="null"  ? "hidden" : "visibled" }}>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        value={selectradio_owner}
+                    {VIEW_TYPE != "GP01006" && VIEW_TYPE != "GP01007" ? (
+                      <FormControl
+                        style={{
+                          visibility:
+                            selectradio_owner == null ||
+                            selectradio_owner == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
                       >
-                        <FormControlLabel
-                          value="A"
-                          control={<Radio size="small" />}
-                          label="Accept"
-                          disabled
-                        />
-                        <FormControlLabel
-                          value="R"
-                          disabled
-                          control={<Radio size="small" />}
-                          label="No Accept"
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          value={selectradio_owner}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Accept"
+                            disabled
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled
+                            control={<Radio size="small" />}
+                            label="No Accept"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    ) : (
+                      <div style={{ display: "none" }}>
+                        <FormControl
+                          style={{
+                            visibility:
+                              selectradio_owner == null ||
+                              selectradio_owner == "null"
+                                ? "hidden"
+                                : "visibled",
+                          }}
+                        >
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            value={selectradio_owner}
+                          >
+                            <FormControlLabel
+                              value="A"
+                              control={<Radio size="small" />}
+                              label="Accept"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="R"
+                              disabled
+                              control={<Radio size="small" />}
+                              label="No Accept"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </div>
+                    )}
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_owner==null || selectradio_owner=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_owner == null || selectradio_owner == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_owner==null || selectradio_owner=="null"  ? "hidden" : "visibled" }}>
-                    <TextField
+                    <FormControl
+                      className="Style1"
                       style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
+                        visibility:
+                          selectradio_owner == null ||
+                          selectradio_owner == "null"
+                            ? "hidden"
+                            : "visibled",
                       }}
+                    >
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
@@ -1073,150 +1199,617 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>{" "}
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[29] === null || DataRoutingFamno[29] === "" ) ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[29] === null ||
+                      DataRoutingFamno[29] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2">Comment :</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[29] !== "null" ? DataRoutingFamno[29] : ''}
-                        // value={DataRoutingFamno[29]}
+                        value={
+                          DataRoutingFamno[29] !== "null"
+                            ? DataRoutingFamno[29]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
                 </tr>{" "}
+                {VIEW_TYPE === "GP01006" && VIEW_TYPE === "GP01007" && (
+                  <tr>
+                    <td className="Style4"></td>
+                    <td colSpan={5}>
+                      <div style={{ margin: "20px" }}>
+                        <table>
+                          <tr>
+                            <td className="Table_Show_req1">
+                              <td
+                                className="Show-Data-File"
+                                style={{ textAlign: "center" }}
+                              >
+                                <div>
+                                  <TableContainer component={Paper}>
+                                    <Table className="FamFilePopUp">
+                                      <TableHead>
+                                        <TableRow>
+                                          <TableCell>No.</TableCell>
+                                          <TableCell>File</TableCell>
+                                          <TableCell>View</TableCell>
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {Filedata.length === 0 ? (
+                                          <TableRow>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
+                                            >
+                                              <Empty />
+                                            </TableCell>
+                                          </TableRow>
+                                        ) : (
+                                          Filedata.map((option, index) => (
+                                            <TableRow key={index}>
+                                              <TableCell>
+                                                {Filedata[index][2]}
+                                              </TableCell>
+                                              <TableCell>
+                                                {Filedata[index][3]}
+                                              </TableCell>
+                                              <TableCell
+                                                style={{
+                                                  textAlign: "center",
+                                                  color: "blue",
+                                                  textDecoration: "underline",
+                                                }}
+                                              >
+                                                <p
+                                                  style={{ cursor: "pointer" }}
+                                                  onClick={() =>
+                                                    downloadFile(
+                                                      Filedata[index][4]
+                                                    )
+                                                  }
+                                                >
+                                                  {Filedata[index][3]}
+                                                </p>
+                                              </TableCell>
+                                            </TableRow>
+                                          ))
+                                        )}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                </div>
+                              </td>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table>
+                          <tr>
+                            <td className=""></td>
+                          </tr>
+                          <tr></tr>
+                          <tr
+                            style={{
+                              width: "100%",
+                              marginBottom: "20px",
+                              marginTop: "20px",
+                            }}
+                          ></tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </table>
             </div>
           </Card>
-        </Card> {VIEW_TYPE === 'GP01001' &&(
-        <Card className="Style100">
-          <Card
-            sx={{
-              borderRadius: "8px",
-              border: 2,
-              borderColor: "rgba(64,131,65, 1.5)",
-              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-              marginTop: 4,
-            }}
-            className="Style1"
-          >
-            <Typography
+        </Card>{" "}
+        {VIEW_TYPE === "GP01001" && (
+          <Card className="Style100">
+            <Card
               sx={{
-                position: "absolute",
-
-                marginTop: "-0.5%",
-                marginRight: "85%",
-                width: "8%",
-                display: "flex",
-                border: 0,
-
-                justifyContent: "center",
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
               }}
-            ></Typography>
-            <div className="Style2">
-              <table className="Style3">
-                <tr>
-                  <td className="Style4">
-                    {" "}
-                    <Typography variant="subtitle2">
-                      {" "}
-                      Receiver :
-                    </Typography>{" "}
-                  </td>
-                  <td>
-                    <FormControl className="Style3">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={DataTransferFamno[8] !== "null" ? DataTransferFamno[8] : ''}
-                 
-                      ></TextField>
-                    </FormControl>
-                  </td>
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
 
-                  <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_receiver==null || selectradio_receiver=="null"  ? "hidden" : "visibled" }}>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={selectradio_receiver}
-                      >
-                        <FormControlLabel
-                          value="A"
-                          control={<Radio size="small" />}
-                          label="Accept"
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 0,
+
+                  justifyContent: "center",
+                }}
+              ></Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <td className="Style4">
+                      {" "}
+                      <Typography variant="subtitle2">
+                        {" "}
+                        Receiver :
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
                           disabled
-                        />
-                        <FormControlLabel
-                          value="R"
-                          disabled
-                          control={<Radio size="small" />}
-                          label="No Accept"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td className="Style7" style={{ visibility: selectradio_receiver==null || selectradio_receiver=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      Action Date :
-                    </Typography>
-                  </td>
-                  <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_receiver==null || selectradio_receiver=="null"  ? "hidden" : "visibled" }}>
-                      <TextField
-                        id="outlined-size-small"
-                        size="small"
-                        value={DataTransferFamno[10]}
-                        //  onChange={(e) => setaction__receiver(e.target.value)}
-                        disabled
+                          value={
+                            DataTransferFamno[8] !== "null"
+                              ? DataTransferFamno[8]
+                              : ""
+                          }
+                        ></TextField>
+                      </FormControl>
+                    </td>
+
+                    <td className="Style5">
+                      <FormControl
                         style={{
-                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          visibility:
+                            selectradio_receiver == null ||
+                            selectradio_receiver == "null"
+                              ? "hidden"
+                              : "visibled",
                         }}
-                      />
-                    </FormControl>
+                      >
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={selectradio_receiver}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Accept"
+                            disabled
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled
+                            control={<Radio size="small" />}
+                            label="No Accept"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td
+                      className="Style7"
+                      style={{
+                        visibility:
+                          selectradio_receiver == null ||
+                          selectradio_receiver == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
+                      <Typography variant="subtitle2">Action Date :</Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl
+                        className="Style1"
+                        style={{
+                          visibility:
+                            selectradio_receiver == null ||
+                            selectradio_receiver == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
+                      >
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={DataTransferFamno[10]}
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+
+                  <tr
+                    style={{
+                      display:
+                        DataTransferFamno[11] === null ||
+                        DataTransferFamno[11] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2"> Comment :</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={
+                            DataTransferFamno[11] !== "null"
+                              ? DataTransferFamno[11]
+                              : ""
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+        )}
+        
+        {(VIEW_TYPE == "GP01006" || VIEW_TYPE == "GP01007") && (
+          
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >  
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        {" "}
+                        ACC Manager(Set Return date):
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={
+                            DataLending[1] !== "null" ? DataLending[1] : ""
+                          }
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                    <td className="Style5">
+                      <FormControl
+                        style={{
+                          visibility:
+                            selectradio_acc_return == null ||
+                            selectradio_acc_return == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
+                      >
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={selectradio_acc_return}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Accept"
+                            disabled
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled
+                            control={<Radio size="small" />}
+                            label="No Accept"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                    <td
+                      className="Style7"
+                      style={{
+                        visibility:
+                          selectradio_acc_return == null ||
+                          selectradio_acc_return == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
+                      <Typography variant="subtitle2">
+                        {" "}
+                        Action Date :
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl
+                        className="Style1"
+                        style={{
+                          visibility:
+                            selectradio_acc_return == null ||
+                            selectradio_acc_return == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
+                      >
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataLending[2]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+                  
+                 
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">Return Date</Typography>{" "}
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            disabled
+                            size="small"
+                            value={DataLending[9]}
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                          />
+                        </FormControl>
+                      </td>
+                    </tr>
+                  
+                  <tr
+                    style={{
+                      display:
+                        DataLending[1] === null || DataLending[1] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment :</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={
+                            DataRoutingFamno[33] !== "null"
+                              ? DataRoutingFamno[33]
+                              : ""
+                          }
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Requester Return FA:
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={
+                            DataLending[6] !== "null" ? DataLending[6] : ""
+                          }
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                    <td className="Style5"></td>
+                    <td
+                      className="Style7"
+                      style={{
+                        visibility:
+                          chkaction_date == null || chkaction_date == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
+                      <Typography variant="subtitle2">
+                        {" "}
+                        Action Date :
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl
+                        className="Style1"
+                        style={{
+                          visibility:
+                            chkaction_date == null || chkaction_date == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
+                      >
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={DataLending[7]}
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+
+                  <tr
+                    style={{
+                      display:
+                        DataLending[8] === null || DataLending[8] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2"> Comment :</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                          className="Style1"
+                          size="small"
+                          disabled
+                          value={
+                            DataLending[8] !== "null" ? DataLending[8] : ""
+                          }
+                        ></TextField>
+                      </FormControl>
+                    </td>
+                  </tr>
+                </table>
+                <tr>
+                  <td className="Style4"></td>
+                  <td colSpan={5}>
+                    <div style={{ margin: "20px" }}>
+                      <table>
+                        <tr>
+                          <td className="Table_Show_req1">
+                            <td
+                              className="Show-Data-File"
+                              style={{ textAlign: "center" }}
+                            >
+                              <div>
+                                <TableContainer component={Paper}>
+                                  <Table className="FamFilePopUp">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell>No.</TableCell>
+                                        <TableCell>File</TableCell>
+                                        <TableCell>View</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {FiledataReturn.length === 0 ? (
+                                        <TableRow>
+                                          <TableCell
+                                            colSpan={4}
+                                            style={{ textAlign: "center" }}
+                                          >
+                                            <Empty />
+                                          </TableCell>
+                                        </TableRow>
+                                      ) : (
+                                        FiledataReturn.map((option, index) => (
+                                          <TableRow key={index}>
+                                            <TableCell>
+                                              {FiledataReturn[index][2]}
+                                            </TableCell>
+                                            <TableCell>
+                                              {FiledataReturn[index][3]}
+                                            </TableCell>
+                                            <TableCell
+                                              style={{
+                                                textAlign: "center",
+                                                color: "blue",
+                                                textDecoration: "underline",
+                                              }}
+                                            >
+                                              <p
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                  downloadFile(
+                                                    FiledataReturn[index][4]
+                                                  )
+                                                }
+                                              >
+                                                {FiledataReturn[index][3]}
+                                              </p>
+                                            </TableCell>
+                                          </TableRow>
+                                        ))
+                                      )}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </div>
+                            </td>
+                          </td>
+                        </tr>
+                      </table>
+
+                      <table>
+                        <tr>
+                          <td className=""></td>
+                        </tr>
+                        <tr></tr>
+                        <tr
+                          style={{
+                            width: "100%",
+                            marginBottom: "20px",
+                            marginTop: "20px",
+                          }}
+                        ></tr>
+                      </table>
+                    </div>
                   </td>
                 </tr>
-             
-                <tr style={{ display: (DataTransferFamno[11] === null || DataTransferFamno[11] === "" ) ? "none" : "table-row" }}>
-  <td className="Style4">
-    <Typography variant="subtitle2"> Comment :</Typography>
-  </td>
-  <td colSpan={4}>
-    <FormControl className="Style1">
-      <TextField
-        style={{
-          backgroundColor: "rgba(169, 169, 169, 0.3)"
-        }}
-        className="Style1"
-        size="small"
-        disabled
-        value={DataTransferFamno[11] !== "null" ? DataTransferFamno[11] : ''}
-       
-      />
-    </FormControl>
-  </td>
-</tr>
-             
-              </table>
-            </div>
+              </div>
+            </Card>
           </Card>
-        </Card> )}
+        )}
         <Card className="Style100">
           <Card
             sx={{
@@ -1252,21 +1845,31 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style1">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[30] !== "null" ? DataRoutingFamno[30] : ''}
-                
+                        value={
+                          DataRoutingFamno[30] !== "null"
+                            ? DataRoutingFamno[30]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_record==null || selectradio_record=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_record == null ||
+                          selectradio_record == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -1288,21 +1891,33 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_record==null || selectradio_record=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_record == null ||
+                        selectradio_record == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2"> Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_record==null || selectradio_record=="null"  ? "hidden" : "visibled" }}>
-                    <TextField
+                    <FormControl
+                      className="Style1"
                       style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
+                        visibility:
+                          selectradio_record == null ||
+                          selectradio_record == "null"
+                            ? "hidden"
+                            : "visibled",
                       }}
+                    >
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
@@ -1311,22 +1926,32 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[33] === null || DataRoutingFamno[33] === "" ) ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[33] === null ||
+                      DataRoutingFamno[33] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2">Comment :</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[33] !== "null" ? DataRoutingFamno[33] : ''}
-                       
+                        value={
+                          DataRoutingFamno[33] !== "null"
+                            ? DataRoutingFamno[33]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
@@ -1337,22 +1962,31 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style3">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[34] !== "null" ? DataRoutingFamno[34] : ''}
-                  
+                        value={
+                          DataRoutingFamno[34] !== "null"
+                            ? DataRoutingFamno[34]
+                            : ""
+                        }
                       ></TextField>
-                  
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_acc_manager==null || selectradio_acc_manager=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_acc_manager == null ||
+                          selectradio_acc_manager == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
@@ -1374,21 +2008,33 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_acc_manager==null || selectradio_acc_manager=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      {" "}
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_acc_manager == null ||
+                        selectradio_acc_manager == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2"> Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_acc_manager==null || selectradio_acc_manager=="null"  ? "hidden" : "visibled" }}>
-                    <TextField
+                    <FormControl
+                      className="Style1"
                       style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
+                        visibility:
+                          selectradio_acc_manager == null ||
+                          selectradio_acc_manager == "null"
+                            ? "hidden"
+                            : "visibled",
                       }}
+                    >
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
@@ -1397,22 +2043,32 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[37] === null || DataRoutingFamno[37] === "" ) ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[37] === null ||
+                      DataRoutingFamno[37] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2"> Comment :</Typography>
                   </td>
                   <td colSpan={4}>
                     <FormControl className="Style1">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[37] !== "null" ? DataRoutingFamno[37] : ''}
-                        
+                        value={
+                          DataRoutingFamno[37] !== "null"
+                            ? DataRoutingFamno[37]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
@@ -1425,27 +2081,36 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                   </td>
                   <td>
                     <FormControl className="Style1">
-                    <TextField
-                      style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
-                      }}
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                        value={DataRoutingFamno[38] !== "null" ? DataRoutingFamno[38] : ''}
-                      
+                        value={
+                          DataRoutingFamno[38] !== "null"
+                            ? DataRoutingFamno[38]
+                            : ""
+                        }
                       ></TextField>
                     </FormControl>
                   </td>
                   <td className="Style5">
-                    <FormControl style={{ visibility: selectradio_service_close_by==null || selectradio_service_close_by=="null"  ? "hidden" : "visibled" }}>
+                    <FormControl
+                      style={{
+                        visibility:
+                          selectradio_service_close_by == null ||
+                          selectradio_service_close_by == "null"
+                            ? "hidden"
+                            : "visibled",
+                      }}
+                    >
                       <RadioGroup
                         row
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="row-radio-buttons-group"
                         value={selectradio_service_close_by}
-
                       >
                         <FormControlLabel
                           value="A"
@@ -1462,29 +2127,50 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                       </RadioGroup>
                     </FormControl>
                   </td>
-                  <td className="Style7" style={{ visibility: selectradio_service_close_by==null || selectradio_service_close_by=="null"  ? "hidden" : "visibled" }}>
-                    <Typography
-                      variant="subtitle2"
-                    >
-                      Action Date :
-                    </Typography>
+                  <td
+                    className="Style7"
+                    style={{
+                      visibility:
+                        selectradio_service_close_by == null ||
+                        selectradio_service_close_by == "null"
+                          ? "hidden"
+                          : "visibled",
+                    }}
+                  >
+                    <Typography variant="subtitle2">Action Date :</Typography>
                   </td>
                   <td className="Style6">
-                    <FormControl className="Style1" style={{ visibility: selectradio_service_close_by==null || selectradio_service_close_by=="null"  ? "hidden" : "visibled" }}>
-                    <TextField
+                    <FormControl
+                      className="Style1"
                       style={{
-                        backgroundColor: "rgba(169, 169, 169, 0.3)"
-                          
+                        visibility:
+                          selectradio_service_close_by == null ||
+                          selectradio_service_close_by == "null"
+                            ? "hidden"
+                            : "visibled",
                       }}
+                    >
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
                         className="Style1"
                         size="small"
                         disabled
-                       value={DataRoutingFamno[40]}
+                        value={DataRoutingFamno[40]}
                       ></TextField>
                     </FormControl>
                   </td>
                 </tr>
-                <tr style={{ display: (DataRoutingFamno[41] === null || DataRoutingFamno[41] === "" ) ? "none" : "table-row" }}>
+                <tr
+                  style={{
+                    display:
+                      DataRoutingFamno[41] === null ||
+                      DataRoutingFamno[41] === ""
+                        ? "none"
+                        : "table-row",
+                  }}
+                >
                   <td className="Style4">
                     <Typography variant="subtitle2">Comment :</Typography>
                   </td>
@@ -1492,12 +2178,15 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
                     <FormControl className="Style1">
                       <TextField
                         id="outlined-size-small"
-                        value={DataRoutingFamno[41] !== "null" ? DataRoutingFamno[41] : ''}
-                     
+                        value={
+                          DataRoutingFamno[41] !== "null"
+                            ? DataRoutingFamno[41]
+                            : ""
+                        }
                         size="small"
                         disabled
                         style={{
-                          backgroundColor :"rgba(169, 169, 169, 0.3)" ,
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       />
                     </FormControl>
@@ -1509,7 +2198,6 @@ style={{ visibility: selectradio_boimanager ==null || selectradio_boimanager =="
         </Card>
       </div>
       <div>
-       
         <div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Button

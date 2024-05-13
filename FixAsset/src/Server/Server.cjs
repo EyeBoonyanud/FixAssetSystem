@@ -44,7 +44,7 @@ app.get("/getfactory",Transaction.factory);
 app.post("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
-app.get("/findsts",Transaction.findsts);
+app.post("/findsts",Transaction.findsts);
 app.post("/getby",Transaction.by);
 app.post("/getstatus",Transaction.status);
 app.post("/getsearch",Transaction.search);
@@ -215,6 +215,7 @@ app.post("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
 app.post("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
 app.post("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
 app.post("/getData_showName",VIEW_Fammaster.getData_showName);
+
 
 //Mail
 // app.post("/sendEmail",Mail.sendEmail)

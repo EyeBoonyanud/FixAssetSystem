@@ -21,134 +21,13 @@ import {
   Checkbox,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import axios from "axios";
-
-import {
-  DeleteOutlined,
-  FileTextOutlined,
-  FileExcelOutlined,
-  FilePdfOutlined,
-  FileWordOutlined,
-  FileUnknownOutlined,
-  CloudUploadOutlined,
-} from "@ant-design/icons";
-
-import { useNavigate } from "react-router-dom";
 import Header from "../Page/Hearder";
-import DeleteIcon from "@mui/icons-material/Delete";
-
 import PageLoadding from "../Loadding/Pageload";
-
+import {FAM_REQUESTER} from '../Function/FN_MASTER_LIST/FAM_REQUESTER'
 function ForRequest() {
-  const navigate = useNavigate();
-  const VIEW_FAM = localStorage.getItem("EDIT");
-  const VIEW_TYPE = localStorage.getItem("TYPE_flow")
-  console.log(VIEW_FAM, "VIEW_FAM",VIEW_TYPE);
-  const NextPage = async () => {
-    window.location.href = `/FamTrans`;
-  };
-  const Back_page = async () => {
-    window.location.href = `/FAMMaster`;
-    localStorage.removeItem("EDIT");
-  };
-  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
-  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
-
-  const For_edit_request = localStorage.getItem("For_Req_Edit");
-  const For_Rq_Edit = JSON.parse(For_edit_request);
-  console.log("For_Rq_Edit", For_Rq_Edit);
-
-  const FileUp = localStorage.getItem("Type");
-  var storedFileArray = JSON.parse(FileUp);
-
-  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-  const openPopupLoadding = () => {
-    setPopupOpenLoadding(true);
-  };
-  const closePopupLoadding = () => {
-    setPopupOpenLoadding(false);
-  };
-  const [Datafamno, setDatafamno] = useState([]);
-  const [DataDetailfamno, setDataDetailfamno] = useState([]);
-
-  const [Filedata, setFiledata] = useState([]);
-
-  const queryParams = new URLSearchParams(window.location.search);
-  const downloadFile = (fileName) => {
-    const downloadUrl = `/downloads?filename=${encodeURIComponent(
-      fileName
-    )}`;
-
-    axios({
-      url: downloadUrl,
-      method: "GET",
-      responseType: "blob",
-    })
-      .then((response) => {
-        const blob = new Blob([response.data], {
-          type: response.headers["content-type"],
-        });
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "downloaded_file";
-        link.click();
-        window.URL.revokeObjectURL(link.href);
-      })
-      .catch((error) => {
-        console.error("Error downloading file:", error);
-      });
-  };
-  useEffect(() => {
-    openPopupLoadding();
-    const fetchData = () => {
-      axios
-        .post("/FAM_FILE_ATTACH", {
-          FamNo: VIEW_FAM,
-        })
-        .then((res) => {
-          const data = res.data;
-          if (data.length > 0) {
-            setFiledata(data);
-            // console.log(data);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    };
-
-    const FAM_Hearder = async () => {
-        try {
-          const response = await axios.post("/getData_Hearder_show_VIEW", {
-            famno: VIEW_FAM,
-          });
-        const data = await response.data;
-        setDatafamno(data);
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
-    const FAM_Detail = async () => {
-   
-        try {
-          const response = await axios.post("/getData_Detail_show_VIEW", {
-            famno: VIEW_FAM,
-          });
-        const data = await response.data;
-        setDataDetailfamno(data);
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
-
-    fetchData();
-    FAM_Hearder();
-    FAM_Detail();
-    setTimeout(function () {
-      closePopupLoadding();
-    }, 2000);
-  }, []);
-
+const {NextPage,Back_page,isPopupOpenLoadding,
+  Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding
+  } = FAM_REQUESTER();
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -159,10 +38,6 @@ function ForRequest() {
       <div className="Box-Insert">
         {/* สำหรับ Gen Fam no */}
         <div className="Insert">
-          {/* <PageLoadding
-            isOpen={isPopupOpenLoadding}
-            onClose={closePopupLoadding}
-          /> */}
           <Card className="Style100">
             <Card
               sx={{
@@ -242,7 +117,6 @@ function ForRequest() {
                       }}
                       id="Txt_user"
                       value={Datafamno && Datafamno[0] ? Datafamno[0][2] : ""}
-                      // onChange={(e) => setdataUserLogin1(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid xs={2}>
@@ -260,7 +134,6 @@ function ForRequest() {
                       }}
                       id="Txt_Tel"
                       value={Datafamno && Datafamno[0] ? Datafamno[0][3] : ""}
-                      //   ={handleTel
                     />
                   </Grid>
                 </Grid>
@@ -355,7 +228,6 @@ function ForRequest() {
                         backgroundColor: "rgba(169, 169, 169, 0.3)",
                       }}
                       value={Datafamno && Datafamno[0] ? Datafamno[0][8] : ""}
-                      // onChange={(e) => setFactory1(e.target.value)}
                       disabled
                     ></TextField>
                   </Grid>
@@ -489,10 +361,8 @@ function ForRequest() {
                         backgroundColor: "rgba(169, 169, 169, 0.3)",
                         display: "none",
                       }}
-                      // value={status}
                       disabled
                       value={Datafamno && Datafamno[0] ? Datafamno[0][12] : ""}
-                      // onChange={(e) => setRequest_sts1(e.target.value)}
                     ></TextField>
                     <TextField
                       size="small"
@@ -503,33 +373,11 @@ function ForRequest() {
                       // value={status}
                       disabled
                       value={Datafamno && Datafamno[0] ? Datafamno[0][13] : ""}
-                      // onChange={(e) => setRequest_sts1(e.target.value)}
                     ></TextField>
                   </Grid>
                 </Grid>
                 {/* Request status */}
-                {/* <Grid container spacing={3}>
-                  <Grid xs={1.7}></Grid>
-                  <Grid xs={3}></Grid>
-                  <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request Status :
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "rgba(169, 169, 169, 0.3)",
-                      }}
-                      // value={status}
-                      disabled
-                      value={Datafamno && Datafamno[0] ? Datafamno[0][13] : ""}
-                      // onChange={(e) => setRequest_sts1(e.target.value)}
-                    ></TextField>
-                  </Grid>
-                </Grid> */}
+                
                 {/* Remark */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -547,35 +395,12 @@ function ForRequest() {
                         backgroundColor: "rgba(169, 169, 169, 0.3)",
                       }}
                       value={Datafamno && Datafamno[0] ? Datafamno[0][14] : ""}
-                      //// onChange={(e) => setRemark(e.target.value)}
-                      // onChange={handleRemark}
                     ></TextField>
                   </Grid>
                 </Grid>
 
                 <div className="Button_forGenNo">
-                  {/* <Button
-                    style={{
-                      marginLeft: "5px",
-                      backgroundColor: "green",
               
-                    }}
-                    variant="contained"
-                   // onClick={Gen_No}
-                  >
-                    Gen FAM No.
-                  </Button>
-                  <Button
-                    style={{
-                      marginLeft: "5px",
-                      backgroundColor: "gray",
-                 
-                    }}
-                    variant="contained"
-                  //  onClick={handleEmpUser}
-                  >
-                    Reset
-                  </Button> */}
                 </div>
               </Box>
             </Card>
@@ -621,8 +446,6 @@ function ForRequest() {
               <div>
                 {" "}
                 <Dialog
-                  //open={open}
-                  //onClose={handleClose}
                   maxWidth="lg"
                   fullWidth
                   style={{
@@ -635,34 +458,11 @@ function ForRequest() {
                     {" "}
                     <DialogTitle>Fixed Assets Code : {""}</DialogTitle>
                     <TableContainer component={Paper}>
-                      {/* {find_fixasset.map((item, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                             
-                              <TableCell>
-                                <Checkbox
-                                  checked={selectedItems[index] || false}
-                                  // onChange={() => handleCheckboxChange(index)}
-                                />
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                            </TableRow>
-                          ))} */}
                       <Table className="Modal-Table">
                         <TableHead>
                           <TableRow>
                             <TableCell>
                               <Checkbox
-                              //checked={selectAll}
-                              // onChange={handleCheckboxAllChange}
                               />
                             </TableCell>
                             <TableCell>Comp.</TableCell>
@@ -672,65 +472,10 @@ function ForRequest() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {/* {find_fixasset.map((item, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Checkbox
-                                  checked={selectedItems[index] || false}
-                                  // onChange={() => handleCheckboxChange(index)}
-                                  disabled={
-                                    COMP.some(
-                                      (compItem) =>
-                                        compItem[1] === item[3] &&
-                                        compItem[2] !== null
-                                    ) ||
-                                    datatable
-                                      .map((dataItem) => dataItem[3])
-                                      .includes(item[3])
-                                  }
-                                />
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                              <TableCell>
-                                {COMP.map((compItem) => {
-                                  if (compItem[1] === item[3]) {
-                                    console.log(compItem[0], "RRRRRR");
-                                    return compItem[2];
-                                  }
-                                  return null;
-                                })}
-                              </TableCell>
-                            </TableRow>
-                          ))} */}
                         </TableBody>
                       </Table>
                     </TableContainer>
                     <DialogActions style={{ marginTop: "20px" }}>
-                      {/* <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor: "green",
-                        }}
-                        // onClick={handleAdd}
-                      >
-                        ADD
-                      </Button>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: "gray" }}
-                        // onClick={handleClose}
-                      >
-                        Close
-                      </Button> */}
                     </DialogActions>
                   </div>
                 </Dialog>
@@ -918,11 +663,6 @@ function ForRequest() {
                               </TableCell>
                             </TableRow>
                           ))}
-                          {/* <TableRow>
-              <TableCell colSpan={4} style={{ border: "0" }}>
-                
-              </TableCell>
-            </TableRow> */}
                         </TableBody>
                       </Table>
                     </TableContainer>

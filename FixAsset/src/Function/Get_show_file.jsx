@@ -7,7 +7,6 @@ import Swal from "sweetalert2";
 function Get_show_file() {
   const { EditFam, For_Rq_Edit, Gen_Fam_No, LocalUserLogin } = ForReq_fn();
   const { For_Req } = Get_Data();
-  const fileInputRef = useRef();
 
   const [uploadedFiles_Own, setuploadedFiles_Own] = useState([]);
   const [uploadedFilesDATA_Own, setUploadedFilesDATA_Own] = useState([]);

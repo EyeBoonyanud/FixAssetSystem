@@ -152,7 +152,7 @@ function Issue() {
     Factory();
     CostCenter();
     RequestType();
-    findStatus();
+  
   }, []);
 
   const Factory = async () => {
@@ -182,16 +182,54 @@ function Issue() {
     }
     closePopupLoadding();
   };
-  const findStatus = async () => {
+  const findStatus = async (selectReType) => {
+    console.log(selectReType, "selectReType");
     try {
-      const response = await axios.get(`/findsts`);
-      const data = await response.data;
-      setStatus(data);
+      let StatusType;
+      switch (selectReType) {
+        case 'GP01001':
+          StatusType = "TRANSFER";
+          break;
+        case 'GP01002':
+          StatusType = "SCRAP";
+          break;
+        case 'GP01003':
+          StatusType = "SALE";
+          break;
+        case 'GP01004':
+          StatusType = "LOSS";
+          break;
+        case 'GP01005':
+          StatusType = "WRITE-OFF";
+          break;
+        case 'GP01006':
+          StatusType = "LENDING";
+          break;
+        case 'GP01007':
+          StatusType = "DONATION";
+          break;
+        default:
+          break;
+      }
+  
+      try {
+        const response = await axios.post(
+          "/findsts",
+          {
+            Type: StatusType,
+          }
+        );
+        const data = await response.data;
+        setStatus(data);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+      closePopupLoadding();
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error:", error);
     }
-    closePopupLoadding();
   };
+  
   const handleEdit = async (EditFam, index, TextField) => {
     setselectindex(index);
     setloading("false");
@@ -296,10 +334,8 @@ function Issue() {
     `;
   };
   const handleVIEW = async (VIEW_FAM,TYPE) => {
-    console.log(VIEW_FAM, "PDF_FAM");
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
-    // const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster`;
   };
 
@@ -398,10 +434,10 @@ function Issue() {
       );
       const MultipleDept = unwrappedArrayDept.join(",");
 
-      const unwrappedArrayReqType = selectReTypeMul.map((item) =>
-        item.replace(/'/g, "")
-      );
-      const MultipleReqType = unwrappedArrayReqType.join(",");
+      // const unwrappedArrayReqType = selectReTypeMul.map((item) =>
+      //   item.replace(/'/g, "")
+      // );
+      const MultipleReqType = selectReType;
 
       const unwrappedArrayAssetCC = selectcostMul.map((item) =>
         item.replace(/'/g, "")
@@ -753,6 +789,7 @@ function Issue() {
                       value={selectdept}
                       onChange={(e, value) => setselectdept(value)}
                       options={dept.map((item) => item[0])}
+                      noOptionsText="กรุณาเลือก Factory"
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -761,6 +798,7 @@ function Issue() {
                           sx={{ textAlign: "left" }}
                         />
                       )}
+                      
                     />
                   </FormControl>
                   <FormControl
@@ -772,6 +810,7 @@ function Issue() {
                       value={selectdeptMul}
                       onChange={(e, value) => setselectdeptMul(value)}
                       options={dept.map((item) => item[0])}
+                      noOptionsText="กรุณาเลือก Factory"
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -833,10 +872,10 @@ function Issue() {
                   <FormControl
                     sx={{ width: 200 }}
                     style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "block"
-                          : "none",
+                      // display:
+                      //   Path === "SEARCH" || Path === "APPROVEFAM"
+                      //     ? "block"
+                      //     : "none",
                     }}
                   >
                     <InputLabel size="small" id="demo-simple-select-label">
@@ -847,7 +886,10 @@ function Issue() {
                       id="demo-simple-select"
                       label="Request Type :"
                       value={selectReType}
-                      onChange={(e) => setselectReType(e.target.value)}
+                      onChange={(e) => {
+                        setselectReType(e.target.value);
+                        findStatus(e.target.value);
+                      }}
                       size="small"
                       style={{
                         width: "200px",
@@ -858,7 +900,7 @@ function Issue() {
                       ))}
                     </Select>
                   </FormControl>
-                  <FormControl
+                  {/* <FormControl
                     sx={{ width: 200 }}
                     style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
                   >
@@ -866,7 +908,6 @@ function Issue() {
                       Request Type :
                     </InputLabel>
                     <Select
-                      multiple
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       label="Request Type :"
@@ -881,7 +922,7 @@ function Issue() {
                         <MenuItem value={option[0]}>{option[1]}</MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
                   <TextField
@@ -997,26 +1038,30 @@ function Issue() {
                     sx={{ width: 200 }}
                     style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
                   >
-                    <Autocomplete
-                      value={selectStatus}
-                      onChange={(e, value) => {
-                        setselectStatus(value);
-                        selectStatusID(value.value); 
-                      }}
-                      options={Status.map((item) => ({
-                        label: item[1],
-                        value: item[0],
-                      }))}
-                      getOptionLabel={(option) => option.label}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Status :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
+                   
+                   <Autocomplete
+  value={selectStatus}
+  onChange={(e, value) => {
+    setselectStatus(value);
+    selectStatusID(value.value); 
+  }}
+  options={Status.map((item) => ({
+    label: item[1],
+    value: item[0],
+  }))}
+  getOptionLabel={(option) => option.label}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Status :"
+      size="small"
+      sx={{ textAlign: "left" }}
+    />
+  )}
+  getOptionSelected={(option, value) => value === "" ? false : option.value === value.value}
+  noOptionsText=" กรุณาเลือก Request Type"
+/>
+
                   </FormControl>
                 </TableCell>
                 <TableCell style={{ border: 0 }}></TableCell>
