@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ForReq_fn } from "../ForReq_fn";
 
 function FAM_TRANSECTION() {
   // const สำหรับ improt function
-  const { downloadFile } = ForReq_fn();
   // const สำหรับ LocalStorage
   const VIEW_FAM = localStorage.getItem("EDIT");
   const VIEW_TYPE = localStorage.getItem("TYPE_flow");
@@ -171,7 +169,6 @@ function FAM_TRANSECTION() {
     openPopupLoadding,
     closePopupLoadding,
     BackPage,
-    downloadFile,
   };
 }
 

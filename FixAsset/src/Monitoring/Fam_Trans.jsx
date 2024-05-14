@@ -22,6 +22,7 @@ import PageLoadding from "../Loadding/Pageload";
 import "../Page/Style.css";
 import { Empty } from "antd";
 import { FAM_TRANSECTION } from "../Function/FN_MASTER_LIST/FAM_TRANSECTION";
+import { FAM_REQUESTER } from "../Function/FN_MASTER_LIST/FAM_REQUESTER";
 
 function TransFerDetail() {
   const {
@@ -49,10 +50,8 @@ function TransFerDetail() {
     isPopupOpenLoadding,
     closePopupLoadding,
     BackPage,
-    downloadFile,
   } = FAM_TRANSECTION();
-  
-  console.log("VIEW_TYPE5555",VIEW_TYPE)
+  const { downloadFile } = FAM_REQUESTER();
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -1031,7 +1030,15 @@ function TransFerDetail() {
                   </td>
                 </tr>
                 {(VIEW_TYPE == "GP01007" || VIEW_TYPE == "GP01006") && (
-                  <tr>
+                  <tr
+                    style={{
+                      display:
+                        DataRoutingFamno[42] === null ||
+                        DataRoutingFamno[42] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
                     <td className="Style4">
                       <Typography variant="subtitle2">
                         Receive certificate date:
@@ -1229,80 +1236,83 @@ function TransFerDetail() {
                     </FormControl>
                   </td>
                 </tr>{" "}
-                {VIEW_TYPE === "GP01006" && VIEW_TYPE === "GP01007" && (
-                  <tr>
+                {(VIEW_TYPE === "GP01006" || VIEW_TYPE === "GP01007") && (
+                  <tr  style={{
+                    display:
+                      DataRoutingFamno[29] === null ||
+                      DataRoutingFamno[29] === ""
+                        ? "none"
+                        : "table-row",
+                  }}>
                     <td className="Style4"></td>
                     <td colSpan={5}>
-                      <div style={{ margin: "20px" }}>
+                      <div style={{ marginLeft: "100px" ,marginTop:'20px' }}>
                         <table>
                           <tr>
                             <td className="Table_Show_req1">
-                              <td
+                              <div
                                 className="Show-Data-File"
                                 style={{ textAlign: "center" }}
                               >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
+                                <TableContainer component={Paper}>
+                                  <Table className="FamFilePopUp">
+                                    <TableHead>
+                                      <TableRow>
+                                        <TableCell>No.</TableCell>
+                                        <TableCell>File</TableCell>
+                                        <TableCell>View</TableCell>
+                                      </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                      {Filedata.length === 0 ? (
                                         <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
+                                          <TableCell
+                                            colSpan={4}
+                                            style={{ textAlign: "center" }}
+                                          >
+                                            <Empty />
+                                          </TableCell>
                                         </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedata.length === 0 ? (
-                                          <TableRow>
+                                      ) : (
+                                        Filedata.map((option, index) => (
+                                          <TableRow key={index}>
+                                            <TableCell>
+                                              {Filedata[index][2]}
+                                            </TableCell>
+                                            <TableCell>
+                                              {Filedata[index][3]}
+                                            </TableCell>
                                             <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
+                                              style={{
+                                                textAlign: "center",
+                                                color: "blue",
+                                                textDecoration: "underline",
+                                              }}
                                             >
-                                              <Empty />
+                                              <p
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                  downloadFile(
+                                                    Filedata[index][4]
+                                                  )
+                                                }
+                                              >
+                                                {Filedata[index][3]}
+                                              </p>
                                             </TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedata.map((option, index) => (
-                                            <TableRow key={index}>
-                                              <TableCell>
-                                                {Filedata[index][2]}
-                                              </TableCell>
-                                              <TableCell>
-                                                {Filedata[index][3]}
-                                              </TableCell>
-                                              <TableCell
-                                                style={{
-                                                  textAlign: "center",
-                                                  color: "blue",
-                                                  textDecoration: "underline",
-                                                }}
-                                              >
-                                                <p
-                                                  style={{ cursor: "pointer" }}
-                                                  onClick={() =>
-                                                    downloadFile(
-                                                      Filedata[index][4]
-                                                    )
-                                                  }
-                                                >
-                                                  {Filedata[index][3]}
-                                                </p>
-                                              </TableCell>
-                                            </TableRow>
-                                          ))
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
+                                        ))
+                                      )}
+                                    </TableBody>
+                                  </Table>
+                                </TableContainer>
+                              </div>
                             </td>
                           </tr>
                         </table>
-
                         <table>
                           <tr>
-                            <td className=""></td>
+                            <td></td>
                           </tr>
                           <tr></tr>
                           <tr
@@ -1476,118 +1486,125 @@ function TransFerDetail() {
             </Card>
           </Card>
         )}
-        
-        {(VIEW_TYPE == "GP01006" || VIEW_TYPE == "GP01007") && (
-          
-          <Card className="Style100">
-            <Card
-              sx={{
-                borderRadius: "8px",
-                border: 2,
-                borderColor: "rgba(64,131,65, 1.5)",
-                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
-                marginTop: 4,
-              }}
-              className="Style1"
-            >  
-              <div className="Style2">
-                <table className="Style3">
-                  <tr>
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                        {" "}
-                        ACC Manager(Set Return date):
-                      </Typography>
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                          className="Style1"
-                          size="small"
-                          disabled
-                          value={
-                            DataLending[1] !== "null" ? DataLending[1] : ""
-                          }
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                    <td className="Style5">
-                      <FormControl
-                        style={{
-                          visibility:
-                            selectradio_acc_return == null ||
-                            selectradio_acc_return == "null"
-                              ? "hidden"
-                              : "visibled",
-                        }}
-                      >
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={selectradio_acc_return}
-                        >
-                          <FormControlLabel
-                            value="A"
-                            control={<Radio size="small" />}
-                            label="Accept"
-                            disabled
-                          />
-                          <FormControlLabel
-                            value="R"
-                            disabled
-                            control={<Radio size="small" />}
-                            label="No Accept"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </td>
-                    <td
-                      className="Style7"
-                      style={{
-                        visibility:
-                          selectradio_acc_return == null ||
-                          selectradio_acc_return == "null"
-                            ? "hidden"
-                            : "visibled",
-                      }}
-                    >
-                      <Typography variant="subtitle2">
-                        {" "}
-                        Action Date :
-                      </Typography>
-                    </td>
-                    <td className="Style6">
-                      <FormControl
-                        className="Style1"
-                        style={{
-                          visibility:
-                            selectradio_acc_return == null ||
-                            selectradio_acc_return == "null"
-                              ? "hidden"
-                              : "visibled",
-                        }}
-                      >
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                          className="Style1"
-                          size="small"
-                          disabled
-                          value={DataLending[2]}
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                  </tr>
-                  
-                 
+        {VIEW_TYPE == "GP01006" && (
+          <div>
+            <Card className="Style100">
+              <Card
+                sx={{
+                  borderRadius: "8px",
+                  border: 2,
+                  borderColor: "rgba(64,131,65, 1.5)",
+                  boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                  marginTop: 4,
+                }}
+                className="Style1"
+              >
+                <div className="Style2">
+                  <table className="Style3">
                     <tr>
                       <td className="Style4">
-                        <Typography variant="subtitle2">Return Date</Typography>{" "}
+                        <Typography variant="subtitle2">
+                          {" "}
+                          ACC Manager(Set Return date):
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataLending[1] !== "null" ? DataLending[1] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5">
+                        <FormControl
+                          style={{
+                            visibility:
+                              selectradio_acc_return == null ||
+                              selectradio_acc_return == "null"
+                                ? "hidden"
+                                : "visibled",
+                          }}
+                        >
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={selectradio_acc_return}
+                          >
+                            <FormControlLabel
+                              value="A"
+                              control={<Radio size="small" />}
+                              label="Accept"
+                              disabled
+                            />
+                            <FormControlLabel
+                              value="R"
+                              disabled
+                              control={<Radio size="small" />}
+                              label="No Accept"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </td>
+                      <td
+                        className="Style7"
+                        style={{
+                          visibility:
+                            selectradio_acc_return == null ||
+                            selectradio_acc_return == "null"
+                              ? "hidden"
+                              : "visibled",
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {" "}
+                          Action Date :
+                        </Typography>
+                      </td>
+                      <td className="Style6">
+                        <FormControl
+                          className="Style1"
+                          style={{
+                            visibility:
+                              selectradio_acc_return == null ||
+                              selectradio_acc_return == "null"
+                                ? "hidden"
+                                : "visibled",
+                          }}
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataLending[2]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+
+                    <tr
+                      style={{
+                        display:
+                          DataLending[9] === null || DataLending[9] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                          Return Date:
+                        </Typography>{" "}
                       </td>
                       <td>
                         <FormControl className="Style1">
@@ -1602,76 +1619,59 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                  
-                  <tr
-                    style={{
-                      display:
-                        DataLending[1] === null || DataLending[1] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4">
-                      <Typography variant="subtitle2">Comment :</Typography>
-                    </td>
-                    <td colSpan={4}>
-                      <FormControl className="Style1">
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                          className="Style1"
-                          size="small"
-                          disabled
-                          value={
-                            DataRoutingFamno[33] !== "null"
-                              ? DataRoutingFamno[33]
-                              : ""
-                          }
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                  </tr>
 
-                  <tr>
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                        Requester Return FA:
-                      </Typography>{" "}
-                    </td>
-                    <td>
-                      <FormControl className="Style3">
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                          className="Style1"
-                          size="small"
-                          disabled
-                          value={
-                            DataLending[6] !== "null" ? DataLending[6] : ""
-                          }
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                    <td className="Style5"></td>
-                    <td
-                      className="Style7"
+                    <tr
                       style={{
-                        visibility:
-                          chkaction_date == null || chkaction_date == "null"
-                            ? "hidden"
-                            : "visibled",
+                        display:
+                          DataLending[5] === null || DataLending[5] === ""
+                            ? "none"
+                            : "table-row",
                       }}
                     >
-                      <Typography variant="subtitle2">
-                        {" "}
-                        Action Date :
-                      </Typography>
-                    </td>
-                    <td className="Style6">
-                      <FormControl
-                        className="Style1"
+                      <td className="Style4">
+                        <Typography variant="subtitle2">Comment :</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataLending[5] !== "null" ? DataLending[5] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                          Requester Return FA:
+                        </Typography>{" "}
+                      </td>
+                      <td>
+                        <FormControl className="Style3">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataLending[6] !== "null" ? DataLending[6] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5"></td>
+                      <td
+                        className="Style7"
                         style={{
                           visibility:
                             chkaction_date == null || chkaction_date == "null"
@@ -1679,19 +1679,62 @@ function TransFerDetail() {
                               : "visibled",
                         }}
                       >
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
+                        <Typography variant="subtitle2">
+                          {" "}
+                          Action Date :
+                        </Typography>
+                      </td>
+                      <td className="Style6">
+                        <FormControl
                           className="Style1"
-                          size="small"
-                          disabled
-                          value={DataLending[7]}
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                  </tr>
+                          style={{
+                            visibility:
+                              chkaction_date == null || chkaction_date == "null"
+                                ? "hidden"
+                                : "visibled",
+                          }}
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataLending[7]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
 
+                    <tr
+                      style={{
+                        display:
+                          DataLending[8] === null || DataLending[8] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2"> Comment :</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataLending[8] !== "null" ? DataLending[8] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                  </table>
                   <tr
                     style={{
                       display:
@@ -1700,115 +1743,99 @@ function TransFerDetail() {
                           : "table-row",
                     }}
                   >
-                    <td className="Style4">
-                      <Typography variant="subtitle2"> Comment :</Typography>
-                    </td>
-                    <td colSpan={4}>
-                      <FormControl className="Style1">
-                        <TextField
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                          className="Style1"
-                          size="small"
-                          disabled
-                          value={
-                            DataLending[8] !== "null" ? DataLending[8] : ""
-                          }
-                        ></TextField>
-                      </FormControl>
-                    </td>
-                  </tr>
-                </table>
-                <tr>
-                  <td className="Style4"></td>
-                  <td colSpan={5}>
-                    <div style={{ margin: "20px" }}>
-                      <table>
-                        <tr>
-                          <td className="Table_Show_req1">
-                            <td
-                              className="Show-Data-File"
-                              style={{ textAlign: "center" }}
-                            >
-                              <div>
-                                <TableContainer component={Paper}>
-                                  <Table className="FamFilePopUp">
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell>No.</TableCell>
-                                        <TableCell>File</TableCell>
-                                        <TableCell>View</TableCell>
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {FiledataReturn.length === 0 ? (
+                    <td className="Style4"></td>
+                    <td colSpan={5}>
+                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
+                        <table>
+                          <tr>
+                            <td className="Table_Show_req1">
+                              <td
+                                className="Show-Data-File"
+                                style={{ textAlign: "center" }}
+                              >
+                                <div>
+                                  <TableContainer component={Paper}>
+                                    <Table className="FamFilePopUp">
+                                      <TableHead>
                                         <TableRow>
-                                          <TableCell
-                                            colSpan={4}
-                                            style={{ textAlign: "center" }}
-                                          >
-                                            <Empty />
-                                          </TableCell>
+                                          <TableCell>No.</TableCell>
+                                          <TableCell>File</TableCell>
+                                          <TableCell>View</TableCell>
                                         </TableRow>
-                                      ) : (
-                                        FiledataReturn.map((option, index) => (
-                                          <TableRow key={index}>
-                                            <TableCell>
-                                              {FiledataReturn[index][2]}
-                                            </TableCell>
-                                            <TableCell>
-                                              {FiledataReturn[index][3]}
-                                            </TableCell>
+                                      </TableHead>
+                                      <TableBody>
+                                        {FiledataReturn.length === 0 ? (
+                                          <TableRow>
                                             <TableCell
-                                              style={{
-                                                textAlign: "center",
-                                                color: "blue",
-                                                textDecoration: "underline",
-                                              }}
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
                                             >
-                                              <p
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                  downloadFile(
-                                                    FiledataReturn[index][4]
-                                                  )
-                                                }
-                                              >
-                                                {FiledataReturn[index][3]}
-                                              </p>
+                                              <Empty />
                                             </TableCell>
                                           </TableRow>
-                                        ))
-                                      )}
-                                    </TableBody>
-                                  </Table>
-                                </TableContainer>
-                              </div>
+                                        ) : (
+                                          FiledataReturn.map(
+                                            (option, index) => (
+                                              <TableRow key={index}>
+                                                <TableCell>
+                                                  {FiledataReturn[index][2]}
+                                                </TableCell>
+                                                <TableCell>
+                                                  {FiledataReturn[index][3]}
+                                                </TableCell>
+                                                <TableCell
+                                                  style={{
+                                                    textAlign: "center",
+                                                    color: "blue",
+                                                    textDecoration: "underline",
+                                                  }}
+                                                >
+                                                  <p
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    onClick={() =>
+                                                      downloadFile(
+                                                        FiledataReturn[index][4]
+                                                      )
+                                                    }
+                                                  >
+                                                    {FiledataReturn[index][3]}
+                                                  </p>
+                                                </TableCell>
+                                              </TableRow>
+                                            )
+                                          )
+                                        )}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                </div>
+                              </td>
                             </td>
-                          </td>
-                        </tr>
-                      </table>
+                          </tr>
+                        </table>
 
-                      <table>
-                        <tr>
-                          <td className=""></td>
-                        </tr>
-                        <tr></tr>
-                        <tr
-                          style={{
-                            width: "100%",
-                            marginBottom: "20px",
-                            marginTop: "20px",
-                          }}
-                        ></tr>
-                      </table>
-                    </div>
-                  </td>
-                </tr>
-              </div>
+                        <table>
+                          <tr>
+                            <td className=""></td>
+                          </tr>
+                          <tr></tr>
+                          <tr
+                            style={{
+                              width: "100%",
+                              marginBottom: "20px",
+                              marginTop: "20px",
+                            }}
+                          ></tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </div>
+              </Card>
             </Card>
-          </Card>
+          </div>
         )}
         <Card className="Style100">
           <Card

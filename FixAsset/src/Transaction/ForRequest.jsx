@@ -46,7 +46,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
-import { ForReq_fn } from "../Function/ForReq_fn";
+import { FAM_GET_REQUEST } from "../Function/FN_TRANSECTION_ALL/FAM_GET_REQUEST";
 
 function ForRequest() {
   const {
@@ -128,8 +128,7 @@ function ForRequest() {
     STS1_Req, setSTS1_Req,
     STS1_for_R, setSTS1_for_R,
     checknext, setchecknext,fileInputRef
-  } = ForReq_fn();
-console.log(STS1_Req,"STS1_Req")
+  } = FAM_GET_REQUEST();
   return (
     <>
       <div style={{ marginTop: "100px" }}>

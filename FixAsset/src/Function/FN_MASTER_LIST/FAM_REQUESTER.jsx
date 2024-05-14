@@ -110,7 +110,7 @@ function FAM_REQUESTER() {
     
   return {
     navigate,VIEW_TYPE,NextPage,Back_page,For_Rq_Edit,isPopupOpenLoadding,
-    Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding
+    Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,downloadFile
     
   }
 }
