@@ -41,7 +41,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const Lastname = localStorage.getItem("Lastname");
   let UserLogin = Name + " " + Lastname;
   const UserLoginn = localStorage.getItem("UserLogin");
-  const API ='10.17.74.202';
 
   const [selecteDatafac, setselecteDatafac] = useState("");
   const [BOI_Project, setBOI_Project] = useState("");
@@ -93,7 +92,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
       setuser_create(UserLoginn);
       setuser_update(UserLoginn);
     } else {
-      // console.log("CASE EDIT", DATA_EDIT);
       const EDIT = localStorage.getItem("BOI_Edit");
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
@@ -232,12 +230,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               UserLoginn &&
               Date_show
             ) {
-              // try {
-              //   const response = await axios.post(
-              //     `/ins_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}&FBMC_factory=
-              //${selecteDatafac[0]}&FBMC_BOI_Project=${BOI_Project}&FBMC_status=$
-              //{status}&FBMC_comment=${Comment}&FBMC_create_by=${UserLoginn}&FBMC_update_by=${UserLoginn}`
-              //   );
               
               try {
                 const response = await axios.post("/ins_BOI_MAINTAIN", {
@@ -280,13 +272,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               UserLoginn &&
               Date_show
             ) {
-              // try {
-              //   const response = await axios.post(
-              //     `/update_BOI_MAINTAIN?FBMC_cost_center=${selectcost[0]}
-              //&FBMC_factory=${selecteDatafac[0]}&FBMC_BOI_Project=$
-              //{BOI_Project}&FBMC_status=${status}&FBMC_comment=${Comment}
-              //&FBMC_update_by=${UserLoginn}`
-              //   );
               try {
                 console.log(" CCCCCCCCC",BOI_Project)
                 const response = await axios.post("/update_BOI_MAINTAIN", {

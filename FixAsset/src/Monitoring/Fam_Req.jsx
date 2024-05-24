@@ -23,6 +23,7 @@ import {
 import Grid from "@mui/material/Unstable_Grid2";
 import Header from "../Page/Hearder";
 import PageLoadding from "../Loadding/Pageload";
+import { Empty } from "antd";
 import {FAM_REQUESTER} from '../Function/FN_MASTER_LIST/FAM_REQUESTER'
 function ForRequest() {
 const {NextPage,Back_page,isPopupOpenLoadding,
@@ -293,7 +294,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                       <FormControlLabel
                         value="GP01004"
                         control={<Radio />}
-                        label="Lost"
+                        label="Loss"
                         className="Radio"
                         disabled
                       />
@@ -641,28 +642,38 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {Filedata.map((option, index) => (
-                            <TableRow key={index}>
-                              <TableCell>{Filedata[index][2]}</TableCell>
-                              <TableCell>{Filedata[index][3]}</TableCell>
-                              <TableCell
-                                style={{
-                                  textAlign: "center",
-                                  color: "blue",
-                                  textDecoration: "underline",
-                                }}
-                              >
-                                <p
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    downloadFile(Filedata[index][4])
-                                  }
-                                >
-                                  {Filedata[index][3]}
-                                </p>
-                              </TableCell>
-                            </TableRow>
-                          ))}
+                        {Filedata.length > 0 ? (
+  Filedata.map((option, index) => (
+    <TableRow key={index}>
+      <TableCell>{Filedata[index][2]}</TableCell>
+      <TableCell>{Filedata[index][3]}</TableCell>
+      <TableCell
+        style={{
+          textAlign: "center",
+          color: "blue",
+          textDecoration: "underline",
+        }}
+      >
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={() => downloadFile(Filedata[index][4])}
+        >
+          {Filedata[index][3]}
+        </p>
+      </TableCell>
+    </TableRow>
+  ))
+) : (
+  <TableRow>
+    <TableCell
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
+                                            >
+                                              <Empty />
+                                            </TableCell>
+  </TableRow>
+)}
+
                         </TableBody>
                       </Table>
                     </TableContainer>

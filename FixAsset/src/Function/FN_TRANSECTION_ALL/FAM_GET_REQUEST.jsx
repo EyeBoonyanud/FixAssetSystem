@@ -5,18 +5,22 @@ import Swal from "sweetalert2";
 
 
 function FAM_GET_REQUEST() {
- 
+  // LocalStrorage
   const EditFam = localStorage.getItem("EDIT");
   const LocalUserLogin = localStorage.getItem("UserLogin");
   const Name = localStorage.getItem("Name");
   const Lastname = localStorage.getItem("Lastname");
   const Emp = localStorage.getItem("EmpID");
+  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
+  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
+  const For_edit_request = localStorage.getItem("For_Req_Edit");
+  const For_Rq_Edit = JSON.parse(For_edit_request);
   let Emp_name = Emp + ":" + Name + " " + Lastname;
+
   const [dataUserLogin, setdataUserLogin] = useState("");
   const [dataUserLogin1, setdataUserLogin1] = useState("");
   const [Request_date, setRequest_date] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [Tel, setTel] = useState("");
   const [Tel1, setTel1] = useState("");
   const [Factory, setFactory] = useState("");
   const [Factory1, setFactory1] = useState("");
@@ -35,15 +39,13 @@ function FAM_GET_REQUEST() {
   const [dataFix_Asset_Cost, setdataFix_Asset_Cost] = useState([]); 
   const [datafix_for_find, setdatafix_for_find] = useState([]);
   const [COMP, set_COMP] = useState([]);
-
   const [owner_req, setowner_req] = useState("");
   const [owner_dept, setowner_dept] = useState("");
   const [name_req, setname_req] = useState("");
   const [owner_tel, setowner_tel] = useState("");
-
   const [find_fixasset, setfind_fixasset] = useState([]);
   const [find_fixasset1, setfind_fixasset1] = useState("");
-  const [open, setOpen] = useState(false); // open FixAsset
+  const [open, setOpen] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -79,31 +81,14 @@ function FAM_GET_REQUEST() {
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
   const [checknext, setchecknext] = useState("visible");
-  const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
-  const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
 
-  const For_edit_request = localStorage.getItem("For_Req_Edit");
-  const For_Rq_Edit = JSON.parse(For_edit_request);
   let STS = "";
-
+  // Upload file
+  const [Filedata, setFiledata] = useState([]);
   const FileUp = localStorage.getItem("Type");
   var storedFileArray = JSON.parse(FileUp);
-  //////////////////////////////Loading /////////////////////////
-
-  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
-  const openPopupLoadding = () => {
-    setPopupOpenLoadding(true);
-  };
-
-  const closePopupLoadding = () => {
-    setPopupOpenLoadding(false);
-  };
-  const [Filedata, setFiledata] = useState([]);
-
   const ShowFile = () => {
-    
     let Gen_Fam_No_Show = "";
-
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
         Gen_Fam_No_Show = For_Rq_Edit[0];
@@ -114,25 +99,20 @@ function FAM_GET_REQUEST() {
       }
     }
     if (Gen_Fam_No != null) {
-     // if (STS1_Req === "" || STS1_Req === "FLTR001" || STS1_for_R === "R" ) {
         axios
           .post("/FAM_FILE_ATTACH", {
             FamNo: Gen_Fam_No_Show,
           })
-
           .then((res) => {
             const data = res.data;
             if (data.length >= 0) {
               setFiledata(data);
             }
           });
-      //}
     }
   };
-
   const downloadFile = (fileName) => {
     const downloadUrl = `/downloads?filename=${encodeURIComponent(fileName)}`;
-
     axios({
       url: downloadUrl,
       method: "GET",
@@ -152,6 +132,14 @@ function FAM_GET_REQUEST() {
         console.error("Error downloading file:", error);
       });
   };
+  // Loading
+  const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+  const openPopupLoadding = () => {
+    setPopupOpenLoadding(true);
+  };
+  const closePopupLoadding = () => {
+    setPopupOpenLoadding(false);
+  }; 
   useEffect(() => {
     openPopupLoadding();
     if (storedFileArray != null) {
@@ -274,6 +262,7 @@ function FAM_GET_REQUEST() {
       }
     }
   };
+  // Format Date 
   const formattedDate = `${currentDate
     .getDate()
     .toString()
@@ -281,7 +270,7 @@ function FAM_GET_REQUEST() {
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
-  //Request By /////////////////////////////////////////
+  // Get Const 
   const request_by = async () => {
     try {
       const response = await axios.post("/getby", {
@@ -306,7 +295,6 @@ function FAM_GET_REQUEST() {
       console.error("Error during login:", error);
     }
   };
-  //Request_Factory//////////////////////////////////////
   const factory = async () => {
     let data_Fac = "";
     if (EditFam == null) {
@@ -380,7 +368,6 @@ function FAM_GET_REQUEST() {
     }
     fixasset_group(data_Fac[1]);
   };
-  //Cost Center/////////////////////////////////////////
   const costcenter = async () => {
     try {
       const response = await axios.post("/getcost_insert", {
@@ -404,7 +391,6 @@ function FAM_GET_REQUEST() {
       console.error("Error during login:", error);
     }
   };
-  //AssetGroup //////////////////////////////////////
   const fixasset_group = async (datafac) => {
     try {
       const response = await axios.post("/getfix_group", {
@@ -412,6 +398,7 @@ function FAM_GET_REQUEST() {
       });
       const data = await response.data;
       setFixAssetgroup(data);
+      console.log("datafixgrop",data)
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
           setselectFixAssetgroup1(For_Rq_Edit[8]);
@@ -427,16 +414,16 @@ function FAM_GET_REQUEST() {
       console.error("Error during login:", error);
     }
   };
-
-  // HandleFixAssetCost
   const handleCost = async () => {
-    try {
-      const response = await axios.post("/getid_service", {
-        fac: Factory[1],
-        fixgroub: selectFixAssetgroup1,
-      });
-      const data = await response.data;
-      if (data[0][0] === "EACH CC") {
+    // try {
+    //   const response = await axios.post("/getid_service", {
+    //     fac: Factory[1],
+    //     fixgroub: selectFixAssetgroup1,
+    //   });
+    //   const data = await response.data;
+
+  let Servicedept = selectFixAssetgroup1
+      if (Servicedept=== "EACH CC") {
         try {
           const response = await axios.post("/getfind_service", {
             asset_find: owner_dept,
@@ -445,23 +432,22 @@ function FAM_GET_REQUEST() {
 
           setdataFix_Asset_Cost(data_for_servicedept);
          
-          Gen_No(data_for_servicedept);
+          Gen_No(data_for_servicedept[0]);
         } catch (error) {
           console.error("Error during login:", error);
         }
       } else {
-        setdataFix_Asset_Cost(data);
+        setdataFix_Asset_Cost(Servicedept);
       
-        Gen_No(data);
+        Gen_No(Servicedept);
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    // } catch (error) {
+    //   console.error("Error during login:", error);
+    // }
   };
-
-  /////////////// Gen Fam and Tranfer_ins //////////////////
+  // สำหรับการทำงานทั้งหมด
   const Gen_No = async (asset) => {
-    
+    console.log(asset,"GEN NO")
     openPopupLoadding();
     let DataStatus = ""; 
     let StatusType = "";
@@ -510,7 +496,7 @@ function FAM_GET_REQUEST() {
       } catch (error) {
         console.error("Error during login:", error);
       }
-      const Run = Factory[0] + "-" + asset[0][0] + "-" + Year;
+      const Run = Factory[0] + "-" + asset[0] + "-" + Year;
       try {
         const response = await axios.post("/getfamno", {
           famno: Run,
@@ -519,10 +505,10 @@ function FAM_GET_REQUEST() {
         if (get_runno[0][0] != null) {
           let FamNo_old = parseInt(get_runno[0][0].slice(-4), 10);
           let paddedFamNo_old = (FamNo_old + 1).toString().padStart(4, "0");
-          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus, asset[0][2]);
+          Tranfer_ins(Run + "-" + paddedFamNo_old, DataStatus);
         } else {
           let FamNo_new = Run + "-0001";
-          Tranfer_ins(FamNo_new, DataStatus, asset[0][2]);
+          Tranfer_ins(FamNo_new, DataStatus);
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -554,7 +540,7 @@ function FAM_GET_REQUEST() {
       Costcenter1,
       selectDept1,
       Request_type1,
-      selectFixAssetgroup1,
+      "",
       owner_dept,
       nameasset,
       DataStatus[0],
@@ -578,7 +564,7 @@ function FAM_GET_REQUEST() {
         cc: Costcenter1,
         dept: selectDept1,
         type: Request_type1,
-        assetgroup: selectFixAssetgroup1,
+        assetgroup: "",
         assetcc: owner_dept,
         assetname: nameasset,
         status: DataStatus[0],
@@ -609,7 +595,6 @@ function FAM_GET_REQUEST() {
     } catch (error) {
     }
   };
-
   const handleOwner_tel = async (event) => {
     setowner_tel(event.target.value);
     if (EditFam != null) {
@@ -780,17 +765,28 @@ function FAM_GET_REQUEST() {
       console.error("Error fetching data:", error);
     }
   };
-  ////////////// Select Fixed Assets Code ///////////////////////////////
-  //Find FixAsset Group
   const ADD = async () => {
     openPopupLoadding();
-
-    let group_fix = "";
-    if (selectFixAssetgroup1.length > 1) {
-      group_fix = selectFixAssetgroup1.substring(0, 1);
-    } else {
-      group_fix = selectFixAssetgroup1;
-    }
+console.log(selectFixAssetgroup1[0],"selectFixAssetgroup1 ADD",Factory[1])
+    // let group_fix = "";
+    // if (selectFixAssetgroup1.length > 1) {
+    //   group_fix = selectFixAssetgroup1.substring(0, 1);
+    // } else {
+    //   group_fix = selectFixAssetgroup1;
+    // }
+   try {
+    console.log("F มาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาาา")
+    const response = await axios.post("/find_fix_groub", {
+      fac: Factory[1],
+      servicedept: selectFixAssetgroup1[0],
+     
+    });
+    const data = response.data
+    console.log("data Respone",data)
+   } catch (error) {
+    
+   }
+  
     try {
       const response = await axios.post("/getfixcode", {
         Fixcode: find_fixasset1,
@@ -862,7 +858,6 @@ function FAM_GET_REQUEST() {
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
-
   const handleCheckboxAllChange = () => {
     const newSelectedAll = !selectAll;
     let newSelectedItems = [];
@@ -885,7 +880,7 @@ function FAM_GET_REQUEST() {
     setSelectedItems(newSelectedItems);
     updateSelectedData(newSelectedItems);
   };
-
+  // Table Fixed Asset
   const [CountCOMP, setCountCOMP] = useState([]);
   const [Countdatatable, setCountdatatable] = useState([]);
   const handleAdd = () => {
@@ -931,13 +926,11 @@ function FAM_GET_REQUEST() {
       setlocalTable(newDataTable);
     }
   };
-
   const setlocalTable = async (newData) => {
     const data = JSON.stringify(newData);
     localStorage.setItem("Edit_Dteail_for_FixedCode", data);
     localStorage.setItem("forDetail", data);
   };
-
   const handleDelete = async (item, index) => {
     openPopupLoadding();
     const newData = datatable.filter((data) => data[0] !== item);
@@ -969,7 +962,6 @@ function FAM_GET_REQUEST() {
     }
     closePopupLoadding();
   };
-
   const Insert_Fam_detail = async () => {
     openPopupLoadding();
     for (let i = 0; i < datatable.length; i++) {
@@ -1014,8 +1006,6 @@ function FAM_GET_REQUEST() {
     setSelectedItems([]);
     setOpen(false);
   };
-
-  //////////// Handle set localstorage ////////////////
   const handleTel = async (event) => {
     setTel1(event.target.value);
 
@@ -1233,7 +1223,6 @@ function FAM_GET_REQUEST() {
       }
     }
   };
-
   const handleFileUpload = (event) => {
     const selectedFiles = event.target.files;
 
@@ -1276,7 +1265,6 @@ function FAM_GET_REQUEST() {
     const fileArrayString = JSON.stringify(jsonDataArray);
     localStorage.setItem("Type", fileArrayString);
   };
-
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -1348,7 +1336,6 @@ function FAM_GET_REQUEST() {
     ShowFile();
     closePopupLoadding();
   };
-
   const handleDeleteFile = async (index, file, fileName) => {
     openPopupLoadding();
     const updatedFiles = uploadedFiles.filter((uploadedFile, i) => i !== index);
@@ -1392,8 +1379,6 @@ function FAM_GET_REQUEST() {
       navigate("/ApproveFam");
     }
   };
-
-  ////// ปุ่ม Reset ///////////
   const Reset = async () => {
     setTel1("");
     setselectDept1("");
@@ -1406,13 +1391,11 @@ function FAM_GET_REQUEST() {
     setname_req("");
     setowner_tel("");
   };
-
   const navigate = useNavigate();
   const NextPage = async () => {
     Insert_Fam_detail();
     navigate("/TransDetail");
   };
-  //////////// Next Page ///////////
   const Next = async (value) => {
     Insert_Fam_detail();
     Swal.fire({

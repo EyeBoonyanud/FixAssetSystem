@@ -246,7 +246,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <>
               {menudataId.map(
                 (item, index) =>
-                  menudataId[index] === menuId[3] && (
+                  menudataId[index] === menuId[3] && menudata[index] !== "Master Code Maintain" && (
                     <ListItem
                       className="SubMenuItem"
                       onClick={() => {
@@ -279,7 +279,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <>
               {menudataId.map(
                 (item, index) =>
-                  menudataId[index] === menuId[4] && (
+                  menudataId[index] === menuId[4] && menudata[index] !== "FAM Form" && (
                     <ListItem
                       className="SubMenuItem"
                       onClick={() => {

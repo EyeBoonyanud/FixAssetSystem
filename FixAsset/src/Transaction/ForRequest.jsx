@@ -269,7 +269,7 @@ function ForRequest() {
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request (Owner) :
+                      Request (Owner Id) :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -516,9 +516,10 @@ function ForRequest() {
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Fix Asset Group :
+                      Service Dept:
                     </Typography>
                   </Grid>
+                  {console.log(selectFixAssetgroup1,"selectFixAssetgroup1")}
                   <Grid xs={3}>
                     <FormControl fullWidth>
                       <InputLabel size="small" id="demo-simple-select-label">

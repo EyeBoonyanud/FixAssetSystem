@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-function HOMEPAGE() {
+function function_homepage() {
     const UserLogin = localStorage.getItem("UserLogin");
     const [dataall_Show, setdataall_Show] = useState([]);
     const [dataallname_Show, setdataallname_Show] = useState([]);
@@ -14,8 +14,7 @@ function HOMEPAGE() {
     const [dataLossall, setdataLossall] = useState([]);
     const [dataLossallname, setdataLossallname] = useState([]);
     const [dataname_show, setdataname_show] = useState("");
-
-
+    const [dataname_type, setdataname_type] = useState("");
     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
     const openPopupLoadding = () => {
       setPopupOpenLoadding(true);
@@ -29,13 +28,14 @@ function HOMEPAGE() {
         const fetchData = async () => {
     
           const Transfer = async () => {
+
             try {
               const response = await axios.post(
-                "/getCountTransfer",
+                "http://localhost:5000/getCountTransfer",
                 { UserLogin : UserLogin }
               );
               const Transfer = await response.data;
-              (Transfer,"Transfer");
+              console.log(Transfer,"Transfer");
               setdataTransfer(Transfer);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -44,13 +44,14 @@ function HOMEPAGE() {
           const Transferlistallname = async () => {
             try {
               const response = await axios.get(
-                `/getCountTransferlistaLLname`
+                `http://localhost:5000/getCountTransferlistaLLname`
               );
               const Transferallname = await response.data;
               setdataTransferallname(Transferallname);
               setdataallname_Show(Transferallname);
               setdataname_show("Transfer");
-              (Transferallname, "ดูข้อมูล");
+              setdataname_type("GP01001");
+              console.log(Transferallname, "ดูข้อมูล");
             } catch (error) {
               console.error("Error Transferdataall:", error);
             }
@@ -59,7 +60,7 @@ function HOMEPAGE() {
           const Transferlistall = async () => {
             try {
               const response = await axios.post(
-                "/getCountTransferlistaLL",
+                "http://localhost:5000/getCountTransferlistaLL",
                 { UserLogin : UserLogin }
               );
               const Transferall = await response.data;
@@ -72,11 +73,11 @@ function HOMEPAGE() {
           const Loss = async () => {
             try {
               const response = await axios.post(
-                "/getCountLoss",
+                "http://localhost:5000/getCountLoss",
                 { UserLogin : UserLogin }
               );
               const Loss = await response.data;
-              (Loss,"Loss");
+              console.log(Loss,"Loss");
               setdataLoss(Loss);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -85,11 +86,11 @@ function HOMEPAGE() {
           const Write_off = async () => {
             try {
               const response = await axios.post(
-                "/getCountWrite_off",
+                "http://localhost:5000/getCountWrite_off",
                 { UserLogin : UserLogin }
               );
               const Write_off = await response.data;
-              (Write_off,"Loss");
+              console.log(Write_off,"Loss");
               setdataWrite_off(Write_off);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -98,11 +99,11 @@ function HOMEPAGE() {
           const Lending = async () => {
             try {
               const response = await axios.post(
-                "/getCountLending",
+                "http://localhost:5000/getCountLending",
                 { UserLogin : UserLogin }
               );
               const Lending = await response.data;
-              (Lending,"Loss");
+              console.log(Lending,"Loss");
               setdataLending(Lending);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -111,11 +112,11 @@ function HOMEPAGE() {
           const Donation = async () => {
             try {
               const response = await axios.post(
-                "/getCountDonation",
+                "http://localhost:5000/getCountDonation",
                 { UserLogin : UserLogin }
               );
               const Donation = await response.data;
-              (Donation,"Loss");
+              console.log(Donation,"Loss");
               setdataDonation(Donation);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -134,37 +135,41 @@ function HOMEPAGE() {
         fetchData();
       }, []);
     
-      const handleClickNextToSearch =  (value) => {
-        ("Received value:", value);
+      const handleClickNextToSearch =  (value, type) => {
+        console.log("Received value:", value,type);
         if (value === "Create") {
           localStorage.setItem("STATUS", value);
-          window.location.href = `/Search`;     
+          localStorage.setItem("TYPE", type);
+          window.location.href = `/Search`;
+          console.log(value,"create");     
         } else {
           localStorage.setItem("STATUS", value);
+          localStorage.setItem("TYPE", type);
           window.location.href = `/ApproveFam`;
+          console.log(value,"not create");
         }
       };
 
       const handleClickMenu_LIST = async (Data) => {
-        ("Data",Data);
+        console.log("Data",Data);
         
         openPopupLoadding();
         if (Data === "Transfer") {
-            ("DataShow Transfer");
+            console.log("DataShow Transfer");
                 try {
                   const response = await axios.get(
-                    `/getCountTransferlistaLLname`
+                    `http://localhost:5000/getCountTransferlistaLLname`
                   );
                   const Transferallname = await response.data;
                   setdataallname_Show(Transferallname);
-                  (Transferallname, "ดูข้อมูล");
+                  console.log(Transferallname, "ดูข้อมูล");
                 } catch (error) {
                   console.error("Error Transferdataall:", error);
                 }
 
                 try {
                   const response = await axios.post(
-                    "/getCountTransferlistaLL",
+                    "http://localhost:5000/getCountTransferlistaLL",
                     { UserLogin : UserLogin }
                   );
                   const Transferall = await response.data;
@@ -172,23 +177,24 @@ function HOMEPAGE() {
                 } catch (error) {
                   console.error("Error Transferdataall:", error);
                 }
+            setdataname_type("GP01001");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Loss") {
-            ("DataShow Loss");
+            console.log("DataShow Loss");
             try {
                 const response = await axios.get(
-                `/getCountLosslistaLLname`
+                `http://localhost:5000/getCountLosslistaLLname`
                 );
                 const Lossallname = await response.data;
                 setdataallname_Show(Lossallname);
-                (Lossallname, "ดูข้อมูล Loss");
+                console.log(Lossallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
             try {
                 const response = await axios.post(
-                "/getCountLosslistaLL",
+                "http://localhost:5000/getCountLosslistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Lossall = await response.data;
@@ -196,23 +202,24 @@ function HOMEPAGE() {
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
+            setdataname_type("GP01004");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Write off") {
-            ("DataShow Write off");
+            console.log("DataShow Write off");
             try {
                 const response = await axios.get(
-                `/getCountWrite_offlistaLLname`
+                `http://localhost:5000/getCountWrite_offlistaLLname`
                 );
                 const Write_offallname = await response.data;
                 setdataallname_Show(Write_offallname);
-                (Write_offallname, "ดูข้อมูล Loss");
+                console.log(Write_offallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
             try {
                 const response = await axios.post(
-                "/getCountWrite_offlistaLL",
+                "http://localhost:5000/getCountWrite_offlistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Write_offall = await response.data;
@@ -220,23 +227,24 @@ function HOMEPAGE() {
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
+            setdataname_type("GP01005");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Lending") {
-            ("DataShow Lending");
+            console.log("DataShow Lending");
             try {
                 const response = await axios.get(
-                `/getCountLendinglistaLLname`
+                `http://localhost:5000/getCountLendinglistaLLname`
                 );
                 const Lendingallname = await response.data;
                 setdataallname_Show(Lendingallname);
-                (Lendingallname, "ดูข้อมูล Loss");
+                console.log(Lendingallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
             try {
                 const response = await axios.post(
-                "/getCountLendinglistaLL",
+                "http://localhost:5000/getCountLendinglistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Lendingall = await response.data;
@@ -244,23 +252,24 @@ function HOMEPAGE() {
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
+            setdataname_type("GP01006");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Donations") {
-            ("DataShow Donation");
+            console.log("DataShow Donation");
             try {
                 const response = await axios.get(
-                `/getCountDonationlistaLLname`
+                `http://localhost:5000/getCountDonationlistaLLname`
                 );
                 const Donationallname = await response.data;
                 setdataallname_Show(Donationallname);
-                (Donationallname, "ดูข้อมูล Loss");
+                console.log(Donationallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
             try {
                 const response = await axios.post(
-                "/getCountDonationlistaLL",
+                "http://localhost:5000/getCountDonationlistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Donationall = await response.data;
@@ -268,6 +277,7 @@ function HOMEPAGE() {
             } catch (error) {
                 console.error("Error Transferdataall:", error);
             }
+            setdataname_type("GP01007");
             setdataname_show(Data);
             closePopupLoadding();
         } else {
@@ -278,11 +288,11 @@ function HOMEPAGE() {
       
 
 
-    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST};
+    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type};
 }
 
 
-export { HOMEPAGE }; 
+export { function_homepage }; 
 
 
 

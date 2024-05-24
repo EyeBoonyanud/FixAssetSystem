@@ -78,6 +78,13 @@ function FAM_TRANSECTION_TLWLD() {
       const [CheckSave, setCheckSave] = useState("False");
       const [certificate_date ,setcertificate_date] = useState("")
       const [return_date , setreturn_date] = useState("")
+      //Srcap 
+      const [pte_env, setpte_env] = useState([]);
+      const [selectpte_env, setselectpte_env] = useState("");
+      const [pln_staff, setpln_staff] = useState([]);
+      const [selectpln_staff, setselectpln_staff] = useState("");
+      const [shipping_staff, setshipping_staff] = useState([]);
+      const [selectshipping_staff, setselectshipping_staff] = useState("");
      
     
     
@@ -101,6 +108,11 @@ function FAM_TRANSECTION_TLWLD() {
       const [ErrorACCReturn, setErrorACCReturn] = useState(false);
       const [ErrorDate_Certificate,setErrorDate_Certificate] = useState(false);
       const [ErrorDate_return,setErrorDate_return] = useState(false);
+      //Scrap 
+      const [ErrorPTE_ENV,setErrorPTE_ENV] = useState(false);
+      const [ErrorPLN_Staff,setErrorPLN_Staff] = useState(false);
+      const [ErrorShipping,setErrorShipping] = useState(false);
+
       let STS = "";
       let Fam_list = "";
       let servivedept = "";
@@ -150,6 +162,11 @@ function FAM_TRANSECTION_TLWLD() {
         //Lending
         const [cmmtradio_return_acc, setcmmtradio_return_acc] = useState("");
         const [cmmtradio_return_own, setcmmtradio_return_own] = useState("");
+        //scarp
+        const [cmmtradio_pte_env, setcmmtradio_pte_env] = useState("");
+        const [cmmtradio_pln_staff, setcmmtradio_pln_staff] = useState("");
+        const [cmmtradio_shipping, setcmmtradio__shipping] = useState("");
+     
       /////////////// ตัวแปร Check Action Date //////////////////////////////
       const [action_dept, setaction__dept] = useState("");
       const [action__serviceby, setaction__serviceby] = useState("");
@@ -162,9 +179,13 @@ function FAM_TRANSECTION_TLWLD() {
       const [action__record, setaction__record] = useState("");
       const [action__acc_manager, setaction__acc_manager] = useState("");
       const [action__service_close_by, setaction__service_close_by] = useState("");
+      //Lending
       const [action__return_acc, setaction__return_acc] = useState("");
       const [action__return_own, setaction__return_own] = useState("");
-    
+      //Scarp
+      const [action__pte_env, setaction__pte_env] = useState("");
+      const [action__pln_staff, setaction__pln_staff] = useState("");
+      const [action__shipping, setaction__shipping] = useState("");
       /////////////// ตัวแปร Check Read Only //////////////////////////////
       const [read_trans_fac, setReadTransFac] = useState(true);
       const [read_trans_cc, setReadTransCC] = useState(true);
@@ -208,7 +229,16 @@ function FAM_TRANSECTION_TLWLD() {
       const [read_return_own, setReadReturnOwn] = useState(true);
       const [read_return_own_radio, setReadReturnOwnRadio] = useState(true);
       const [read_return_own_cmmt, setReadReturnOwnCmmt] = useState(true);
-    
+    // Scrap
+    const [read_pte_env, setReadPte_Env] = useState(true);
+    const [read_pte_env_radio, setReadPte_EnvRadio] = useState(true);
+    const [read_pte_env_cmmt, setReadPte_EnvCmmt] = useState(true);
+    const [read_pln_staff, setReadPLN_Staff] = useState(true);
+    const [read_pln_staff_radio, setReadPLN_StaffRadio] = useState(true);
+    const [read_pln_staff_cmmt, setReadPLN_StaffCmmt] = useState(true);
+    const [read_shipping, setReadShipping] = useState(true);
+    const [read_shipping_radio, setReadShippingRadio] = useState(true);
+    const [read_shipping_cmmt, setReadShippingCmmt] = useState(true);
     
       /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
       const [checkrdo, setcheckrdo] = useState("hidden");
@@ -225,7 +255,11 @@ function FAM_TRANSECTION_TLWLD() {
       //Leanding Chk
       const [chkreturn_acc ,setchkreturn_acc] = useState("hidden");
       const [chkreturn_owner ,setchkreturn_owner] = useState("hidden");
-      
+      // Scrap Chk
+      const [chkpte_env ,setchkpte_env] = useState("hidden");
+      const [chkpln_staff ,setchkpln_staff] = useState("hidden");
+      const [chkshipping ,sechkshipping] = useState("hidden");
+
       // comment ซ่อน ไม่ซ่อน
       const [CM_DepartmentManager, setCM_DepartmentManager] = useState("none");
       const [CM_service_by, setCM_service_by] = useState("none");
@@ -241,9 +275,14 @@ function FAM_TRANSECTION_TLWLD() {
       //Lending Comment
       const [CM_return_acc ,setCM_return_acc] = useState("none");
       const [CM_return_owner ,setCM_return_owner] = useState("none");
-     
+      //Scarp 
+      const [CM_pte_env ,setCM_pte_env] = useState("none");
+      const [CM_pln_staff ,setCM_pln_staff] = useState("none");
+      const [CM_shipping ,setCM_shipping] = useState("none");
       // Donation check 
       const [chk_cer_date ,setchk_cer_date] = useState("")
+
+
     
       const [Showtype, setShowtype] = useState("");
       /////////////// ตัวแปร FormatDate //////////////////////////////
@@ -295,6 +334,8 @@ function FAM_TRANSECTION_TLWLD() {
         Fac_manager();
         ACC_Check();
         ACC_Manager();
+        PTE_ENV();
+        PLN_staff();
         if (Showtype== "GP01001") {
           edit_New_BOI();
         }
@@ -2078,6 +2119,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
       };
       const handleNewboi_proj = async (value) => {
+       console.log("cccc",value,data_fromboi)
         let NewPoroj = value;
         if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
           setsts("N");
@@ -10187,6 +10229,78 @@ function FAM_TRANSECTION_TLWLD() {
           console.error("Error during login:", error);
         }
       };
+      // Scrap PTE_ENV
+      const PTE_ENV = async () => {
+       
+        let level = "";
+        if (EditFam != null) {
+          if (For_edit_trans != null) {
+            level = For_Rq_Edit[14];
+          }
+        } else {
+          level = For_Req[3];
+        }
+        try {
+          const response = await axios.post("/pte_env_data", {
+            fac: level,
+          });
+          const data = response.data.flat();
+          setpte_env(data);
+          
+          // if (EditFam != null) {
+           
+          //   if (For_Edit_Rou != null) {
+          //     setselectacc_manager(For_Edit_Rou[0][28]);
+          //     setreturn_selectacc_manager(Edit_For_Lending[0][1])
+              
+          //   }
+          // } else {
+          //   if (For_Req != null) {
+          //     setselectacc_manager(For_Rou[10]);
+          //   } else {
+          //     setselectacc_manager("");
+          //   }
+          // }
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
+      const PLN_staff = async () => {
+       
+        let level = "";
+        if (EditFam != null) {
+          if (For_edit_trans != null) {
+            level = For_Rq_Edit[14];
+          }
+        } else {
+          level = For_Req[3];
+        }
+        try {
+          const response = await axios.post("/pln_staff_data", {
+            fac: level,
+          });
+          const data = response.data.flat();
+          setpln_staff(data);
+          console.log(data,'PLN')
+          
+          // if (EditFam != null) {
+           
+          //   if (For_Edit_Rou != null) {
+          //     setselectacc_manager(For_Edit_Rou[0][28]);
+          //     setreturn_selectacc_manager(Edit_For_Lending[0][1])
+              
+          //   }
+          // } else {
+          //   if (For_Req != null) {
+          //     setselectacc_manager(For_Rou[10]);
+          //   } else {
+          //     setselectacc_manager("");
+          //   }
+          // }
+        } catch (error) {
+          console.error("Error during login:", error);
+        }
+      };
       const edit_New_BOI = async () => {
         try {
           const response = await axios.post("/new_boi", {
@@ -10236,7 +10350,9 @@ function FAM_TRANSECTION_TLWLD() {
         CM_return_acc ,setCM_return_acc,CM_return_owner ,setCM_return_owner,chk_cer_date ,setchk_cer_date,read_return_acc_cmmt,setReadReturnACCCmmt,read_return_own_cmmt,setReadReturnOwnCmmt,action__return_acc, setaction__return_acc,action__return_own, setaction__return_own,read_return_acc_radio, setReadReturnACCRadio,read_return_own_radio, setReadReturnOwnRadio,
         selectradio_return_acc, setselectradio_return_acc,selectradio_return_own, setselectradio_return_own,read_return_acc,setReadReturnACC,read_return_own, setReadReturnOwn
     ,cmmtradio_return_acc, setcmmtradio_return_acc,cmmtradio_return_own, setcmmtradio_return_own,ErrorACCReturn,ErrorDate_Certificate,setErrorDate_Certificate
-    ,ErrorDate_return,setErrorDate_return
+    ,ErrorDate_return,setErrorDate_return,
+    pte_env,selectpte_env, setselectpte_env,pln_staff,selectpln_staff, setselectpln_staff,shipping_staff,selectshipping_staff, setselectshipping_staff,ErrorPTE_ENV,ErrorPLN_Staff,ErrorShipping,cmmtradio_pte_env,cmmtradio_pln_staff,cmmtradio_shipping,action__pte_env,action__pln_staff,action__shipping,read_pte_env_radio,read_pte_env_cmmt,read_pln_staff_radio,read_pln_staff_cmmt,read_shipping_radio,read_shipping_cmmt,chkpte_env,chkpln_staff,chkshipping
+   ,setaction__pte_env,setcmmtradio_pte_env
     
       };
     }

@@ -31,7 +31,6 @@ const CUSR = {
 /// May
 module.exports.getFamDetailReport = async function (req, res) {
   try {
-    // console.log("g-hllll")
     const{Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID }=  req.body;
     console.log(Fac,CC, RequestType,FAMNo_From,FamNo_To,OwnerID)
     const connect = await oracledb.getConnection(AVO);
@@ -58,24 +57,24 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_NEW_CC,
           R.FRT_TO_PROJ,
           D.FRD_REMARK,
-          M.FFM_FLG, 
-          H.FAM_REQ_STATUS 
+          M.FFM_FLG,
+          H.FAM_REQ_STATUS
         FROM
-          FAM_REQ_DETAIL D 
-          INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
-          INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
+        FAM_REQ_HEADER H
+          LEFT JOIN FAM_REQ_DETAIL D ON   D.FRD_FAM_NO = H.FRH_FAM_NO
+          LEFT JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = H.FRH_FAM_NO
         LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
         LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
-        WHERE 1=1
+        WHERE 1=1 
           AND(CF.FACTORY_CODE = '${Fac}' OR '${Fac}' IS NULL )
           AND(D.FRD_OWNER_CC = '${CC}' OR '${CC}' IS NULL )
           AND(H.FAM_REQ_TYPE = '${RequestType}' OR '${RequestType}' IS NULL )
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
           AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
           AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-          AND (FAM_REQ_STATUS NOT IN ('FLTR001') )
-          AND (FFM_FLG NOT IN ('R') OR FFM_FLG IS NULL)     
-        UNION ALL      
+          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001') )
+          AND (FFM_FLG NOT IN ('R','F','D') OR FFM_FLG IS NULL)
+        UNION ALL
         SELECT
           CF.FACTORY_NAME AS FACTORY ,
           H.FAM_ASSET_CC,
@@ -95,12 +94,12 @@ module.exports.getFamDetailReport = async function (req, res) {
           D.FRD_NEW_CC,
           R.FRT_TO_PROJ,
           D.FRD_REMARK,
-          M.FFM_FLG, 
+          M.FFM_FLG,
           H.FAM_REQ_STATUS
         FROM
-          FAM_REQ_DETAIL D 
-          INNER JOIN FAM_REQ_HEADER H ON   H.FRH_FAM_NO = D.FRD_FAM_NO
-          INNER JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = D.FRD_FAM_NO
+        FAM_REQ_HEADER H
+          LEFT JOIN FAM_REQ_DETAIL D ON   D.FRD_FAM_NO = H.FRH_FAM_NO
+          LEFT JOIN FAM_REQ_TRANSFER R ON R.FRT_FAM_NO = H.FRH_FAM_NO
         LEFT JOIN CUSR.CU_FACTORY_M CF ON CF.FACTORY_CODE = H.FAM_FACTORY
         LEFT JOIN FAM_FLOW_MASTER M ON M.FFM_CODE = H.FAM_REQ_STATUS
         WHERE 1=1
@@ -110,15 +109,14 @@ module.exports.getFamDetailReport = async function (req, res) {
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
           AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
           AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-          AND (FAM_REQ_STATUS NOT IN ('FLTR001') )
-          AND (FFM_FLG NOT IN ('R') OR FFM_FLG IS NULL)
+          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001') )
+          AND (FFM_FLG NOT IN ('R','F','D') OR FFM_FLG IS NULL)
         )
     ORDER BY 1,2,3
          
      `;
      console.log(query);
     const result = await connect.execute(query);
- 
     connect.release();
     res.json(result.rows);
   } catch (error) {

@@ -1,3 +1,4 @@
+
 import React from "react";
 import Header from "./Hearder";
 import "./Homepage.css";
@@ -23,10 +24,10 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import MenuWallpaper from "../assets/Image/Wallpaper_Menulist2.jpg";
-import {HOMEPAGE} from "../Function/FN_HOME_PAGE/HOMEPAGE";
+import {function_homepage} from "../Function/FN_HOME_PAGE/HOMEPAGE";
 
 export default function BasicGrid() {
-  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST } = HOMEPAGE();
+  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type } = function_homepage();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -70,12 +71,14 @@ export default function BasicGrid() {
                            }}
                           className="Hoverhover"
                           onClick={() =>
-                            handleClickNextToSearch(dataallname_Show &&
-                              dataallname_Show[0] &&
+                            handleClickNextToSearch(
+                              dataallname_Show &&
                               dataallname_Show[0] &&
                               dataallname_Show[0][2] 
-                              ? dataallname_Show[0][2] 
-                              : '')
+                                ? dataallname_Show[0][2] 
+                                : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -112,7 +115,9 @@ export default function BasicGrid() {
                               dataallname_Show[1] &&
                               dataallname_Show[1][2] 
                               ? dataallname_Show[1][2] 
-                              : '')
+                              : '',
+                              dataname_type 
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -149,7 +154,9 @@ export default function BasicGrid() {
                               dataallname_Show[2] &&
                               dataallname_Show[2][2] 
                               ? dataallname_Show[2][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -186,7 +193,9 @@ export default function BasicGrid() {
                               dataallname_Show[3] &&
                               dataallname_Show[3][2] 
                               ? dataallname_Show[3][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -223,7 +232,9 @@ export default function BasicGrid() {
                               dataallname_Show[4] &&
                               dataallname_Show[4][2] 
                               ? dataallname_Show[4][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -260,7 +271,9 @@ export default function BasicGrid() {
                               dataallname_Show[5] &&
                               dataallname_Show[5][2] 
                               ? dataallname_Show[5][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -297,7 +310,9 @@ export default function BasicGrid() {
                               dataallname_Show[6] &&
                               dataallname_Show[6][2] 
                               ? dataallname_Show[6][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -334,7 +349,9 @@ export default function BasicGrid() {
                               dataallname_Show[7] &&
                               dataallname_Show[7][2] 
                               ? dataallname_Show[7][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -371,7 +388,9 @@ export default function BasicGrid() {
                               dataallname_Show[8] &&
                               dataallname_Show[8][2] 
                               ? dataallname_Show[8][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -408,7 +427,9 @@ export default function BasicGrid() {
                               dataallname_Show[9] &&
                               dataallname_Show[9][2] 
                               ? dataallname_Show[9][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -446,7 +467,9 @@ export default function BasicGrid() {
                               dataallname_Show[10] &&
                               dataallname_Show[10][2] 
                               ? dataallname_Show[10][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -484,7 +507,9 @@ export default function BasicGrid() {
                               dataallname_Show[11] &&
                               dataallname_Show[11][2] 
                               ? dataallname_Show[11][2] 
-                              : '')
+                              : '',
+                              dataname_type
+                            )
                           }
                         >
                           <TableCell align="left">
@@ -523,7 +548,8 @@ export default function BasicGrid() {
                                 dataallname_Show[0] &&
                                 dataallname_Show[12] &&
                                 dataallname_Show[12][2]) ||
-                                ''
+                                '',
+                                dataname_type
                             )
                           }
                         >
@@ -562,7 +588,8 @@ export default function BasicGrid() {
                                 dataallname_Show[0] &&
                                 dataallname_Show[13] &&
                                 dataallname_Show[13][2]) ||
-                                ''
+                                '',
+                                dataname_type
                             )
                           }
                         >

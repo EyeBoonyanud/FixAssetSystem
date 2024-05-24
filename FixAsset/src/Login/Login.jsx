@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, Form, Input } from "antd";
-import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
@@ -29,7 +19,6 @@ import LockIcon from "@mui/icons-material/Lock";
 import Person2Icon from "@mui/icons-material/Person2";
 import Card from "@mui/material/Card";
 
-// TODO remove, this demo shouldn't need to reset the theme.
 export default function SignInSide() {
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePasswordVisibility = () => {

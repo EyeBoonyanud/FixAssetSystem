@@ -67,10 +67,8 @@ module.exports.login = async (req, res) => {
     `;
 
     const result = await connect.execute(query);
-  
     connect.release();
     res.status(200).json(result.rows);
-    console.log(result.rows)
   } catch (error) {
     console.error("Error sending email:", error);
     res.status(500).json({ error: "An error occurred while sending email" });
@@ -99,7 +97,6 @@ module.exports.menu = async function (req, res) {
                 ORDER BY CAST(M.MENU_ID AS INTEGER),CAST(M.MENU_PARENT_ID AS INTEGER),M.MENU_SORT`;
     const result = await connect.execute(query);
     connect.release();
-    // // console.log(result.rows);
     res.json(result.rows);
     
   } catch (error) {

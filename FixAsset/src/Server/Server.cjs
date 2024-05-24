@@ -55,6 +55,9 @@ app.post("/getcost_insert",Transaction.cost_insert);
 app.post("/getfix_group",Transaction.fix_group);
 app.post("/getid_service",Transaction.id_service);
 app.post("/getfind_service",Transaction.find_service);
+//
+app.post("/find_fix_groub",Transaction.find_fix_groub);
+///
 app.post("/getfamno",Transaction.fam_no);
 app.post("/get_gen_famno",Transaction.insert_tranfer);
 app.post("/create_date",Transaction.create_date);
@@ -97,6 +100,10 @@ app.post("/getEdit_lenging",Transaction.getEdit_lenging);
 app.post("/update_lending",Transaction.update_lending);
 app.post("/update_leading_acc_return",Transaction.update_leading_acc_return);
 app.post("/update_leading_own_return",Transaction.update_leading_own_return);
+//Scrap 
+app.post("/pte_env_data",Transaction.pte_env_data);
+app.post("/pln_staff_data",Transaction.pln_staff_data);
+app.post("/shipping_data",Transaction.shipping_data);
 
 
 

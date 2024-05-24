@@ -251,130 +251,64 @@ function TransFerDetail() {
     setcertificate_date,
     return_date,
     setreturn_date,
-    return_acc_manager,
-    setreturn_acc_manager,
     return_selectacc_manager,
     setreturn_selectacc_manager,
     req_return,
     setreq_return,
     chkreturn_acc,
-    setchkreturn_acc,
     chkreturn_owner,
-    setchkreturn_owner,
     CM_return_acc,
-    setCM_return_acc,
     CM_return_owner,
-    setCM_return_owner,
-    chk_cer_date,
-    setchk_cer_date,
     read_return_acc_cmmt,
-    setReadReturnACCCmmt,
     read_return_own_cmmt,
-    setReadReturnOwnCmmt,
     action__return_acc,
     setaction__return_acc,
     action__return_own,
-    setaction__return_own,
     read_return_acc_radio,
-    setReadReturnACCRadio,
-    read_return_own_radio,
-    setReadReturnOwnRadio,
     selectradio_return_acc,
     setselectradio_return_acc,
-    selectradio_return_own,
-    setselectradio_return_own,
     cmmtradio_return_acc,
     setcmmtradio_return_acc,
     cmmtradio_return_own,
     setcmmtradio_return_own,
     read_return_acc,
-    setReadReturnACC,
-    read_return_own,
-    setReadReturnOwn,
     ErrorACCReturn,
     ErrorDate_Certificate,
-    setErrorDate_Certificate,
     ErrorDate_return,
-    setErrorDate_return,
+    pte_env,
+    selectpte_env,
+    setselectpte_env,
+    pln_staff,
+    selectpln_staff,
+    setselectpln_staff,
+    shipping_staff,
+    selectshipping_staff,
+    setselectshipping_staff,
+    ErrorPTE_ENV,
+    ErrorPLN_Staff,
+    ErrorShipping,
+    cmmtradio_pte_env,
+    cmmtradio_pln_staff,
+    cmmtradio_shipping,
+    action__pte_env,
+    action__pln_staff,
+    action__shipping,
+    read_pte_env_radio,
+    read_pte_env_cmmt,
+    read_pln_staff_radio,
+    read_pln_staff_cmmt,
+    read_shipping_radio,
+    read_shipping_cmmt,
+    chkpte_env,
+    chkpln_staff,
+    chkshipping,
+    CM_pte_env,
+    CM_pln_staff,
+    CM_shipping,
+    read_pte_env,read_pln_staff,read_shipping,setaction__pte_env,setcmmtradio_pte_env
   } = FAM_TRANSECTION_TLWLD();
 
-  const {
-    Dept,
-    selectDept1,
-    setselectDept1,
-    FixAssetgroup,
-    selectFixAssetgroup1,
-    setselectFixAssetgroup1,
-    Request_type1,
-    setRequest_type1,
-    Request_sts1,
-    setRequest_sts1,
-    Remark,
-    Gen_Fam_No,
-    setGen_Fam_No,
-    COMP,
-    owner_req,
-    setowner_req,
-    owner_dept,
-    setowner_dept,
-    name_req,
-    setname_req,
-    owner_tel,
-    find_fixasset,
-    find_fixasset1,
-    setfind_fixasset1,
-    open,
-    selectAll,
-    selectedItems,
-    datatable,
-    isTableOpen,
-    checkGenNo,
-    checkReset,
-    btnSave,
-    visibityDetails,
-    visibityFile,
-    For_Rq_Edit,
-    handleCost,
-    handleOwner_tel,
-    handleEmpUser,
-    ADD,
-    handleCheckboxChange,
-    handleCheckboxAllChange,
-    handleAdd,
-    handleDelete,
-    handleClose,
-    handleTel,
-    handleDept,
-    handleRemark,
-    NextPage,
-    Next,
-    read_fix_group,
-    setread_fix_group,
-    read_fix_cost,
-    setread_fix_cost,
-    reac_remark,
-    setread_remark,
-    reac_type,
-    setread_type,
-    delete_fix,
-    setdelete_fix,
-    STS1_Req,
-    setSTS1_Req,
-    STS1_for_R,
-    setSTS1_for_R,
-    checknext,
-    setchecknext,
-    handleSave,
-    handleDrop,
-    handleDragOver,
-    handleFileUpload,
-    handleDeleteFile,
-    uploadedFiles,
-    fileInputRef,
-    Filedata,
-    downloadFile,
-    storedFileArray,
-  } = FAM_GET_REQUEST();
+  const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
   const {
     showfile_owner,
     handleDL_File_Owner,
@@ -387,7 +321,6 @@ function TransFerDetail() {
     uploadedFiles_Own_return,
   } = FAM_GET_SHOW_FILE();
   // Const Return
-  let Radio_ACC_check = "A";
   return (
     <>
       {/* <Mail 
@@ -2759,6 +2692,1304 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
+                </table>
+              </div>
+            </Card>
+          </Card>
+        )}
+        {/* Srcap GP01002 */}
+        {Showtype === "GP01007" && (
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 0,
+
+                  justifyContent: "center",
+                }}
+              ></Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">PTE(ENV):</Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectpte_env}
+                          // disabled={read_pte_env}
+                          onChange={(e) =>
+                            setselectpte_env(e.target.value)
+                          }
+                          size="small"
+                          style={{
+                            borderColor: ErrorPTE_ENV ? "red" : undefined,
+                            backgroundColor: read_pte_env
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",width:'325px'
+                          }}
+                          error={
+                            ErrorACCReturn &&
+                            (!selectpte_env ||
+                              selectpte_env == "null")
+                          }
+                        >
+                          {pte_env.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {ErrorACCReturn &&
+                          (!return_selectacc_manager ||
+                            return_selectacc_manager == "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              Please select: ACC Manager Return
+                            </FormHelperText>
+                          )} */}
+                      </FormControl>
+                    </td>
+
+                    <td className="Style5">
+                      {/* <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={
+                            selectradio_return_acc === null ||
+                            selectradio_return_acc === ""
+                              ? setselectradio_return_acc("A")
+                              : selectradio_return_acc
+                          }
+                          onChange={(e) =>
+                            setselectradio_return_acc(e.target.value)
+                          }
+                          style={{ visibility: chkreturn_acc }}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                            disabled={read_return_acc_radio}
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled={read_return_acc_radio}
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl> */}
+                    </td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ visibility: chkpte_env }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={action__pte_env}
+                          onChange={(e) =>
+                            setaction__pte_env(e.target.value)
+                          }
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chkpte_env,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                
+                  <tr style={{ display: CM_pte_env }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          value={cmmtradio_pte_env}
+                          disabled={read_pte_env_cmmt}
+                          style={{
+                            backgroundColor: read_pte_env_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pte_env(e.target.value)
+                          }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {console.log(Showtype,"Showtype")}
+                  {Showtype == "GP01007" &&
+                    // STS1 != "FLLD001" &&
+                    // STS1 != "FLLD002" &&
+                    // STS1 != "FLLD003" &&
+                    // STS1 != "FLLD004" &&
+                    // STS1 != "FLLD005" &&
+                    // STS1 != "FLLD006" &&
+                    // STS1 != "FLLD007" &&
+                    // STS1 != "FLLD008" &&
+                    // STS1 != "FLLD009" &&
+                    // For_sts_reject !== "R" && 
+                    (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_owner_return.length ===
+                                            0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_owner_return.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                   
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][0],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][3],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                     
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_owner_return[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Own_return.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Own_return.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                      
+                                          <Button
+                                            variant="contained"
+                                            onClick={handleSav_Own}
+                                          >
+                                            Save
+                                          </Button>
+                                        
+                                      </div>
+                                    </div>
+                                  
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">PLN Staff:</Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectpte_env}
+                          // disabled={read_pte_env}
+                          onChange={(e) =>
+                            setselectpte_env(e.target.value)
+                          }
+                          size="small"
+                          style={{
+                            borderColor: ErrorPTE_ENV ? "red" : undefined,
+                            backgroundColor: read_pte_env
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                              width:'325px'
+                          }}
+                          error={
+                            ErrorACCReturn &&
+                            (!selectpte_env ||
+                              selectpte_env == "null")
+                          }
+                        >
+                          {pln_staff.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {ErrorACCReturn &&
+                          (!return_selectacc_manager ||
+                            return_selectacc_manager == "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              Please select: ACC Manager Return
+                            </FormHelperText>
+                          )} */}
+                      </FormControl>
+                    </td>
+
+                    <td className="Style5">
+                      {/* <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={
+                            selectradio_return_acc === null ||
+                            selectradio_return_acc === ""
+                              ? setselectradio_return_acc("A")
+                              : selectradio_return_acc
+                          }
+                          onChange={(e) =>
+                            setselectradio_return_acc(e.target.value)
+                          }
+                          style={{ visibility: chkreturn_acc }}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                            disabled={read_return_acc_radio}
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled={read_return_acc_radio}
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl> */}
+                    </td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ visibility: chkpte_env }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={action__pte_env}
+                          onChange={(e) =>
+                            setaction__pte_env(e.target.value)
+                          }
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chkpte_env,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                
+                  <tr style={{ display: CM_pte_env }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          value={cmmtradio_pte_env}
+                          disabled={read_pte_env_cmmt}
+                          style={{
+                            backgroundColor: read_pte_env_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pte_env(e.target.value)
+                          }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {console.log(Showtype,"Showtype")}
+                  {Showtype == "GP01007" &&
+                    // STS1 != "FLLD001" &&
+                    // STS1 != "FLLD002" &&
+                    // STS1 != "FLLD003" &&
+                    // STS1 != "FLLD004" &&
+                    // STS1 != "FLLD005" &&
+                    // STS1 != "FLLD006" &&
+                    // STS1 != "FLLD007" &&
+                    // STS1 != "FLLD008" &&
+                    // STS1 != "FLLD009" &&
+                    // For_sts_reject !== "R" && 
+                    (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_owner_return.length ===
+                                            0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_owner_return.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                   
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][0],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][3],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                     
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_owner_return[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Own_return.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Own_return.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                      
+                                          <Button
+                                            variant="contained"
+                                            onClick={handleSav_Own}
+                                          >
+                                            Save
+                                          </Button>
+                                        
+                                      </div>
+                                    </div>
+                                  
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Shipping Staff:</Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectpte_env}
+                          // disabled={read_pte_env}
+                          onChange={(e) =>
+                            setselectpte_env(e.target.value)
+                          }
+                          size="small"
+                          style={{
+                            borderColor: ErrorPTE_ENV ? "red" : undefined,
+                            backgroundColor: read_pte_env
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",width:'325px'
+                          }}
+                          error={
+                            ErrorACCReturn &&
+                            (!selectpte_env ||
+                              selectpte_env == "null")
+                          }
+                        >
+                          {pte_env.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {ErrorACCReturn &&
+                          (!return_selectacc_manager ||
+                            return_selectacc_manager == "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              Please select: ACC Manager Return
+                            </FormHelperText>
+                          )} */}
+                      </FormControl>
+                    </td>
+
+                    <td className="Style5">
+                      {/* <FormControl>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          value={
+                            selectradio_return_acc === null ||
+                            selectradio_return_acc === ""
+                              ? setselectradio_return_acc("A")
+                              : selectradio_return_acc
+                          }
+                          onChange={(e) =>
+                            setselectradio_return_acc(e.target.value)
+                          }
+                          style={{ visibility: chkreturn_acc }}
+                        >
+                          <FormControlLabel
+                            value="A"
+                            control={<Radio size="small" />}
+                            label="Approve"
+                            disabled={read_return_acc_radio}
+                          />
+                          <FormControlLabel
+                            value="R"
+                            disabled={read_return_acc_radio}
+                            control={<Radio size="small" />}
+                            label="Reject"
+                          />
+                        </RadioGroup>
+                      </FormControl> */}
+                    </td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ visibility: chkpte_env }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={action__pte_env}
+                          onChange={(e) =>
+                            setaction__pte_env(e.target.value)
+                          }
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chkpte_env,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                
+                  <tr style={{ display: CM_pte_env }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          value={cmmtradio_pte_env}
+                          disabled={read_pte_env_cmmt}
+                          style={{
+                            backgroundColor: read_pte_env_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pte_env(e.target.value)
+                          }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {console.log(Showtype,"Showtype")}
+                  {Showtype == "GP01007" &&
+                    // STS1 != "FLLD001" &&
+                    // STS1 != "FLLD002" &&
+                    // STS1 != "FLLD003" &&
+                    // STS1 != "FLLD004" &&
+                    // STS1 != "FLLD005" &&
+                    // STS1 != "FLLD006" &&
+                    // STS1 != "FLLD007" &&
+                    // STS1 != "FLLD008" &&
+                    // STS1 != "FLLD009" &&
+                    // For_sts_reject !== "R" && 
+                    (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_owner_return.length ===
+                                            0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_owner_return.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                   
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][0],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][3],
+                                                              showfile_owner_return[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                     
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_owner_return[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Own_return.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Own_return.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                      
+                                          <Button
+                                            variant="contained"
+                                            onClick={handleSav_Own}
+                                          >
+                                            Save
+                                          </Button>
+                                        
+                                      </div>
+                                    </div>
+                                  
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+            
                 </table>
               </div>
             </Card>

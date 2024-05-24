@@ -15,12 +15,13 @@ import {
   TableHead,
   Select,
   MenuItem,
-  Grid,
   TextField,
   Button,
   InputLabel,
   Autocomplete,
   Checkbox,
+  TablePagination,
+  TableFooter,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -36,6 +37,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import PageLoadding from "../Loadding/Pageload";
 import { FAM_SEARCH } from "../Function/FN_SEARCH_ALL/FAM_SEARCH";
+import { DatePicker } from'antd';
 
 function Issue() {
   const {
@@ -89,9 +91,21 @@ function Issue() {
     Delete,
     selectStatusID,
     Path,
+    setSelectedDateFrom,
+    setSelectedDateTo,
+    setTxt_ID_Owner,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    emptyRows,
+    page,
+    rowsPerPage,
+    setselectCostCenter,
+    handleDateChange,
+    handleDateToChange
   } = FAM_SEARCH();
   return (
     <>
+      
       <Header />
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
       <div className="body">
@@ -103,6 +117,9 @@ function Issue() {
           }}
         >
           <div>
+        
+   
+   
             <h1
               style={{
                 fontFamily: "Verdana, sans-serif",
@@ -122,6 +139,7 @@ function Issue() {
               marginBottom: "10px",
             }}
           >
+            
             <Table className="SarchFill">
               <TableRow>
                 <TableCell style={{ border: "0" }}>
@@ -133,7 +151,6 @@ function Issue() {
                       labelId="demo-simple-select-label"
                       id="factorycbt"
                       label="Factory :"
-                      // className="factorycb"
                       value={selecteDatafac}
                       onChange={handleSelectChange}
                       size="small"
@@ -147,7 +164,7 @@ function Issue() {
                   </FormControl>
                 </TableCell>
                 <TableCell style={{ border: "0" }}>
-                  <FormControl
+                  {/* <FormControl
                     sx={{ width: 200 }}
                     style={{
                       display:
@@ -164,13 +181,13 @@ function Issue() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Owner Cost Center :"
+                          label="Cost Center :"
                           size="small"
                           sx={{ textAlign: "left" }}
                         />
                       )}
                     />
-                  </FormControl>
+                  </FormControl> */}
                 </TableCell>
               </TableRow>
 
@@ -266,14 +283,14 @@ function Issue() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Asset Cost Center :"
+                          label="Cost Center :"
                           size="small"
                           sx={{ textAlign: "left" }}
                         />
                       )}
                     />
                   </FormControl>
-                  <FormControl
+                  {/* <FormControl
                     sx={{ width: 200 }}
                     style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
                   >
@@ -285,7 +302,33 @@ function Issue() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Asset Cost Center :"
+                          label="Cost Center :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl> */}
+
+                  {/* owner costcenter */}
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "none"
+                          : "",
+                    }}
+                  >
+                    <Autocomplete
+                      multiple
+                      value={selectCostCenter}
+                      onChange={(e, value) => setselectCostCenter(value)}
+                      options={getCostCenter.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Cost Center :"
                           size="small"
                           sx={{ textAlign: "left" }}
                         />
@@ -357,7 +400,7 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: 0 }}>
-                  <TextField
+                  {/* <TextField
                     id="Date"
                     size="small"
                     type="date"
@@ -373,10 +416,19 @@ function Issue() {
                     onChange={(e) => {
                       setSelectedDateFrom(e.target.value);
                     }}
-                  ></TextField>
+                  ></TextField> */}
+                  <Typography color={"gray"} style={{fontSize:'14px'}}>Date From : </Typography>
+                    <DatePicker
+        id="FamTo"
+        size="small"
+        fullWidth
+        format="DD/MM/YYYY"
+        onChange={handleDateToChange}
+        
+      />
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
-                  <TextField
+                  {/* <TextField
                     id="DateTo"
                     size="small"
                     type="date"
@@ -391,7 +443,17 @@ function Issue() {
                     onChange={(e) => {
                       setSelectedDateTo(e.target.value);
                     }}
-                  ></TextField>
+                  ></TextField> */}
+                  <Typography color={"gray"} style={{fontSize:'14px'}}>Date To: </Typography>
+                    <DatePicker
+        id="FamTo"
+        size="small"
+        fullWidth
+        format="DD/MM/YYYY"
+        onChange={handleDateChange}
+        
+      />
+        
                 </TableCell>
               </TableRow>
 
@@ -542,12 +604,7 @@ function Issue() {
         </div>
 
         <div className="responsive-container">
-          <TableContainer
-            style={{
-              visibility: checkHead,
-            }}
-            component={Paper}
-          >
+          <TableContainer style={{ visibility: checkHead }} component={Paper}>
             <Table sx={{}} aria-label="simple table">
               <TableHead className="Serach-Data">
                 <TableRow>
@@ -574,99 +631,101 @@ function Issue() {
               </TableHead>
               <TableBody>
                 {dataSearch.length > 0 ? (
-                  dataSearch.map((item, index) => (
-                    <TableRow key={item[2]}>
-                      {Path === "FAMMASTER" && (
-                        <TableCell>
-                          <Checkbox
-                            {...label}
-                            onChange={() => handleCheckboxChange(item[2])}
-                            checked={selectedRows.includes(item[2])}
-                          />
-                        </TableCell>
-                      )}
-                      <TableCell style={{ width: "0px" }}>
-                        {Path === "SEARCH" ? (
-                          loading === "false" && index === selectindex ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />
-                          ) : (
-                            <EditNoteIcon
-                              style={{ color: "#F4D03F", fontSize: "30px" }}
-                              onClick={() => handleEdit(item[2], index)}
+                  dataSearch
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, index) => (
+                      <TableRow key={item[2]}>
+                        {Path === "FAMMASTER" && (
+                          <TableCell>
+                            <Checkbox
+                              {...label}
+                              onChange={() => handleCheckboxChange(item[2])}
+                              checked={selectedRows.includes(item[2])}
                             />
-                          )
-                        ) : Path === "APPROVEFAM" ? (
-                          loading === "false" && index === selectindex ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />
-                          ) : (
-                            <AddTaskIcon
-                              style={{ color: "#F4D03F", fontSize: "30px" }}
-                              onClick={() => handleEdit(item[2], index)}
-                            />
-                          )
-                        ) : loading === "false" && index === selectindex ? (
-                          <LoadingOutlined style={{ fontSize: "30px" }} />
-                        ) : (
-                          <>
-                            <FilePdfOutlined
-                              style={{ color: "red", fontSize: "30px" }}
-                              onClick={() => handlePDF(item[2], index)}
-                            />
-                          </>
+                          </TableCell>
                         )}
-                      </TableCell>
-                      <TableCell style={{ width: "0px" }}>
-                        {item[7] === "Create" &&
-                          Path == "SEARCH" &&
-                          (loading === "false" &&
-                          index === selectindex_delete ? (
+                        <TableCell style={{ width: "0px" }}>
+                          {Path === "SEARCH" ? (
+                            loading === "false" && index === selectindex ? (
+                              <LoadingOutlined style={{ fontSize: "30px" }} />
+                            ) : (
+                              <EditNoteIcon
+                                style={{ color: "#F4D03F", fontSize: "30px" }}
+                                onClick={() => handleEdit(item[2], index)}
+                              />
+                            )
+                          ) : Path === "APPROVEFAM" ? (
+                            loading === "false" && index === selectindex ? (
+                              <LoadingOutlined style={{ fontSize: "30px" }} />
+                            ) : (
+                              <AddTaskIcon
+                                style={{ color: "#F4D03F", fontSize: "30px" }}
+                                onClick={() => handleEdit(item[2], index)}
+                              />
+                            )
+                          ) : loading === "false" && index === selectindex ? (
                             <LoadingOutlined style={{ fontSize: "30px" }} />
                           ) : (
-                            <DeleteForeverIcon
-                              style={{
-                                color: "red",
-                                fontSize: "30px",
-                                display: "block",
-                              }}
-                              onClick={() => {
-                                Delete(item[2], index);
-                              }}
-                            />
-                          ))}
+                            <>
+                              <FilePdfOutlined
+                                style={{ color: "red", fontSize: "30px" }}
+                                onClick={() => handlePDF(item[2], index)}
+                              />
+                            </>
+                          )}
+                        </TableCell>
+                        <TableCell style={{ width: "0px" }}>
+                          {item[7] === "Create" &&
+                            Path == "SEARCH" &&
+                            (loading === "false" &&
+                            index === selectindex_delete ? (
+                              <LoadingOutlined style={{ fontSize: "30px" }} />
+                            ) : (
+                              <DeleteForeverIcon
+                                style={{
+                                  color: "red",
+                                  fontSize: "30px",
+                                  display: "block",
+                                }}
+                                onClick={() => {
+                                  Delete(item[2], item[5]);
+                                }}
+                              />
+                            ))}
 
-                        {Path === "FAMMASTER" &&
-                          (loading === "false" &&
-                          index === selectindex_delete ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />
-                          ) : (
-                            <FileSearchOutlined
-                              style={{ color: "#40A2E3", fontSize: "30px" }}
-                              onClick={() => {
-                                handleVIEW(item[2], item[8]);
-                              }}
-                            />
-                          ))}
-                      </TableCell>
+                          {Path === "FAMMASTER" &&
+                            (loading === "false" &&
+                            index === selectindex_delete ? (
+                              <LoadingOutlined style={{ fontSize: "30px" }} />
+                            ) : (
+                              <FileSearchOutlined
+                                style={{ color: "#40A2E3", fontSize: "30px" }}
+                                onClick={() => {
+                                  handleVIEW(item[2], item[8]);
+                                }}
+                              />
+                            ))}
+                        </TableCell>
 
-                      <TableCell>{item[0]}</TableCell>
-                      <TableCell>{item[1]}</TableCell>
-                      <TableCell>{item[2]}</TableCell>
-                      <TableCell>{item[4]}</TableCell>
-                      <TableCell>{item[3]}</TableCell>
-                      <TableCell>{item[5]}</TableCell>
+                        <TableCell>{item[0]}</TableCell>
+                        <TableCell>{item[1]}</TableCell>
+                        <TableCell>{item[2]}</TableCell>
+                        <TableCell>{item[4]}</TableCell>
+                        <TableCell>{item[3]}</TableCell>
+                        <TableCell>{item[5]}</TableCell>
 
-                      <TableCell>
-                        <Typography
-                          style={{
-                            borderRadius: "10px",
-                            background: "#FFB9B9",
-                          }}
-                        >
-                          {item[7]}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))
+                        <TableCell>
+                          <Typography
+                            style={{
+                              borderRadius: "10px",
+                              background: "#FFB9B9",
+                            }}
+                          >
+                            {item[7]}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    ))
                 ) : (
                   <TableRow style={{ visibility: checkEmpty }}>
                     <TableCell colSpan={11}>
@@ -691,11 +750,36 @@ function Issue() {
                     </TableCell>
                   </TableRow>
                 )}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 10 * emptyRows }}>
+                    <TableCell colSpan={11} />
+                  </TableRow>
+                )}
               </TableBody>
+              
+              <TableFooter>
+                {console.log("UUU",rowsPerPage,page)}
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[10, 25, 50]}
+                    colSpan={11}
+                    count={dataSearch.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    // SelectProps={{
+                    //   inputProps: { "aria-label": "rows per page" },
+                    //   native: true,
+                    // }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                </TableRow>
+              </TableFooter>
             </Table>
           </TableContainer>
         </div>
       </div>
+      
     </>
   );
 }

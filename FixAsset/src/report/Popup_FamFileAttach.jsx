@@ -1,40 +1,17 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Page/Hearder";
 import "../Page/Style.css";
-import Paper from "@mui/material/Paper";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import Tooltip from "@mui/material/Tooltip";
 import {
-  Typography,
-  FormControl,
   TableRow,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
-  Select,
-  MenuItem,
-  Grid,
-  TextField,
   Button,
-  InputLabel,
 } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Empty } from "antd";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import CloseIcon from "@mui/icons-material/Close";
 
 
 function person_maintain_new({ isOpen, onClose, FamNo }) {
-  // console.log( isOpen, onClose, FamNo ,"//////////////////////////")
   if (!isOpen) return null;
   const [Filedata, setFiledata] = useState([]);
   const File = () => {
@@ -46,7 +23,6 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
         const data = res.data;
         if (data.length > 0) {
           setFiledata(data);
-          // console.log(data);
         }
       });
   };
@@ -56,7 +32,6 @@ function person_maintain_new({ isOpen, onClose, FamNo }) {
 
   // Popup
   const onCloseCancel = () => {
-    // console.log("ปิด");
     onClose();
   };
 

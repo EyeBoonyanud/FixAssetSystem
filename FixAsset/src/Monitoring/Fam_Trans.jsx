@@ -393,10 +393,10 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[3] === null || DataRoutingFamno[3] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[3] === null || DataRoutingFamno[3] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -551,10 +551,10 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[9] === null || DataRoutingFamno[9] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[9] === null || DataRoutingFamno[9] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -668,11 +668,11 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[13] === null ||
-                      DataRoutingFamno[13] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[13] === null ||
+                    //   DataRoutingFamno[13] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -786,11 +786,11 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[17] === null ||
-                      DataRoutingFamno[17] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[17] === null ||
+                    //   DataRoutingFamno[17] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -909,11 +909,11 @@ function TransFerDetail() {
                 <>
                   <tr
                     style={{
-                      display:
-                        DataRoutingFamno[21] === null ||
-                        DataRoutingFamno[21] === ""
-                          ? "none"
-                          : "table-row",
+                      // display:
+                      //   DataRoutingFamno[21] === null ||
+                      //   DataRoutingFamno[21] === ""
+                      //     ? "none"
+                      //     : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1032,11 +1032,11 @@ function TransFerDetail() {
                 {(VIEW_TYPE == "GP01007" || VIEW_TYPE == "GP01006") && (
                   <tr
                     style={{
-                      display:
-                        DataRoutingFamno[42] === null ||
-                        DataRoutingFamno[42] === ""
-                          ? "none"
-                          : "table-row",
+                      // display:
+                      //   DataRoutingFamno[42] === null ||
+                      //   DataRoutingFamno[42] === ""
+                      //     ? "none"
+                      //     : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1060,11 +1060,11 @@ function TransFerDetail() {
                 )}
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[25] === null ||
-                      DataRoutingFamno[25] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[25] === null ||
+                    //   DataRoutingFamno[25] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -1208,11 +1208,11 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    display:
-                      DataRoutingFamno[29] === null ||
-                      DataRoutingFamno[29] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[29] === null ||
+                    //   DataRoutingFamno[29] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -1238,11 +1238,11 @@ function TransFerDetail() {
                 </tr>{" "}
                 {(VIEW_TYPE === "GP01006" || VIEW_TYPE === "GP01007") && (
                   <tr  style={{
-                    display:
-                      DataRoutingFamno[29] === null ||
-                      DataRoutingFamno[29] === ""
-                        ? "none"
-                        : "table-row",
+                    // display:
+                    //   DataRoutingFamno[29] === null ||
+                    //   DataRoutingFamno[29] === ""
+                    //     ? "none"
+                    //     : "table-row",
                   }}>
                     <td className="Style4"></td>
                     <td colSpan={5}>
@@ -1453,11 +1453,11 @@ function TransFerDetail() {
 
                   <tr
                     style={{
-                      display:
-                        DataTransferFamno[11] === null ||
-                        DataTransferFamno[11] === ""
-                          ? "none"
-                          : "table-row",
+                      // display:
+                      //   DataTransferFamno[11] === null ||
+                      //   DataTransferFamno[11] === ""
+                      //     ? "none"
+                      //     : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1595,10 +1595,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        display:
-                          DataLending[9] === null || DataLending[9] === ""
-                            ? "none"
-                            : "table-row",
+                        // display:
+                        //   DataLending[9] === null || DataLending[9] === ""
+                        //     ? "none"
+                        //     : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1622,10 +1622,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        display:
-                          DataLending[5] === null || DataLending[5] === ""
-                            ? "none"
-                            : "table-row",
+                        // display:
+                        //   DataLending[5] === null || DataLending[5] === ""
+                        //     ? "none"
+                        //     : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1709,10 +1709,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        display:
-                          DataLending[8] === null || DataLending[8] === ""
-                            ? "none"
-                            : "table-row",
+                        // display:
+                        //   DataLending[8] === null || DataLending[8] === ""
+                        //     ? "none"
+                        //     : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1737,10 +1737,10 @@ function TransFerDetail() {
                   </table>
                   <tr
                     style={{
-                      display:
-                        DataLending[8] === null || DataLending[8] === ""
-                          ? "none"
-                          : "table-row",
+                      // display:
+                      //   DataLending[8] === null || DataLending[8] === ""
+                      //     ? "none"
+                      //     : "table-row",
                     }}
                   >
                     <td className="Style4"></td>
