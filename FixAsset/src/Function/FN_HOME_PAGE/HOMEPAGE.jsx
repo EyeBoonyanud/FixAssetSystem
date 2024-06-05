@@ -11,6 +11,7 @@ function function_homepage() {
     const [dataWrite_off, setdataWrite_off] = useState([]);
     const [dataLending, setdataLending] = useState([]);
     const [dataDonation, setdataDonation] = useState([]);
+    const [dataScrap, setdataScrap] = useState([]);
     const [dataLossall, setdataLossall] = useState([]);
     const [dataLossallname, setdataLossallname] = useState([]);
     const [dataname_show, setdataname_show] = useState("");
@@ -31,7 +32,7 @@ function function_homepage() {
 
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountTransfer",
+                "/getCountTransfer",
                 { UserLogin : UserLogin }
               );
               const Transfer = await response.data;
@@ -44,14 +45,13 @@ function function_homepage() {
           const Transferlistallname = async () => {
             try {
               const response = await axios.get(
-                `http://localhost:5000/getCountTransferlistaLLname`
+                `/getCountTransferlistaLLname`
               );
               const Transferallname = await response.data;
               setdataTransferallname(Transferallname);
               setdataallname_Show(Transferallname);
               setdataname_show("Transfer");
               setdataname_type("GP01001");
-              console.log(Transferallname, "ดูข้อมูล");
             } catch (error) {
               console.error("Error Transferdataall:", error);
             }
@@ -60,7 +60,7 @@ function function_homepage() {
           const Transferlistall = async () => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountTransferlistaLL",
+                "/getCountTransferlistaLL",
                 { UserLogin : UserLogin }
               );
               const Transferall = await response.data;
@@ -73,12 +73,24 @@ function function_homepage() {
           const Loss = async () => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountLoss",
+                "/getCountLoss",
                 { UserLogin : UserLogin }
               );
               const Loss = await response.data;
-              console.log(Loss,"Loss");
               setdataLoss(Loss);
+            } catch (error) {
+              console.error("Error RequesterORType:", error);
+            }
+          };
+          const Scrap = async () => {
+            try {
+              const response = await axios.post(
+                "/getCountScrap",
+                { UserLogin : UserLogin }
+              );
+              const Scrap = await response.data;
+              setdataScrap(Scrap);
+              console.log(Scrap,"Scrap")
             } catch (error) {
               console.error("Error RequesterORType:", error);
             }
@@ -86,11 +98,10 @@ function function_homepage() {
           const Write_off = async () => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountWrite_off",
+                "/getCountWrite_off",
                 { UserLogin : UserLogin }
               );
               const Write_off = await response.data;
-              console.log(Write_off,"Loss");
               setdataWrite_off(Write_off);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -99,7 +110,7 @@ function function_homepage() {
           const Lending = async () => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountLending",
+                "/getCountLending",
                 { UserLogin : UserLogin }
               );
               const Lending = await response.data;
@@ -112,7 +123,7 @@ function function_homepage() {
           const Donation = async () => {
             try {
               const response = await axios.post(
-                "http://localhost:5000/getCountDonation",
+                "/getCountDonation",
                 { UserLogin : UserLogin }
               );
               const Donation = await response.data;
@@ -131,6 +142,7 @@ function function_homepage() {
           await Write_off();
           await Lending();
           await Donation();
+          await Scrap();
         };
         fetchData();
       }, []);
@@ -151,14 +163,12 @@ function function_homepage() {
       };
 
       const handleClickMenu_LIST = async (Data) => {
-        console.log("Data",Data);
         
         openPopupLoadding();
         if (Data === "Transfer") {
-            console.log("DataShow Transfer");
                 try {
                   const response = await axios.get(
-                    `http://localhost:5000/getCountTransferlistaLLname`
+                    `/getCountTransferlistaLLname`
                   );
                   const Transferallname = await response.data;
                   setdataallname_Show(Transferallname);
@@ -169,7 +179,7 @@ function function_homepage() {
 
                 try {
                   const response = await axios.post(
-                    "http://localhost:5000/getCountTransferlistaLL",
+                    "/getCountTransferlistaLL",
                     { UserLogin : UserLogin }
                   );
                   const Transferall = await response.data;
@@ -181,45 +191,41 @@ function function_homepage() {
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Loss") {
-            console.log("DataShow Loss");
             try {
                 const response = await axios.get(
-                `http://localhost:5000/getCountLosslistaLLname`
+                `/getCountLosslistaLLname`
                 );
                 const Lossallname = await response.data;
                 setdataallname_Show(Lossallname);
-                console.log(Lossallname, "ดูข้อมูล Loss");
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Lossallname:", error);
             }
             try {
                 const response = await axios.post(
-                "http://localhost:5000/getCountLosslistaLL",
+                "/getCountLosslistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Lossall = await response.data;
                 setdataall_Show(Lossall);
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Lossall:", error);
             }
             setdataname_type("GP01004");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Write off") {
-            console.log("DataShow Write off");
             try {
                 const response = await axios.get(
-                `http://localhost:5000/getCountWrite_offlistaLLname`
+                `/getCountWrite_offlistaLLname`
                 );
                 const Write_offallname = await response.data;
                 setdataallname_Show(Write_offallname);
-                console.log(Write_offallname, "ดูข้อมูล Loss");
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Write_offallname:", error);
             }
             try {
                 const response = await axios.post(
-                "http://localhost:5000/getCountWrite_offlistaLL",
+                "/getCountWrite_offlistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Write_offall = await response.data;
@@ -231,56 +237,78 @@ function function_homepage() {
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Lending") {
-            console.log("DataShow Lending");
             try {
                 const response = await axios.get(
-                `http://localhost:5000/getCountLendinglistaLLname`
+                `/getCountLendinglistaLLname`
                 );
                 const Lendingallname = await response.data;
                 setdataallname_Show(Lendingallname);
                 console.log(Lendingallname, "ดูข้อมูล Loss");
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Lendingallname:", error);
             }
             try {
                 const response = await axios.post(
-                "http://localhost:5000/getCountLendinglistaLL",
+                "/getCountLendinglistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Lendingall = await response.data;
                 setdataall_Show(Lendingall);
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Lendingall:", error);
             }
             setdataname_type("GP01006");
             setdataname_show(Data);
             closePopupLoadding();
         } else if (Data === "Donations") {
-            console.log("DataShow Donation");
             try {
                 const response = await axios.get(
-                `http://localhost:5000/getCountDonationlistaLLname`
+                `/getCountDonationlistaLLname`
                 );
                 const Donationallname = await response.data;
                 setdataallname_Show(Donationallname);
                 console.log(Donationallname, "ดูข้อมูล Loss");
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Donationallname:", error);
             }
             try {
                 const response = await axios.post(
-                "http://localhost:5000/getCountDonationlistaLL",
+                "/getCountDonationlistaLL",
                 { UserLogin : UserLogin }
                 );
                 const Donationall = await response.data;
                 setdataall_Show(Donationall);
             } catch (error) {
-                console.error("Error Transferdataall:", error);
+                console.error("Error Donationall:", error);
             }
             setdataname_type("GP01007");
             setdataname_show(Data);
             closePopupLoadding();
-        } else {
+        }  else if (Data === "Scrap") {
+          try {
+              const response = await axios.get(
+              `/getCountScraplistaLLname`
+              );
+              const Scarpallname = await response.data;
+              setdataallname_Show(Scarpallname);
+          } catch (error) {
+              console.error("Error Scarpallname:", error);
+          }
+          try {
+              const response = await axios.post(
+              "/getCountScraplistaLL",
+              { UserLogin : UserLogin }
+              );
+              const Scrapall = await response.data;
+              setdataall_Show(Scrapall);
+              console.log(Scrapall,"Scrapall")
+          } catch (error) {
+              console.error("Error Scrapall:", error);
+          }
+          setdataname_type("GP01002");
+          setdataname_show(Data);
+          closePopupLoadding();
+      } else {
             closePopupLoadding();
         }              
       };
@@ -288,7 +316,7 @@ function function_homepage() {
       
 
 
-    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type};
+    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap};
 }
 
 

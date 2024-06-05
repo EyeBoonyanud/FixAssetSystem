@@ -48,6 +48,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
 import { FAM_GET_REQUEST } from "../Function/FN_TRANSECTION_ALL/FAM_GET_REQUEST";
 
+
 function ForRequest() {
   const {
     EditFam,
@@ -118,17 +119,33 @@ function ForRequest() {
     Back_page,
     Reset,
     NextPage,
-    Next,read_fix_group, setread_fix_group,
-    read_fix_cost, setread_fix_cost,
-    read_dept, setread_dept,
-    read_tel, setread_tel,
-    reac_remark, setread_remark,
-    reac_type, setread_type,
-    delete_fix, setdelete_fix,
-    STS1_Req, setSTS1_Req,
-    STS1_for_R, setSTS1_for_R,
-    checknext, setchecknext,fileInputRef
+    Next,
+    read_fix_group,
+    setread_fix_group,
+    read_fix_cost,
+    setread_fix_cost,
+    read_dept,
+    setread_dept,
+    read_tel,
+    setread_tel,
+    reac_remark,
+    setread_remark,
+    reac_type,
+    setread_type,
+    delete_fix,
+    setdelete_fix,
+    STS1_Req,
+    setSTS1_Req,
+    STS1_for_R,
+    setSTS1_for_R,
+    checknext,
+    setchecknext,
+    fileInputRef,handleWeightChange,weights,totalWeight,
+    size,handleSizeChange,handleUnitPriceChange,unit_price, handleInvoiceChange,
+    invoice
   } = FAM_GET_REQUEST();
+
+  
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -392,9 +409,14 @@ function ForRequest() {
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
-                    {STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
+                    {STS1_Req === "FLTR001" ||
+                    STS1_Req === "FLWO001" ||
+                    STS1_Req === "FLLS001" ||
+                    STS1_Req === "FLDN001" ||
                     STS1_Req === "" ||
-                    STS1_for_R === "R" || STS1_Req == "FLLD001"? (
+                    STS1_for_R === "R" ||
+                    STS1_Req === "FLSC001" ||
+                    STS1_Req == "FLLD001" ? (
                       <FormControl fullWidth>
                         <Autocomplete
                           disabled={read_dept}
@@ -498,7 +520,7 @@ function ForRequest() {
                       <FormControlLabel
                         value="GP01006"
                         control={<Radio />}
-                        label="Landing to Third-party"
+                        label="Lending to Third-party"
                         className="Radio"
                         disabled={reac_type}
                       />
@@ -519,7 +541,7 @@ function ForRequest() {
                       Service Dept:
                     </Typography>
                   </Grid>
-                  {console.log(selectFixAssetgroup1,"selectFixAssetgroup1")}
+                  {console.log(selectFixAssetgroup1, "selectFixAssetgroup1")}
                   <Grid xs={3}>
                     <FormControl fullWidth>
                       <InputLabel size="small" id="demo-simple-select-label">
@@ -714,9 +736,14 @@ function ForRequest() {
                   style={{
                     marginLeft: "10px",
                     display:
-                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                    STS1_Req === "" ||
-                    STS1_for_R === "R" || STS1_Req == "FLLD001"
+                      STS1_Req === "FLTR001" ||
+                      STS1_Req === "FLWO001" ||
+                      STS1_Req === "FLLS001" ||
+                      STS1_Req === "FLDN001" ||
+                      STS1_Req === "" ||
+                      STS1_for_R === "R" ||
+                      STS1_Req == "FLLD001"||
+                      STS1_Req == "FLSC001"
                         ? "block"
                         : "none",
                   }}
@@ -731,9 +758,14 @@ function ForRequest() {
                   style={{
                     marginLeft: "10px",
                     display:
-                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                    STS1_Req === "" ||
-                    STS1_for_R === "R" || STS1_Req == "FLLD001"
+                      STS1_Req === "FLTR001" ||
+                      STS1_Req === "FLWO001" ||
+                      STS1_Req === "FLLS001" ||
+                      STS1_Req === "FLDN001" ||
+                      STS1_Req === "" ||
+                      STS1_for_R === "R" ||
+                      STS1_Req == "FLLD001" ||
+                      STS1_Req == "FLSC001"
                         ? "block"
                         : "none",
                   }}
@@ -743,9 +775,14 @@ function ForRequest() {
                     marginTop: "3px",
                     marginLeft: "10px",
                     display:
-                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                    STS1_Req === "" ||
-                    STS1_for_R === "R" || STS1_Req == "FLLD001"
+                      STS1_Req === "FLTR001" ||
+                      STS1_Req === "FLWO001" ||
+                      STS1_Req === "FLLS001" ||
+                      STS1_Req === "FLDN001" ||
+                      STS1_Req === "" ||
+                      STS1_for_R === "R" ||
+                      STS1_Req == "FLLD001" ||
+                      STS1_Req == "FLSC001"
                         ? "block"
                         : "none",
                   }}
@@ -887,130 +924,198 @@ function ForRequest() {
                   <div
                     style={{ marginTop: "20px", margin: "10px 50px 0px 50px" }}
                   >
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table" className="TableFix">
-                        <TableHead
-                          sx={{
-                            backgroundColor: "#436850",
-                            fontSize: "10px",
-                          }}
-                        >
-                          <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell>Fixed Assets Code</TableCell>
-                            <TableCell>Comp.</TableCell>
-                            <TableCell>CC.</TableCell>
-                            <TableCell>Fixed Assets Name</TableCell>
-                            <TableCell>BOI Project</TableCell>
-                            <TableCell>Qty</TableCell>
-                            <TableCell>Invoice No.</TableCell>
-                            <TableCell>Acquisition Cost(Baht)</TableCell>
-                            <TableCell>Book Value(Baht)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {datatable.map((item, index) => (
-                            <React.Fragment key={index}>
-                              <TableRow
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
-                              >
-                                <TableCell>
-                                  {index > 0 &&
-                                  item[0] === datatable[index - 1][0] ? (
-                                    ""
-                                  ) : (
-                                    <DeleteIcon
-                                      style={{
-                                        color: "red",
-                                        marginLeft: "10px",
-                                        display:
-                                        STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                                        STS1_Req === "" ||
-                                        STS1_for_R === "R" || STS1_Req == "FLLD001"
-                                            ? "block"
-                                            : "none",
-                                      }}
-                                      onClick={() =>
-                                        handleDelete(item[0], index)
-                                      }
-                                    />
-                                  )}
-                                </TableCell>
-                                <TableCell>
-                                  {index > 0 &&
-                                  item[0] === datatable[index - 1][0]
-                                    ? ""
-                                    : item[0]}
-                                </TableCell>
-                                <TableCell>{item[1]}</TableCell>
-                                <TableCell>{item[2]}</TableCell>
-                                <TableCell>{item[3]}</TableCell>
-                                <TableCell>{item[5]}</TableCell>
-                                <TableCell>{item[6]}</TableCell>
-                                <TableCell>{item[7]}</TableCell>
-                                {/* <TableCell>{item[9]}</TableCell> */}
-                                <TableCell>
-                                  {typeof item[9] === "number"
-                                    ? item[9].toLocaleString()
-                                    : item[9]}
-                                </TableCell>
-
-                                <TableCell>{item[10]}</TableCell>
-                              </TableRow>
-                            </React.Fragment>
-                          ))}
-                          {/* Counting */}
-                          <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell style={{ fontWeight: "bold" }}>
-                              Total
-                            </TableCell>
-                            {/* <TableCell style={{ fontWeight: "bold" }}>
-                              {datatable
-                                .reduce((acc, curr) => acc + curr[9], 0)
-                                .toFixed(2)}
-                            </TableCell>
-
-                            <TableCell style={{ fontWeight: "bold" }}>
-                              {datatable.reduce(
-                                (acc, curr) => acc + curr[10],
-                                0
-                              )}
-                            </TableCell> */}
-                            <TableCell style={{ fontWeight: "bold" }}>
-                              {datatable
-                                .reduce(
-                                  (acc, curr) => acc + parseFloat(curr[9]),
-                                  0
-                                )
-                                .toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })}
-                            </TableCell>
-
-                            <TableCell style={{ fontWeight: "bold" }}>
-                              {datatable
-                                .reduce(
-                                  (acc, curr) => acc + parseInt(curr[10]),
-                                  0
-                                )
-                                .toLocaleString("en-US")}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
+                   <TableContainer component={Paper}>
+      <Table aria-label="simple table" className="TableFix">
+        <TableHead
+          sx={{
+            backgroundColor: "#436850",
+            fontSize: "10px",
+          }}
+        >
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Fixed Assets Code</TableCell>
+            <TableCell>Comp.</TableCell>
+            <TableCell>CC.</TableCell>
+            <TableCell>Fixed Assets Name</TableCell>
+            <TableCell>BOI Project</TableCell>
+            <TableCell>Qty</TableCell>
+            <TableCell>Invoice No.</TableCell>
+            <TableCell>Acquisition Cost(Baht)</TableCell>
+            <TableCell>Book Value(Baht)</TableCell>
+            {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
+              <>
+                <TableCell>New CC</TableCell>
+                <TableCell>New BOI Project</TableCell>
+              </>
+            )}
+            {STS1_Req === "FLSC009"  && (
+              <>
+                <TableCell>Weight(kg)</TableCell>
+                <TableCell>Size</TableCell>
+              </>
+            )}
+            {STS1_Req === "FLSC100"   && (
+              <>
+              <TableCell>Weight(kg)</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Unit Price(Baht)</TableCell>
+              </>
+            )}
+            {(STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012") && (
+              <>
+              <TableCell>Weight(kg)</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Unit Price(Baht)</TableCell>
+              <TableCell>Invoice No.</TableCell></>
+            )}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {datatable.map((item, index) => (
+            <React.Fragment key={index}>
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                  },
+                }}
+              >
+                <TableCell>
+                  {index > 0 && item[0] === datatable[index - 1][0] ? (
+                    ""
+                  ) : (
+                    <DeleteIcon
+                      style={{
+                        color: "red",
+                        marginLeft: "10px",
+                        display:
+                          STS1_Req === "FLTR001" ||
+                          STS1_Req === "FLWO001" ||
+                          STS1_Req === "FLLS001" ||
+                          STS1_Req === "FLDN001" ||
+                          STS1_Req === "" ||
+                          STS1_for_R === "R" ||
+                          STS1_Req === "FLLD001" ||
+                          STS1_Req === "FLSC001"
+                            ? "block"
+                            : "none",
+                      }}
+                      onClick={() => handleDelete(item[0], index)}
+                    />
+                  )}
+                </TableCell>
+                <TableCell>{index > 0 && item[0] === datatable[index - 1][0] ? "" : item[0]}</TableCell>
+                <TableCell>{item[1]}</TableCell>
+                <TableCell>{item[2]}</TableCell>
+                <TableCell>{item[3]}</TableCell>
+                <TableCell>{item[5]}</TableCell>
+                <TableCell>{item[6]}</TableCell>
+                <TableCell>{item[7]}</TableCell>
+                <TableCell>
+                  {typeof item[9] === "number" ? item[9].toLocaleString() : item[9]}
+                </TableCell>
+                <TableCell>{item[10]}</TableCell>
+                {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
+                  <>
+                    <TableCell>{item[11]}</TableCell>
+                    <TableCell>{item[12]}</TableCell>
+                  </>
+                )}
+                {(STS1_Req === "FLSC009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012") && (
+  <>
+    <TableCell>
+      <TextField
+        style={{ width: '100px' }}
+        size="small"
+        value={weights[index] || ''}
+        onChange={(e) => handleWeightChange(e, index, EditFam, item[0], item[3])}
+        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
+      />
+    </TableCell>
+    <TableCell>
+      <TextField
+        style={{ width: '100px' }}
+        size="small"
+        value={size[index] || ''}
+        onChange={(e) => handleSizeChange(e, index, EditFam, item[0], item[3])}
+        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
+      />
+    </TableCell>
+  </>
+)}
+                {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
+                  <TableCell>
+                     <TextField
+        style={{ width: '100px' }}
+        size="small"
+        value={unit_price[index] || ''}
+        onChange={(e) => handleUnitPriceChange(e, index, EditFam, item[0], item[3])}
+        disabled={STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
+      />
+                  </TableCell>
+                )}
+                {(STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011"|| STS1_Req === "FLSC012" )&& (
+                  <TableCell>
+                                  <TextField
+        style={{ width: '100px' }}
+        size="small"
+        value={invoice[index] || ''}
+        onChange={(e) => handleInvoiceChange(e, index, EditFam, item[0], item[3])}
+        disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"}
+      />
+                  </TableCell>
+                )}
+              </TableRow>
+            </React.Fragment>
+          ))}
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>
+              Total
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>
+              {datatable
+                .reduce((acc, curr) => acc + parseFloat(curr[9]), 0)
+                .toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+            </TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>
+              {datatable
+                .reduce((acc, curr) => acc + parseInt(curr[10]), 0)
+                .toLocaleString("en-US")}
+            </TableCell>
+            {(STS1_Req === "FLSC009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
+              || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
+            ) && (
+              <TableCell style={{ fontWeight: "bold" }}>
+                {totalWeight.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </TableCell>
+            )}
+             {(STS1_Req === "FLSC009" ) && (
+              <TableCell style={{ fontWeight: "bold" }}>
+                {/* {totalSize.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} */}
+              </TableCell>
+            )}
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+                 
                   </div>
                 )}
               </div>
@@ -1027,9 +1132,14 @@ function ForRequest() {
                     backgroundColor: "",
                     visibility: btnSave,
                     display:
-                    STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                    STS1_Req === "" ||
-                    STS1_for_R === "R" || STS1_Req == "FLLD001"
+                      STS1_Req === "FLTR001" ||
+                      STS1_Req === "FLWO001" ||
+                      STS1_Req === "FLLS001" ||
+                      STS1_Req === "FLDN001" ||
+                      STS1_Req === "" ||
+                      STS1_for_R === "R" ||
+                      STS1_Req == "FLLD001" ||
+                      STS1_Req == "FLSC001"
                         ? "block"
                         : "none",
                   }}
@@ -1042,7 +1152,14 @@ function ForRequest() {
           </Card>
         </div>
         {/* สำหรับ Upload File */}
-        {STS1_Req === "" || STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001"||  STS1_Req === "FLDN001"  || STS1_for_R === "R"  || STS1_Req == "FLLD001"? (
+        {STS1_Req === "" ||
+        STS1_Req === "FLTR001" ||
+        STS1_Req === "FLWO001" ||
+        STS1_Req === "FLLS001" ||
+        STS1_Req === "FLDN001" ||
+        STS1_for_R === "R" ||
+        STS1_Req == "FLLD001" ||
+        STS1_Req == "FLSC001"? (
           <div>
             <Card
               sx={{
@@ -1237,21 +1354,25 @@ function ForRequest() {
                           </ul>
                         </div>
                       )}
-                      
+
                       <div
                         style={{
                           textAlign: "right",
                           marginTop: "5px",
                           display:
-                          STS1_Req === "FLTR001" || STS1_Req === "FLWO001" ||  STS1_Req === "FLLS001" || STS1_Req === "FLDN001" ||
-                          STS1_Req === "" ||
-                          STS1_for_R === "R" || STS1_Req === "FLLD001"
+                            STS1_Req === "FLTR001" ||
+                            STS1_Req === "FLWO001" ||
+                            STS1_Req === "FLLS001" ||
+                            STS1_Req === "FLDN001" ||
+                            STS1_Req === "" ||
+                            STS1_for_R === "R" ||
+                            STS1_Req === "FLLD001" ||
+                            STS1_Req == "FLSC001"
                               ? "block"
                               : "none",
                         }}
                       >
-                        <Button variant="contained" onClick={handleSave}
->
+                        <Button variant="contained" onClick={handleSave}>
                           Save
                         </Button>
                       </div>
@@ -1308,7 +1429,7 @@ function ForRequest() {
                     <div className="ImageShowFile">
                       <img
                         src="./src/assets/Image/2.png"
-                        style={{ width: "400px" }}
+                        style={{ width: "250px" }}
                         alt="Description of your image"
                       />
                     </div>

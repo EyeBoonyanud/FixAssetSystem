@@ -305,7 +305,8 @@ function TransFerDetail() {
     CM_pte_env,
     CM_pln_staff,
     CM_shipping,
-    read_pte_env,read_pln_staff,read_shipping,setaction__pte_env,setcmmtradio_pte_env
+    read_pte_env,read_pln_staff,read_shipping,setaction__pte,setaction__pln_staff,setaction__shipping
+  ,CM_shipping_env,setcmmtradio_pte_env,setaction__pte_env,setcmmtradio_pln_staff,setcmmtradio__shipping
   } = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
@@ -319,6 +320,9 @@ function TransFerDetail() {
     handleSav_Own,
     showfile_owner_return,
     uploadedFiles_Own_return,
+    uploadedFiles_PTE,
+    showfile_pte_env,
+    uploadedFiles_PLN_Staff,uploadedFilesDATA_PLN_Staff,showfile_pln_staff,uploadedFiles_Shipping, showfile_shipping
   } = FAM_GET_SHOW_FILE();
   // Const Return
   return (
@@ -631,15 +635,15 @@ function TransFerDetail() {
                               : "",
                           }}
                           value={plan_date}
-                          error={
-                            ErrorDate && (!plan_date || plan_date == "null")
-                          }
+                          // error={
+                          //   ErrorDate && (!plan_date || plan_date == "null")
+                          // }
                           onChange={(e) => setplan_date(e.target.value)}
-                          helperText={
-                            ErrorDate && (!plan_date || plan_date == "null")
-                              ? "Please select date"
-                              : undefined
-                          }
+                          // helperText={
+                          //   ErrorDate && (!plan_date || plan_date == "null")
+                          //     ? "Please select date"
+                          //     : undefined
+                          // }
                         />
                       </FormControl>
                     </td>
@@ -2124,7 +2128,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        ACC Manager(Set Return date):
+                        ACC Manager(Return date):
                       </Typography>
                     </td>
                     <td>
@@ -2698,7 +2702,7 @@ function TransFerDetail() {
           </Card>
         )}
         {/* Srcap GP01002 */}
-        {Showtype === "GP01007" && (
+        {Showtype === "GP01002" && (
           <Card className="Style100">
             <Card
               sx={{
@@ -2735,7 +2739,7 @@ function TransFerDetail() {
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selectpte_env}
-                          // disabled={read_pte_env}
+                          disabled={read_pte_env}
                           onChange={(e) =>
                             setselectpte_env(e.target.value)
                           }
@@ -2744,7 +2748,8 @@ function TransFerDetail() {
                             borderColor: ErrorPTE_ENV ? "red" : undefined,
                             backgroundColor: read_pte_env
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",width:'325px'
+                              : "",
+                              width:'290px'
                           }}
                           error={
                             ErrorACCReturn &&
@@ -2758,47 +2763,12 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {ErrorACCReturn &&
-                          (!return_selectacc_manager ||
-                            return_selectacc_manager == "null") && (
-                            <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
-                            </FormHelperText>
-                          )} */}
+                       
                       </FormControl>
                     </td>
 
                     <td className="Style5">
-                      {/* <FormControl>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={
-                            selectradio_return_acc === null ||
-                            selectradio_return_acc === ""
-                              ? setselectradio_return_acc("A")
-                              : selectradio_return_acc
-                          }
-                          onChange={(e) =>
-                            setselectradio_return_acc(e.target.value)
-                          }
-                          style={{ visibility: chkreturn_acc }}
-                        >
-                          <FormControlLabel
-                            value="A"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                            disabled={read_return_acc_radio}
-                          />
-                          <FormControlLabel
-                            value="R"
-                            disabled={read_return_acc_radio}
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup>
-                      </FormControl> */}
+                    
                     </td>
                     <td className="Style7">
                       <Typography
@@ -2851,18 +2821,17 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  {console.log(Showtype,"Showtype")}
-                  {Showtype == "GP01007" &&
-                    // STS1 != "FLLD001" &&
-                    // STS1 != "FLLD002" &&
-                    // STS1 != "FLLD003" &&
-                    // STS1 != "FLLD004" &&
-                    // STS1 != "FLLD005" &&
-                    // STS1 != "FLLD006" &&
-                    // STS1 != "FLLD007" &&
-                    // STS1 != "FLLD008" &&
-                    // STS1 != "FLLD009" &&
-                    // For_sts_reject !== "R" && 
+                 
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    For_sts_reject !== "R" && 
                     (
                       <tr>
                         <td className="Style4"></td>
@@ -2887,7 +2856,7 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_owner_return.length ===
+                                            {showfile_pte_env.length ===
                                             0 ? (
                                               <TableRow>
                                                 <TableCell
@@ -2900,39 +2869,39 @@ function TransFerDetail() {
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_owner_return.map(
+                                              showfile_pte_env.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   
+                                                   {(STS1 ==='FLSC009')&&(
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_owner_return[
+                                                              showfile_pte_env[
                                                                 index
                                                               ][0],
-                                                              showfile_owner_return[
+                                                              showfile_pte_env[
                                                                 index
                                                               ][3],
-                                                              showfile_owner_return[
+                                                              showfile_pte_env[
                                                                 index
                                                               ][4]
                                                             )
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     
+                                                     )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_pte_env[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_pte_env[
                                                           index
                                                         ][3]
                                                       }
@@ -2952,14 +2921,14 @@ function TransFerDetail() {
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_owner_return[
+                                                            showfile_pte_env[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_owner_return[
+                                                          showfile_pte_env[
                                                             index
                                                           ][3]
                                                         }
@@ -2985,7 +2954,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                
+                                {(STS1== "FLSC009") &&(
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3011,10 +2980,10 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Own_return.length > 0 && (
+                                      {uploadedFiles_PTE.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Own_return.map(
+                                            {uploadedFiles_PTE.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -3124,7 +3093,7 @@ function TransFerDetail() {
                                         
                                       </div>
                                     </div>
-                                  
+                                  )}
                                 </td>
                               </tr>
                             </table>
@@ -3155,23 +3124,23 @@ function TransFerDetail() {
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
-                          value={selectpte_env}
-                          // disabled={read_pte_env}
+                          value={selectpln_staff}
+                          disabled={read_pln_staff}
                           onChange={(e) =>
-                            setselectpte_env(e.target.value)
+                            setselectpln_staff(e.target.value)
                           }
                           size="small"
                           style={{
-                            borderColor: ErrorPTE_ENV ? "red" : undefined,
-                            backgroundColor: read_pte_env
+                            borderColor: ErrorPLN_Staff ? "red" : undefined,
+                            backgroundColor: read_pln_staff
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                              width:'325px'
+                              width:'290px'
                           }}
                           error={
-                            ErrorACCReturn &&
-                            (!selectpte_env ||
-                              selectpte_env == "null")
+                            ErrorPLN_Staff &&
+                            (!selectpln_staff ||
+                              selectpln_staff == "null")
                           }
                         >
                           {pln_staff.map((option, index) => (
@@ -3225,7 +3194,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        style={{ visibility: chkpte_env }}
+                        style={{ visibility: chkpln_staff }}
                       >
                         {" "}
                         Action Date:
@@ -3236,21 +3205,21 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          value={action__pte_env}
+                          value={action__pln_staff}
                           onChange={(e) =>
-                            setaction__pte_env(e.target.value)
+                            setaction__pln_staff(e.target.value)
                           }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            visibility: chkpte_env,
+                            visibility: chkpln_staff,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                 
-                  <tr style={{ display: CM_pte_env }}>
+                  <tr style={{ display: CM_pln_staff }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -3258,33 +3227,33 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          value={cmmtradio_pte_env}
-                          disabled={read_pte_env_cmmt}
+                          value={cmmtradio_pln_staff}
+                          disabled={read_pln_staff_cmmt}
                           style={{
-                            backgroundColor: read_pte_env_cmmt
+                            backgroundColor: read_pln_staff_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
                           }}
                           onChange={(e) =>
-                            setcmmtradio_pte_env(e.target.value)
+                            setcmmtradio_pln_staff(e.target.value)
                           }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {console.log(Showtype,"Showtype")}
-                  {Showtype == "GP01007" &&
-                    // STS1 != "FLLD001" &&
-                    // STS1 != "FLLD002" &&
-                    // STS1 != "FLLD003" &&
-                    // STS1 != "FLLD004" &&
-                    // STS1 != "FLLD005" &&
-                    // STS1 != "FLLD006" &&
-                    // STS1 != "FLLD007" &&
-                    // STS1 != "FLLD008" &&
-                    // STS1 != "FLLD009" &&
-                    // For_sts_reject !== "R" && 
+                 
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    For_sts_reject !== "R" && 
                     (
                       <tr>
                         <td className="Style4"></td>
@@ -3308,9 +3277,9 @@ function TransFerDetail() {
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
+                                          {console.log(showfile_pln_staff,"showfile_pln_staff")}
                                           <TableBody>
-                                            {showfile_owner_return.length ===
-                                            0 ? (
+                                            {showfile_pln_staff.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -3322,39 +3291,39 @@ function TransFerDetail() {
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_owner_return.map(
+                                              showfile_pln_staff.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   
+                                                   {(STS1 == 'FLSC100')&&(
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_owner_return[
+                                                              showfile_pln_staff[
                                                                 index
                                                               ][0],
-                                                              showfile_owner_return[
+                                                              showfile_pln_staff[
                                                                 index
                                                               ][3],
-                                                              showfile_owner_return[
+                                                              showfile_pln_staff[
                                                                 index
                                                               ][4]
                                                             )
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     
+                                                     )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_pln_staff[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_pln_staff[
                                                           index
                                                         ][3]
                                                       }
@@ -3374,14 +3343,14 @@ function TransFerDetail() {
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_owner_return[
+                                                            showfile_pln_staff[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_owner_return[
+                                                          showfile_pln_staff[
                                                             index
                                                           ][3]
                                                         }
@@ -3407,7 +3376,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                
+                                {(STS1== "FLSC100") &&(
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3433,10 +3402,10 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Own_return.length > 0 && (
+                                      {uploadedFiles_PLN_Staff.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Own_return.map(
+                                            {uploadedFiles_PLN_Staff.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -3546,7 +3515,7 @@ function TransFerDetail() {
                                         
                                       </div>
                                     </div>
-                                  
+                                )}
                                 </td>
                               </tr>
                             </table>
@@ -3577,25 +3546,26 @@ function TransFerDetail() {
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
-                          value={selectpte_env}
-                          // disabled={read_pte_env}
+                          value={selectshipping_staff}
+                          disabled={read_shipping}
                           onChange={(e) =>
-                            setselectpte_env(e.target.value)
+                            setselectshipping_staff(e.target.value)
                           }
                           size="small"
                           style={{
-                            borderColor: ErrorPTE_ENV ? "red" : undefined,
-                            backgroundColor: read_pte_env
+                            borderColor: ErrorShipping ? "red" : undefined,
+                            backgroundColor: read_shipping
                               ? "rgba(169, 169, 169, 0.3)"
-                              : "",width:'325px'
+                              : "",
+                            width:'290px'
                           }}
                           error={
-                            ErrorACCReturn &&
-                            (!selectpte_env ||
-                              selectpte_env == "null")
+                            ErrorShipping &&
+                            (!selectshipping_staff ||
+                              selectshipping_staff == "null")
                           }
                         >
-                          {pte_env.map((option, index) => (
+                          {shipping_staff.map((option, index) => (
                             <MenuItem key={index} value={option}>
                               {option}
                             </MenuItem>
@@ -3646,7 +3616,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        style={{ visibility: chkpte_env }}
+                        style={{ visibility: chkshipping }}
                       >
                         {" "}
                         Action Date:
@@ -3657,21 +3627,21 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          value={action__pte_env}
+                          value={action__shipping}
                           onChange={(e) =>
-                            setaction__pte_env(e.target.value)
+                            setaction__shipping(e.target.value)
                           }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            visibility: chkpte_env,
+                            visibility: chkshipping,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                 
-                  <tr style={{ display: CM_pte_env }}>
+                  <tr style={{ display: CM_shipping }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -3679,33 +3649,33 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          value={cmmtradio_pte_env}
-                          disabled={read_pte_env_cmmt}
+                          value={cmmtradio_shipping}
+                          disabled={read_shipping_cmmt}
                           style={{
-                            backgroundColor: read_pte_env_cmmt
+                            backgroundColor: read_shipping_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
                           }}
                           onChange={(e) =>
-                            setcmmtradio_pte_env(e.target.value)
+                            setcmmtradio__shipping(e.target.value)
                           }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {console.log(Showtype,"Showtype")}
-                  {Showtype == "GP01007" &&
-                    // STS1 != "FLLD001" &&
-                    // STS1 != "FLLD002" &&
-                    // STS1 != "FLLD003" &&
-                    // STS1 != "FLLD004" &&
-                    // STS1 != "FLLD005" &&
-                    // STS1 != "FLLD006" &&
-                    // STS1 != "FLLD007" &&
-                    // STS1 != "FLLD008" &&
-                    // STS1 != "FLLD009" &&
-                    // For_sts_reject !== "R" && 
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && 
                     (
                       <tr>
                         <td className="Style4"></td>
@@ -3730,7 +3700,7 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_owner_return.length ===
+                                            {showfile_shipping.length ===
                                             0 ? (
                                               <TableRow>
                                                 <TableCell
@@ -3743,39 +3713,39 @@ function TransFerDetail() {
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_owner_return.map(
+                                              showfile_shipping.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   
+                                                   {(STS1 =='FLSC101')&&(
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_owner_return[
+                                                              showfile_shipping[
                                                                 index
                                                               ][0],
-                                                              showfile_owner_return[
+                                                              showfile_shipping[
                                                                 index
                                                               ][3],
-                                                              showfile_owner_return[
+                                                              showfile_shipping[
                                                                 index
                                                               ][4]
                                                             )
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     
+                                                     )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_shipping[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_owner_return[
+                                                        showfile_shipping[
                                                           index
                                                         ][3]
                                                       }
@@ -3795,14 +3765,14 @@ function TransFerDetail() {
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_owner_return[
+                                                            showfile_shipping[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_owner_return[
+                                                          showfile_shipping[
                                                             index
                                                           ][3]
                                                         }
@@ -3828,7 +3798,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                
+                                {(STS1== "FLSC101") &&(
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3854,10 +3824,10 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Own_return.length > 0 && (
+                                      {uploadedFiles_Shipping.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Own_return.map(
+                                            {uploadedFiles_Shipping.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -3934,7 +3904,7 @@ function TransFerDetail() {
                                                       )}
                                                       {index + 1} {file.name}
                                                     </span>
-
+                                                   
                                                     <DeleteOutlined
                                                       onClick={() =>
                                                         handleDL_File_Owner(
@@ -3967,7 +3937,7 @@ function TransFerDetail() {
                                         
                                       </div>
                                     </div>
-                                  
+                                )}
                                 </td>
                               </tr>
                             </table>
@@ -4349,7 +4319,8 @@ function TransFerDetail() {
                       STS1 == "FLLS001" ||
                       STS1 == "FLWO001" ||
                       STS1 == "FLDN001" ||
-                      STS1 == "FLLD001"
+                      STS1 == "FLLD001" ||
+                      STS1 == "FLSC001"
                         ? "block"
                         : "none",
                   }}

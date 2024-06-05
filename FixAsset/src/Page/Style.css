@@ -340,9 +340,16 @@ margin-right: 10px;
  width: 100%;
   margin-left: 100px;
 }
-.File_For_Show th{
+.File_For_Show th {
   background-color: #92CEA8;
+  font-size: medium;
+  font-weight: bold; /* This makes the text bold */
 }
+.File_For_Show td {
+  font-size: medium;
+  font-weight: bold; /* This makes the text bold */
+}
+
 .TableShow{
   justify-content: center;
   display: flex;

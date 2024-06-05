@@ -88,9 +88,11 @@ const SidebarMenu = ({ isOpen, onClose }) => {
 
   const handleButtonClick = (id) => {
     if (id === "Issue FAM") {
+      localStorage.removeItem("TYPE")
       window.location.href = "/Search";
     }
     if (id === "Approve FAM") {
+      localStorage.removeItem("TYPE")
       window.location.href = "/ApproveFam";
     }
     if (id === "FAM Detail Report") {

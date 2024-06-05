@@ -14,6 +14,8 @@ function FAM_SEARCH() {
   const Lastname = localStorage.getItem("Lastname");
   const Emp = localStorage.getItem("EmpID");
   let UserLogin = Emp + ":" + Name + " " + Lastname;
+ const Type =localStorage.getItem("TYPE");
+ console.log(Type,"Type")
   //const set
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -112,7 +114,13 @@ function FAM_SEARCH() {
     const FixAsset = document.getElementById("FixAsset").value;
     const Date = Datafrom;
     const DateTo = Dateto;
-
+    let Search_for_type=""
+    if(Type !== null)
+      {
+        Search_for_type = Type
+      }else{
+        Search_for_type = selectReType
+      }
     if (Path === "SEARCH") {
       try {
         const response = await axios.post("/getsearch", {
@@ -123,9 +131,9 @@ function FAM_SEARCH() {
           FamTo: FamTo,
           Costcenter: selectcost,
           FixAsset: FixAsset,
-          ReType: selectReType,
+          ReType: Search_for_type,
           ReDate: Date,
-          ReDateTo: DateTo,
+          ReDateTo: DateTo
         });
         const data = response.data;
         setCheckHead("visible");
@@ -138,7 +146,7 @@ function FAM_SEARCH() {
           setCheckData("visible");
         }
       } catch (error) {
-        console.error("Error requesting data:", error);
+        console.error("Error getsearch SEARCH :", error);
       }
     } else if (Path === "APPROVEFAM") {
       try {
@@ -150,7 +158,7 @@ function FAM_SEARCH() {
           FamTo: FamTo,
           Costcenter: selectcost,
           FixAsset: FixAsset,
-          ReType: selectReType,
+          ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo,
         });
@@ -165,7 +173,7 @@ function FAM_SEARCH() {
           setCheckData("visible");
         }
       } catch (error) {
-        console.error("Error requesting data:", error);
+        console.error("Error APPROVEFAM getsearch2:", error);
       }
     } else if (Path === "FAMMASTER") {
       const unwrappedArrayOwnerCC = selectCostCenter.map((item) =>
@@ -250,7 +258,6 @@ function FAM_SEARCH() {
     setselectStatus(null);
     setConvertedDate("");
     setConvertedDateTo("");
-    console.log(convertedDate, "HJHJJH", convertedDateTo);
   };
   // Get Data
   const Factory = async () => {
@@ -360,6 +367,7 @@ function FAM_SEARCH() {
         FamNo: EditFam,
       });
       const data = await response.data;
+      console.log(data,"dataFixAsset")
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
       localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
@@ -408,11 +416,22 @@ function FAM_SEARCH() {
     } catch (error) {
       console.error("Error during login:", error);
     }
+    try {
+      const response = await axios.post("/getEdit_scrap", {
+        famno: EditFam,
+      });
+
+      const data = await response.data;
+      console.log("ข้อมูลที่มาจาก Srcap",data)
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Scrap", data_edit);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
 
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-
     window.location.href = "/ForRe";
   };
 

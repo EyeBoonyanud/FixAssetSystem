@@ -100,12 +100,31 @@ app.post("/getEdit_lenging",Transaction.getEdit_lenging);
 app.post("/update_lending",Transaction.update_lending);
 app.post("/update_leading_acc_return",Transaction.update_leading_acc_return);
 app.post("/update_leading_own_return",Transaction.update_leading_own_return);
+app.post("/update_for_nullLending",Transaction.update_for_nullLending);
 //Scrap 
 app.post("/pte_env_data",Transaction.pte_env_data);
 app.post("/pln_staff_data",Transaction.pln_staff_data);
 app.post("/shipping_data",Transaction.shipping_data);
+app.post("/insert_scrap",Transaction.insert_scrap);
+app.post("/update_scrap",Transaction.update_scrap);
+app.post("/getEdit_scrap",Transaction.getEdit_scrap);
+app.post("/update_scrap_pte",Transaction.update_scrap_pte);
+app.post("/update_scrap_pln",Transaction.update_scrap_pln);
+app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
+// app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
+app.post("/get_weights",Transaction.get_weights);
+app.post("/get_size",Transaction.get_size);
+app.post("/get_unitprice",Transaction.get_unitprice);
+app.post("/get_inv_no",Transaction.get_inv_no);
+app.post("/update_for_nullScarp",Transaction.update_for_nullScarp);
 
 
+
+
+app.post("/insert_weight",Transaction.insert_weight);
+app.post("/insert_size",Transaction.insert_size);
+app.post("/insert_unit_price",Transaction.insert_unit_price);
+app.post("/insert_invoice",Transaction.insert_invoice);
 
 
 
@@ -114,6 +133,9 @@ app.post("/ins_FILE_FROM_REQUEST", Transaction.insertFile_from_request);
 app.post("/get_seq_request", Transaction.get_run_seq_request);
 app.post("/get_run_owner_file", Transaction.get_run_owner_file);
 app.post("/get_run_owner_file_return", Transaction.get_run_owner_file_return);
+app.post("/get_run_owner_file_pte", Transaction.get_run_owner_file_pte);
+app.post("/get_run_owner_file_pln", Transaction.get_run_owner_file_pln);
+app.post("/get_run_owner_file_shipping", Transaction.get_run_owner_file_shipping);
 
 app.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", Transaction.insertFile_from_request_to_project_me);
 //
@@ -169,6 +191,7 @@ app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 
 // Homepage 
 app.post("/getCountTransfer",Homepage.getCountTransfer);
+app.post("/getCountScrap",Homepage.getCountScrap);
 app.post("/getCountLoss",Homepage.getCountLoss);
 app.post("/getCountWrite_off",Homepage.getCountWrite_off);
 app.post("/getCountLending",Homepage.getCountLending);
@@ -182,7 +205,9 @@ app.get("/getCountWrite_offlistaLLname",Homepage.getCountWrite_offlistaLLname);
 app.post("/getCountLendinglistaLL",Homepage.getCountLendinglistaLL);
 app.get("/getCountLendinglistaLLname",Homepage.getCountLendinglistaLLname);
 app.post("/getCountDonationlistaLL",Homepage.getCountDonationlistaLL);
-app.get("/getCountDonationlistaLLname",Homepage.getCountDonationlistaLLname);
+app.get("/getCountScraplistaLLname",Homepage.getCountScraplistaLLname);
+app.post("/getCountScraplistaLL",Homepage.getCountScraplistaLL);
+
 
 
 
@@ -201,7 +226,11 @@ app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
 app.post("/getFAM_FILE_OWNER_CHK",ReportSystem.getFAM_FILE_OWNER_CHK)
 //Lending
 app.post("/getFAM_FILE_Req_Return",ReportSystem.getFAM_FILE_Req_Return)
-
+//Scrap
+app.post("/getFAM_FILE_PTE_ENV",ReportSystem.getFAM_FILE_PTE_ENV)
+app.post("/getFAM_FILE_PLN_Staff",ReportSystem.getFAM_FILE_PLN_Staff)
+app.post("/getFAM_FILE_Shipping",ReportSystem.getFAM_FILE_Shipping)
+app.post("/getWeight_Size_Unit_INV",ReportSystem.getWeight_Size_Unit_INV)
 // PDF Fammaster
 app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
 app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
@@ -209,20 +238,14 @@ app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
 app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
 app.post("/SumCost",PDF_Fammaster.SumCost);
 app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
-
-// VIEW Fammaster ก่อนแก้
-// app.get("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
-//app.get("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
-//app.get("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
-//app.get("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW)
-//app.get("/getData_showName",VIEW_Fammaster.getData_showName);
 // VIEW Fammaster หลังแก้
 app.post("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
 app.post("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
 app.post("/getData_Routing_show_VIEW",VIEW_Fammaster.getData_Routing_show_VIEW);
 app.post("/getData_Transfer_show_VIEW",VIEW_Fammaster.getData_Transfer_show_VIEW);
 app.post("/getData_showName",VIEW_Fammaster.getData_showName);
-
+app.post("/getData_NewCC_Toproject",VIEW_Fammaster.getData_NewCC_Toproject);
+app.post("/getData_Scrap_show_VIEW",VIEW_Fammaster.getData_Scrap_show_VIEW);
 
 //Mail
 // app.post("/sendEmail",Mail.sendEmail)

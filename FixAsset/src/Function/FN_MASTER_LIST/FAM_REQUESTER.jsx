@@ -7,6 +7,7 @@ function FAM_REQUESTER() {
     const navigate = useNavigate();
     const VIEW_FAM = localStorage.getItem("EDIT");
     const VIEW_TYPE = localStorage.getItem("TYPE_flow")
+    console.log(VIEW_FAM,"VIEW_FAM")
     const NextPage = async () => {
       window.location.href = `/FamTrans`;
     };
@@ -31,7 +32,10 @@ function FAM_REQUESTER() {
     };
     const [Datafamno, setDatafamno] = useState([]);
     const [DataDetailfamno, setDataDetailfamno] = useState([]);
-  
+    const [DataNewCC_ToProj , setDataNewCC_ToProj] = useState([]);
+    const [DataWeight_Size_Unit_Env , setDataWeight_Size_Unit_Env] = useState([]);
+    
+    const [STS , setSTS] = useState("")
     const [Filedata, setFiledata] = useState([]);
   
     const downloadFile = (fileName) => {
@@ -83,8 +87,9 @@ function FAM_REQUESTER() {
               });
             const data = await response.data;
             setDatafamno(data);
+            setSTS(data[0][15])
           } catch (error) {
-            console.error("Error RequesterORType:", error);
+            console.error("Error FAM_Hearder:", error);
           }
         };
         const FAM_Detail = async () => {
@@ -96,13 +101,39 @@ function FAM_REQUESTER() {
             const data = await response.data;
             setDataDetailfamno(data);
           } catch (error) {
-            console.error("Error RequesterORType:", error);
+            console.error("Error FAM_Detail:", error);
           }
         };
+        const NewwCC_ToProj = async () => {
+       
+          try {
+            const response = await axios.post("/getData_NewCC_Toproject", {
+              famno: VIEW_FAM,
+            });
+          const data = await response.data;
+          setDataNewCC_ToProj(data);
+        } catch (error) {
+          console.error("Error RequesterORType:", error);
+        }
+      };
+      const Weight_Size_Unit_INV = async () => {
+       
+        try {
+          const response = await axios.post("/getWeight_Size_Unit_INV", {
+            famno: VIEW_FAM,
+          });
+        const data = await response.data;
+        setDataWeight_Size_Unit_Env(data);
+      } catch (error) {
+        console.error("Error RequesterORType:", error);
+      }
+    };
     
         fetchData();
         FAM_Hearder();
         FAM_Detail();
+        NewwCC_ToProj();
+        Weight_Size_Unit_INV();
         setTimeout(function () {
           closePopupLoadding();
         }, 2000);
@@ -110,7 +141,7 @@ function FAM_REQUESTER() {
     
   return {
     navigate,VIEW_TYPE,NextPage,Back_page,For_Rq_Edit,isPopupOpenLoadding,
-    Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,downloadFile
+    Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,downloadFile,STS,DataNewCC_ToProj,DataWeight_Size_Unit_Env
     
   }
 }

@@ -270,7 +270,6 @@ module.exports.search2 = async function (req, res) {
       ReDate,
       ReDateTo,
     } = req.body;
-    console.log(ReDate, ReDateTo, "มาแล้วคร้ายยยยยยย");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -290,19 +289,23 @@ module.exports.search2 = async function (req, res) {
   LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_LENDING L ON L.FRL_FAM_NO = T.FRH_FAM_NO
+  LEFT JOIN FAM_REQ_SCRAP S ON S.FRSC_FAM_NO  =T.FRH_FAM_NO 
   WHERE  1=1
-  AND((T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002'))
-    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003'))
-    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004'))
-    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005'))
-    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006'))
-    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007'))
-    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008'))
+  AND((T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002','FLSC002'))
+    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003','FLSC003'))
+    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004','FLSC004'))
+    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005','FLSC005'))
+    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006','FLSC006'))
+    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007','FLSC007'))
+    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008','FLSC008'))
     OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
-    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010'))
-    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011'))
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012'))
+    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010'))
+    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012'))
     OR (L.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD009'))
+    OR (S.FRSC_ENV_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC009'))
+    OR (S.FRSC_PLN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC100'))
+    OR (S.FRSC_SHP_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC101'))
     OR (L.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD100')))
     AND (T.FAM_FACTORY = '${FacCode}' OR '${FacCode}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${DeptCode}' OR '${DeptCode}' IS NULL)
@@ -326,40 +329,50 @@ module.exports.search2 = async function (req, res) {
 module.exports.fixcode = async function (req, res) {
   try {
     const { Fixcode, asset_cc, fixgroup } = req.body;
+    console.log("มาแล้วววววววววววววว", Fixcode, asset_cc, fixgroup);
+    const fixgroupString = fixgroup.map((value) => `'${value}'`).join(", ");
     const connect = await oracledb.getConnection(QAD);
     const query = `
-    SELECT KM.KFA_CODE,
-       KD.KFAD_COMP,
-       KD.KFAD_CC,
-       KD.KFAD_COMP_NAME,
-       KM.KFA_SEARCH3,
-       CD.CODE_CMMT,
-       KD.KFAD_QTY,
-       KFD.KFIN_DOC_NO,
-       KFD.KFIN_REF_DATE,
-       KD.KFAD_ACQ_COST,
-       KD.KFAD_SVG_VAL
-  FROM KFA_MSTR KM, KFAD_DET KD, KFIN_DET KFD, CODE_MSTR CD
- WHERE (KM.KFA_CODE = KD.KFAD_CODE)
-   AND (KM.KFA_DOMAIN = KD.KFAD_DOMAIN)
-   AND (KD.KFAD_CODE = KFD.KFIN_FA_CODE)
-   AND (KFD.KFIN_DOMAIN = KD.KFAD_DOMAIN)
-   AND (KM.KFA_OBLG = CD.CODE_VALUE)
-   AND (KM.KFA_DOMAIN = CD.CODE_DOMAIN)
-   AND (KD.KFAD_COMP = KFD.KFIN_INFO_SEQ)
-   AND ((SUBSTR(KM.KFA_CODE,1,1) IN '${fixgroup}')
-   AND (KM.KFA_CODE = '${Fixcode}') 
-   AND (KD.KFAD_CC = '${asset_cc}') 
-   AND (UPPER(CD.CODE_FLDNAME) = 'KFA_OBLG') 
-   AND (KD.KFAD_BOOK = 'SL') 
-   AND (UPPER(KM.KFA_DOMAIN) = '9000') 
-   AND (KD.KFAD_SEQ = '0'))
- ORDER BY KM.KFA_CODE, KD.KFAD_COMP
+    SELECT 
+    KM.KFA_CODE,
+    KD.KFAD_COMP,
+    KD.KFAD_CC,
+    KD.KFAD_COMP_NAME,
+    KM.KFA_SEARCH3,
+    CD.CODE_CMMT,
+    KD.KFAD_QTY,
+    KFD.KFIN_DOC_NO,
+    KFD.KFIN_REF_DATE,
+    KD.KFAD_ACQ_COST,
+    KD.KFAD_SVG_VAL
+FROM 
+    KFA_MSTR KM
+    JOIN KFAD_DET KD ON KM.KFA_CODE = KD.KFAD_CODE AND KM.KFA_DOMAIN = KD.KFAD_DOMAIN
+    JOIN KFIN_DET KFD ON KD.KFAD_CODE = KFD.KFIN_FA_CODE AND KFD.KFIN_DOMAIN = KD.KFAD_DOMAIN
+    JOIN CODE_MSTR CD ON KM.KFA_OBLG = CD.CODE_VALUE AND KM.KFA_DOMAIN = CD.CODE_DOMAIN
+WHERE 1=1
+AND (KM.KFA_CODE = KD.KFAD_CODE)
+AND (KM.KFA_DOMAIN = KD.KFAD_DOMAIN)
+AND (KD.KFAD_CODE = KFD.KFIN_FA_CODE)
+AND (KFD.KFIN_DOMAIN = KD.KFAD_DOMAIN)
+AND (KM.KFA_OBLG = CD.CODE_VALUE)
+AND (KM.KFA_DOMAIN = CD.CODE_DOMAIN)
+AND (KD.KFAD_COMP = KFD.KFIN_INFO_SEQ)
+    AND SUBSTR(KM.KFA_CODE, 1, 1) IN (${fixgroupString})
+    AND KM.KFA_CODE = '${Fixcode}'
+    AND KD.KFAD_CC = '${asset_cc}'
+    AND UPPER(CD.CODE_FLDNAME) = 'KFA_OBLG'
+    AND KD.KFAD_BOOK = 'SL'
+    AND UPPER(KM.KFA_DOMAIN) = '9000'
+    AND KD.KFAD_SEQ = '0'
+ORDER BY 
+    KM.KFA_CODE, KD.KFAD_COMP
          `;
 
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
+    console.log(query);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -402,12 +415,12 @@ module.exports.cost_insert = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
-// Fixed Asset Group 
+// Fixed Asset Group
 // SELECT T.FRC_CHK_PREFIX AS inpCode,
-    // T.FRC_GROUP AS ShowDesc 
-    // FROM FAM_RUNNING_CONTROL T 
-    // WHERE T.FRC_FACTORY = '${Asset_group}' 
-    // ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP
+// T.FRC_GROUP AS ShowDesc
+// FROM FAM_RUNNING_CONTROL T
+// WHERE T.FRC_FACTORY = '${Asset_group}'
+// ORDER BY T.FRC_FACTORY,T.FRC_CHK_PREFIX,T.FRC_GROUP
 module.exports.fix_group = async function (req, res) {
   try {
     const { Asset_group } = req.body;
@@ -460,7 +473,7 @@ module.exports.id_service = async function (req, res) {
     T.FRC_PIC_CC||' : '||T.FRC_SERVICE_DEPT ,
     T.FRC_SERVICE_DEPT 
     FROM FAM_RUNNING_CONTROL T WHERE T.FRC_FACTORY = '${fac}'
-    AND T.FRC_CHK_PREFIX = '${fixgroub}' `;
+    AND T.FRC_PIC_CC  = '${fixgroub}' `;
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
@@ -484,6 +497,7 @@ module.exports.find_service = async function (req, res) {
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
+    console.log(query, "query");
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -492,8 +506,7 @@ module.exports.find_service = async function (req, res) {
 
 module.exports.find_fix_groub = async function (req, res) {
   try {
-    const { fac, servicedept } = req.body; 
-    console.log(fac,servicedept,"มาจ้า")
+    const { fac, servicedept } = req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT T.FRC_CHK_PREFIX FROM FAM_RUNNING_CONTROL T
@@ -1068,7 +1081,7 @@ module.exports.shipping_data = async function (req, res) {
     WHERE T.FPM_LEVEL = 'GP02011' 
     AND T.FPM_FACTORY = '${fac}'
     AND T.FPM_CC = 'ALL' AND T.FPM_PERSON_STS = 'A'
-    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN;
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
          `;
     const result = await connect.execute(query);
     connect.release();
@@ -1299,7 +1312,7 @@ module.exports.update_submit = async function (req, res) {
 
     connect.release();
   } catch (error) {
-    console.error("Error in querying data:", error.message);
+    console.error("Error in querying data :", error.message);
     res.status(500).send(`Internal Server Error: ${error.message}`);
   }
 };
@@ -1427,6 +1440,75 @@ module.exports.get_run_owner_file_return = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
 };
+//get run pte_file
+module.exports.get_run_owner_file_pte = async function (req, res) {
+  try {
+    const { FAM_no } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'ENV CHECK'
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      FAM_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_run_owner_file_pte error:", error.message);
+  }
+};
+// get run ptn
+module.exports.get_run_owner_file_pln = async function (req, res) {
+  try {
+    const { FAM_no } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'PLN CHECK'
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      FAM_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_run_owner_file_pte error:", error.message);
+  }
+};
+// get run shipping
+module.exports.get_run_owner_file_shipping = async function (req, res) {
+  try {
+    const { FAM_no } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
+    FROM FAM_FILE_ATTACH T
+    WHERE T.FFA_FAM_NO = :FAM_no
+    AND T.FFA_ATT_FROM = 'SHP CHECK'
+    ORDER BY T.FFA_FILE_SEQ ASC
+
+         `;
+    const data = {
+      FAM_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_run_owner_file_pte error:", error.message);
+  }
+};
 //UPLOAD
 module.exports.insertFile_from_request_to_project_me = async function (
   req,
@@ -1523,13 +1605,18 @@ module.exports.getEdit_FixAsset = async function (req, res) {
     FRD_INV_NO AS FRD_INV_NO,
     FRD_CREATE_BY AS FRD_CREATE_BY,
     FRD_ACQ_COST AS FRD_ACQ_COST,
-    FRD_BOOK_VALUE AS FRD_BOOK_VALUE
-    FROM FAM_REQ_DETAIL  WHERE FRD_FAM_NO = '${FamNo}'
+    FRD_BOOK_VALUE AS FRD_BOOK_VALUE,
+    FRD_NEW_CC AS NewCC,
+    FRT_TO_PROJ AS ToProject
+    FROM FAM_REQ_DETAIL  
+    LEFT JOIN FAM_REQ_TRANSFER ON FRD_FAM_NO = FRT_FAM_NO
+    WHERE FRD_FAM_NO = '${FamNo}'
     `;
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
   } catch (error) {
+    console.error("getEdit_FixAsset error");
     res.status(500).send("Internal Server Error");
   }
 };
@@ -3454,6 +3541,449 @@ module.exports.update_leading_own_return = async function (req, res) {
     res.json(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// Scrap
+module.exports.insert_scrap = async function (req, res) {
+  try {
+    const { famno, pte_env, pln_staff, shipping, create_by } = req.body;
+    console.log("GGGGG", famno, pte_env, pln_staff, shipping, create_by);
+    const connect = await oracledb.getConnection(AVO); // Assuming AVO is your connection details object
+    const query = `
+    INSERT INTO FAM_REQ_SCRAP 
+    (FRSC_FAM_NO,
+    FRSC_ENV_BY,
+    FRSC_PLN_BY,
+    FRSC_SHP_BY,
+    FRSC_CREATE_DATE,
+    FRSC_CREATE_BY
+  )
+VALUES 
+    (:famno,
+    :pte_env,
+    :pln_staff,
+    :shipping,
+    SYSDATE,
+  :create_by)
+
+    `;
+
+    const data = {
+      famno,
+      pte_env,
+      pln_staff,
+      shipping,
+      create_by,
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    console.log(query, "gggg");
+    res.status(200).json({ success: true }); // send response
+  } catch (error) {
+    console.error("Error: insert_scrap", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.insert_scrap = async function (req, res) {
+  try {
+    const { famno, pte_env, pln_staff, shipping, create_by } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    INSERT INTO FAM_REQ_SCRAP 
+    (FRSC_FAM_NO,
+    FRSC_ENV_BY,
+    FRSC_PLN_BY,
+    FRSC_SHP_BY,
+    FRSC_CREATE_DATE,
+    FRSC_CREATE_BY
+  )
+VALUES 
+    (:famno,
+    :pte_env,
+    :pln_staff,
+    :shipping,
+    SYSDATE,
+  :create_by)
+
+    `;
+
+    const data = {
+      famno,
+      pte_env,
+      pln_staff,
+      shipping,
+      create_by,
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.status(200).json({ success: true }); // send response
+  } catch (error) {
+    console.error("Error: insert_scrap", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.update_scrap = async function (req, res) {
+  try {
+    const { famno, pte_env, pln_staff, shipping, update_by } = req.body;
+    
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SCRAP 
+    SET FRSC_ENV_BY = :pte_env,
+    FRSC_PLN_BY = :pln_staff,
+    FRSC_SHP_BY = :shipping,
+    FRSC_UPDATE_BY = :update_by,
+    FRSC_UPDATE_DATE = SYSDATE 
+    WHERE FRSC_FAM_NO = :famno
+  `;
+
+    const data = {
+      famno,
+      pte_env,
+      pln_staff,
+      shipping,
+      update_by,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in update_scrap:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.getEdit_scrap = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    FRSC_FAM_NO ,
+    FRSC_ENV_BY,
+    TO_CHAR(FRSC_ENV_DATE, 'DD/MM/YYYY') ,
+      FRSC_ENV_CMMT,
+      FRSC_PLN_BY,
+    TO_CHAR(FRSC_PLN_DATE, 'DD/MM/YYYY') ,
+    FRSC_PLN_CMMT ,
+    FRSC_SHP_BY ,
+    TO_CHAR(FRSC_SHP_DATE, 'DD/MM/YYYY') ,
+    FRSC_SHP_CMMT 
+  FROM
+    FAM_REQ_SCRAP
+  WHERE
+    FRSC_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("getEdit_scrap Error:", error.message);
+  }
+};
+module.exports.update_scrap_pte = async function (req, res) {
+  try {
+    const { tranfer, pte_env_cmmt} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SCRAP 
+    SET 
+    FRSC_ENV_CMMT = :pte_env_cmmt ,
+    FRSC_ENV_DATE = SYSDATE
+    WHERE FRSC_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pte_env_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.update_scrap_pln = async function (req, res) {
+  try {
+    const { tranfer, pln_staff_cmmt} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SCRAP 
+    SET 
+    FRSC_PLN_CMMT = :pln_staff_cmmt ,
+    FRSC_PLN_DATE = SYSDATE
+    WHERE FRSC_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer, pln_staff_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_scrap_pln", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_scrap_shipping = async function (req, res) {
+  try {
+    const { tranfer, shipping_staff_cmmt} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SCRAP 
+    SET 
+    FRSC_SHP_CMMT = :shipping_staff_cmmt ,
+    FRSC_SHP_DATE = SYSDATE
+    WHERE FRSC_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer, shipping_staff_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.insert_weight = async function (req, res) {
+  try {
+    const { famno,idfix_asset,namefixasset,weight_fix } = req.body;
+   
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_DETAIL 
+    SET FRD_ENV_WEIGHT = :weight_fix
+    WHERE FRD_FAM_NO = :famno
+    AND FRD_ASSET_CODE =:idfix_asset 
+    AND FRD_ASSET_NAME =:namefixasset
+  `;
+    const data = {
+      famno,idfix_asset,namefixasset,weight_fix,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_weight:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.insert_size = async function (req, res) {
+  try {
+    const { famno,idfix_asset,namefixasset,size_fix } = req.body;
+   
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_DETAIL 
+    SET FRD_ENV_SIZE = :size_fix
+    WHERE FRD_FAM_NO = :famno
+    AND FRD_ASSET_CODE =:idfix_asset 
+    AND FRD_ASSET_NAME =:namefixasset
+  `;
+    const data = {
+      famno,idfix_asset,namefixasset,size_fix,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_size:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.insert_unit_price = async function (req, res) {
+  try {
+    const { famno,idfix_asset,namefixasset,unit_pri } = req.body;
+   
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_DETAIL 
+    SET FRD_PLN_UNITPRICE = :unit_pri
+    WHERE FRD_FAM_NO = :famno
+    AND FRD_ASSET_CODE =:idfix_asset 
+    AND FRD_ASSET_NAME =:namefixasset
+  `;
+    const data = {
+      famno,idfix_asset,namefixasset,unit_pri,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_unit_price:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.insert_invoice = async function (req, res) {
+  try {
+    const { famno,idfix_asset,namefixasset,invoice_no } = req.body;
+   console.log(famno,idfix_asset,namefixasset,invoice_no,"GGG")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_DETAIL 
+    SET FRD_SHP_INVOICE = :invoice_no
+    WHERE FRD_FAM_NO = :famno
+    AND FRD_ASSET_CODE =:idfix_asset 
+    AND FRD_ASSET_NAME =:namefixasset
+  `;
+    const data = {
+      famno,idfix_asset,namefixasset,invoice_no,
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_invoice:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.get_weights = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    FRD_ENV_WEIGHT 
+  FROM
+    FAM_REQ_DETAIL
+  WHERE
+    FRD_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("getEdit_scrap Error:", error.message);
+  }
+};
+module.exports.get_size = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    FRD_ENV_SIZE 
+  FROM
+    FAM_REQ_DETAIL
+  WHERE
+    FRD_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_size Error:", error.message);
+  }
+};
+
+module.exports.get_unitprice = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    console.log(famno,"famno")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    FRD_PLN_UNITPRICE 
+  FROM
+    FAM_REQ_DETAIL
+  WHERE
+    FRD_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_unitprice Error:", error.message);
+  }
+};
+
+module.exports.get_inv_no = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    FRD_SHP_INVOICE 
+  FROM
+    FAM_REQ_DETAIL
+  WHERE
+    FRD_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("get_inv_no Error:", error.message);
+  }
+};
+module.exports.update_for_nullScarp = async function (req, res) {
+  try {
+    const {famno} = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_SCRAP A
+  SET
+  A.FRSC_ENV_DATE = NULL,
+  A.FRSC_ENV_CMMT = NULL ,
+  A.FRSC_PLN_DATE = NULL ,
+  A.FRSC_PLN_CMMT = NULL ,
+  A.FRSC_SHP_DATE = NULL ,
+  A.FRSC_SHP_CMMT = NULL 
+  WHERE
+  A.FRSC_FAM_NO = :famno 
+  `;
+    const data = {
+      famno
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_invoice:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.update_for_nullLending = async function (req, res) {
+  try {
+    const {famno} = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE
+    FAM_REQ_SCRAP A
+  SET
+  A.FRL_ACC_MGR_DATE = NULL,
+  A.FRL_ACC_MGR_RETURN = NULL ,
+  A.FRL_ACC_MGR_JUD = NULL ,
+  A.FRL_ACC_MGR_CMMT = NULL ,
+  A.FRL_OWNER_DATE = NULL ,
+  A.FRL_OWNER_CMMT = NULL 
+  WHERE
+  A.FRL_FAM_NO = :famno 
+    
+  `;
+    const data = {
+      famno
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error insert_invoice:", error.message);
     res.status(500).send("Internal Server Error");
   }
 };

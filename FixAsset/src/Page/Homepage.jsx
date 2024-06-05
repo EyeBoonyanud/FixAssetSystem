@@ -27,7 +27,7 @@ import MenuWallpaper from "../assets/Image/Wallpaper_Menulist2.jpg";
 import {function_homepage} from "../Function/FN_HOME_PAGE/HOMEPAGE";
 
 export default function BasicGrid() {
-  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type } = function_homepage();
+  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap } = function_homepage();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -799,7 +799,7 @@ export default function BasicGrid() {
                             variant="h5"
                             className="Number-menu-list White-background"
                           >
-                            0
+                            {dataScrap[0] || 0}
                           </Typography>
                         </CardContent>
                       </CardActionArea>

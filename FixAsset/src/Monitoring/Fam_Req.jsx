@@ -27,8 +27,9 @@ import { Empty } from "antd";
 import {FAM_REQUESTER} from '../Function/FN_MASTER_LIST/FAM_REQUESTER'
 function ForRequest() {
 const {NextPage,Back_page,isPopupOpenLoadding,
-  Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding
+  Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,STS,DataNewCC_ToProj,DataWeight_Size_Unit_Env
   } = FAM_REQUESTER();
+  console.log("STS",STS)
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -143,7 +144,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request (Owner) :
+                      Request (Owner Id) :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -308,7 +309,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                       <FormControlLabel
                         value="GP01006"
                         control={<Radio />}
-                        label="Landing to Third-party"
+                        label="Lending to Third-party"
                         disabled
                       />
                       <FormControlLabel
@@ -325,7 +326,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Fix Asset Group :
+                      Service Dept :
                     </Typography>
                   </Grid>
                   <Grid xs={3}>
@@ -409,10 +410,8 @@ const {NextPage,Back_page,isPopupOpenLoadding,
         </div>
         {/* สำหรับ Fixed Assets Code */}
         <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
+        
+       
 
         <div className="Fixed-Asset-Code">
           <Card
@@ -436,7 +435,6 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                 justifyContent: "center",
               }}
             >
-              {" "}
               Details
             </Typography>
 
@@ -505,6 +503,28 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                           <TableCell>Invoice No.</TableCell>
                           <TableCell>Acquisition Cost(Baht)</TableCell>
                           <TableCell>Book Value(Baht)</TableCell>
+                          {(STS === "FLTR011" || STS=== "FLTR012") && (
+                              <React.Fragment>
+                                <TableCell>New CC</TableCell>
+                                <TableCell>New BOI Projrct</TableCell>
+                              </React.Fragment>
+                            )}
+                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                              <React.Fragment>
+                                <TableCell>Weight(kg)</TableCell>
+                                <TableCell>Size</TableCell>
+                              </React.Fragment>
+                            )}
+                              {(STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                              <React.Fragment>
+                                <TableCell>Unit Price(Baht)</TableCell>
+                              </React.Fragment>
+                            )}
+                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                              <React.Fragment>
+                                <TableCell>Invoice No.</TableCell>
+                              </React.Fragment>
+                            )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -538,6 +558,28 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                               </TableCell>
 
                               <TableCell>{item[9]}</TableCell>
+                              {(STS === "FLTR011" || STS=== "FLTR012") && (
+                                  <React.Fragment>
+                                    <TableCell>{item[10]}</TableCell>
+                                    <TableCell>{item[11]}</TableCell>
+                                  </React.Fragment>
+                                )}
+                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                  <React.Fragment>
+                                    <TableCell>{item[12]}</TableCell>
+                                    <TableCell>{item[13]}</TableCell>
+                                  </React.Fragment>
+                                )}
+                                {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                  <React.Fragment>
+                                    <TableCell>{item[14]}</TableCell>
+                                  </React.Fragment>
+                                )}
+                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                  <React.Fragment>
+                                    <TableCell>{item[15]}</TableCell>
+                                  </React.Fragment>
+                                )}
                             </TableRow>
                           </React.Fragment>
                         ))}
@@ -571,6 +613,13 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                               0
                             ).toLocaleString("en-US")}
                           </TableCell>
+                          {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                          <TableCell style={{ fontWeight: "bold" }}>
+                            {DataDetailfamno.reduce(
+                              (acc, curr) => acc + parseInt(curr[12]),
+                              0
+                            ).toLocaleString("en-US")}
+                          </TableCell>)}
                         </TableRow>
                       </TableBody>
                     </Table>
@@ -589,8 +638,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
         </div>
 
         <br></br>
-        <br></br>
-        <br></br>
+     
         {/* สำหรับ Upload File */}
 
         <div className="ShowFile">

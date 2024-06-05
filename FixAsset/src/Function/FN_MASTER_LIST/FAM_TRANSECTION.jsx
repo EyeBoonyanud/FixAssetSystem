@@ -12,6 +12,7 @@ function FAM_TRANSECTION() {
   const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
   const [DataName, setDataName] = useState("");
   const [DataLending, setDataLending] = useState([]);
+  const [DataScrap ,setDataScrap] = useState([]);
   // const radio
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
@@ -30,6 +31,10 @@ function FAM_TRANSECTION() {
    // const ได้ file จาก database
   const [Filedata, setFiledata] = useState([]);
   const [FiledataReturn, setFiledataReturn] = useState([]);
+  const [FiledataPTE_ENV ,setFiledataPTE_ENV] = useState([]);
+  const [FiledataPLN_Staff,setFiledataPLN_Staff] = useState([]);
+  const [FiledataShiiping,setFiledataShiiping] = useState([]);
+
   // const Loading 
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
@@ -59,6 +64,7 @@ function FAM_TRANSECTION() {
         setselectradio_record(data[31]);
         setselectradio_acc_manager(data[35]);
         setselectradio_service_close_by(data[39]);
+        console.log(data,"routing")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -120,9 +126,54 @@ function FAM_TRANSECTION() {
         setDataLending(data);
         setselectradio_acc_return(data[4]);
         setchkaction_date(data[7]);
-        console.log(data, "YUUYU");
       } catch (error) {
         console.error("Error during login:", error);
+      }
+    };
+    const fetchData_Scrap = async () => {
+      try {
+        const response = await axios.post("/getEdit_scrap", {
+          famno: VIEW_FAM,
+        });
+
+        const data = await response.data.flat();
+        setDataScrap(data);
+        console.log(data ,"ออออออออออร")
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    const fetchData_PTE_ENV = async () => {
+      try {
+        const response = await axios.post("/getFAM_FILE_PTE_ENV", {
+          FamNo: VIEW_FAM,
+        });
+        const jsonData = await response.data;
+        setFiledataPTE_ENV(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    const fetchData_PLN_Staff = async () => {
+      try {
+        const response = await axios.post("/getFAM_FILE_PLN_Staff", {
+          FamNo: VIEW_FAM,
+        });
+        const jsonData = await response.data;
+        setFiledataPLN_Staff(jsonData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    const fetchData_Shipping = async () => {
+      try {
+        const response = await axios.post("/getFAM_FILE_Shipping", {
+          FamNo: VIEW_FAM,
+        });
+        const jsonData = await response.data;
+        setFiledataShiiping(jsonData);
+      } catch (error) {
+        console.error("Error fetchData_Shipping data:", error);
       }
     };
 
@@ -132,6 +183,10 @@ function FAM_TRANSECTION() {
     fetchData();
     fetchData_Owner_return();
     fetchData_Leading();
+    fetchData_Scrap();
+    fetchData_PTE_ENV();
+    fetchData_PLN_Staff();
+    fetchData_Shipping();
     setTimeout(function () {
       closePopupLoadding();
     }, 2000);
@@ -150,6 +205,7 @@ function FAM_TRANSECTION() {
     DataRoutingFamno,
     DataName,
     DataLending,
+    DataScrap,
     selectradio_dept,
     selectradio_serviceby,
     selectradio_boistaff,
@@ -165,6 +221,9 @@ function FAM_TRANSECTION() {
     chkaction_date,
     Filedata,
     FiledataReturn,
+    FiledataPTE_ENV,
+FiledataShiiping,
+FiledataPLN_Staff,
     isPopupOpenLoadding,
     openPopupLoadding,
     closePopupLoadding,

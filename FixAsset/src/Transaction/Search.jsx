@@ -37,7 +37,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import PageLoadding from "../Loadding/Pageload";
 import { FAM_SEARCH } from "../Function/FN_SEARCH_ALL/FAM_SEARCH";
-import { DatePicker } from'antd';
+import { DatePicker } from "antd";
 
 function Issue() {
   const {
@@ -101,11 +101,10 @@ function Issue() {
     rowsPerPage,
     setselectCostCenter,
     handleDateChange,
-    handleDateToChange
+    handleDateToChange,
   } = FAM_SEARCH();
   return (
     <>
-      
       <Header />
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
       <div className="body">
@@ -117,9 +116,6 @@ function Issue() {
           }}
         >
           <div>
-        
-   
-   
             <h1
               style={{
                 fontFamily: "Verdana, sans-serif",
@@ -139,7 +135,6 @@ function Issue() {
               marginBottom: "10px",
             }}
           >
-            
             <Table className="SarchFill">
               <TableRow>
                 <TableCell style={{ border: "0" }}>
@@ -417,15 +412,16 @@ function Issue() {
                       setSelectedDateFrom(e.target.value);
                     }}
                   ></TextField> */}
-                  <Typography color={"gray"} style={{fontSize:'14px'}}>Date From : </Typography>
-                    <DatePicker
-        id="FamTo"
-        size="small"
-        fullWidth
-        format="DD/MM/YYYY"
-        onChange={handleDateToChange}
-        
-      />
+                  <Typography color={"gray"} style={{ fontSize: "14px" }}>
+                    Date From :{" "}
+                  </Typography>
+                  <DatePicker
+                    id="FamTo"
+                    size="small"
+                    fullWidth
+                    format="DD/MM/YYYY"
+                    onChange={handleDateToChange}
+                  />
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
                   {/* <TextField
@@ -444,16 +440,16 @@ function Issue() {
                       setSelectedDateTo(e.target.value);
                     }}
                   ></TextField> */}
-                  <Typography color={"gray"} style={{fontSize:'14px'}}>Date To: </Typography>
-                    <DatePicker
-        id="FamTo"
-        size="small"
-        fullWidth
-        format="DD/MM/YYYY"
-        onChange={handleDateChange}
-        
-      />
-        
+                  <Typography color={"gray"} style={{ fontSize: "14px" }}>
+                    Date To:{" "}
+                  </Typography>
+                  <DatePicker
+                    id="FamTo"
+                    size="small"
+                    fullWidth
+                    format="DD/MM/YYYY"
+                    onChange={handleDateChange}
+                  />
                 </TableCell>
               </TableRow>
 
@@ -756,9 +752,9 @@ function Issue() {
                   </TableRow>
                 )}
               </TableBody>
-              
+
               <TableFooter>
-                {console.log("UUU",rowsPerPage,page)}
+               
                 <TableRow>
                   <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
@@ -779,7 +775,6 @@ function Issue() {
           </TableContainer>
         </div>
       </div>
-      
     </>
   );
 }

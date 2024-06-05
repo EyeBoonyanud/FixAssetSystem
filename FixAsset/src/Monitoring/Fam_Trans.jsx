@@ -32,6 +32,7 @@ function TransFerDetail() {
     DataRoutingFamno,
     DataName,
     DataLending,
+    DataScrap,
     selectradio_dept,
     selectradio_serviceby,
     selectradio_boistaff,
@@ -47,11 +48,16 @@ function TransFerDetail() {
     chkaction_date,
     Filedata,
     FiledataReturn,
+    FiledataPTE_ENV,
+FiledataShiiping,
+FiledataPLN_Staff,
+DataWeight_Size_Unit_Env,
     isPopupOpenLoadding,
     closePopupLoadding,
     BackPage,
   } = FAM_TRANSECTION();
-  const { downloadFile } = FAM_REQUESTER();
+  const { downloadFile,STS } = FAM_REQUESTER();
+console.log(STS,"STS555")
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -393,10 +399,10 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[3] === null || DataRoutingFamno[3] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                      DataRoutingFamno[2] === null || DataRoutingFamno[2] === ""
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -551,10 +557,10 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[9] === null || DataRoutingFamno[9] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                      DataRoutingFamno[8] === null || DataRoutingFamno[8] === ""
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -668,11 +674,11 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[13] === null ||
-                    //   DataRoutingFamno[13] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                    DataRoutingFamno[12] === null ||
+                    DataRoutingFamno[12] === ""
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -766,8 +772,8 @@ function TransFerDetail() {
                       className="Style1"
                       style={{
                         visibility:
-                          selectradio_boimanager == null ||
-                          selectradio_boimanager == "null"
+                        selectradio_boimanager == null ||
+                        selectradio_boimanager == "null"
                             ? "hidden"
                             : "visibled",
                       }}
@@ -784,13 +790,14 @@ function TransFerDetail() {
                     </FormControl>
                   </td>{" "}
                 </tr>
+                {console.log(DataRoutingFamno[16],"DataRoutingFamno[16]")}
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[17] === null ||
-                    //   DataRoutingFamno[17] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                    selectradio_boimanager == null ||
+                    selectradio_boimanager == "null"
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -909,11 +916,11 @@ function TransFerDetail() {
                 <>
                   <tr
                     style={{
-                      // display:
-                      //   DataRoutingFamno[21] === null ||
-                      //   DataRoutingFamno[21] === ""
-                      //     ? "none"
-                      //     : "table-row",
+                      display:
+                      DataRoutingFamno[20] === null ||
+                      DataRoutingFamno[20] === ""
+                          ? "none"
+                          : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1032,11 +1039,11 @@ function TransFerDetail() {
                 {(VIEW_TYPE == "GP01007" || VIEW_TYPE == "GP01006") && (
                   <tr
                     style={{
-                      // display:
-                      //   DataRoutingFamno[42] === null ||
-                      //   DataRoutingFamno[42] === ""
-                      //     ? "none"
-                      //     : "table-row",
+                      display:
+                        DataRoutingFamno[42] === null ||
+                        DataRoutingFamno[42] === ""
+                          ? "none"
+                          : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1060,11 +1067,11 @@ function TransFerDetail() {
                 )}
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[25] === null ||
-                    //   DataRoutingFamno[25] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                    DataRoutingFamno[24] === null ||
+                    DataRoutingFamno[24]=== ""
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -1208,11 +1215,11 @@ function TransFerDetail() {
                 </tr>
                 <tr
                   style={{
-                    // display:
-                    //   DataRoutingFamno[29] === null ||
-                    //   DataRoutingFamno[29] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                    DataRoutingFamno[28]=== null ||
+                    DataRoutingFamno[28] === ""
+                        ? "none"
+                        : "table-row",
                   }}
                 >
                   <td className="Style4">
@@ -1238,11 +1245,11 @@ function TransFerDetail() {
                 </tr>{" "}
                 {(VIEW_TYPE === "GP01006" || VIEW_TYPE === "GP01007") && (
                   <tr  style={{
-                    // display:
-                    //   DataRoutingFamno[29] === null ||
-                    //   DataRoutingFamno[29] === ""
-                    //     ? "none"
-                    //     : "table-row",
+                    display:
+                    DataRoutingFamno[28] === null ||
+                    DataRoutingFamno[28] === ""
+                        ? "none"
+                        : "table-row",
                   }}>
                     <td className="Style4"></td>
                     <td colSpan={5}>
@@ -1453,11 +1460,11 @@ function TransFerDetail() {
 
                   <tr
                     style={{
-                      // display:
-                      //   DataTransferFamno[11] === null ||
-                      //   DataTransferFamno[11] === ""
-                      //     ? "none"
-                      //     : "table-row",
+                      display:
+                      selectradio_receiver == null ||
+                      selectradio_receiver == "null"
+                          ? "none"
+                          : "table-row",
                     }}
                   >
                     <td className="Style4">
@@ -1504,8 +1511,8 @@ function TransFerDetail() {
                     <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                          {" "}
-                          ACC Manager(Set Return date):
+                         
+                          ACC Manager(Return date):
                         </Typography>
                       </td>
                       <td>
@@ -1574,8 +1581,8 @@ function TransFerDetail() {
                           className="Style1"
                           style={{
                             visibility:
-                              selectradio_acc_return == null ||
-                              selectradio_acc_return == "null"
+                            DataLending[2] == null ||
+                            DataLending[2] == "null"
                                 ? "hidden"
                                 : "visibled",
                           }}
@@ -1595,10 +1602,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        // display:
-                        //   DataLending[9] === null || DataLending[9] === ""
-                        //     ? "none"
-                        //     : "table-row",
+                        display:
+                        DataLending[2] === null || DataLending[2] === ""
+                            ? "none"
+                            : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1622,10 +1629,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        // display:
-                        //   DataLending[5] === null || DataLending[5] === ""
-                        //     ? "none"
-                        //     : "table-row",
+                        display:
+                        DataLending[2] === null || DataLending[2] === ""
+                            ? "none"
+                            : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1689,7 +1696,7 @@ function TransFerDetail() {
                           className="Style1"
                           style={{
                             visibility:
-                              chkaction_date == null || chkaction_date == "null"
+                            DataLending[7] == null || DataLending[7] == "null"
                                 ? "hidden"
                                 : "visibled",
                           }}
@@ -1709,10 +1716,10 @@ function TransFerDetail() {
 
                     <tr
                       style={{
-                        // display:
-                        //   DataLending[8] === null || DataLending[8] === ""
-                        //     ? "none"
-                        //     : "table-row",
+                        display:
+                        DataLending[7] == null || DataLending[7] == ""
+                            ? "none"
+                            : "table-row",
                       }}
                     >
                       <td className="Style4">
@@ -1737,10 +1744,10 @@ function TransFerDetail() {
                   </table>
                   <tr
                     style={{
-                      // display:
-                      //   DataLending[8] === null || DataLending[8] === ""
-                      //     ? "none"
-                      //     : "table-row",
+                      display:
+                      DataLending[7] == null || DataLending[7] == ""
+                          ? "none"
+                          : "table-row",
                     }}
                   >
                     <td className="Style4"></td>
@@ -1832,6 +1839,595 @@ function TransFerDetail() {
                       </div>
                     </td>
                   </tr>
+                </div>
+              </Card>
+            </Card>
+          </div>
+        )}
+        {/* Scrap */}
+         {VIEW_TYPE == "GP01002"  &&(
+          <div>
+            <Card className="Style100">
+              <Card
+                sx={{
+                  borderRadius: "8px",
+                  border: 2,
+                  borderColor: "rgba(64,131,65, 1.5)",
+                  boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                  marginTop: 4,
+                }}
+                className="Style1"
+              >
+                <div className="Style2">
+                  <table className="Style3">
+                    {/* {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                      <>
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                         PTE(ENV):
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[1] !== "null" ? DataScrap[1] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5">
+                      
+                      </td>
+                      <td
+                        className="Style7"
+                      style={{
+                        visibility:
+                        DataScrap[2] == null || DataScrap[2] == "null"
+                          ? "hidden"
+                          : "visibled",
+                      }}
+                      >
+                        <Typography variant="subtitle2">
+                          {" "}
+                          Action Date :
+                        </Typography>
+                      </td>
+                      <td className="Style6"
+                      style={{
+                        visibility:
+                        DataScrap[2] == null || DataScrap[2] == "null"
+                          ? "hidden"
+                          : "visibled",
+                      }} >
+                        <FormControl
+                          className="Style1"
+                        
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataScrap[2]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                      style={{
+                        display:
+                        DataScrap[2] === null || DataScrap[2] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2">Comment :</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[3] !== "null" ? DataScrap[3] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                    style={{
+                      display:
+                      DataScrap[2] === null || DataScrap[2] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4"></td>
+                    <td colSpan={5}>
+                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
+                        <table>
+                          <tr>
+                            <td className="Table_Show_req1">
+                              <td
+                                className="Show-Data-File"
+                                style={{ textAlign: "center" }}
+                              >
+                                <div>
+                                  <TableContainer component={Paper}>
+                                    <Table className="FamFilePopUp">
+                                      <TableHead>
+                                        <TableRow>
+                                          <TableCell>No.</TableCell>
+                                          <TableCell>File</TableCell>
+                                          <TableCell>View</TableCell>
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {FiledataPTE_ENV.length === 0 ? (
+                                          <TableRow>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
+                                            >
+                                              <Empty />
+                                            </TableCell>
+                                          </TableRow>
+                                        ) : (
+                                          FiledataPTE_ENV.map(
+                                            (option, index) => (
+                                              <TableRow key={index}>
+                                                <TableCell>
+                                                  {FiledataPTE_ENV[index][2]}
+                                                </TableCell>
+                                                <TableCell>
+                                                  {FiledataPTE_ENV[index][3]}
+                                                </TableCell>
+                                                <TableCell
+                                                  style={{
+                                                    textAlign: "center",
+                                                    color: "blue",
+                                                    textDecoration: "underline",
+                                                  }}
+                                                >
+                                                  <p
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    onClick={() =>
+                                                      downloadFile(
+                                                        FiledataPTE_ENV[index][4]
+                                                      )
+                                                    }
+                                                  >
+                                                    {FiledataPTE_ENV[index][3]}
+                                                  </p>
+                                                </TableCell>
+                                              </TableRow>
+                                            )
+                                          )
+                                        )}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                </div>
+                              </td>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table>
+                          <tr>
+                            <td className=""></td>
+                          </tr>
+                          <tr></tr>
+                          <tr
+                            style={{
+                              width: "100%",
+                              marginBottom: "20px",
+                              marginTop: "20px",
+                            }}
+                          ></tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+               </> 
+               {/* )} */}
+
+               {/* {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                    <>
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                         PLN Staff:
+                        </Typography>{" "}
+                      </td>
+                      <td>
+                        <FormControl className="Style3">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[4] !== "null" ? DataScrap[4] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5"></td>
+                      <td
+                        className="Style7"
+                        style={{
+                          visibility:
+                          DataScrap[5] == null || DataScrap[5] == "null"
+                            ? "hidden"
+                            : "visibled",
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {" "}
+                          Action Date :
+                        </Typography>
+                      </td>
+                      <td className="Style6"
+                      style={{
+                        visibility:
+                        DataScrap[5] == null || DataScrap[5] == "null"
+                          ? "hidden"
+                          : "visibled",
+                      }}>
+                        <FormControl
+                          className="Style1"
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataScrap[5]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                      style={{
+                        display:
+                        DataScrap[5] === null || DataScrap[5] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2"> Comment :</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[6] !== "null" ? DataScrap[6] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>  
+                    <tr
+                    style={{
+                      display:
+                      DataScrap[5] === null || DataScrap[5] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4"></td>
+                    <td colSpan={5}>
+                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
+                        <table>
+                          <tr>
+                            <td className="Table_Show_req1">
+                              <td
+                                className="Show-Data-File"
+                                style={{ textAlign: "center" }}
+                              >
+                                <div>
+                                  <TableContainer component={Paper}>
+                                    <Table className="FamFilePopUp">
+                                      <TableHead>
+                                        <TableRow>
+                                          <TableCell>No.</TableCell>
+                                          <TableCell>File</TableCell>
+                                          <TableCell>View</TableCell>
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {FiledataPLN_Staff.length === 0 ? (
+                                          <TableRow>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
+                                            >
+                                              <Empty />
+                                            </TableCell>
+                                          </TableRow>
+                                        ) : (
+                                          FiledataPLN_Staff.map(
+                                            (option, index) => (
+                                              <TableRow key={index}>
+                                                <TableCell>
+                                                  {FiledataPLN_Staff[index][2]}
+                                                </TableCell>
+                                                <TableCell>
+                                                  {FiledataPLN_Staff[index][3]}
+                                                </TableCell>
+                                                <TableCell
+                                                  style={{
+                                                    textAlign: "center",
+                                                    color: "blue",
+                                                    textDecoration: "underline",
+                                                  }}
+                                                >
+                                                  <p
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    onClick={() =>
+                                                      downloadFile(
+                                                        FiledataPLN_Staff[index][4]
+                                                      )
+                                                    }
+                                                  >
+                                                    {FiledataPLN_Staff[index][3]}
+                                                  </p>
+                                                </TableCell>
+                                              </TableRow>
+                                            )
+                                          )
+                                        )}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                </div>
+                              </td>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table>
+                          <tr>
+                            <td className=""></td>
+                          </tr>
+                          <tr></tr>
+                          <tr
+                            style={{
+                              width: "100%",
+                              marginBottom: "20px",
+                              marginTop: "20px",
+                            }}
+                          ></tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+              </> 
+              {/* )} */}
+
+
+              {/* {(STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                  <>
+                  <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                         Shipping Staff:
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[7] !== "null" ? DataScrap[7] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5">
+                       
+                      </td>
+                      <td
+                        className="Style7"
+                        style={{
+                          visibility:
+                          DataScrap[8] == null || DataScrap[8] == "null"
+                            ? "hidden"
+                            : "visibled",
+                        }}
+                      >
+                        <Typography variant="subtitle2">
+                          {" "}
+                          Action Date :
+                        </Typography>
+                      </td>
+                      <td className="Style6"
+                      style={{
+                        visibility:
+                        DataScrap[8] == null || DataScrap[8] == "null"
+                          ? "hidden"
+                          : "visibled",
+                      }}>
+                        <FormControl
+                          className="Style1"
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataScrap[8]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                      style={{
+                        display:
+                        DataScrap[8] === null || DataScrap[8] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2">Comment :</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[9] !== "null" ? DataScrap[9] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                    style={{
+                      display:
+                      DataScrap[8] === null || DataScrap[8] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4"></td>
+                    <td colSpan={5}>
+                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
+                        <table>
+                          <tr>
+                            <td className="Table_Show_req1">
+                              <td
+                                className="Show-Data-File"
+                                style={{ textAlign: "center" }}
+                              >
+                                <div>
+                                  <TableContainer component={Paper}>
+                                    <Table className="FamFilePopUp">
+                                      <TableHead>
+                                        <TableRow>
+                                          <TableCell>No.</TableCell>
+                                          <TableCell>File</TableCell>
+                                          <TableCell>View</TableCell>
+                                        </TableRow>
+                                      </TableHead>
+                                      <TableBody>
+                                        {FiledataShiiping.length === 0 ? (
+                                          <TableRow>
+                                            <TableCell
+                                              colSpan={4}
+                                              style={{ textAlign: "center" }}
+                                            >
+                                              <Empty />
+                                            </TableCell>
+                                          </TableRow>
+                                        ) : (
+                                          FiledataShiiping.map(
+                                            (option, index) => (
+                                              <TableRow key={index}>
+                                                <TableCell>
+                                                  {FiledataShiiping[index][2]}
+                                                </TableCell>
+                                                <TableCell>
+                                                  {FiledataShiiping[index][3]}
+                                                </TableCell>
+                                                <TableCell
+                                                  style={{
+                                                    textAlign: "center",
+                                                    color: "blue",
+                                                    textDecoration: "underline",
+                                                  }}
+                                                >
+                                                  <p
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                    onClick={() =>
+                                                      downloadFile(
+                                                        FiledataShiiping[index][4]
+                                                      )
+                                                    }
+                                                  >
+                                                    {FiledataShiiping[index][3]}
+                                                  </p>
+                                                </TableCell>
+                                              </TableRow>
+                                            )
+                                          )
+                                        )}
+                                      </TableBody>
+                                    </Table>
+                                  </TableContainer>
+                                </div>
+                              </td>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table>
+                          <tr>
+                            <td className=""></td>
+                          </tr>
+                          <tr></tr>
+                          <tr
+                            style={{
+                              width: "100%",
+                              marginBottom: "20px",
+                              marginTop: "20px",
+                            }}
+                          ></tr>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                  </>
+                  {/* )} */}
+                  </table>
+                
                 </div>
               </Card>
             </Card>
@@ -1956,8 +2552,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                      DataRoutingFamno[33] === null ||
-                      DataRoutingFamno[33] === ""
+                    DataRoutingFamno[32] === null ||
+                      DataRoutingFamno[32] === ""
                         ? "none"
                         : "table-row",
                   }}
@@ -2073,8 +2669,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                      DataRoutingFamno[37] === null ||
-                      DataRoutingFamno[37] === ""
+                      DataRoutingFamno[36] === null ||
+                      DataRoutingFamno[36] === ""
                         ? "none"
                         : "table-row",
                   }}
@@ -2192,8 +2788,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                      DataRoutingFamno[41] === null ||
-                      DataRoutingFamno[41] === ""
+                      DataRoutingFamno[40] === null ||
+                      DataRoutingFamno[40] === ""
                         ? "none"
                         : "table-row",
                   }}

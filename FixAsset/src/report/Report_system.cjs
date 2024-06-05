@@ -131,7 +131,6 @@ module.exports.getFamDetailReport = async function (req, res) {
       SELECT T.FCM_CODE,T.FCM_DESC FROM FAM_CODE_MASTER T WHERE T.FCM_GROUP_ID = 'GP01' AND T.FCM_STATUS = 'A' ORDER BY T.FCM_SORT,T.FCM_DESC
        `;
       const result = await connect.execute(query);
-     
       connect.release();
       res.json(result.rows);
     } catch (error) {
@@ -166,7 +165,6 @@ module.exports.getFamDetailReport = async function (req, res) {
       ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
        `;
       const result = await connect.execute(query);
-      console.log(result);
       connect.release();
       res.json(result.rows);
     } catch (error) {
@@ -183,10 +181,80 @@ module.exports.getFamDetailReport = async function (req, res) {
       ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
        `;
       const result = await connect.execute(query);
-      console.log(result);
       connect.release();
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
+  module.exports.getFAM_FILE_PTE_ENV = async function (req, res) {
+    try {
+       const{FamNo}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV CHECK'                                                                      
+      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+       `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("getFAM_FILE_PTE_ENV:", error.message);
+    }
+  };
+  
+  module.exports.getFAM_FILE_PLN_Staff = async function (req, res) {
+    try {
+       const{FamNo}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN CHECK'                                                                      
+      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+       `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("getFAM_FILE_PLN_Staff error:", error.message);
+    }
+  };
+  module.exports.getFAM_FILE_Shipping = async function (req, res) {
+    try {
+       const{FamNo}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='SHP CHECK'                                                                      
+      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+       `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("getFAM_FILE_Shipping error:", error.message);
+    }
+  };
+  module.exports.getWeight_Size_Unit_INV = async function (req, res) {
+    try {
+       const{famno}=  req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT
+	FRD_ENV_WEIGHT,
+	FRD_ENV_SIZE,
+	FRD_PLN_UNITPRICE,
+	FRD_SHP_INVOICE
+FROM
+	FAM_REQ_DETAIL
+WHERE
+	FRD_FAM_NO = '${famno}'
+       `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+    } catch (error) {
+      console.error("getWeight_Size_Unit_INV error:", error.message);
     }
   };
