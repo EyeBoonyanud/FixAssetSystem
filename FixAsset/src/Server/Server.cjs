@@ -117,6 +117,17 @@ app.post("/get_size",Transaction.get_size);
 app.post("/get_unitprice",Transaction.get_unitprice);
 app.post("/get_inv_no",Transaction.get_inv_no);
 app.post("/update_for_nullScarp",Transaction.update_for_nullScarp);
+//sale
+app.post("/import_boi",Transaction.import_boi);
+app.post("/update_sale",Transaction.update_sale);
+app.post("/insert_sale",Transaction.insert_sale);
+app.post("/getEdit_sale",Transaction.getEdit_sale);
+app.post("/update_for_nullSale",Transaction.update_for_nullSale);
+app.post("/update_sale_ws",Transaction.update_sale_ws);
+app.post("/update_sale_pln_staff_boi",Transaction.update_sale_pln_staff_boi);
+
+
+
 
 
 
@@ -250,10 +261,10 @@ app.post("/getData_Scrap_show_VIEW",VIEW_Fammaster.getData_Scrap_show_VIEW);
 //Mail
 // app.post("/sendEmail",Mail.sendEmail)
 app.post("/getMailshow",Mail.getMailshow);
-app.post("/getType",Mail.getType);
+app.post("/getType_mail",Mail.getType_mail);
 app.post("/getFile",Mail.getFile);
 app.post("/getName_To",Mail.getName_To);
-app.post("/getStatus",Mail.getStatus);
+app.post("/getStatus_Mail",Mail.getStatus_Mail);
 app.post("/get_req_mail",Mail.get_req_mail);
 
 
@@ -322,7 +333,6 @@ app.delete('/deleteFile', (req, res) => {
   const fileName = req.query.data; 
    console.log("////>>>>>>>>>>>",fileName)
   const filePath = path.join(__dirname, '../Uploads', fileName);
-console.log(filePath,"filePathuuuuuuuuuuuuuuuuuuuu")
   fs.unlink(filePath, (err) => {
       if (err) {
           console.error(err);

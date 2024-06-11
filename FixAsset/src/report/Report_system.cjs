@@ -72,7 +72,7 @@ module.exports.getFamDetailReport = async function (req, res) {
           AND(H.FAM_REQ_OWNER = '${OwnerID}'  OR '${OwnerID}' IS NULL )
           AND (H.FRH_FAM_NO >= '${FAMNo_From}' OR '${FAMNo_From}' IS NULL)
           AND (H.FRH_FAM_NO <= '${FamNo_To}' || 'Z' OR '${FamNo_To}' IS NULL)
-          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001') )
+          AND (FAM_REQ_STATUS NOT IN ('FLTR001','FLLS001','FLWO001','FLDN001','FLLD001','FLSC001') )
           AND (FFM_FLG NOT IN ('R','F','D') OR FFM_FLG IS NULL)
         UNION ALL
         SELECT

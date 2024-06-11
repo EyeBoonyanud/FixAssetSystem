@@ -408,11 +408,13 @@ function ForRequest() {
                       Dept :
                     </Typography>
                   </Grid>
+                 
                   <Grid xs={3}>
                     {STS1_Req === "FLTR001" ||
                     STS1_Req === "FLWO001" ||
                     STS1_Req === "FLLS001" ||
                     STS1_Req === "FLDN001" ||
+                    STS1_Req === "FLSL001" ||
                     STS1_Req === "" ||
                     STS1_for_R === "R" ||
                     STS1_Req === "FLSC001" ||
@@ -740,6 +742,7 @@ function ForRequest() {
                       STS1_Req === "FLWO001" ||
                       STS1_Req === "FLLS001" ||
                       STS1_Req === "FLDN001" ||
+                      STS1_Req === "FLSL001" ||
                       STS1_Req === "" ||
                       STS1_for_R === "R" ||
                       STS1_Req == "FLLD001"||
@@ -762,6 +765,7 @@ function ForRequest() {
                       STS1_Req === "FLWO001" ||
                       STS1_Req === "FLLS001" ||
                       STS1_Req === "FLDN001" ||
+                      STS1_Req === "FLSL001" ||
                       STS1_Req === "" ||
                       STS1_for_R === "R" ||
                       STS1_Req == "FLLD001" ||
@@ -779,6 +783,7 @@ function ForRequest() {
                       STS1_Req === "FLWO001" ||
                       STS1_Req === "FLLS001" ||
                       STS1_Req === "FLDN001" ||
+                      STS1_Req === "FLSL001" ||
                       STS1_Req === "" ||
                       STS1_for_R === "R" ||
                       STS1_Req == "FLLD001" ||
@@ -994,6 +999,7 @@ function ForRequest() {
                           STS1_Req === "FLWO001" ||
                           STS1_Req === "FLLS001" ||
                           STS1_Req === "FLDN001" ||
+                          STS1_Req === "FLSL001" ||
                           STS1_Req === "" ||
                           STS1_for_R === "R" ||
                           STS1_Req === "FLLD001" ||
@@ -1029,9 +1035,11 @@ function ForRequest() {
         style={{ width: '100px' }}
         size="small"
         value={weights[index] || ''}
+        
         onChange={(e) => handleWeightChange(e, index, EditFam, item[0], item[3])}
         disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
       />
+    
     </TableCell>
     <TableCell>
       <TextField
@@ -1136,6 +1144,7 @@ function ForRequest() {
                       STS1_Req === "FLWO001" ||
                       STS1_Req === "FLLS001" ||
                       STS1_Req === "FLDN001" ||
+                      STS1_Req === "FLSL001" ||
                       STS1_Req === "" ||
                       STS1_for_R === "R" ||
                       STS1_Req == "FLLD001" ||
@@ -1157,6 +1166,7 @@ function ForRequest() {
         STS1_Req === "FLWO001" ||
         STS1_Req === "FLLS001" ||
         STS1_Req === "FLDN001" ||
+        STS1_Req === "FLSL001" ||
         STS1_for_R === "R" ||
         STS1_Req == "FLLD001" ||
         STS1_Req == "FLSC001"? (
@@ -1362,6 +1372,7 @@ function ForRequest() {
                           display:
                             STS1_Req === "FLTR001" ||
                             STS1_Req === "FLWO001" ||
+                            STS1_Req === "FLSL001" ||
                             STS1_Req === "FLLS001" ||
                             STS1_Req === "FLDN001" ||
                             STS1_Req === "" ||

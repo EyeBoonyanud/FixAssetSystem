@@ -56,8 +56,6 @@ function FAM_GET_REQUEST() {
   const [btnSave, setbtnSave] = useState("hidden");
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
-  // set ค่า ของ weight
-  // const [weight,setweight] =useState("")
 
   // Upload File
   const fileInputRef = useRef();
@@ -445,38 +443,6 @@ function FAM_GET_REQUEST() {
       console.error("Error during login:", error);
     }
   };
-  // const handleCost = async () => {
-  //   // try {
-  //   //   const response = await axios.post("/getid_service", {
-  //   //     fac: Factory[1],
-  //   //     fixgroub: selectFixAssetgroup1,
-  //   //   });
-  //   //   const data = await response.data;
-
-  // let Servicedept = selectFixAssetgroup1
-  //     if (Servicedept=== "EACH CC") {
-  //       try {
-  //         const response = await axios.post("/getfind_service", {
-  //           asset_find: owner_dept,
-  //         });
-  //         const data_for_servicedept = await response.data;
-
-  //         setdataFix_Asset_Cost(data_for_servicedept);
-
-  //         Gen_No(data_for_servicedept[0]);
-  //       } catch (error) {
-  //         console.error("Error during login:", error);
-  //       }
-  //     } else {
-
-  //       setdataFix_Asset_Cost(Servicedept);
-
-  //       Gen_No(Servicedept);
-  //     }
-  //   // } catch (error) {
-  //   //   console.error("Error during login:", error);
-  //   // }
-  // };
   const handleCost = async () => {
     let Servicedept = selectFixAssetgroup1;
 
@@ -529,7 +495,7 @@ function FAM_GET_REQUEST() {
             StatusType = "SCRAP";
             break;
           case "GP01003":
-            StatusType = "SALE";
+            StatusType = "SALES";
             break;
           case "GP01004":
             StatusType = "LOSS";
@@ -843,8 +809,6 @@ function FAM_GET_REQUEST() {
       });
       const data = response.data;
       const validValues = [];
-
-      // Iterate over the data object and extract the values
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
           validValues.push(data[key][0]);
@@ -908,64 +872,6 @@ function FAM_GET_REQUEST() {
         console.error("Error requesting data:", error);
       }
     } catch (error) {}
-
-    // try {
-    //   const response = await axios.post("/getfixcode", {
-    //     Fixcode: find_fixasset1,
-    //     asset_cc: owner_dept,
-    //     fixgroup: group_fix,
-    //   });
-
-    //   const data = response.data;
-    //   setfind_fixasset(data);
-
-    //   if (data.length > 0) {
-    //     try {
-    //       const response = await axios.post("/fix_code_find", {
-    //         assetcode: find_fixasset1,
-    //       });
-    //       const responseData = response.data;
-    //       setdatafix_for_find(responseData);
-
-    //       if (responseData.length !== data.length) {
-    //         setOpen(true);
-    //       } else if (responseData.length === data.length) {
-    //         const seen = {};
-    //         let uniqueKeys = [];
-    //         responseData.forEach((item) => {
-    //           const key = item[0];
-    //           if (!seen[key]) {
-    //             seen[key] = true;
-    //             uniqueKeys.push(key);
-    //           }
-    //         });
-    //         alert(
-    //           "Fixed Asset Code has been implemented:\n" + uniqueKeys.join(", ")
-    //         );
-    //       }
-    //     } catch (error) {
-    //       console.error("Error fetching data:", error);
-    //     }
-    //   } else {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Data is not found",
-    //     });
-    //   }
-    //   try {
-    //     const response = await axios.post("/get_COMP", {
-    //       fam_no: Gen_Fam_No,
-    //     });
-    //     const data = response.data;
-
-    //     set_COMP(data);
-    //   } catch (error) {
-    //     console.error("Error requesting data:", error);
-    //   }
-    // } catch (error) {
-    //   console.error("Error requesting data:", error);
-    // }
-
     closePopupLoadding();
 
     setSelectAll("");
@@ -1526,23 +1432,42 @@ function FAM_GET_REQUEST() {
       icon: "success",
     });
   };
- 
+
   const fetchWeights = async (EditFam) => {
     try {
       const response = await axios.post("/get_weights", {
         famno: EditFam,
       });
-      setWeights(response.data);
+      const fetchedWeights = response.data;
+      //setWeights(response.data);
+      
+      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
+      setWeights(fetchedWeights)
+      if(For_Rq_Edit[10] == 'FLSC009'){
+        if (hasNullWeights) {
+          alert("กรุณากรอก Weight");
+        }
+      }
+      
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
+    
   };
   const fetchSize = async (EditFam) => {
     try {
       const response = await axios.post("/get_size", {
         famno: EditFam,
       });
-      setsize(response.data);
+      //setsize(response.data);
+      const fetchedWeights = response.data;
+      //setWeights(response.data);
+      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
+      setsize(fetchedWeights)
+      if(For_Rq_Edit[10] == 'FLSC009'){
+      if (hasNullWeights) {
+        alert("กรุณากรอก Size");
+      }}
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
@@ -1552,7 +1477,15 @@ function FAM_GET_REQUEST() {
       const response = await axios.post("/get_unitprice", {
         famno: EditFam,
       });
-      setunit_price(response.data);
+      const fetchedWeights = response.data;
+      //setWeights(response.data);
+      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
+      setunit_price(fetchedWeights)
+      if(For_Rq_Edit[10] == 'FLSC100'){
+      if (hasNullWeights) {
+        alert("กรุณากรอก Unit Price");
+      }}
+      //setunit_price(response.data);
     } catch (error) {
       console.error("Error Unit Price", error);
     }
@@ -1562,7 +1495,15 @@ function FAM_GET_REQUEST() {
       const response = await axios.post("/get_inv_no", {
         famno: EditFam,
       });
-      setinvoice(response.data);
+      const fetchedWeights = response.data;
+      //setWeights(response.data);
+      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
+      setinvoice(fetchedWeights)
+      if(For_Rq_Edit[10] == 'FLSC101'){
+      if (hasNullWeights) {
+        alert("กรุณากรอก Invoice No.");
+      }}
+      //setinvoice(response.data);
     } catch (error) {
       console.error("Error Unit Price", error);
     }
@@ -1628,25 +1569,6 @@ function FAM_GET_REQUEST() {
       }
     }
   };
-  // const handleUnitPriceChange = async (e, index, Famno, Idfix, namefix) => {
-  //   const { value } = e.target;
-  //   console.log(value,"valuehh")
-   
-  //   try {
-  //     const response = await axios.post("/insert_unit_price", {
-  //       famno: Famno,
-  //       idfix_asset: Idfix,
-  //       namefixasset: namefix,
-  //       unit_pri: value,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error during size update:", error);
-  //   }
-  //   setunit_price((prevUnit) => ({
-  //     ...prevUnit,
-  //     [index]: value,
-  //   }));
-  // };
   const handleUnitPriceChange = async (e, index, Famno, Idfix, namefix) => {
     const { value } = e.target;
     setunit_price((prevUnit) => ({

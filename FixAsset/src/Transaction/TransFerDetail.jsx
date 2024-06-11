@@ -305,8 +305,29 @@ function TransFerDetail() {
     CM_pte_env,
     CM_pln_staff,
     CM_shipping,
-    read_pte_env,read_pln_staff,read_shipping,setaction__pte,setaction__pln_staff,setaction__shipping
-  ,CM_shipping_env,setcmmtradio_pte_env,setaction__pte_env,setcmmtradio_pln_staff,setcmmtradio__shipping
+    read_pte_env,
+    read_pln_staff,
+    read_shipping,
+    setaction__pte,
+    setaction__pln_staff,
+    setaction__shipping,
+    CM_shipping_env,
+    setcmmtradio_pte_env,
+    setaction__pte_env,
+    setcmmtradio_pln_staff,
+    setcmmtradio__shipping,pte_input_weight_size,setpte_input_weight_size,
+    pln_staff_boi, setselectpln_staff_boi,
+    import_boi_prepare, setimport_boi_prepare,
+    boi_input_data, setboi_input_data,
+    thai_catergories, setthai_catergories,
+    pln_staff_bidding, setpln_staff_bidding,
+    pte_dept, setpte_dept,
+    pln_req_inv, setpln_req_inv,
+    ship_input_inv, setship_input_inv,
+    pln_upload_final, setpln_upload_final,
+    selectpte_input_weight_size,setselectpte_input_weight_size,selectpln_staff_boi,setpln_staff_boi,
+    selectimport_boi_prepare,setselectimport_boi_prepare,
+    selectboi_input_data,setselectboi_input_data,export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file
   } = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
@@ -322,7 +343,11 @@ function TransFerDetail() {
     uploadedFiles_Own_return,
     uploadedFiles_PTE,
     showfile_pte_env,
-    uploadedFiles_PLN_Staff,uploadedFilesDATA_PLN_Staff,showfile_pln_staff,uploadedFiles_Shipping, showfile_shipping
+    uploadedFiles_PLN_Staff,
+    uploadedFilesDATA_PLN_Staff,
+    showfile_pln_staff,
+    uploadedFiles_Shipping,
+    showfile_shipping,
   } = FAM_GET_SHOW_FILE();
   // Const Return
   return (
@@ -1031,6 +1056,7 @@ function TransFerDetail() {
                         value={selectboi_staff}
                         onChange={(e) => {
                           setselectboi_staff(e.target.value);
+                          setpln_staff_bidding(e.target.value);
                         }}
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined,
@@ -1487,46 +1513,55 @@ function TransFerDetail() {
                 STS1 !== "FLDN006" &&
                 STS1 !== "FLLD006" ? (
                   <tr>
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                        Receive certificate date:
-                      </Typography>
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          id="Plan_Remove"
-                          size="small"
-                          type="date"
-                          format="dd/mm/yyyy"
-                          disabled={read_accchk_cmmt}
-                          style={{
-                            backgroundColor:
-                              selectradio_acc_check === "R"
-                                ? "rgba(169, 169, 169, 0.3)"
-                                : read_accchk_cmmt
-                                ? "rgba(169, 169, 169, 0.3)"
-                                : "",
-                            pointerEvents:
-                              selectradio_acc_check === "R" && read_accchk_cmmt
-                                ? "none"
-                                : "auto",
-                          }}
-                          value={certificate_date}
-                          error={
-                            ErrorDate_Certificate &&
-                            (!certificate_date || certificate_date === "null")
-                          }
-                          onChange={(e) => setcertificate_date(e.target.value)}
-                          helperText={
-                            ErrorDate_Certificate &&
-                            (!certificate_date || certificate_date === "null")
-                              ? "Receive certificate date"
-                              : undefined
-                          }
-                        />
-                      </FormControl>
-                    </td>
+                    {Showtype === "GP01007" && (
+                      <>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Receive certificate date:
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              id="Plan_Remove"
+                              size="small"
+                              type="date"
+                              format="dd/mm/yyyy"
+                              disabled={read_accchk_cmmt}
+                              style={{
+                                backgroundColor:
+                                  selectradio_acc_check === "R"
+                                    ? "rgba(169, 169, 169, 0.3)"
+                                    : read_accchk_cmmt
+                                    ? "rgba(169, 169, 169, 0.3)"
+                                    : "",
+                                pointerEvents:
+                                  selectradio_acc_check === "R" &&
+                                  read_accchk_cmmt
+                                    ? "none"
+                                    : "auto",
+                              }}
+                              value={certificate_date}
+                              error={
+                                ErrorDate_Certificate &&
+                                (!certificate_date ||
+                                  certificate_date === "null")
+                              }
+                              onChange={(e) =>
+                                setcertificate_date(e.target.value)
+                              }
+                              helperText={
+                                ErrorDate_Certificate &&
+                                (!certificate_date ||
+                                  certificate_date === "null")
+                                  ? "Receive certificate date"
+                                  : undefined
+                              }
+                            />
+                          </FormControl>
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ) : null}
                 <tr style={{ display: CM_acc_check }}>
@@ -2401,6 +2436,7 @@ function TransFerDetail() {
                         />
                       </FormControl>
                     </td>
+                    {console.log(For_sts_reject, "For_sts_reject")}
                   </tr>
 
                   {Showtype == "GP01006" &&
@@ -2413,7 +2449,7 @@ function TransFerDetail() {
                     STS1 != "FLLD007" &&
                     STS1 != "FLLD008" &&
                     STS1 != "FLLD009" &&
-                    For_sts_reject !== "R" && (
+                    For_sts_reject == "R" && (
                       <tr>
                         <td className="Style4"></td>
                         <td colSpan={5}>
@@ -2740,21 +2776,18 @@ function TransFerDetail() {
                           id="demo-simple-select-helper"
                           value={selectpte_env}
                           disabled={read_pte_env}
-                          onChange={(e) =>
-                            setselectpte_env(e.target.value)
-                          }
+                          onChange={(e) => setselectpte_env(e.target.value)}
                           size="small"
                           style={{
                             borderColor: ErrorPTE_ENV ? "red" : undefined,
                             backgroundColor: read_pte_env
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                              width:'290px'
+                            width: "290px",
                           }}
                           error={
-                            ErrorACCReturn &&
-                            (!selectpte_env ||
-                              selectpte_env == "null")
+                            ErrorPTE_ENV &&
+                            (!selectpte_env || selectpte_env == "null")
                           }
                         >
                           {pte_env.map((option, index) => (
@@ -2763,13 +2796,15 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                       
+                        {ErrorPTE_ENV && !selectpte_env && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: PTE(ENV)
+                          </FormHelperText>
+                        )}
                       </FormControl>
                     </td>
 
-                    <td className="Style5">
-                    
-                    </td>
+                    <td style={{ width: "20%" }}></td>
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
@@ -2785,9 +2820,7 @@ function TransFerDetail() {
                           id="outlined-size-small"
                           size="small"
                           value={action__pte_env}
-                          onChange={(e) =>
-                            setaction__pte_env(e.target.value)
-                          }
+                          onChange={(e) => setaction__pte_env(e.target.value)}
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -2797,7 +2830,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                
+
                   <tr style={{ display: CM_pte_env }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -2813,15 +2846,13 @@ function TransFerDetail() {
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
                           }}
-                          onChange={(e) =>
-                            setcmmtradio_pte_env(e.target.value)
-                          }
+                          onChange={(e) => setcmmtradio_pte_env(e.target.value)}
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                 
+
                   {Showtype == "GP01002" &&
                     STS1 != "FLSC001" &&
                     STS1 != "FLSC002" &&
@@ -2831,8 +2862,7 @@ function TransFerDetail() {
                     STS1 != "FLSC006" &&
                     STS1 != "FLSC007" &&
                     STS1 != "FLSC008" &&
-                    For_sts_reject !== "R" && 
-                    (
+                    For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
                         <td colSpan={5}>
@@ -2856,8 +2886,7 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_pte_env.length ===
-                                            0 ? (
+                                            {showfile_pte_env.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -2873,7 +2902,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   {(STS1 ==='FLSC009')&&(
+                                                      {STS1 === "FLSC009" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -2890,7 +2919,7 @@ function TransFerDetail() {
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     )}
+                                                      )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
@@ -2954,7 +2983,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                {(STS1== "FLSC009") &&(
+                                  {STS1 == "FLSC009" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3083,14 +3112,12 @@ function TransFerDetail() {
                                           marginTop: "5px",
                                         }}
                                       >
-                                      
-                                          <Button
-                                            variant="contained"
-                                            onClick={handleSav_Own}
-                                          >
-                                            Save
-                                          </Button>
-                                        
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
                                       </div>
                                     </div>
                                   )}
@@ -3115,7 +3142,7 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
-                    <tr>
+                  <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">PLN Staff:</Typography>
                     </td>
@@ -3126,21 +3153,18 @@ function TransFerDetail() {
                           id="demo-simple-select-helper"
                           value={selectpln_staff}
                           disabled={read_pln_staff}
-                          onChange={(e) =>
-                            setselectpln_staff(e.target.value)
-                          }
+                          onChange={(e) => setselectpln_staff(e.target.value)}
                           size="small"
                           style={{
                             borderColor: ErrorPLN_Staff ? "red" : undefined,
                             backgroundColor: read_pln_staff
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                              width:'290px'
+                            width: "290px",
                           }}
                           error={
                             ErrorPLN_Staff &&
-                            (!selectpln_staff ||
-                              selectpln_staff == "null")
+                            (!selectpln_staff || selectpln_staff == "null")
                           }
                         >
                           {pln_staff.map((option, index) => (
@@ -3149,48 +3173,15 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {ErrorACCReturn &&
-                          (!return_selectacc_manager ||
-                            return_selectacc_manager == "null") && (
-                            <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
-                            </FormHelperText>
-                          )} */}
+                        {ErrorPLN_Staff && !selectpln_staff && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: PLN Staff
+                          </FormHelperText>
+                        )}
                       </FormControl>
                     </td>
 
-                    <td className="Style5">
-                      {/* <FormControl>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={
-                            selectradio_return_acc === null ||
-                            selectradio_return_acc === ""
-                              ? setselectradio_return_acc("A")
-                              : selectradio_return_acc
-                          }
-                          onChange={(e) =>
-                            setselectradio_return_acc(e.target.value)
-                          }
-                          style={{ visibility: chkreturn_acc }}
-                        >
-                          <FormControlLabel
-                            value="A"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                            disabled={read_return_acc_radio}
-                          />
-                          <FormControlLabel
-                            value="R"
-                            disabled={read_return_acc_radio}
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup>
-                      </FormControl> */}
-                    </td>
+                    <td style={{ width: "20%" }}></td>
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
@@ -3206,9 +3197,7 @@ function TransFerDetail() {
                           id="outlined-size-small"
                           size="small"
                           value={action__pln_staff}
-                          onChange={(e) =>
-                            setaction__pln_staff(e.target.value)
-                          }
+                          onChange={(e) => setaction__pln_staff(e.target.value)}
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3218,7 +3207,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                
+
                   <tr style={{ display: CM_pln_staff }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -3242,7 +3231,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                 
+
                   {Showtype == "GP01002" &&
                     STS1 != "FLSC001" &&
                     STS1 != "FLSC002" &&
@@ -3253,8 +3242,7 @@ function TransFerDetail() {
                     STS1 != "FLSC007" &&
                     STS1 != "FLSC008" &&
                     STS1 != "FLSC009" &&
-                    For_sts_reject !== "R" && 
-                    (
+                    For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
                         <td colSpan={5}>
@@ -3277,7 +3265,10 @@ function TransFerDetail() {
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
-                                          {console.log(showfile_pln_staff,"showfile_pln_staff")}
+                                          {console.log(
+                                            showfile_pln_staff,
+                                            "showfile_pln_staff"
+                                          )}
                                           <TableBody>
                                             {showfile_pln_staff.length === 0 ? (
                                               <TableRow>
@@ -3295,7 +3286,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   {(STS1 == 'FLSC100')&&(
+                                                      {STS1 == "FLSC100" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -3312,7 +3303,7 @@ function TransFerDetail() {
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     )}
+                                                      )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
@@ -3376,7 +3367,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                {(STS1== "FLSC100") &&(
+                                  {STS1 == "FLSC100" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3505,17 +3496,15 @@ function TransFerDetail() {
                                           marginTop: "5px",
                                         }}
                                       >
-                                      
-                                          <Button
-                                            variant="contained"
-                                            onClick={handleSav_Own}
-                                          >
-                                            Save
-                                          </Button>
-                                        
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
                                       </div>
                                     </div>
-                                )}
+                                  )}
                                 </td>
                               </tr>
                             </table>
@@ -3537,9 +3526,11 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
-                    <tr>
+                  <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2">Shipping Staff:</Typography>
+                      <Typography variant="subtitle2">
+                        Shipping Staff:
+                      </Typography>
                     </td>
                     <td>
                       <FormControl className="Style3">
@@ -3557,7 +3548,7 @@ function TransFerDetail() {
                             backgroundColor: read_shipping
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width:'290px'
+                            width: "290px",
                           }}
                           error={
                             ErrorShipping &&
@@ -3571,48 +3562,15 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {ErrorACCReturn &&
-                          (!return_selectacc_manager ||
-                            return_selectacc_manager == "null") && (
-                            <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
-                            </FormHelperText>
-                          )} */}
+                        {ErrorShipping && !selectshipping_staff && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: Shipping
+                          </FormHelperText>
+                        )}
                       </FormControl>
                     </td>
 
-                    <td className="Style5">
-                      {/* <FormControl>
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                          value={
-                            selectradio_return_acc === null ||
-                            selectradio_return_acc === ""
-                              ? setselectradio_return_acc("A")
-                              : selectradio_return_acc
-                          }
-                          onChange={(e) =>
-                            setselectradio_return_acc(e.target.value)
-                          }
-                          style={{ visibility: chkreturn_acc }}
-                        >
-                          <FormControlLabel
-                            value="A"
-                            control={<Radio size="small" />}
-                            label="Approve"
-                            disabled={read_return_acc_radio}
-                          />
-                          <FormControlLabel
-                            value="R"
-                            disabled={read_return_acc_radio}
-                            control={<Radio size="small" />}
-                            label="Reject"
-                          />
-                        </RadioGroup>
-                      </FormControl> */}
-                    </td>
+                    <td style={{ width: "20%" }}></td>
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
@@ -3628,9 +3586,7 @@ function TransFerDetail() {
                           id="outlined-size-small"
                           size="small"
                           value={action__shipping}
-                          onChange={(e) =>
-                            setaction__shipping(e.target.value)
-                          }
+                          onChange={(e) => setaction__shipping(e.target.value)}
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3640,7 +3596,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                
+
                   <tr style={{ display: CM_shipping }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -3675,8 +3631,7 @@ function TransFerDetail() {
                     STS1 != "FLSC008" &&
                     STS1 != "FLSC009" &&
                     STS1 != "FLSC100" &&
-                    For_sts_reject !== "R" && 
-                    (
+                    For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
                         <td colSpan={5}>
@@ -3700,8 +3655,7 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length ===
-                                            0 ? (
+                                            {showfile_shipping.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -3717,7 +3671,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                   {(STS1 =='FLSC101')&&(
+                                                      {STS1 == "FLSC101" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -3734,7 +3688,7 @@ function TransFerDetail() {
                                                           }
                                                           className="Icon_DeleteFile"
                                                         />
-                                                     )}
+                                                      )}
                                                     </TableCell>
                                                     <TableCell>
                                                       {
@@ -3798,7 +3752,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                {(STS1== "FLSC101") &&(
+                                  {STS1 == "FLSC101" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -3904,7 +3858,7 @@ function TransFerDetail() {
                                                       )}
                                                       {index + 1} {file.name}
                                                     </span>
-                                                   
+
                                                     <DeleteOutlined
                                                       onClick={() =>
                                                         handleDL_File_Owner(
@@ -3927,17 +3881,15 @@ function TransFerDetail() {
                                           marginTop: "5px",
                                         }}
                                       >
-                                      
-                                          <Button
-                                            variant="contained"
-                                            onClick={handleSav_Own}
-                                          >
-                                            Save
-                                          </Button>
-                                        
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
                                       </div>
                                     </div>
-                                )}
+                                  )}
                                 </td>
                               </tr>
                             </table>
@@ -3959,7 +3911,4757 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
-            
+                </table>
+              </div>
+            </Card>
+          </Card>
+        )}
+        {/* Sale GP01003 */}
+        {Showtype === "GP01003" && (
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+                  border: 0,
+
+                  justifyContent: "center",
+                }}
+              ></Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  {/* PTE (ENV) input weight/size: */}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PTE (ENV) input weight/size:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectpte_input_weight_size}
+                          // disabled={read_pte_input_weight_size}
+                          onChange={(e) => {
+                            setselectpte_input_weight_size(e.target.value);
+                            setpte_dept(e.target.value);
+                            setexport_clearance(e.target.value);
+                            setpte_upload_file(e.target.value);
+                          }}
+                          
+                          size="small"
+                          style={{
+                            // borderColor: ErrorPTE_ENV ? "red" : undefined,
+                            // backgroundColor: read_pte_input_weight_size
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                            width: "290px",
+                          }}
+                          // error={
+                          //   ErrorPTE_INPUT_WS &&
+                          //   (!selectpte_input_weight_size || selectpte_input_weight_size == "null")
+                          // }
+                        >
+                          {pte_input_weight_size.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: PTE (ENV) input weight/size
+                          </FormHelperText>
+                        )} */}
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pte_weight_size }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__pte_env}
+                          // onChange={(e) => setaction__pte_weight_size(e.target.value)}
+                          disabled
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_pte_weight_size,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                 <tr 
+                  // style={{ display: CM_pte_weight_size }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pte_weight_size}
+                          // disabled={read_pte_input_weight_size,}
+                          style={{
+                            // backgroundColor: read_pte_input_weight_size,
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                          }}
+                          // onChange={(e) => setcmmtradio_pte_weight_size(e.target.value)}
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_pte_env.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_pte_env.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 === "FLSC009" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_pte_env[
+                                                                index
+                                                              ][0],
+                                                              showfile_pte_env[
+                                                                index
+                                                              ][3],
+                                                              showfile_pte_env[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_pte_env[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_pte_env[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_pte_env[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_pte_env[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC009" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_PTE.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_PTE.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/* PLN Staff contact BOI : */}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PLN Staff contact BOI :
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectpln_staff_boi}
+                          // disabled={read_pte_staff_boi}
+                          onChange={(e) => { 
+                            setselectpln_staff_boi(e.target.value);
+                            setpln_req_inv(e.target.value);
+                            setship_input_inv(e.target.value);
+                            setpln_upload_final(e.target.value);
+
+                          }}
+                          size="small"
+                          style={{
+                            // borderColor: ErrorPLN_Staff_BOI ? "red" : undefined,
+                            // backgroundColor: read_pte_staff_boi
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                            width: "290px",
+                          }}
+                          // error={
+                          //   ErrorPLN_Staff_BOI &&
+                          //   (!selectpln_staff_boi || selectpln_staff_boi == "null")
+                          // }
+                        >
+                          {pln_staff_boi.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {selectpln_staff_boi && !selectpln_staff_boi && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: PLN Staff contact BOI 
+                          </FormHelperText>
+                        )} */}
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pte_staff_boi }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__pte_staff_boi}
+                          // onChange={(e) => setaaction__pte_staff_boi(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_pte_staff_boi,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_pte_staff_boi }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pte_staff_boi}
+                          // disabled={read_pte_staff_boi}
+                          style={{
+                            // backgroundColor: read_pte_staff_boi
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                          }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pte_staff_boi(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          {console.log(
+                                            showfile_pln_staff,
+                                            "showfile_pln_staff"
+                                          )}
+                                          <TableBody>
+                                            {showfile_pln_staff.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_pln_staff.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC100" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_pln_staff[
+                                                                index
+                                                              ][0],
+                                                              showfile_pln_staff[
+                                                                index
+                                                              ][3],
+                                                              showfile_pln_staff[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_pln_staff[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_pln_staff[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_pln_staff[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_pln_staff[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC100" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_PLN_Staff.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_PLN_Staff.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/* Import & BOI prepare : */}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Import & BOI prepare :
+                      </Typography>
+                    </td>
+                    {console.log(selectimport_boi_prepare,"selectimport_boi_prepare")}
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectimport_boi_prepare}
+                          // disabled={read_boi_input_data}
+                          onChange={(e) => {
+                            setselectimport_boi_prepare(e.target.value);
+                            setthai_catergories(e.target.value);
+                          }}
+                          
+                          size="small"
+                          style={{
+                            // borderColor: Errorimport_boi_prepare ? "red" : undefined,
+                            // backgroundColor: read_import_boi_prepare
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                            width: "290px",
+                          }}
+                          // error={
+                          //   Errorboi_import_boi_prepare &&
+                          //   (!setselectboi_input_data ||
+                          //     setselectboi_input_data == "null")
+                          // }
+                        >
+                          {import_boi_prepare.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {Errorimport_boi_prepare && !selectboi_input_data && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: Import & BOI prepare
+                          </FormHelperText>
+                        )} */}
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_import_boi_prepare }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__import_boi_prepare}
+                          // onChange={(e) => setaction__import_boi_prepare(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_import_boi_prepare,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_import_boi_prepare }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_import_boi_prepare}
+                          // disabled={read_import_boi_prepare}
+                          // style={{
+                          //   backgroundColor: read_import_boi_prepare
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_import_boi_prepare(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/* BOI Input data Import :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        BOI Input data Import:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selectboi_input_data}
+                          // disabled={read_boi_input_data}
+                          onChange={(e) =>
+                            setselectboi_input_data(e.target.value)
+                          }
+                          size="small"
+                          style={{
+                            // borderColor: Errorboi_input_data ? "red" : undefined,
+                            // backgroundColor: read_boi_input_data
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                            width: "290px",
+                          }}
+                          // error={
+                          //   Errorboi_input_data &&
+                          //   (!selectboi_input_data ||
+                          //     selectboi_input_data == "null")
+                          // }
+                        >
+                          {boi_input_data.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* {Errorboi_input_data && !selectboi_input_data && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: Shipping
+                          </FormHelperText>
+                        )} */}
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_boi_input_data }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__boi_input_data}
+                          // onChange={(e) => setaction__boi_input_data(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_boi_input_data,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_boi_input_data }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_boi_input_data}
+                          // disabled={read_boi_input_data}
+                          style={{
+                            // backgroundColor: read_boi_input_data
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                          }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_boi_input_data(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+              
+                  {/* Import & BOI input thai catergories :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Import & BOI input thai catergories:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={thai_catergories}
+                          onChange={(e) => setthai_catergories(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                       
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_thai_catergories }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__thai_catergories}
+                          // onChange={(e) => setaction__thai_catergories(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_thai_catergories,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_thai_catergories }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Input thai categories:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={Input_thai_categories}
+                          // disabled={read_thai_catergories}
+                          // style={{
+                          //   backgroundColor: read_thai_catergories
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setInput_thai_categories(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_thai_catergories }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_thai_catergories}
+                          // disabled={read_thai_catergories}
+                          // style={{
+                          //   backgroundColor: read_thai_catergories
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_thai_catergories(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/* PLN Staff bidding :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PLN Staff bidding:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={pln_staff_bidding}
+                          onChange={(e) => setpln_staff_bidding(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                       
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pln_staff_bidding }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__pln_staff_bidding}
+                          // onChange={(e) => setaction__pln_staff_bidding(e.target.value)}
+                          disabled
+                          // style={{
+                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          //   visibility: chk_pln_staff_bidding,
+                          // }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_pln_staff_bidding }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Bidding result:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={Bidding_result}
+                          // disabled={read_pln_staff_bidding}
+                          // style={{
+                          //   backgroundColor: read_pln_staff_bidding
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setBidding_result(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_pln_staff_bidding }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pln_staff_bidding}
+                          // disabled={read_pln_staff_bidding}
+                          // style={{
+                          //   backgroundColor: read_pln_staff_bidding
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pln_staff_bidding(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/* PTE (ENV) contact Department of Industrial Works:*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PTE (ENV) contact Department of Industrial Works:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={pte_dept}
+                          onChange={(e) => setpte_dept(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                        
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pte_dept }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__pte_dept}
+                          // onChange={(e) => setaction__pte_dept(e.target.value)}
+                          disabled
+                          // style={{
+                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          //   visibility: chk_pte_dept,
+                          // }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                                  {/* {Showtype == "GP01006" &&
+                    STS1 != "FLLD001" &&
+                    STS1 != "FLLD002" &&
+                    STS1 != "FLLD003" &&
+                    STS1 != "FLLD004" &&
+                    STS1 != "FLLD005" &&
+                    STS1 != "FLLD006" &&
+                    STS1 != "FLLD007" &&
+                    STS1 != "FLLD008" && ( */}
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                          Contact date :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              size="small"
+                              type="date"
+                              // disabled={read_return_acc_cmmt}
+                              style={{
+                                // backgroundColor:
+                                //   selectradio_return_acc === "R"
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : read_return_acc_cmmt
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : "",
+                                // pointerEvents:
+                                //   selectradio_return_acc === "R" &&
+                                //   read_return_acc_cmmt
+                                //     ? "none"
+                                //     : "auto",
+                                width:'290px'
+                              }}
+                              // value={contact_date}
+                              // error={
+                              //   ErrorDate_return &&
+                              //   (!contact_date || contact_date == "null")
+                              // }
+                              // onChange={(e) => setcontact_date(e.target.value)}
+                              // helperText={
+                              //   Errorcontact_date &&
+                              //   (!contact_date || contact_date == "null")
+                              //     ? "Please Select Contact date "
+                              //     : undefined
+                              // }
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    {/* )} */}
+                  <tr
+                  // style={{ display: CM_pte_dept }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pte_dept}
+                          // disabled={read_pte_dept}
+                          style={{
+                            // backgroundColor: read_pte_dept
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                          }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pte_dept(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/*BOI make export clearance :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        BOI make export clearance :
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={export_clearance}
+                          onChange={(e) => setexport_clearance(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                        
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_export_clearance }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__export_clearance}
+                          // onChange={(e) => setaction__export_clearance(e.target.value)}
+                          disabled
+                          // style={{
+                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          //   visibility: chk_export_clearance,
+                          // }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+  
+                  <tr 
+                  // style={{ display: CM_export_clearance }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_export_clearance}
+                          // disabled={read_export_clearance}
+                          style={{
+                            // backgroundColor: read_export_clearance
+                            //   ? "rgba(169, 169, 169, 0.3)"
+                            //   : "",
+                          }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_export_clearance(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/*PTE (ENV) upload file after BOI make export clearance:*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PTE (ENV) upload file after BOI make export clearance:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={pte_upload_file}
+                          onChange={(e) => setpte_upload_file(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pte_upload_file }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__shipping}
+                          // onChange={(e) => setaction__pte_upload_file(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_pte_upload_file,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>    {/* {Showtype == "GP01006" &&
+                    STS1 != "FLLD001" &&
+                    STS1 != "FLLD002" &&
+                    STS1 != "FLLD003" &&
+                    STS1 != "FLLD004" &&
+                    STS1 != "FLLD005" &&
+                    STS1 != "FLLD006" &&
+                    STS1 != "FLLD007" &&
+                    STS1 != "FLLD008" && ( */}
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                          Contact date :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              size="small"
+                              type="date"
+                              // disabled={read_return_acc_cmmt}
+                              style={{
+                                // backgroundColor:
+                                //   selectradio_return_acc === "R"
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : read_return_acc_cmmt
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : "",
+                                // pointerEvents:
+                                //   selectradio_return_acc === "R" &&
+                                //   read_return_acc_cmmt
+                                //     ? "none"
+                                //     : "auto",
+                                width:'290px'
+                              }}
+                              // value={contact_date_pte}
+                              // error={
+                              //   ErrorDate_return &&
+                              //   (!contact_date_pte || contact_date_pte == "null")
+                              // }
+                              // onChange={(e) => setcontact_date_pte(e.target.value)}
+                              // helperText={
+                              //   Errorcontact_date_pte &&
+                              //   (!contact_date_pte || contact_date_pte == "null")
+                              //     ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                              //     : undefined
+                              // }
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    {/* )} */}
+                  <tr 
+                  // style={{ display: CM_pte_upload_file }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pte_upload_file}
+                          // disabled={read_pte_upload_file}
+                          // style={{
+                          //   backgroundColor: read_pte_upload_file
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pte_upload_file(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/*PLN Staff request Invoice :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PLN Staff request Invoice:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={pln_req_inv}
+                          onChange={(e) => setpln_req_inv(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                       
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pln_req_inv }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__pln_req_inv}
+                          // onChange={(e) => setaction__pln_req_inv(e.target.value)}
+                          disabled
+                          style={{
+                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            // visibility: chk_pln_req_inv,
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_pln_req_inv }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_pln_req_inv}
+                          // disabled={read_pln_req_inv}
+                          // style={{
+                          //   backgroundColor: read_pln_req_inv
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pln_req_inv(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/*Shipping Staff imput invoice no. :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Shipping Staff input invoice no.:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={ship_input_inv}
+                        // disabled={read_ship_input_inv}
+                        onChange={(e) => setship_input_inv(e.target.value)}
+                        size="small"
+                        style={{
+                          // borderColor: Errorship_input_inv ? "red" : undefined,
+                          // backgroundColor: read_ship_input_inv
+                          //   ? "rgba(169, 169, 169, 0.3)"
+                          //   : "",
+                          width: "290px",
+                        }}
+                        // error={
+                        //   Errorship_input_inv &&
+                        //   (!ship_input_inv || ship_input_inv == "null")
+                        // }
+                      >
+                        {shipping_staff.map((option, index) => (
+                          <MenuItem key={index} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {/* {Errorship_input_inv &&
+                        (!ship_input_inv || ship_input_inv == "null") && (
+                          <FormHelperText style={{ color: "red" }}>
+                            Please select: ACC Manager
+                          </FormHelperText>
+                        )} */}
+                      {/* <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={ship_input_inv}
+                          onChange={(e) => setship_input_inv(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} /> */}
+
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_ship_input_inv }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          // value={action__ship_input_inv}
+                          // onChange={(e) => setaction__ship_input_inv(e.target.value)}
+                          disabled
+                          // style={{
+                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          //   visibility: chk_ship_input_inv
+                          // }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr 
+                  // style={{ display: CM_ship_input_inv }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          // value={cmmtradio_ship_input_inv}
+                          // disabled={read_ship_input_inv}
+                          // style={{
+                          //   backgroundColor: read_ship_input_inv
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_ship_input_inv(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
+                  {/*PLN Staff upload Final payment 50% :*/}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        PLN Staff upload Final payment 50%:
+                      </Typography>
+                    </td>
+                    <td>
+                      <FormControl className="Style3">
+                      <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={pln_upload_final}
+                          onChange={(e) => setpln_upload_final(e.target.value)}
+                          disabled
+                          sx={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                          }} />
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        // style={{ visibility: chk_pln_upload_final }}
+                      >
+                        {" "}
+                        Action Date:
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                         // value={action__pln_upload_final}
+                         // onChange={(e) => setaction__pln_upload_final(e.target.value)}
+                          disabled
+                          // style={{
+                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          //   visibility: chk_pln_upload_final,
+                          // }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                    {/* {Showtype == "GP01006" &&
+                    STS1 != "FLLD001" &&
+                    STS1 != "FLLD002" &&
+                    STS1 != "FLLD003" &&
+                    STS1 != "FLLD004" &&
+                    STS1 != "FLLD005" &&
+                    STS1 != "FLLD006" &&
+                    STS1 != "FLLD007" &&
+                    STS1 != "FLLD008" && ( */}
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                          Vendor move date :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              size="small"
+                              type="date"
+                              // disabled={read_return_acc_cmmt}
+                              style={{
+                                // backgroundColor:
+                                //   selectradio_return_acc === "R"
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : read_return_acc_cmmt
+                                //     ? "rgba(169, 169, 169, 0.3)"
+                                //     : "",
+                                // pointerEvents:
+                                //   selectradio_return_acc === "R" &&
+                                //   read_return_acc_cmmt
+                                //     ? "none"
+                                //     : "auto",
+                                width:'290px'
+                              }}
+                              // value={Vendor_move_date}
+                              // error={
+                              //   ErrorVendor_move_date &&
+                              //   (!Vendor_move_date || Vendor_move_date == "null")
+                              // }
+                              // onChange={(e) => setVendor_move_date(e.target.value)}
+                              // helperText={
+                              //   ErrorVendor_move_date &&
+                              //   (!Vendor_move_date || Vendor_move_date == "null")
+                              //     ? "Please Select Vendor_move_date"
+                              //     : undefined
+                              // }
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    {/* )} */}
+                  <tr 
+                  // style={{ display: CM_pln_upload_final }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Comment:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                         // value={cmmtradio_pln_upload_final}
+                         // disabled={read_pln_upload_final}
+                          // style={{
+                          //   backgroundColor: read_pln_upload_final
+                          //     ? "rgba(169, 169, 169, 0.3)"
+                          //     : "",
+                          // }}
+                          // onChange={(e) =>
+                          //   setcmmtradio_pln_upload_final(e.target.value)
+                          // }
+                          size="small"
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {Showtype == "GP01002" &&
+                    STS1 != "FLSC001" &&
+                    STS1 != "FLSC002" &&
+                    STS1 != "FLSC003" &&
+                    STS1 != "FLSC004" &&
+                    STS1 != "FLSC005" &&
+                    STS1 != "FLSC006" &&
+                    STS1 != "FLSC007" &&
+                    STS1 != "FLSC008" &&
+                    STS1 != "FLSC009" &&
+                    STS1 != "FLSC100" &&
+                    For_sts_reject !== "R" && (
+                      <tr>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div style={{ margin: "20px" }}>
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell></TableCell>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {showfile_shipping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              showfile_shipping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {STS1 == "FLSC101" && (
+                                                        <DeleteOutlined
+                                                          onClick={() =>
+                                                            handleDL_File_Owner(
+                                                              showfile_shipping[
+                                                                index
+                                                              ][0],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][3],
+                                                              showfile_shipping[
+                                                                index
+                                                              ][4]
+                                                            )
+                                                          }
+                                                          className="Icon_DeleteFile"
+                                                        />
+                                                      )}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        showfile_shipping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <PlagiarismIcon
+                                                        style={{
+                                                          cursor: "pointer",
+                                                          fontSize: "30px",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            showfile_shipping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          showfile_shipping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </PlagiarismIcon>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                                <td style={{ width: "20px" }}></td>
+                                <td className="Table_Show_req2">
+                                  <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileUpload_Own}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                    ref={fileInputRef}
+                                  />
+                                  {STS1 == "FLSC101" && (
+                                    <div style={{ width: "400px" }}>
+                                      <label
+                                        htmlFor="fileInput"
+                                        onDragOver={handleDragOve_Own}
+                                        onDrop={handleDrop_Own}
+                                        className="bt_ChooseFile"
+                                      >
+                                        <CloudUploadOutlined
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#86B6F6",
+                                          }}
+                                        />
+                                        <br />
+                                        <span style={{ fontWeight: "bold" }}>
+                                          Drop your files here
+                                        </span>
+                                        <br />
+                                        or
+                                        <br />
+                                        <Button size="small" component="span">
+                                          <b> Browse files</b>
+                                        </Button>
+                                      </label>
+
+                                      {uploadedFiles_Shipping.length > 0 && (
+                                        <div>
+                                          <ul>
+                                            {uploadedFiles_Shipping.map(
+                                              (file, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="BorderFile"
+                                                >
+                                                  <Typography className="Font_File">
+                                                    <span
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    >
+                                                      {file.type.startsWith(
+                                                        "image/"
+                                                      ) ? (
+                                                        <img
+                                                          src={URL.createObjectURL(
+                                                            file
+                                                          )}
+                                                          alt={file.name}
+                                                          className="Img_file"
+                                                        />
+                                                      ) : (
+                                                        <>
+                                                          {file.name.endsWith(
+                                                            ".xlsx"
+                                                          ) ? (
+                                                            <FileExcelOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#65B741",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".pdf"
+                                                            ) ? (
+                                                            <FilePdfOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FF6347",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".docx"
+                                                            ) ? (
+                                                            <FileWordOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#3468C0",
+                                                              }}
+                                                            />
+                                                          ) : file.name.endsWith(
+                                                              ".txt"
+                                                            ) ? (
+                                                            <FileTextOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#B6BBC4",
+                                                              }}
+                                                            />
+                                                          ) : (
+                                                            <FileUnknownOutlined
+                                                              className="Icon_file"
+                                                              style={{
+                                                                color:
+                                                                  "#FFD3A3",
+                                                              }}
+                                                            />
+                                                          )}
+                                                        </>
+                                                      )}
+                                                      {index + 1} {file.name}
+                                                    </span>
+
+                                                    <DeleteOutlined
+                                                      onClick={() =>
+                                                        handleDL_File_Owner(
+                                                          index,
+                                                          file.name
+                                                        )
+                                                      }
+                                                      className="Icon_DeleteFile"
+                                                    />
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      <div
+                                        style={{
+                                          textAlign: "right",
+                                          marginTop: "5px",
+                                        }}
+                                      >
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  {/* //////////////////////////// */}
                 </table>
               </div>
             </Card>
@@ -4320,6 +9022,7 @@ function TransFerDetail() {
                       STS1 == "FLWO001" ||
                       STS1 == "FLDN001" ||
                       STS1 == "FLLD001" ||
+                      STS1 == "FLSL001" ||
                       STS1 == "FLSC001"
                         ? "block"
                         : "none",

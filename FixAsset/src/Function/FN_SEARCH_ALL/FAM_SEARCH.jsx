@@ -422,9 +422,19 @@ function FAM_SEARCH() {
       });
 
       const data = await response.data;
-      console.log("ข้อมูลที่มาจาก Srcap",data)
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Scrap", data_edit);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.post("/getEdit_sale", {
+        famno: EditFam,
+      });
+
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Sale", data_edit);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -488,7 +498,7 @@ function FAM_SEARCH() {
               Delect_Status = "FLTR999";
               break;
             case "Scrap":
-              Delect_Status = "SCRAP";
+              Delect_Status = "FLSC999";
               break;
             case "Sales":
               Delect_Status = "SALE";

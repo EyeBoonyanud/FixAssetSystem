@@ -5,6 +5,7 @@ import "./StyleMail.css";
 import { useNavigate } from "react-router-dom";
 
 
+
 function Mail() {
 
   const PAGE = localStorage.getItem("pageshow")
@@ -19,11 +20,10 @@ function Mail() {
   const status =localStorage.getItem("Status")
   let Reject = localStorage.getItem("Approver_formail")
   const Reject_forApprover = JSON.parse(Reject);
- 
+ console.log(status,"status")
   //const สำหรับเช็คค่า Approve and Reject 
   const sts_A_or_R = localStorage.getItem("status_formail")
   const [emailSent, setEmailSent] = useState(false); 
-  console.log(sts_A_or_R,"Sts")
   
  
   useEffect(() => {  
@@ -40,8 +40,9 @@ function Mail() {
     }
     console.log(Reject_forApprover,"Reject_forApprover22")
    console.log(To_Send,"To_Send")
+ 
     Status_Show();
-   navigate(`/${PAGE}`);
+   //navigate(`/${PAGE}`);
    
     
   }, []);
@@ -52,7 +53,7 @@ function Mail() {
     let Type = "";
     let Status = "";
     try {
-      const response = await axios.post("/getStatus", {
+      const response = await axios.post("/getStatus_Mail", {
         sts: status,
       });
       const data = response.data;
@@ -67,7 +68,7 @@ function Mail() {
     
   
     try {
-      const response = await axios.post("/getType", {
+      const response = await axios.post("/getType_mail", {
         Type_show: RequestType,
       });
       const data = response.data;
@@ -131,11 +132,7 @@ function Mail() {
   };
   let datareq=""
 const Datamail = async (File,Type,Status) => {
-  console.log("CCCCCCCC",File,Type,Status)
   let dataEmail = ""
-
-
- 
   try {
     const row = await axios.post("/get_req_mail", {
       Name: RequestBy
@@ -221,7 +218,7 @@ const emailMessage = `
   if (!emailSent && dataEmail !== undefined  && File !== "" && Type !== "" && Status !== "" ) {
 
     try {
-      const response1 = await axios.post("http://10.17.74.202:5000/sendEmail", {
+      const response1 = await axios.post("/sendEmail", {
         headers: {
           'Content-Type': 'text/html',
         },

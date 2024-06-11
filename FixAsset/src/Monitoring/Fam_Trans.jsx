@@ -1572,7 +1572,7 @@ console.log(STS,"STS555")
                         }}
                       >
                         <Typography variant="subtitle2">
-                          {" "}
+                          
                           Action Date :
                         </Typography>
                       </td>
@@ -1581,8 +1581,8 @@ console.log(STS,"STS555")
                           className="Style1"
                           style={{
                             visibility:
-                            DataLending[2] == null ||
-                            DataLending[2] == "null"
+                            selectradio_acc_return== null ||
+                            selectradio_acc_return == "null"
                                 ? "hidden"
                                 : "visibled",
                           }}
@@ -1683,7 +1683,7 @@ console.log(STS,"STS555")
                           visibility:
                             chkaction_date == null || chkaction_date == "null"
                               ? "hidden"
-                              : "visibled",
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -1696,10 +1696,11 @@ console.log(STS,"STS555")
                           className="Style1"
                           style={{
                             visibility:
-                            DataLending[7] == null || DataLending[7] == "null"
+                            DataLending[7] == null ||  DataLending[7] == "null"
                                 ? "hidden"
-                                : "visibled",
+                                : "visible",
                           }}
+                          
                         >
                           <TextField
                             style={{
@@ -1886,17 +1887,18 @@ console.log(STS,"STS555")
                       <td className="Style5">
                       
                       </td>
+                      {console.log(DataScrap[2],"DataScrap[2]")}
                       <td
                         className="Style7"
                       style={{
                         visibility:
                         DataScrap[2] == null || DataScrap[2] == "null"
+                     
                           ? "hidden"
-                          : "visibled",
+                          : "visible"
                       }}
                       >
                         <Typography variant="subtitle2">
-                          {" "}
                           Action Date :
                         </Typography>
                       </td>
@@ -1905,7 +1907,7 @@ console.log(STS,"STS555")
                         visibility:
                         DataScrap[2] == null || DataScrap[2] == "null"
                           ? "hidden"
-                          : "visibled",
+                          : "visible",
                       }} >
                         <FormControl
                           className="Style1"
@@ -2080,7 +2082,7 @@ console.log(STS,"STS555")
                           visibility:
                           DataScrap[5] == null || DataScrap[5] == "null"
                             ? "hidden"
-                            : "visibled",
+                            : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -2093,7 +2095,7 @@ console.log(STS,"STS555")
                         visibility:
                         DataScrap[5] == null || DataScrap[5] == "null"
                           ? "hidden"
-                          : "visibled",
+                          : "visible",
                       }}>
                         <FormControl
                           className="Style1"
@@ -2270,7 +2272,7 @@ console.log(STS,"STS555")
                           visibility:
                           DataScrap[8] == null || DataScrap[8] == "null"
                             ? "hidden"
-                            : "visibled",
+                            : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -2283,7 +2285,7 @@ console.log(STS,"STS555")
                         visibility:
                         DataScrap[8] == null || DataScrap[8] == "null"
                           ? "hidden"
-                          : "visibled",
+                          : "visible",
                       }}>
                         <FormControl
                           className="Style1"

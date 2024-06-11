@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+
 function FAM_TRANSECTION_TLWLD() {
+
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const View = localStorage.getItem("page");
@@ -36,6 +38,9 @@ function FAM_TRANSECTION_TLWLD() {
   const Edit_For_Lending = JSON.parse(For_Leading);
   const For_Scrap = localStorage.getItem("Edit_Scrap");
   const Edit_For_Scrap = JSON.parse(For_Scrap);
+  const For_Sale= localStorage.getItem("Edit_Sale");
+  const Edit_For_Sale = JSON.parse(For_Sale);
+  console.log(Edit_For_Sale,"Edit_For_Sale")
 
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -86,7 +91,31 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectpln_staff, setselectpln_staff] = useState("");
   const [shipping_staff, setshipping_staff] = useState([]);
   const [selectshipping_staff, setselectshipping_staff] = useState("");
-
+  // Sale
+  const [pte_input_weight_size, setpte_input_weight_size] = useState([]); //PTE (ENV) input weight/size
+  const [selectpte_input_weight_size, setselectpte_input_weight_size] =
+    useState("");
+  const [pln_staff_boi, setpln_staff_boi] = useState([]); //PLN Staff contact BOI
+  const [selectpln_staff_boi, setselectpln_staff_boi] = useState("");
+  const [import_boi_prepare, setimport_boi_prepare] = useState([]); //Import & BOI prepare
+  const [selectimport_boi_prepare, setselectimport_boi_prepare] = useState("");
+  const [boi_input_data, setboi_input_data] = useState([]); //BOI Input data Import
+  const [selectboi_input_data, setselectboi_input_data] = useState("");
+  const [thai_catergories, setthai_catergories] = useState(""); //Import & BOI input thai catergories
+  const [pln_staff_bidding, setpln_staff_bidding] = useState(""); // PLN Staff bidding
+  const [pte_dept, setpte_dept] = useState(""); //PTE (ENV) contact Department of Industrial Works
+  const [export_clearance, setexport_clearance] = useState(""); //BOI make export clearance
+  const [pte_upload_file, setpte_upload_file] = useState(""); // PTE (ENV) upload file after BOI make export clearance:
+  const [pln_req_inv, setpln_req_inv] = useState(""); //PLN Staff request Invoice
+  const [ship_input_inv, setship_input_inv] = useState(""); //Shipping Staff imput invoice no.
+  const [pln_upload_final, setpln_upload_final] = useState(""); //PLN Staff upload Final payment 50%:
+  const [Input_thai_categories, setInput_thai_categories] = useState("");//Input thai categories
+  const [Bidding_result, setBidding_result] = useState("");//Bidding result
+  const [contact_date,setcontact_date] = useState("") // contact date BOI make export clearance
+  const [contact_date_pte,setcontact_date_pte] = useState("") 
+  const [Vendor_move_date,setVendor_move_date] = useState("") //Vendor_move_date
+  
+  ////////////////////
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
@@ -163,6 +192,22 @@ function FAM_TRANSECTION_TLWLD() {
   const [cmmtradio_pte_env, setcmmtradio_pte_env] = useState("");
   const [cmmtradio_pln_staff, setcmmtradio_pln_staff] = useState("");
   const [cmmtradio_shipping, setcmmtradio__shipping] = useState("");
+  // Sale 
+  const [cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size] = useState("");
+  const [cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi] = useState("");
+  const [cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare] = useState("");
+  const [cmmtradio_boi_input_data, setcmmtradio_boi_input_data] = useState("");
+  const [cmmtradio_thai_catergories, setcmmtradio_thai_catergories] = useState("");
+  const [cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding] = useState("");
+  const [cmmtradio_pte_dept, setcmmtradio_pte_dept] = useState("");
+  const [cmmtradio_export_clearance, setcmmtradio_export_clearance] = useState("");
+  const [cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file] = useState("");
+  const [cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv] = useState("");
+  const [cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv] = useState("");
+  const [cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final  ] = useState("");
+
+
+
 
   /////////////// ตัวแปร Check Action Date //////////////////////////////
   const [action_dept, setaction__dept] = useState("");
@@ -332,6 +377,8 @@ function FAM_TRANSECTION_TLWLD() {
     PTE_ENV();
     PLN_staff();
     Shipping();
+    Import_boi();
+    
     if (Showtype == "GP01001") {
       edit_New_BOI();
     }
@@ -2744,6 +2791,7 @@ console.log(STS,"STS")
         }
       
         if (Type === "GP01002") {
+          console.log(selectpte_env,selectpln_staff,selectshipping_staff,"GHJJJJJB")
           try {
             const response = await axios.post("/update_scrap", {
               famno: For_Rq_Edit[0],
@@ -2965,7 +3013,7 @@ console.log(STS,"STS")
     }
     getDatatest();
     closePopupLoadding();
-   navigate("/ForRe");
+  navigate("/ForRe");
   };
 
   // ปุ่ม SAVE
@@ -3186,7 +3234,8 @@ console.log(STS,"STS")
       Type == "GP01005" ||
       Type == "GP01007" ||
       Type == "GP01006" ||
-      Type == "GP01002"
+      Type == "GP01003" ||
+      Type == "GP01002" 
     ) {
       const confirmResult = await Swal.fire({
         title: "Are you sure you want to save?",
@@ -3273,6 +3322,28 @@ console.log(STS,"STS")
               console.error("Error requesting data:", error);
             }
           }
+          if (Type === "GP01003") {
+            try {
+              const response = await axios.post("/update_sale", {
+                famno: For_Rq_Edit[0],
+                updateinput_ws: selectpte_input_weight_size,
+                update_plnboi: selectpln_staff_boi,
+                updateboi_prerare: selectimport_boi_prepare,
+                updatedata_import: selectboi_input_data,
+                updatethai_catergories:thai_catergories,
+                updatebidding:pln_staff_bidding,
+                updateindustrial:pte_dept,
+                updateclerance:export_clearance,
+                update_upload_file_after:pte_upload_file,
+                updatereq_inv:pln_req_inv,
+                updateinput_in:ship_input_inv,
+                updatepayment:pln_upload_final,
+                update_by: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error update_sale", error);
+            }
+          }
           Swal.fire({
             title: "Save Success",
             text: "Your data has been saved successfully!",
@@ -3341,7 +3412,6 @@ console.log(STS,"STS")
             }
           }
           if (Type === "GP01002") {
-            console.log(Type,"Type44")
             try {
               const response = await axios.post("/insert_scrap", {
                 famno: For_Req[0],
@@ -3352,6 +3422,29 @@ console.log(STS,"STS")
               });
             } catch (error) {
               console.error("Error requesting data:", error);
+            }
+          }
+          if (Type === "GP01003") {
+            try {
+              const response = await axios.post("/insert_sale", {
+               
+                famno: For_Req[0],
+                createinput_ws:selectpte_input_weight_size, 
+                create_plnboi:selectpln_staff_boi, 
+                createboi_prerare:selectimport_boi_prepare, 
+                createdata_import:selectboi_input_data,
+                createthai_catergories:thai_catergories,
+                createbidding:pln_staff_bidding,
+                createindustrial:pte_dept,
+                createclerance:export_clearance,
+                create_upload_file_after:pte_upload_file,
+                createreq_inv:pln_req_inv,
+                createinput_in:ship_input_inv,
+                createpayment:pln_upload_final,
+                create_by:For_Req[1],
+              });
+            } catch (error) {
+              console.error("Error insert_sale:", error);
             }
           }
 
@@ -3608,11 +3701,6 @@ console.log(STS,"STS")
         } else {
           setErrorAcc_Mana(false);
         }
-        // try {
-        //   const response = await axios.get(`/getEdit_FixAsset?FamNo=${EditFam}`);
-        // } catch (error) {
-        //   console.error("Error during login:", error);
-        // }
         openPopupLoadding();
         //setCheckSubmit("True")
         // SUBMIT ตามเงื่อนไข Status
@@ -3696,7 +3784,7 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
+              // //navigate("/Mail");
               //  navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -3799,7 +3887,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
               // navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -3873,8 +3961,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -3947,8 +4035,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4024,7 +4112,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4102,8 +4190,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4182,8 +4270,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4256,7 +4344,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4328,8 +4416,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4401,8 +4489,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4497,8 +4585,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4579,7 +4667,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4659,7 +4747,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -4950,7 +5038,7 @@ console.log(STS,"STS")
             localStorage.setItem("Req_Type", For_Req[6]);
             localStorage.setItem("Req_by", For_Req[1]);
             localStorage.setItem("Status", Status);
-            // navigate("/Mail");
+            // //navigate("/Mail");
             Swal.fire({
               title: "Submit Success",
               icon: "success",
@@ -5158,7 +5246,7 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
+              // //navigate("/Mail");
               //  navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -5228,7 +5316,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
               // navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -5302,8 +5390,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5376,8 +5464,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5449,7 +5537,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5527,8 +5615,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5607,8 +5695,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5681,7 +5769,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5753,8 +5841,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5827,8 +5915,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5909,7 +5997,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5989,7 +6077,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6185,7 +6273,7 @@ console.log(STS,"STS")
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          // navigate("/Mail");
+          // //navigate("/Mail");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -6389,7 +6477,7 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
+              // //navigate("/Mail");
               //  navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -6459,7 +6547,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
               // navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -6533,8 +6621,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6607,8 +6695,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6680,7 +6768,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6758,8 +6846,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6838,8 +6926,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6912,7 +7000,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6984,8 +7072,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7058,8 +7146,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7140,7 +7228,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7224,7 +7312,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7430,7 +7518,7 @@ console.log(STS,"STS")
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          // navigate("/Mail");
+          // //navigate("/Mail");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -7635,7 +7723,7 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
+              // //navigate("/Mail");
               //  navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -7705,7 +7793,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
               // navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -7779,8 +7867,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7853,8 +7941,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7926,7 +8014,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8004,8 +8092,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8084,8 +8172,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8191,7 +8279,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8282,8 +8370,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8356,8 +8444,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8438,7 +8526,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8518,7 +8606,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8715,7 +8803,7 @@ console.log(STS,"STS")
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          // navigate("/Mail");
+          // //navigate("/Mail");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -8941,7 +9029,7 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
+              // //navigate("/Mail");
               //  navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -9018,7 +9106,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
               // navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -9092,8 +9180,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9166,8 +9254,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9239,7 +9327,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9317,8 +9405,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9397,8 +9485,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9423,16 +9511,16 @@ console.log(STS,"STS")
             } else if (selectradio_acc_check == "R") {
               Status = "FLLD907";
             }
-            if (
-              selectradio_acc_check == "A" &&
-              (certificate_date == "" ||
-                certificate_date == null ||
-                certificate_date == "null" ||
-                certificate_date == "undefined")
-            ) {
-              alert("Please Select Receive certificate date");
-              return; 
-            }
+            // if (
+            //   selectradio_acc_check == "A" &&
+            //   (certificate_date == "" ||
+            //     certificate_date == null ||
+            //     certificate_date == "null" ||
+            //     certificate_date == "undefined")
+            // ) {
+            //   alert("Please Select Receive certificate date");
+            //   return; 
+            // }
 
             if (
               selectradio_acc_check == "R" &&
@@ -9443,15 +9531,7 @@ console.log(STS,"STS")
             ) {
               alert("Please fill in information");
             } else {
-              try {
-                const response = await axios.post("/date_certificate", {
-                  famno: EditFam,
-                  date_cer: certificate_date,
-                });
-              
-              } catch (error) {
-                console.error("Error during login:", error);
-              }
+            
 
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -9505,7 +9585,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9596,8 +9676,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                // //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9702,8 +9782,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9789,7 +9869,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -9861,8 +9941,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9943,7 +10023,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10023,7 +10103,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                // //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10244,7 +10324,7 @@ console.log(STS,"STS")
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          // navigate("/Mail");
+          // //navigate("/Mail");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -10468,6 +10548,18 @@ console.log(STS,"STS")
               console.error("Error updating submit status:", error.message);
             }
             try {
+              const response = await axios.post("/update_scrap", {
+                famno: EditFam,
+                pte_env: selectpte_env,
+                pln_staff:selectpln_staff,
+                shipping:selectshipping_staff,
+                update_by: For_Rq_Edit[2]
+
+              });
+            } catch (error) {
+              console.error("Error updating update_scrap:", error.message);
+            }
+            try {
               const response = await axios.post("/update_submit", {
                 famno: EditFam,
                 sts_submit: Status,
@@ -10484,8 +10576,8 @@ console.log(STS,"STS")
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              // navigate("/Mail");
-              //  navigate('/Search');
+              //navigate("/Mail");
+               navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -10572,8 +10664,8 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
-              // navigate("/Search");
+              //navigate("/Mail");
+              navigate("/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -10646,8 +10738,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                //navigate("/Mail");
+                //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10720,8 +10812,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                //navigate("/ApproveFam");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10793,7 +10885,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                //navigate("/Mail");
+                //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10871,8 +10964,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10951,8 +11044,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11058,7 +11151,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11108,7 +11201,7 @@ console.log(STS,"STS")
                 });
                 if (selectradio_owner != "R") {
                   localStorage.setItem("status_formail", selectradio_owner);
-                  localStorage.setItem("To", receiver);
+                  localStorage.setItem("To", selectpte_env);
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11149,8 +11242,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
-                // navigate("/ApproveFam");
+                //navigate("/Mail");
+                // //navigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11204,7 +11297,7 @@ console.log(STS,"STS")
 
                 if (selectradio_record != "R") {
                   localStorage.setItem("status_formail", selectradio_record);
-                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("To", selectpln_staff);
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11245,8 +11338,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11287,7 +11380,7 @@ console.log(STS,"STS")
               });
               if (selectradio_acc_manager != "R") {
                 localStorage.setItem("status_formail", selectradio_acc_manager);
-                localStorage.setItem("To", selectacc_manager);
+                localStorage.setItem("To", selectshipping_staff);
                 localStorage.setItem("Genno", EditFam);
                 localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                 localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11317,7 +11410,7 @@ console.log(STS,"STS")
                 title: "Submit Success",
                 icon: "success",
               });
-              localStorage.setItem("To", selectservice_by);
+              localStorage.setItem("To", selectshipping_staff);
               localStorage.setItem("Genno", EditFam);
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11332,7 +11425,7 @@ console.log(STS,"STS")
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              // navigate("/Mail");
+              // //navigate("/Mail");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -11372,7 +11465,7 @@ console.log(STS,"STS")
 
                 if (selectradio_record != "R") {
                   localStorage.setItem("status_formail", selectradio_record);
-                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("To", text_acc_check);
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11413,8 +11506,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                 //navigate("/ApproveFam");
+                 //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11488,8 +11581,8 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/ApproveFam");
-                // navigate("/Mail");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11522,7 +11615,7 @@ console.log(STS,"STS")
                     "status_formail",
                     selectradio_acc_manager
                   );
-                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("To",selectservice_by );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -11570,7 +11663,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11650,7 +11743,7 @@ console.log(STS,"STS")
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                // navigate("/Mail");
+                //navigate("/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11897,7 +11990,1630 @@ console.log(STS,"STS")
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          // navigate("/Mail");
+          //navigate("/Mail");
+          Swal.fire({
+            title: "Submit Success",
+            icon: "success",
+          });
+        }
+        // setCheckSubmit("False")
+      }
+    }else if (Type == "GP01003") {
+      if (EditFam != null) {
+        if (
+          For_Rq_Edit[3] === null ||
+          For_Rq_Edit[3] === undefined ||
+          For_Rq_Edit[3] === "" ||
+          For_Rq_Edit[3] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel For Requester");
+          navigate("/ForRe");
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+        if (
+          For_Rq_Edit[6] === null ||
+          For_Rq_Edit[6] === undefined ||
+          For_Rq_Edit[6] === "" ||
+          For_Rq_Edit[6] === "null"
+        ) {
+          alert("Please fill in information: Dept ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+
+        if (
+          For_Rq_Edit[17] === null ||
+          For_Rq_Edit[17] === undefined ||
+          For_Rq_Edit[17] === "" ||
+          For_Rq_Edit[17] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Rq_Edit[19] === null ||
+          For_Rq_Edit[19] === undefined ||
+          For_Rq_Edit[19] === "" ||
+          For_Rq_Edit[19] === "null"
+        ) {
+          alert("Please fill in information:  Owner Tel ");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          setErrorManager(true);
+          alert("Please fill in information: Department Manager ");
+          return;
+        } else {
+          setErrorManager(false);
+        }
+        if (
+          Tel_service === "" ||
+          Tel_service === undefined ||
+          Tel_service === null ||
+          Tel_service === "null"
+        ) {
+          setErrorTel_service(true);
+          alert("Please fill in information: Tel_Service By");
+
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          setErrorService_by(true);
+          alert("Please fill in information: Service By");
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          setErrorBoi_Staff(true);
+          alert("Please fill in information: BOI Staff");
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          setErrorBoi_manager(true);
+          alert("Please fill in information: BOI Manager");
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          setErrorMana_Fac(true);
+          alert("Please fill in information: Factory Manager");
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+
+        if (For_Rq_Edit != null) {
+          if (For_Rq_Edit[10] === "FLSL001") {
+            let Status = "FLSL002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_sale", {
+                famno: For_Rq_Edit[0],
+                updateinput_ws: selectpte_input_weight_size,
+                update_plnboi: selectpln_staff_boi,
+                updateboi_prerare: selectimport_boi_prepare,
+                updatedata_import: selectboi_input_data,
+                updatethai_catergories:thai_catergories,
+                updatebidding:pln_staff_bidding,
+                updateindustrial:pte_dept,
+                updateclerance:export_clearance,
+                update_upload_file_after:pte_upload_file,
+                updatereq_inv:pln_req_inv,
+                updateinput_in:ship_input_inv,
+                updatepayment:pln_upload_final,
+                update_by: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error update_sale", error);
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              // setCheckSubmit("False")
+              // navigate('/Mail', { state: { selectservice_by } });
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              //navigate("/Mail");
+               navigate('/Search');
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[16] === "R") {
+            let Status = "FLSC002";
+            try {
+              const response = await axios.post("/Update_For_Req_All", {
+                famno: For_Rq_Edit[0],
+                dept: For_Rq_Edit[6],
+                tel: For_Rq_Edit[3],
+                remark: For_Rq_Edit[12],
+                mrg_dept: selectdepartment_mana,
+                serviceby: selectservice_by,
+                servicetel: Tel_service,
+                boisff: selectboi_staff,
+                boimrg: selectboi_manager,
+                fmby: selectfac_manager,
+                accchk: selectacc_check,
+                accmrg: selectacc_manager,
+                updateby: For_Rq_Edit[2],
+                record_by: text_acc_check,
+                owner_id: For_Rq_Edit[17],
+                owner_dept: For_Rq_Edit[18],
+                owner_tel: For_Rq_Edit[19],
+                service_close: selectservice_by,
+                owner_by: owner_roting,
+                service_dt: ServiceDept,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_sale", {
+                famno: For_Rq_Edit[0],
+                updateinput_ws: selectpte_input_weight_size,
+                update_plnboi: selectpln_staff_boi,
+                updateboi_prerare: selectimport_boi_prepare,
+                updatedata_import: selectboi_input_data,
+                updatethai_catergories:thai_catergories,
+                updatebidding:pln_staff_bidding,
+                updateindustrial:pte_dept,
+                updateclerance:export_clearance,
+                update_upload_file_after:pte_upload_file,
+                updatereq_inv:pln_req_inv,
+                updateinput_in:ship_input_inv,
+                updatepayment:pln_upload_final,
+                update_by: For_Rq_Edit[2],
+              });
+            } catch (error) {
+              console.error("Error update_sale", error);
+            }
+            try {
+              const response = await axios.post("/update_for_nullRouting_All", {
+                famno: EditFam,
+                user_a: User,
+              });
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_for_nullSale", {
+                famno: EditFam
+              });
+            } catch (error) {
+              console.error("Error update_for_nullSale", error.message);
+            }
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              // setCheckSubmit("False")
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectdepartment_mana);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              //navigate("/Mail");
+              navigate("/Search");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL002") {
+            let Status = "";
+            if (selectradio_dept == "A") {
+              Status = "FLSL003";
+            } else if (selectradio_dept == "R") {
+              Status = "FLSL092";
+            }
+            if (
+              selectradio_dept == "R" &&
+              (cmmtradio_dept == "" ||
+                cmmtradio_dept == null ||
+                cmmtradio_dept == "null" ||
+                cmmtradio_dept == "undifined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_manager_dept", {
+                  famno: EditFam,
+                  mgrjud: selectradio_dept,
+                  mgrcmmt: cmmtradio_dept,
+                  sts: Status,
+                });
+
+                if (selectradio_dept != "R") {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("To", selectservice_by);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_dept);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+                setCheckSubmit("False");
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+                //navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL003") {
+            let Status = "";
+            if (selectradio_serviceby == "A") {
+              Status = "FLSL004";
+            } else if (selectradio_serviceby == "R") {
+              Status = "FLSL093";
+            }
+            if (
+              selectradio_serviceby == "R" &&
+              (cmmtradio_serviceby == "" ||
+                cmmtradio_serviceby == null ||
+                cmmtradio_serviceby == "null" ||
+                cmmtradio_serviceby == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_by", {
+                  famno: EditFam,
+                  serjud: selectradio_serviceby,
+                  sercmmt: cmmtradio_serviceby,
+                  sts: Status,
+                });
+                if (selectradio_serviceby != "R") {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("To", selectboi_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_serviceby);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+                //   setCheckSubmit("False")
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL004") {
+            let Status = "";
+            if (selectradio_boistaff == "A") {
+              Status = "FLSL005";
+            } else if (selectradio_boistaff == "R") {
+              Status = "FLSL094";
+            }
+            if (
+              selectradio_boistaff == "R" &&
+              (cmmtradio_boistaff == "" ||
+                cmmtradio_boistaff == null ||
+                cmmtradio_boistaff == "null" ||
+                cmmtradio_boistaff == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_staff", {
+                  famno: EditFam,
+                  stff_jud: selectradio_boistaff,
+                  stff_cmmt: cmmtradio_boistaff,
+                  sts: Status,
+                });
+
+                if (selectradio_boistaff != "R") {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("To", selectboi_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_boistaff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+                //navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL005") {
+            let Status = "";
+            if (selectradio_boimanager == "A") {
+              Status = "FLSL006";
+            } else if (selectradio_boimanager == "R") {
+              Status = "FLSL095";
+            }
+
+            if (
+              selectradio_boimanager == "R" &&
+              (cmmtradio_boimanager == "" ||
+                cmmtradio_boimanager == null ||
+                cmmtradio_boimanager == "null" ||
+                cmmtradio_boimanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_boi_mana", {
+                  famno: EditFam,
+                  boimana_jud: selectradio_boimanager,
+                  boimana_cmmt: cmmtradio_boimanager,
+                  sts: Status,
+                });
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectfac_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL006") {
+            let Status = "";
+            if (selectradio_facmanager == "A") {
+              Status = "FLSL007";
+            } else if (selectradio_facmanager == "R") {
+              Status = "FLSL096";
+            }
+
+            if (
+              selectradio_facmanager == "R" &&
+              (cmmtradio_facmanager == "" ||
+                cmmtradio_facmanager == null ||
+                cmmtradio_facmanager == "null" ||
+                cmmtradio_facmanager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_facmanager", {
+                  famno: EditFam,
+                  fm_jud: selectradio_facmanager,
+                  fm_cmmt: cmmtradio_facmanager,
+                  sts: Status,
+                });
+
+                if (selectradio_boimanager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("To", selectacc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_boimanager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL007") {
+            let Status = "";
+            
+
+            if (selectradio_acc_check == "A") {
+              Status = "FLSL008";
+            } else if (selectradio_acc_check == "R") {
+              Status = "FLSL097";
+            }
+
+            if (
+              selectradio_acc_check == "R" &&
+              (cmmtradio_acc_check == "" ||
+                cmmtradio_acc_check == null ||
+                cmmtradio_acc_check == "null" ||
+                cmmtradio_acc_check == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/date_certificate", {
+                  famno: EditFam,
+                  date_cer: certificate_date,
+                });
+              } catch (error) {
+                console.error("Error during login:", error);
+              }
+
+              try {
+                const response = await axios.post("/update_acccheck", {
+                  famno: EditFam,
+                  chk_jud: selectradio_acc_check,
+                  chk_cmmt: cmmtradio_acc_check,
+                  sts: Status,
+                });
+
+                if (selectradio_acc_check != "R") {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("To", owner_roting);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL008") {
+            let Status = "";
+            // let DataFile_Requester = "";
+
+            // try {
+            //   const response = await axios.post("/getFAM_FILE_OWNER_CHK", {
+            //     FamNo: EditFam,
+            //   });
+            //   const jsonData = await response.data;
+            //   DataFile_Requester = await response.data;
+            // } catch (error) {
+            //   console.error("Error fetching data:", error);
+            // }
+            // if (
+            //   DataFile_Requester == null ||
+            //   DataFile_Requester == [] ||
+            //   DataFile_Requester.length == 0
+            // ) {
+            //   alert("Please Select File");
+            //   return;
+            // }
+            if (selectradio_owner == "A") {
+              Status = "FLSL009";
+            } else if (selectradio_owner == "R") {
+              Status = "FLSL097";
+            }
+
+            if (
+              selectradio_owner == "R" &&
+              (cmmtradio_owner == "" ||
+                cmmtradio_owner == null ||
+                cmmtradio_owner == "null" ||
+                cmmtradio_owner == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_owner", {
+                  famno: EditFam,
+                  owner_jud: selectradio_owner,
+                  owner_cmmt: cmmtradio_owner,
+                  sts: Status,
+                });
+                if (selectradio_owner != "R") {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("To", selectpte_env);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_owner);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    null,
+                    null,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+                // //navigate("/ApproveFam");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          } else if (For_Rq_Edit[10] === "FLSL009") {
+            let Status = "FLSL010";
+            //   let DataFile_Requester = "";
+            // try {
+            //   const response = await axios.post("/getFAM_FILE_PTE_ENV", {
+            //     FamNo: EditFam,
+            //   });
+            //   const jsonData = await response.data;
+            //   DataFile_Requester = jsonData;
+            // } catch (error) {
+            //   console.error("Error fetching data:", error);
+            // }
+            // if (
+            //   DataFile_Requester == null ||
+            //   DataFile_Requester == [] ||
+            //   DataFile_Requester.length == 0
+            // ) {
+            //   alert("Please Select File");
+            //   return;
+            // }
+            // if (
+            //   cmmtradio_pte_env !== null &&
+            //   (cmmtradio_pte_env == "" ||
+            //   cmmtradio_pte_env == null ||
+            //   cmmtradio_pte_env == "null" ||
+            //   cmmtradio_pte_env == "undefined")
+            // ) {
+            //   alert("Please fill in information");
+            // }
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post(
+                  "/update_sale_ws",
+                  {
+                    tranfer: EditFam,
+                    updateinput_ws_cmmt: cmmtradio_pte_weight_size
+                   
+                  }
+                );
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectpln_staff);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            //}
+          } else if (For_Rq_Edit[10] === "FLSL010") {
+            let Status = "FLSL011";
+            // let DataFile_Requester = "";
+            // try {
+            //   const response = await axios.post("/getFAM_FILE_PLN_Staff", {
+            //     FamNo: EditFam,
+            //   });
+            //   const jsonData = await response.data;
+            //   DataFile_Requester = jsonData;
+            // } catch (error) {
+            //   console.error("Error fetching data:", error);
+            // }
+            // if (
+            //   DataFile_Requester == null ||
+            //   DataFile_Requester == [] ||
+            //   DataFile_Requester.length == 0
+            // ) {
+            //   alert("Please Select File");
+            //   return;
+            // }
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_sale_pln_staff_boi", {
+                tranfer: EditFam,
+                updatepln_staff_boi_cmmt: cmmtradio_pte_staff_boi
+              });
+              if (selectradio_acc_manager != "R") {
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+                localStorage.setItem("To", selectshipping_staff);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              } else {
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  text_acc_check,
+                  null,
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
+              }
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              localStorage.setItem("To", selectshipping_staff);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              // //navigate("/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSC101") {
+            let Status = "FLSC010";
+              let DataFile_Requester = "";
+              try {
+                const response = await axios.post("/getFAM_FILE_Shipping", {
+                  FamNo: EditFam,
+                });
+                const jsonData = await response.data;
+                DataFile_Requester = jsonData;
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+              if (
+                DataFile_Requester == null ||
+                DataFile_Requester == [] ||
+                DataFile_Requester.length == 0
+              ) {
+                alert("Please Select File");
+                return;
+              }
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_scrap_shipping", {
+                  tranfer: EditFam,
+                  shipping_staff_cmmt: cmmtradio_shipping
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", text_acc_check);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                 //navigate("/ApproveFam");
+                 //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            //}
+
+          } else if (For_Rq_Edit[10] === "FLSC010") {
+            let Status = "";
+            if (selectradio_record == "A") {
+              Status = "FLSC011";
+            } else if (selectradio_record == "R") {
+              Status = "FLSC910";
+            }
+
+            if (
+              selectradio_record == "R" &&
+              (cmmtradio_record == "" ||
+                cmmtradio_record == null ||
+                cmmtradio_record == "null" ||
+                cmmtradio_record == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_recode", {
+                  famno: EditFam,
+                  rec_jud: selectradio_record,
+                  rec_cmmt: cmmtradio_record,
+                  sts: Status,
+                });
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          }else if (For_Rq_Edit[10] === "FLSC011") {
+            let Status = "";
+            if (selectradio_acc_manager == "A") {
+              Status = "FLSC012";
+            } else if (selectradio_acc_manager == "R") {
+              Status = "FLSC911";
+            }
+            if (
+              selectradio_acc_manager == "R" &&
+              (cmmtradio_acc_manager == "" ||
+                cmmtradio_acc_manager == null ||
+                cmmtradio_acc_manager == "null" ||
+                cmmtradio_acc_manager == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_accmanager", {
+                  famno: EditFam,
+                  acc_manajud: selectradio_acc_manager,
+                  acc_manacmmt: cmmtradio_acc_manager,
+                  sts: Status,
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To",selectservice_by );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          }else if (For_Rq_Edit[10] === "FLSC012") {
+            let Status = "";
+            if (selectradio_service_close_by == "A") {
+              Status = "FLSC013";
+            } else if (selectradio_service_close_by == "R") {
+              Status = "FLSC912";
+            }
+
+            if (
+              selectradio_service_close_by == "R" &&
+              (cmmtradio_service_close_by == "" ||
+                cmmtradio_service_close_by == null ||
+                cmmtradio_service_close_by == "null" ||
+                cmmtradio_service_close_by == "undefined")
+            ) {
+              alert("Please fill in information");
+            } else {
+              try {
+                const response = await axios.post("/update_service_close", {
+                  famno: EditFam,
+                  cls_jud: selectradio_service_close_by,
+                  cls_cmmt: cmmtradio_service_close_by,
+                  sts: Status,
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            }
+          }
+        }
+      } else {
+        if (
+          For_Req[2] === null ||
+          For_Req[2] === undefined ||
+          For_Req[2] === "" ||
+          For_Req[2] === "null"
+        ) {
+          setErrorTel_Rq(true);
+          alert("Please fill in information: Tel Requester");
+          let ErrorTel_Req = "true";
+
+          navigate("/ForRe", ErrorTel_Req);
+          return;
+        } else {
+          setErrorTel_Rq(false);
+        }
+
+        if (
+          For_Req[5] === null ||
+          For_Req[5] === undefined ||
+          For_Req[5] === "" ||
+          For_Req[5] === "null"
+        ) {
+          alert("Please fill in information: Dept");
+          setErrorDept(true);
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[15] === null ||
+          For_Req[15] === undefined ||
+          For_Req[15] === "" ||
+          For_Req[15] === "null"
+        ) {
+          alert("Please fill in information: Request Owner");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          For_Req[17] === null ||
+          For_Req[17] === undefined ||
+          For_Req[17] === "" ||
+          For_Req[17] === "null"
+        ) {
+          alert("Please fill in information: Owner Tel");
+          navigate("/ForRe");
+          return;
+        }
+        if (
+          selectdepartment_mana === null ||
+          selectdepartment_mana === undefined ||
+          selectdepartment_mana === "" ||
+          selectdepartment_mana === "null"
+        ) {
+          alert("Please fill in information: Department Manager");
+          setErrorManager(true);
+          return;
+        } else {
+          setErrorManager(false);
+        }
+
+        if (
+          Tel_service === null ||
+          Tel_service === undefined ||
+          Tel_service === "" ||
+          Tel_service === "null"
+        ) {
+          alert("Please fill in information: Tel_Service By");
+          setErrorTel_service(true);
+          return;
+        } else {
+          setErrorTel_service(false);
+        }
+        if (
+          selectservice_by === null ||
+          selectservice_by === undefined ||
+          selectservice_by === "" ||
+          selectservice_by === "null"
+        ) {
+          alert("Please fill in information: Service By");
+          setErrorService_by(true);
+          return;
+        } else {
+          setErrorService_by(false);
+        }
+
+        if (
+          selectboi_staff === null ||
+          selectboi_staff === undefined ||
+          selectboi_staff === "" ||
+          selectboi_staff === "null"
+        ) {
+          alert("Please fill in information: BOI Staff");
+          setErrorBoi_Staff(true);
+          return;
+        } else {
+          setErrorBoi_Staff(false);
+        }
+        if (
+          selectboi_manager === null ||
+          selectboi_manager === undefined ||
+          selectboi_manager === "" ||
+          selectboi_manager === "null"
+        ) {
+          alert("Please fill in information: BOI Manager");
+          setErrorBoi_manager(true);
+          return;
+        } else {
+          setErrorBoi_manager(false);
+        }
+        if (
+          selectfac_manager === null ||
+          selectfac_manager === undefined ||
+          selectfac_manager === "" ||
+          selectfac_manager === "null"
+        ) {
+          alert("Please fill in information: Factory Manager");
+          setErrorMana_Fac(true);
+          return;
+        } else {
+          setErrorMana_Fac(false);
+        }
+        if (
+          selectacc_check === null ||
+          selectacc_check === undefined ||
+          selectacc_check === "" ||
+          selectacc_check === "null"
+        ) {
+          alert("Please fill in information: ACC Check");
+          setErrorAcc_check(true);
+          return;
+        } else {
+          setErrorAcc_check(false);
+        }
+
+        //Scrap
+        if (
+          selectpte_env === null ||
+          selectpte_env === undefined ||
+          selectpte_env === "" ||
+          selectpte_env === "null"
+        ) {
+          alert("Please fill in information: PTE(ENV)");
+          setErrorPTE_ENV(true);
+          return;
+        } else {
+          setErrorPTE_ENV(false);
+        }
+        if (
+          selectpln_staff === null ||
+          selectpln_staff === undefined ||
+          selectpln_staff === "" ||
+          selectpln_staff === "null"
+        ) {
+          alert("Please fill in information: PLN Staff");
+          setErrorPLN_Staff(true);
+          return;
+        } else {
+          setErrorPLN_Staff(false);
+        }
+        if (
+          selectshipping_staff === null ||
+          selectshipping_staff === undefined ||
+          selectshipping_staff === "" ||
+          selectshipping_staff === "null"
+        ) {
+          alert("Please fill in information: Shipping Staff");
+          setErrorShipping(true);
+          return;
+        } else {
+          setErrorShipping(false);
+        }
+
+        if (
+          selectacc_manager === null ||
+          selectacc_manager === undefined ||
+          selectacc_manager === "" ||
+          selectacc_manager === "null"
+        ) {
+          alert("Please fill in information: ACC Manager");
+          setErrorAcc_Mana(true);
+          return;
+        } else {
+          setErrorAcc_Mana(false);
+        }
+        //Submit Scrap
+        if (For_Req[10] === "FLSC001") {
+          let Status = "FLSC002";
+          try {
+            const response = await axios.post("/update_submit", {
+              famno: For_Req[0],
+              sts_submit: Status,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
+
+          try {
+            const response = await axios.post("/Update_For_Req_All", {
+              famno: For_Req[0],
+              dept: For_Req[5],
+              tel: For_Req[2],
+              remark: For_Req[12],
+              mrg_dept: selectdepartment_mana,
+              serviceby: selectservice_by,
+              servicetel: Tel_service,
+              boisff: selectboi_staff,
+              boimrg: selectboi_manager,
+              fmby: selectfac_manager,
+              accchk: selectacc_check,
+              accmrg: selectacc_manager,
+              updateby: For_Req[1],
+              record_by: text_acc_check,
+              owner_id: For_Req[15],
+              owner_dept: For_Req[16],
+              owner_tel: For_Req[17],
+              service_close: selectservice_by,
+              owner_by: owner_roting,
+              service_dt: ServiceDept,
+            });
+          } catch (error) {
+            console.error("Error updating submit status:", error.message);
+          }
+
+          try {
+            const response = await axios.post("/insert_scrap", {
+              famno: For_Req[0],
+              pte_env: selectpte_env,
+              pln_staff: selectpln_staff,
+              shipping: selectshipping_staff,
+              create_by: For_Req[1],
+            });
+          } catch (error) {
+            console.error("Error insert_scrap :", error);
+          }
+          localStorage.setItem("To", selectdepartment_mana);
+          localStorage.setItem("Genno", For_Req[0]);
+          localStorage.setItem("Req_Type", For_Req[6]);
+          localStorage.setItem("Req_by", For_Req[1]);
+          localStorage.setItem("Status", Status);
+          //navigate("/Mail");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -11906,13 +13622,12 @@ console.log(STS,"STS")
         // setCheckSubmit("False")
       }
     }
-
     closePopupLoadding();
   };
   // ปุ่ม Reset
   const Reset = async () => {
     if (EditFam !== null) {
-      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R") {
+      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R" || STS1 == "FLLS001" || STS1 == "FLWO001" || STS1 == "FLSC001" || STS1 == "FLDN001" || STS1 == "FLLD001" ) {
         setselecttrans_factory([]);
         setselecttrans_cc([]);
         setnew_boi("");
@@ -11928,32 +13643,37 @@ console.log(STS,"STS")
         setselectfac_manager([]);
         setselectacc_check([]);
         setselectacc_manager([]);
+        setreturn_selectacc_manager([]);
+        setselectpte_env([]);
+        setselectpln_staff([]);
+        setselectshipping_staff([]);
+      
       }
-      if (STS1 == "FLTR002") {
+      if (STS1 == "FLTR002" || STS1 == "FLWO002" || STS1 == "FLLS002" || STS1 == "FLSC002" || STS1 == "FLDN002" || STS1 == "FLLD002" ) {
         setselectradio_dept("A");
         setcmmtradio_dept("");
       }
-      if (STS1 == "FLTR003") {
+      if (STS1 == "FLTR003" || STS1 == "FLWO003" || STS1 == "FLLS003" || STS1 == "FLSC003" || STS1 == "FLDN003" || STS1 == "FLLD003") {
         setselectradio_serviceby("A");
         setcmmtradio_serviceby("");
       }
-      if (STS1 == "FLTR004") {
+      if (STS1 == "FLTR004" || STS1 == "FLWO004" || STS1 == "FLLS004" || STS1 == "FLSC004" || STS1 == "FLDN004" || STS1 == "FLLD004") {
         setselectradio_boistaff("A");
         setcmmtradio_boistaff("");
       }
-      if (STS1 == "FLTR005") {
+      if (STS1 == "FLTR005"|| STS1 == "FLWO005" || STS1 == "FLLS005" || STS1 == "FLSC005" || STS1 == "FLDN005" || STS1 == "FLLD005") {
         setselectradio_boimanager("A");
         setcmmtradio_boimanager("");
       }
-      if (STS1 == "FLTR006") {
+      if (STS1 == "FLTR006"|| STS1 == "FLWO006" || STS1 == "FLLS006" || STS1 == "FLSC006" || STS1 == "FLDN006" || STS1 == "FLLD006") {
         setselectradio_facmanager("A");
         setcmmtradio_facmanager("");
       }
-      if (STS1 == "FLTR007") {
+      if (STS1 == "FLTR007"|| STS1 == "FLWO007" || STS1 == "FLLS007" || STS1 == "FLSC007" || STS1 == "FLDN007" || STS1 == "FLLD007") {
         setselectradio_acc_check("A");
         setcmmtradio_acc_check("");
       }
-      if (STS1 == "FLTR008") {
+      if (STS1 == "FLTR008"|| STS1 == "FLWO008" || STS1 == "FLLS008" || STS1 == "FLSC008" || STS1 == "FLDN008" || STS1 == "FLLD008") {
         setselectradio_owner("A");
         setcmmtradio_owner("");
       }
@@ -11961,15 +13681,15 @@ console.log(STS,"STS")
         setselectradio_receiver("A");
         setcmmtradio_receiver("");
       }
-      if (STS1 == "FLTR010") {
+      if (STS1 == "FLTR010" || STS1 == "FLWO010" || STS1 == "FLLS010" || STS1 == "FLSC010" || STS1 == "FLDN010" || STS1 == "FLLD010") {
         setselectradio_record("A");
         setcmmtradio_record("");
       }
-      if (STS1 == "FLTR011") {
+      if (STS1 == "FLTR011"|| STS1 == "FLWO011" || STS1 == "FLLS011" || STS1 == "FLSC011" || STS1 == "FLDN011" || STS1 == "FLLD011") {
         setselectradio_acc_manager("A");
         setcmmtradio_acc_manager("");
       }
-      if (STS1 == "FLTR012") {
+      if (STS1 == "FLTR012"|| STS1 == "FLWO012" || STS1 == "FLLS012" || STS1 == "FLSC012" || STS1 == "FLDN012" || STS1 == "FLLD012") {
         setselectradio_service_close_by("A");
         setcmmtradio_service_close_by("");
       }
@@ -11988,7 +13708,12 @@ console.log(STS,"STS")
       setselectboi_manager([]);
       setselectfac_manager([]);
       setselectacc_check([]);
-      setselectacc_manager([]);
+      setselectacc_manager([]);      
+      setreturn_selectacc_manager([]);
+      setselectpte_env([]);
+      setselectpln_staff([]);
+      setselectshipping_staff([]);
+    
     }
   };
 
@@ -12064,7 +13789,6 @@ console.log(STS,"STS")
       console.error("Error during login:", error);
     }
   };
-
   const Service_By = async () => {
     let level = "";
     let cc = "";
@@ -12118,7 +13842,6 @@ console.log(STS,"STS")
       console.error("Error during login:", error);
     }
   };
-
   const BOI_Staff = async () => {
     let level = "";
     if (EditFam != null) {
@@ -12165,10 +13888,13 @@ console.log(STS,"STS")
       });
       const data = response.data.flat();
       setboi_manager(data);
+      setboi_input_data(data);
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectboi_manager(For_Edit_Rou[0][12]);
+          setselectboi_input_data(Edit_For_Sale[0][25])
         }
+        
       } else {
         if (For_Req != null) {
           setselectboi_manager(For_Rou[6]);
@@ -12314,10 +14040,17 @@ console.log(STS,"STS")
       });
       const data = response.data.flat();
       setpte_env(data);
+      setpte_input_weight_size(data);
 
-      if (EditFam != null) {
-        if (Edit_For_Scrap != null) {
+      if (EditFam != null) { 
+        
+        if (Edit_For_Scrap.length >0 ) {
           setselectpte_env(Edit_For_Scrap[0][1]);
+        }else if(Edit_For_Sale.length >0 ){
+          setselectpte_input_weight_size(Edit_For_Sale[0][1])
+          setpte_dept(Edit_For_Sale[0][21])
+          setexport_clearance(Edit_For_Sale[0][25])
+          setpte_upload_file(Edit_For_Sale[0][29])
         }
       } else {
         if (For_Req != null) {
@@ -12345,10 +14078,16 @@ console.log(STS,"STS")
       });
       const data = response.data.flat();
       setpln_staff(data);
+      setpln_staff_boi(data);
 
       if (EditFam != null) {
-        if (Edit_For_Scrap != null) {
+        if (Edit_For_Scrap.length >0) {
           setselectpln_staff(Edit_For_Scrap[0][4]);
+        }else{
+          setselectpln_staff_boi(Edit_For_Sale[0][4])
+          setpln_staff_bidding(Edit_For_Sale[0][17])
+          setpln_req_inv(Edit_For_Sale[0][33])
+          setpln_upload_final(Edit_For_Sale[0][39])
         }
       } else {
         if (For_Req != null) {
@@ -12361,7 +14100,6 @@ console.log(STS,"STS")
       console.error("Error during login:", error);
     }
   };
-
   const Shipping = async () => {
     let level = "";
     if (EditFam != null) {
@@ -12377,17 +14115,52 @@ console.log(STS,"STS")
       });
       const data = response.data.flat();
       setshipping_staff(data);
-      console.log(data, "shipping");
 
       if (EditFam != null) {
-        if (Edit_For_Scrap != null) {
+        if (Edit_For_Scrap.length >0) {
           setselectshipping_staff(Edit_For_Scrap[0][7]);
+        }else if(Edit_For_Sale.length >0) {
+          setship_input_inv(Edit_For_Sale[0][36])
         }
       } else {
         if (For_Req != null) {
           setselectshipping_staff(For_Rou[10]);
         } else {
           setselectshipping_staff("");
+        }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  const Import_boi = async () => {
+    console.log("ก็เข้ามา",EditFam)
+    let level = "";
+    if (EditFam != null) {
+      if (For_edit_trans != null) {
+        level = For_Rq_Edit[14];
+      }
+    } else {
+      level = For_Req[3];
+    }
+    try {
+      const response = await axios.post("/import_boi", {
+        fac: level,
+      });
+      const data = response.data.flat();
+      setimport_boi_prepare(data);
+
+      if (EditFam != null) {
+        console.log(EditFam,"LLLLLLLLL")
+        if (Edit_For_Sale.length > 0) {
+          setselectimport_boi_prepare(Edit_For_Sale[0][7]);
+          setthai_catergories(Edit_For_Sale[0][13])
+        }
+      } else {
+        if (For_Req != null) {
+          // setimport_boi_prepare(For_Rou[10]);
+        } else {
+          setselectimport_boi_prepare("");
         }
       }
     } catch (error) {
@@ -12759,7 +14532,22 @@ console.log(STS,"STS")
     CM_pte_env,
     CM_pln_staff,
     CM_shipping,
-    setcmmtradio_pln_staff,setcmmtradio__shipping
+    setcmmtradio_pln_staff,setcmmtradio__shipping,pte_input_weight_size, setpte_input_weight_size,
+    selectpte_input_weight_size,setselectpte_input_weight_size,selectpln_staff_boi,setpln_staff_boi,
+    
+    selectboi_input_data,setselectboi_input_data,
+    pln_staff_boi, setpln_staff_boi,
+    selectpln_staff_boi, setselectpln_staff_boi,
+    import_boi_prepare, setimport_boi_prepare,
+    selectimport_boi_prepare, setselectimport_boi_prepare,
+    boi_input_data, setboi_input_data,
+    thai_catergories, setthai_catergories,
+    pln_staff_bidding, setpln_staff_bidding,
+    pte_dept, setpte_dept,
+    pln_req_inv, setpln_req_inv,
+    ship_input_inv, setship_input_inv,
+    pln_upload_final, setpln_upload_final,
+    export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file
   };
 }
 

@@ -171,7 +171,6 @@ module.exports.type = async function (req, res) {
 module.exports.findsts = async function (req, res) {
   try {
     const { Type } = req.body;
-    console.log(Type, "Type");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT FFM_CODE ,FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_TYPE = '${Type}'
@@ -216,7 +215,6 @@ module.exports.search = async function (req, res) {
       ReDate,
       ReDateTo,
     } = req.body;
-    console.log(ReDate, ReDateTo, "เข้านะ");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -250,7 +248,6 @@ module.exports.search = async function (req, res) {
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
-    console.log(query);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -321,7 +318,6 @@ module.exports.search2 = async function (req, res) {
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
-    console.log(query);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -329,7 +325,6 @@ module.exports.search2 = async function (req, res) {
 module.exports.fixcode = async function (req, res) {
   try {
     const { Fixcode, asset_cc, fixgroup } = req.body;
-    console.log("มาแล้วววววววววววววว", Fixcode, asset_cc, fixgroup);
     const fixgroupString = fixgroup.map((value) => `'${value}'`).join(", ");
     const connect = await oracledb.getConnection(QAD);
     const query = `
@@ -372,7 +367,6 @@ ORDER BY
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
-    console.log(query);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -446,9 +440,7 @@ ORDER BY
 //Status
 module.exports.status = async function (req, res) {
   try {
-    console.log("FGGGG");
     const { type } = req.body;
-    console.log("type", type);
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT T.FFM_CODE, T.FFM_DESC 
@@ -497,7 +489,6 @@ module.exports.find_service = async function (req, res) {
     const result = await connect.execute(query);
     connect.release();
     res.json(result.rows);
-    console.log(query, "query");
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -619,7 +610,6 @@ module.exports.create_date = async function (req, res) {
 module.exports.update_date = async function (req, res) {
   try {
     const { tranfer } = req.body;
-    console.log(tranfer);
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_HEADER 
@@ -1070,6 +1060,25 @@ module.exports.pln_staff_data = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล pln_staff_data :", error.message);
   }
 };
+// D15.1 Import & BOI prepare
+module.exports.import_boi = async function (req, res) {
+  try {
+    const { fac } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT T.FPM_USER_LOGIN FROM FAM_PERSON_MASTER T 
+    WHERE T.FPM_LEVEL = 'GP02010' 
+    AND T.FPM_FACTORY = '${fac}'
+    AND T.FPM_CC = 'ALL' AND T.FPM_PERSON_STS = 'A'
+    ORDER BY T.FPM_PRIORITY,T.FPM_USER_LOGIN
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล import_boi :", error.message);
+  }
+};
 // D16 Shipping
 
 module.exports.shipping_data = async function (req, res) {
@@ -1220,7 +1229,6 @@ module.exports.receiver_tranfer = async function (req, res) {
     const result = await connect.execute(query, data, { autoCommit: true });
 
     if (result) {
-      // // // // console.log("Rows updated:", result.rowsAffected);
       res.json(result);
     } else {
       console.error("Error: Unexpected result from the database");
@@ -1287,7 +1295,6 @@ module.exports.header = async function (req, res) {
 module.exports.update_submit = async function (req, res) {
   try {
     const { famno, sts_submit } = req.body;
-    console.log("เข้า", famno, sts_submit);
     const connect = await oracledb.getConnection(AVO);
     const query = `
       UPDATE FAM_REQ_HEADER T
@@ -1394,7 +1401,6 @@ module.exports.get_run_seq_request = async function (req, res) {
 };
 // get run ownersend
 module.exports.get_run_owner_file = async function (req, res) {
-  console.log("GGGGGGGGGGGGGGGGGG");
   try {
     const { FAM_no } = req.body;
     const connect = await oracledb.getConnection(AVO);
@@ -1420,7 +1426,6 @@ module.exports.get_run_owner_file = async function (req, res) {
 module.exports.get_run_owner_file_return = async function (req, res) {
   try {
     const { FAM_no } = req.body;
-    console.log(FAM_no, "Return");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT MAX(T.FFA_FILE_SEQ) AS RUN_SEQ_MAX 
@@ -3186,7 +3191,12 @@ module.exports.fix_code_find = async function (req, res) {
     FROM FAM_REQ_DETAIL F 
     LEFT JOIN FAM_REQ_HEADER T ON T.FRH_FAM_NO = F.FRD_FAM_NO 
     WHERE F.FRD_ASSET_CODE  = :assetcode 
-    AND T.FAM_REQ_STATUS NOT IN ('FLTR013','FLTR999')
+    AND T.FAM_REQ_STATUS NOT IN ('FLTR013', 'FLTR999', 
+    'FLDN013', 'FLDN999',
+  'FLLD013', 'FLLD999', 
+  'FLLS013', 'FLLS999',
+  'FLSC013', 'FLSC999', 
+  'FLWO013', 'FLWO999')
     ORDER BY FRD_COMP ASC
            `;
     const data = {
@@ -3209,7 +3219,12 @@ module.exports.get_COMP = async function (req, res) {
     FROM AVO.FAM_REQ_HEADER FH 
     INNER JOIN AVO.FAM_REQ_DETAIL FD ON FD.FRD_FAM_NO = FH.FRH_FAM_NO 
     WHERE SUBSTR(FD.FRD_FAM_NO, 1, 6) = SUBSTR('${fam_no}', 1, 6)
-        AND FH.FAM_REQ_STATUS NOT IN ('FLTR013','FLTR999')
+        AND FH.FAM_REQ_STATUS NOT IN ('FLTR013', 'FLTR999', 
+        'FLDN013', 'FLDN999',
+      'FLLD013', 'FLLD999', 
+      'FLLS013', 'FLLS999',
+      'FLSC013', 'FLSC999', 
+      'FLWO013', 'FLWO999')
            `;
     const result = await connect.execute(query);
     connect.release();
@@ -3285,7 +3300,6 @@ module.exports.searchFamMaster = async function (req, res) {
       ByID,
       StsID,
     } = req.body;
-    console.log(DateTo, "YUYUYUYUYUYYUYU");
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT DISTINCT M.FACTORY_NAME AS FACTORY,
@@ -3324,7 +3338,6 @@ module.exports.searchFamMaster = async function (req, res) {
     connect.release();
     res.json(result.rows);
 
-    console.log(query);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
   }
@@ -3406,13 +3419,7 @@ FROM FAM_REQ_HEADER frh WHERE FRH_FAM_NO = '${famno}'
 module.exports.insert_leading = async function (req, res) {
   try {
     const { tranfer, acc_return, req_reuturn, req_reuturn_by } = req.body;
-    console.log(
-      tranfer,
-      acc_return,
-      req_reuturn,
-      req_reuturn_by,
-      "LLLLLLLLLLLLLLLLLLLLLLLLL"
-    );
+  
     const connect = await oracledb.getConnection(AVO);
     const query = `
     INSERT INTO FAM_REQ_LENDING
@@ -3522,7 +3529,6 @@ module.exports.update_leading_acc_return = async function (req, res) {
 module.exports.update_leading_own_return = async function (req, res) {
   try {
     const { tranfer, own_return_cmmt } = req.body;
-    console.log("UIUI", tranfer, own_return_cmmt);
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_LENDING 
@@ -3548,7 +3554,6 @@ module.exports.update_leading_own_return = async function (req, res) {
 module.exports.insert_scrap = async function (req, res) {
   try {
     const { famno, pte_env, pln_staff, shipping, create_by } = req.body;
-    console.log("GGGGG", famno, pte_env, pln_staff, shipping, create_by);
     const connect = await oracledb.getConnection(AVO); // Assuming AVO is your connection details object
     const query = `
     INSERT INTO FAM_REQ_SCRAP 
@@ -3579,52 +3584,13 @@ VALUES
 
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
-    console.log(query, "gggg");
     res.status(200).json({ success: true }); // send response
   } catch (error) {
     console.error("Error: insert_scrap", error);
     res.status(500).send("Internal Server Error");
   }
 };
-module.exports.insert_scrap = async function (req, res) {
-  try {
-    const { famno, pte_env, pln_staff, shipping, create_by } = req.body;
-    const connect = await oracledb.getConnection(AVO);
-    const query = `
-    INSERT INTO FAM_REQ_SCRAP 
-    (FRSC_FAM_NO,
-    FRSC_ENV_BY,
-    FRSC_PLN_BY,
-    FRSC_SHP_BY,
-    FRSC_CREATE_DATE,
-    FRSC_CREATE_BY
-  )
-VALUES 
-    (:famno,
-    :pte_env,
-    :pln_staff,
-    :shipping,
-    SYSDATE,
-  :create_by)
 
-    `;
-
-    const data = {
-      famno,
-      pte_env,
-      pln_staff,
-      shipping,
-      create_by,
-    };
-
-    const result = await connect.execute(query, data, { autoCommit: true });
-    connect.release();
-    res.status(200).json({ success: true }); // send response
-  } catch (error) {
-    console.error("Error: insert_scrap", error);
-    res.status(500).send("Internal Server Error");
-  }
-};
 
 module.exports.update_scrap = async function (req, res) {
   try {
@@ -3830,7 +3796,6 @@ module.exports.insert_unit_price = async function (req, res) {
 module.exports.insert_invoice = async function (req, res) {
   try {
     const { famno,idfix_asset,namefixasset,invoice_no } = req.body;
-   console.log(famno,idfix_asset,namefixasset,invoice_no,"GGG")
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_DETAIL 
@@ -3892,7 +3857,6 @@ module.exports.get_size = async function (req, res) {
 module.exports.get_unitprice = async function (req, res) {
   try {
     const { famno } = req.body;
-    console.log(famno,"famno")
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -3961,20 +3925,255 @@ module.exports.update_for_nullScarp = async function (req, res) {
 module.exports.update_for_nullLending = async function (req, res) {
   try {
     const {famno} = req.body;
+    console.log(famno,"famno")
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_LENDING
+SET
+  FRL_ACC_MGR_DATE = NULL,
+  FRL_ACC_MGR_RETURN = NULL,
+  FRL_ACC_MGR_JUD = NULL,
+  FRL_ACC_MGR_CMMT = NULL,
+  FRL_OWNER_DATE = NULL,
+  FRL_OWNER_CMMT = NULL
+WHERE
+  FRL_FAM_NO = :famno
+
+  `;
+    const data = {
+      famno
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_for_nullLending:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+// Sales
+module.exports.update_sale = async function (req, res) {
+  try {
+    const { famno, updateinput_ws, update_plnboi, updateboi_prerare, updatedata_import,
+      updatethai_catergories,updatebidding,updateindustrial,updateclerance,update_upload_file_after,
+      updatereq_inv,updateinput_in,updatepayment,update_by
+     } = req.body;
+    
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+   UPDATE FAM_REQ_SALES 
+    SET FRSL_ENV1_BY = :updateinput_ws,
+    FRSL_PLN1_BY = :update_plnboi,
+    FRSL_IMP1_BY = :updateboi_prerare,
+    FRSL_BOI1_BY = :updatedata_import,
+    FRSL_IMP2_BY = :updatethai_catergories ,
+    FRSL_PLN2_BY = :updatebidding,
+    FRSL_ENV2_BY = :updateindustrial,
+    FRSL_BOI2_BY = :updateclerance,
+    FRSL_ENV3_BY = :update_upload_file_after,
+    FRSL_PLN3_BY = :updatereq_inv ,
+    FRSL_SHP_BY = :updateinput_in,
+    FRSL_PLN4_BY = :updatepayment,
+    FRSL_UPDATE_BY =:update_by,
+    FRSL_UPDATE_DATE = SYSDATE 
+    WHERE FRSL_FAM_NO = :famno
+  `;
+
+    const data = {
+      famno, updateinput_ws, update_plnboi, updateboi_prerare, updatedata_import,
+      updatethai_catergories,updatebidding,updateindustrial,updateclerance,update_upload_file_after,
+      updatereq_inv,updateinput_in,updatepayment,update_by
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in update_scrap:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.insert_sale = async function (req, res) {
+  try {
+    const {famno, 
+      createinput_ws, 
+      create_plnboi, 
+      createboi_prerare, 
+      createdata_import,
+      createthai_catergories,
+      createbidding,
+      createindustrial,
+      createclerance,
+      create_upload_file_after,
+      createreq_inv,
+      createinput_in,
+      createpayment,
+      create_by} = req.body;
+     
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+   INSERT INTO FAM_REQ_SALES 
+    (FRSL_FAM_NO,
+    FRSL_ENV1_BY,
+    FRSL_PLN1_BY,
+    FRSL_IMP1_BY,
+    FRSL_BOI1_BY,
+    FRSL_IMP2_BY,
+    FRSL_PLN2_BY,
+    FRSL_ENV2_BY,
+    FRSL_BOI2_BY,
+    FRSL_ENV3_BY,
+    FRSL_PLN3_BY,
+    FRSL_SHP_BY,
+    FRSL_PLN4_BY,
+    FRSL_CREATE_BY,
+    FRSL_CREATE_DATE
+  )
+VALUES 
+    (:famno,
+:createinput_ws,
+    :create_plnboi,
+    :createboi_prerare,
+    :createdata_import,
+    :createthai_catergories,
+  :createbidding,
+  :createindustrial,
+  :createclerance,
+  :create_upload_file_after,
+  :createreq_inv,
+  :createinput_in,
+  :createpayment,
+  :create_by,
+  SYSDATE)
+
+    `;
+
+    const data = {
+      famno, 
+      createinput_ws, 
+      create_plnboi, 
+      createboi_prerare, 
+      createdata_import,
+      createthai_catergories,
+      createbidding,
+      createindustrial,
+      createclerance,
+      create_upload_file_after,
+      createreq_inv,
+      createinput_in,
+      createpayment,
+      create_by
+    };
+
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.status(200).json({ success: true }); 
+  } catch (error) {
+    console.error("Error: insert_sale", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.getEdit_sale = async function (req, res) {
+  try {
+    const { famno } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+   
+ SELECT
+	FRSL_FAM_NO ,
+	FRSL_ENV1_BY,
+	TO_CHAR(FRSL_ENV1_DATE, 'DD/MM/YYYY') ,
+	FRSL_ENV1_CMMT,
+	FRSL_PLN1_BY,
+	TO_CHAR(FRSL_PLN1_DATE, 'DD/MM/YYYY') ,
+	FRSL_PLN1_CMMT ,
+	FRSL_IMP1_BY ,
+	TO_CHAR(FRSL_IMP1_DATE, 'DD/MM/YYYY') ,
+	FRSL_IMP1_CMMT,
+	FRSL_BOI1_BY ,
+	TO_CHAR(FRSL_BOI1_DATE, 'DD/MM/YYYY') ,
+	FRSL_BOI1_CMMT,
+	FRSL_IMP2_BY ,
+	TO_CHAR(FRSL_IMP2_CATEGORY, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_IMP2_DATE, 'DD/MM/YYYY') ,
+	FRSL_IMP2_CMMT,
+	FRSL_PLN2_BY ,
+	TO_CHAR(FRSL_PLN2_DATE, 'DD/MM/YYYY') ,
+	FRSL_PLN2_BIDDING,
+	FRSL_PLN2_CMMT,
+	FRSL_ENV2_BY,
+	TO_CHAR(FRSL_ENV2_CONTACT_DATE, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_ENV2_DATE, 'DD/MM/YYYY') ,
+	FRSL_ENV2_CMMT,
+	FRSL_BOI1_BY ,
+	TO_CHAR(FRSL_BOI2_CLEAR_DATE, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_BOI2_DATE, 'DD/MM/YYYY') ,
+	FRSL_BOI2_CMMT,
+	FRSL_ENV3_BY ,
+	TO_CHAR(FRSL_ENV3_CONTACT_DATE, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_ENV3_DATE, 'DD/MM/YYYY') ,
+	FRSL_ENV3_CMMT,
+	FRSL_PLN3_BY ,
+	TO_CHAR(FRSL_PLN3_DATE, 'DD/MM/YYYY') ,
+	FRSL_PLN3_CMMT,
+	FRSL_SHP_BY ,
+	TO_CHAR(FRSL_SHP_DATE, 'DD/MM/YYYY') ,
+	FRSL_SHP_CMMT,
+	FRSL_PLN4_BY ,
+	TO_CHAR(FRSL_PLN4_DATE, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_PLN4_MOVE_DATE, 'DD/MM/YYYY') ,
+	FRSL_PLN4_CMMT
+FROM
+	FAM_REQ_SALES
+WHERE
+	FRSL_FAM_NO = '${famno}'
+           `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("getEdit_sale Error:", error.message);
+  }
+};
+module.exports.update_for_nullSale = async function (req, res) {
+  try {
+    const {famno} = req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE
-    FAM_REQ_SCRAP A
+    FAM_REQ_SALES 
   SET
-  A.FRL_ACC_MGR_DATE = NULL,
-  A.FRL_ACC_MGR_RETURN = NULL ,
-  A.FRL_ACC_MGR_JUD = NULL ,
-  A.FRL_ACC_MGR_CMMT = NULL ,
-  A.FRL_OWNER_DATE = NULL ,
-  A.FRL_OWNER_CMMT = NULL 
+  FRSL_ENV1_DATE = NULL,
+  FRSL_ENV1_CMMT = NULL ,
+  FRSL_PLN1_DATE = NULL ,
+  FRSL_PLN1_CMMT = NULL ,
+  FRSL_IMP1_DATE = NULL ,
+  FRSL_IMP1_CMMT = NULL ,
+  FRSL_BOI1_DATE= NULL,
+  FRSL_BOI1_CMMT= NULL,
+  FRSL_IMP2_CATEGORY= NULL,
+  FRSL_IMP2_DATE= NULL,
+  FRSL_IMP2_CMMT= NULL,
+  FRSL_PLN2_DATE= NULL,
+  FRSL_PLN2_BIDDING= NULL,
+  FRSL_PLN2_CMMT= NULL,
+  FRSL_ENV2_CONTACT_DATE= NULL,
+  FRSL_ENV2_DATE= NULL,
+  FRSL_ENV2_CMMT= NULL,
+  FRSL_BOI2_CLEAR_DATE= NULL,
+  FRSL_BOI2_DATE= NULL,
+  FRSL_BOI2_CMMT= NULL,
+  FRSL_ENV3_CONTACT_DATE= NULL,
+  FRSL_ENV3_DATE= NULL,
+  FRSL_ENV3_CMMT= NULL,
+  FRSL_PLN3_DATE= NULL,
+  FRSL_PLN3_CMMT= NULL,
+  FRSL_SHP_DATE= NULL,
+  FRSL_SHP_CMMT= NULL,
+  FRSL_PLN4_DATE= NULL,
+  FRSL_PLN4_MOVE_DATE= NULL,
+  FRSL_PLN4_CMMT= NULL
   WHERE
-  A.FRL_FAM_NO = :famno 
-    
+  FRSL_FAM_NO = :famno 
   `;
     const data = {
       famno
@@ -3984,6 +4183,54 @@ module.exports.update_for_nullLending = async function (req, res) {
     res.json(result);
   } catch (error) {
     console.error("Error insert_invoice:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_sale_ws = async function (req, res) {
+  try {
+    const { tranfer, updateinput_ws_cmmt} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_ENV1_CMMT = :updateinput_ws_cmmt ,
+    FRSL_ENV1_DATE = SYSDATE
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updateinput_ws_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_sale_pln_staff_boi = async function (req, res) {
+  try {
+    const { tranfer, updatepln_staff_boi_cmmt} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_PLN1_CMMT = :updatepln_staff_boi_cmmt ,
+    FRSL_PLN1_DATE = SYSDATE
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updatepln_staff_boi_cmmt
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error in querying data:", error.message);
     res.status(500).send("Internal Server Error");
   }
 };
