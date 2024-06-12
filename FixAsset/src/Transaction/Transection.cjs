@@ -269,7 +269,7 @@ module.exports.search2 = async function (req, res) {
     } = req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
-    SELECT
+      SELECT
     DISTINCT M.FACTORY_NAME AS FACTORY,
     T.FAM_REQ_OWNER_CC AS COSTCENTER,
     T.FRH_FAM_NO AS FAMNO,
@@ -287,22 +287,35 @@ module.exports.search2 = async function (req, res) {
   LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_LENDING L ON L.FRL_FAM_NO = T.FRH_FAM_NO
   LEFT JOIN FAM_REQ_SCRAP S ON S.FRSC_FAM_NO  =T.FRH_FAM_NO 
+  LEFT JOIN FAM_REQ_SALES SA ON SA.FRSL_FAM_NO =T.FRH_FAM_NO 
   WHERE  1=1
-  AND((T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002','FLSC002'))
-    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003','FLSC003'))
-    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004','FLSC004'))
-    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005','FLSC005'))
-    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006','FLSC006'))
-    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007','FLSC007'))
-    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008','FLSC008'))
+  AND((T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS IN ('FLTR002','FLWO002','FLLS002','FLDN002','FLLD002','FLSC002','FLSL002'))
+    OR (T.FAM_SERVICE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR003','FLWO003','FLLS003','FLDN003','FLLD003','FLSC003','FLSL003'))
+    OR (T.FAM_BOI_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR004','FLWO004','FLLS004','FLDN004','FLLD004','FLSC004','FLSL004'))
+    OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR005','FLWO005','FLLS005','FLDN005','FLLD005','FLSC005','FLSL005'))
+    OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR006','FLWO006','FLLS006','FLDN006','FLLD006','FLSC006','FLSL006'))
+    OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007','FLSC007','FLSL007'))
+    OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008','FLSC008','FLSL008'))
     OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
-    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010'))
-    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011'))
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012'))
+    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010','FLSL020'))
+    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011','FLSL021'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012','FLSL022'))
     OR (L.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD009'))
     OR (S.FRSC_ENV_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC009'))
     OR (S.FRSC_PLN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC100'))
     OR (S.FRSC_SHP_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC101'))
+    OR (SA.FRSL_ENV1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL009'))
+    OR (SA.FRSL_PLN1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL010'))
+    OR (SA.FRSL_IMP1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL011'))
+    OR (SA.FRSL_BOI1_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL012'))
+    OR (SA.FRSL_IMP2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL013'))
+    OR (SA.FRSL_PLN2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL014'))
+    OR (SA.FRSL_ENV2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL015'))
+    OR (SA.FRSL_BOI2_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL016'))
+    OR (SA.FRSL_ENV3_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL017'))
+    OR (SA.FRSL_PLN3_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL018'))
+    OR (SA.FRSL_SHP_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL019'))
+    OR (SA.FRSL_PLN4_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSL020'))
     OR (L.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD100')))
     AND (T.FAM_FACTORY = '${FacCode}' OR '${FacCode}' IS NULL)
     AND (TRIM(T.FAM_REQ_DEPT) = '${DeptCode}' OR '${DeptCode}' IS NULL)
@@ -4093,7 +4106,7 @@ module.exports.getEdit_sale = async function (req, res) {
 	TO_CHAR(FRSL_BOI1_DATE, 'DD/MM/YYYY') ,
 	FRSL_BOI1_CMMT,
 	FRSL_IMP2_BY ,
-	TO_CHAR(FRSL_IMP2_CATEGORY, 'DD/MM/YYYY') ,
+	FRSL_IMP2_CATEGORY,
 	TO_CHAR(FRSL_IMP2_DATE, 'DD/MM/YYYY') ,
 	FRSL_IMP2_CMMT,
 	FRSL_PLN2_BY ,
@@ -4101,15 +4114,15 @@ module.exports.getEdit_sale = async function (req, res) {
 	FRSL_PLN2_BIDDING,
 	FRSL_PLN2_CMMT,
 	FRSL_ENV2_BY,
-	TO_CHAR(FRSL_ENV2_CONTACT_DATE, 'DD/MM/YYYY') ,
+	TO_CHAR(FRSL_ENV2_CONTACT_DATE, 'YYYY-MM-DD') ,
 	TO_CHAR(FRSL_ENV2_DATE, 'DD/MM/YYYY') ,
 	FRSL_ENV2_CMMT,
 	FRSL_BOI1_BY ,
-	TO_CHAR(FRSL_BOI2_CLEAR_DATE, 'DD/MM/YYYY') ,
+  TO_CHAR(FRSL_BOI2_CLEAR_DATE, 'YYYY-MM-DD') ,
 	TO_CHAR(FRSL_BOI2_DATE, 'DD/MM/YYYY') ,
 	FRSL_BOI2_CMMT,
 	FRSL_ENV3_BY ,
-	TO_CHAR(FRSL_ENV3_CONTACT_DATE, 'DD/MM/YYYY') ,
+  TO_CHAR(FRSL_ENV3_CONTACT_DATE, 'YYYY-MM-DD') ,
 	TO_CHAR(FRSL_ENV3_DATE, 'DD/MM/YYYY') ,
 	FRSL_ENV3_CMMT,
 	FRSL_PLN3_BY ,
@@ -4120,7 +4133,7 @@ module.exports.getEdit_sale = async function (req, res) {
 	FRSL_SHP_CMMT,
 	FRSL_PLN4_BY ,
 	TO_CHAR(FRSL_PLN4_DATE, 'DD/MM/YYYY') ,
-	TO_CHAR(FRSL_PLN4_MOVE_DATE, 'DD/MM/YYYY') ,
+   TO_CHAR(FRSL_PLN4_MOVE_DATE, 'YYYY-MM-DD') ,
 	FRSL_PLN4_CMMT
 FROM
 	FAM_REQ_SALES
@@ -4231,6 +4244,250 @@ module.exports.update_sale_pln_staff_boi = async function (req, res) {
     res.json(result);
   } catch (error) {
     console.error("Error in querying data:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_import_boi_prepare = async function (req, res) {
+  try {
+    const { tranfer, updateimport_boi_prepare} =
+      req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_IMP1_CMMT = :updateimport_boi_prepare ,
+    FRSL_IMP1_DATE = SYSDATE
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updateimport_boi_prepare
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_import_boi_prepare:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_boi_input_data = async function (req, res) {
+  try {
+    const { tranfer, updateboi_input_data} =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_BOI1_CMMT = :updateboi_input_data ,
+    FRSL_BOI1_DATE = SYSDATE
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updateboi_input_data
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_boi_input_data", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_thai_catergorise = async function (req, res) {
+  try {
+    const { tranfer, updatethai_catergorise,update_input_thaicatergory} =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_IMP2_CMMT = :updatethai_catergorise ,
+    FRSL_IMP2_DATE = SYSDATE,
+    FRSL_IMP2_CATEGORY =:update_input_thaicatergory
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updatethai_catergorise,update_input_thaicatergory
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_thai_catergorise", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_pln_bidding = async function (req, res) {
+  try {
+    const { tranfer, pln_bidding,pln_bidding_result} =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_PLN2_CMMT = :pln_bidding ,
+    FRSL_PLN2_DATE = SYSDATE,
+    FRSL_PLN2_BIDDING =:pln_bidding_result
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pln_bidding,pln_bidding_result
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_pln_bidding", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_pte_contact_dept = async function (req, res) {
+  try {
+    console.log("test")
+    const { tranfer, pte_contact_dept,date_pte_contact_dept} =req.body;
+    console.log("test",tranfer, pte_contact_dept,date_pte_contact_dept)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_ENV2_CMMT = :pte_contact_dept ,
+    FRSL_ENV2_DATE = SYSDATE,
+    FRSL_ENV2_CONTACT_DATE = TO_DATE(:date_pte_contact_dept, 'YYYY-MM-DD')
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pte_contact_dept,date_pte_contact_dept
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_pte_contact_dept", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports.update_boi_make_clearance = async function (req, res) {
+  try {
+    const { tranfer, boi_make_clearance,date_export} =req.body;
+    console.log(tranfer, boi_make_clearance,date_export)
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_BOI2_CMMT = :boi_make_clearance ,
+    FRSL_BOI2_DATE = SYSDATE,
+    FRSL_BOI2_CLEAR_DATE = TO_DATE(:date_export, 'YYYY-MM-DD')
+
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,boi_make_clearance,date_export
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error pte_upload_file_clearance", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_pte_upload_file_clearance = async function (req, res) {
+  try {
+    const { tranfer, pte_upload_file_clearance,date_pte_upload_file_clearance} =req.body;
+    console.log(tranfer, pte_upload_file_clearance,date_pte_upload_file_clearance)
+
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_ENV3_CMMT = :pte_upload_file_clearance ,
+    FRSL_ENV3_DATE = SYSDATE,
+    FRSL_ENV3_CONTACT_DATE = TO_DATE(:date_pte_upload_file_clearance, 'YYYY-MM-DD')
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pte_upload_file_clearance,date_pte_upload_file_clearance
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_boi_make_clearance", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_pln_request_invoice = async function (req, res) {
+  try {
+    const { tranfer, pln_request_invoice} =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_PLN3_CMMT = :pln_request_invoice ,
+    FRSL_PLN3_DATE = SYSDATE 
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pln_request_invoice
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_pln_request_invoice", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_shipping_inv = async function (req, res) {
+  try {
+    const { tranfer, updateshipping_inv } =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_SHP_CMMT = :updateshipping_inv ,
+    FRSL_SHP_DATE = SYSDATE 
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,updateshipping_inv
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_shipping_inv", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports.update_pln_upload_final = async function (req, res) {
+  try {
+    const { tranfer, pln_upload_final,move_date } =req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    UPDATE FAM_REQ_SALES 
+    SET 
+    FRSL_PLN4_CMMT = :pln_upload_final ,
+    FRSL_PLN4_DATE = SYSDATE,
+    FRSL_PLN4_MOVE_DATE = TO_DATE(:move_date, 'YYYY-MM-DD'
+    WHERE FRSL_FAM_NO = :tranfer
+  `;
+
+    const data = {
+      tranfer,pln_upload_final,move_date
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    connect.release();
+    res.json(result);
+  } catch (error) {
+    console.error("Error update_pln_upload_final", error.message);
     res.status(500).send("Internal Server Error");
   }
 };

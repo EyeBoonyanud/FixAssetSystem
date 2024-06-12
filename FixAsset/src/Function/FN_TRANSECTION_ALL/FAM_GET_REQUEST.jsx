@@ -420,14 +420,12 @@ function FAM_GET_REQUEST() {
     }
   };
   const fixasset_group = async (datafac) => {
-    console.log(For_Rq_Edit, "For_Rq_Edit");
     try {
       const response = await axios.post("/getfix_group", {
         Asset_group: datafac,
       });
       const data = await response.data;
       setFixAssetgroup(data);
-      console.log("datafixgrop", data);
       if (EditFam != null) {
         if (For_Rq_Edit != null) {
           setselectFixAssetgroup1(For_Rq_Edit[8]);
@@ -476,7 +474,6 @@ function FAM_GET_REQUEST() {
 
   // สำหรับการทำงานทั้งหมด
   const Gen_No = async (asset) => {
-    console.log(asset, "GEN NO");
     openPopupLoadding();
     let DataStatus = "";
     let StatusType = "";
@@ -878,7 +875,6 @@ function FAM_GET_REQUEST() {
   };
   const updateSelectedData = (selectedItems) => {
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
-    console.log("data select eiei", find_fixasset);
     setSelectedData(newData);
   };
   const handleCheckboxChange = (index) => {

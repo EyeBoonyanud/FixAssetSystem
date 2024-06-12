@@ -42,39 +42,11 @@ import "../Page/Style.css";
 
 function TransFerDetail() {
   const {
-    STS1,
-    For_sts_reject,
-    ownersend,
-    setownersend,
-    trans_factory,
-    selecttrans_factory,
-    trans_cc,
-    selecttrans_cc,
-    setselecttrans_cc,
-    datanew_boi,
-    new_boi,
-    setnew_boi,
-    data_fromboi,
-    setdata_fromboi,
-    new_owner,
-    selectnew_owner,
-    receiver,
-    setreceiver,
-    abnormal,
-    setabnormal,
-    Tel_for_trans,
-    setTel_for_trans,
-    plan_date,
-    setplan_date,
-    department_mana,
-    selectdepartment_mana,
-    setselectdepartment_mana,
-    service_dept,
-    setservice_dept,
-    service_by,
-    selectservice_by,
-    setselectservice_by,
-    boi_staff,
+    STS1,For_sts_reject,ownersend,setownersend,trans_factory,selecttrans_factory,trans_cc,
+    selecttrans_cc,setselecttrans_cc,datanew_boi,new_boi,setnew_boi,data_fromboi, setdata_fromboi,
+    new_owner,selectnew_owner,receiver,setreceiver,abnormal,setabnormal,Tel_for_trans,
+    setTel_for_trans,plan_date,setplan_date,department_mana,selectdepartment_mana,setselectdepartment_mana,
+    service_dept,setservice_dept,service_by,selectservice_by,setselectservice_by,boi_staff,
     selectboi_staff,
     setselectboi_staff,
     boi_manager,
@@ -293,11 +265,8 @@ function TransFerDetail() {
     action__pte_env,
     action__pln_staff,
     action__shipping,
-    read_pte_env_radio,
     read_pte_env_cmmt,
-    read_pln_staff_radio,
     read_pln_staff_cmmt,
-    read_shipping_radio,
     read_shipping_cmmt,
     chkpte_env,
     chkpln_staff,
@@ -315,9 +284,9 @@ function TransFerDetail() {
     setcmmtradio_pte_env,
     setaction__pte_env,
     setcmmtradio_pln_staff,
-    setcmmtradio__shipping,pte_input_weight_size,setpte_input_weight_size,
+    setcmmtradio__shipping,pte_input_weight_size,
     pln_staff_boi, setselectpln_staff_boi,
-    import_boi_prepare, setimport_boi_prepare,
+    import_boi_prepare,
     boi_input_data, setboi_input_data,
     thai_catergories, setthai_catergories,
     pln_staff_bidding, setpln_staff_bidding,
@@ -327,8 +296,90 @@ function TransFerDetail() {
     pln_upload_final, setpln_upload_final,
     selectpte_input_weight_size,setselectpte_input_weight_size,selectpln_staff_boi,setpln_staff_boi,
     selectimport_boi_prepare,setselectimport_boi_prepare,
-    selectboi_input_data,setselectboi_input_data,export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file
-  } = FAM_TRANSECTION_TLWLD();
+    selectboi_input_data,setselectboi_input_data,export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file,
+    read_pte_input_weight_size,
+    read_pte_input_weight_size_radio,
+    read_pte_input_weight_size_cmmt,
+    read_pte_staff_boi,
+    read_pte_staff_boi_radio,
+    read_pte_staff_boi_cmmt,
+    read_import_boi_prepare,
+    read_import_boi_prepare_radio,
+    read_import_boi_prepare_cmmt,
+    read_boi_input_data,
+    read_boi_input_data_radio,
+    read_boi_input_data_cmmt,
+    read_thai_catergories,
+    read_thai_catergories_radio,
+    read_thai_catergories_cmmt,
+    read_pln_staff_bidding,
+    read_pln_staff_bidding_radio,
+    read_pln_staff_bidding_cmmt,
+    read_pte_dept,
+    read_pte_dept_radio,
+    read_pte_dept_cmmt,
+    read_export_clearance,
+    read_export_clearance_radio,
+    read_export_clearance_cmmt,
+    read_pte_upload_file,
+    read_pte_upload_file_radio,
+    read_pte_upload_file_cmmt,
+    read_pln_req_inv,
+    read_pln_req_inv_radio,
+    read_pln_req_inv_cmmt,
+    read_ship_input_inv,
+    read_ship_input_inv_radio,
+    read_ship_input_inv_cmmt,
+    read_pln_upload_final,
+    read_pln_upload_final_radio,
+    read_pln_upload_final_cmmt,
+    ErrorPTE_INPUT_WS,
+    ErrorPLN_Staff_BOI,
+    Errorimport_boi_prepare,
+    Errorboi_input_data,
+    ErrorVendor_move_date,
+    Errorcontact_date_pte,
+    Errorcontact_date,contact_date,setcontact_date,contact_date_pte,setcontact_date_pte, cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size,
+    cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi,
+    cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare,
+    cmmtradio_boi_input_data, setcmmtradio_boi_input_data,
+    cmmtradio_thai_catergories, setcmmtradio_thai_catergories,
+    cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding,
+    cmmtradio_pte_dept, setcmmtradio_pte_dept,
+    cmmtradio_export_clearance, setcmmtradio_export_clearance,
+    cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file,
+    cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv,
+    cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv,
+    cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final,
+    CM_pte_weight_size,CM_pte_staff_boi,CM_import_boi_prepare,CM_boi_input_data,CM_thai_catergories,
+CM_pln_staff_bidding,CM_pte_dept,CM_export_clearance,CM_pte_upload_file,CM_pln_req_inv,CM_ship_input_inv,
+CM_pln_upload_final,export_clearance_date,setexport_clearance_date
+,Vendor_move_date,setVendor_move_date,Errorexport_clearance_date 
+,action__pte_weight_size, setaction__pte_weight_size,
+action__pte_staff_boi, setaction__pte_staff_boi,
+action__import_boi_prepare, setaction__import_boi_prepare,
+action__boi_input_data, setaction__boi_input_data,
+action__thai_catergories, setaction__thai_catergories,
+action__pln_staff_bidding, setaction__pln_staff_bidding,
+action__pte_dept, setaction__pte_dept,
+action__export_clearance, setaction__export_clearance,
+action__pte_upload_file, setaction__pte_upload_file,
+action__pln_req_inv, setaction__pln_req_inv,
+action__ship_input_inv, setaction__ship_input_inv,
+action__pln_upload_final, setaction__pln_upload_final,
+chk_pte_weight_size, 
+chk_pte_staff_boi, 
+chk_import_boi_prepare, 
+chk_boi_input_data, 
+chk_thai_catergories, 
+chk_pln_staff_bidding, 
+chk_pte_dept, 
+chk_export_clearance, 
+chk_pte_upload_file, 
+chk_pln_req_inv, 
+chk_ship_input_inv,
+chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categories, setInput_thai_categories ,Bidding_result, setBidding_result,
+} = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
   const {
@@ -352,10 +403,6 @@ function TransFerDetail() {
   // Const Return
   return (
     <>
-      {/* <Mail 
-    Dept={selectdepartment_mana}
-    isVisible={false}
-    /> */}
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
@@ -2436,7 +2483,6 @@ function TransFerDetail() {
                         />
                       </FormControl>
                     </td>
-                    {console.log(For_sts_reject, "For_sts_reject")}
                   </tr>
 
                   {Showtype == "GP01006" &&
@@ -3957,7 +4003,7 @@ function TransFerDetail() {
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selectpte_input_weight_size}
-                          // disabled={read_pte_input_weight_size}
+                          disabled={read_pte_input_weight_size}
                           onChange={(e) => {
                             setselectpte_input_weight_size(e.target.value);
                             setpte_dept(e.target.value);
@@ -3967,16 +4013,16 @@ function TransFerDetail() {
                           
                           size="small"
                           style={{
-                            // borderColor: ErrorPTE_ENV ? "red" : undefined,
-                            // backgroundColor: read_pte_input_weight_size
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            borderColor: ErrorPTE_INPUT_WS ? "red" : undefined,
+                            backgroundColor: read_pte_input_weight_size
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                             width: "290px",
                           }}
-                          // error={
-                          //   ErrorPTE_INPUT_WS &&
-                          //   (!selectpte_input_weight_size || selectpte_input_weight_size == "null")
-                          // }
+                          error={
+                            ErrorPTE_INPUT_WS &&
+                            (!selectpte_input_weight_size || selectpte_input_weight_size == "null")
+                          }
                         >
                           {pte_input_weight_size.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -3984,11 +4030,11 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
+                        {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
                           <FormHelperText style={{ color: "red" }}>
                             Please select: PTE (ENV) input weight/size
                           </FormHelperText>
-                        )} */}
+                        )}
                       </FormControl>
                     </td>
 
@@ -3996,7 +4042,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pte_weight_size }}
+                        style={{ visibility: chk_pte_weight_size }}
                       >
                         {" "}
                         Action Date:
@@ -4007,19 +4053,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__pte_env}
-                          // onChange={(e) => setaction__pte_weight_size(e.target.value)}
+                          value={action__pte_weight_size}
+                          onChange={(e) => setaction__pte_weight_size(e.target.value)}
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_pte_weight_size,
+                            visibility: chk_pte_weight_size,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                  <tr 
-                  // style={{ display: CM_pte_weight_size }}
+                  style={{ display: CM_pte_weight_size }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -4028,29 +4074,29 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pte_weight_size}
-                          // disabled={read_pte_input_weight_size,}
+                           value={cmmtradio_pte_weight_size}
+                          disabled={read_pte_input_weight_size_cmmt}
                           style={{
-                            // backgroundColor: read_pte_input_weight_size,
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            backgroundColor: read_pte_input_weight_size_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
-                          // onChange={(e) => setcmmtradio_pte_weight_size(e.target.value)}
+                          onChange={(e) => setcmmtradio_pte_weight_size(e.target.value)}
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
 
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -4091,7 +4137,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 === "FLSC009" && (
+                                                      {STS1 === "FLSL009" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -4172,7 +4218,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC009" && (
+                                  {STS1 == "FLSL009" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -4345,7 +4391,7 @@ function TransFerDetail() {
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selectpln_staff_boi}
-                          // disabled={read_pte_staff_boi}
+                          disabled={read_pte_staff_boi}
                           onChange={(e) => { 
                             setselectpln_staff_boi(e.target.value);
                             setpln_req_inv(e.target.value);
@@ -4355,16 +4401,16 @@ function TransFerDetail() {
                           }}
                           size="small"
                           style={{
-                            // borderColor: ErrorPLN_Staff_BOI ? "red" : undefined,
-                            // backgroundColor: read_pte_staff_boi
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            borderColor: ErrorPLN_Staff_BOI ? "red" : undefined,
+                            backgroundColor: read_pte_staff_boi
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                             width: "290px",
                           }}
-                          // error={
-                          //   ErrorPLN_Staff_BOI &&
-                          //   (!selectpln_staff_boi || selectpln_staff_boi == "null")
-                          // }
+                          error={
+                            ErrorPLN_Staff_BOI &&
+                            (!selectpln_staff_boi || selectpln_staff_boi == "null")
+                          }
                         >
                           {pln_staff_boi.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -4384,7 +4430,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pte_staff_boi }}
+                        style={{ visibility: chk_pte_staff_boi }}
                       >
                         {" "}
                         Action Date:
@@ -4395,19 +4441,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__pte_staff_boi}
-                          // onChange={(e) => setaaction__pte_staff_boi(e.target.value)}
+                          value={action__pte_staff_boi}
+                          onChange={(e) => setaction__pte_staff_boi(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_pte_staff_boi,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pte_staff_boi,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_pte_staff_boi }}
+                  style={{ display: CM_pte_staff_boi }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -4416,32 +4462,31 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pte_staff_boi}
-                          // disabled={read_pte_staff_boi}
+                          value={cmmtradio_pte_staff_boi}
+                          disabled={read_pte_staff_boi_cmmt}
                           style={{
-                            // backgroundColor: read_pte_staff_boi
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            backgroundColor: read_pte_staff_boi_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pte_staff_boi(e.target.value)
-                          // }
+                          onChange={(e) =>
+                            setcmmtradio_pte_staff_boi(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
 
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -4730,18 +4775,15 @@ function TransFerDetail() {
                   {/* Import & BOI prepare : */}
                   <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2">
-                        Import & BOI prepare :
-                      </Typography>
+                      <Typography variant="subtitle2">Import & BOI prepare :</Typography>
                     </td>
-                    {console.log(selectimport_boi_prepare,"selectimport_boi_prepare")}
                     <td>
                       <FormControl className="Style3">
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selectimport_boi_prepare}
-                          // disabled={read_boi_input_data}
+                          disabled={read_boi_input_data}
                           onChange={(e) => {
                             setselectimport_boi_prepare(e.target.value);
                             setthai_catergories(e.target.value);
@@ -4749,17 +4791,17 @@ function TransFerDetail() {
                           
                           size="small"
                           style={{
-                            // borderColor: Errorimport_boi_prepare ? "red" : undefined,
-                            // backgroundColor: read_import_boi_prepare
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            borderColor: Errorimport_boi_prepare ? "red" : undefined,
+                            backgroundColor: read_boi_input_data
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                             width: "290px",
                           }}
-                          // error={
-                          //   Errorboi_import_boi_prepare &&
-                          //   (!setselectboi_input_data ||
-                          //     setselectboi_input_data == "null")
-                          // }
+                          error={
+                            Errorimport_boi_prepare &&
+                            (!selectboi_input_data ||
+                              selectboi_input_data == "null")
+                          }
                         >
                           {import_boi_prepare.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -4767,11 +4809,11 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {Errorimport_boi_prepare && !selectboi_input_data && (
+                        {Errorimport_boi_prepare && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
                             Please select: Import & BOI prepare
                           </FormHelperText>
-                        )} */}
+                        )}
                       </FormControl>
                     </td>
 
@@ -4779,7 +4821,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_import_boi_prepare }}
+                        style={{ visibility: chk_import_boi_prepare }}
                       >
                         {" "}
                         Action Date:
@@ -4790,19 +4832,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__import_boi_prepare}
-                          // onChange={(e) => setaction__import_boi_prepare(e.target.value)}
+                          value={action__import_boi_prepare}
+                          onChange={(e) => setaction__import_boi_prepare(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_import_boi_prepare,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_import_boi_prepare,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_import_boi_prepare }}
+                  style={{ display: CM_import_boi_prepare }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -4811,32 +4853,32 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_import_boi_prepare}
-                          // disabled={read_import_boi_prepare}
-                          // style={{
-                          //   backgroundColor: read_import_boi_prepare
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_import_boi_prepare(e.target.value)
-                          // }
+                           value={cmmtradio_import_boi_prepare}
+                          disabled={read_import_boi_prepare_cmmt}
+                          style={{
+                            backgroundColor: read_import_boi_prepare_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_import_boi_prepare(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -5131,23 +5173,23 @@ function TransFerDetail() {
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
                           value={selectboi_input_data}
-                          // disabled={read_boi_input_data}
+                          disabled={read_boi_input_data}
                           onChange={(e) =>
                             setselectboi_input_data(e.target.value)
                           }
                           size="small"
                           style={{
-                            // borderColor: Errorboi_input_data ? "red" : undefined,
-                            // backgroundColor: read_boi_input_data
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            borderColor: Errorboi_input_data ? "red" : undefined,
+                            backgroundColor: read_boi_input_data
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                             width: "290px",
                           }}
-                          // error={
-                          //   Errorboi_input_data &&
-                          //   (!selectboi_input_data ||
-                          //     selectboi_input_data == "null")
-                          // }
+                          error={
+                            Errorboi_input_data &&
+                            (!selectboi_input_data ||
+                              selectboi_input_data == "null")
+                          }
                         >
                           {boi_input_data.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -5155,11 +5197,11 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {Errorboi_input_data && !selectboi_input_data && (
+                        {Errorboi_input_data && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
                             Please select: Shipping
                           </FormHelperText>
-                        )} */}
+                        )}
                       </FormControl>
                     </td>
 
@@ -5167,7 +5209,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_boi_input_data }}
+                        style={{ visibility: chk_boi_input_data }}
                       >
                         {" "}
                         Action Date:
@@ -5178,19 +5220,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__boi_input_data}
-                          // onChange={(e) => setaction__boi_input_data(e.target.value)}
+                          value={action__boi_input_data}
+                          onChange={(e) => setaction__boi_input_data(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_boi_input_data,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_boi_input_data,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_boi_input_data }}
+                  style={{ display: CM_boi_input_data }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -5199,34 +5241,36 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_boi_input_data}
-                          // disabled={read_boi_input_data}
+                          value={cmmtradio_boi_input_data}
+                          disabled={read_boi_input_data_cmmt}
                           style={{
-                            // backgroundColor: read_boi_input_data
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            backgroundColor: read_boi_input_data_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_boi_input_data(e.target.value)
-                          // }
+                          onChange={(e) =>
+                            setcmmtradio_boi_input_data(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
                     For_sts_reject !== "R" && (
                       <tr>
+                        {console.log(STS1,"STS1")}
                         <td className="Style4"></td>
                         <td colSpan={5}>
                           <div style={{ margin: "20px" }}>
@@ -5265,7 +5309,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL012" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -5346,7 +5390,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL012" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -5533,7 +5577,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_thai_catergories }}
+                        style={{ visibility: chk_thai_catergories }}
                       >
                         {" "}
                         Action Date:
@@ -5544,19 +5588,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__thai_catergories}
-                          // onChange={(e) => setaction__thai_catergories(e.target.value)}
+                          value={action__thai_catergories}
+                          onChange={(e) => setaction__thai_catergories(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_thai_catergories,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_thai_catergories,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_thai_catergories }}
+                  style={{ display: CM_thai_catergories }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Input thai categories:</Typography>
@@ -5565,23 +5609,23 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={Input_thai_categories}
-                          // disabled={read_thai_catergories}
-                          // style={{
-                          //   backgroundColor: read_thai_catergories
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setInput_thai_categories(e.target.value)
-                          // }
+                          value={Input_thai_categories}
+                          disabled={read_thai_catergories_cmmt}
+                          style={{
+                            backgroundColor: read_thai_catergories_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setInput_thai_categories(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_thai_catergories }}
+                  style={{ display: CM_thai_catergories }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -5590,32 +5634,35 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_thai_catergories}
-                          // disabled={read_thai_catergories}
-                          // style={{
-                          //   backgroundColor: read_thai_catergories
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_thai_catergories(e.target.value)
-                          // }
+                          value={cmmtradio_thai_catergories}
+                          disabled={read_thai_catergories_cmmt}
+                          style={{
+                            backgroundColor: read_thai_catergories_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_thai_catergories(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -5656,7 +5703,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL013" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -5737,7 +5784,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL013" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -5923,7 +5970,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pln_staff_bidding }}
+                        style={{ visibility: chk_pln_staff_bidding }}
                       >
                         {" "}
                         Action Date:
@@ -5934,19 +5981,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__pln_staff_bidding}
-                          // onChange={(e) => setaction__pln_staff_bidding(e.target.value)}
+                          value={action__pln_staff_bidding}
+                          onChange={(e) => setaction__pln_staff_bidding(e.target.value)}
                           disabled
-                          // style={{
-                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          //   visibility: chk_pln_staff_bidding,
-                          // }}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pln_staff_bidding,
+                          }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_pln_staff_bidding }}
+                  style={{ display: CM_pln_staff_bidding }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Bidding result:</Typography>
@@ -5955,23 +6002,23 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={Bidding_result}
-                          // disabled={read_pln_staff_bidding}
-                          // style={{
-                          //   backgroundColor: read_pln_staff_bidding
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setBidding_result(e.target.value)
-                          // }
+                          value={Bidding_result}
+                          disabled={read_pln_staff_bidding_cmmt}
+                          style={{
+                            backgroundColor: read_pln_staff_bidding_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setBidding_result(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_pln_staff_bidding }}
+                  style={{ display: CM_pln_staff_bidding }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -5980,32 +6027,35 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pln_staff_bidding}
-                          // disabled={read_pln_staff_bidding}
-                          // style={{
-                          //   backgroundColor: read_pln_staff_bidding
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pln_staff_bidding(e.target.value)
-                          // }
+                          value={cmmtradio_pln_staff_bidding}
+                          disabled={read_pln_staff_bidding_cmmt}
+                          style={{
+                            backgroundColor: read_pln_staff_bidding_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pln_staff_bidding(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -6046,7 +6096,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL014" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -6127,7 +6177,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL014" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -6313,7 +6363,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pte_dept }}
+                        style={{ visibility: chk_pte_dept }}
                       >
                         {" "}
                         Action Date:
@@ -6324,27 +6374,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__pte_dept}
-                          // onChange={(e) => setaction__pte_dept(e.target.value)}
+                          value={action__pte_dept}
+                          onChange={(e) => setaction__pte_dept(e.target.value)}
                           disabled
-                          // style={{
-                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          //   visibility: chk_pte_dept,
-                          // }}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pte_dept,
+                          }}
                         />
                       </FormControl>
                     </td>
-                  </tr>
-                                  {/* {Showtype == "GP01006" &&
-                    STS1 != "FLLD001" &&
-                    STS1 != "FLLD002" &&
-                    STS1 != "FLLD003" &&
-                    STS1 != "FLLD004" &&
-                    STS1 != "FLLD005" &&
-                    STS1 != "FLLD006" &&
-                    STS1 != "FLLD007" &&
-                    STS1 != "FLLD008" && ( */}
-                      <tr>
+                  </tr >
+{console.log(contact_date,"contact_date")}
+                      <tr  style={{ display: CM_pte_dept }}>
                         <td className="Style4">
                           <Typography variant="subtitle2">
                           Contact date :
@@ -6355,40 +6397,32 @@ function TransFerDetail() {
                             <TextField
                               size="small"
                               type="date"
-                              // disabled={read_return_acc_cmmt}
+                              disabled={read_pte_dept_cmmt}
                               style={{
-                                // backgroundColor:
-                                //   selectradio_return_acc === "R"
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : read_return_acc_cmmt
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : "",
-                                // pointerEvents:
-                                //   selectradio_return_acc === "R" &&
-                                //   read_return_acc_cmmt
-                                //     ? "none"
-                                //     : "auto",
+                               backgroundColor: read_pte_dept_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                                 width:'290px'
                               }}
-                              // value={contact_date}
-                              // error={
-                              //   ErrorDate_return &&
-                              //   (!contact_date || contact_date == "null")
-                              // }
-                              // onChange={(e) => setcontact_date(e.target.value)}
-                              // helperText={
-                              //   Errorcontact_date &&
-                              //   (!contact_date || contact_date == "null")
-                              //     ? "Please Select Contact date "
-                              //     : undefined
-                              // }
+                              value={contact_date}
+                              error={
+                                ErrorDate_return &&
+                                (!contact_date || contact_date == "null")
+                              }
+                              onChange={(e) => setcontact_date(e.target.value)}
+                              helperText={
+                                Errorcontact_date &&
+                                (!contact_date || contact_date == "null")
+                                  ? "Please Select Contact date "
+                                  : undefined
+                              }
                             />
                           </FormControl>
                         </td>
                       </tr>
                     {/* )} */}
                   <tr
-                  // style={{ display: CM_pte_dept }}
+                  style={{ display: CM_pte_dept }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -6397,32 +6431,36 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pte_dept}
-                          // disabled={read_pte_dept}
+                          value={cmmtradio_pte_dept}
+                          disabled={read_pte_dept_cmmt}
                           style={{
-                            // backgroundColor: read_pte_dept
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            backgroundColor: read_pte_dept_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pte_dept(e.target.value)
-                          // }
+                          onChange={(e) =>
+                            setcmmtradio_pte_dept(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -6463,7 +6501,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL015" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -6544,7 +6582,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL015" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -6730,7 +6768,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_export_clearance }}
+                        style={{ visibility: chk_export_clearance }}
                       >
                         {" "}
                         Action Date:
@@ -6741,20 +6779,53 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__export_clearance}
-                          // onChange={(e) => setaction__export_clearance(e.target.value)}
+                          value={action__export_clearance}
+                          onChange={(e) => setaction__export_clearance(e.target.value)}
                           disabled
-                          // style={{
-                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          //   visibility: chk_export_clearance,
-                          // }}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_export_clearance,
+                          }}
                         />
                       </FormControl>
                     </td>
                   </tr>
-  
+                  <tr style={{ display: CM_export_clearance }}>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                          export Date :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              size="small"
+                              type="date"
+                              disabled={read_export_clearance_cmmt}
+                              style={{
+                                backgroundColor: read_export_clearance_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                                width:'290px'
+                              }}
+                              value={export_clearance_date}
+                              error={
+                                Errorexport_clearance_date &&
+                                (!export_clearance_date || export_clearance_date == "null")
+                              }
+                              onChange={(e) => setexport_clearance_date(e.target.value)}
+                              helperText={
+                                Errorexport_clearance_date &&
+                                (!export_clearance_date || export_clearance_date == "null")
+                                  ? "Please Select "
+                                  : undefined
+                              }
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
                   <tr 
-                  // style={{ display: CM_export_clearance }}
+                  style={{ display: CM_export_clearance }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -6763,32 +6834,37 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_export_clearance}
-                          // disabled={read_export_clearance}
+                           value={cmmtradio_export_clearance}
+                          disabled={read_export_clearance_cmmt}
                           style={{
-                            // backgroundColor: read_export_clearance
-                            //   ? "rgba(169, 169, 169, 0.3)"
-                            //   : "",
+                            backgroundColor: read_export_clearance_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                           }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_export_clearance(e.target.value)
-                          // }
+                          onChange={(e) =>
+                            setcmmtradio_export_clearance(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
+                    STS1 != "FLSL015" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -6829,7 +6905,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL016" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -6910,7 +6986,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL016" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -7095,7 +7171,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pte_upload_file }}
+                        style={{ visibility: chk_pte_upload_file }}
                       >
                         {" "}
                         Action Date:
@@ -7106,26 +7182,18 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__shipping}
-                          // onChange={(e) => setaction__pte_upload_file(e.target.value)}
+                          value={action__pte_upload_file}
+                          onChange={(e) => setaction__pte_upload_file(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_pte_upload_file,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pte_upload_file,
                           }}
                         />
                       </FormControl>
                     </td>
-                  </tr>    {/* {Showtype == "GP01006" &&
-                    STS1 != "FLLD001" &&
-                    STS1 != "FLLD002" &&
-                    STS1 != "FLLD003" &&
-                    STS1 != "FLLD004" &&
-                    STS1 != "FLLD005" &&
-                    STS1 != "FLLD006" &&
-                    STS1 != "FLLD007" &&
-                    STS1 != "FLLD008" && ( */}
-                      <tr>
+                  </tr> 
+                      <tr  style={{ display: CM_pte_upload_file }}>
                         <td className="Style4">
                           <Typography variant="subtitle2">
                           Contact date :
@@ -7136,40 +7204,31 @@ function TransFerDetail() {
                             <TextField
                               size="small"
                               type="date"
-                              // disabled={read_return_acc_cmmt}
+                              disabled={read_pte_upload_file_cmmt}
                               style={{
-                                // backgroundColor:
-                                //   selectradio_return_acc === "R"
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : read_return_acc_cmmt
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : "",
-                                // pointerEvents:
-                                //   selectradio_return_acc === "R" &&
-                                //   read_return_acc_cmmt
-                                //     ? "none"
-                                //     : "auto",
+                                backgroundColor: read_pte_upload_file_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                                 width:'290px'
                               }}
-                              // value={contact_date_pte}
-                              // error={
-                              //   ErrorDate_return &&
-                              //   (!contact_date_pte || contact_date_pte == "null")
-                              // }
-                              // onChange={(e) => setcontact_date_pte(e.target.value)}
-                              // helperText={
-                              //   Errorcontact_date_pte &&
-                              //   (!contact_date_pte || contact_date_pte == "null")
-                              //     ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
-                              //     : undefined
-                              // }
+                              value={contact_date_pte}
+                              error={
+                                ErrorDate_return &&
+                                (!contact_date_pte || contact_date_pte == "null")
+                              }
+                              onChange={(e) => setcontact_date_pte(e.target.value)}
+                              helperText={
+                                Errorcontact_date_pte &&
+                                (!contact_date_pte || contact_date_pte == "null")
+                                  ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                                  : undefined
+                              }
                             />
                           </FormControl>
                         </td>
                       </tr>
-                    {/* )} */}
                   <tr 
-                  // style={{ display: CM_pte_upload_file }}
+                  style={{ display: CM_pte_upload_file }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -7178,32 +7237,38 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pte_upload_file}
-                          // disabled={read_pte_upload_file}
-                          // style={{
-                          //   backgroundColor: read_pte_upload_file
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pte_upload_file(e.target.value)
-                          // }
+                           value={cmmtradio_pte_upload_file}
+                          disabled={read_pte_upload_file_cmmt}
+                          style={{
+                            backgroundColor: read_pte_upload_file_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pte_upload_file(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
+                    STS1 != "FLSL015" &&
+                    STS1 != "FLSL016" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -7244,7 +7309,7 @@ function TransFerDetail() {
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL017" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -7325,7 +7390,7 @@ function TransFerDetail() {
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL017" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -7511,7 +7576,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pln_req_inv }}
+                        style={{ visibility: chk_pln_req_inv }}
                       >
                         {" "}
                         Action Date:
@@ -7522,19 +7587,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__pln_req_inv}
-                          // onChange={(e) => setaction__pln_req_inv(e.target.value)}
+                          value={action__pln_req_inv}
+                          onChange={(e) => setaction__pln_req_inv(e.target.value)}
                           disabled
                           style={{
-                            // backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            // visibility: chk_pln_req_inv,
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pln_req_inv
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_pln_req_inv }}
+                  style={{ display: CM_pln_req_inv }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -7543,16 +7608,16 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_pln_req_inv}
-                          // disabled={read_pln_req_inv}
-                          // style={{
-                          //   backgroundColor: read_pln_req_inv
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pln_req_inv(e.target.value)
-                          // }
+                          value={cmmtradio_pln_req_inv}
+                          disabled={read_pln_req_inv_cmmt}
+                          style={{
+                            backgroundColor: read_pln_req_inv_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pln_req_inv(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
@@ -7863,20 +7928,20 @@ function TransFerDetail() {
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
                         value={ship_input_inv}
-                        // disabled={read_ship_input_inv}
+                        disabled={read_ship_input_inv}
                         onChange={(e) => setship_input_inv(e.target.value)}
                         size="small"
                         style={{
-                          // borderColor: Errorship_input_inv ? "red" : undefined,
-                          // backgroundColor: read_ship_input_inv
-                          //   ? "rgba(169, 169, 169, 0.3)"
-                          //   : "",
+                          borderColor: Errorship_input_inv ? "red" : undefined,
+                          backgroundColor: read_ship_input_inv
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
                           width: "290px",
                         }}
-                        // error={
-                        //   Errorship_input_inv &&
-                        //   (!ship_input_inv || ship_input_inv == "null")
-                        // }
+                        error={
+                          Errorship_input_inv &&
+                          (!ship_input_inv || ship_input_inv == "null")
+                        }
                       >
                         {shipping_staff.map((option, index) => (
                           <MenuItem key={index} value={option}>
@@ -7907,7 +7972,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_ship_input_inv }}
+                        style={{ visibility: chk_ship_input_inv }}
                       >
                         {" "}
                         Action Date:
@@ -7918,19 +7983,19 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                          // value={action__ship_input_inv}
-                          // onChange={(e) => setaction__ship_input_inv(e.target.value)}
+                          value={action__ship_input_inv}
+                          onChange={(e) => setaction__ship_input_inv(e.target.value)}
                           disabled
-                          // style={{
-                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          //   visibility: chk_ship_input_inv
-                          // }}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_ship_input_inv
+                          }}
                         />
                       </FormControl>
                     </td>
                   </tr>
                   <tr 
-                  // style={{ display: CM_ship_input_inv }}
+                  style={{ display: CM_ship_input_inv }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -7939,16 +8004,16 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                          // value={cmmtradio_ship_input_inv}
-                          // disabled={read_ship_input_inv}
-                          // style={{
-                          //   backgroundColor: read_ship_input_inv
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_ship_input_inv(e.target.value)
-                          // }
+                          value={cmmtradio_ship_input_inv}
+                          disabled={read_ship_input_inv_cmmt}
+                          style={{
+                            backgroundColor: read_ship_input_inv_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_ship_input_inv(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
@@ -8271,7 +8336,7 @@ function TransFerDetail() {
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
-                        // style={{ visibility: chk_pln_upload_final }}
+                        style={{ visibility: chk_pln_upload_final }}
                       >
                         {" "}
                         Action Date:
@@ -8282,13 +8347,13 @@ function TransFerDetail() {
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                         // value={action__pln_upload_final}
-                         // onChange={(e) => setaction__pln_upload_final(e.target.value)}
+                         value={action__pln_upload_final}
+                         onChange={(e) => setaction__pln_upload_final(e.target.value)}
                           disabled
-                          // style={{
-                          //   backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          //   visibility: chk_pln_upload_final,
-                          // }}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            visibility: chk_pln_upload_final,
+                          }}
                         />
                       </FormControl>
                     </td>
@@ -8302,7 +8367,7 @@ function TransFerDetail() {
                     STS1 != "FLLD006" &&
                     STS1 != "FLLD007" &&
                     STS1 != "FLLD008" && ( */}
-                      <tr>
+                      <tr  style={{ display: CM_pln_upload_final }}>
                         <td className="Style4">
                           <Typography variant="subtitle2">
                           Vendor move date :
@@ -8313,40 +8378,33 @@ function TransFerDetail() {
                             <TextField
                               size="small"
                               type="date"
-                              // disabled={read_return_acc_cmmt}
+                              disabled={read_pln_upload_final_cmmt}
                               style={{
-                                // backgroundColor:
-                                //   selectradio_return_acc === "R"
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : read_return_acc_cmmt
-                                //     ? "rgba(169, 169, 169, 0.3)"
-                                //     : "",
-                                // pointerEvents:
-                                //   selectradio_return_acc === "R" &&
-                                //   read_return_acc_cmmt
-                                //     ? "none"
-                                //     : "auto",
+                         
+                            backgroundColor: read_pln_upload_final_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
                                 width:'290px'
                               }}
-                              // value={Vendor_move_date}
-                              // error={
-                              //   ErrorVendor_move_date &&
-                              //   (!Vendor_move_date || Vendor_move_date == "null")
-                              // }
-                              // onChange={(e) => setVendor_move_date(e.target.value)}
-                              // helperText={
-                              //   ErrorVendor_move_date &&
-                              //   (!Vendor_move_date || Vendor_move_date == "null")
-                              //     ? "Please Select Vendor_move_date"
-                              //     : undefined
-                              // }
+                              value={Vendor_move_date}
+                              error={
+                                ErrorVendor_move_date &&
+                                (!Vendor_move_date || Vendor_move_date == "null")
+                              }
+                              onChange={(e) => setVendor_move_date(e.target.value)}
+                              helperText={
+                                ErrorVendor_move_date &&
+                                (!Vendor_move_date || Vendor_move_date == "null")
+                                  ? "Please Select Vendor_move_date"
+                                  : undefined
+                              }
                             />
                           </FormControl>
                         </td>
                       </tr>
                     {/* )} */}
                   <tr 
-                  // style={{ display: CM_pln_upload_final }}
+                  style={{ display: CM_pln_upload_final }}
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -8355,16 +8413,16 @@ function TransFerDetail() {
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                         // value={cmmtradio_pln_upload_final}
-                         // disabled={read_pln_upload_final}
-                          // style={{
-                          //   backgroundColor: read_pln_upload_final
-                          //     ? "rgba(169, 169, 169, 0.3)"
-                          //     : "",
-                          // }}
-                          // onChange={(e) =>
-                          //   setcmmtradio_pln_upload_final(e.target.value)
-                          // }
+                         value={cmmtradio_pln_upload_final}
+                         disabled={read_pln_upload_final_cmmt}
+                          style={{
+                            backgroundColor: read_pln_upload_final_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) =>
+                            setcmmtradio_pln_upload_final(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>

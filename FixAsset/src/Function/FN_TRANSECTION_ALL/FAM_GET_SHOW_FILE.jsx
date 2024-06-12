@@ -135,7 +135,6 @@ function FAM_GET_SHOW_FILE() {
       });
       const jsonData = await response.data;   
       setshowfile_pln_staff(jsonData);
-     console.log(jsonData, "jsonData");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -617,7 +616,6 @@ function FAM_GET_SHOW_FILE() {
               FAM_no: Gen_Fam_No,
             });
             const get_run_seq = await response_seq.data;
-            console.log("get_run_seq");
             const lastValue =
               get_run_seq.length > 0
                 ? get_run_seq[get_run_seq.length - 1][0]

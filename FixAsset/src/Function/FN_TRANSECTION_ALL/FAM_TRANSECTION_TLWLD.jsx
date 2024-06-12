@@ -40,7 +40,6 @@ function FAM_TRANSECTION_TLWLD() {
   const Edit_For_Scrap = JSON.parse(For_Scrap);
   const For_Sale= localStorage.getItem("Edit_Sale");
   const Edit_For_Sale = JSON.parse(For_Sale);
-  console.log(Edit_For_Sale,"Edit_For_Sale")
 
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -114,6 +113,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [contact_date,setcontact_date] = useState("") // contact date BOI make export clearance
   const [contact_date_pte,setcontact_date_pte] = useState("") 
   const [Vendor_move_date,setVendor_move_date] = useState("") //Vendor_move_date
+  const [export_clearance_date,setexport_clearance_date]  = useState("")//BOI make export clearance :
   
   ////////////////////
   const [ErrorTel, setErrorTel] = useState(false);
@@ -139,6 +139,18 @@ function FAM_TRANSECTION_TLWLD() {
   const [ErrorPTE_ENV, setErrorPTE_ENV] = useState(false);
   const [ErrorPLN_Staff, setErrorPLN_Staff] = useState(false);
   const [ErrorShipping, setErrorShipping] = useState(false);
+  //Sale
+  const [ErrorPTE_INPUT_WS,setErrorPTE_INPUT_WS] = useState(false);
+  const [ErrorPLN_Staff_BOI, setErrorPLN_Staff_BOI] = useState(false);
+  const [Errorimport_boi_prepare,setErrorimport_boi_prepare ] = useState(false);
+  const [Errorboi_input_data, setErrorboi_input_data] = useState(false);
+  const [ErrorVendor_move_date,setErrorVendor_move_date ] = useState(false);
+  const [Errorcontact_date_pte,setErrorcontact_date_pte ] = useState(false);
+  const [Errorcontact_date,setErrorcontact_date ] = useState(false);
+  const [Errorship_input_inv,setErrorship_input_inv ] = useState(false);
+  const [Errorexport_clearance_date,setErrorexport_clearance_date ] = useState(false);
+  
+
 
   let STS = "";
   let Fam_list = "";
@@ -228,6 +240,21 @@ function FAM_TRANSECTION_TLWLD() {
   const [action__pte_env, setaction__pte_env] = useState("");
   const [action__pln_staff, setaction__pln_staff] = useState("");
   const [action__shipping, setaction__shipping] = useState("");
+  //Sale
+  const [action__pte_weight_size, setaction__pte_weight_size] = useState("");
+  const [action__pte_staff_boi,setaction__pte_staff_boi ] = useState("");
+  const [action__import_boi_prepare,setaction__import_boi_prepare ] = useState("");
+  const [action__boi_input_data,setaction__boi_input_data ] = useState("");
+  const [action__thai_catergories,setaction__thai_catergories ] = useState("");
+  const [action__pln_staff_bidding,setaction__pln_staff_bidding ] = useState("");
+  const [action__pte_dept,setaction__pte_dept ] = useState("");
+  const [action__export_clearance,setaction__export_clearance ] = useState("");
+  const [action__pte_upload_file,setaction__pte_upload_file ] = useState("");
+  const [action__pln_req_inv,setaction__pln_req_inv ] = useState("");
+  const [action__ship_input_inv,setaction__ship_input_inv ] = useState("");
+  const [action__pln_upload_final,setaction__pln_upload_final ] = useState("");
+  
+
   /////////////// ตัวแปร Check Read Only //////////////////////////////
   const [read_trans_fac, setReadTransFac] = useState(true);
   const [read_trans_cc, setReadTransCC] = useState(true);
@@ -275,12 +302,62 @@ function FAM_TRANSECTION_TLWLD() {
   const [read_pte_env, setReadPte_Env] = useState(true);
   const [read_pte_env_radio, setReadPte_EnvRadio] = useState(true);
   const [read_pte_env_cmmt, setReadPte_EnvCmmt] = useState(true);
+ 
   const [read_pln_staff, setReadPLN_Staff] = useState(true);
   const [read_pln_staff_radio, setReadPLN_StaffRadio] = useState(true);
   const [read_pln_staff_cmmt, setReadPLN_StaffCmmt] = useState(true);
+ 
   const [read_shipping, setReadShipping] = useState(true);
   const [read_shipping_radio, setReadShippingRadio] = useState(true);
   const [read_shipping_cmmt, setReadShippingCmmt] = useState(true);
+  //Sale
+  const [read_pte_input_weight_size, setReadpte_input_weight_size] = useState(true);
+  const [read_pte_input_weight_size_radio, setReadpte_input_weight_sizeRadio] = useState(true);
+  const [read_pte_input_weight_size_cmmt, setReadpte_input_weight_sizeCmmt] = useState(true);
+  
+  const [read_pte_staff_boi, setReadpte_staff_boi] = useState(true);
+  const [read_pte_staff_boi_radio, setReadpte_staff_boiRadio] = useState(true);
+  const [read_pte_staff_boi_cmmt, setReadpte_staff_boiCmmt] = useState(true);
+ 
+  const [read_import_boi_prepare, setReadimport_boi_prepare] = useState(true);
+  const [read_import_boi_prepare_radio, setReadimport_boi_prepareRadio] = useState(true);
+  const [read_import_boi_prepare_cmmt, setReadimport_boi_prepareCmmt] = useState(true);
+  
+  const [read_boi_input_data, setReadboi_input_data] = useState(true);
+  const [read_boi_input_data_radio, setReadboi_input_dataRadio] = useState(true);
+  const [read_boi_input_data_cmmt, setReadboi_input_dataCmmt] = useState(true);
+ 
+  const [read_thai_catergories, setReadthai_catergories] = useState(true);
+  const [read_thai_catergories_radio, setReathai_catergoriesRadio] = useState(true);
+  const [read_thai_catergories_cmmt, setReadthai_catergoriesCmmt] = useState(true);
+ 
+  const [read_pln_staff_bidding, setReadpln_staff_bidding] = useState(true);
+  const [read_pln_staff_bidding_radio, setReadpln_staff_biddingRadio] = useState(true);
+  const [read_pln_staff_bidding_cmmt, setReadpln_staff_biddingCmmt] = useState(true);
+ 
+  const [read_pte_dept, setReadpte_pte_dept] = useState(true);
+  const [read_pte_dept_radio, setReadpte_deptRadio] = useState(true);
+  const [read_pte_dept_cmmt, setReadpte_deptCmmt] = useState(true);
+ 
+  const [read_export_clearance, setReadexport_clearance] = useState(true);
+  const [read_export_clearance_radio, setReadexport_clearanceRadio] = useState(true);
+  const [read_export_clearance_cmmt, setReadexport_clearanceCmmt] = useState(true);
+ 
+  const [read_pte_upload_file, setReadpte_upload_file] = useState(true);
+  const [read_pte_upload_file_radio, setReadpte_upload_fileeRadio] = useState(true);
+  const [read_pte_upload_file_cmmt, setReadpte_upload_fileCmmt] = useState(true);
+ 
+  const [read_pln_req_inv, setReadpln_req_inv] = useState(true);
+  const [read_pln_req_inv_radio, setReadpln_req_invRadio] = useState(true);
+  const [read_pln_req_inv_cmmt, setReadpln_req_invCmmt] = useState(true);
+ 
+  const [read_ship_input_inv, setReadship_input_inv] = useState(true);
+  const [read_ship_input_inv_radio, setReaship_input_invRadio] = useState(true);
+  const [read_ship_input_inv_cmmt, setReadship_input_invCmmt] = useState(true);
+ 
+  const [read_pln_upload_final, setReadpln_upload_final] = useState(true);
+  const [read_pln_upload_final_radio, setReadpln_upload_finalRadio] = useState(true);
+  const [read_pln_upload_final_cmmt, setReadpln_upload_finalCmmt] = useState(true);
 
   /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
   const [checkrdo, setcheckrdo] = useState("hidden");
@@ -301,6 +378,20 @@ function FAM_TRANSECTION_TLWLD() {
   const [chkpte_env, setchkpte_env] = useState("hidden");
   const [chkpln_staff, setchkpln_staff] = useState("hidden");
   const [chkshipping, setchkshipping] = useState("hidden");
+  // Sale Chk
+  const [chk_pte_weight_size, setchk_pte_weight_size] = useState("hidden");
+  const [chk_pte_staff_boi, setchk_pte_staff_boi] = useState("hidden");
+  const [chk_import_boi_prepare, setchk_import_boi_prepare] = useState("hidden");
+  const [chk_boi_input_data, setchk_boi_input_data] = useState("hidden");
+  const [chk_thai_catergories, setchk_thai_catergories] = useState("hidden");
+  const [chk_pln_staff_bidding, setchk_pln_staff_bidding] = useState("hidden");
+  const [chk_pte_dept, setchk_pte_dept] = useState("hidden");
+  const [chk_export_clearance, setchk_export_clearance] = useState("hidden");
+  const [chk_pte_upload_file, setchk_pte_upload_file] = useState("hidden");
+  const [chk_pln_req_inv, setchk_pln_req_inv] = useState("hidden");
+  const [chk_ship_input_inv, setchk_ship_input_inv] = useState("hidden");
+  const [chk_pln_upload_final, setchk_pln_upload_final] = useState("hidden");
+  
 
   // comment ซ่อน ไม่ซ่อน
   const [CM_DepartmentManager, setCM_DepartmentManager] = useState("none");
@@ -321,6 +412,20 @@ function FAM_TRANSECTION_TLWLD() {
   const [CM_pte_env, setCM_pte_env] = useState("none");
   const [CM_pln_staff, setCM_pln_staff] = useState("none");
   const [CM_shipping, setCM_shipping] = useState("none");
+  //Sale
+  const [CM_pte_weight_size, setCM_pte_weight_size] = useState("none");
+  const [CM_pte_staff_boi, setCM_pte_staff_boi] = useState("none");
+  const [CM_import_boi_prepare, setCM_import_boi_prepare] = useState("none");
+  const [CM_boi_input_data, setCM_boi_input_data] = useState("none");
+  const [CM_thai_catergories, setCM_thai_catergories] = useState("none");
+  const [CM_pln_staff_bidding, setCM_pln_staff_bidding] = useState("none");
+  const [CM_pte_dept, setCM_pte_dept] = useState("none");
+  const [CM_export_clearance, setCM_export_clearance] = useState("none");
+  const [CM_pte_upload_file, setCM_pte_upload_file] = useState("none");
+  const [CM_pln_req_inv, setCM_pln_req_inv] = useState("none");
+  const [CM_ship_input_inv, setCM_ship_input_inv] = useState("none");
+  const [CM_pln_upload_final, setCM_pln_upload_final] = useState("none");
+
   // Donation check
   const [chk_cer_date, setchk_cer_date] = useState("");
 
@@ -1148,8 +1253,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[7] == "GP01005" ||
           For_Rq_Edit[7] == "GP01007" ||
           For_Rq_Edit[7] == "GP01006" ||
+          For_Rq_Edit[7] == "GP01003" ||
           For_Rq_Edit[7] == "GP01002"
         ) {
+         
           if (For_Edit_Rou != null) {
             if (
               For_Edit_Rou[0][7] === null ||
@@ -1161,11 +1268,13 @@ function FAM_TRANSECTION_TLWLD() {
             } else {
               setTel_service(For_Edit_Rou[0][7]);
             }
+        
             if (
               STS != "FLWO001" ||
               STS != "FLLS001" ||
               STS != "FLDN001" ||
               STS != "FLLD001" ||
+              STS != "FLSL001" ||
               STS != "FLSC001"
             ) {
               //Depat Mana
@@ -1312,12 +1421,129 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio__shipping(Edit_For_Scrap[0][9]);
                 }
               }
+              console.log(Edit_For_Sale,"Edit_For_Sale",Edit_For_Sale[0][22])
+              if(Edit_For_Sale.length >0){
+                setaction__pte_weight_size(Edit_For_Sale[0][2])
+                setaction__pte_staff_boi(Edit_For_Sale[0][5])
+                setaction__import_boi_prepare(Edit_For_Sale[0][8])
+                setaction__boi_input_data(Edit_For_Sale[0][11])
+                setaction__thai_catergories(Edit_For_Sale[0][15]) 
+                setaction__pln_staff_bidding(Edit_For_Sale[0][18])
+                setaction__pte_dept(Edit_For_Sale[0][23])
+                setaction__export_clearance(Edit_For_Sale[0][27])
+                setaction__pte_upload_file(Edit_For_Sale[0][31])
+                setaction__pln_req_inv(Edit_For_Sale[0][34])
+                setaction__ship_input_inv(Edit_For_Sale[0][37])
+                setaction__pln_upload_final(Edit_For_Sale[0][40])
+                setcontact_date(Edit_For_Sale[0][22])
+                setexport_clearance_date(Edit_For_Sale[0][26])
+                setcontact_date_pte(Edit_For_Sale[0][30])
+
+                if (
+                  Edit_For_Sale[0][3] == "null" ||
+                  Edit_For_Sale[0][3] == null
+                ) {
+                  setcmmtradio_pte_weight_size(null);
+                } else {
+                  setcmmtradio_pte_weight_size(Edit_For_Sale[0][3]);
+                }
+                if (
+                  Edit_For_Sale[0][6] == "null" ||
+                  Edit_For_Sale[0][6] == null
+                ) {
+                  setcmmtradio_pte_staff_boi(null);
+                } else {
+                  setcmmtradio_pte_staff_boi(Edit_For_Sale[0][6]);
+                }
+                if (
+                  Edit_For_Sale[0][9] == "null" ||
+                  Edit_For_Sale[0][9] == null
+                ) {
+                  setcmmtradio_import_boi_prepare(null);
+                } else {
+                  setcmmtradio_import_boi_prepare(Edit_For_Sale[0][9]);
+                }
+                if (
+                  Edit_For_Sale[0][12] == "null" ||
+                  Edit_For_Sale[0][12] == null
+                ) {
+                  setcmmtradio_boi_input_data(null);
+                } else {
+                  setcmmtradio_boi_input_data(Edit_For_Sale[0][12]);
+                }
+                if (
+                  Edit_For_Sale[0][12] == "null" ||
+                  Edit_For_Sale[0][12] == null
+                ) {
+                  setcmmtradio_boi_input_data(null);
+                } else {
+                  setcmmtradio_boi_input_data(Edit_For_Sale[0][12]);
+                }
+                if (
+                  Edit_For_Sale[0][14] == "null" ||
+                  Edit_For_Sale[0][14] == null
+                ) {
+                  setInput_thai_categories(null);
+                } else {
+                  setInput_thai_categories(Edit_For_Sale[0][14]);
+                }
+                if (
+                  Edit_For_Sale[0][16] == "null" ||
+                  Edit_For_Sale[0][16] == null
+                ) {
+                  setcmmtradio_thai_catergories(null);
+                } else {
+                  setcmmtradio_thai_catergories(Edit_For_Sale[0][16]);
+                }
+                if (
+                  Edit_For_Sale[0][19] == "null" ||
+                  Edit_For_Sale[0][19] == null
+                ) {
+                  setBidding_result(null);
+                } else {
+                  setBidding_result(Edit_For_Sale[0][16]);
+                }
+                if (
+                  Edit_For_Sale[0][20] == "null" ||
+                  Edit_For_Sale[0][20] == null
+                ) {
+                  setcmmtradio_pln_staff_bidding(null);
+                } else {
+                  setcmmtradio_pln_staff_bidding(Edit_For_Sale[0][20]);
+                }
+                if (
+                  Edit_For_Sale[0][24] == "null" ||
+                  Edit_For_Sale[0][24] == null
+                ) {
+                  setcmmtradio_pte_dept(null);
+                } else {
+                  setcmmtradio_pte_dept(Edit_For_Sale[0][24]);
+                }
+                if (
+                  Edit_For_Sale[0][28] == "null" ||
+                  Edit_For_Sale[0][28] == null
+                ) {
+                  setcmmtradio_export_clearance(null);
+                } else {
+                  setcmmtradio_export_clearance(Edit_For_Sale[0][28]);
+                }
+                if (
+                  Edit_For_Sale[0][32] == "null" ||
+                  Edit_For_Sale[0][32] == null
+                ) {
+                  setcmmtradio_pte_upload_file(null);
+                } else {
+                  setcmmtradio_pte_upload_file(Edit_For_Sale[0][32]);
+                }
+              }
+              
               if (
                 STS == "FLWO001" ||
                 For_Rq_Edit[16] === "R" ||
                 STS == "FLLS001" ||
                 STS == "FLDN001" ||
                 STS == "FLLD001" ||
+                STS == "FLSL001" ||
                 STS == "FLSC001"
               ) {
                 setReadTel(false);
@@ -1361,6 +1587,33 @@ function FAM_TRANSECTION_TLWLD() {
                 setReadShipping(false);
                 setReadShippingCmmt(false);
                 setReadShippingRadio(false);
+
+                setReadpte_input_weight_size(false);
+                setReadpte_input_weight_sizeCmmt(false);
+                setReadpte_staff_boi(false);
+                setReadpte_staff_boiCmmt(false);
+                setReadimport_boi_prepare(false);
+                setReadimport_boi_prepareCmmt(false);
+                setReadboi_input_data(false);
+                setReadboi_input_dataCmmt(false);
+                setReadthai_catergories(false);
+                setReadthai_catergoriesCmmt(false);
+                setReadpln_staff_bidding(false);
+                setReadpln_staff_biddingCmmt(false);
+                setReadpte_pte_dept(false);
+                setReadpte_deptCmmt(false);
+                setReadexport_clearance(false);
+                setReadexport_clearanceCmmt(false);
+                setReadpte_upload_file(false);
+                setReadpte_upload_fileCmmt(false);
+                setReadpln_req_inv(false);
+                setReadpln_req_invCmmt(false);
+                setReadship_input_inv(false);
+                setReadship_input_invCmmt(false);
+                setReadpln_upload_final(false);
+                setReadpln_upload_finalCmmt(false);
+
+
                 if (
                   STS == "FLWO092" ||
                   STS == "FLLS092" ||
@@ -1603,7 +1856,6 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_return_owner("table-row");
                 }
                 
-console.log(STS,"STS")
                 if (
                   STS == "FLWO910" ||
                   STS == "FLLS910" ||
@@ -1820,9 +2072,10 @@ console.log(STS,"STS")
                 STS == "FLLS002" ||
                 STS == "FLDN002" ||
                 STS == "FLLD002" ||
+                STS == "FLSL002" ||
                 STS == "FLSC002"
               ) {
-                console.log("อันนี้เข้าใจ 2");
+                console.log("เข้า1",STS)
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
                 setReadDeptRadio(false);
@@ -1833,6 +2086,7 @@ console.log(STS,"STS")
                 STS == "FLLS003" ||
                 STS == "FLDN003" ||
                 STS == "FLLD003" ||
+                STS == "FLSL003" ||
                 STS == "FLSC003"
               ) {
                 setaction__serviceby(formattedDate);
@@ -1847,6 +2101,7 @@ console.log(STS,"STS")
                 STS == "FLLS004" ||
                 STS == "FLDN004" ||
                 STS == "FLLD004" ||
+                STS == "FLSL004" ||
                 STS == "FLSC004"
               ) {
                 setaction__boistaff(formattedDate);
@@ -1863,6 +2118,7 @@ console.log(STS,"STS")
                 STS == "FLLS005" ||
                 STS == "FLDN005" ||
                 STS == "FLLD005" ||
+                STS == "FLSL005" ||
                 STS == "FLSC005"
               ) {
                 setaction__boimanager(formattedDate);
@@ -1881,6 +2137,7 @@ console.log(STS,"STS")
                 STS == "FLLS006" ||
                 STS == "FLDN006" ||
                 STS == "FLLD006" ||
+                STS == "FLSL006" ||
                 STS == "FLSC006"
               ) {
                 setaction__facmanager(formattedDate);
@@ -1901,6 +2158,7 @@ console.log(STS,"STS")
                 STS == "FLLS007" ||
                 STS == "FLDN007" ||
                 STS == "FLLD007" ||
+                STS == "FLSL007" ||
                 STS == "FLSC007"
               ) {
                 if (STS == "FLDN007") {
@@ -1931,6 +2189,7 @@ console.log(STS,"STS")
                 STS == "FLLS008" ||
                 STS == "FLDN008" ||
                 STS == "FLLD008" ||
+                STS == "FLSL008" ||
                 STS == "FLSC008"
               ) {
                 setaction__owner(formattedDate);
@@ -2063,7 +2322,340 @@ console.log(STS,"STS")
                 setCM_pte_env("table-row");
                 setCM_pln_staff("table-row");
                 setCM_shipping("table-row");
-              } else if (
+                
+              }else if (STS == "FLSL009") {
+                //sale
+                setaction__pte_weight_size(formattedDate);
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpte_input_weight_sizeCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                
+              }else if (STS == "FLSL010") {
+                //sale
+                setaction__pte_staff_boi(formattedDate);
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpte_staff_boiCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                
+              }else if (STS == "FLSL011") {
+                //sale
+                setaction__import_boi_prepare(formattedDate);
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadimport_boi_prepareCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                
+              }else if (STS == "FLSL012") {
+                //sale
+                setaction__boi_input_data(formattedDate);
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadboi_input_dataCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                
+              }else if (STS == "FLSL013") {
+                //sale
+                setaction__thai_catergories(formattedDate);
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadthai_catergoriesCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                
+              }else if (STS == "FLSL014") {
+                //sale
+                setaction__pln_staff_bidding(formattedDate);
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpln_staff_biddingCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                
+              }else if (STS == "FLSL015") {
+                //sale
+                setaction__pte_dept(formattedDate);
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpte_deptCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                
+              }else if (STS == "FLSL016") {
+                //sale
+                setaction__export_clearance(formattedDate);
+                setchk_export_clearance("visible");
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadexport_clearanceCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                setCM_export_clearance("table-row");
+              }else if (STS == "FLSL017") {
+                //sale
+                setaction__pte_upload_file(formattedDate);
+                chk_pte_upload_file("visible");
+                setchk_export_clearance("visible");
+                setchk_boi_input_data("visible");
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpte_upload_fileCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                setCM_export_clearance("table-row");
+                setCM_pte_upload_file("table-row");
+              }else if (STS == "FLSL018") {
+                //sale
+                setaction__pln_req_inv(formattedDate);
+                setchk_pte_upload_file("visible");
+                setchk_pln_req_inv("visible");
+                setchk_boi_input_data("visible");
+                setchk_export_clearance("visible");
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpln_req_invCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                setCM_export_clearance("table-row");
+                setCM_pte_upload_file("table-row");
+                setCM_pln_req_inv("table-row");
+              }else if (STS == "FLSL019") {
+                //sale
+                setaction__pln_upload_final(formattedDate);
+                setchk_pln_upload_final("visible");
+                setchk_ship_input_inv("visible");
+                setchk_pln_req_inv("visible");
+                setchk_export_clearance("visible");
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadpln_upload_finalCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                setCM_export_clearance("table-row");
+                setCM_pte_upload_file("table-row");
+                setCM_pln_req_inv("table-row");
+                setCM_ship_input_inv("table-row");
+                setCM_pln_upload_final("table-row");
+              }else if (
                 STS == "FLWO010" ||
                 STS == "FLLS010" ||
                 STS == "FLDN010" ||
@@ -2201,6 +2793,7 @@ console.log(STS,"STS")
               STS == "FLLS001" ||
               STS == "FLDN001" ||
               STS == "FLLD001" ||
+              STS == "FLSL001" ||
               STS == "FLSC001"
             ) {
               setReadTel(false);
@@ -2228,6 +2821,7 @@ console.log(STS,"STS")
               STS == "FLLS001" ||
               STS == "FLDN001" ||
               STS == "FLLD001" ||
+              STS == "FLSL001" ||
               STS == "FLSC001"
             ) {
               setReadTel(false);
@@ -2510,7 +3104,6 @@ console.log(STS,"STS")
     }
   };
   const handleNewboi_proj = async (value) => {
-    console.log("cccc", value, data_fromboi);
     let NewPoroj = value;
     if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       setsts("N");
@@ -2608,7 +3201,6 @@ console.log(STS,"STS")
       });
 
       const data = await response.data;
-      console.log("ข้อมูลที่มาจาก Srcap",data)
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Scrap", data_edit);
     } catch (error) {
@@ -2791,7 +3383,6 @@ console.log(STS,"STS")
         }
       
         if (Type === "GP01002") {
-          console.log(selectpte_env,selectpln_staff,selectshipping_staff,"GHJJJJJB")
           try {
             const response = await axios.post("/update_scrap", {
               famno: For_Rq_Edit[0],
@@ -12803,7 +13394,7 @@ console.log(STS,"STS")
             if (selectradio_owner == "A") {
               Status = "FLSL009";
             } else if (selectradio_owner == "R") {
-              Status = "FLSL097";
+              Status = "FLSL098";
             }
 
             if (
@@ -13052,26 +13643,26 @@ console.log(STS,"STS")
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
-          } else if (For_Rq_Edit[10] === "FLSC101") {
-            let Status = "FLSC010";
-              let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_Shipping", {
-                  FamNo: EditFam,
-                });
-                const jsonData = await response.data;
-                DataFile_Requester = jsonData;
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-              if (
-                DataFile_Requester == null ||
-                DataFile_Requester == [] ||
-                DataFile_Requester.length == 0
-              ) {
-                alert("Please Select File");
-                return;
-              }
+          } else if (For_Rq_Edit[10] === "FLSL011") {
+            let Status = "FLSL012";
+              // let DataFile_Requester = "";
+              // try {
+              //   const response = await axios.post("/getFAM_FILE_Shipping", {
+              //     FamNo: EditFam,
+              //   });
+              //   const jsonData = await response.data;
+              //   DataFile_Requester = jsonData;
+              // } catch (error) {
+              //   console.error("Error fetching data:", error);
+              // }
+              // if (
+              //   DataFile_Requester == null ||
+              //   DataFile_Requester == [] ||
+              //   DataFile_Requester.length == 0
+              // ) {
+              //   alert("Please Select File");
+              //   return;
+              // }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -13081,9 +13672,9 @@ console.log(STS,"STS")
                 console.error("Error requesting data:", error);
               }
               try {
-                const response = await axios.post("/update_scrap_shipping", {
+                const response = await axios.post("/update_import_boi_prepare", {
                   tranfer: EditFam,
-                  shipping_staff_cmmt: cmmtradio_shipping
+                  updateimport_boi_prepare: cmmtradio_import_boi_prepare
                 });
 
                 if (selectradio_record != "R") {
@@ -13136,12 +13727,705 @@ console.log(STS,"STS")
               }
             //}
 
-          } else if (For_Rq_Edit[10] === "FLSC010") {
+          } else if (For_Rq_Edit[10] === "FLSL012") {
+            let Status = "FLSL013";
+            // if (selectradio_record == "A") {
+            //   Status = "FLSC011";
+            // } else if (selectradio_record == "R") {
+            //   Status = "FLSC910";
+            // }
+
+            // if (
+            //   selectradio_record == "R" &&
+            //   (cmmtradio_record == "" ||
+            //     cmmtradio_record == null ||
+            //     cmmtradio_record == "null" ||
+            //     cmmtradio_record == "undefined")
+            // ) {
+            //   alert("Please fill in information");
+            // } else {
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_boi_input_data", {
+                  tranfer: EditFam,
+                  updateboi_input_data: cmmtradio_boi_input_data
+                });
+                
+
+                if (selectradio_record != "R") {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("To", selectacc_manager);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem("status_formail", selectradio_record);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    null,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Save Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                // //navigate("/ApproveFam");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+            //}
+          }else if (For_Rq_Edit[10] === "FLSL013") {
+            let Status = "FLSL014";
+            // if (selectradio_acc_manager == "A") {
+            //   Status = "FLSC012";
+            // } else if (selectradio_acc_manager == "R") {
+            //   Status = "FLSC911";
+            // }
+            // if (
+            //   selectradio_acc_manager == "R" &&
+            //   (cmmtradio_acc_manager == "" ||
+            //     cmmtradio_acc_manager == null ||
+            //     cmmtradio_acc_manager == "null" ||
+            //     cmmtradio_acc_manager == "undefined")
+            // ) {
+            //   alert("Please fill in information");
+            // } else {
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_thai_catergorise", {
+                  tranfer: EditFam,
+                  updatethai_catergorise: cmmtradio_thai_catergories,
+                  update_input_thaicatergory: Input_thai_categories
+                });
+                if (selectradio_acc_manager != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("To",selectservice_by );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    null,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+                localStorage.setItem("To", selectservice_by);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           // }
+          }else if (For_Rq_Edit[10] === "FLSL014") {
+            let Status = "FLSL015";
+            // if (selectradio_service_close_by == "A") {
+            //   Status = "FLSC013";
+            // } else if (selectradio_service_close_by == "R") {
+            //   Status = "FLSC912";
+            // }
+
+            // if (
+            //   selectradio_service_close_by == "R" &&
+            //   (cmmtradio_service_close_by == "" ||
+            //     cmmtradio_service_close_by == null ||
+            //     cmmtradio_service_close_by == "null" ||
+            //     cmmtradio_service_close_by == "undefined")
+            // ) {
+            //   alert("Please fill in information");
+            // } else {
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_pln_bidding", {
+                  tranfer: EditFam,
+                  pln_bidding: cmmtradio_pln_staff_bidding,
+                  pln_bidding_result: Bidding_result
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           // }
+          }else if (For_Rq_Edit[10] === "FLSL015") {
+            let Status = "FLSL016";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                console.log(contact_date,"dateeeeeee")
+                const response = await axios.post("/update_pte_contact_dept", {
+                  tranfer: EditFam,
+                  pte_contact_dept: cmmtradio_pte_dept,
+                  date_pte_contact_dept: contact_date
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL016") {
+            let Status = "FLSL017";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_boi_make_clearance", {
+                  tranfer: EditFam,
+                  boi_make_clearance: cmmtradio_export_clearance,
+                  date_export:export_clearance_date
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL017") {
+            let Status = "FLSL018";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_pte_upload_file_clearance", {
+                  tranfer: EditFam,
+                  pte_upload_file_clearance: cmmtradio_pte_upload_file,
+                  date_pte_upload_file_clearance: contact_date_pte
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL018") {
+            let Status = "FLSL019";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_pln_request_invoice", {
+                  tranfer: EditFam,
+                  pln_request_invoice: cmmtradio_pln_req_inv
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL019") {
+            let Status = "FLSL020";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_shipping_inv", {
+                  tranfer: EditFam,
+                  updateshipping_inv: cmmtradio_ship_input_inv
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL020") {
+            let Status = "FLSL021";
+        
+              try {
+                const response = await axios.post("/update_submit", {
+                  famno: EditFam,
+                  sts_submit: Status,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_pln_upload_final", {
+                  tranfer: EditFam,
+                  pln_upload_final: cmmtradio_pln_upload_final,
+                  move_date:Vendor_move_date
+                });
+
+                if (selectradio_service_close_by != "R") {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+                  localStorage.setItem("To", For_Rq_Edit[2]);
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                } else {
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_service_close_by
+                  );
+
+                  localStorage.setItem("Genno", EditFam);
+                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                  localStorage.setItem("Status", Status);
+                  const Approver = [
+                    selectdepartment_mana,
+                    selectservice_by,
+                    selectboi_staff,
+                    selectboi_manager,
+                    selectfac_manager,
+                    selectacc_check,
+                    owner_roting,
+                    receiver,
+                    text_acc_check,
+                    selectacc_manager,
+                  ];
+                  const sentdata = JSON.stringify(Approver);
+                  localStorage.setItem("Approver_formail", sentdata);
+                }
+                Swal.fire({
+                  title: "Submit Success",
+                  icon: "success",
+                });
+
+                localStorage.removeItem("ForRequester");
+                localStorage.removeItem("forDetail");
+                localStorage.removeItem("TransForDetail");
+                localStorage.removeItem("EDIT");
+                localStorage.removeItem("For_Transfer");
+                localStorage.removeItem("For_Routing");
+                localStorage.removeItem("For_Req_Edit");
+                localStorage.removeItem("Edit_Trans");
+                localStorage.removeItem("Edit_Dteail_for_FixedCode");
+                localStorage.removeItem("Edit_routing");
+                //navigate("/Mail");
+              } catch (error) {
+                console.error("Error updating submit status:", error.message);
+              }
+           
+          }else if (For_Rq_Edit[10] === "FLSL021") {
             let Status = "";
             if (selectradio_record == "A") {
-              Status = "FLSC011";
+              Status = "FLSL022";
             } else if (selectradio_record == "R") {
-              Status = "FLSC910";
+              Status = "FLSL920";
             }
 
             if (
@@ -13210,12 +14494,12 @@ console.log(STS,"STS")
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSC011") {
+          }else if (For_Rq_Edit[10] === "FLSL022") {
             let Status = "";
             if (selectradio_acc_manager == "A") {
-              Status = "FLSC012";
+              Status = "FLSL023";
             } else if (selectradio_acc_manager == "R") {
-              Status = "FLSC911";
+              Status = "FLSL921";
             }
             if (
               selectradio_acc_manager == "R" &&
@@ -13291,12 +14575,12 @@ console.log(STS,"STS")
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSC012") {
+          }else if (For_Rq_Edit[10] === "FLSL023") {
             let Status = "";
             if (selectradio_service_close_by == "A") {
-              Status = "FLSC013";
+              Status = "FLSL024";
             } else if (selectradio_service_close_by == "R") {
-              Status = "FLSC912";
+              Status = "FLSL922";
             }
 
             if (
@@ -13508,43 +14792,7 @@ console.log(STS,"STS")
           setErrorAcc_check(false);
         }
 
-        //Scrap
-        if (
-          selectpte_env === null ||
-          selectpte_env === undefined ||
-          selectpte_env === "" ||
-          selectpte_env === "null"
-        ) {
-          alert("Please fill in information: PTE(ENV)");
-          setErrorPTE_ENV(true);
-          return;
-        } else {
-          setErrorPTE_ENV(false);
-        }
-        if (
-          selectpln_staff === null ||
-          selectpln_staff === undefined ||
-          selectpln_staff === "" ||
-          selectpln_staff === "null"
-        ) {
-          alert("Please fill in information: PLN Staff");
-          setErrorPLN_Staff(true);
-          return;
-        } else {
-          setErrorPLN_Staff(false);
-        }
-        if (
-          selectshipping_staff === null ||
-          selectshipping_staff === undefined ||
-          selectshipping_staff === "" ||
-          selectshipping_staff === "null"
-        ) {
-          alert("Please fill in information: Shipping Staff");
-          setErrorShipping(true);
-          return;
-        } else {
-          setErrorShipping(false);
-        }
+        
 
         if (
           selectacc_manager === null ||
@@ -13598,15 +14846,24 @@ console.log(STS,"STS")
           }
 
           try {
-            const response = await axios.post("/insert_scrap", {
+            const response = await axios.post("/update_sale", {
               famno: For_Req[0],
-              pte_env: selectpte_env,
-              pln_staff: selectpln_staff,
-              shipping: selectshipping_staff,
-              create_by: For_Req[1],
+              updateinput_ws: selectpte_input_weight_size,
+              update_plnboi: selectpln_staff_boi,
+              updateboi_prerare: selectimport_boi_prepare,
+              updatedata_import: selectboi_input_data,
+              updatethai_catergories:thai_catergories,
+              updatebidding:pln_staff_bidding,
+              updateindustrial:pte_dept,
+              updateclerance:export_clearance,
+              update_upload_file_after:pte_upload_file,
+              updatereq_inv:pln_req_inv,
+              updateinput_in:ship_input_inv,
+              updatepayment:pln_upload_final,
+              update_by: For_Req[1],
             });
           } catch (error) {
-            console.error("Error insert_scrap :", error);
+            console.error("Error update_sale", error);
           }
           localStorage.setItem("To", selectdepartment_mana);
           localStorage.setItem("Genno", For_Req[0]);
@@ -13627,7 +14884,7 @@ console.log(STS,"STS")
   // ปุ่ม Reset
   const Reset = async () => {
     if (EditFam !== null) {
-      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R" || STS1 == "FLLS001" || STS1 == "FLWO001" || STS1 == "FLSC001" || STS1 == "FLDN001" || STS1 == "FLLD001" ) {
+      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R" || STS1 == "FLLS001" || STS1 == "FLWO001" || STS1 == "FLSC001" || STS1 == "FLDN001" || STS1 == "FLLD001"|| STS1 == "FLSL001"  ) {
         setselecttrans_factory([]);
         setselecttrans_cc([]);
         setnew_boi("");
@@ -14007,7 +15264,6 @@ console.log(STS,"STS")
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectacc_manager(For_Edit_Rou[0][28]);
-          console.log(Edit_For_Lending,"UUI")
           if(Edit_For_Lending.length > 0){
             setreturn_selectacc_manager(Edit_For_Lending[0][1]);
           }
@@ -14134,7 +15390,6 @@ console.log(STS,"STS")
     }
   };
   const Import_boi = async () => {
-    console.log("ก็เข้ามา",EditFam)
     let level = "";
     if (EditFam != null) {
       if (For_edit_trans != null) {
@@ -14151,7 +15406,6 @@ console.log(STS,"STS")
       setimport_boi_prepare(data);
 
       if (EditFam != null) {
-        console.log(EditFam,"LLLLLLLLL")
         if (Edit_For_Sale.length > 0) {
           setselectimport_boi_prepare(Edit_For_Sale[0][7]);
           setthai_catergories(Edit_For_Sale[0][13])
@@ -14186,39 +15440,10 @@ console.log(STS,"STS")
     }
   };
   return {
-    STS1,
-    setSTS1,
-    For_sts_reject,
-    setFor_sts_reject,
-    ownersend,
-    setownersend,
-    trans_factory,
-    settrans_factory,
-    selecttrans_factory,
-    setselecttrans_factory,
-    trans_cc,
-    settrans_cc,
-    selecttrans_cc,
-    setselecttrans_cc,
-    datanew_boi,
-    setdatanew_boi,
-    new_boi,
-    setnew_boi,
-    data_fromboi,
-    setdata_fromboi,
-    new_owner,
-    setnew_owner,
-    selectnew_owner,
-    setselectnew_owner,
-    receiver,
-    setreceiver,
-    sts,
-    setsts,
-    abnormal,
-    setabnormal,
-    Tel_for_trans,
-    setTel_for_trans,
-    plan_date,
+    STS1,setSTS1,For_sts_reject,setFor_sts_reject,ownersend,setownersend,trans_factory,settrans_factory,selecttrans_factory,
+    setselecttrans_factory,trans_cc,settrans_cc,selecttrans_cc,setselecttrans_cc,datanew_boi,setdatanew_boi,new_boi,setnew_boi,
+    data_fromboi,setdata_fromboi,new_owner,setnew_owner,selectnew_owner,setselectnew_owner,receiver,setreceiver,sts,setsts,abnormal,
+    setabnormal,Tel_for_trans,setTel_for_trans, plan_date,
     setplan_date,
     department_mana,
     setdepartment_mana,
@@ -14282,37 +15507,21 @@ console.log(STS,"STS")
     For_Edit_Rou,
     edit_New_BOI,
     ErrorTel,
-    setErrorTel,
     ErrorFac,
-    setErrorFac,
     ErrorCC,
-    setErrorCC,
     ErrorNewOwn,
-    setErrorNewOwn,
     ErrorManager,
-    setErrorManager,
     ErrorService_by,
-    setErrorService_by,
     ErrorBoi_Staff,
-    setErrorBoi_Staff,
     ErrorBoi_manager,
-    setErrorBoi_manager,
     ErrorMana_Fac,
-    setErrorMana_Fac,
     ErrorAcc_check,
-    setErrorAcc_check,
     ErrorAcc_Mana,
-    setErrorAcc_Mana,
     ErrorTel_service,
-    setErrorTel_service,
     ErrorDate,
-    setErrorDate,
     ErrorTel_Rq,
-    setErrorTel_Rq,
     ErrorDept,
-    setErrorDept,
     ErrNewboi,
-    setErrNewboi,
     isPopupOpenLoadding,
     closePopupLoadding,
     selectradio_dept,
@@ -14547,7 +15756,84 @@ console.log(STS,"STS")
     pln_req_inv, setpln_req_inv,
     ship_input_inv, setship_input_inv,
     pln_upload_final, setpln_upload_final,
-    export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file
+    export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file,
+    read_pte_input_weight_size,
+    read_pte_input_weight_size_radio,
+    read_pte_input_weight_size_cmmt,
+    read_pte_staff_boi,
+    read_pte_staff_boi_radio,
+    read_pte_staff_boi_cmmt,
+    read_import_boi_prepare,
+    read_import_boi_prepare_radio,
+    read_import_boi_prepare_cmmt,
+    read_boi_input_data,
+    read_boi_input_data_radio,
+    read_boi_input_data_cmmt,
+    read_thai_catergories,
+    read_thai_catergories_radio,
+    read_thai_catergories_cmmt,
+    read_pln_staff_bidding,
+    read_pln_staff_bidding_radio,
+    read_pln_staff_bidding_cmmt,
+    read_pte_dept,
+    read_pte_dept_radio,
+    read_pte_dept_cmmt,
+    read_export_clearance,
+    read_export_clearance_radio,
+    read_export_clearance_cmmt,
+    read_pte_upload_file,
+    read_pte_upload_file_radio,
+    read_pte_upload_file_cmmt,
+    read_pln_req_inv,
+    read_pln_req_inv_radio,
+    read_pln_req_inv_cmmt,
+    read_ship_input_inv,
+    read_ship_input_inv_radio,
+    read_ship_input_inv_cmmt,
+    read_pln_upload_final,
+    read_pln_upload_final_radio,
+    read_pln_upload_final_cmmt,
+    ErrorPTE_INPUT_WS,ErrorPLN_Staff_BOI,Errorimport_boi_prepare,Errorboi_input_data,ErrorVendor_move_date,Errorcontact_date_pte,Errorcontact_date,
+    cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size,
+    cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi,
+    cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare,
+    cmmtradio_boi_input_data, setcmmtradio_boi_input_data,
+    cmmtradio_thai_catergories, setcmmtradio_thai_catergories,
+    cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding,
+    cmmtradio_pte_dept, setcmmtradio_pte_dept,
+    cmmtradio_export_clearance, setcmmtradio_export_clearance,
+    cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file,
+    cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv,
+    cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv,
+    cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final,
+    CM_pte_weight_size,CM_pte_staff_boi,CM_import_boi_prepare,CM_boi_input_data,CM_thai_catergories,
+CM_pln_staff_bidding,CM_pte_dept,CM_export_clearance,CM_pte_upload_file,CM_pln_req_inv,CM_ship_input_inv,
+CM_pln_upload_final,export_clearance_date,setexport_clearance_date,Errorexport_clearance_date,action__pte_weight_size, setaction__pte_weight_size,
+action__pte_staff_boi, setaction__pte_staff_boi,
+action__import_boi_prepare, setaction__import_boi_prepare,
+action__boi_input_data, setaction__boi_input_data,
+action__thai_catergories, setaction__thai_catergories,
+action__pln_staff_bidding, setaction__pln_staff_bidding,
+action__pte_dept, setaction__pte_dept,
+action__export_clearance, setaction__export_clearance,
+action__pte_upload_file, setaction__pte_upload_file,
+action__pln_req_inv, setaction__pln_req_inv,
+action__ship_input_inv, setaction__ship_input_inv,
+action__pln_upload_final, setaction__pln_upload_final,
+chk_pte_weight_size, setchk_pte_weight_size,
+chk_pte_staff_boi, setchk_pte_staff_boi,
+chk_import_boi_prepare, setchk_import_boi_prepare,
+chk_boi_input_data, setchk_boi_input_data,
+chk_thai_catergories, setchk_thai_catergories,
+chk_pln_staff_bidding, setchk_pln_staff_bidding,
+chk_pte_dept, setchk_pte_dept,
+chk_export_clearance, setchk_export_clearance,
+chk_pte_upload_file, setchk_pte_upload_file,
+chk_pln_req_inv, setchk_pln_req_inv,
+chk_ship_input_inv, setchk_ship_input_inv,
+chk_pln_upload_final, setchk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv
+,Input_thai_categories, setInput_thai_categories,Bidding_result, setBidding_result,
+contact_date,setcontact_date,contact_date_pte,contact_date_pte,setcontact_date_pte
   };
 }
 

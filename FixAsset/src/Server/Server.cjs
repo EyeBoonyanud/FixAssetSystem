@@ -123,9 +123,19 @@ app.post("/update_sale",Transaction.update_sale);
 app.post("/insert_sale",Transaction.insert_sale);
 app.post("/getEdit_sale",Transaction.getEdit_sale);
 app.post("/update_for_nullSale",Transaction.update_for_nullSale);
+
 app.post("/update_sale_ws",Transaction.update_sale_ws);
 app.post("/update_sale_pln_staff_boi",Transaction.update_sale_pln_staff_boi);
-
+app.post("/update_import_boi_prepare",Transaction.update_import_boi_prepare);
+app.post("/update_boi_input_data",Transaction.update_boi_input_data);
+app.post("/update_thai_catergorise",Transaction.update_thai_catergorise);
+app.post("/update_pln_bidding",Transaction.update_pln_bidding);
+app.post("/update_pte_contact_dept",Transaction.update_pte_contact_dept);
+app.post("/update_boi_make_clearance",Transaction.update_boi_make_clearance);
+app.post("/update_pte_upload_file_clearance",Transaction.update_pte_upload_file_clearance);
+app.post("/update_pln_request_invoice",Transaction.update_pln_request_invoice);
+app.post("/update_shipping_inv",Transaction.update_shipping_inv);
+app.post("/update_pln_upload_final",Transaction.update_pln_upload_final);
 
 
 
