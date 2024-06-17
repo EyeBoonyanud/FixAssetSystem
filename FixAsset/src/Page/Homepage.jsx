@@ -27,7 +27,7 @@ import MenuWallpaper from "../assets/Image/Wallpaper_Menulist2.jpg";
 import {function_homepage} from "../Function/FN_HOME_PAGE/HOMEPAGE";
 
 export default function BasicGrid() {
-  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap } = function_homepage();
+  const {isPopupOpenLoadding,closePopupLoadding,dataallname_Show,dataall_Show,dataname_show,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap,dataSale} = function_homepage();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -610,7 +610,362 @@ export default function BasicGrid() {
                             </Typography>
                           </TableCell>
                         </TableRow>
+                        
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[14] &&
+                              dataallname_Show[14][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[14] &&
+                                dataallname_Show[14][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[14] &&
+                              dataallname_Show[14][2] 
+                              ? dataallname_Show[14][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][14]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
 
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[15] &&
+                              dataallname_Show[15][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[15] &&
+                                dataallname_Show[15][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[15] &&
+                              dataallname_Show[15][2] 
+                              ? dataallname_Show[15][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][15]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[16] &&
+                              dataallname_Show[16][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[16] &&
+                                dataallname_Show[16][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[16] &&
+                              dataallname_Show[16][2] 
+                              ? dataallname_Show[16][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][16]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[17] &&
+                              dataallname_Show[17][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[17] &&
+                                dataallname_Show[17][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[17] &&
+                              dataallname_Show[17][2] 
+                              ? dataallname_Show[17][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][17]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[18] &&
+                              dataallname_Show[18][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[18] &&
+                                dataallname_Show[18][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[18] &&
+                              dataallname_Show[18][2] 
+                              ? dataallname_Show[18][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][18]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[19] &&
+                              dataallname_Show[19][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[19] &&
+                                dataallname_Show[19][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[19] &&
+                              dataallname_Show[19][2] 
+                              ? dataallname_Show[19][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][19]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[20] &&
+                              dataallname_Show[20][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[20] &&
+                                dataallname_Show[20][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[20] &&
+                              dataallname_Show[20][2] 
+                              ? dataallname_Show[20][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][20]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[21] &&
+                              dataallname_Show[21][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[21] &&
+                                dataallname_Show[21][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[21] &&
+                              dataallname_Show[21][2] 
+                              ? dataallname_Show[21][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][21]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          style={{
+                            
+                            display: !(
+                              dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[22] &&
+                              dataallname_Show[22][2]
+                            ) ? "none" : "table-row"
+                          }}
+                          className="Hoverhover"
+                          onClick={() =>
+                            handleClickNextToSearch(
+                              (dataallname_Show &&
+                                dataallname_Show[0] &&
+                                dataallname_Show[22] &&
+                                dataallname_Show[22][2]) ||
+                                '',
+                                dataname_type
+                            )
+                          }
+                        >
+                          <TableCell align="left">
+                            {dataallname_Show &&
+                              dataallname_Show[0] &&
+                              dataallname_Show[22] &&
+                              dataallname_Show[22][2] 
+                              ? dataallname_Show[22][2] 
+                              : ''}
+                          </TableCell>
+                          <TableCell>
+                            <Typography className="Number-menu-list2 White-background2">
+                              {(dataall_Show &&
+                                dataall_Show[0] &&
+                                dataall_Show[0][22]) ||
+                                0}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        
                       </TableBody>
                     </Table>
                   )}
@@ -836,7 +1191,7 @@ export default function BasicGrid() {
                             variant="h5"
                             className="Number-menu-list White-background"
                           >
-                            0
+                            {dataSale[0] || 0}
                           </Typography>
                         </CardContent>
                       </CardActionArea>

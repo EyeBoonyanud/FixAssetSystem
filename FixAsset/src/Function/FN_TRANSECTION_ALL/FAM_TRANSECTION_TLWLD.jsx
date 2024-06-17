@@ -24,6 +24,8 @@ function FAM_TRANSECTION_TLWLD() {
   const For_Rou = JSON.parse(Routing);
   const ForLenging = localStorage.getItem("For_Lending");
   const For_Leading_New = JSON.parse(ForLenging);
+  const ForSale = localStorage.getItem("For_Sale");
+  const For_Sale_New = JSON.parse(ForSale);
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -1421,7 +1423,6 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio__shipping(Edit_For_Scrap[0][9]);
                 }
               }
-              console.log(Edit_For_Sale,"Edit_For_Sale",Edit_For_Sale[0][22])
               if(Edit_For_Sale.length >0){
                 setaction__pte_weight_size(Edit_For_Sale[0][2])
                 setaction__pte_staff_boi(Edit_For_Sale[0][5])
@@ -1438,6 +1439,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setcontact_date(Edit_For_Sale[0][22])
                 setexport_clearance_date(Edit_For_Sale[0][26])
                 setcontact_date_pte(Edit_For_Sale[0][30])
+                setVendor_move_date(Edit_For_Sale[0][40])
 
                 if (
                   Edit_For_Sale[0][3] == "null" ||
@@ -1501,7 +1503,7 @@ function FAM_TRANSECTION_TLWLD() {
                 ) {
                   setBidding_result(null);
                 } else {
-                  setBidding_result(Edit_For_Sale[0][16]);
+                  setBidding_result(Edit_For_Sale[0][19]);
                 }
                 if (
                   Edit_For_Sale[0][20] == "null" ||
@@ -1534,6 +1536,30 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio_pte_upload_file(null);
                 } else {
                   setcmmtradio_pte_upload_file(Edit_For_Sale[0][32]);
+                }
+                if (
+                  Edit_For_Sale[0][35] == "null" ||
+                  Edit_For_Sale[0][35] == null
+                ) {
+                  setcmmtradio_pln_req_inv(null);
+                } else {
+                  setcmmtradio_pln_req_inv(Edit_For_Sale[0][35]);
+                }
+                if (
+                  Edit_For_Sale[0][38] == "null" ||
+                  Edit_For_Sale[0][38] == null
+                ) {
+                  setcmmtradio_ship_input_inv(null);
+                } else {
+                  setcmmtradio_ship_input_inv(Edit_For_Sale[0][38]);
+                }
+                if (
+                  Edit_For_Sale[0][42] == "null" ||
+                  Edit_For_Sale[0][42] == null
+                ) {
+                  setcmmtradio_pln_upload_final(null);
+                } else {
+                  setcmmtradio_pln_upload_final(Edit_For_Sale[0][42]);
                 }
               }
               
@@ -2075,7 +2101,6 @@ function FAM_TRANSECTION_TLWLD() {
                 STS == "FLSL002" ||
                 STS == "FLSC002"
               ) {
-                console.log("เข้า1",STS)
                 setaction__dept(formattedDate);
                 setcheckrdo("visible");
                 setReadDeptRadio(false);
@@ -2544,7 +2569,7 @@ function FAM_TRANSECTION_TLWLD() {
               }else if (STS == "FLSL017") {
                 //sale
                 setaction__pte_upload_file(formattedDate);
-                chk_pte_upload_file("visible");
+                setchk_pte_upload_file("visible");
                 setchk_export_clearance("visible");
                 setchk_boi_input_data("visible");
                 setchk_pte_dept("visible");
@@ -2617,8 +2642,51 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pln_req_inv("table-row");
               }else if (STS == "FLSL019") {
                 //sale
+                setaction__ship_input_inv(formattedDate);
+                setchk_boi_input_data("visible");
+                setchk_pte_upload_file("visible");
+                setchk_ship_input_inv("visible");
+                setchk_pln_req_inv("visible");
+                setchk_export_clearance("visible");
+                setchk_pte_dept("visible");
+                setchk_pln_staff_bidding("visible");
+                setchk_thai_catergories("visible");
+                setchk_import_boi_prepare("visible");
+                setchk_pte_staff_boi("visible");
+                setchk_pte_weight_size("visible");
+                setchkowner("visible");
+                setchkacc_check("visible");
+                setchkfacmanager("visible");
+                setchkboimanager("visible");
+                setchkboistaff("visible");
+                setchkservice_by("visible");
+                setcheckrdo("visible");
+                setReadship_input_invCmmt(false);
+                setCM_service_by("table-row");
+                setCM_DepartmentManager("table-row");
+                setCM_boistaff("table-row");
+                setCM_boimanager("table-row");
+                setCM_facmanager("table-row");
+                setCM_acc_check("table-row");
+                setCM_owner("table-row");
+                setCM_pte_weight_size("table-row");
+                setCM_pte_staff_boi("table-row");
+                setCM_import_boi_prepare("table-row");
+                setCM_boi_input_data("table-row");
+                setCM_thai_catergories("table-row");
+                setCM_pln_staff_bidding("table-row");
+                setCM_pte_dept("table-row");
+                setCM_export_clearance("table-row");
+                setCM_pte_upload_file("table-row");
+                setCM_pln_req_inv("table-row");
+                setCM_ship_input_inv("table-row");
+                setCM_pte_upload_file("table-row");
+              }else if (STS == "FLSL020") {
+                //sale
                 setaction__pln_upload_final(formattedDate);
                 setchk_pln_upload_final("visible");
+                setchk_boi_input_data("visible");
+                setchk_pte_upload_file("visible");
                 setchk_ship_input_inv("visible");
                 setchk_pln_req_inv("visible");
                 setchk_export_clearance("visible");
@@ -2654,12 +2722,14 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pte_upload_file("table-row");
                 setCM_pln_req_inv("table-row");
                 setCM_ship_input_inv("table-row");
+                setCM_pte_upload_file("table-row");
                 setCM_pln_upload_final("table-row");
               }else if (
                 STS == "FLWO010" ||
                 STS == "FLLS010" ||
                 STS == "FLDN010" ||
                 STS == "FLLD010" ||
+                STS == "FLSL021" ||
                 STS == "FLSC010"
               ) {
                 if (STS == "FLLD010") {
@@ -2676,6 +2746,33 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pte_env("table-row");
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
+                }
+                if(STS == "FLSL021" ){
+                  setchk_pln_upload_final("visible");
+                  setchk_boi_input_data("visible");
+                  setchk_pte_upload_file("visible");
+                  setchk_ship_input_inv("visible");
+                  setchk_pln_req_inv("visible");
+                  setchk_export_clearance("visible");
+                  setchk_pte_dept("visible");
+                  setchk_pln_staff_bidding("visible");
+                  setchk_thai_catergories("visible");
+                  setchk_import_boi_prepare("visible");
+                  setchk_pte_staff_boi("visible");
+                  setchk_pte_weight_size("visible");
+                  setCM_pte_weight_size("table-row");
+                  setCM_pte_staff_boi("table-row");
+                  setCM_import_boi_prepare("table-row");
+                  setCM_boi_input_data("table-row");
+                  setCM_thai_catergories("table-row");
+                  setCM_pln_staff_bidding("table-row");
+                  setCM_pte_dept("table-row");
+                  setCM_export_clearance("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_req_inv("table-row");
+                  setCM_ship_input_inv("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_upload_final("table-row");
                 }
                 setaction__record(formattedDate);
                 setchkacc_record("visible");
@@ -2701,6 +2798,7 @@ function FAM_TRANSECTION_TLWLD() {
                 STS == "FLLS011" ||
                 STS == "FLDN011" ||
                 STS == "FLLD011" ||
+                STS == "FLSL022" ||
                 STS == "FLSC011"
               ) {
                 if (STS == "FLLD011") {
@@ -2718,6 +2816,33 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pte_env("table-row");
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
+                }
+                if(STS == "FLSL022" ){
+                  setchk_pln_upload_final("visible");
+                  setchk_boi_input_data("visible");
+                  setchk_pte_upload_file("visible");
+                  setchk_ship_input_inv("visible");
+                  setchk_pln_req_inv("visible");
+                  setchk_export_clearance("visible");
+                  setchk_pte_dept("visible");
+                  setchk_pln_staff_bidding("visible");
+                  setchk_thai_catergories("visible");
+                  setchk_import_boi_prepare("visible");
+                  setchk_pte_staff_boi("visible");
+                  setchk_pte_weight_size("visible");
+                  setCM_pte_weight_size("table-row");
+                  setCM_pte_staff_boi("table-row");
+                  setCM_import_boi_prepare("table-row");
+                  setCM_boi_input_data("table-row");
+                  setCM_thai_catergories("table-row");
+                  setCM_pln_staff_bidding("table-row");
+                  setCM_pte_dept("table-row");
+                  setCM_export_clearance("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_req_inv("table-row");
+                  setCM_ship_input_inv("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_upload_final("table-row");
                 }
                 
                 setaction__acc_manager(formattedDate);
@@ -2746,6 +2871,7 @@ function FAM_TRANSECTION_TLWLD() {
                 STS == "FLLS012" ||
                 STS == "FLDN012" ||
                 STS == "FLLD012" ||
+                STS == "FLSL023"||
                 STS == "FLSC012"
               ) {
                 if (STS == "FLLD012") {
@@ -2763,6 +2889,33 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pte_env("table-row");
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
+                }
+                if(STS == "FLSL023" ){
+                  setchk_pln_upload_final("visible");
+                  setchk_boi_input_data("visible");
+                  setchk_pte_upload_file("visible");
+                  setchk_ship_input_inv("visible");
+                  setchk_pln_req_inv("visible");
+                  setchk_export_clearance("visible");
+                  setchk_pte_dept("visible");
+                  setchk_pln_staff_bidding("visible");
+                  setchk_thai_catergories("visible");
+                  setchk_import_boi_prepare("visible");
+                  setchk_pte_staff_boi("visible");
+                  setchk_pte_weight_size("visible");
+                  setCM_pte_weight_size("table-row");
+                  setCM_pte_staff_boi("table-row");
+                  setCM_import_boi_prepare("table-row");
+                  setCM_boi_input_data("table-row");
+                  setCM_thai_catergories("table-row");
+                  setCM_pln_staff_bidding("table-row");
+                  setCM_pte_dept("table-row");
+                  setCM_export_clearance("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_req_inv("table-row");
+                  setCM_ship_input_inv("table-row");
+                  setCM_pte_upload_file("table-row");
+                  setCM_pln_upload_final("table-row");
                 }
                 setaction__service_close_by(formattedDate);
                 setchkservice_close("visible");
@@ -2905,6 +3058,30 @@ function FAM_TRANSECTION_TLWLD() {
       setReadShipping(false);
       setReadShippingCmmt(false);
       setReadShippingRadio(false);
+      setReadpte_input_weight_size(false);
+      setReadpte_input_weight_sizeCmmt(false);
+      setReadpte_staff_boi(false);
+      setReadpte_staff_boiCmmt(false);
+      setReadimport_boi_prepare(false);
+      setReadimport_boi_prepareCmmt(false);
+      setReadboi_input_data(false);
+      setReadboi_input_dataCmmt(false);
+      setReadthai_catergories(false);
+      setReadthai_catergoriesCmmt(false);
+      setReadpln_staff_bidding(false);
+      setReadpln_staff_biddingCmmt(false);
+      setReadpte_pte_dept(false);
+      setReadpte_deptCmmt(false);
+      setReadexport_clearance(false);
+      setReadexport_clearanceCmmt(false);
+      setReadpte_upload_file(false);
+      setReadpte_upload_fileCmmt(false);
+      setReadpln_req_inv(false);
+      setReadpln_req_invCmmt(false);
+      setReadship_input_inv(false);
+      setReadship_input_invCmmt(false);
+      setReadpln_upload_final(false);
+      setReadpln_upload_finalCmmt(false);
       if (For_Rou != null) {
         if (
           For_Rou[3] === null ||
@@ -2918,6 +3095,20 @@ function FAM_TRANSECTION_TLWLD() {
         }
 
         setowner_roting(For_Rou[9]);
+      }
+      if(For_Sale_New !== null){
+        setselectpte_input_weight_size(For_Sale_New[1]);
+        setselectpln_staff_boi(For_Sale_New[2]);
+        setselectimport_boi_prepare(For_Sale_New[3]);
+        setselectboi_input_data(For_Sale_New[4]);
+        setthai_catergories(For_Sale_New[5]);
+        setpln_staff_bidding(For_Sale_New[6]);
+        setpte_dept(For_Sale_New[7]);
+        setexport_clearance(For_Sale_New[8]);
+        setpte_upload_file(For_Sale_New[9]);
+        setpln_req_inv(For_Sale_New[10]);
+        setship_input_inv(For_Sale_New[11]);
+        setpln_upload_final(For_Sale_New[12])
       }
       if (For_Trans != null) {
         setownersend(For_Req[18]);
@@ -2984,6 +3175,7 @@ function FAM_TRANSECTION_TLWLD() {
         } else {
           setplan_date(For_Trans[8]);
         }
+       
       } else {
         if (For_Req != null) {
           STS = For_Req[10];
@@ -3164,6 +3356,17 @@ function FAM_TRANSECTION_TLWLD() {
         const data_edit = JSON.stringify(data);
         localStorage.setItem("Edit_routing", data_edit);
       } catch (error) {}
+      try {
+        const response = await axios.post("/getEdit_sale", {
+          famno: EditFam,
+        });
+  
+        const data = await response.data;
+        const data_edit = JSON.stringify(data);
+        localStorage.setItem("Edit_Sale", data_edit);
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
     } else {
       try {
         const response = await axios.post("/getEdit_Trans", {
@@ -3225,6 +3428,17 @@ function FAM_TRANSECTION_TLWLD() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Scrap", data_edit);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.post("/getEdit_sale", {
+        famno: EditFam,
+      });
+
+      const data = await response.data;
+      const data_edit = JSON.stringify(data);
+      localStorage.setItem("Edit_Sale", data_edit);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -3334,7 +3548,8 @@ function FAM_TRANSECTION_TLWLD() {
         Type == "GP01005" ||
         Type == "GP01007" ||
         Type == "GP01006" ||
-        Type == "GP01002"
+        Type == "GP01002" ||
+        Type == "GP01003" 
       ) {
         try {
           const response = await axios.post("/Update_For_Req_All", {
@@ -3393,6 +3608,28 @@ function FAM_TRANSECTION_TLWLD() {
             });
           } catch (error) {
             console.error("Error update_lending:", error.message);
+          }
+        }
+        if(Type === "GP01003"){
+          try {
+            const response = await axios.post("/update_sale", {
+              famno: For_Rq_Edit[0],
+              updateinput_ws: selectpte_input_weight_size,
+              update_plnboi: selectpln_staff_boi,
+              updateboi_prerare: selectimport_boi_prepare,
+              updatedata_import: selectboi_input_data,
+              updatethai_catergories:thai_catergories,
+              updatebidding:pln_staff_bidding,
+              updateindustrial:pte_dept,
+              updateclerance:export_clearance,
+              update_upload_file_after:pte_upload_file,
+              updatereq_inv:pln_req_inv,
+              updateinput_in:ship_input_inv,
+              updatepayment:pln_upload_final,
+              update_by: For_Rq_Edit[2],
+            });
+          } catch (error) {
+            console.error("Error update_sale", error);
           }
         }
       }
@@ -3513,6 +3750,7 @@ function FAM_TRANSECTION_TLWLD() {
         Type == "GP01005" ||
         Type == "GP01007" ||
         Type == "GP01006" ||
+        Type == "GP01003" ||
         Type == "GP01002"
       ) {
         const set_data_for_req_details = [
@@ -3595,6 +3833,84 @@ function FAM_TRANSECTION_TLWLD() {
               pln_staff: selectpln_staff,
               shipping: selectshipping_staff,
               create_by: owner_roting,
+            });
+          } catch (error) {
+            console.error("Error update_lending:", error.message);
+          }
+        }
+      
+        if (Type === "GP01003" && Fam_list !== "" ) {
+         const set_data_for_req_details = [
+          Fam_list,
+          selectpte_input_weight_size,
+          selectpln_staff_boi,
+          selectimport_boi_prepare,
+          selectboi_input_data,
+          thai_catergories,
+          pln_staff_bidding,
+          pte_dept,
+          export_clearance,
+          pte_upload_file,
+          pln_req_inv,
+          ship_input_inv,
+          pln_upload_final,
+        ];
+        const sendheader = JSON.stringify(set_data_for_req_details);
+        localStorage.setItem("For_Sale", sendheader);
+          try {
+            const response = await axios.post("/update_sale", {
+              famno: For_Req[0],
+              updateinput_ws: selectpte_input_weight_size,
+              update_plnboi: selectpln_staff_boi,
+              updateboi_prerare: selectimport_boi_prepare,
+              updatedata_import: selectboi_input_data,
+              updatethai_catergories:thai_catergories,
+              updatebidding:pln_staff_bidding,
+              updateindustrial:pte_dept,
+              updateclerance:export_clearance,
+              update_upload_file_after:pte_upload_file,
+              updatereq_inv:pln_req_inv,
+              updateinput_in:ship_input_inv,
+              updatepayment:pln_upload_final,
+              update_by: For_Req[1],
+            });
+          } catch (error) {
+            console.error("Error update_sale", error);
+          }
+        }else if(Type === "GP01003" && Fam_list =="") {
+          const set_data_for_req_details = [
+            Fam_list,
+            selectpte_input_weight_size,
+            selectpln_staff_boi,
+            selectimport_boi_prepare,
+            selectboi_input_data,
+            thai_catergories,
+            pln_staff_bidding,
+            pte_dept,
+            export_clearance,
+            pte_upload_file,
+            pln_req_inv,
+            ship_input_inv,
+            pln_upload_final,
+          ];
+          const sendheader = JSON.stringify(set_data_for_req_details);
+          localStorage.setItem("For_Sale", sendheader);
+          try {
+            const response = await axios.post("/insert_sale", {
+              famno: Fam_list,
+              createinput_ws:selectpte_input_weight_size, 
+              create_plnboi:selectpln_staff_boi, 
+              createboi_prerare:selectimport_boi_prepare, 
+              createdata_import:selectboi_input_data,
+              createthai_catergories:thai_catergories,
+              createbidding:pln_staff_bidding,
+              createindustrial:pte_dept,
+              createclerance:export_clearance,
+              create_upload_file_after:pte_upload_file,
+              createreq_inv:pln_req_inv,
+              createinput_in:ship_input_inv,
+              createpayment:pln_upload_final,
+              create_by:For_Req[1],
             });
           } catch (error) {
             console.error("Error update_lending:", error.message);
@@ -10383,8 +10699,9 @@ function FAM_TRANSECTION_TLWLD() {
             let Status = "FLLD010";
             let DataFile_Requester = "";
             try {
-              const response = await axios.post("/getFAM_FILE_Req_Return", {
+              const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
+                ATT_FROM:'OWNER RETURN'
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -11842,10 +12159,11 @@ function FAM_TRANSECTION_TLWLD() {
           } else if (For_Rq_Edit[10] === "FLSC009") {
             let Status = "FLSC100";
               let DataFile_Requester = "";
-            try {
-              const response = await axios.post("/getFAM_FILE_PTE_ENV", {
-                FamNo: EditFam,
-              });
+              try {
+                const response = await axios.post("/getFAM_FILE_DATA", {
+                  FamNo: EditFam,
+                  ATT_FROM:'ENV CHECK'
+                });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
             } catch (error) {
@@ -11939,8 +12257,9 @@ function FAM_TRANSECTION_TLWLD() {
             let Status = "FLSC101";
             let DataFile_Requester = "";
             try {
-              const response = await axios.post("/getFAM_FILE_PLN_Staff", {
+              const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
+                ATT_FROM:'PLN CHECK'
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -12024,8 +12343,9 @@ function FAM_TRANSECTION_TLWLD() {
             let Status = "FLSC010";
               let DataFile_Requester = "";
               try {
-                const response = await axios.post("/getFAM_FILE_Shipping", {
+                const response = await axios.post("/getFAM_FILE_DATA", {
                   FamNo: EditFam,
+                  ATT_FROM:'SHP CHECK'
                 });
                 const jsonData = await response.data;
                 DataFile_Requester = jsonData;
@@ -13995,7 +14315,6 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error requesting data:", error);
               }
               try {
-                console.log(contact_date,"dateeeeeee")
                 const response = await axios.post("/update_pte_contact_dept", {
                   tranfer: EditFam,
                   pte_contact_dept: cmmtradio_pte_dept,
@@ -14846,24 +15165,25 @@ function FAM_TRANSECTION_TLWLD() {
           }
 
           try {
-            const response = await axios.post("/update_sale", {
+            const response = await axios.post("/insert_sale", {
+             
               famno: For_Req[0],
-              updateinput_ws: selectpte_input_weight_size,
-              update_plnboi: selectpln_staff_boi,
-              updateboi_prerare: selectimport_boi_prepare,
-              updatedata_import: selectboi_input_data,
-              updatethai_catergories:thai_catergories,
-              updatebidding:pln_staff_bidding,
-              updateindustrial:pte_dept,
-              updateclerance:export_clearance,
-              update_upload_file_after:pte_upload_file,
-              updatereq_inv:pln_req_inv,
-              updateinput_in:ship_input_inv,
-              updatepayment:pln_upload_final,
-              update_by: For_Req[1],
+              createinput_ws:selectpte_input_weight_size, 
+              create_plnboi:selectpln_staff_boi, 
+              createboi_prerare:selectimport_boi_prepare, 
+              createdata_import:selectboi_input_data,
+              createthai_catergories:thai_catergories,
+              createbidding:pln_staff_bidding,
+              createindustrial:pte_dept,
+              createclerance:export_clearance,
+              create_upload_file_after:pte_upload_file,
+              createreq_inv:pln_req_inv,
+              createinput_in:ship_input_inv,
+              createpayment:pln_upload_final,
+              create_by:For_Req[1],
             });
           } catch (error) {
-            console.error("Error update_sale", error);
+            console.error("Error insert_sale:", error);
           }
           localStorage.setItem("To", selectdepartment_mana);
           localStorage.setItem("Genno", For_Req[0]);
@@ -15833,7 +16153,7 @@ chk_pln_req_inv, setchk_pln_req_inv,
 chk_ship_input_inv, setchk_ship_input_inv,
 chk_pln_upload_final, setchk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv
 ,Input_thai_categories, setInput_thai_categories,Bidding_result, setBidding_result,
-contact_date,setcontact_date,contact_date_pte,contact_date_pte,setcontact_date_pte
+contact_date,setcontact_date,contact_date_pte,contact_date_pte,setcontact_date_pte,Vendor_move_date,setVendor_move_date
   };
 }
 

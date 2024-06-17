@@ -144,7 +144,54 @@ function ForRequest() {
     size,handleSizeChange,handleUnitPriceChange,unit_price, handleInvoiceChange,
     invoice
   } = FAM_GET_REQUEST();
-
+  const renderTableCells = (columns) => (
+    <>
+      {columns.includes("New CC") && <TableCell>New CC</TableCell>}
+      {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
+      {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
+      {columns.includes("Size") && <TableCell>Size</TableCell>}
+      {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
+      {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
+    </>
+  );
+  
+  const getColumns = (STS1_Req) => {
+    switch(STS1_Req) {
+      case "FLTR011":
+      case "FLTR012":
+        return ["New CC", "New BOI Project"];
+      case "FLSC009":
+      case "FLSL009":
+      case "FLSL010":
+      case "FLSL011":
+      case "FLSL012":
+      case "FLSL013":
+      case "FLSL014":
+      case "FLSL015":
+      case "FLSL016":
+      case "FLSL017":
+      case "FLSL018":
+        return ["Weight(kg)", "Size"];
+      case "FLSL019":
+      case "FLSL020":
+      case "FLSL021":
+      case "FLSL022":
+      case "FLSL023":
+        return ["Weight(kg)", "Size", "Invoice No."];
+      case "FLSC100":
+        return ["Weight(kg)", "Size", "Unit Price(Baht)"];
+      case "FLSC101":
+      case "FLSC010":
+      case "FLSC011":
+      case "FLSC012":
+        return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
+      default:
+        return [];
+    }
+  };
+  
+  const columns = getColumns(STS1_Req);
+  
   
   return (
     <>
@@ -543,7 +590,6 @@ function ForRequest() {
                       Service Dept:
                     </Typography>
                   </Grid>
-                  {console.log(selectFixAssetgroup1, "selectFixAssetgroup1")}
                   <Grid xs={3}>
                     <FormControl fullWidth>
                       <InputLabel size="small" id="demo-simple-select-label">
@@ -948,32 +994,7 @@ function ForRequest() {
             <TableCell>Invoice No.</TableCell>
             <TableCell>Acquisition Cost(Baht)</TableCell>
             <TableCell>Book Value(Baht)</TableCell>
-            {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
-              <>
-                <TableCell>New CC</TableCell>
-                <TableCell>New BOI Project</TableCell>
-              </>
-            )}
-            {STS1_Req === "FLSC009"  && (
-              <>
-                <TableCell>Weight(kg)</TableCell>
-                <TableCell>Size</TableCell>
-              </>
-            )}
-            {STS1_Req === "FLSC100"   && (
-              <>
-              <TableCell>Weight(kg)</TableCell>
-              <TableCell>Size</TableCell>
-              <TableCell>Unit Price(Baht)</TableCell>
-              </>
-            )}
-            {(STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012") && (
-              <>
-              <TableCell>Weight(kg)</TableCell>
-              <TableCell>Size</TableCell>
-              <TableCell>Unit Price(Baht)</TableCell>
-              <TableCell>Invoice No.</TableCell></>
-            )}
+            {renderTableCells(columns)}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -1028,7 +1049,10 @@ function ForRequest() {
                     <TableCell>{item[12]}</TableCell>
                   </>
                 )}
-                {(STS1_Req === "FLSC009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012") && (
+                {(STS1_Req === "FLSC009" ||STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
+                   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
+                   || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" 
+                ) && (
   <>
     <TableCell>
       <TextField
@@ -1037,7 +1061,9 @@ function ForRequest() {
         value={weights[index] || ''}
         
         onChange={(e) => handleWeightChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
+        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
+          || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
+          || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"        }
       />
     
     </TableCell>
@@ -1047,7 +1073,8 @@ function ForRequest() {
         size="small"
         value={size[index] || ''}
         onChange={(e) => handleSizeChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
+        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012" || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
+          || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"}
       />
     </TableCell>
   </>
@@ -1063,14 +1090,14 @@ function ForRequest() {
       />
                   </TableCell>
                 )}
-                {(STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011"|| STS1_Req === "FLSC012" )&& (
+                {(STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011"|| STS1_Req === "FLSC012" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" )&& (
                   <TableCell>
                                   <TextField
         style={{ width: '100px' }}
         size="small"
         value={invoice[index] || ''}
         onChange={(e) => handleInvoiceChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"}
+        disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"||STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" }
       />
                   </TableCell>
                 )}
@@ -1101,8 +1128,9 @@ function ForRequest() {
                 .reduce((acc, curr) => acc + parseInt(curr[10]), 0)
                 .toLocaleString("en-US")}
             </TableCell>
-            {(STS1_Req === "FLSC009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
-              || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
+            {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
+              || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
+                   || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"
             ) && (
               <TableCell style={{ fontWeight: "bold" }}>
                 {totalWeight.toLocaleString("en-US", {
@@ -1111,7 +1139,7 @@ function ForRequest() {
                 })}
               </TableCell>
             )}
-             {(STS1_Req === "FLSC009" ) && (
+             {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
               <TableCell style={{ fontWeight: "bold" }}>
                 {/* {totalSize.toLocaleString("en-US", {
                   minimumFractionDigits: 2,

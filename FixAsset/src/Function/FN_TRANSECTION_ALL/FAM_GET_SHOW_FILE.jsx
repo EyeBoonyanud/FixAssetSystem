@@ -30,6 +30,58 @@ function FAM_GET_SHOW_FILE() {
   const [showfile_pln_staff, setshowfile_pln_staff] = useState([]);
   const [showfile_shipping, setshowfile_shipping] = useState([]);
 
+  //Upload Sale
+  const [uploadedFiles_pte_env_ws, setuploadedFiles_pte_env_ws] = useState([]);
+  const [uploadedFiles_pln_stf_boi, setuploadedFiles_pln_stf_boi] = useState([]);
+  const [uploadedFiles_imp_boi_prepare, setuploadedFiles_imp_boi_prepare] = useState([]);
+  const [uploadedFiles_imp_input_data, setuploadedFiles_imp_input_data] = useState([]);
+  const [uploadedFiles_thai_catergorise, setuploadedFiles_thai_catergorise] = useState([]);
+  const [uploadedFiles_pln_stf_bidding, setuploadedFiles_pln_stf_bidding] = useState([]);
+  const [uploadedFiles_pte_dept, setuploadedFiles_pte_dept] = useState([]);
+  const [uploadedFiles_boi_exp_clearance, setuploadedFiles_boi_exp_clearance] = useState([]);
+  const [uploadedFiles_pte_upload_after, setuploadedFiles_pte_upload_after] = useState([]);
+  const [uploadedFiles_pln_stf_req_inv, setuploadedFiles_pln_stf_req_inv] = useState([]);
+  const [uploadedFiles_ship_input_inv, setuploadedFiles_ship_input_inv] = useState([]);
+  const [uploadedFiles_pln_upload_final, setuploadedFiles_pln_upload_final] = useState([]);
+
+  const [uploadedFilesDATA_pte_env_ws, setUploadedFilesDATA_pte_env_ws] = useState([]);
+  const [uploadedFilesDATA_pln_stf_boi, setUploadedFilesDATA_pln_stf_boi] = useState([]);
+  const [uploadedFilesDATA_imp_boi_prepare, setUploadedFilesDATA_imp_boi_prepare] = useState([]);
+  const [uploadedFilesDATA_imp_input_data, setUploadedFilesDATA_imp_input_data] = useState([]);
+  const [uploadedFilesDATA_thai_catergorise, setUploadedFilesDATA_thai_catergorise] = useState([]);
+  const [uploadedFilesDATA_pln_stf_bidding, setUploadedFilesDATA_pln_stf_bidding] = useState([]);
+  const [uploadedFilesDATA_pte_dept, setUploadedFilesDATA_pte_dept] = useState([]);
+  const [uploadedFilesDATA_boi_exp_clearance, setUploadedFilesDATA_boi_exp_clearance] = useState([]);
+  const [uploadedFilesDATA_pte_upload_after, setUploadedFilesDATA_pte_upload_after] = useState([]);
+  const [uploadedFilesDATA_pln_stf_req_inv, setUploadedFilesDATA_pln_stf_req_inv] = useState([]);
+  const [uploadedFilesDATA_ship_input_inv, setUploadedFilesDATA_ship_input_inv] = useState([]);
+  const [uploadedFilesDATA_, setUploadedFilesDATA_] = useState([]);
+  //ShowFile Sale
+  const [showfilepte_env_ws,setshowfilepte_env_ws] = useState([]);
+  const [showfilepln_stf_boi,setshowfilepln_stf_boi] = useState([]);
+  const [showfileimp_boi_prepare,setshowfileimp_boi_prepare] = useState([]);
+  const [showfileimp_input_data,setshowfileimp_input_data] = useState([]);
+  const [showfilethai_catergorise,setshowfilethai_catergorise] = useState([]);
+  const [showfilepln_stf_bidding,setshowfilepln_stf_bidding] = useState([]);
+  const [showfilepte_dept,setshowfilepte_dept] = useState([]);
+  const [showfileboi_exp_clearance,setshowfileboi_exp_clearance] = useState([]);
+  const [showfilepte_upload_after,setshowfilepte_upload_after] = useState([]);
+  const [showfilepln_stf_req_inv,setshowfilepln_stf_req_inv] = useState([]);
+  const [showfileship_input_inv,setshowfileship_input_inv] = useState([]);
+  const [showfilepln_upload_final,setshowfilepln_upload_final] = useState([]);
+
+  let Gen_Fam_No_Show = "";
+  if (EditFam != null) {
+    if (EditFam != null) {
+      if (For_Rq_Edit != null) {
+        Gen_Fam_No_Show = For_Rq_Edit[0];
+      }
+    } else {
+      if (For_Req != null) {
+        Gen_Fam_No_Show = For_Req[0];
+      }
+    }
+  }
   let Status_for_owner = "";
   let StatusFile = "";
   if (For_Req !== null) {
@@ -45,24 +97,25 @@ function FAM_GET_SHOW_FILE() {
     fetchData_PTE_ENV();
     fetchData_PLN_Staff();
     fetchData_Shipping();
+
+    fetchData_ENV1_SALE();
+    fetchData_PLN1_SALE();
+    fetchData_IMP1_SALE();
+    fetchData_BOI1_SALE();
+    fetchData_IMP2_SALE();
+    fetchData_PLN2_SALE();
+    fetchData_ENV2_SALE();
+    fetchData_BOI2_SALE();
+    fetchData_ENV3_SALE();
+    fetchData_PLN3_SALE();
+    fetchData_PLN4_SALE();
   }, []);
   // Donation
   const fetchData = async () => {
-    let Gen_Fam_No_Show = "";
-    if (EditFam != null) {
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          Gen_Fam_No_Show = For_Rq_Edit[0];
-        }
-      } else {
-        if (For_Req != null) {
-          Gen_Fam_No_Show = For_Req[0];
-        }
-      }
-    }
     try {
-      const response = await axios.post("/getFAM_FILE_OWNER_CHK", {
+      const response = await axios.post("/getFAM_FILE_DATA", {
         FamNo: Gen_Fam_No_Show,
+        ATT_FROM:'OWNER CHECK'
       });
       const jsonData = await response.data;
       setshowfile_owner(jsonData);
@@ -71,21 +124,10 @@ function FAM_GET_SHOW_FILE() {
     }
   };
   const fetchData_Owner_return = async () => {
-    let Gen_Fam_No_Show = "";
-    if (EditFam != null) {
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          Gen_Fam_No_Show = For_Rq_Edit[0];
-        }
-      } else {
-        if (For_Req != null) {
-          Gen_Fam_No_Show = For_Req[0];
-        }
-      }
-    }
     try {
-      const response = await axios.post("/getFAM_FILE_Req_Return", {
+      const response = await axios.post("/getFAM_FILE_DATA", {
         FamNo: Gen_Fam_No_Show,
+        ATT_FROM:'OWNER RETURN'
       });
       const jsonData = await response.data;
       setshowfile_owner_return(jsonData);
@@ -94,21 +136,10 @@ function FAM_GET_SHOW_FILE() {
     }
   };
   const fetchData_PTE_ENV = async () => {
-    let Gen_Fam_No_Show = "";
-    if (EditFam != null) {
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          Gen_Fam_No_Show = For_Rq_Edit[0];
-        }
-      } else {
-        if (For_Req != null) {
-          Gen_Fam_No_Show = For_Req[0];
-        }
-      }
-    }
     try {
-      const response = await axios.post("/getFAM_FILE_PTE_ENV", {
+      const response = await axios.post("/getFAM_FILE_DATA", {
         FamNo: Gen_Fam_No_Show,
+        ATT_FROM:'ENV CHECK'
       });
       const jsonData = await response.data;
       setshowfile_pte_env(jsonData);
@@ -117,21 +148,10 @@ function FAM_GET_SHOW_FILE() {
     }
   };
   const fetchData_PLN_Staff = async () => {
-    let Gen_Fam_No_Show = "";
-    if (EditFam != null) {
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          Gen_Fam_No_Show = For_Rq_Edit[0];
-        }
-      } else {
-        if (For_Req != null) {
-          Gen_Fam_No_Show = For_Req[0];
-        }
-      }
-    }
     try {
-      const response = await axios.post("/getFAM_FILE_PLN_Staff", {
+      const response = await axios.post("/getFAM_FILE_DATA", {
         FamNo: Gen_Fam_No_Show,
+        ATT_FROM:'PLN CHECK'
       });
       const jsonData = await response.data;   
       setshowfile_pln_staff(jsonData);
@@ -140,28 +160,154 @@ function FAM_GET_SHOW_FILE() {
     }
   };
   const fetchData_Shipping = async () => {
-    let Gen_Fam_No_Show = "";
-    if (EditFam != null) {
-      if (EditFam != null) {
-        if (For_Rq_Edit != null) {
-          Gen_Fam_No_Show = For_Rq_Edit[0];
-        }
-      } else {
-        if (For_Req != null) {
-          Gen_Fam_No_Show = For_Req[0];
-        }
-      }
-    }
-    try {
-      const response = await axios.post("/getFAM_FILE_Shipping", {
+   try {
+      const response = await axios.post("/getFAM_FILE_DATA", {
         FamNo: Gen_Fam_No_Show,
+        ATT_FROM:'SHP CHECK'
       });
       const jsonData = await response.data;   
       setshowfile_shipping(jsonData);
+      setshowfileship_input_inv(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  //SALE
+  const fetchData_ENV1_SALE = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'ENV1 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepte_env_ws(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV1_SALE:", error);
+     }
+    };
+   const fetchData_PLN1_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'PLN1 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepln_stf_boi(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_PLN1_SALE:", error);
+     }
+   };
+   const fetchData_IMP1_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'IMP1 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfileimp_boi_prepare(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV1_SALE:", error);
+     }
+   };
+   const fetchData_BOI1_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'BOI1 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfileimp_input_data(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV1_SALE:", error);
+     }
+   };
+   const fetchData_IMP2_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'IMP2 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilethai_catergorise(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV1_SALE:", error);
+     }
+   };
+   const fetchData_PLN2_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'PLN2 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepln_stf_bidding(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV1_SALE:", error);
+     }
+   };
+   const fetchData_ENV2_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'ENV2 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepte_dept(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV2_SALE:", error);
+     }
+   };
+   const fetchData_BOI2_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'BOI2 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfileboi_exp_clearance(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_BOI2_SALE:", error);
+     }
+   };
+   const fetchData_ENV3_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'ENV3 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepte_upload_after(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_ENV3_SALE", error);
+     }
+   };
+   const fetchData_PLN3_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'PLN3 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepln_stf_req_inv(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_PLN3_SALE", error);
+     }
+   };
+   const fetchData_PLN4_SALE  = async () => {
+    try {
+       const response = await axios.post("/getFAM_FILE_DATA", {
+         FamNo: Gen_Fam_No_Show,
+         ATT_FROM:'PLN4 SALE'
+       });
+       const jsonData = await response.data;   
+       setshowfilepln_upload_final(jsonData);
+     } catch (error) {
+       console.error("Error fetchData_PLN3_SALE", error);
+     }
+   };
+
+
+
   const handleDL_File_Owner = async (index, file, fileName) => {
     if (Status_for_owner == "FLLD100") {
       const updatedFiles = uploadedFiles_Own_return.filter(
@@ -184,7 +330,7 @@ function FAM_GET_SHOW_FILE() {
         console.error("Error deleting file:", error);
       }
       fetchData_Owner_return();
-    } else if (Status_for_owner == "FLSC009") {
+    }else if (Status_for_owner == "FLSC009") {
       const updatedFiles = uploadedFiles_PTE.filter(
         (uploadedFile, i) => i !== index
       );
@@ -205,7 +351,7 @@ function FAM_GET_SHOW_FILE() {
         console.error("Error deleting file:", error);
       }
       fetchData_PTE_ENV();
-    } else if (Status_for_owner == "FLSC100") {
+    }else if (Status_for_owner == "FLSC100") {
       const updatedFiles = uploadedFiles_PLN_Staff.filter(
         (uploadedFile, i) => i !== index
       );
@@ -247,7 +393,259 @@ function FAM_GET_SHOW_FILE() {
         console.error("Error deleting file:", error);
       }
       fetchData_Shipping();
-    } else {
+    }else if (Status_for_owner == "FLSL009") {
+      const updatedFiles = uploadedFiles_pte_env_ws.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pte_env_ws(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete setuploadedFiles_pte_env_ws:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_ENV1_SALE();
+    }else if (Status_for_owner == "FLSL010") {
+      const updatedFiles = uploadedFiles_pln_stf_boi.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pln_stf_boi(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete setuploadedFiles_pte_env_ws:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_PLN1_SALE();
+    }else if (Status_for_owner == "FLSL011") {
+      const updatedFiles = uploadedFiles_imp_boi_prepare.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_imp_boi_prepare(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_imp_boi_prepare:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_IMP1_SALE();
+    }else if (Status_for_owner == "FLSL012") {
+      const updatedFiles = uploadedFiles_imp_input_data.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_imp_input_data(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete setuploadedFiles_imp_input_data:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_BOI1_SALE();
+    }else if (Status_for_owner == "FLSL013") {
+      const updatedFiles = uploadedFiles_thai_catergorise.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_thai_catergorise(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete setuploadedFiles_thai_catergorise:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_IMP2_SALE();
+    }else if (Status_for_owner == "FLSL014") {
+      const updatedFiles = uploadedFiles_pln_stf_bidding.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pln_stf_bidding(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_pln_stf_biddin:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_PLN2_SALE();
+    }else if (Status_for_owner == "FLSL015") {
+      const updatedFiles = uploadedFiles_pte_dept.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pte_dept(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_pln_stf_biddin:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_ENV2_SALE();
+    }else if (Status_for_owner == "FLSL016") {
+      const updatedFiles = uploadedFiles_boi_exp_clearance.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_boi_exp_clearance(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_boi_exp_clearance:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_BOI2_SALE();
+    }else if (Status_for_owner == "FLSL017") {
+      const updatedFiles = uploadedFiles_pte_upload_after.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pte_upload_after(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_pte_upload_after:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_ENV3_SALE();
+    }else if (Status_for_owner == "FLSL018") {
+      const updatedFiles = uploadedFiles_pln_stf_req_inv.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pln_stf_req_inv(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_pte_upload_after:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_PLN3_SALE();
+    }else if (Status_for_owner == "FLSL019") {
+      const updatedFiles = uploadedFiles_ship_input_inv.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_ship_input_inv(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete uploadedFiles_ship_input_inv:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_Shipping();
+    }else if (Status_for_owner == "FLSL020") {
+      const updatedFiles = uploadedFiles_pln_upload_final.filter(
+        (uploadedFile, i) => i !== index
+      );
+      setuploadedFiles_pln_upload_final(updatedFiles);
+
+      try {
+        const response = await axios.post("/deletefile", {
+          famno: Gen_Fam_No,
+          name_for_file: file,
+        });
+        localStorage.removeItem("Type");
+      } catch (error) {
+        console.error("delete setuploadedFiles_pln_upload_final:", error);
+      }
+      try {
+        const response = await axios.delete(`/deleteFile?data=${fileName}`);
+      } catch (error) {
+        console.error("Error deleting file:", error);
+      }
+      fetchData_PLN4_SALE();
+    }else {
       const updatedFiles = uploadedFiles_Own.filter(
         (uploadedFile, i) => i !== index
       );
@@ -390,6 +788,9 @@ function FAM_GET_SHOW_FILE() {
       localStorage.setItem("Type", fileArrayString);
     }
   };
+
+
+  
   const handleSav_Own = async () => {
     let FAM_FORM = "";
     if (Status_for_owner == "FLLD100") {

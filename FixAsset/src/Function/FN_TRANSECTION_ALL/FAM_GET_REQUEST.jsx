@@ -792,7 +792,6 @@ function FAM_GET_REQUEST() {
   };
   const ADD = async () => {
     openPopupLoadding();
-    console.log(selectFixAssetgroup1, "selectFixAssetgroup1 ADD", Factory[1]);
     // let group_fix = "";
     // if (selectFixAssetgroup1.length > 1) {
     //   group_fix = selectFixAssetgroup1.substring(0, 1);
@@ -1439,7 +1438,7 @@ function FAM_GET_REQUEST() {
       
       const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
       setWeights(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC009'){
+      if(For_Rq_Edit[10] == 'FLSC009'|| For_Rq_Edit[10] == 'FLSL009'){
         if (hasNullWeights) {
           alert("กรุณากรอก Weight");
         }
@@ -1460,7 +1459,7 @@ function FAM_GET_REQUEST() {
       //setWeights(response.data);
       const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
       setsize(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC009'){
+      if(For_Rq_Edit[10] == 'FLSC009'|| For_Rq_Edit[10] == 'FLSL009'){
       if (hasNullWeights) {
         alert("กรุณากรอก Size");
       }}
@@ -1477,7 +1476,7 @@ function FAM_GET_REQUEST() {
       //setWeights(response.data);
       const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
       setunit_price(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC100'){
+      if(For_Rq_Edit[10] == 'FLSC100' ){
       if (hasNullWeights) {
         alert("กรุณากรอก Unit Price");
       }}
@@ -1495,7 +1494,7 @@ function FAM_GET_REQUEST() {
       //setWeights(response.data);
       const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
       setinvoice(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC101'){
+      if(For_Rq_Edit[10] == 'FLSC101' || For_Rq_Edit[10] == 'FLSL019'){
       if (hasNullWeights) {
         alert("กรุณากรอก Invoice No.");
       }}

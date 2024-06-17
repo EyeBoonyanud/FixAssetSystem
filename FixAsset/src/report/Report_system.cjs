@@ -155,15 +155,17 @@ module.exports.getFamDetailReport = async function (req, res) {
     }
   };
 
-  module.exports.getFAM_FILE_OWNER_CHK = async function (req, res) {
+  module.exports.getFAM_FILE_DATA = async function (req, res) {
+    console.log("g-hk")
     try {
-       const{FamNo}=  req.body;
+       const{FamNo,ATT_FROM}=  req.body;
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='OWNER CHECK'                                                                      
+      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='${ATT_FROM}'                                                                      
       ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
        `;
+       console.log(query)
       const result = await connect.execute(query);
       connect.release();
       res.json(result.rows);
@@ -171,71 +173,279 @@ module.exports.getFamDetailReport = async function (req, res) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
     }
   };
-  module.exports.getFAM_FILE_Req_Return = async function (req, res) {
-    try {
-       const{FamNo}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='OWNER RETURN'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-    }
-  };
-  module.exports.getFAM_FILE_PTE_ENV = async function (req, res) {
-    try {
-       const{FamNo}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV CHECK'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("getFAM_FILE_PTE_ENV:", error.message);
-    }
-  };
+  // module.exports.getFAM_FILE_Req_Return = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='OWNER RETURN'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  //   }
+  // };
+  // module.exports.getFAM_FILE_PTE_ENV = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV CHECK'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_PTE_ENV:", error.message);
+  //   }
+  // };
+  // module.exports.getFAM_FILE_PLN_Staff = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN CHECK'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_PLN_Staff error:", error.message);
+  //   }
+  // };
+  // module.exports.getFAM_FILE_Shipping = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='SHP CHECK'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+
+
   
-  module.exports.getFAM_FILE_PLN_Staff = async function (req, res) {
-    try {
-       const{FamNo}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN CHECK'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("getFAM_FILE_PLN_Staff error:", error.message);
-    }
-  };
-  module.exports.getFAM_FILE_Shipping = async function (req, res) {
-    try {
-       const{FamNo}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
-      FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='SHP CHECK'                                                                      
-      ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
-       `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("getFAM_FILE_Shipping error:", error.message);
-    }
-  };
+  // //ENV1 SALE
+  // module.exports.getFAM_FILE_ENV1_SALE = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV1 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //PLN1 SALE
+  // module.exports.getFAM_FILE_PLN1_SALE = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN1 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //IMP1 SALE
+  // module.exports.getFAM_FILE_IMP1_SALE = async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='IMP1 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //BOI1 SALE
+  // module.exports.getFAM_FILE_BOI1_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='BOI1 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //IMP2 SALE
+  // module.exports.getFAM_FILE_IMP2_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='IMP2 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //PLN2 SALE
+  // module.exports.getFAM_FILE_PLN2_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN2 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //ENV2 SALE
+  // module.exports.getFAM_FILE_ENV2_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV2 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //BOI2 SALE
+  // module.exports.getFAM_FILE_BOI2_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='BOI2_SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //ENV3 SALE
+  // module.exports.getFAM_FILE_ENV3_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='ENV3 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //PLN3 SALE
+  // module.exports.getFAM_FILE_PLN3_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN3 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //SHP CHECK
+  // module.exports.getFAM_FILE_SHP_CHECK= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='SHP CHECK'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+  // //'PLN4 SALE
+  // module.exports.getFAM_FILE_PLN4_SALE= async function (req, res) {
+  //   try {
+  //      const{FamNo}=  req.body;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME,FFA_FILE_SERVER                                                                      
+  //     FROM FAM_FILE_ATTACH T WHERE T.FFA_FAM_NO = '${FamNo}' AND FFA_ATT_FROM ='PLN4 SALE'                                                                      
+  //     ORDER BY T.FFA_FAM_NO,T.FFA_ATT_FROM,T.FFA_FILE_SEQ,T.FFA_FILE_NAME
+  //      `;
+  //     const result = await connect.execute(query);
+  //     connect.release();
+  //     res.json(result.rows);
+  //   } catch (error) {
+  //     console.error("getFAM_FILE_Shipping error:", error.message);
+  //   }
+  // };
+
+
   module.exports.getWeight_Size_Unit_INV = async function (req, res) {
     try {
        const{famno}=  req.body;

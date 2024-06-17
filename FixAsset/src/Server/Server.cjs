@@ -213,6 +213,7 @@ app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
 // Homepage 
 app.post("/getCountTransfer",Homepage.getCountTransfer);
 app.post("/getCountScrap",Homepage.getCountScrap);
+app.post("/getCountSale",Homepage.getCountSale);
 app.post("/getCountLoss",Homepage.getCountLoss);
 app.post("/getCountWrite_off",Homepage.getCountWrite_off);
 app.post("/getCountLending",Homepage.getCountLending);
@@ -228,6 +229,8 @@ app.get("/getCountLendinglistaLLname",Homepage.getCountLendinglistaLLname);
 app.post("/getCountDonationlistaLL",Homepage.getCountDonationlistaLL);
 app.get("/getCountScraplistaLLname",Homepage.getCountScraplistaLLname);
 app.post("/getCountScraplistaLL",Homepage.getCountScraplistaLL);
+app.get("/getCountSalelistaLLname",Homepage.getCountSalelistaLLname);
+app.post("/getCountSalelistaLL",Homepage.getCountSalelistaLL);
 
 
 
@@ -244,14 +247,28 @@ app.post("/FamDetailReport",ReportSystem.getFamDetailReport)
 app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
 //Donation 
-app.post("/getFAM_FILE_OWNER_CHK",ReportSystem.getFAM_FILE_OWNER_CHK)
-//Lending
-app.post("/getFAM_FILE_Req_Return",ReportSystem.getFAM_FILE_Req_Return)
-//Scrap
-app.post("/getFAM_FILE_PTE_ENV",ReportSystem.getFAM_FILE_PTE_ENV)
-app.post("/getFAM_FILE_PLN_Staff",ReportSystem.getFAM_FILE_PLN_Staff)
-app.post("/getFAM_FILE_Shipping",ReportSystem.getFAM_FILE_Shipping)
-app.post("/getWeight_Size_Unit_INV",ReportSystem.getWeight_Size_Unit_INV)
+app.post("/getFAM_FILE_DATA",ReportSystem.getFAM_FILE_DATA)
+// //Lending
+// app.post("/getFAM_FILE_Req_Return",ReportSystem.getFAM_FILE_Req_Return)
+// //Scrap
+// app.post("/getFAM_FILE_PTE_ENV",ReportSystem.getFAM_FILE_PTE_ENV)
+// app.post("/getFAM_FILE_PLN_Staff",ReportSystem.getFAM_FILE_PLN_Staff)
+// app.post("/getFAM_FILE_Shipping",ReportSystem.getFAM_FILE_Shipping)
+// app.post("/getWeight_Size_Unit_INV",ReportSystem.getWeight_Size_Unit_INV)
+// //Sale
+// app.post("/getFAM_FILE_ENV1_SALE",ReportSystem.getFAM_FILE_ENV1_SALE)
+// app.post("/getFAM_FILE_PLN1_SALE",ReportSystem.getFAM_FILE_PLN1_SALE)
+// app.post("/getFAM_FILE_IMP1_SALE",ReportSystem.getFAM_FILE_IMP1_SALE)
+// app.post("/getFAM_FILE_BOI1_SALE",ReportSystem.getFAM_FILE_BOI1_SALE)
+// app.post("/getFAM_FILE_IMP2_SALE",ReportSystem.getFAM_FILE_IMP2_SALE)
+// app.post("/getFAM_FILE_PLN2_SALE",ReportSystem.getFAM_FILE_PLN2_SALE)
+// app.post("/getFAM_FILE_ENV2_SALE",ReportSystem.getFAM_FILE_ENV2_SALE)
+// app.post("/getFAM_FILE_BOI2_SALE",ReportSystem.getFAM_FILE_BOI2_SALE)
+// app.post("/getFAM_FILE_ENV3_SALE",ReportSystem.getFAM_FILE_ENV3_SALE)
+// app.post("/getFAM_FILE_PLN3_SALE",ReportSystem.getFAM_FILE_PLN3_SALE)
+// app.post("/getFAM_FILE_SHP_CHECK",ReportSystem.getFAM_FILE_SHP_CHECK)
+// app.post("/getFAM_FILE_PLN4_SALE",ReportSystem.getFAM_FILE_PLN4_SALE)
+
 // PDF Fammaster
 app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
 app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
@@ -341,7 +358,6 @@ app.get('/downloads', (req, res) => {
 app.delete('/deleteFile', (req, res) => {
 
   const fileName = req.query.data; 
-   console.log("////>>>>>>>>>>>",fileName)
   const filePath = path.join(__dirname, '../Uploads', fileName);
   fs.unlink(filePath, (err) => {
       if (err) {

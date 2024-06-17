@@ -12,6 +12,7 @@ function function_homepage() {
     const [dataLending, setdataLending] = useState([]);
     const [dataDonation, setdataDonation] = useState([]);
     const [dataScrap, setdataScrap] = useState([]);
+    const [dataSale, setdataSale] = useState([]);
     const [dataLossall, setdataLossall] = useState([]);
     const [dataLossallname, setdataLossallname] = useState([]);
     const [dataname_show, setdataname_show] = useState("");
@@ -36,7 +37,6 @@ function function_homepage() {
                 { UserLogin : UserLogin }
               );
               const Transfer = await response.data;
-              console.log(Transfer,"Transfer");
               setdataTransfer(Transfer);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -90,7 +90,6 @@ function function_homepage() {
               );
               const Scrap = await response.data;
               setdataScrap(Scrap);
-              console.log(Scrap,"Scrap")
             } catch (error) {
               console.error("Error RequesterORType:", error);
             }
@@ -114,7 +113,6 @@ function function_homepage() {
                 { UserLogin : UserLogin }
               );
               const Lending = await response.data;
-              console.log(Lending,"Loss");
               setdataLending(Lending);
             } catch (error) {
               console.error("Error RequesterORType:", error);
@@ -127,13 +125,26 @@ function function_homepage() {
                 { UserLogin : UserLogin }
               );
               const Donation = await response.data;
-              console.log(Donation,"Loss");
               setdataDonation(Donation);
             } catch (error) {
               console.error("Error RequesterORType:", error);
             }
             closePopupLoadding();
           };
+          const Sale= async () => {
+            try {
+              const response = await axios.post(
+                "/getCountSale",
+                { UserLogin : UserLogin }
+              );
+              const Sale = await response.data;
+              setdataSale(Sale);
+            } catch (error) {
+              console.error("Error Sale:", error);
+            }
+            closePopupLoadding();
+          };
+
    
           await Transfer();
           await Transferlistallname();
@@ -143,22 +154,20 @@ function function_homepage() {
           await Lending();
           await Donation();
           await Scrap();
+          await Sale();
         };
         fetchData();
       }, []);
     
       const handleClickNextToSearch =  (value, type) => {
-        console.log("Received value:", value,type);
         if (value === "Create") {
           localStorage.setItem("STATUS", value);
           localStorage.setItem("TYPE", type);
           window.location.href = `/Search`;
-          console.log(value,"create");     
         } else {
           localStorage.setItem("STATUS", value);
           localStorage.setItem("TYPE", type);
           window.location.href = `/ApproveFam`;
-          console.log(value,"not create");
         }
       };
 
@@ -172,7 +181,6 @@ function function_homepage() {
                   );
                   const Transferallname = await response.data;
                   setdataallname_Show(Transferallname);
-                  console.log(Transferallname, "ดูข้อมูล");
                 } catch (error) {
                   console.error("Error Transferdataall:", error);
                 }
@@ -243,7 +251,6 @@ function function_homepage() {
                 );
                 const Lendingallname = await response.data;
                 setdataallname_Show(Lendingallname);
-                console.log(Lendingallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Lendingallname:", error);
             }
@@ -267,7 +274,6 @@ function function_homepage() {
                 );
                 const Donationallname = await response.data;
                 setdataallname_Show(Donationallname);
-                console.log(Donationallname, "ดูข้อมูล Loss");
             } catch (error) {
                 console.error("Error Donationallname:", error);
             }
@@ -301,14 +307,36 @@ function function_homepage() {
               );
               const Scrapall = await response.data;
               setdataall_Show(Scrapall);
-              console.log(Scrapall,"Scrapall")
           } catch (error) {
               console.error("Error Scrapall:", error);
           }
           setdataname_type("GP01002");
           setdataname_show(Data);
           closePopupLoadding();
-      } else {
+      } else if (Data === "Sales") {
+        try {
+            const response = await axios.get(
+            `/getCountSalelistaLLname`
+            );
+            const Saleallname = await response.data;
+            setdataallname_Show(Saleallname);
+        } catch (error) {
+            console.error("Error Saleallname:", error);
+        }
+        try {
+            const response = await axios.post(
+            "/getCountSalelistaLL",
+            { UserLogin : UserLogin }
+            );
+            const Saleall = await response.data;
+            setdataall_Show(Saleall);
+        } catch (error) {
+            console.error("Error Scrapall:", error);
+        }
+        setdataname_type("GP01003");
+        setdataname_show(Data);
+        closePopupLoadding();
+    }else {
             closePopupLoadding();
         }              
       };
@@ -316,7 +344,7 @@ function function_homepage() {
       
 
 
-    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap};
+    return {dataallname_Show,dataall_Show,dataname_show,isPopupOpenLoadding,closePopupLoadding,dataTransfer,dataTransferall,dataTransferallname,handleClickNextToSearch,dataLoss,dataWrite_off,dataLending,dataDonation,handleClickMenu_LIST,dataname_type,dataScrap,dataSale};
 }
 
 

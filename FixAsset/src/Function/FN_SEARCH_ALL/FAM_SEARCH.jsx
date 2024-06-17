@@ -15,7 +15,6 @@ function FAM_SEARCH() {
   const Emp = localStorage.getItem("EmpID");
   let UserLogin = Emp + ":" + Name + " " + Lastname;
  const Type =localStorage.getItem("TYPE");
- console.log(Type,"Type")
   //const set
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -87,12 +86,14 @@ function FAM_SEARCH() {
     localStorage.removeItem("EDIT");
     localStorage.removeItem("For_Transfer");
     localStorage.removeItem("For_Routing");
+    localStorage.removeItem("For_Sale");
     localStorage.removeItem("For_Req_Edit");
     localStorage.removeItem("Edit_Trans");
     localStorage.removeItem("Edit_Dteail_for_FixedCode");
     localStorage.removeItem("Edit_routing");
     localStorage.removeItem("Edit_cer_date");
     localStorage.removeItem("Edit_Lending");
+    localStorage.removeItem("Edit_Sale");
     localStorage.removeItem("Type");
     navigate("/ForRe");
   };
@@ -367,7 +368,6 @@ function FAM_SEARCH() {
         FamNo: EditFam,
       });
       const data = await response.data;
-      console.log(data,"dataFixAsset")
       const DataEdit = data;
       const data_edit = JSON.stringify(DataEdit);
       localStorage.setItem("Edit_Dteail_for_FixedCode", data_edit);
@@ -634,7 +634,6 @@ function FAM_SEARCH() {
   // const handleDateChange = (date, dateString) => {
 
   //   setSelectedDateTo(dateString);
-  //   console.log("Selected Date: ", date);
   // };
 
   const handleDateChange = (date, dateString) => {
@@ -657,7 +656,6 @@ function FAM_SEARCH() {
 
   // const handleSubmit = () => {
   //   // ใช้ค่าของ convertedDate ในการทำงานต่อ
-  //   console.log("Submitting Converted Date: ", convertedDate);
   //   // คุณสามารถเรียก API หรือฟังก์ชันอื่นที่ต้องการใช้ค่าของ convertedDate ที่นี่
   // };
   // Use Effect

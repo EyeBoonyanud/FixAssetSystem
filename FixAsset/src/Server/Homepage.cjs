@@ -115,7 +115,6 @@ WHERE
          `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountTransferlistaLL", error.message);
@@ -134,7 +133,6 @@ module.exports.getCountTransferlistaLLname = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-    // // // console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountTransferlistaLLname", error.message);
@@ -224,6 +222,60 @@ module.exports.getCountScrap = async function (req, res) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLoss", error.message);
   }
 };
+//CountSale
+module.exports.getCountSale = async function (req, res) {
+  try {
+    const{UserLogin}=  req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT COUNT(T.FRH_FAM_NO)
+    FROM FAM_REQ_HEADER T
+    LEFT JOIN FAM_REQ_SALES S ON T.FRH_FAM_NO = S.FRSL_FAM_NO 
+    WHERE 1=1
+    AND (
+        (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL001')
+        OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL002')
+        OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL003')
+        OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL004')
+        OR (T.FAM_BOI_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL005')
+        OR (T.FAM_FM_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL006')
+        OR (T.FAM_ACC_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL007')
+        OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL008')
+         OR (S.FRSL_ENV1_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL009')
+      OR (S.FRSL_PLN1_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL010')
+      OR (S.FRSL_IMP1_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL011')
+      OR (S.FRSL_BOI1_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL012')
+      OR (S.FRSL_IMP2_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL013')
+      OR( S.FRSL_PLN2_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL014')
+      OR (S.FRSL_ENV2_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL015' )
+      OR (S.FRSL_BOI2_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL016' )
+      OR (S.FRSL_ENV3_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL017' )
+      OR (S.FRSL_PLN3_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL018') 
+      OR (S.FRSL_SHP_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL019' )
+      OR (S.FRSL_PLN4_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL020' )
+      OR (T.FAM_ACC_REC_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL021' )
+      OR (T.FAM_ACC_REC_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL022' )
+      OR (T.FAM_SERVICE_CLOSE_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL023')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL092')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL093')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL094')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL095')
+        OR (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL096')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL097')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL098')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL921')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL922')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL923')
+        OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL924'))
+        AND T.FAM_REQ_TYPE  = 'GP01003'
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountSale", error.message);
+  }
+};
   
  //CountLossListALL
 module.exports.getCountLosslistaLL = async function (req, res) {
@@ -263,7 +315,6 @@ WHERE
          `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLosslistaLL", error.message);
@@ -282,7 +333,6 @@ module.exports.getCountLosslistaLLname = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-     console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLosslistaLLname", error.message);
@@ -333,7 +383,6 @@ module.exports.getCountWrite_off = async function (req, res) {
 module.exports.getCountWrite_offlistaLL = async function (req, res) {
     try {
       const {UserLogin} = req.body;
-      console.log(UserLogin,"UserLogin");
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT
@@ -368,7 +417,6 @@ module.exports.getCountWrite_offlistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-      console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountWrite_offlistaLL", error.message);
@@ -387,7 +435,6 @@ module.exports.getCountWrite_offlistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-       console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountWrite_offlistaLLname", error.message);
@@ -483,7 +530,6 @@ module.exports.getCountLendinglistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-      console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLL", error.message);
@@ -503,7 +549,6 @@ module.exports.getCountLendinglistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-       console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLLname", error.message);
@@ -554,7 +599,6 @@ module.exports.getCountDonation = async function (req, res) {
 module.exports.getCountDonationlistaLL = async function (req, res) {
     try {
       const {UserLogin} = req.body;
-      console.log(UserLogin,"UserLogin");
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT
@@ -589,7 +633,6 @@ module.exports.getCountDonationlistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-      console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountDonationlistaLL", error.message);
@@ -609,7 +652,6 @@ module.exports.getCountDonationlistaLL = async function (req, res) {
            `;
       const result = await connect.execute(query);
       connect.release();
-       console.log(result.rows);
       res.json(result.rows);
     } catch (error) {
       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountDonationlistaLLname", error.message);
@@ -631,16 +673,14 @@ module.exports.getCountScraplistaLLname = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-     console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
-    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountDonationlistaLLname", error.message);
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountScraplistaLLname", error.message);
   }
 };
 module.exports.getCountScraplistaLL = async function (req, res) {
   try {
     const {UserLogin} = req.body;
-    console.log("เข้าจ้าาา")
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
@@ -699,9 +739,99 @@ module.exports.getCountScraplistaLL = async function (req, res) {
          `;
     const result = await connect.execute(query);
     connect.release();
-    console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
-    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountDonationlistaLL", error.message);
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountScraplistaLL", error.message);
+  }
+};
+// Count Sale
+module.exports.getCountSalelistaLLname = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+   SELECT F.FFM_CODE, F.FFM_TYPE, F.FFM_DESC, F.FFM_SEQ
+    FROM FAM_FLOW_MASTER F
+    WHERE F.FFM_TYPE = 'SALES'
+    AND F.FFM_CODE NOT IN 
+    ('FLSL092', 'FLSL093', 'FLSL094', 'FLSL095',
+    'FLSL096', 'FLSL097', 'FLSC908', 'FLSL098', 
+    'FLSL921', 'FLSL922', 'FLSL923', 'FLSL924', 'FLSL899')
+    ORDER BY F.FFM_SEQ
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:getCountSalelistaLLname", error.message);
+  }
+};
+module.exports.getCountSalelistaLL = async function (req, res) {
+  try {
+    const {UserLogin} = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL001' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL002' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL003' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL004' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL005' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL006' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL007' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL008' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL009' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL010' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL011' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL012' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL013' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL014' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL015' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL016' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL017' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL018' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL019' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL020' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL021' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL022' THEN 1 ELSE NULL END) ,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL023' THEN 1 ELSE NULL END) 
+  FROM
+    FAM_FLOW_MASTER TT
+  LEFT JOIN FAM_REQ_HEADER HT ON
+    HT.FAM_REQ_STATUS = TT.FFM_CODE
+  LEFT JOIN FAM_REQ_SALES S ON
+    S.FRSL_FAM_NO = HT.FRH_FAM_NO
+  WHERE
+    TT.FFM_TYPE = 'SALES'
+    AND TT.FFM_STATUS = 'A'
+    AND (
+            HT.FAM_REQ_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL001'
+      OR HT.FAM_MGR_DEPT = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL002'
+      OR HT.FAM_SERVICE_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL003'
+      OR HT.FAM_BOI_CHK_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL004'
+      OR HT.FAM_BOI_MGR_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL005'
+      OR HT.FAM_FM_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL006'
+      OR HT.FAM_ACC_CHK_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL007'
+      OR HT.FAM_OWNER_SEND_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL008'
+      OR S.FRSL_ENV1_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL009'
+      OR S.FRSL_PLN1_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL010'
+      OR S.FRSL_IMP1_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL011'
+      OR S.FRSL_BOI1_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL012'
+      OR S.FRSL_IMP2_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL013'
+      OR S.FRSL_PLN2_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL014'
+      OR S.FRSL_ENV2_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL015' 
+      OR S.FRSL_BOI2_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL016' 
+      OR S.FRSL_ENV3_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL017' 
+      OR S.FRSL_PLN3_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL018' 
+      OR S.FRSL_SHP_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL019' 
+      OR S.FRSL_PLN4_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL020' 
+      OR HT.FAM_ACC_REC_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL021' 
+      OR HT.FAM_ACC_REC_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL022' 
+      OR HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL023' )
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountSalelistaLL", error.message);
   }
 };

@@ -1103,7 +1103,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                         value={selectboi_staff}
                         onChange={(e) => {
                           setselectboi_staff(e.target.value);
-                          setpln_staff_bidding(e.target.value);
+                          setexport_clearance(e.target.value);
                         }}
                         style={{
                           borderColor: ErrorBoi_Staff ? "red" : undefined,
@@ -3311,10 +3311,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
-                                          {console.log(
-                                            showfile_pln_staff,
-                                            "showfile_pln_staff"
-                                          )}
+                                          
                                           <TableBody>
                                             {showfile_pln_staff.length === 0 ? (
                                               <TableRow>
@@ -4007,7 +4004,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           onChange={(e) => {
                             setselectpte_input_weight_size(e.target.value);
                             setpte_dept(e.target.value);
-                            setexport_clearance(e.target.value);
+                            // setexport_clearance(e.target.value);
                             setpte_upload_file(e.target.value);
                           }}
                           
@@ -4395,8 +4392,8 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           onChange={(e) => { 
                             setselectpln_staff_boi(e.target.value);
                             setpln_req_inv(e.target.value);
-                            setship_input_inv(e.target.value);
                             setpln_upload_final(e.target.value);
+                            setpln_staff_bidding(e.target.value);
 
                           }}
                           size="small"
@@ -4487,6 +4484,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     STS1 != "FLSL006" &&
                     STS1 != "FLSL007" &&
                     STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -4510,10 +4508,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
-                                          {console.log(
-                                            showfile_pln_staff,
-                                            "showfile_pln_staff"
-                                          )}
+                                          
                                           <TableBody>
                                             {showfile_pln_staff.length === 0 ? (
                                               <TableRow>
@@ -4531,7 +4526,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC100" && (
+                                                      {STS1 == "FLSL010" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -4612,7 +4607,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC100" && (
+                                  {STS1 == "FLSL010" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -4919,7 +4914,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL011" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -5000,7 +4995,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL011" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -5270,7 +5265,6 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     STS1 != "FLSL011" &&
                     For_sts_reject !== "R" && (
                       <tr>
-                        {console.log(STS1,"STS1")}
                         <td className="Style4"></td>
                         <td colSpan={5}>
                           <div style={{ margin: "20px" }}>
@@ -6385,7 +6379,6 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr >
-{console.log(contact_date,"contact_date")}
                       <tr  style={{ display: CM_pte_dept }}>
                         <td className="Style4">
                           <Typography variant="subtitle2">
@@ -7623,17 +7616,24 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
+                    STS1 != "FLSL015" &&
+                    STS1 != "FLSL016" &&
+                    STS1 != "FLSL017" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -7674,7 +7674,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL018" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -7755,7 +7755,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL018" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -8019,17 +8019,25 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
+                    STS1 != "FLSL015" &&
+                    STS1 != "FLSL016" &&
+                    STS1 != "FLSL017" &&
+                    STS1 != "FLSL018" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -8070,7 +8078,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL019" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -8151,7 +8159,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL019" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"
@@ -8358,15 +8366,6 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                    {/* {Showtype == "GP01006" &&
-                    STS1 != "FLLD001" &&
-                    STS1 != "FLLD002" &&
-                    STS1 != "FLLD003" &&
-                    STS1 != "FLLD004" &&
-                    STS1 != "FLLD005" &&
-                    STS1 != "FLLD006" &&
-                    STS1 != "FLLD007" &&
-                    STS1 != "FLLD008" && ( */}
                       <tr  style={{ display: CM_pln_upload_final }}>
                         <td className="Style4">
                           <Typography variant="subtitle2">
@@ -8428,17 +8427,26 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01002" &&
-                    STS1 != "FLSC001" &&
-                    STS1 != "FLSC002" &&
-                    STS1 != "FLSC003" &&
-                    STS1 != "FLSC004" &&
-                    STS1 != "FLSC005" &&
-                    STS1 != "FLSC006" &&
-                    STS1 != "FLSC007" &&
-                    STS1 != "FLSC008" &&
-                    STS1 != "FLSC009" &&
-                    STS1 != "FLSC100" &&
+                  {Showtype == "GP01003" &&
+                    STS1 != "FLSL001" &&
+                    STS1 != "FLSL002" &&
+                    STS1 != "FLSL003" &&
+                    STS1 != "FLSL004" &&
+                    STS1 != "FLSL005" &&
+                    STS1 != "FLSL006" &&
+                    STS1 != "FLSL007" &&
+                    STS1 != "FLSL008" &&
+                    STS1 != "FLSL009" &&
+                    STS1 != "FLSL010" &&
+                    STS1 != "FLSL011" &&
+                    STS1 != "FLSL012" &&
+                    STS1 != "FLSL013" &&
+                    STS1 != "FLSL014" &&
+                    STS1 != "FLSL015" &&
+                    STS1 != "FLSL016" &&
+                    STS1 != "FLSL017" &&
+                    STS1 != "FLSL018" &&
+                    STS1 != "FLSL019" &&
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -8479,7 +8487,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
-                                                      {STS1 == "FLSC101" && (
+                                                      {STS1 == "FLSL020" && (
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
@@ -8560,7 +8568,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                     id="fileInput"
                                     ref={fileInputRef}
                                   />
-                                  {STS1 == "FLSC101" && (
+                                  {STS1 == "FLSL020" && (
                                     <div style={{ width: "400px" }}>
                                       <label
                                         htmlFor="fileInput"

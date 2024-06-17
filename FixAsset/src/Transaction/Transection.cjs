@@ -297,9 +297,9 @@ module.exports.search2 = async function (req, res) {
     OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR007','FLWO007','FLLS007','FLDN007','FLLD007','FLSC007','FLSL007'))
     OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR008','FLWO008','FLLS008','FLDN008','FLLD008','FLSC008','FLSL008'))
     OR ( A.FRT_RECEIVE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR009'))
-    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010','FLSL020'))
-    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011','FLSL021'))
-    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012','FLSL022'))
+    OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR010','FLWO010','FLLS010','FLDN010','FLLD010','FLSC010','FLSL021'))
+    OR (T.FAM_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR011','FLWO011','FLLS011','FLDN011','FLLD011','FLSC011','FLSL022'))
+    OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLTR012','FLWO012','FLLS012','FLDN012','FLLD012','FLSC012','FLSL023'))
     OR (L.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLLD009'))
     OR (S.FRSC_ENV_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC009'))
     OR (S.FRSC_PLN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS IN ('FLSC100'))
@@ -1629,6 +1629,7 @@ module.exports.getEdit_FixAsset = async function (req, res) {
     FROM FAM_REQ_DETAIL  
     LEFT JOIN FAM_REQ_TRANSFER ON FRD_FAM_NO = FRT_FAM_NO
     WHERE FRD_FAM_NO = '${FamNo}'
+     ORDER BY 1,2 ASC
     `;
     const result = await connect.execute(query);
     connect.release();
@@ -3938,7 +3939,6 @@ module.exports.update_for_nullScarp = async function (req, res) {
 module.exports.update_for_nullLending = async function (req, res) {
   try {
     const {famno} = req.body;
-    console.log(famno,"famno")
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_LENDING
@@ -4021,6 +4021,7 @@ module.exports.insert_sale = async function (req, res) {
       createinput_in,
       createpayment,
       create_by} = req.body;
+  
      
     const connect = await oracledb.getConnection(AVO);
     const query = `
@@ -4133,7 +4134,7 @@ module.exports.getEdit_sale = async function (req, res) {
 	FRSL_SHP_CMMT,
 	FRSL_PLN4_BY ,
 	TO_CHAR(FRSL_PLN4_DATE, 'DD/MM/YYYY') ,
-   TO_CHAR(FRSL_PLN4_MOVE_DATE, 'YYYY-MM-DD') ,
+  TO_CHAR(FRSL_PLN4_MOVE_DATE, 'YYYY-MM-DD') ,
 	FRSL_PLN4_CMMT
 FROM
 	FAM_REQ_SALES
@@ -4344,9 +4345,7 @@ module.exports.update_pln_bidding = async function (req, res) {
 };
 module.exports.update_pte_contact_dept = async function (req, res) {
   try {
-    console.log("test")
     const { tranfer, pte_contact_dept,date_pte_contact_dept} =req.body;
-    console.log("test",tranfer, pte_contact_dept,date_pte_contact_dept)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 
@@ -4372,7 +4371,6 @@ module.exports.update_pte_contact_dept = async function (req, res) {
 module.exports.update_boi_make_clearance = async function (req, res) {
   try {
     const { tranfer, boi_make_clearance,date_export} =req.body;
-    console.log(tranfer, boi_make_clearance,date_export)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 
@@ -4398,8 +4396,6 @@ module.exports.update_boi_make_clearance = async function (req, res) {
 module.exports.update_pte_upload_file_clearance = async function (req, res) {
   try {
     const { tranfer, pte_upload_file_clearance,date_pte_upload_file_clearance} =req.body;
-    console.log(tranfer, pte_upload_file_clearance,date_pte_upload_file_clearance)
-
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 
@@ -4476,7 +4472,7 @@ module.exports.update_pln_upload_final = async function (req, res) {
     SET 
     FRSL_PLN4_CMMT = :pln_upload_final ,
     FRSL_PLN4_DATE = SYSDATE,
-    FRSL_PLN4_MOVE_DATE = TO_DATE(:move_date, 'YYYY-MM-DD'
+    FRSL_PLN4_MOVE_DATE = TO_DATE(:move_date, 'YYYY-MM-DD')
     WHERE FRSL_FAM_NO = :tranfer
   `;
 
