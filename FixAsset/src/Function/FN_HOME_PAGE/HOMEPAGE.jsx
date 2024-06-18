@@ -320,6 +320,7 @@ function function_homepage() {
             );
             const Saleallname = await response.data;
             setdataallname_Show(Saleallname);
+            console.log(Saleallname,"Saleallname")
         } catch (error) {
             console.error("Error Saleallname:", error);
         }
@@ -330,6 +331,7 @@ function function_homepage() {
             );
             const Saleall = await response.data;
             setdataall_Show(Saleall);
+            console.log(Saleall,"Saleall")
         } catch (error) {
             console.error("Error Scrapall:", error);
         }

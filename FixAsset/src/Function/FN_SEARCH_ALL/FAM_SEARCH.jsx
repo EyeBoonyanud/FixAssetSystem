@@ -455,7 +455,7 @@ function FAM_SEARCH() {
   const handleVIEW = async (VIEW_FAM, TYPE) => {
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
-    window.location.href = `/VIEW_Fammaster`;
+   window.location.href = `/VIEW_Fammaster`;
   };
 
   const TextTitle = () => {

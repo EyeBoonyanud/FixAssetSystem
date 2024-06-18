@@ -55,7 +55,7 @@ function FAM_GET_SHOW_FILE() {
   const [uploadedFilesDATA_pte_upload_after, setUploadedFilesDATA_pte_upload_after] = useState([]);
   const [uploadedFilesDATA_pln_stf_req_inv, setUploadedFilesDATA_pln_stf_req_inv] = useState([]);
   const [uploadedFilesDATA_ship_input_inv, setUploadedFilesDATA_ship_input_inv] = useState([]);
-  const [uploadedFilesDATA_, setUploadedFilesDATA_] = useState([]);
+  const [uploadedFilesDATA_uploadfinal, setUploadedFilesDATA_uploadfinal] = useState([]);
   //ShowFile Sale
   const [showfilepte_env_ws,setshowfilepte_env_ws] = useState([]);
   const [showfilepln_stf_boi,setshowfilepln_stf_boi] = useState([]);
@@ -97,7 +97,6 @@ function FAM_GET_SHOW_FILE() {
     fetchData_PTE_ENV();
     fetchData_PLN_Staff();
     fetchData_Shipping();
-
     fetchData_ENV1_SALE();
     fetchData_PLN1_SALE();
     fetchData_IMP1_SALE();
@@ -726,7 +725,7 @@ function FAM_GET_SHOW_FILE() {
       }));
       const fileArrayString = JSON.stringify(jsonDataArray);
       localStorage.setItem("Type", fileArrayString);
-    } else if (Status_for_owner == "FLSC009") {
+    }else if (Status_for_owner == "FLSC009") {
       setuploadedFiles_PTE([...uploadedFiles_PTE, ...selectedFiles]);
       setUploadedFilesDATA_PTE([...uploadedFilesDATA_PTE, ...selectedFiles]);
       const jsonDataArray = uploadedFilesDATA_PTE.map((file) => ({
@@ -756,10 +755,190 @@ function FAM_GET_SHOW_FILE() {
       }));
       const fileArrayString = JSON.stringify(jsonDataArray);
       localStorage.setItem("Type", fileArrayString);
-    } else if (Status_for_owner == "FLSC101") {
+    }else if (Status_for_owner == "FLSC101") {
       setuploadedFiles_Shipping([...uploadedFiles_Shipping, ...selectedFiles]);
       setUploadedFilesDATA_Shipping([...uploadedFilesDATA_Shipping, ...selectedFiles]);
       const jsonDataArray = uploadedFilesDATA_Shipping.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL009") {
+      setuploadedFiles_pte_env_ws([...uploadedFiles_pte_env_ws, ...selectedFiles]);
+      setUploadedFilesDATA_pte_env_ws([...uploadedFilesDATA_pte_env_ws, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pte_env_ws.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL010") {
+      setuploadedFiles_pln_stf_boi([...uploadedFiles_pln_stf_boi, ...selectedFiles]);
+      setUploadedFilesDATA_pln_stf_boi([...uploadedFilesDATA_pln_stf_boi, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pln_stf_boi.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL011") {
+      setuploadedFiles_imp_boi_prepare([...uploadedFiles_imp_boi_prepare, ...selectedFiles]);
+      setUploadedFilesDATA_imp_boi_prepare([...uploadedFilesDATA_imp_boi_prepare, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_imp_boi_prepare.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL012") {
+      setuploadedFiles_imp_input_data([...uploadedFiles_imp_input_data, ...selectedFiles]);
+      setUploadedFilesDATA_imp_input_data([...uploadedFilesDATA_imp_input_data, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_imp_input_data.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL013") {
+      setuploadedFiles_thai_catergorise([...uploadedFiles_thai_catergorise, ...selectedFiles]);
+      setUploadedFilesDATA_thai_catergorise([...uploadedFilesDATA_thai_catergorise, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_thai_catergorise.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL014") {
+      setuploadedFiles_pln_stf_bidding([...uploadedFiles_pln_stf_bidding, ...selectedFiles]);
+      setUploadedFilesDATA_pln_stf_bidding([...uploadedFilesDATA_pln_stf_bidding, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pln_stf_bidding.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL015") {
+      setuploadedFiles_pte_dept([...uploadedFiles_pte_dept, ...selectedFiles]);
+      setUploadedFilesDATA_pte_dept([...uploadedFilesDATA_pte_dept, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pte_dept.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL016") {
+      setuploadedFiles_boi_exp_clearance([...uploadedFiles_boi_exp_clearance, ...selectedFiles]);
+      setUploadedFilesDATA_boi_exp_clearance([...uploadedFilesDATA_boi_exp_clearance, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_boi_exp_clearance.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL017") {
+      setuploadedFiles_pte_upload_after([...uploadedFiles_pte_upload_after, ...selectedFiles]);
+      setUploadedFilesDATA_pte_upload_after([...uploadedFilesDATA_pte_upload_after, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pte_upload_after.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL018") {
+      setuploadedFiles_pln_stf_req_inv([...uploadedFiles_pln_stf_req_inv, ...selectedFiles]);
+      setUploadedFilesDATA_pln_stf_req_inv([...uploadedFilesDATA_pln_stf_req_inv, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_pln_stf_req_inv.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL019") {
+      setuploadedFiles_ship_input_inv([...uploadedFiles_ship_input_inv, ...selectedFiles]);
+      setUploadedFilesDATA_ship_input_inv([...uploadedFilesDATA_ship_input_inv, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_ship_input_inv.map((file) => ({
+        name: file.name,
+        lastModified: file.lastModified,
+        lastModifiedDate: file.lastModifiedDate
+          ? file.lastModifiedDate.toISOString()
+          : null,
+        webkitRelativePath: file.webkitRelativePath,
+        size: file.size,
+        type: file.type,
+      }));
+      const fileArrayString = JSON.stringify(jsonDataArray);
+      localStorage.setItem("Type", fileArrayString);
+    }else if (Status_for_owner == "FLSL020") {
+      setuploadedFiles_pln_upload_final([...uploadedFiles_pln_upload_final, ...selectedFiles]);
+      setUploadedFilesDATA_uploadfinal([...uploadedFilesDATA_uploadfinal, ...selectedFiles]);
+      const jsonDataArray = uploadedFilesDATA_uploadfinal.map((file) => ({
         name: file.name,
         lastModified: file.lastModified,
         lastModifiedDate: file.lastModifiedDate
@@ -795,13 +974,35 @@ function FAM_GET_SHOW_FILE() {
     let FAM_FORM = "";
     if (Status_for_owner == "FLLD100") {
       FAM_FORM = "OWNER RETURN";
-    } else if (Status_for_owner == "FLSC009") {
+    }else if (Status_for_owner == "FLSC009") {
       FAM_FORM = "ENV CHECK";
     }else if (Status_for_owner == "FLSC100") {
       FAM_FORM = "PLN CHECK";
-    }else if (Status_for_owner == "FLSC101") {
+    }else if (Status_for_owner == "FLSC101" || Status_for_owner == "FLSL019" ) {
       FAM_FORM = "SHP CHECK";
-    } else {
+    }else if (Status_for_owner == "FLSL009") {
+      FAM_FORM = "ENV1 SALE";
+    }else if (Status_for_owner == "FLSL010") {
+      FAM_FORM = "PLN1 SALE";
+    }else if (Status_for_owner == "FLSL011") {
+      FAM_FORM = "IMP1 SALE";
+    }else if (Status_for_owner == "FLSL012") {
+      FAM_FORM = "BOI1 SALE";
+    }else if (Status_for_owner == "FLSL013") {
+      FAM_FORM = "IMP2 SALE";
+    }else if (Status_for_owner == "FLSL014") {
+      FAM_FORM = "PLN2 SALE";
+    }else if (Status_for_owner == "FLSL015") {
+      FAM_FORM = "ENV2 SALE";
+    }else if (Status_for_owner == "FLSL016") {
+      FAM_FORM = "BOI2 SALE";
+    }else if (Status_for_owner == "FLSL017") {
+      FAM_FORM = "ENV3 SALE";
+    }else if (Status_for_owner == "FLSL018") {
+      FAM_FORM = "PLN3 SALE";
+    }else if (Status_for_owner == "FLSL020") {
+      FAM_FORM = "PLN4 SALE";
+    }else {
       FAM_FORM = "OWNER CHECK";
     }
 
@@ -1004,6 +1205,594 @@ function FAM_GET_SHOW_FILE() {
       setUploadedFilesDATA_Shipping([]);
       setuploadedFiles_Shipping([]);
       fetchData_Shipping();
+    }else if (Status_for_owner == "FLSL009") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pte_env_ws.length; i++) {
+          const file = uploadedFilesDATA_pte_env_ws[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pte_env_ws.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pte_env_ws([]);
+      setuploadedFiles_pte_env_ws([]);
+      fetchData_ENV1_SALE();
+    }else if (Status_for_owner == "FLSL010") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pln_stf_boi.length; i++) {
+          const file = uploadedFilesDATA_pln_stf_boi[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pln_stf_boi.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pln_stf_boi([]);
+      setuploadedFiles_pln_stf_boi([]);
+      fetchData_PLN1_SALE();
+    }else if (Status_for_owner == "FLSL011") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_imp_boi_prepare.length; i++) {
+          const file = uploadedFilesDATA_imp_boi_prepare[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_imp_boi_prepare.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_imp_boi_prepare([]);
+      setuploadedFiles_imp_boi_prepare([]);
+      fetchData_IMP1_SALE();
+    }else if (Status_for_owner == "FLSL012") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_imp_input_data.length; i++) {
+          const file = uploadedFilesDATA_imp_input_data[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_imp_input_data.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_imp_input_data([]);
+      setuploadedFiles_imp_input_data([]);
+      fetchData_BOI1_SALE();
+    }else if (Status_for_owner == "FLSL013") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_thai_catergorise.length; i++) {
+          const file = uploadedFilesDATA_thai_catergorise[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_thai_catergorise.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/uploadedFilesDATA_pte_env_ws", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_thai_catergorise([]);
+      setuploadedFiles_thai_catergorise([]);
+      fetchData_IMP2_SALE();
+    }else if (Status_for_owner == "FLSL014") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pln_stf_bidding.length; i++) {
+          const file = uploadedFilesDATA_pln_stf_bidding[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pln_stf_bidding.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pln_stf_bidding([]);
+      setuploadedFiles_pln_stf_bidding([]);
+      fetchData_PLN2_SALE();
+    }else if (Status_for_owner == "FLSL015") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pte_dept.length; i++) {
+          const file = uploadedFilesDATA_pte_dept[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pte_dept.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pte_dept([]);
+      setuploadedFiles_pte_dept([]);
+      fetchData_ENV2_SALE();
+    }else if (Status_for_owner == "FLSL016") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_boi_exp_clearance.length; i++) {
+          const file = uploadedFilesDATA_boi_exp_clearance[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_boi_exp_clearance.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_boi_exp_clearance([]);
+      setuploadedFiles_boi_exp_clearance([]);
+      fetchData_BOI2_SALE();
+    }else if (Status_for_owner == "FLSL017") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pte_upload_after.length; i++) {
+          const file = uploadedFilesDATA_pte_upload_after[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pte_upload_after.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pte_upload_after([]);
+      setuploadedFiles_pte_upload_after([]);
+      fetchData_ENV3_SALE();
+    }else if (Status_for_owner == "FLSL018") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_pln_stf_req_inv.length; i++) {
+          const file = uploadedFilesDATA_pln_stf_req_inv[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_pln_stf_req_inv.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_pln_stf_req_inv([]);
+      setuploadedFiles_pln_stf_req_inv([]);
+      fetchData_PLN3_SALE();
+    }else if (Status_for_owner == "FLSL019") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_ship_input_inv.length; i++) {
+          const file = uploadedFilesDATA_ship_input_inv[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_ship_input_inv.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_ship_input_inv([]);
+      setuploadedFiles_ship_input_inv([]);
+      fetchData_Shipping();
+    }else if (Status_for_owner == "FLSL020") {
+      try {
+        
+        for (let i = 0; i < uploadedFilesDATA_uploadfinal.length; i++) {
+          const file = uploadedFilesDATA_uploadfinal[i];
+          const lastDotIndex = file.name.lastIndexOf(".");
+          const fileExtension = file.name.slice(lastDotIndex + 1);
+          let new_run_seq = "";
+          try {
+            const response_seq = await axios.post("/get_run_owner_file_shipping", {
+              FAM_no: Gen_Fam_No,
+            });
+            const get_run_seq = await response_seq.data;
+            const lastValue =
+              get_run_seq.length > 0
+                ? get_run_seq[get_run_seq.length - 1][0]
+                : 0;
+            const incrementedValue = lastValue + 1;
+            new_run_seq = [[incrementedValue]];
+          } catch (error) {
+            console.error("Error committing files to the database:", error);
+          }
+          const file_server = `${Gen_Fam_No}_${FAM_FORM}_${new_run_seq}_${currentDateTime}.${fileExtension}`;
+
+          try {
+            const response = await axios.post(
+              `/ins_FILE_FROM_REQUEST?FAM_no=${Gen_Fam_No}&FAM_from=${FAM_FORM}&FAM_file_seq=${new_run_seq}&FAM_file_name=${file.name}&FAM_file_server=${file_server}&FAM_create=${LocalUserLogin}`
+            );
+            const data = await response.data;
+          } catch (error) {
+            console.error("Error Upload File Request:", error);
+          }
+          try {
+            const formData = new FormData();
+            uploadedFilesDATA_uploadfinal.forEach((file) => {
+              formData.append("files", file);
+            });
+            await axios.post("/ins_FILE_FROM_REQUEST_TO_PROJECT_ME", formData);
+          } catch (error) {
+            console.error("Error saving files:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Error committing files to the database:", error);
+      }
+
+      setUploadedFilesDATA_uploadfinal([]);
+      setuploadedFiles_pln_upload_final([]);
+      fetchData_PLN4_SALE();
     }else {
       // For Owner Check
       try {
@@ -1078,7 +1867,13 @@ function FAM_GET_SHOW_FILE() {
     uploadedFiles_PTE,
     uploadedFiles_PLN_Staff,
     uploadedFilesDATA_PLN_Staff,
-    showfile_pln_staff,uploadedFiles_Shipping, showfile_shipping
+    showfile_pln_staff,uploadedFiles_Shipping, showfile_shipping,
+    uploadedFiles_pte_env_ws,uploadedFiles_pln_stf_boi,uploadedFiles_imp_boi_prepare,uploadedFiles_imp_input_data
+,uploadedFiles_thai_catergorise,uploadedFiles_pln_stf_bidding,uploadedFiles_pte_dept,
+uploadedFiles_boi_exp_clearance,uploadedFiles_pte_upload_after,uploadedFiles_pln_stf_req_inv,uploadedFiles_ship_input_inv,
+uploadedFiles_pln_upload_final,showfilepte_env_ws,showfilepln_stf_boi,showfileimp_boi_prepare,
+showfileimp_input_data,showfilethai_catergorise,showfilepln_stf_bidding,showfilepte_dept,showfileboi_exp_clearance,showfilepte_upload_after,
+showfilepln_stf_req_inv,showfileship_input_inv,showfilepln_upload_final
   };
 }
 export { FAM_GET_SHOW_FILE };

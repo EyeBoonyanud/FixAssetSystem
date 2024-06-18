@@ -790,88 +790,204 @@ function FAM_GET_REQUEST() {
       console.error("Error fetching data:", error);
     }
   };
+  const[checkvalue, setcheckvalue]=useState("")
+  // const ADD = async () => {
+  //   openPopupLoadding();
+  //   // let group_fix = "";
+  //   // if (selectFixAssetgroup1.length > 1) {
+  //   //   group_fix = selectFixAssetgroup1.substring(0, 1);
+  //   // } else {
+  //   //   group_fix = selectFixAssetgroup1;
+   
+  //   // } 
+   
+  //   try {
+  //     const response = await axios.post("/find_fix_groub", {
+  //       fac: Factory[1],
+  //       servicedept: selectFixAssetgroup1,
+  //     });
+  //     const data = response.data;
+  //     const validValues = [];
+  //     for (const key in data) {
+  //       if (data.hasOwnProperty(key)) {
+  //         validValues.push(data[key][0]);
+  //       }
+  //     }
+  //     try {
+  //       const response = await axios.post("/getfixcode", {
+  //         Fixcode: find_fixasset1,
+  //         asset_cc: owner_dept,
+  //         fixgroup: validValues,
+  //       });
+
+  //       const data = response.data;
+  //       setfind_fixasset(data);
+  //       setcheckvalue(data[0][5])
+  //       console.log(data[0][5],"คืออะไร")
+  //       console.log(checkvalue,"checkไม่ให้ผ่าน",data[0][5])
+  //       if (checkvalue !== "" && checkvalue !== data[0][5]) {
+  //         console.log(checkvalue, data[0][5], "No Pass");
+  //         alert("ไม่สามารถ แอดได้ เนื่องจากคนละ BoI Project");
+          
+  //     }
+  
+  //     // ถ้า checkvalue เป็นค่าว่างและ data[0][5] ไม่ว่าง หรือ checkvalue เท่ากับ data[0][5]
+  //     if ((checkvalue === "" && data[0][5] !== "") || checkvalue === data[0][5]) {
+  //         alert("ผ่าน");
+  //         return;
+  //     }  return;
+      
+  
+  
+  //       if (data.length > 0) {
+  //         try {
+  //           const response = await axios.post("/fix_code_find", {
+  //             assetcode: find_fixasset1,
+  //           });
+  //           const responseData = response.data;
+  //           setdatafix_for_find(responseData);
+    
+  //           if (responseData.length !== data.length) {
+  //             setOpen(true);
+  //           } else if (responseData.length === data.length) {
+  //             const seen = {};
+  //             let uniqueKeys = [];
+  //             responseData.forEach((item) => {
+  //               const key = item[0];
+  //               if (!seen[key]) {
+  //                 seen[key] = true;
+  //                 uniqueKeys.push(key);
+  //               }
+  //             });
+  //             alert(
+  //               "Fixed Asset Code has been implemented:\n" +
+  //                 uniqueKeys.join(", ")
+  //             );
+  //           }
+  //         } catch (error) {
+  //           console.error("Error fetching data:", error);
+  //         }
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Data is not found",
+  //         });
+  //       }
+  //       try {
+  //         const response = await axios.post("/get_COMP", {
+  //           fam_no: Gen_Fam_No,
+  //         });
+  //         const data = response.data;
+
+  //         set_COMP(data);
+  //       } catch (error) {
+  //         console.error("Error requesting data:", error);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error requesting data:", error);
+  //     }
+  //   } catch (error) {}
+  //   closePopupLoadding();
+
+  //   setSelectAll("");
+  // };
   const ADD = async () => {
     openPopupLoadding();
-    // let group_fix = "";
-    // if (selectFixAssetgroup1.length > 1) {
-    //   group_fix = selectFixAssetgroup1.substring(0, 1);
-    // } else {
-    //   group_fix = selectFixAssetgroup1;
-    // }
+
     try {
-      const response = await axios.post("/find_fix_groub", {
-        fac: Factory[1],
-        servicedept: selectFixAssetgroup1,
-      });
-      const data = response.data;
-      const validValues = [];
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          validValues.push(data[key][0]);
-        }
-      }
-      try {
-        const response = await axios.post("/getfixcode", {
-          Fixcode: find_fixasset1,
-          asset_cc: owner_dept,
-          fixgroup: validValues,
+        const response = await axios.post("/find_fix_groub", {
+            fac: Factory[1],
+            servicedept: selectFixAssetgroup1,
         });
-
         const data = response.data;
-        setfind_fixasset(data);
-
-        if (data.length > 0) {
-          try {
-            const response = await axios.post("/fix_code_find", {
-              assetcode: find_fixasset1,
-            });
-            const responseData = response.data;
-            setdatafix_for_find(responseData);
-
-            if (responseData.length !== data.length) {
-              setOpen(true);
-            } else if (responseData.length === data.length) {
-              const seen = {};
-              let uniqueKeys = [];
-              responseData.forEach((item) => {
-                const key = item[0];
-                if (!seen[key]) {
-                  seen[key] = true;
-                  uniqueKeys.push(key);
-                }
-              });
-              alert(
-                "Fixed Asset Code has been implemented:\n" +
-                  uniqueKeys.join(", ")
-              );
+        const validValues = [];
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                validValues.push(data[key][0]);
             }
-          } catch (error) {
-            console.error("Error fetching data:", error);
-          }
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Data is not found",
-          });
         }
+
         try {
-          const response = await axios.post("/get_COMP", {
-            fam_no: Gen_Fam_No,
-          });
-          const data = response.data;
+            const response = await axios.post("/getfixcode", {
+                Fixcode: find_fixasset1,
+                asset_cc: owner_dept,
+                fixgroup: validValues,
+            });
 
-          set_COMP(data);
+            const data = response.data;
+            setfind_fixasset(data);
+            setcheckvalue(data[0][5]);
+            console.log(data[0][5], "คืออะไร");
+            console.log(checkvalue, "checkไม่ให้ผ่าน", data[0][5],datatable);
+            if (datatable.length === 0) {
+              alert("ผ่าน");
+          } else {
+              // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+              if (datatable[0][5] === data[0][5]) {
+                
+              } else {
+                  // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
+                  alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
+                  closePopupLoadding();
+                  return;
+              }
+          }
+            if (data.length > 0) {
+                try {
+                    const response = await axios.post("/fix_code_find", {
+                        assetcode: find_fixasset1,
+                    });
+                    const responseData = response.data;
+                    setdatafix_for_find(responseData);
+
+                    if (responseData.length !== data.length) {
+                        setOpen(true);
+                    } else if (responseData.length === data.length) {
+                        const seen = {};
+                        let uniqueKeys = [];
+                        responseData.forEach((item) => {
+                            const key = item[0];
+                            if (!seen[key]) {
+                                seen[key] = true;
+                                uniqueKeys.push(key);
+                            }
+                        });
+                        alert(
+                            "Fixed Asset Code has been implemented:\n" +
+                            uniqueKeys.join(", ")
+                        );
+                    }
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Data is not found",
+                });
+            }
+
+            try {
+                const response = await axios.post("/get_COMP", {
+                    fam_no: Gen_Fam_No,
+                });
+                const data = response.data;
+
+                set_COMP(data);
+            } catch (error) {
+                console.error("Error requesting data:", error);
+            }
         } catch (error) {
-          console.error("Error requesting data:", error);
+            console.error("Error requesting data:", error);
         }
-      } catch (error) {
+    } catch (error) {
         console.error("Error requesting data:", error);
-      }
-    } catch (error) {}
-    closePopupLoadding();
+    }
 
+    closePopupLoadding();
     setSelectAll("");
-  };
+};
+
   const updateSelectedData = (selectedItems) => {
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
     setSelectedData(newData);
@@ -908,6 +1024,7 @@ function FAM_GET_REQUEST() {
   const [CountCOMP, setCountCOMP] = useState([]);
   const [Countdatatable, setCountdatatable] = useState([]);
   const handleAdd = () => {
+    console.log(datatable,"hello")
     const hasTrue = selectedItems.includes(true);
 
     if (!hasTrue || selectedItems.length === 0) {

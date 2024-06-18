@@ -509,7 +509,25 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                 <TableCell>New BOI Projrct</TableCell>
                               </React.Fragment>
                             )}
-                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"
+                              || STS == "FLSL009"
+                              || STS == "FLSL010"
+                              || STS == "FLSL011"
+                              || STS == "FLSL012"
+                              || STS == "FLSL013"
+                              || STS == "FLSL014"
+                              || STS == "FLSL015"
+                              || STS == "FLSL016"
+                              || STS == "FLSL017"
+                              || STS == "FLSL018"
+                              || STS == "FLSL019"
+                              || STS == "FLSL020"
+                              || STS == "FLSL021"
+                              || STS == "FLSL022"
+                              || STS == "FLSL023"
+                              || STS == "FLSL024"
+
+                            ) && (
                               <React.Fragment>
                                 <TableCell>Weight(kg)</TableCell>
                                 <TableCell>Size</TableCell>
@@ -520,7 +538,12 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                 <TableCell>Unit Price(Baht)</TableCell>
                               </React.Fragment>
                             )}
-                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"|| STS == "FLSL019"
+                              || STS == "FLSL020"
+                              || STS == "FLSL021"
+                              || STS == "FLSL022"
+                              || STS == "FLSL023"
+                              || STS == "FLSL024") && (
                               <React.Fragment>
                                 <TableCell>Invoice No.</TableCell>
                               </React.Fragment>
@@ -564,7 +587,22 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                     <TableCell>{item[11]}</TableCell>
                                   </React.Fragment>
                                 )}
-                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"  || STS == "FLSL009"
+                              || STS == "FLSL010"
+                              || STS == "FLSL011"
+                              || STS == "FLSL012"
+                              || STS == "FLSL013"
+                              || STS == "FLSL014"
+                              || STS == "FLSL015"
+                              || STS == "FLSL016"
+                              || STS == "FLSL017"
+                              || STS == "FLSL018"
+                              || STS == "FLSL019"
+                              || STS == "FLSL020"
+                              || STS == "FLSL021"
+                              || STS == "FLSL022"
+                              || STS == "FLSL023"
+                              || STS == "FLSL024") && (
                                   <React.Fragment>
                                     <TableCell>{item[12]}</TableCell>
                                     <TableCell>{item[13]}</TableCell>
@@ -575,7 +613,12 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                     <TableCell>{item[14]}</TableCell>
                                   </React.Fragment>
                                 )}
-                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" || STS == "FLSL019"
+                              || STS == "FLSL020"
+                              || STS == "FLSL021"
+                              || STS == "FLSL022"
+                              || STS == "FLSL023"
+                              || STS == "FLSL024" ) && (
                                   <React.Fragment>
                                     <TableCell>{item[15]}</TableCell>
                                   </React.Fragment>

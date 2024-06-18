@@ -13,6 +13,7 @@ function FAM_TRANSECTION() {
   const [DataName, setDataName] = useState("");
   const [DataLending, setDataLending] = useState([]);
   const [DataScrap ,setDataScrap] = useState([]);
+  const [DataSale ,setDataSale] =useState([]);
   // const radio
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
@@ -34,6 +35,20 @@ function FAM_TRANSECTION() {
   const [FiledataPTE_ENV ,setFiledataPTE_ENV] = useState([]);
   const [FiledataPLN_Staff,setFiledataPLN_Staff] = useState([]);
   const [FiledataShiiping,setFiledataShiiping] = useState([]);
+
+  const [FiledataPTE_EN_input_ws ,setFiledataPTE_ENV_input_ws] = useState([]);
+  const [FiledataPLN_Staff_boi,setFiledataPLN_Staff_boi] = useState([]);
+  const [Filedataimp_prapare,setFiledataimp_prapare] = useState([]);
+  const [FiledataBoi_input_data,setFiledataBoi_input_data] = useState([]);
+  const [Filedatathai_catergorise ,setFiledatathai_catergorise] = useState([]);
+  const [FiledataPLN_bidding,setFiledataPLN_bidding] = useState([]);
+  const [FiledataWID,setFiledataWID] = useState([]);
+  const [Filedataexp_clearance,setFileFiledataexp_clearance] = useState([]);
+  const [Filedataafter_export,setFiledataafter_export] = useState([]);
+  const [Filedatareq_inv ,setFiledatareq_inv] = useState([]);
+  const [Filedataship_staff,setFiledataship_staff] = useState([]);
+  const [Filedataupload_final,setFiledataFiledataupload_final] = useState([]);
+  
 
   // const Loading 
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -95,20 +110,21 @@ function FAM_TRANSECTION() {
     };
     const fetchData = async () => {
       try {
-        const response = await axios.post("/getFAM_FILE_OWNER_CHK", {
+        const response = await axios.post("/getFAM_FILE_DATA", {
           FamNo: VIEW_FAM,
+          ATT_FROM:'OWNER CHECK'
         });
         const jsonData = await response.data;
-        setFiledata(jsonData);
-        console.log("DATAFILE", jsonData);
+        setFiledata(jsonData);;
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     const fetchData_Owner_return = async () => {
       try {
-        const response = await axios.post("/getFAM_FILE_Req_Return", {
+        const response = await axios.post("/getFAM_FILE_DATA", {
           FamNo: VIEW_FAM,
+          ATT_FROM:'OWNER RETURN'
         });
         const jsonData = await response.data;
         setFiledataReturn(jsonData);
@@ -138,15 +154,28 @@ function FAM_TRANSECTION() {
 
         const data = await response.data.flat();
         setDataScrap(data);
-        console.log(data ,"ออออออออออร")
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    const fetchData_Sale = async () => {
+      try {
+        const response = await axios.post("/getEdit_sale", {
+          famno: VIEW_FAM,
+        });
+
+        const data = await response.data.flat();
+        setDataSale(data);
+        console.log(data,"dataSale")
       } catch (error) {
         console.error("Error during login:", error);
       }
     };
     const fetchData_PTE_ENV = async () => {
       try {
-        const response = await axios.post("/getFAM_FILE_PTE_ENV", {
+        const response = await axios.post("/getFAM_FILE_DATA", {
           FamNo: VIEW_FAM,
+          ATT_FROM:'ENV CHECK'
         });
         const jsonData = await response.data;
         setFiledataPTE_ENV(jsonData);
@@ -156,8 +185,9 @@ function FAM_TRANSECTION() {
     };
     const fetchData_PLN_Staff = async () => {
       try {
-        const response = await axios.post("/getFAM_FILE_PLN_Staff", {
+        const response = await axios.post("/getFAM_FILE_DATA", {
           FamNo: VIEW_FAM,
+          ATT_FROM:'PLN CHECK'
         });
         const jsonData = await response.data;
         setFiledataPLN_Staff(jsonData);
@@ -167,15 +197,151 @@ function FAM_TRANSECTION() {
     };
     const fetchData_Shipping = async () => {
       try {
-        const response = await axios.post("/getFAM_FILE_Shipping", {
+        const response = await axios.post("/getFAM_FILE_DATA", {
           FamNo: VIEW_FAM,
+          ATT_FROM:'SHP CHECK'
         });
         const jsonData = await response.data;
         setFiledataShiiping(jsonData);
+        setFiledataship_staff(jsonData);
       } catch (error) {
         console.error("Error fetchData_Shipping data:", error);
       }
     };
+    const fetchData_ENV1_SALE = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'ENV1 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataPTE_ENV_input_ws(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_ENV1_SALE:", error);
+       }
+      };
+     const fetchData_PLN1_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'PLN1 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataPLN_Staff_boi(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_PLN1_SALE:", error);
+       }
+     };
+     const fetchData_IMP1_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'IMP1 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataimp_prapare(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_IMP1_SALE:", error);
+       }
+     };
+     const fetchData_BOI1_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'BOI1 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataBoi_input_data(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_BOI1_SALE:", error);
+       }
+     };
+     const fetchData_IMP2_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'IMP2 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledatathai_catergorise(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_IMP2_SALE:", error);
+       }
+     };
+     const fetchData_PLN2_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'PLN2 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataPLN_bidding(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_PLN2_SALE:", error);
+       }
+     };
+     const fetchData_ENV2_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'ENV2 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataWID(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_ENV2_SALE:", error);
+       }
+     };
+     const fetchData_BOI2_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'BOI2 SALE'
+         });
+         const jsonData = await response.data;   
+         setFileFiledataexp_clearance(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_BOI2_SALE:", error);
+       }
+     };
+     const fetchData_ENV3_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'ENV3 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataafter_export(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_ENV3_SALE", error);
+       }
+     };
+     const fetchData_PLN3_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'PLN3 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledatareq_inv(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_PLN3_SALE", error);
+       }
+     };
+     const fetchData_PLN4_SALE  = async () => {
+      try {
+         const response = await axios.post("/getFAM_FILE_DATA", {
+           FamNo: VIEW_FAM,
+           ATT_FROM:'PLN4 SALE'
+         });
+         const jsonData = await response.data;   
+         setFiledataFiledataupload_final(jsonData);
+       } catch (error) {
+         console.error("Error fetchData_PLN4_SALE", error);
+       }
+     };
+  
+  
 
     Name();
     FAM_Transfer();
@@ -184,9 +350,21 @@ function FAM_TRANSECTION() {
     fetchData_Owner_return();
     fetchData_Leading();
     fetchData_Scrap();
+    fetchData_Sale();
     fetchData_PTE_ENV();
     fetchData_PLN_Staff();
     fetchData_Shipping();
+    fetchData_ENV1_SALE();
+    fetchData_PLN1_SALE();
+    fetchData_IMP1_SALE();
+    fetchData_BOI1_SALE();
+    fetchData_IMP2_SALE();
+    fetchData_PLN2_SALE();
+    fetchData_ENV2_SALE();
+    fetchData_BOI2_SALE();
+    fetchData_ENV3_SALE();
+    fetchData_PLN3_SALE();
+    fetchData_PLN4_SALE();
     setTimeout(function () {
       closePopupLoadding();
     }, 2000);
@@ -206,6 +384,7 @@ function FAM_TRANSECTION() {
     DataName,
     DataLending,
     DataScrap,
+    DataSale,
     selectradio_dept,
     selectradio_serviceby,
     selectradio_boistaff,
@@ -222,9 +401,21 @@ function FAM_TRANSECTION() {
     Filedata,
     FiledataReturn,
     FiledataPTE_ENV,
-FiledataShiiping,
-FiledataPLN_Staff,
+    FiledataShiiping,
+    FiledataPLN_Staff,
     isPopupOpenLoadding,
+    FiledataPTE_EN_input_ws,
+    FiledataPLN_Staff_boi,
+    Filedataimp_prapare,
+    FiledataBoi_input_data,
+    Filedatathai_catergorise,
+    FiledataPLN_bidding,
+    FiledataWID,
+    Filedataexp_clearance,
+    Filedataafter_export,
+    Filedatareq_inv,
+    Filedataship_staff,
+    Filedataupload_final,
     openPopupLoadding,
     closePopupLoadding,
     BackPage,

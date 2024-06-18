@@ -159,30 +159,6 @@ function Issue() {
                   </FormControl>
                 </TableCell>
                 <TableCell style={{ border: "0" }}>
-                  {/* <FormControl
-                    sx={{ width: 200 }}
-                    style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "none"
-                          : "",
-                    }}
-                  >
-                    <Autocomplete
-                      multiple
-                      value={selectCostCenter}
-                      onChange={(e, value) => setselectCostCenter(value)}
-                      options={getCostCenter.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Cost Center :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl> */}
                 </TableCell>
               </TableRow>
 
@@ -285,27 +261,7 @@ function Issue() {
                       )}
                     />
                   </FormControl>
-                  {/* <FormControl
-                    sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
-                  >
-                    <Autocomplete
-                      multiple
-                      value={selectcostMul}
-                      onChange={(e, value) => setselectcostMul(value)}
-                      options={getCostCenter.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Cost Center :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl> */}
-
-                  {/* owner costcenter */}
+                
                   <FormControl
                     sx={{ width: 200 }}
                     style={{
@@ -357,29 +313,7 @@ function Issue() {
                       ))}
                     </Select>
                   </FormControl>
-                  {/* <FormControl
-                    sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
-                  >
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Request Type :
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Request Type :"
-                      value={selectReTypeMul}
-                      onChange={(e) => setselectReTypeMul(e.target.value)}
-                      size="small"
-                      style={{
-                        width: "200px",
-                      }}
-                    >
-                      {ReType.map((option) => (
-                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
+                
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
                   <TextField
@@ -395,23 +329,7 @@ function Issue() {
               </TableRow>
               <TableRow>
                 <TableCell style={{ border: 0 }}>
-                  {/* <TextField
-                    id="Date"
-                    size="small"
-                    type="date"
-                    label="Date From :"
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: "4px",
-                      width: "200px",
-                      marginRight: "5px",
-                    }}
-                    s
-                    value={selectedDateFrom}
-                    onChange={(e) => {
-                      setSelectedDateFrom(e.target.value);
-                    }}
-                  ></TextField> */}
+               
                   <Typography color={"gray"} style={{ fontSize: "14px" }}>
                     Date From :{" "}
                   </Typography>
@@ -424,22 +342,7 @@ function Issue() {
                   />
                 </TableCell>
                 <TableCell style={{ border: 0 }}>
-                  {/* <TextField
-                    id="DateTo"
-                    size="small"
-                    type="date"
-                    label="Date To :"
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: "4px",
-                      width: "200px",
-                      marginRight: "5px",
-                    }}
-                    value={selectedDateTo}
-                    onChange={(e) => {
-                      setSelectedDateTo(e.target.value);
-                    }}
-                  ></TextField> */}
+                
                   <Typography color={"gray"} style={{ fontSize: "14px" }}>
                     Date To:{" "}
                   </Typography>

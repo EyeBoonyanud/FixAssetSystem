@@ -1424,6 +1424,7 @@ function FAM_TRANSECTION_TLWLD() {
                 }
               }
               if(Edit_For_Sale.length >0){
+                console.log(Edit_For_Sale[0][40],"Edit_For_Sale[0][40]",Edit_For_Sale)
                 setaction__pte_weight_size(Edit_For_Sale[0][2])
                 setaction__pte_staff_boi(Edit_For_Sale[0][5])
                 setaction__import_boi_prepare(Edit_For_Sale[0][8])
@@ -1439,7 +1440,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setcontact_date(Edit_For_Sale[0][22])
                 setexport_clearance_date(Edit_For_Sale[0][26])
                 setcontact_date_pte(Edit_For_Sale[0][30])
-                setVendor_move_date(Edit_For_Sale[0][40])
+                setVendor_move_date(Edit_For_Sale[0][41])
 
                 if (
                   Edit_For_Sale[0][3] == "null" ||
@@ -1645,7 +1646,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS092" ||
                   STS == "FLDN092" ||
                   STS == "FLLD092" ||
-                  STS == "FLSC092"
+                  STS == "FLSC092" ||
+                  STS == "FLSL092"
                 ) {
                   setcheckrdo("visible");
                   setReadDeptRadio(true);
@@ -1657,7 +1659,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS093" ||
                   STS == "FLDN093" ||
                   STS == "FLLD093" ||
-                  STS == "FLSC093"
+                  STS == "FLSC093" ||
+                   STS == "FLSL093"
                 ) {
                   setchkservice_by("visible");
                   setcheckrdo("visible");
@@ -1673,7 +1676,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS094" ||
                   STS == "FLDN094" ||
                   STS == "FLLD094" ||
-                  STS == "FLSC094"
+                  STS == "FLSC094" ||
+                   STS == "FLSL094"
                 ) {
                   setchkboistaff("visible");
                   setchkservice_by("visible");
@@ -1693,7 +1697,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS095" ||
                   STS == "FLDN095" ||
                   STS == "FLLD095" ||
-                  STS == "FLSC095"
+                  STS == "FLSC095" || 
+                   STS == "FLSL095"
                 ) {
                   setchkboimanager("visible");
                   setchkboistaff("visible");
@@ -1717,7 +1722,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS096" ||
                   STS == "FLDN096" ||
                   STS == "FLLD096" ||
-                  STS == "FLSC096"
+                  STS == "FLSC096" ||
+                   STS == "FLSL096"
                 ) {
                   setchkfacmanager("visible");
                   setchkboimanager("visible");
@@ -1745,7 +1751,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS907" ||
                   STS == "FLDN907" ||
                   STS == "FLLD907" ||
-                  STS == "FLSC907"
+                  STS == "FLSC907" ||
+                   STS == "FLSL097"
                 ) {
                   setchkacc_check("visible");
                   setchkfacmanager("visible");
@@ -1777,7 +1784,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN908" ||
                   STS == "FLLS908" ||
                   STS == "FLLD908" ||
-                  STS == "FLSC908"
+                  STS == "FLSC908" ||
+                   STS == "FLSL098"
                 ) {
                   setchkowner("visible");
                   setchkacc_check("visible");
@@ -1881,15 +1889,18 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_return_acc("table-row");
                   setCM_return_owner("table-row");
                 }
-                
+                console.log(STS,"STS")
                 if (
                   STS == "FLWO910" ||
                   STS == "FLLS910" ||
                   STS == "FLDN910" ||
                   STS == "FLLD910" ||
-                  STS == "FLSC910"
-                ) {
+                  STS == "FLSC910" ||
+                   STS == "FLSL921"
                   
+                ) {
+                 
+
                   setchkacc_record("visible");
                   setchkreceiver("visible");
                   setchkowner("visible");
@@ -1924,6 +1935,45 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_acc_record("table-row");
                   setCM_owner("table-row");
                   setCM_receiver("table-row");
+                  if (STS == "FLSL921"){
+                    setchk_pln_upload_final("visible");
+                    setchk_boi_input_data("visible");
+                    setchk_pte_upload_file("visible");
+                    setchk_ship_input_inv("visible");
+                    setchk_pln_req_inv("visible");
+                    setchk_export_clearance("visible");
+                    setchk_pte_dept("visible");
+                    setchk_pln_staff_bidding("visible");
+                    setchk_thai_catergories("visible");
+                    setchk_import_boi_prepare("visible");
+                    setchk_pte_staff_boi("visible");
+                    setchk_pte_weight_size("visible");
+                    setCM_pte_weight_size("table-row");
+                    setCM_pte_staff_boi("table-row");
+                    setCM_import_boi_prepare("table-row");
+                    setCM_boi_input_data("table-row");
+                    setCM_thai_catergories("table-row");
+                    setCM_pln_staff_bidding("table-row");
+                    setCM_pte_dept("table-row");
+                    setCM_export_clearance("table-row");
+                    setCM_pte_upload_file("table-row");
+                    setCM_pln_req_inv("table-row");
+                    setCM_ship_input_inv("table-row");
+                    setCM_pte_upload_file("table-row");
+                    setCM_pln_upload_final("table-row");
+                    setReadpte_input_weight_sizeCmmt(true);
+                    setReadpte_staff_boiCmmt(true);
+                    setReadimport_boi_prepareCmmt(true);
+                    setReadboi_input_dataCmmt(true);
+                    setReadthai_catergoriesCmmt(true);
+                    setReadpln_staff_biddingCmmt(true);
+                    setReadpte_deptCmmt(true);
+                    setReadexport_clearanceCmmt(true);
+                    setReadpte_upload_fileCmmt(true);
+                    setReadpln_req_invCmmt(true);
+                    setReadship_input_invCmmt(true);
+                    setReadpln_upload_finalCmmt(true);
+                  }
                   if(STS == "FLSC910"){ 
                     setchkpte_env("visable")
                     setchkpln_staff("visable")
@@ -13044,6 +13094,70 @@ function FAM_TRANSECTION_TLWLD() {
         } else {
           setErrorAcc_check(false);
         }
+        //Sale
+        if (
+          selectpte_input_weight_size === null ||
+          selectpte_input_weight_size === undefined ||
+          selectpte_input_weight_size === "" ||
+          selectpte_input_weight_size === "null"
+        ) {
+          alert("Please fill in information: PTE (ENV) input weight/size");
+          setErrorPTE_INPUT_WS(true);
+          return;
+        } else {
+          setErrorPTE_INPUT_WS(false);
+        }
+        if (
+          selectpln_staff_boi === null ||
+          selectpln_staff_boi === undefined ||
+          selectpln_staff_boi === "" ||
+          selectpln_staff_boi === "null"
+        ) {
+          alert("Please fill in information: PLN Staff contact BOI ");
+          setErrorPLN_Staff_BOI(true);
+          return;
+        } else {
+          setErrorPLN_Staff_BOI(false);
+        }
+        if (
+          selectimport_boi_prepare === null ||
+          selectimport_boi_prepare === undefined ||
+          selectimport_boi_prepare === "" ||
+          selectimport_boi_prepare === "null"
+        ) {
+          alert("Please fill in information: Import & BOI prepare  ");
+          setErrorimport_boi_prepare(true);
+          return;
+        } else {
+          setErrorimport_boi_prepare(false);
+        }
+        console.log("มาแล้ว",)
+        if (
+          selectboi_input_data === null ||
+          selectboi_input_data === undefined ||
+          selectboi_input_data === "" ||
+          selectboi_input_data === "null"
+        ) {
+          alert("Please fill in information: BOI Input data Import  ");
+          setErrorboi_input_data(true);
+          return;
+        } else {
+          setErrorboi_input_data(false);
+        }
+        if (
+          ship_input_inv === null ||
+          ship_input_inv === undefined ||
+          ship_input_inv === "" ||
+          ship_input_inv === "null"
+        ) {
+          alert("Please fill in information: Shipping Staff input invoice no ");
+          setErrorship_input_inv(true);
+          return;
+        } else {
+          setErrorship_input_inv(false);
+        }
+
+        /////////////
         if (
           selectacc_manager === null ||
           selectacc_manager === undefined ||
@@ -13692,25 +13806,6 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSL008") {
             let Status = "";
-            // let DataFile_Requester = "";
-
-            // try {
-            //   const response = await axios.post("/getFAM_FILE_OWNER_CHK", {
-            //     FamNo: EditFam,
-            //   });
-            //   const jsonData = await response.data;
-            //   DataFile_Requester = await response.data;
-            // } catch (error) {
-            //   console.error("Error fetching data:", error);
-            // }
-            // if (
-            //   DataFile_Requester == null ||
-            //   DataFile_Requester == [] ||
-            //   DataFile_Requester.length == 0
-            // ) {
-            //   alert("Please Select File");
-            //   return;
-            // }
             if (selectradio_owner == "A") {
               Status = "FLSL009";
             } else if (selectradio_owner == "R") {
@@ -13784,24 +13879,25 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSL009") {
             let Status = "FLSL010";
-            //   let DataFile_Requester = "";
-            // try {
-            //   const response = await axios.post("/getFAM_FILE_PTE_ENV", {
-            //     FamNo: EditFam,
-            //   });
-            //   const jsonData = await response.data;
-            //   DataFile_Requester = jsonData;
-            // } catch (error) {
-            //   console.error("Error fetching data:", error);
-            // }
-            // if (
-            //   DataFile_Requester == null ||
-            //   DataFile_Requester == [] ||
-            //   DataFile_Requester.length == 0
-            // ) {
-            //   alert("Please Select File");
-            //   return;
-            // }
+              let DataFile_Requester = "";
+              try {
+                const response = await axios.post("/getFAM_FILE_DATA", {
+                  FamNo: EditFam,
+                  ATT_FROM:'ENV1 SALE'
+                });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
             // if (
             //   cmmtradio_pte_env !== null &&
             //   (cmmtradio_pte_env == "" ||
@@ -13880,24 +13976,25 @@ function FAM_TRANSECTION_TLWLD() {
             //}
           } else if (For_Rq_Edit[10] === "FLSL010") {
             let Status = "FLSL011";
-            // let DataFile_Requester = "";
-            // try {
-            //   const response = await axios.post("/getFAM_FILE_PLN_Staff", {
-            //     FamNo: EditFam,
-            //   });
-            //   const jsonData = await response.data;
-            //   DataFile_Requester = jsonData;
-            // } catch (error) {
-            //   console.error("Error fetching data:", error);
-            // }
-            // if (
-            //   DataFile_Requester == null ||
-            //   DataFile_Requester == [] ||
-            //   DataFile_Requester.length == 0
-            // ) {
-            //   alert("Please Select File");
-            //   return;
-            // }
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'PLN1 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
 
             try {
               const response = await axios.post("/update_submit", {
@@ -13965,24 +14062,25 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSL011") {
             let Status = "FLSL012";
-              // let DataFile_Requester = "";
-              // try {
-              //   const response = await axios.post("/getFAM_FILE_Shipping", {
-              //     FamNo: EditFam,
-              //   });
-              //   const jsonData = await response.data;
-              //   DataFile_Requester = jsonData;
-              // } catch (error) {
-              //   console.error("Error fetching data:", error);
-              // }
-              // if (
-              //   DataFile_Requester == null ||
-              //   DataFile_Requester == [] ||
-              //   DataFile_Requester.length == 0
-              // ) {
-              //   alert("Please Select File");
-              //   return;
-              // }
+              let DataFile_Requester = "";
+              try {
+                const response = await axios.post("/getFAM_FILE_DATA", {
+                  FamNo: EditFam,
+                  ATT_FROM:'IMP1 SALE'
+                });
+                const jsonData = await response.data;
+                DataFile_Requester = jsonData;
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+              if (
+                DataFile_Requester == null ||
+                DataFile_Requester == [] ||
+                DataFile_Requester.length == 0
+              ) {
+                alert("Please Select File");
+                return;
+              }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14049,21 +14147,25 @@ function FAM_TRANSECTION_TLWLD() {
 
           } else if (For_Rq_Edit[10] === "FLSL012") {
             let Status = "FLSL013";
-            // if (selectradio_record == "A") {
-            //   Status = "FLSC011";
-            // } else if (selectradio_record == "R") {
-            //   Status = "FLSC910";
-            // }
-
-            // if (
-            //   selectradio_record == "R" &&
-            //   (cmmtradio_record == "" ||
-            //     cmmtradio_record == null ||
-            //     cmmtradio_record == "null" ||
-            //     cmmtradio_record == "undefined")
-            // ) {
-            //   alert("Please fill in information");
-            // } else {
+            let DataFile_Requester = "";
+              try {
+                const response = await axios.post("/getFAM_FILE_DATA", {
+                  FamNo: EditFam,
+                  ATT_FROM:'BOI1 SALE'
+                });
+                const jsonData = await response.data;
+                DataFile_Requester = jsonData;
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }
+              if (
+                DataFile_Requester == null ||
+                DataFile_Requester == [] ||
+                DataFile_Requester.length == 0
+              ) {
+                alert("Please Select File");
+                return;
+              }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14130,20 +14232,35 @@ function FAM_TRANSECTION_TLWLD() {
             //}
           }else if (For_Rq_Edit[10] === "FLSL013") {
             let Status = "FLSL014";
-            // if (selectradio_acc_manager == "A") {
-            //   Status = "FLSC012";
-            // } else if (selectradio_acc_manager == "R") {
-            //   Status = "FLSC911";
-            // }
-            // if (
-            //   selectradio_acc_manager == "R" &&
-            //   (cmmtradio_acc_manager == "" ||
-            //     cmmtradio_acc_manager == null ||
-            //     cmmtradio_acc_manager == "null" ||
-            //     cmmtradio_acc_manager == "undefined")
-            // ) {
-            //   alert("Please fill in information");
-            // } else {
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'IMP2 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
+            if (
+              Input_thai_categories == "" ||
+              Input_thai_categories == null ||
+              Input_thai_categories == "null" ||
+              Input_thai_categories == "undefined"
+            ) {
+              alert("Please fill in information (Input thai categories)");
+              return;
+            }
+            
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14215,24 +14332,36 @@ function FAM_TRANSECTION_TLWLD() {
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
-           // }
           }else if (For_Rq_Edit[10] === "FLSL014") {
             let Status = "FLSL015";
-            // if (selectradio_service_close_by == "A") {
-            //   Status = "FLSC013";
-            // } else if (selectradio_service_close_by == "R") {
-            //   Status = "FLSC912";
-            // }
-
-            // if (
-            //   selectradio_service_close_by == "R" &&
-            //   (cmmtradio_service_close_by == "" ||
-            //     cmmtradio_service_close_by == null ||
-            //     cmmtradio_service_close_by == "null" ||
-            //     cmmtradio_service_close_by == "undefined")
-            // ) {
-            //   alert("Please fill in information");
-            // } else {
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'PLN2 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
+            if (
+              Bidding_result == "" ||
+              Bidding_result == null ||
+              Bidding_result == "null" ||
+              Bidding_result == "undefined"
+            ) {
+              alert("Please fill in information (Bidding result)");
+              return;
+            }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14305,7 +14434,38 @@ function FAM_TRANSECTION_TLWLD() {
            // }
           }else if (For_Rq_Edit[10] === "FLSL015") {
             let Status = "FLSL016";
-        
+            if (
+              contact_date === null ||
+              contact_date === undefined ||
+              contact_date === "" ||
+              contact_date === "null"
+            ) {
+              setErrorcontact_date(true);
+              alert("Please fill in information: Contact Date");
+              return;
+            } else {
+              setErrorcontact_date(false);
+            }
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'ENV2 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
+            
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14378,7 +14538,37 @@ function FAM_TRANSECTION_TLWLD() {
            
           }else if (For_Rq_Edit[10] === "FLSL016") {
             let Status = "FLSL017";
-        
+            if (
+              export_clearance_date === null ||
+              export_clearance_date === undefined ||
+              export_clearance_date === "" ||
+              export_clearance_date === "null"
+            ) {
+              setErrorexport_clearance_date(true);
+              alert("Please fill in information: export Date");
+              return;
+            } else {
+              setErrorexport_clearance_date(false);
+            }
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'BOI2 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14451,7 +14641,37 @@ function FAM_TRANSECTION_TLWLD() {
            
           }else if (For_Rq_Edit[10] === "FLSL017") {
             let Status = "FLSL018";
-        
+            if (
+              contact_date_pte === null ||
+              contact_date_pte === undefined ||
+              contact_date_pte === "" ||
+              contact_date_pte === "null"
+            ) {
+              setErrorcontact_date_pte(true);
+              alert("Please fill in information : Contact date ");
+              return;
+            } else {
+              setErrorcontact_date_pte(false);
+            }
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'ENV3 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -14524,6 +14744,25 @@ function FAM_TRANSECTION_TLWLD() {
            
           }else if (For_Rq_Edit[10] === "FLSL018") {
             let Status = "FLSL019";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'PLN3 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
         
               try {
                 const response = await axios.post("/update_submit", {
@@ -14596,6 +14835,25 @@ function FAM_TRANSECTION_TLWLD() {
            
           }else if (For_Rq_Edit[10] === "FLSL019") {
             let Status = "FLSL020";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'SHP CHECK'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
         
               try {
                 const response = await axios.post("/update_submit", {
@@ -14668,6 +14926,37 @@ function FAM_TRANSECTION_TLWLD() {
            
           }else if (For_Rq_Edit[10] === "FLSL020") {
             let Status = "FLSL021";
+            if (
+              Vendor_move_date === null ||
+              Vendor_move_date === undefined ||
+              Vendor_move_date === "" ||
+              Vendor_move_date === "null"
+            ) {
+              setErrorVendor_move_date(true);
+              alert("Please fill in information : Vendor move date ");
+              return;
+            } else {
+              setErrorVendor_move_date(false);
+            }
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM:'PLN4 SALE'
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+              alert("Please Select File");
+              return;
+            }
         
               try {
                 const response = await axios.post("/update_submit", {
@@ -14744,7 +15033,7 @@ function FAM_TRANSECTION_TLWLD() {
             if (selectradio_record == "A") {
               Status = "FLSL022";
             } else if (selectradio_record == "R") {
-              Status = "FLSL920";
+              Status = "FLSL921";
             }
 
             if (
@@ -14818,7 +15107,7 @@ function FAM_TRANSECTION_TLWLD() {
             if (selectradio_acc_manager == "A") {
               Status = "FLSL023";
             } else if (selectradio_acc_manager == "R") {
-              Status = "FLSL921";
+              Status = "FLSL922";
             }
             if (
               selectradio_acc_manager == "R" &&
@@ -14899,7 +15188,7 @@ function FAM_TRANSECTION_TLWLD() {
             if (selectradio_service_close_by == "A") {
               Status = "FLSL024";
             } else if (selectradio_service_close_by == "R") {
-              Status = "FLSL922";
+              Status = "FLSL923";
             }
 
             if (
@@ -15126,8 +15415,8 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorAcc_Mana(false);
         }
         //Submit Scrap
-        if (For_Req[10] === "FLSC001") {
-          let Status = "FLSC002";
+        if (For_Req[10] === "FLSL001") {
+          let Status = "FLSL002";
           try {
             const response = await axios.post("/update_submit", {
               famno: For_Req[0],
@@ -15469,7 +15758,7 @@ function FAM_TRANSECTION_TLWLD() {
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectboi_manager(For_Edit_Rou[0][12]);
-          setselectboi_input_data(Edit_For_Sale[0][25])
+          setselectboi_input_data(Edit_For_Sale[0][10])
         }
         
       } else {

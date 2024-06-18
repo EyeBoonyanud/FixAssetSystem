@@ -42,11 +42,39 @@ import "../Page/Style.css";
 
 function TransFerDetail() {
   const {
-    STS1,For_sts_reject,ownersend,setownersend,trans_factory,selecttrans_factory,trans_cc,
-    selecttrans_cc,setselecttrans_cc,datanew_boi,new_boi,setnew_boi,data_fromboi, setdata_fromboi,
-    new_owner,selectnew_owner,receiver,setreceiver,abnormal,setabnormal,Tel_for_trans,
-    setTel_for_trans,plan_date,setplan_date,department_mana,selectdepartment_mana,setselectdepartment_mana,
-    service_dept,setservice_dept,service_by,selectservice_by,setselectservice_by,boi_staff,
+    STS1,
+    For_sts_reject,
+    ownersend,
+    setownersend,
+    trans_factory,
+    selecttrans_factory,
+    trans_cc,
+    selecttrans_cc,
+    setselecttrans_cc,
+    datanew_boi,
+    new_boi,
+    setnew_boi,
+    data_fromboi,
+    setdata_fromboi,
+    new_owner,
+    selectnew_owner,
+    receiver,
+    setreceiver,
+    abnormal,
+    setabnormal,
+    Tel_for_trans,
+    setTel_for_trans,
+    plan_date,
+    setplan_date,
+    department_mana,
+    selectdepartment_mana,
+    setselectdepartment_mana,
+    service_dept,
+    setservice_dept,
+    service_by,
+    selectservice_by,
+    setselectservice_by,
+    boi_staff,
     selectboi_staff,
     setselectboi_staff,
     boi_manager,
@@ -284,19 +312,37 @@ function TransFerDetail() {
     setcmmtradio_pte_env,
     setaction__pte_env,
     setcmmtradio_pln_staff,
-    setcmmtradio__shipping,pte_input_weight_size,
-    pln_staff_boi, setselectpln_staff_boi,
+    setcmmtradio__shipping,
+    pte_input_weight_size,
+    pln_staff_boi,
+    setselectpln_staff_boi,
     import_boi_prepare,
-    boi_input_data, setboi_input_data,
-    thai_catergories, setthai_catergories,
-    pln_staff_bidding, setpln_staff_bidding,
-    pte_dept, setpte_dept,
-    pln_req_inv, setpln_req_inv,
-    ship_input_inv, setship_input_inv,
-    pln_upload_final, setpln_upload_final,
-    selectpte_input_weight_size,setselectpte_input_weight_size,selectpln_staff_boi,setpln_staff_boi,
-    selectimport_boi_prepare,setselectimport_boi_prepare,
-    selectboi_input_data,setselectboi_input_data,export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file,
+    boi_input_data,
+    setboi_input_data,
+    thai_catergories,
+    setthai_catergories,
+    pln_staff_bidding,
+    setpln_staff_bidding,
+    pte_dept,
+    setpte_dept,
+    pln_req_inv,
+    setpln_req_inv,
+    ship_input_inv,
+    setship_input_inv,
+    pln_upload_final,
+    setpln_upload_final,
+    selectpte_input_weight_size,
+    setselectpte_input_weight_size,
+    selectpln_staff_boi,
+    setpln_staff_boi,
+    selectimport_boi_prepare,
+    setselectimport_boi_prepare,
+    selectboi_input_data,
+    setselectboi_input_data,
+    export_clearance,
+    setexport_clearance,
+    pte_upload_file,
+    setpte_upload_file,
     read_pte_input_weight_size,
     read_pte_input_weight_size_radio,
     read_pte_input_weight_size_cmmt,
@@ -339,47 +385,95 @@ function TransFerDetail() {
     Errorboi_input_data,
     ErrorVendor_move_date,
     Errorcontact_date_pte,
-    Errorcontact_date,contact_date,setcontact_date,contact_date_pte,setcontact_date_pte, cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size,
-    cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi,
-    cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare,
-    cmmtradio_boi_input_data, setcmmtradio_boi_input_data,
-    cmmtradio_thai_catergories, setcmmtradio_thai_catergories,
-    cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding,
-    cmmtradio_pte_dept, setcmmtradio_pte_dept,
-    cmmtradio_export_clearance, setcmmtradio_export_clearance,
-    cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file,
-    cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv,
-    cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv,
-    cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final,
-    CM_pte_weight_size,CM_pte_staff_boi,CM_import_boi_prepare,CM_boi_input_data,CM_thai_catergories,
-CM_pln_staff_bidding,CM_pte_dept,CM_export_clearance,CM_pte_upload_file,CM_pln_req_inv,CM_ship_input_inv,
-CM_pln_upload_final,export_clearance_date,setexport_clearance_date
-,Vendor_move_date,setVendor_move_date,Errorexport_clearance_date 
-,action__pte_weight_size, setaction__pte_weight_size,
-action__pte_staff_boi, setaction__pte_staff_boi,
-action__import_boi_prepare, setaction__import_boi_prepare,
-action__boi_input_data, setaction__boi_input_data,
-action__thai_catergories, setaction__thai_catergories,
-action__pln_staff_bidding, setaction__pln_staff_bidding,
-action__pte_dept, setaction__pte_dept,
-action__export_clearance, setaction__export_clearance,
-action__pte_upload_file, setaction__pte_upload_file,
-action__pln_req_inv, setaction__pln_req_inv,
-action__ship_input_inv, setaction__ship_input_inv,
-action__pln_upload_final, setaction__pln_upload_final,
-chk_pte_weight_size, 
-chk_pte_staff_boi, 
-chk_import_boi_prepare, 
-chk_boi_input_data, 
-chk_thai_catergories, 
-chk_pln_staff_bidding, 
-chk_pte_dept, 
-chk_export_clearance, 
-chk_pte_upload_file, 
-chk_pln_req_inv, 
-chk_ship_input_inv,
-chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categories, setInput_thai_categories ,Bidding_result, setBidding_result,
-} = FAM_TRANSECTION_TLWLD();
+    Errorcontact_date,
+    contact_date,
+    setcontact_date,
+    contact_date_pte,
+    setcontact_date_pte,
+    cmmtradio_pte_weight_size,
+    setcmmtradio_pte_weight_size,
+    cmmtradio_pte_staff_boi,
+    setcmmtradio_pte_staff_boi,
+    cmmtradio_import_boi_prepare,
+    setcmmtradio_import_boi_prepare,
+    cmmtradio_boi_input_data,
+    setcmmtradio_boi_input_data,
+    cmmtradio_thai_catergories,
+    setcmmtradio_thai_catergories,
+    cmmtradio_pln_staff_bidding,
+    setcmmtradio_pln_staff_bidding,
+    cmmtradio_pte_dept,
+    setcmmtradio_pte_dept,
+    cmmtradio_export_clearance,
+    setcmmtradio_export_clearance,
+    cmmtradio_pte_upload_file,
+    setcmmtradio_pte_upload_file,
+    cmmtradio_pln_req_inv,
+    setcmmtradio_pln_req_inv,
+    cmmtradio_ship_input_inv,
+    setcmmtradio_ship_input_inv,
+    cmmtradio_pln_upload_final,
+    setcmmtradio_pln_upload_final,
+    CM_pte_weight_size,
+    CM_pte_staff_boi,
+    CM_import_boi_prepare,
+    CM_boi_input_data,
+    CM_thai_catergories,
+    CM_pln_staff_bidding,
+    CM_pte_dept,
+    CM_export_clearance,
+    CM_pte_upload_file,
+    CM_pln_req_inv,
+    CM_ship_input_inv,
+    CM_pln_upload_final,
+    export_clearance_date,
+    setexport_clearance_date,
+    Vendor_move_date,
+    setVendor_move_date,
+    Errorexport_clearance_date,
+    action__pte_weight_size,
+    setaction__pte_weight_size,
+    action__pte_staff_boi,
+    setaction__pte_staff_boi,
+    action__import_boi_prepare,
+    setaction__import_boi_prepare,
+    action__boi_input_data,
+    setaction__boi_input_data,
+    action__thai_catergories,
+    setaction__thai_catergories,
+    action__pln_staff_bidding,
+    setaction__pln_staff_bidding,
+    action__pte_dept,
+    setaction__pte_dept,
+    action__export_clearance,
+    setaction__export_clearance,
+    action__pte_upload_file,
+    setaction__pte_upload_file,
+    action__pln_req_inv,
+    setaction__pln_req_inv,
+    action__ship_input_inv,
+    setaction__ship_input_inv,
+    action__pln_upload_final,
+    setaction__pln_upload_final,
+    chk_pte_weight_size,
+    chk_pte_staff_boi,
+    chk_import_boi_prepare,
+    chk_boi_input_data,
+    chk_thai_catergories,
+    chk_pln_staff_bidding,
+    chk_pte_dept,
+    chk_export_clearance,
+    chk_pte_upload_file,
+    chk_pln_req_inv,
+    chk_ship_input_inv,
+    chk_pln_upload_final,
+    Errorship_input_inv,
+    setErrorship_input_inv,
+    Input_thai_categories,
+    setInput_thai_categories,
+    Bidding_result,
+    setBidding_result,
+  } = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
   const {
@@ -399,6 +493,30 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
     showfile_pln_staff,
     uploadedFiles_Shipping,
     showfile_shipping,
+    uploadedFiles_pte_env_ws,
+    uploadedFiles_pln_stf_boi,
+    uploadedFiles_imp_boi_prepare,
+    uploadedFiles_imp_input_data,
+    uploadedFiles_thai_catergorise,
+    uploadedFiles_pln_stf_bidding,
+    uploadedFiles_pte_dept,
+    uploadedFiles_boi_exp_clearance,
+    uploadedFiles_pte_upload_after,
+    uploadedFiles_pln_stf_req_inv,
+    uploadedFiles_ship_input_inv,
+    uploadedFiles_pln_upload_final,
+    showfilepte_env_ws,
+    showfilepln_stf_boi,
+    showfileimp_boi_prepare,
+    showfileimp_input_data,
+    showfilethai_catergorise,
+    showfilepln_stf_bidding,
+    showfilepte_dept,
+    showfileboi_exp_clearance,
+    showfilepte_upload_after,
+    showfilepln_stf_req_inv,
+    showfileship_input_inv,
+    showfilepln_upload_final,
   } = FAM_GET_SHOW_FILE();
   // Const Return
   return (
@@ -2829,7 +2947,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             backgroundColor: read_pte_env
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             ErrorPTE_ENV &&
@@ -3206,7 +3324,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             backgroundColor: read_pln_staff
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             ErrorPLN_Staff &&
@@ -3311,7 +3429,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
-                                          
+
                                           <TableBody>
                                             {showfile_pln_staff.length === 0 ? (
                                               <TableRow>
@@ -3591,7 +3709,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             backgroundColor: read_shipping
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             ErrorShipping &&
@@ -3990,7 +4108,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                   {/* PTE (ENV) input weight/size: */}
                   <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2">
+                      <Typography variant="subtitle2" >
                         PTE (ENV) input weight/size:
                       </Typography>
                     </td>
@@ -4007,18 +4125,18 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             // setexport_clearance(e.target.value);
                             setpte_upload_file(e.target.value);
                           }}
-                          
                           size="small"
                           style={{
                             borderColor: ErrorPTE_INPUT_WS ? "red" : undefined,
                             backgroundColor: read_pte_input_weight_size
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             ErrorPTE_INPUT_WS &&
-                            (!selectpte_input_weight_size || selectpte_input_weight_size == "null")
+                            (!selectpte_input_weight_size ||
+                              selectpte_input_weight_size == "null")
                           }
                         >
                           {pte_input_weight_size.map((option, index) => (
@@ -4051,7 +4169,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__pte_weight_size}
-                          onChange={(e) => setaction__pte_weight_size(e.target.value)}
+                          onChange={(e) =>
+                            setaction__pte_weight_size(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4061,9 +4181,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                 <tr 
-                  style={{ display: CM_pte_weight_size }}
-                  >
+                  <tr style={{ display: CM_pte_weight_size }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -4071,14 +4189,16 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                           value={cmmtradio_pte_weight_size}
+                          value={cmmtradio_pte_weight_size}
                           disabled={read_pte_input_weight_size_cmmt}
                           style={{
                             backgroundColor: read_pte_input_weight_size_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
                           }}
-                          onChange={(e) => setcmmtradio_pte_weight_size(e.target.value)}
+                          onChange={(e) =>
+                            setcmmtradio_pte_weight_size(e.target.value)
+                          }
                           size="small"
                         />
                       </FormControl>
@@ -4118,7 +4238,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_pte_env.length === 0 ? (
+                                            {showfilepte_env_ws.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -4130,7 +4250,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_pte_env.map(
+                                              showfilepte_env_ws.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -4138,13 +4258,15 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_pte_env[
+                                                              showfilepte_env_ws[
                                                                 index
                                                               ][0],
-                                                              showfile_pte_env[
+
+                                                              showfilepte_env_ws[
                                                                 index
                                                               ][3],
-                                                              showfile_pte_env[
+
+                                                              showfilepte_env_ws[
                                                                 index
                                                               ][4]
                                                             )
@@ -4155,14 +4277,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_pte_env[
+                                                        showfilepte_env_ws[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_pte_env[
+                                                        showfilepte_env_ws[
                                                           index
                                                         ][3]
                                                       }
@@ -4182,14 +4304,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_pte_env[
+                                                            showfilepte_env_ws[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_pte_env[
+                                                          showfilepte_env_ws[
                                                             index
                                                           ][3]
                                                         }
@@ -4241,10 +4363,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_PTE.length > 0 && (
+                                      {uploadedFiles_pte_env_ws.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_PTE.map(
+                                            {uploadedFiles_pte_env_ws.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -4389,12 +4511,11 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="demo-simple-select-helper"
                           value={selectpln_staff_boi}
                           disabled={read_pte_staff_boi}
-                          onChange={(e) => { 
+                          onChange={(e) => {
                             setselectpln_staff_boi(e.target.value);
                             setpln_req_inv(e.target.value);
                             setpln_upload_final(e.target.value);
                             setpln_staff_bidding(e.target.value);
-
                           }}
                           size="small"
                           style={{
@@ -4402,11 +4523,12 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             backgroundColor: read_pte_staff_boi
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             ErrorPLN_Staff_BOI &&
-                            (!selectpln_staff_boi || selectpln_staff_boi == "null")
+                            (!selectpln_staff_boi ||
+                              selectpln_staff_boi == "null")
                           }
                         >
                           {pln_staff_boi.map((option, index) => (
@@ -4439,7 +4561,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__pte_staff_boi}
-                          onChange={(e) => setaction__pte_staff_boi(e.target.value)}
+                          onChange={(e) =>
+                            setaction__pte_staff_boi(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4449,9 +4573,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_pte_staff_boi }}
-                  >
+                  <tr style={{ display: CM_pte_staff_boi }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -4508,9 +4630,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                               <TableCell>View</TableCell>
                                             </TableRow>
                                           </TableHead>
-                                          
+
                                           <TableBody>
-                                            {showfile_pln_staff.length === 0 ? (
+                                            {showfilepln_stf_boi.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -4522,7 +4644,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_pln_staff.map(
+                                              showfilepln_stf_boi.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -4530,13 +4652,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_pln_staff[
+                                                              showfilepln_stf_boi[
                                                                 index
                                                               ][0],
-                                                              showfile_pln_staff[
+                                                              showfilepln_stf_boi[
                                                                 index
                                                               ][3],
-                                                              showfile_pln_staff[
+                                                              showfilepln_stf_boi[
                                                                 index
                                                               ][4]
                                                             )
@@ -4547,14 +4669,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_pln_staff[
+                                                        showfilepln_stf_boi[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_pln_staff[
+                                                        showfilepln_stf_boi[
                                                           index
                                                         ][3]
                                                       }
@@ -4574,14 +4696,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_pln_staff[
+                                                            showfilepln_stf_boi[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_pln_staff[
+                                                          showfilepln_stf_boi[
                                                             index
                                                           ][3]
                                                         }
@@ -4633,10 +4755,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_PLN_Staff.length > 0 && (
+                                      {uploadedFiles_pln_stf_boi.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_PLN_Staff.map(
+                                            {uploadedFiles_pln_stf_boi.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -4770,7 +4892,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                   {/* Import & BOI prepare : */}
                   <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2">Import & BOI prepare :</Typography>
+                      <Typography variant="subtitle2">
+                        Import & BOI prepare :
+                      </Typography>
                     </td>
                     <td>
                       <FormControl className="Style3">
@@ -4783,19 +4907,20 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             setselectimport_boi_prepare(e.target.value);
                             setthai_catergories(e.target.value);
                           }}
-                          
                           size="small"
                           style={{
-                            borderColor: Errorimport_boi_prepare ? "red" : undefined,
+                            borderColor: Errorimport_boi_prepare
+                              ? "red"
+                              : undefined,
                             backgroundColor: read_boi_input_data
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             Errorimport_boi_prepare &&
-                            (!selectboi_input_data ||
-                              selectboi_input_data == "null")
+                            (!selectimport_boi_prepare ||
+                              selectimport_boi_prepare == "null")
                           }
                         >
                           {import_boi_prepare.map((option, index) => (
@@ -4804,7 +4929,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                             </MenuItem>
                           ))}
                         </Select>
-                        {Errorimport_boi_prepare && !selectboi_input_data && (
+                        {Errorimport_boi_prepare && !selectimport_boi_prepare && (
                           <FormHelperText style={{ color: "red" }}>
                             Please select: Import & BOI prepare
                           </FormHelperText>
@@ -4828,7 +4953,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__import_boi_prepare}
-                          onChange={(e) => setaction__import_boi_prepare(e.target.value)}
+                          onChange={(e) =>
+                            setaction__import_boi_prepare(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4838,9 +4965,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_import_boi_prepare }}
-                  >
+                  <tr style={{ display: CM_import_boi_prepare }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -4848,7 +4973,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                           value={cmmtradio_import_boi_prepare}
+                          value={cmmtradio_import_boi_prepare}
                           disabled={read_import_boi_prepare_cmmt}
                           style={{
                             backgroundColor: read_import_boi_prepare_cmmt
@@ -4898,7 +5023,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfileimp_boi_prepare.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -4910,7 +5035,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfileimp_boi_prepare.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -4918,13 +5043,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfileimp_boi_prepare[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfileimp_boi_prepare[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfileimp_boi_prepare[
                                                                 index
                                                               ][4]
                                                             )
@@ -4935,14 +5060,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileimp_boi_prepare[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileimp_boi_prepare[
                                                           index
                                                         ][3]
                                                       }
@@ -4962,14 +5087,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfileimp_boi_prepare[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfileimp_boi_prepare[
                                                             index
                                                           ][3]
                                                         }
@@ -5021,10 +5146,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_imp_boi_prepare.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_imp_boi_prepare.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -5174,11 +5299,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           }
                           size="small"
                           style={{
-                            borderColor: Errorboi_input_data ? "red" : undefined,
+                            borderColor: Errorboi_input_data
+                              ? "red"
+                              : undefined,
                             backgroundColor: read_boi_input_data
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "290px",
+                            width: "320px",
                           }}
                           error={
                             Errorboi_input_data &&
@@ -5194,7 +5321,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                         </Select>
                         {Errorboi_input_data && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping
+                            Please select: BOI Input data Import
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -5216,7 +5343,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__boi_input_data}
-                          onChange={(e) => setaction__boi_input_data(e.target.value)}
+                          onChange={(e) =>
+                            setaction__boi_input_data(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -5226,9 +5355,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_boi_input_data }}
-                  >
+                  <tr style={{ display: CM_boi_input_data }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -5287,7 +5414,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfileimp_input_data.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -5299,7 +5426,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfileimp_input_data.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -5307,13 +5434,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfileimp_input_data[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfileimp_input_data[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfileimp_input_data[
                                                                 index
                                                               ][4]
                                                             )
@@ -5324,14 +5451,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileimp_input_data[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileimp_input_data[
                                                           index
                                                         ][3]
                                                       }
@@ -5351,14 +5478,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfileimp_input_data[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfileimp_input_data[
                                                             index
                                                           ][3]
                                                         }
@@ -5410,10 +5537,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_imp_input_data.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_imp_input_data.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -5544,26 +5671,27 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </tr>
                     )}
                   {/* //////////////////////////// */}
-              
+
                   {/* Import & BOI input thai catergories :*/}
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        Import & BOI input thai catergories:
+                      Imp.& BOI input THA categories:
                       </Typography>
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={thai_catergories}
                           onChange={(e) => setthai_catergories(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
-                       
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -5583,7 +5711,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__thai_catergories}
-                          onChange={(e) => setaction__thai_catergories(e.target.value)}
+                          onChange={(e) =>
+                            setaction__thai_catergories(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -5593,11 +5723,11 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_thai_catergories }}
-                  >
+                  <tr style={{ display: CM_thai_catergories }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2">Input thai categories:</Typography>
+                      <Typography variant="subtitle2">
+                        Input thai catergories:
+                      </Typography>
                     </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
@@ -5618,9 +5748,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_thai_catergories }}
-                  >
+                  <tr style={{ display: CM_thai_catergories }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -5656,7 +5784,6 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     STS1 != "FLSL010" &&
                     STS1 != "FLSL011" &&
                     STS1 != "FLSL012" &&
-                    
                     For_sts_reject !== "R" && (
                       <tr>
                         <td className="Style4"></td>
@@ -5681,7 +5808,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilethai_catergorise.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -5693,7 +5820,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilethai_catergorise.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -5701,13 +5828,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilethai_catergorise[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilethai_catergorise[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilethai_catergorise[
                                                                 index
                                                               ][4]
                                                             )
@@ -5718,14 +5845,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilethai_catergorise[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilethai_catergorise[
                                                           index
                                                         ][3]
                                                       }
@@ -5745,14 +5872,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilethai_catergorise[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilethai_catergorise[
                                                             index
                                                           ][3]
                                                         }
@@ -5804,10 +5931,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_thai_catergorise.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_thai_catergorise.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -5947,16 +6074,17 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={pln_staff_bidding}
                           onChange={(e) => setpln_staff_bidding(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
-                       
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -5976,7 +6104,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__pln_staff_bidding}
-                          onChange={(e) => setaction__pln_staff_bidding(e.target.value)}
+                          onChange={(e) =>
+                            setaction__pln_staff_bidding(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -5986,11 +6116,11 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_pln_staff_bidding }}
-                  >
+                  <tr style={{ display: CM_pln_staff_bidding }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2">Bidding result:</Typography>
+                      <Typography variant="subtitle2">
+                        Bidding result:
+                      </Typography>
                     </td>
                     <td colSpan={4}>
                       <FormControl className="Style1">
@@ -6003,17 +6133,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
                           }}
-                          onChange={(e) =>
-                            setBidding_result(e.target.value)
-                          }
+                          onChange={(e) => setBidding_result(e.target.value)}
                           size="small"
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_pln_staff_bidding }}
-                  >
+                  <tr style={{ display: CM_pln_staff_bidding }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -6074,7 +6200,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilepln_stf_bidding.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -6086,7 +6212,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilepln_stf_bidding.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -6094,13 +6220,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilepln_stf_bidding[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilepln_stf_bidding[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilepln_stf_bidding[
                                                                 index
                                                               ][4]
                                                             )
@@ -6111,14 +6237,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_stf_bidding[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_stf_bidding[
                                                           index
                                                         ][3]
                                                       }
@@ -6138,14 +6264,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilepln_stf_bidding[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilepln_stf_bidding[
                                                             index
                                                           ][3]
                                                         }
@@ -6197,10 +6323,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_pln_stf_bidding.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_pln_stf_bidding.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -6335,21 +6461,22 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        PTE (ENV) contact Department of Industrial Works:
+                        PTE (ENV) contact DIW:
                       </Typography>
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={pte_dept}
                           onChange={(e) => setpte_dept(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
-                        
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -6378,45 +6505,44 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                         />
                       </FormControl>
                     </td>
-                  </tr >
-                      <tr  style={{ display: CM_pte_dept }}>
-                        <td className="Style4">
-                          <Typography variant="subtitle2">
-                          Contact date :
-                          </Typography>{" "}
-                        </td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              size="small"
-                              type="date"
-                              disabled={read_pte_dept_cmmt}
-                              style={{
-                               backgroundColor: read_pte_dept_cmmt
+                  </tr>
+                  <tr style={{ display: CM_pte_dept }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Contact date :
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pte_dept_cmmt}
+                          style={{
+                            
+                            backgroundColor: read_pte_dept_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                                width:'290px'
-                              }}
-                              value={contact_date}
-                              error={
-                                ErrorDate_return &&
-                                (!contact_date || contact_date == "null")
-                              }
-                              onChange={(e) => setcontact_date(e.target.value)}
-                              helperText={
-                                Errorcontact_date &&
-                                (!contact_date || contact_date == "null")
-                                  ? "Please Select Contact date "
-                                  : undefined
-                              }
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                    {/* )} */}
-                  <tr
-                  style={{ display: CM_pte_dept }}
-                  >
+                            width: "320px",
+                          }}
+                          value={contact_date}
+                          error={
+                            Errorcontact_date &&
+                            (!contact_date || contact_date == "null")
+                          }
+                          onChange={(e) => setcontact_date(e.target.value)}
+                          helperText={
+                            Errorcontact_date &&
+                            (!contact_date || contact_date == "null")
+                              ? "Please Select Contact date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {/* )} */}
+                  <tr style={{ display: CM_pte_dept }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -6439,6 +6565,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
+                  {console.log(For_sts_reject,"For_sts_reject")}
                   {Showtype == "GP01003" &&
                     STS1 != "FLSL001" &&
                     STS1 != "FLSL002" &&
@@ -6478,7 +6605,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilepte_dept.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -6490,7 +6617,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilepte_dept.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -6498,13 +6625,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilepte_dept[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilepte_dept[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilepte_dept[
                                                                 index
                                                               ][4]
                                                             )
@@ -6515,14 +6642,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepte_dept[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepte_dept[
                                                           index
                                                         ][3]
                                                       }
@@ -6542,14 +6669,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilepte_dept[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilepte_dept[
                                                             index
                                                           ][3]
                                                         }
@@ -6601,10 +6728,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_pte_dept.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_pte_dept.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -6744,16 +6871,17 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={export_clearance}
                           onChange={(e) => setexport_clearance(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
-                        
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -6773,7 +6901,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__export_clearance}
-                          onChange={(e) => setaction__export_clearance(e.target.value)}
+                          onChange={(e) =>
+                            setaction__export_clearance(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -6784,42 +6914,42 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                   </tr>
                   <tr style={{ display: CM_export_clearance }}>
-                        <td className="Style4">
-                          <Typography variant="subtitle2">
-                          export Date :
-                          </Typography>{" "}
-                        </td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              size="small"
-                              type="date"
-                              disabled={read_export_clearance_cmmt}
-                              style={{
-                                backgroundColor: read_export_clearance_cmmt
+                    <td className="Style4">
+                      <Typography variant="subtitle2">export Date :</Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_export_clearance_cmmt}
+                          style={{
+                            backgroundColor: read_export_clearance_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                                width:'290px'
-                              }}
-                              value={export_clearance_date}
-                              error={
-                                Errorexport_clearance_date &&
-                                (!export_clearance_date || export_clearance_date == "null")
-                              }
-                              onChange={(e) => setexport_clearance_date(e.target.value)}
-                              helperText={
-                                Errorexport_clearance_date &&
-                                (!export_clearance_date || export_clearance_date == "null")
-                                  ? "Please Select "
-                                  : undefined
-                              }
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                  <tr 
-                  style={{ display: CM_export_clearance }}
-                  >
+                            width: "320px",
+                          }}
+                          value={export_clearance_date}
+                          error={
+                            Errorexport_clearance_date &&
+                            (!export_clearance_date ||
+                              export_clearance_date == "null")
+                          }
+                          onChange={(e) =>
+                            setexport_clearance_date(e.target.value)
+                          }
+                          helperText={
+                            Errorexport_clearance_date &&
+                            (!export_clearance_date ||
+                              export_clearance_date == "null")
+                              ? "Please Select export Date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr style={{ display: CM_export_clearance }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -6827,7 +6957,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                           value={cmmtradio_export_clearance}
+                          value={cmmtradio_export_clearance}
                           disabled={read_export_clearance_cmmt}
                           style={{
                             backgroundColor: read_export_clearance_cmmt
@@ -6882,7 +7012,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfileboi_exp_clearance.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -6894,7 +7024,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfileboi_exp_clearance.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -6902,13 +7032,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfileboi_exp_clearance[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfileboi_exp_clearance[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfileboi_exp_clearance[
                                                                 index
                                                               ][4]
                                                             )
@@ -6919,14 +7049,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileboi_exp_clearance[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileboi_exp_clearance[
                                                           index
                                                         ][3]
                                                       }
@@ -6946,14 +7076,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfileboi_exp_clearance[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfileboi_exp_clearance[
                                                             index
                                                           ][3]
                                                         }
@@ -7005,10 +7135,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_boi_exp_clearance.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_boi_exp_clearance.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -7141,22 +7271,26 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                   {/* //////////////////////////// */}
                   {/*PTE (ENV) upload file after BOI make export clearance:*/}
                   <tr>
-                    <td className="Style4">
+                    <td 
+                    className="Style4"
+                    >
                       <Typography variant="subtitle2">
-                        PTE (ENV) upload file after BOI make export clearance:
+                      PTE(ENV) upload file after clearance:
                       </Typography>
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={pte_upload_file}
                           onChange={(e) => setpte_upload_file(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -7176,7 +7310,9 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__pte_upload_file}
-                          onChange={(e) => setaction__pte_upload_file(e.target.value)}
+                          onChange={(e) =>
+                            setaction__pte_upload_file(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -7185,44 +7321,42 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                         />
                       </FormControl>
                     </td>
-                  </tr> 
-                      <tr  style={{ display: CM_pte_upload_file }}>
-                        <td className="Style4">
-                          <Typography variant="subtitle2">
-                          Contact date :
-                          </Typography>{" "}
-                        </td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              size="small"
-                              type="date"
-                              disabled={read_pte_upload_file_cmmt}
-                              style={{
-                                backgroundColor: read_pte_upload_file_cmmt
+                  </tr>
+                  <tr style={{ display: CM_pte_upload_file }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Contact date :
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pte_upload_file_cmmt}
+                          style={{
+                            backgroundColor: read_pte_upload_file_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                                width:'290px'
-                              }}
-                              value={contact_date_pte}
-                              error={
-                                ErrorDate_return &&
-                                (!contact_date_pte || contact_date_pte == "null")
-                              }
-                              onChange={(e) => setcontact_date_pte(e.target.value)}
-                              helperText={
-                                Errorcontact_date_pte &&
-                                (!contact_date_pte || contact_date_pte == "null")
-                                  ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
-                                  : undefined
-                              }
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                  <tr 
-                  style={{ display: CM_pte_upload_file }}
-                  >
+                            width: "320px",
+                          }}
+                          value={contact_date_pte}
+                          error={
+                            Errorcontact_date_pte &&
+                            (!contact_date_pte || contact_date_pte == "null")
+                          }
+                          onChange={(e) => setcontact_date_pte(e.target.value)}
+                          helperText={
+                            Errorcontact_date_pte &&
+                            (!contact_date_pte || contact_date_pte == "null")
+                              ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr style={{ display: CM_pte_upload_file }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -7230,7 +7364,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                           value={cmmtradio_pte_upload_file}
+                          value={cmmtradio_pte_upload_file}
                           disabled={read_pte_upload_file_cmmt}
                           style={{
                             backgroundColor: read_pte_upload_file_cmmt
@@ -7286,7 +7420,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilepte_upload_after.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -7298,7 +7432,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilepte_upload_after.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -7306,13 +7440,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilepte_upload_after[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilepte_upload_after[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilepte_upload_after[
                                                                 index
                                                               ][4]
                                                             )
@@ -7323,14 +7457,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepte_upload_after[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepte_upload_after[
                                                           index
                                                         ][3]
                                                       }
@@ -7350,14 +7484,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilepte_upload_after[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilepte_upload_after[
                                                             index
                                                           ][3]
                                                         }
@@ -7409,10 +7543,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_pte_upload_after.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_pte_upload_after.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -7552,16 +7686,17 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={pln_req_inv}
                           onChange={(e) => setpln_req_inv(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
-                       
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -7581,19 +7716,19 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__pln_req_inv}
-                          onChange={(e) => setaction__pln_req_inv(e.target.value)}
+                          onChange={(e) =>
+                            setaction__pln_req_inv(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            visibility: chk_pln_req_inv
+                            visibility: chk_pln_req_inv,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_pln_req_inv }}
-                  >
+                  <tr style={{ display: CM_pln_req_inv }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -7658,7 +7793,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilepln_stf_req_inv.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -7670,7 +7805,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilepln_stf_req_inv.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -7678,13 +7813,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilepln_stf_req_inv[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilepln_stf_req_inv[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilepln_stf_req_inv[
                                                                 index
                                                               ][4]
                                                             )
@@ -7695,14 +7830,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_stf_req_inv[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_stf_req_inv[
                                                           index
                                                         ][3]
                                                       }
@@ -7722,14 +7857,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilepln_stf_req_inv[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilepln_stf_req_inv[
                                                             index
                                                           ][3]
                                                         }
@@ -7781,10 +7916,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_pln_stf_req_inv.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_pln_stf_req_inv.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -7924,47 +8059,48 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <Select
-                        labelId="demo-simple-select-helper-label"
-                        id="demo-simple-select-helper"
-                        value={ship_input_inv}
-                        disabled={read_ship_input_inv}
-                        onChange={(e) => setship_input_inv(e.target.value)}
-                        size="small"
-                        style={{
-                          borderColor: Errorship_input_inv ? "red" : undefined,
-                          backgroundColor: read_ship_input_inv
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                          width: "290px",
-                        }}
-                        error={
-                          Errorship_input_inv &&
-                          (!ship_input_inv || ship_input_inv == "null")
-                        }
-                      >
-                        {shipping_staff.map((option, index) => (
-                          <MenuItem key={index} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {/* {Errorship_input_inv &&
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={ship_input_inv}
+                          disabled={read_ship_input_inv}
+                          onChange={(e) => setship_input_inv(e.target.value)}
+                          size="small"
+                          style={{
+                            borderColor: Errorship_input_inv
+                              ? "red"
+                              : undefined,
+                            backgroundColor: read_ship_input_inv
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                            width: "320px",
+                          }}
+                          error={
+                            Errorship_input_inv &&
+                            (!ship_input_inv || ship_input_inv == "null")
+                          }
+                        >
+                          {shipping_staff.map((option, index) => (
+                            <MenuItem key={index} value={option}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {Errorship_input_inv &&
                         (!ship_input_inv || ship_input_inv == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Manager
+                            Please select: Shipping Staff input invoice no.
                           </FormHelperText>
-                        )} */}
-                      {/* <TextField
+                        )}
+                        {/* <TextField
                           id="outlined-size-small"
                           size="small"
                           value={ship_input_inv}
                           onChange={(e) => setship_input_inv(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "320px",
                           }} /> */}
-
                       </FormControl>
                     </td>
 
@@ -7984,19 +8120,19 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                           id="outlined-size-small"
                           size="small"
                           value={action__ship_input_inv}
-                          onChange={(e) => setaction__ship_input_inv(e.target.value)}
+                          onChange={(e) =>
+                            setaction__ship_input_inv(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            visibility: chk_ship_input_inv
+                            visibility: chk_ship_input_inv,
                           }}
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  <tr 
-                  style={{ display: CM_ship_input_inv }}
-                  >
+                  <tr style={{ display: CM_ship_input_inv }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -8062,7 +8198,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfileship_input_inv.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -8074,7 +8210,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfileship_input_inv.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -8082,13 +8218,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfileship_input_inv[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfileship_input_inv[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfileship_input_inv[
                                                                 index
                                                               ][4]
                                                             )
@@ -8099,14 +8235,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileship_input_inv[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfileship_input_inv[
                                                           index
                                                         ][3]
                                                       }
@@ -8126,14 +8262,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfileship_input_inv[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfileship_input_inv[
                                                             index
                                                           ][3]
                                                         }
@@ -8185,10 +8321,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_ship_input_inv.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_ship_input_inv.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
@@ -8328,15 +8464,17 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                     </td>
                     <td>
                       <FormControl className="Style3">
-                      <TextField
+                        <TextField
                           id="outlined-size-small"
                           size="small"
                           value={pln_upload_final}
                           onChange={(e) => setpln_upload_final(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "290px",
-                          }} />
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            width: "320px",
+                          }}
+                        />
                       </FormControl>
                     </td>
 
@@ -8355,8 +8493,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                         <TextField
                           id="outlined-size-small"
                           size="small"
-                         value={action__pln_upload_final}
-                         onChange={(e) => setaction__pln_upload_final(e.target.value)}
+                          value={action__pln_upload_final}
+                          onChange={(e) =>
+                            setaction__pln_upload_final(e.target.value)
+                          }
                           disabled
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -8366,45 +8506,42 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       </FormControl>
                     </td>
                   </tr>
-                      <tr  style={{ display: CM_pln_upload_final }}>
-                        <td className="Style4">
-                          <Typography variant="subtitle2">
-                          Vendor move date :
-                          </Typography>{" "}
-                        </td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              size="small"
-                              type="date"
-                              disabled={read_pln_upload_final_cmmt}
-                              style={{
-                         
+                  <tr style={{ display: CM_pln_upload_final }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Vendor move date :
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pln_upload_final_cmmt}
+                          style={{
                             backgroundColor: read_pln_upload_final_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                                width:'290px'
-                              }}
-                              value={Vendor_move_date}
-                              error={
-                                ErrorVendor_move_date &&
-                                (!Vendor_move_date || Vendor_move_date == "null")
-                              }
-                              onChange={(e) => setVendor_move_date(e.target.value)}
-                              helperText={
-                                ErrorVendor_move_date &&
-                                (!Vendor_move_date || Vendor_move_date == "null")
-                                  ? "Please Select Vendor_move_date"
-                                  : undefined
-                              }
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                    {/* )} */}
-                  <tr 
-                  style={{ display: CM_pln_upload_final }}
-                  >
+                            width: "320px",
+                          }}
+                          value={Vendor_move_date}
+                          error={
+                            ErrorVendor_move_date &&
+                            (!Vendor_move_date || Vendor_move_date == "null")
+                          }
+                          onChange={(e) => setVendor_move_date(e.target.value)}
+                          helperText={
+                            ErrorVendor_move_date &&
+                            (!Vendor_move_date || Vendor_move_date == "null")
+                              ? "Please Select Vendor move date"
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {/* )} */}
+                  <tr style={{ display: CM_pln_upload_final }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -8412,8 +8549,8 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
-                         value={cmmtradio_pln_upload_final}
-                         disabled={read_pln_upload_final_cmmt}
+                          value={cmmtradio_pln_upload_final}
+                          disabled={read_pln_upload_final_cmmt}
                           style={{
                             backgroundColor: read_pln_upload_final_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
@@ -8471,7 +8608,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfile_shipping.length === 0 ? (
+                                            {showfilepln_upload_final.length === 0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -8483,7 +8620,7 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                 </TableCell>
                                               </TableRow>
                                             ) : (
-                                              showfile_shipping.map(
+                                              showfilepln_upload_final.map(
                                                 (option, index) => (
                                                   <TableRow key={index}>
                                                     <TableCell>
@@ -8491,13 +8628,13 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         <DeleteOutlined
                                                           onClick={() =>
                                                             handleDL_File_Owner(
-                                                              showfile_shipping[
+                                                              showfilepln_upload_final[
                                                                 index
                                                               ][0],
-                                                              showfile_shipping[
+                                                              showfilepln_upload_final[
                                                                 index
                                                               ][3],
-                                                              showfile_shipping[
+                                                              showfilepln_upload_final[
                                                                 index
                                                               ][4]
                                                             )
@@ -8508,14 +8645,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_upload_final[
                                                           index
                                                         ][2]
                                                       }
                                                     </TableCell>
                                                     <TableCell>
                                                       {
-                                                        showfile_shipping[
+                                                        showfilepln_upload_final[
                                                           index
                                                         ][3]
                                                       }
@@ -8535,14 +8672,14 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                                         }}
                                                         onClick={() =>
                                                           downloadFile(
-                                                            showfile_shipping[
+                                                            showfilepln_upload_final[
                                                               index
                                                             ][4]
                                                           )
                                                         }
                                                       >
                                                         {
-                                                          showfile_shipping[
+                                                          showfilepln_upload_final[
                                                             index
                                                           ][3]
                                                         }
@@ -8594,10 +8731,10 @@ chk_pln_upload_final,Errorship_input_inv,setErrorship_input_inv,Input_thai_categ
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_Shipping.length > 0 && (
+                                      {uploadedFiles_pln_upload_final.length > 0 && (
                                         <div>
                                           <ul>
-                                            {uploadedFiles_Shipping.map(
+                                            {uploadedFiles_pln_upload_final.map(
                                               (file, index) => (
                                                 <div
                                                   key={index}
