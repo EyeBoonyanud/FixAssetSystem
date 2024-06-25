@@ -254,7 +254,7 @@ module.exports.getCountSale = async function (req, res) {
       OR (S.FRSL_SHP_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL019' )
       OR (S.FRSL_PLN4_BY  = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL020' )
       OR (T.FAM_ACC_REC_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL021' )
-      OR (T.FAM_ACC_REC_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL022' )
+      OR (T.FAM_ACC_MGR_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL022' )
       OR (T.FAM_SERVICE_CLOSE_BY = '${UserLogin}'AND T.FAM_REQ_STATUS = 'FLSL023')
         OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL092')
         OR (T.FAM_REQ_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLSL093')
@@ -825,7 +825,7 @@ module.exports.getCountSalelistaLL = async function (req, res) {
       OR S.FRSL_SHP_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL019' 
       OR S.FRSL_PLN4_BY  = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL020' 
       OR HT.FAM_ACC_REC_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL021' 
-      OR HT.FAM_ACC_REC_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL022' 
+      OR HT.FAM_ACC_MGR_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL022' 
       OR HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL023' )
          `;
     const result = await connect.execute(query);

@@ -1900,7 +1900,7 @@ console.log(STS,"STS555")
                       <td className="Style5">
                       
                       </td>
-                      {console.log(DataScrap[2],"DataScrap[2]")}
+                     
                       <td
                         className="Style7"
                       style={{
@@ -1939,6 +1939,33 @@ console.log(STS,"STS555")
                       </td>
                     </tr>
                     <tr
+                    style={{
+                      display:
+                      DataScrap[2] === null ||
+                      DataScrap[2] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                       Contact Date:
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          disabled
+                          size="small"
+                          value={DataScrap[11]}
+                          style={{
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                    <tr
                       style={{
                         display:
                         DataScrap[2] === null || DataScrap[2] === ""
@@ -1965,6 +1992,7 @@ console.log(STS,"STS555")
                         </FormControl>
                       </td>
                     </tr>
+                
                     <tr
                     style={{
                       display:
@@ -3724,7 +3752,7 @@ console.log(STS,"STS555")
                         <TextField
                           disabled
                           size="small"
-                          value={DataSale[22]}
+                          value={DataSale[43]}
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
                           }}
@@ -3930,7 +3958,7 @@ console.log(STS,"STS555")
                   >
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                       export Date :
+                      Clearance date :
                       </Typography>{" "}
                     </td>
                     <td>
@@ -3938,7 +3966,7 @@ console.log(STS,"STS555")
                         <TextField
                           disabled
                           size="small"
-                          value={DataSale[26]}
+                          value={DataSale[44]}
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
                           }}
@@ -4152,7 +4180,7 @@ console.log(STS,"STS555")
                         <TextField
                           disabled
                           size="small"
-                          value={DataSale[30]}
+                          value={DataSale[45]}
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
                           }}
@@ -4736,7 +4764,7 @@ console.log(STS,"STS555")
                         <TextField
                           disabled
                           size="small"
-                          value={DataSale[41]}
+                          value={DataSale[46]}
                           style={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
                           }}

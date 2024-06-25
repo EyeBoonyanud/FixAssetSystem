@@ -3651,7 +3651,9 @@ module.exports.getEdit_scrap = async function (req, res) {
     FRSC_PLN_CMMT ,
     FRSC_SHP_BY ,
     TO_CHAR(FRSC_SHP_DATE, 'DD/MM/YYYY') ,
-    FRSC_SHP_CMMT 
+    FRSC_SHP_CMMT,
+      TO_CHAR(FRSC_SCRAP_DATE, 'YYYY-MM-DD') ,
+      TO_CHAR(FRSC_SCRAP_DATE, 'DD/MM/YYYY')
   FROM
     FAM_REQ_SCRAP
   WHERE
@@ -3666,19 +3668,20 @@ module.exports.getEdit_scrap = async function (req, res) {
 };
 module.exports.update_scrap_pte = async function (req, res) {
   try {
-    const { tranfer, pte_env_cmmt} =
+    const { tranfer, pte_env_cmmt ,date_scrap} =
       req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SCRAP 
     SET 
     FRSC_ENV_CMMT = :pte_env_cmmt ,
-    FRSC_ENV_DATE = SYSDATE
+    FRSC_ENV_DATE = SYSDATE,
+     FRSC_SCRAP_DATE = TO_DATE(:date_scrap, 'YYYY-MM-DD')
     WHERE FRSC_FAM_NO = :tranfer
   `;
 
     const data = {
-      tranfer,pte_env_cmmt
+      tranfer,pte_env_cmmt,date_scrap
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();
@@ -4135,7 +4138,13 @@ module.exports.getEdit_sale = async function (req, res) {
 	FRSL_PLN4_BY ,
 	TO_CHAR(FRSL_PLN4_DATE, 'DD/MM/YYYY') ,
   TO_CHAR(FRSL_PLN4_MOVE_DATE, 'YYYY-MM-DD') ,
-	FRSL_PLN4_CMMT
+	FRSL_PLN4_CMMT,
+	TO_CHAR(FRSL_ENV2_CONTACT_DATE, 'DD/MM/YYYY'),
+	TO_CHAR(FRSL_BOI2_CLEAR_DATE, 'DD/MM/YYYY'),
+	TO_CHAR(FRSL_ENV3_CONTACT_DATE, 'DD/MM/YYYY'),
+	TO_CHAR(FRSL_PLN4_MOVE_DATE, 'DD/MM/YYYY'),
+  TO_CHAR(FRSL_SALE_DATE, 'YYYY-MM-DD') ,
+  TO_CHAR(FRSL_SALE_DATE, 'DD/MM/YYYY')
 FROM
 	FAM_REQ_SALES
 WHERE
@@ -4419,18 +4428,19 @@ module.exports.update_pte_upload_file_clearance = async function (req, res) {
 };
 module.exports.update_pln_request_invoice = async function (req, res) {
   try {
-    const { tranfer, pln_request_invoice} =req.body;
+    const { tranfer, pln_request_invoice,date_sale} =req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 
     SET 
     FRSL_PLN3_CMMT = :pln_request_invoice ,
-    FRSL_PLN3_DATE = SYSDATE 
+    FRSL_PLN3_DATE = SYSDATE ,
+    FRSL_SALE_DATE = TO_DATE(:date_sale, 'YYYY-MM-DD')
     WHERE FRSL_FAM_NO = :tranfer
   `;
 
     const data = {
-      tranfer,pln_request_invoice
+      tranfer,pln_request_invoice,date_sale
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();

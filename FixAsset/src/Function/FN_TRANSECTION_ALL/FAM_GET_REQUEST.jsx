@@ -916,11 +916,26 @@ function FAM_GET_REQUEST() {
 
             const data = response.data;
             setfind_fixasset(data);
-            setcheckvalue(data[0][5]);
-            console.log(data[0][5], "คืออะไร");
-            console.log(checkvalue, "checkไม่ให้ผ่าน", data[0][5],datatable);
-            if (datatable.length === 0) {
-              alert("ผ่าน");
+            // setcheckvalue(data[0][5]);
+            // console.log(data[0][5], "คืออะไร");
+            // console.log(checkvalue, "checkไม่ให้ผ่าน", data[0][5],datatable);
+          //   if (datatable.length === 0) {
+            
+          // } else {
+          //     // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+          //     if (datatable[0][5] === data[0][5]) {
+                
+          //     } else {
+          //         // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
+          //         alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
+          //         closePopupLoadding();
+          //         return;
+          //     }
+          // }
+            if (data.length > 0) {
+               setcheckvalue(data[0][5]);
+                 if (datatable.length === 0) {
+            
           } else {
               // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
               if (datatable[0][5] === data[0][5]) {
@@ -932,7 +947,6 @@ function FAM_GET_REQUEST() {
                   return;
               }
           }
-            if (data.length > 0) {
                 try {
                     const response = await axios.post("/fix_code_find", {
                         assetcode: find_fixasset1,
@@ -1382,7 +1396,7 @@ function FAM_GET_REQUEST() {
       const fileType = file.type;
 
       if (!allowedTypes.includes(fileType)) {
-        alert("Only PDF, JPG, and XLS files are allowed.");
+        alert("ไฟล์ที่สามารถ อัปโหลดได้ PDF, JPG, and XLS files.");
         return;
       }
 

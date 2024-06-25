@@ -63,24 +63,24 @@ const AVO = {
     }
   };
 
-  module.exports.getFile = async (req, res) => {
-    try {
-      const { Famno } = req.body;
+  // module.exports.getFile_Mail = async (req, res) => {
+  //   try {
+  //     const { Type_show } = req.body;
  
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT COUNT(FFA_FILE_SERVER)  FROM FAM_FILE_ATTACH ffa WHERE FFA_FAM_NO = '${Famno}'
-      `;
+  //     const connect = await oracledb.getConnection(AVO);
+  //     const query = `
+  //     SELECT COUNT(FFA_FILE_SERVER)  FROM FAM_FILE_ATTACH ffa WHERE FFA_FAM_NO = '${Type_show}'
+  //     `;
   
-      const result = await connect.execute(query);
+  //     const result = await connect.execute(query);
     
-      connect.release();
-      res.status(200).json(result.rows);
-    } catch (error) {
-      console.error("Error sending email:", error);
-      res.status(500).json({ error: "An error occurred while sending email" });
-    }
-  };
+  //     connect.release();
+  //     res.status(200).json(result.rows);
+  //   } catch (error) {
+  //     console.error("Error sending email:", error);
+  //     res.status(500).json({ error: "An error occurred while sending email" });
+  //   }
+  // };
   module.exports.getName_To = async (req, res) => {
     try {
       const { name } = req.body;

@@ -270,12 +270,12 @@ app.post("/getFAM_FILE_DATA",ReportSystem.getFAM_FILE_DATA)
 // app.post("/getFAM_FILE_PLN4_SALE",ReportSystem.getFAM_FILE_PLN4_SALE)
 
 // PDF Fammaster
-app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
-app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
-app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
-app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
-app.post("/SumCost",PDF_Fammaster.SumCost);
-app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
+// app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
+// app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
+// app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
+// app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
+// app.post("/SumCost",PDF_Fammaster.SumCost);
+// app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
 // VIEW Fammaster หลังแก้
 app.post("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
 app.post("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
@@ -285,11 +285,19 @@ app.post("/getData_showName",VIEW_Fammaster.getData_showName);
 app.post("/getData_NewCC_Toproject",VIEW_Fammaster.getData_NewCC_Toproject);
 app.post("/getData_Scrap_show_VIEW",VIEW_Fammaster.getData_Scrap_show_VIEW);
 
+
+app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
+app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
+app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
+app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
+app.post("/SumCost",PDF_Fammaster.SumCost);
+app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
+
 //Mail
 // app.post("/sendEmail",Mail.sendEmail)
 app.post("/getMailshow",Mail.getMailshow);
 app.post("/getType_mail",Mail.getType_mail);
-app.post("/getFile",Mail.getFile);
+// app.post("/getFile_Mail",Mail.getFile_Mail);
 app.post("/getName_To",Mail.getName_To);
 app.post("/getStatus_Mail",Mail.getStatus_Mail);
 app.post("/get_req_mail",Mail.get_req_mail);
@@ -329,11 +337,11 @@ app.post("/sendEmail", async (req, res) => {
       html: req.body.emailMessage
     };
  
-    console.log("Email Sended");
+    console.log("Email Sended",req.body.toEmail,req.body.subject);
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error sending email $$$$$$ :", error);
     res.status(500).json({ error: "An error occurred while sending email" });
   }
 });

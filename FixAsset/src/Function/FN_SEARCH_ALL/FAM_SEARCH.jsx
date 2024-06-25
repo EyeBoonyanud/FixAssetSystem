@@ -236,8 +236,6 @@ function FAM_SEARCH() {
     document.getElementById("FamNo").value = "";
     document.getElementById("FamTo").value = "";
     document.getElementById("FixAsset").value = "";
-    // document.getElementById("Date").value = "";
-    // document.getElementById("DateTo").value = "";
     setselectdept("");
     setselecteDatafac("");
     setselectcost("");
@@ -260,7 +258,6 @@ function FAM_SEARCH() {
     setConvertedDate("");
     setConvertedDateTo("");
   };
-  // Get Data
   const Factory = async () => {
     try {
       const response = await axios.get(`/getfactory`);
@@ -631,10 +628,7 @@ function FAM_SEARCH() {
     // สลับสถานะ SelectAll
     setSelectAll(!selectAll);
   };
-  // const handleDateChange = (date, dateString) => {
 
-  //   setSelectedDateTo(dateString);
-  // };
 
   const handleDateChange = (date, dateString) => {
     // dateString จะอยู่ในรูปแบบ DD/MM/YYYY ตามที่กำหนดใน format

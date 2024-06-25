@@ -509,7 +509,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                 <TableCell>New BOI Projrct</TableCell>
                               </React.Fragment>
                             )}
-                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"
+                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC013"  || STS == "FLSC011"
                               || STS == "FLSL009"
                               || STS == "FLSL010"
                               || STS == "FLSL011"
@@ -533,12 +533,12 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                 <TableCell>Size</TableCell>
                               </React.Fragment>
                             )}
-                              {(STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011") && (
+                              {(STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012"|| STS == "FLSC013"  || STS == "FLSC011") && (
                               <React.Fragment>
                                 <TableCell>Unit Price(Baht)</TableCell>
                               </React.Fragment>
                             )}
-                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"|| STS == "FLSL019"
+                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"||  STS == "FLSC013"|| STS == "FLSL019"
                               || STS == "FLSL020"
                               || STS == "FLSL021"
                               || STS == "FLSL022"
@@ -587,7 +587,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                     <TableCell>{item[11]}</TableCell>
                                   </React.Fragment>
                                 )}
-                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"  || STS == "FLSL009"
+                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" ||STS == "FLSC013"  || STS == "FLSC011"  || STS == "FLSL009"
                               || STS == "FLSL010"
                               || STS == "FLSL011"
                               || STS == "FLSL012"
@@ -608,12 +608,12 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                                     <TableCell>{item[13]}</TableCell>
                                   </React.Fragment>
                                 )}
-                                {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
+                                {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" ||STS == "FLSC013"  || STS == "FLSC011" ) && (
                                   <React.Fragment>
                                     <TableCell>{item[14]}</TableCell>
                                   </React.Fragment>
                                 )}
-                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" || STS == "FLSL019"
+                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ||STS == "FLSC013"  || STS == "FLSL019"
                               || STS == "FLSL020"
                               || STS == "FLSL021"
                               || STS == "FLSL022"

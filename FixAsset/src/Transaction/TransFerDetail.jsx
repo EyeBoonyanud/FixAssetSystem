@@ -468,11 +468,11 @@ function TransFerDetail() {
     chk_ship_input_inv,
     chk_pln_upload_final,
     Errorship_input_inv,
-    setErrorship_input_inv,
     Input_thai_categories,
     setInput_thai_categories,
     Bidding_result,
     setBidding_result,
+    scrap_date , setscrap_date,ErrScp_date,sale_date,setsale_date,ErrSale_date
   } = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
@@ -489,7 +489,6 @@ function TransFerDetail() {
     uploadedFiles_PTE,
     showfile_pte_env,
     uploadedFiles_PLN_Staff,
-    uploadedFilesDATA_PLN_Staff,
     showfile_pln_staff,
     uploadedFiles_Shipping,
     showfile_shipping,
@@ -519,6 +518,9 @@ function TransFerDetail() {
     showfilepln_upload_final,
   } = FAM_GET_SHOW_FILE();
   // Const Return
+  const shouldShowTable = Showtype === "GP01006" && 
+                          !["FLLD001", "FLLD002", "FLLD003", "FLLD004", "FLLD005", "FLLD006", "FLLD007", "FLLD008", "FLLD009"].includes(STS1) && 
+                          For_sts_reject === "R";
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -2526,33 +2528,6 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                     <td className="Style5">
-                      {/* <FormControl>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        value={
-                          selectradio_return_own === null || selectradio_return_own === "" 
-                            ? setselectradio_return_own("A")
-                    : selectradio_return_own
-                        }
-                        onChange={(e) => setselectradio_record(e.target.value)}
-                        style={{ visibility: chkreturn_owner }}
-                      >
-                        <FormControlLabel
-                          value="A"
-                          control={<Radio size="small" />}
-                          label="Accept"
-                          disabled={read_return_own_radio}
-                        />
-                        <FormControlLabel
-                          value="R"
-                          disabled={read_return_own_radio}
-                          control={<Radio size="small" />}
-                          label="No Accept"
-                        />
-                      </RadioGroup>
-                    </FormControl> */}
                     </td>
                     <td className="Style7">
                       <Typography
@@ -2602,300 +2577,177 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-
-                  {Showtype == "GP01006" &&
-                    STS1 != "FLLD001" &&
-                    STS1 != "FLLD002" &&
-                    STS1 != "FLLD003" &&
-                    STS1 != "FLLD004" &&
-                    STS1 != "FLLD005" &&
-                    STS1 != "FLLD006" &&
-                    STS1 != "FLLD007" &&
-                    STS1 != "FLLD008" &&
-                    STS1 != "FLLD009" &&
-                    For_sts_reject == "R" && (
-                      <tr>
-                        <td className="Style4"></td>
-                        <td colSpan={5}>
-                          <div style={{ margin: "20px" }}>
-                            <table>
-                              <tr>
-                                <td className="Table_Show_req1">
-                                  <td
-                                    className="Show-Data-File"
-                                    style={{ textAlign: "center" }}
+                  {(Showtype === "GP01006" && STS1 !== "FLLD001" && STS1 !== "FLLD002" && STS1 !== "FLLD003" && STS1 !== "FLLD004" && STS1 !== "FLLD005" &&
+    STS1 !== "FLLD006" && STS1 !== "FLLD007" && STS1 !== "FLLD008" && STS1 !== "FLLD009") ||
+    For_sts_reject === "R" ? (
+      <tr>
+        <td className="Style4"></td>
+        <td colSpan={5}>
+          <div style={{ margin: "20px" }}>
+            <table>
+              <tr>
+                <td className="Table_Show_req1">
+                  <td className="Show-Data-File" style={{ textAlign: "center" }}>
+                    <div>
+                      <TableContainer component={Paper}>
+                        <Table className="FamFilePopUp">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell></TableCell>
+                              <TableCell>No.</TableCell>
+                              <TableCell>File</TableCell>
+                              <TableCell>View</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {showfile_owner_return.length === 0 ? (
+                              <TableRow>
+                                <TableCell colSpan={4} style={{ textAlign: "center" }}>
+                                  <Empty />
+                                </TableCell>
+                              </TableRow>
+                            ) : (
+                              showfile_owner_return.map((option, index) => (
+                                <TableRow key={index}>
+                                  <TableCell>
+                                    {STS1 === "FLLD100" && (
+                                      <DeleteOutlined
+                                        onClick={() =>
+                                          handleDL_File_Owner(
+                                            showfile_owner_return[index][0],
+                                            showfile_owner_return[index][3],
+                                            showfile_owner_return[index][4]
+                                          )
+                                        }
+                                        className="Icon_DeleteFile"
+                                      />
+                                    )}
+                                  </TableCell>
+                                  <TableCell>{showfile_owner_return[index][2]}</TableCell>
+                                  <TableCell>{showfile_owner_return[index][3]}</TableCell>
+                                  <TableCell
+                                    style={{
+                                      textAlign: "center",
+                                      color: "blue",
+                                      textDecoration: "underline",
+                                    }}
                                   >
-                                    <div>
-                                      <TableContainer component={Paper}>
-                                        <Table className="FamFilePopUp">
-                                          <TableHead>
-                                            <TableRow>
-                                              <TableCell></TableCell>
-                                              <TableCell>No.</TableCell>
-                                              <TableCell>File</TableCell>
-                                              <TableCell>View</TableCell>
-                                            </TableRow>
-                                          </TableHead>
-                                          <TableBody>
-                                            {showfile_owner_return.length ===
-                                            0 ? (
-                                              <TableRow>
-                                                <TableCell
-                                                  colSpan={4}
-                                                  style={{
-                                                    textAlign: "center",
-                                                  }}
-                                                >
-                                                  <Empty />
-                                                </TableCell>
-                                              </TableRow>
-                                            ) : (
-                                              showfile_owner_return.map(
-                                                (option, index) => (
-                                                  <TableRow key={index}>
-                                                    <TableCell>
-                                                      {STS1 == "FLLD100" && (
-                                                        <DeleteOutlined
-                                                          onClick={() =>
-                                                            handleDL_File_Owner(
-                                                              showfile_owner_return[
-                                                                index
-                                                              ][0],
-                                                              showfile_owner_return[
-                                                                index
-                                                              ][3],
-                                                              showfile_owner_return[
-                                                                index
-                                                              ][4]
-                                                            )
-                                                          }
-                                                          className="Icon_DeleteFile"
-                                                        />
-                                                      )}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                      {
-                                                        showfile_owner_return[
-                                                          index
-                                                        ][2]
-                                                      }
-                                                    </TableCell>
-                                                    <TableCell>
-                                                      {
-                                                        showfile_owner_return[
-                                                          index
-                                                        ][3]
-                                                      }
-                                                    </TableCell>
-                                                    <TableCell
-                                                      style={{
-                                                        textAlign: "center",
-                                                        color: "blue",
-                                                        textDecoration:
-                                                          "underline",
-                                                      }}
-                                                    >
-                                                      <PlagiarismIcon
-                                                        style={{
-                                                          cursor: "pointer",
-                                                          fontSize: "30px",
-                                                        }}
-                                                        onClick={() =>
-                                                          downloadFile(
-                                                            showfile_owner_return[
-                                                              index
-                                                            ][4]
-                                                          )
-                                                        }
-                                                      >
-                                                        {
-                                                          showfile_owner_return[
-                                                            index
-                                                          ][3]
-                                                        }
-                                                      </PlagiarismIcon>
-                                                    </TableCell>
-                                                  </TableRow>
-                                                )
-                                              )
-                                            )}
-                                          </TableBody>
-                                        </Table>
-                                      </TableContainer>
-                                    </div>
-                                  </td>
-                                </td>
-                                <td style={{ width: "20px" }}></td>
-                                <td className="Table_Show_req2">
-                                  <input
-                                    type="file"
-                                    multiple
-                                    onChange={handleFileUpload_Own}
-                                    style={{ display: "none" }}
-                                    id="fileInput"
-                                    ref={fileInputRef}
-                                  />
-                                  {STS1 === "FLLD100" && (
-                                    <div style={{ width: "400px" }}>
-                                      <label
-                                        htmlFor="fileInput"
-                                        onDragOver={handleDragOve_Own}
-                                        onDrop={handleDrop_Own}
-                                        className="bt_ChooseFile"
-                                      >
-                                        <CloudUploadOutlined
-                                          style={{
-                                            fontSize: "30px",
-                                            color: "#86B6F6",
-                                          }}
-                                        />
-                                        <br />
-                                        <span style={{ fontWeight: "bold" }}>
-                                          Drop your files here
-                                        </span>
-                                        <br />
-                                        or
-                                        <br />
-                                        <Button size="small" component="span">
-                                          <b> Browse files</b>
-                                        </Button>
-                                      </label>
+                                    <PlagiarismIcon
+                                      style={{
+                                        cursor: "pointer",
+                                        fontSize: "30px",
+                                      }}
+                                      onClick={() => downloadFile(showfile_owner_return[index][4])}
+                                    >
+                                      {showfile_owner_return[index][3]}
+                                    </PlagiarismIcon>
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+                  </td>
+                </td>
+                <td style={{ width: "20px" }}></td>
+                <td className="Table_Show_req2">
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFileUpload_Own}
+                    style={{ display: "none" }}
+                    id="fileInput"
+                    ref={fileInputRef}
+                  />
+                  {STS1 === "FLLD100" && (
+                    <div style={{ width: "400px" }}>
+                      <label
+                        htmlFor="fileInput"
+                        onDragOver={handleDragOve_Own}
+                        onDrop={handleDrop_Own}
+                        className="bt_ChooseFile"
+                      >
+                        <CloudUploadOutlined
+                          style={{
+                            fontSize: "30px",
+                            color: "#86B6F6",
+                          }}
+                        />
+                        <br />
+                        <span style={{ fontWeight: "bold" }}>Drop your files here</span>
+                        <br />
+                        or
+                        <br />
+                        <Button size="small" component="span">
+                          <b> Browse files</b>
+                        </Button>
+                      </label>
 
-                                      {uploadedFiles_Own_return.length > 0 && (
-                                        <div>
-                                          <ul>
-                                            {uploadedFiles_Own_return.map(
-                                              (file, index) => (
-                                                <div
-                                                  key={index}
-                                                  className="BorderFile"
-                                                >
-                                                  <Typography className="Font_File">
-                                                    <span
-                                                      style={{
-                                                        marginLeft: "10px",
-                                                      }}
-                                                    >
-                                                      {file.type.startsWith(
-                                                        "image/"
-                                                      ) ? (
-                                                        <img
-                                                          src={URL.createObjectURL(
-                                                            file
-                                                          )}
-                                                          alt={file.name}
-                                                          className="Img_file"
-                                                        />
-                                                      ) : (
-                                                        <>
-                                                          {file.name.endsWith(
-                                                            ".xlsx"
-                                                          ) ? (
-                                                            <FileExcelOutlined
-                                                              className="Icon_file"
-                                                              style={{
-                                                                color:
-                                                                  "#65B741",
-                                                              }}
-                                                            />
-                                                          ) : file.name.endsWith(
-                                                              ".pdf"
-                                                            ) ? (
-                                                            <FilePdfOutlined
-                                                              className="Icon_file"
-                                                              style={{
-                                                                color:
-                                                                  "#FF6347",
-                                                              }}
-                                                            />
-                                                          ) : file.name.endsWith(
-                                                              ".docx"
-                                                            ) ? (
-                                                            <FileWordOutlined
-                                                              className="Icon_file"
-                                                              style={{
-                                                                color:
-                                                                  "#3468C0",
-                                                              }}
-                                                            />
-                                                          ) : file.name.endsWith(
-                                                              ".txt"
-                                                            ) ? (
-                                                            <FileTextOutlined
-                                                              className="Icon_file"
-                                                              style={{
-                                                                color:
-                                                                  "#B6BBC4",
-                                                              }}
-                                                            />
-                                                          ) : (
-                                                            <FileUnknownOutlined
-                                                              className="Icon_file"
-                                                              style={{
-                                                                color:
-                                                                  "#FFD3A3",
-                                                              }}
-                                                            />
-                                                          )}
-                                                        </>
-                                                      )}
-                                                      {index + 1} {file.name}
-                                                    </span>
-
-                                                    <DeleteOutlined
-                                                      onClick={() =>
-                                                        handleDL_File_Owner(
-                                                          index,
-                                                          file.name
-                                                        )
-                                                      }
-                                                      className="Icon_DeleteFile"
-                                                    />
-                                                  </Typography>
-                                                </div>
-                                              )
-                                            )}
-                                          </ul>
-                                        </div>
-                                      )}
-                                      <div
-                                        style={{
-                                          textAlign: "right",
-                                          marginTop: "5px",
-                                        }}
-                                      >
-                                        {STS1 === "FLLD100" && (
-                                          <Button
-                                            variant="contained"
-                                            onClick={handleSav_Own}
-                                          >
-                                            Save
-                                          </Button>
+                      {uploadedFiles_Own_return.length > 0 && (
+                        <div>
+                          <ul>
+                            {uploadedFiles_Own_return.map((file, index) => (
+                              <div key={index} className="BorderFile">
+                                <Typography className="Font_File">
+                                  <span style={{ marginLeft: "10px" }}>
+                                    {file.type.startsWith("image/") ? (
+                                      <img src={URL.createObjectURL(file)} alt={file.name} className="Img_file" />
+                                    ) : (
+                                      <>
+                                        {file.name.endsWith(".xlsx") ? (
+                                          <FileExcelOutlined className="Icon_file" style={{ color: "#65B741" }} />
+                                        ) : file.name.endsWith(".pdf") ? (
+                                          <FilePdfOutlined className="Icon_file" style={{ color: "#FF6347" }} />
+                                        ) : file.name.endsWith(".docx") ? (
+                                          <FileWordOutlined className="Icon_file" style={{ color: "#3468C0" }} />
+                                        ) : file.name.endsWith(".txt") ? (
+                                          <FileTextOutlined className="Icon_file" style={{ color: "#B6BBC4" }} />
+                                        ) : (
+                                          <FileUnknownOutlined className="Icon_file" style={{ color: "#FFD3A3" }} />
                                         )}
-                                      </div>
-                                    </div>
-                                  )}
-                                </td>
-                              </tr>
-                            </table>
+                                      </>
+                                    )}
+                                    {index + 1} {file.name}
+                                  </span>
 
-                            <table>
-                              <tr>
-                                <td className=""></td>
-                              </tr>
-                              <tr></tr>
-                              <tr
-                                style={{
-                                  width: "100%",
-                                  marginBottom: "20px",
-                                  marginTop: "20px",
-                                }}
-                              ></tr>
-                            </table>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
+                                  <DeleteOutlined
+                                    onClick={() => handleDL_File_Owner(index, file.name)}
+                                    className="Icon_DeleteFile"
+                                  />
+                                </Typography>
+                              </div>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      <div style={{ textAlign: "right", marginTop: "5px" }}>
+                        {STS1 === "FLLD100" && (
+                          <Button variant="contained" onClick={handleSav_Own}>
+                            Save
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            </table>
+
+            <table>
+              <tr>
+                <td className=""></td>
+              </tr>
+              <tr></tr>
+              <tr style={{ width: "100%", marginBottom: "20px", marginTop: "20px" }}></tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    ) : null}
+        
+                    
                 </table>
               </div>
             </Card>
@@ -2917,7 +2769,6 @@ function TransFerDetail() {
               <Typography
                 sx={{
                   position: "absolute",
-
                   marginTop: "-0.5%",
                   marginRight: "85%",
                   width: "8%",
@@ -2933,7 +2784,7 @@ function TransFerDetail() {
                     <td className="Style4">
                       <Typography variant="subtitle2">PTE(ENV):</Typography>
                     </td>
-                    <td>
+                    <td >
                       <FormControl className="Style3">
                         <Select
                           labelId="demo-simple-select-helper-label"
@@ -2947,7 +2798,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_env
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width:'70%'
                           }}
                           error={
                             ErrorPTE_ENV &&
@@ -2994,8 +2845,43 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-
+                  {/* Scrap Date : */}
                   <tr style={{ display: CM_pte_env }}>
+                    <td className="Style4" >
+                      <Typography variant="subtitle2">
+                        Scrap Date :
+                      </Typography>{" "}
+                    </td>
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pte_env_cmmt}
+                          style={{
+                            
+                            backgroundColor: read_pte_env_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                             width:'70%'
+                          }}
+                          value={scrap_date }
+                          error={
+                            ErrScp_date  &&
+                            (!scrap_date  || scrap_date  == "null")
+                          }
+                          onChange={(e) => setscrap_date(e.target.value)}
+                          helperText={
+                            ErrScp_date  &&
+                            (!scrap_date  || scrap_date  == "null")
+                              ? "Please Select Contact date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr style={{ display: CM_pte_env}}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -3027,12 +2913,12 @@ function TransFerDetail() {
                     STS1 != "FLSC007" &&
                     STS1 != "FLSC008" &&
                     For_sts_reject !== "R" && (
-                      <tr>
+                      <tr >
                         <td className="Style4"></td>
                         <td colSpan={5}>
                           <div style={{ margin: "20px" }}>
                             <table>
-                              <tr>
+                              <tr >
                                 <td className="Table_Show_req1">
                                   <td
                                     className="Show-Data-File"
@@ -3306,11 +3192,11 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
-                  <tr>
+                  <tr >
                     <td className="Style4">
                       <Typography variant="subtitle2">PLN Staff:</Typography>
                     </td>
-                    <td>
+                    <td >
                       <FormControl className="Style3">
                         <Select
                           labelId="demo-simple-select-helper-label"
@@ -3324,7 +3210,7 @@ function TransFerDetail() {
                             backgroundColor: read_pln_staff
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "70%",
                           }}
                           error={
                             ErrorPLN_Staff &&
@@ -3355,7 +3241,7 @@ function TransFerDetail() {
                         Action Date:
                       </Typography>
                     </td>
-                    <td className="Style6">
+                    <td className="Style6" >
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -3376,7 +3262,7 @@ function TransFerDetail() {
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
-                    <td colSpan={4}>
+                    <td colSpan={4} > 
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -3694,7 +3580,7 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3">
+                      <FormControl className="Style3" style={{minWidth:'290px'}}>
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
@@ -3709,7 +3595,7 @@ function TransFerDetail() {
                             backgroundColor: read_shipping
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                          width:'70%'
                           }}
                           error={
                             ErrorShipping &&
@@ -3741,7 +3627,7 @@ function TransFerDetail() {
                         Action Date:
                       </Typography>
                     </td>
-                    <td className="Style6">
+                    <td className="Style6" >
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -4131,7 +4017,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_input_weight_size
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           error={
                             ErrorPTE_INPUT_WS &&
@@ -4523,7 +4409,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_staff_boi
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           error={
                             ErrorPLN_Staff_BOI &&
@@ -4915,7 +4801,7 @@ function TransFerDetail() {
                             backgroundColor: read_boi_input_data
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           error={
                             Errorimport_boi_prepare &&
@@ -5305,7 +5191,7 @@ function TransFerDetail() {
                             backgroundColor: read_boi_input_data
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           error={
                             Errorboi_input_data &&
@@ -5689,7 +5575,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -6082,7 +5968,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -6474,7 +6360,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -6523,7 +6409,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_dept_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           value={contact_date}
                           error={
@@ -6565,7 +6451,6 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  {console.log(For_sts_reject,"For_sts_reject")}
                   {Showtype == "GP01003" &&
                     STS1 != "FLSL001" &&
                     STS1 != "FLSL002" &&
@@ -6879,7 +6764,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -6915,7 +6800,7 @@ function TransFerDetail() {
                   </tr>
                   <tr style={{ display: CM_export_clearance }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2">export Date :</Typography>{" "}
+                      <Typography variant="subtitle2">Clearance date  :</Typography>{" "}
                     </td>
                     <td>
                       <FormControl className="Style1">
@@ -6927,7 +6812,7 @@ function TransFerDetail() {
                             backgroundColor: read_export_clearance_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           value={export_clearance_date}
                           error={
@@ -7288,7 +7173,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -7322,6 +7207,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
+                  
                   <tr style={{ display: CM_pte_upload_file }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">
@@ -7338,7 +7224,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_upload_file_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           value={contact_date_pte}
                           error={
@@ -7694,7 +7580,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
@@ -7728,6 +7614,43 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
+                  
+                   <tr style={{ display: CM_pln_req_inv }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Sale Date :
+                      </Typography>
+                    </td>
+                
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pln_req_inv_cmmt}
+                          style={{
+                            
+                            backgroundColor: read_pln_req_inv_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                            width: "68%",
+                          }}
+                          value={sale_date}
+                          error={
+                            ErrSale_date  &&
+                            (!sale_date  || sale_date  == "null")
+                          }
+                          onChange={(e) => setsale_date(e.target.value)}
+                          helperText={
+                            ErrSale_date  &&
+                            (!sale_date  || sale_date  == "null")
+                              ? "Please Select Sale Date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                  </tr> 
                   <tr style={{ display: CM_pln_req_inv }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -8073,7 +7996,7 @@ function TransFerDetail() {
                             backgroundColor: read_ship_input_inv
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width: "320px",
+                            width: "68%",
                           }}
                           error={
                             Errorship_input_inv &&
@@ -8099,7 +8022,7 @@ function TransFerDetail() {
                           onChange={(e) => setship_input_inv(e.target.value)}
                           disabled
                           sx={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "320px",
+                            backgroundColor: "rgba(169, 169, 169, 0.3)", width: "68%",
                           }} /> */}
                       </FormControl>
                     </td>
@@ -8462,7 +8385,7 @@ function TransFerDetail() {
                         PLN Staff upload Final payment 50%:
                       </Typography>
                     </td>
-                    <td>
+                    <td style={{minWidth:'320px'}}>
                       <FormControl className="Style3">
                         <TextField
                           id="outlined-size-small"
@@ -8472,7 +8395,7 @@ function TransFerDetail() {
                           disabled
                           sx={{
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            width: "320px",
+                            width: "68%",
                           }}
                         />
                       </FormControl>
