@@ -39,8 +39,10 @@ function FAM_SEARCH() {
   const [loading, setloading] = useState("true");
   const [selectindex, setselectindex] = useState("0");
   const [selectindex_delete, setselectindex_delete] = useState("0");
-  const [selectedDateFrom, setSelectedDateFrom] = useState(null);
-  const [selectedDateTo, setSelectedDateTo] = useState(null);
+  // const [selectedDateFrom, setSelectedDateFrom] = useState(null);
+  // const [selectedDateTo, setSelectedDateTo] = useState(null);
+  const [selectedDateFrom, setSelectedDateFrom] = useState("");
+  const [selectedDateTo, setSelectedDateTo] = useState("");
   const [Txt_ID_Owner, setTxt_ID_Owner] = useState("");
   const [dataStatus, setdataStatus] = useState("");
   const [PAGEStatus, setPAGEStatus] = useState("");
@@ -98,23 +100,25 @@ function FAM_SEARCH() {
     navigate("/ForRe");
   };
   const Search = async () => {
-    let Datafrom = "";
-    let Dateto = "";
-    if (convertedDateTo === "Invalid date") {
-      Datafrom = "";
-    } else if (convertedDateTo != "Invalid date") {
-      Datafrom = convertedDateTo;
-    }
-    if (convertedDate === "Invalid date") {
-      Dateto = "";
-    } else if (convertedDate != "Invalid date") {
-      Dateto = convertedDate;
-    }
+    // let Datafrom = "";
+    // let Dateto = "";
+    // if (convertedDateTo === "Invalid date") {
+    //   Datafrom = "";
+    // } else if (convertedDateTo != "Invalid date") {
+    //   Datafrom = convertedDateTo;
+    // }
+    // if (convertedDate === "Invalid date") {
+    //   Dateto = "";
+    // } else if (convertedDate != "Invalid date") {
+    //   Dateto = convertedDate;
+    // }
     const FamNo = document.getElementById("FamNo").value;
     const FamTo = document.getElementById("FamTo").value;
     const FixAsset = document.getElementById("FixAsset").value;
-    const Date = Datafrom;
-    const DateTo = Dateto;
+    // const Date = Datafrom;
+    // const DateTo = Dateto;
+    const Date = document.getElementById("Date").value;
+    const DateTo = document.getElementById("DateTo").value;
     let Search_for_type=""
     if(Type !== null)
       {
@@ -131,7 +135,7 @@ function FAM_SEARCH() {
           FamNo: FamNo,
           FamTo: FamTo,
           Costcenter: selectcost,
-          FixAsset: FixAsset,
+          // FixAsset: FixAsset,
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo
@@ -158,7 +162,7 @@ function FAM_SEARCH() {
           FamNo: FamNo,
           FamTo: FamTo,
           Costcenter: selectcost,
-          FixAsset: FixAsset,
+          // FixAsset: FixAsset,
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo,
@@ -201,7 +205,7 @@ function FAM_SEARCH() {
           Dept: MultipleDept,
           AssetCC: MultipleAssetCC,
           ReqType: MultipleReqType,
-          FixCode: FixAsset,
+          // FixCode: FixAsset,
           DateFrom: Date,
           DateTo: DateTo,
           ByID: Txt_ID_Owner.trim(),
@@ -247,8 +251,10 @@ function FAM_SEARCH() {
     setselectCostCenter([]);
     setselectdeptMul([]);
     setselectcostMul([]);
-    setSelectedDateFrom(null);
-    setSelectedDateTo(null);
+    // setSelectedDateFrom(null);
+    // setSelectedDateTo(null);
+    setSelectedDateFrom("");
+    setSelectedDateTo("");
     setTxt_ID_Owner("");
     setTxt_user("");
     setSelectAll("");
@@ -548,7 +554,6 @@ function FAM_SEARCH() {
     item[3],
     item[5],
     item[6],
-    item[7],
   ]);
 
   sortedTableFirst.sort((a, b) => {
@@ -574,14 +579,14 @@ function FAM_SEARCH() {
           "Issue By",
           "Issue Date",
           "Type",
-          "Fixed Assets Code",
+          // "Fixed Assets Code",
           "Request Status",
         ],
         ...selectedData,
       ]);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      XLSX.writeFile(wb, `Selected_RollLeaf1_.xlsx`);
+      XLSX.writeFile(wb, `Report Fix Asset System.xlsx`);
     } else {
       // ถ้าไม่มี checkbox ถูกเลือก หรือไม่มีข้อมูลที่ถูกเลือก
       const ws = XLSX.utils.aoa_to_sheet([
@@ -592,14 +597,14 @@ function FAM_SEARCH() {
           "Issue By",
           "Issue Date",
           "Type",
-          "Fixed Assets Code",
+          // "Fixed Assets Code",
           "Request Status",
         ],
         ...dataExport,
       ]);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      XLSX.writeFile(wb, `RollLeaf3_.xlsx`);
+      XLSX.writeFile(wb, `Report Fix Asset System.xlsx`);
     }
   };
   const handleCheckboxChange = (id) => {

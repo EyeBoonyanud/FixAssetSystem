@@ -328,13 +328,12 @@ function Issue() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell style={{ border: 0 }}>
+                {/* <TableCell style={{ border: 0 }}>
                
                   <Typography color={"gray"} style={{ fontSize: "14px" }}>
                     Date From :{" "}
                   </Typography>
                   <DatePicker
-                    id="FamTo"
                     size="small"
                     fullWidth
                     format="DD/MM/YYYY"
@@ -347,12 +346,48 @@ function Issue() {
                     Date To:{" "}
                   </Typography>
                   <DatePicker
-                    id="FamTo"
                     size="small"
                     fullWidth
                     format="DD/MM/YYYY"
                     onChange={handleDateChange}
                   />
+                </TableCell> */}
+                 <TableCell style={{ border: 0 }}>
+                  <TextField
+                    id="Date"
+                    size="small"
+                    type="date"
+                    // label="Date From :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                    s
+                    value={selectedDateFrom}
+                    onChange={(e) => {
+                      setSelectedDateFrom(e.target.value);
+                    }}
+                  ></TextField>
+                </TableCell>
+                <TableCell style={{ border: 0 }}>
+                  <TextField
+                    id="DateTo"
+                    size="small"
+                    type="date"
+                    // label="Date To :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                    value={selectedDateTo}
+                    onChange={(e) => {
+                      setSelectedDateTo(e.target.value);
+                    }}
+                  ></TextField>
                 </TableCell>
               </TableRow>
 
@@ -504,7 +539,7 @@ function Issue() {
 
         <div className="responsive-container">
           <TableContainer style={{ visibility: checkHead }} component={Paper}>
-            <Table sx={{}} aria-label="simple table">
+            <Table aria-label="simple table">
               <TableHead className="Serach-Data">
                 <TableRow>
                   {Path === "FAMMASTER" && (
@@ -574,7 +609,7 @@ function Issue() {
                           )}
                         </TableCell>
                         <TableCell style={{ width: "0px" }}>
-                          {item[7] === "Create" &&
+                          {item[6] === "Create" &&
                             Path == "SEARCH" &&
                             (loading === "false" &&
                             index === selectindex_delete ? (
@@ -600,7 +635,7 @@ function Issue() {
                               <FileSearchOutlined
                                 style={{ color: "#40A2E3", fontSize: "30px" }}
                                 onClick={() => {
-                                  handleVIEW(item[2], item[8]);
+                                  handleVIEW(item[2], item[7]);
                                 }}
                               />
                             ))}
@@ -620,14 +655,14 @@ function Issue() {
                               background: "#FFB9B9",
                             }}
                           >
-                            {item[7]}
+                            {item[6]}
                           </Typography>
                         </TableCell>
                       </TableRow>
                     ))
                 ) : (
                   <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={11}>
+                    <TableCell colSpan={11} >
                       <InfoCircleOutlined
                         style={{
                           visibility: checkData,
@@ -639,7 +674,8 @@ function Issue() {
                         style={{
                           visibility: checkData,
                           fontSize: "25px",
-                          marginLeft: "10px",
+                          
+                          // marginLeft: "10px",
                         }}
                       >
                         {" "}

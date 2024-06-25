@@ -210,7 +210,7 @@ module.exports.search = async function (req, res) {
       FamNo,
       FamTo,
       Costcenter,
-      FixAsset,
+      // FixAsset,
       ReType,
       ReDate,
       ReDateTo,
@@ -224,7 +224,7 @@ module.exports.search = async function (req, res) {
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
-(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
+--(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
     F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
@@ -240,7 +240,7 @@ module.exports.search = async function (req, res) {
     AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}'IS NULL)
     AND (TRIM(T.FAM_ASSET_CC) = '${Costcenter}' OR '${Costcenter}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${ReType}' OR '${ReType}' IS NULL)
-    AND ( '${FixAsset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixAsset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixAsset}', ',') + 1))
+   -- AND ( 'fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${ReDate}' OR '${ReDate}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${ReDateTo}' OR '${ReDateTo}' IS NULL)
     ORDER BY T.FRH_FAM_NO DESC
@@ -262,7 +262,7 @@ module.exports.search2 = async function (req, res) {
       FamNo,
       FamTo,
       Costcenter,
-      FixAsset,
+      // FixAsset,
       ReType,
       ReDate,
       ReDateTo,
@@ -276,7 +276,7 @@ module.exports.search2 = async function (req, res) {
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
-(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
+--(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
     F.FFM_DESC AS STATUS
   FROM
     FAM_REQ_HEADER T
@@ -323,7 +323,7 @@ module.exports.search2 = async function (req, res) {
     AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}'IS NULL)
     AND (TRIM(T.FAM_ASSET_CC) = '${Costcenter}' OR '${Costcenter}' IS NULL)
     AND (T.FAM_REQ_TYPE = '${ReType}' OR '${ReType}' IS NULL)
-    AND ( '${FixAsset}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixAsset}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixAsset}', ',') + 1))
+   -- AND ( 'fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${ReDate}' OR '${ReDate}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${ReDateTo}' OR '${ReDateTo}' IS NULL)
     ORDER BY T.FRH_FAM_NO DESC
@@ -3308,7 +3308,7 @@ module.exports.searchFamMaster = async function (req, res) {
       Dept,
       AssetCC,
       ReqType,
-      FixCode,
+      // FixCode,
       DateFrom,
       DateTo,
       ByID,
@@ -3322,7 +3322,7 @@ module.exports.searchFamMaster = async function (req, res) {
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
     T.FAM_REQ_BY AS ISSUEBY,
     R.FCM_DESC AS RETYPE,
-    (SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
+    --(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
     F.FFM_DESC AS STATUS,
     T.FAM_REQ_TYPE 
   FROM
@@ -3342,7 +3342,7 @@ module.exports.searchFamMaster = async function (req, res) {
     AND ('${Dept}' IS NULL OR T.FAM_REQ_DEPT  IN (SELECT TRIM(REGEXP_SUBSTR('${Dept}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${Dept}', ',') + 1))
     AND ('${AssetCC}' IS NULL OR T.FAM_ASSET_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${AssetCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${AssetCC}', ',') + 1))
     AND ('${ReqType}' IS NULL OR T.FAM_REQ_TYPE  IN (SELECT TRIM(REGEXP_SUBSTR('${ReqType}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${ReqType}', ',') + 1))
-    AND ('${FixCode}' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('${FixCode}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${FixCode}', ',') + 1))
+   -- AND ('fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
     AND (T.FAM_REQ_BY = '${ByID}' OR '${ByID}' IS NULL) 
