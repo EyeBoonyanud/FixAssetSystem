@@ -663,13 +663,13 @@ function Issue() {
                 ) : (
                   <TableRow style={{ visibility: checkEmpty }}>
                     <TableCell colSpan={11} >
-                      <InfoCircleOutlined
+                      {/* <InfoCircleOutlined
                         style={{
                           visibility: checkData,
                           fontSize: "30px",
                           color: "#ffd580",
                         }}
-                      />
+                      /> */}
                       <text
                         style={{
                           visibility: checkData,
@@ -678,8 +678,8 @@ function Issue() {
                           // marginLeft: "10px",
                         }}
                       >
-                        {" "}
-                        Please fill in information{" "}
+                        {/* {" "}
+                        Please fill in information{" "} */}
                       </text>
                       <Empty style={{ visibility: checkEmpty }} />
                     </TableCell>
