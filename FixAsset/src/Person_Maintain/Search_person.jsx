@@ -550,8 +550,8 @@ function person_maintain() {
                           marginLeft: "10px",
                         }}
                       >
-                        {" "}
-                        Please fill in information{" "}
+                        {/* {" "}
+                        Please fill in information{" "} */}
                       </text>
                       <Empty style={{ visibility: checkEmpty }} />
                     </TableCell>

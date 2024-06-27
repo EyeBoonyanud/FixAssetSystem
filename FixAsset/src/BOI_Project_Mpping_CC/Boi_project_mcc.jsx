@@ -120,10 +120,7 @@ function Boi_project_mcc() {
       try {
         const factoryValue = DATA_SEARCH_S_E[0][0];
         const costValue = DATA_SEARCH_S_E[1][0];
-        const BOIValue = DATA_SEARCH_S_E[2][0];;
-        // const rollNoSearch = await axios.get(
-        //   `/search_BOI_project?FBMC_factory=${factoryValue}&FBMC_cost_center=${costValue}&FBMC_BOI_project=${BOIValue}`
-        // );
+        const BOIValue = DATA_SEARCH_S_E[2][0];
         
           const rollNoSearch = await axios.post(
             "/search_BOI_project",
@@ -148,7 +145,6 @@ function Boi_project_mcc() {
         console.error("Error requesting data:", error);
       }
     } else {
-      console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
     }
   };
 
@@ -202,11 +198,6 @@ function Boi_project_mcc() {
   const handleOpenEdit = async (factory, cost_center, boi_project , index) => {
           setselectindex(index);
           setloading("false");
-          console.log(cost_center,"cost_center");
-          // try {
-          //   const getEdit_show = await axios.get(
-          //     `/Search_BOI_Maintain_Edit?FBMC_cost_center=${cost_center}&FBMC_BOI_Project=${boi_project}`
-          //   );
            try {
           const getEdit_show = await axios.post(
             "/Search_BOI_Maintain_Edit",
@@ -217,12 +208,10 @@ function Boi_project_mcc() {
           );
             const data = await getEdit_show.data;
             const DataEdit = data;
-          console.log(DataEdit,"DataEdit");
             const PAGE_STATUS = "EDIT";
 
             if (data && data.length > 0) {
               const sentdata = JSON.stringify(DataEdit);
-              console.log(sentdata,"sentdata");
               localStorage.setItem("BOI_Edit", sentdata);
               localStorage.setItem("PAGE_STATUS", PAGE_STATUS);
             } else {
@@ -245,9 +234,6 @@ function Boi_project_mcc() {
       openPopupLoadding();
       if (willDelete) {
         try {
-          // const delete_BOI_maintain = await axios.post(
-          //   `/dlt_BOI_MAINTAIN?FBMC_cost_center_delete=${cost_center}&FBMC_BOI_Project_delete=${boi_project}`
-          // );
           const delete_BOI_maintain = await axios.post(
             "/dlt_BOI_MAINTAIN",
             {
@@ -466,7 +452,6 @@ function Boi_project_mcc() {
                             style={{ color: "#F4D03F", fontSize: "30px" }}
                             onClick={() => {
                               handleOpenEdit(item[1], item[3], item[4], index);
-                              console.log("UUUUUUUI",item[1], item[3], item[4], index);
                             }}
                           />
                         )}
@@ -502,8 +487,8 @@ function Boi_project_mcc() {
                           marginLeft: "10px",
                         }}
                       >
-                        {" "}
-                        Please fill in information{" "}
+                        {/* {" "}
+                        Please fill in information{" "} */}
                       </text>
                       <Empty style={{ visibility: checkEmpty }} />
                     </TableCell>

@@ -79,7 +79,6 @@ function FAM_TRANSECTION() {
         setselectradio_record(data[31]);
         setselectradio_acc_manager(data[35]);
         setselectradio_service_close_by(data[39]);
-        console.log(data,"routing")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -166,7 +165,6 @@ function FAM_TRANSECTION() {
 
         const data = await response.data.flat();
         setDataSale(data);
-        console.log(data,"dataSale")
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -371,7 +369,6 @@ function FAM_TRANSECTION() {
   }, []);
 
   const BackPage = async () => {
-    console.log(VIEW_FAM, "PDF_FAM");
     const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
     window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
   };

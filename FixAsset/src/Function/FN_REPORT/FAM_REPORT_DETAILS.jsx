@@ -49,7 +49,6 @@ function FAM_REPORT_DETAILS( ) {
   };
 
   const Owner = (Id_owner) => {
-    console.log("////", Id_owner);
     axios
       .post("/Id_owner", {
         owner_id: Id_owner,
@@ -108,7 +107,6 @@ function FAM_REPORT_DETAILS( ) {
           .then((res) => {
             if (res.data.length > 0) {
               const data = res.data;
-              console.log(data, "DATA DETAIL");
               const dataTablesByFamno = {};
 
               for (let i = 0; i < data.length; i++) {

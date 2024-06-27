@@ -7,7 +7,6 @@ function FAM_REQUESTER() {
     const navigate = useNavigate();
     const VIEW_FAM = localStorage.getItem("EDIT");
     const VIEW_TYPE = localStorage.getItem("TYPE_flow")
-    console.log(VIEW_FAM,"VIEW_FAM")
     const NextPage = async () => {
       window.location.href = `/FamTrans`;
     };

@@ -61,11 +61,9 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
   const [ErrorCost, setErrorCost] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
   const [DATA_EDIT_RESET, set_DATA_EDIT_RESET] = useState([]);
-  // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
   const onCloseCancel = () => {
-    // console.log("ปิด");
     setErrorBOI_P(false);
     setErrorFac(false);
     onClose();
@@ -109,7 +107,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         combinedArray03,
         DATA_EDIT_03.slice(3)
       );
-      console.log(DATA_EDIT,"DATA BOI");
       set_DATA_EDIT_RESET(DATA_EDIT);
       setselecteDatafac(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[0]);
@@ -273,7 +270,6 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
               Date_show
             ) {
               try {
-                console.log(" CCCCCCCCC",BOI_Project)
                 const response = await axios.post("/update_BOI_MAINTAIN", {
                   FBMC_cost_center: selectcost[0],
                   FBMC_factory: selecteDatafac[0],
