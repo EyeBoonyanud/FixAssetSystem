@@ -201,7 +201,7 @@ const emailMessage = `
               <td style="border-radius: 3px; border: 1px solid #ddd; padding: 5px; color: red;">${Status}</td>
           </tr>
       </table>
-      <p style="color: red;"><a href="http://10.17.100.183:8080/" style="color: red;">Click here for action</a></p>
+      <p style="color: red;"><a href="http://10.17.100.183:80/FAMsystem/" style="color: red;">Click here for action</a></p>
      
   </div>
 </div>

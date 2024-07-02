@@ -11,6 +11,6 @@ export default defineConfig({
     hosy: true,
     strictPort: true,
     host:'0.0.0.0',
-    port: 8081,
+    port: 80,
   },
 });
