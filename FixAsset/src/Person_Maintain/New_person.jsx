@@ -81,7 +81,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setuser_update(UserLoginn);
     } else {
       const EDIT = localStorage.getItem("Person_Edit");
-      // console.log("show data edit", EDIT);
+       console.log("show data edit", EDIT);
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
       const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
@@ -98,7 +98,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         combinedArray03,
         DATA_EDIT_03.slice(4)
       );
-    
+      console.log("show data DATA_EDIT", DATA_EDIT);
       // console.log("CASE EDIT", DATA_EDIT);
       setselecteDatafac(DATA_EDIT[0]);
       setselecteDatalevel(DATA_EDIT[1]);
@@ -115,7 +115,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
     const fetchData = async () => {
       const Factory = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getfactory`);
+          const response = await axios.get(
+            `/getfactory`
+          );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
         } catch (error) {
@@ -125,7 +127,7 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Costcenter = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getcost`);
+          const response = await axios.get(`/getcost`);
           const CostData = await response.data;
           setcost(CostData);
         } catch (error) {
@@ -135,7 +137,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
 
       const Level = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/getlevel`);
+          const response = await axios.get(
+            `/getlevel`
+          );
           const LevelData = await response.data;
           setdatalevel(LevelData);
         } catch (error) {
@@ -170,14 +174,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const navigate = useNavigate();
 
   const Save = async () => {
-    // console.log("FACTORY CHECK", selecteDatafac);
-    // console.log("LEVEL CHECK", selecteDatalevel);
-    // console.log("COST CENTER CHECK", selectcost);
-    // console.log("USER LOGIN CHECK", User_Login);
-    // console.log("EMAIL CHECK", email);
-    // console.log("STATUS CHECK", status);
-    // console.log("CREATE BY CHECK", UserLoginn);
-    // console.log("CREATE DATE CHECK", Date_show);
     if (!selecteDatafac || selecteDatafac.toString().trim() === "") {
       setErrorFac(true);
     }
@@ -226,10 +222,19 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/ins_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_create_by=${UserLoginn}&FPM_update_by=${UserLoginn}`
+                  "/ins_PERSON_MAINTAIN",
+                  {
+                    FPM_factory: selecteDatafac[0],
+                    FPM_level: selecteDatalevel[0],
+                    FPM_cost_center: selectcost[0],
+                    FPM_user_login: User_Login,
+                    FPM_email: email,
+                    FPM_status: status,
+                    FPM_create_by: UserLoginn,
+                    FPM_update_by: UserLoginn,
+                  }
                 );
-                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
-                swal("success", "You save data success", "success");
+                swal("Success", "Data saved successfully", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
                   selecteDatalevel,
@@ -242,13 +247,18 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                 searchFunction();
                 onClose();
               } catch (error) {
-                console.error("ไม่สามารถบันนทึกข้อมูลได้:", error);
+                console.error("Unable to save data:", error);
+                swal(
+                  "Error",
+                  "Unable to save data. Please try again.",
+                  "error"
+                );
               }
             } else {
-              console.error("ไม่สามารถบันทึกข้อมูลได้: ค่าว่างถูกส่งเข้ามา");
+              console.error("Unable to save data: Empty values ​​are passed.");
               swal(
                 "Unable to save information",
-                "Please check the information entered.",
+                "Please check the entered information.",
                 "error"
               );
             }
@@ -265,10 +275,17 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
             ) {
               try {
                 const response = await axios.post(
-                  `http://localhost:5000/update_PERSON_MAINTAIN?FPM_factory=${selecteDatafac[0]}&FPM_level=${selecteDatalevel[0]}&FPM_cost_center=${selectcost[0]}&FPM_user_login=${User_Login}&FPM_email=${email}&FPM_status=${status}&FPM_update_by=${UserLoginn}`
+                  "/update_PERSON_MAINTAIN",
+                  {
+                    FPM_factory: selecteDatafac[0],
+                    FPM_level: selecteDatalevel[0],
+                    FPM_cost_center: selectcost[0],
+                    FPM_user_login: User_Login,
+                    FPM_email: email,
+                    FPM_status: status,
+                    FPM_update_by: UserLoginn,
+                  }
                 );
-
-                // console.log("[บันทึกข้อมูลสำเร็จ] =", response);
                 swal("success", "You save data success", "success");
                 const DATA_BACK_SEARCH = [
                   selecteDatafac,
@@ -297,7 +314,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       }
     });
   };
-
 
   const Reset = async () => {
     if (PAGE_STATUS === "NEW") {
@@ -340,19 +356,22 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   };
 
   const Check_Username_Email = async (user_login) => {
-    // console.log("Check_Username_Email :", user_login);
     try {
-      const getDatalogin_show = await axios.get(
-        `http://localhost:5000/getData_UserLogin_Person?User_Login=${user_login}`
+      const getDatalogin_show = await axios.post(
+        '/getData_UserLogin_Person',
+        { user_log: user_login }
       );
+   
       const data = await getDatalogin_show.data;
-      console.log("Show data Email =", data);
+      console.log("Show data Email =", getDatalogin_show.data);
       if (data && data.length > 0) {
         const USERNAME = data[0][0];
+        console.log( data[0][0]," data[0][0]")
         const EMAIL = data[0][1];
         if (PAGE_STATUS === "NEW") {
           setusername(data[0][0]);
           setemail(data[0][1]);
+          console.log("Show data Email2 =");
         } else {
           setusername(data[0][0]);
         }

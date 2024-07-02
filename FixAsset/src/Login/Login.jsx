@@ -1,23 +1,13 @@
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, Form, Input } from "antd";
-import { useNavigate } from "react-router-dom";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
@@ -29,25 +19,18 @@ import LockIcon from "@mui/icons-material/Lock";
 import Person2Icon from "@mui/icons-material/Person2";
 import Card from "@mui/material/Card";
 
-// TODO remove, this demo shouldn't need to reset the theme.
 export default function SignInSide() {
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const onFinish = (values) => {
-    // // console.log("Received values of form: ", values);
-  };
-  // Loading
   const [loading, setLoading] = useState(false);
 
-  let Name = ""; //สร้างตัวแปรที่รับค่ากลับมา
-  let Lastname = ""; //สร้างตัวแปรที่รับค่ากลับมา
-  let Role = ""; //สร้างตัวแปรที่รับค่ากลับมา
+  let Name = "";
+  let Lastname = "";
+  let Role = ""; 
   let UserLogin = "";
   let Emp = "";
   let NameRole = "";
@@ -61,16 +44,13 @@ export default function SignInSide() {
     if (usernameElement && passwordElement) {
       const user = usernameElement.value;
       const password = passwordElement.value;
-
       try {
-        const response = await fetch(
-          `http://localhost:5000/login?username=${user}&password=${password}`
-        );
-        const data = await response.json();
-        // console.log(data,"/////////////",data.length)
+        const response = await axios.post("/login", {
+          User: user,
+          Password: password
+        });
+        const data = response.data;
         if (data.length>0) {
-          // console.log("Login successful", data[0][0]);
-       
           Name = data[0][1];
           Lastname = data[0][2];
           Role = data[0][0];
@@ -83,7 +63,7 @@ export default function SignInSide() {
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
-            window.location.href = "/Homepage";
+            window.location.href = "/FAMsystem/Homepage";
           
         } else {
           console.error("Login failed");
@@ -92,7 +72,7 @@ export default function SignInSide() {
       } catch (error) {
         console.error("Error during login:", error);
       } finally {
-        setLoading(false); // สิ้นสุดการโหลด
+        setLoading(false);
       }
     } else {
       console.error("Username or password element not found");
@@ -100,7 +80,6 @@ export default function SignInSide() {
   };
 
   return (
-    // <Grid container component="main" sx={{ height: "100vh"  }} className="Grad">
     <Grid
       container
       component="main"
@@ -146,8 +125,7 @@ export default function SignInSide() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center", // จัดวางตรงกลางแนวตั้ง
-            // border: "1px solid #000",
+            justifyContent: "center", 
             height: "100%",
           }}
         ><Card className="Card-Login">
@@ -168,7 +146,7 @@ export default function SignInSide() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "100%", // Set width to 100% to center the content horizontally
+                  width: "100%", 
                 }}
               >
                 <TextField

@@ -70,9 +70,11 @@ function person_maintain() {
 
     const fetchData = async () => {
       try {
-        const factoryPromise = axios.get(`http://localhost:5000/getfactory`);
-        const levelPromise = axios.get(`http://localhost:5000/getlevel`);
-        const costPromise = axios.get(`http://localhost:5000/getcost`);
+        const factoryPromise = axios.get(
+          `/getfactory`
+        );
+        const levelPromise = axios.get(`/getlevel`);
+        const costPromise = axios.get(`/getcost`);
         const [factoryResponse, levelResponse, costResponse] =
           await Promise.all([factoryPromise, levelPromise, costPromise]);
         const factoryData = factoryResponse.data;
@@ -126,10 +128,16 @@ function person_maintain() {
         const levelValue = DATA_SEARCH_S_E[1][0];
         const costValue = DATA_SEARCH_S_E[2][0];
         const User_LoginValue = DATA_SEARCH_S_E[3][0];
-
-        const rollNoSearch = await axios.get(
-          `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+        const rollNoSearch = await axios.post(
+          "/Search_Person_Maintain",
+          {
+            FPM_factory: factoryValue,
+            FPM_level: levelValue,
+            FPM_cost_center: costValue,
+            FPM_user_login: User_LoginValue,
+          }
         );
+
         const data = rollNoSearch.data;
         setCheckHead("visible");
         setdataSearch(data);
@@ -159,8 +167,14 @@ function person_maintain() {
         selecteDatalevel[0] !== undefined ? selecteDatalevel[0] : "";
       const costValue = selectcost[0] !== undefined ? selectcost[0] : "";
       const User_LoginValue = User_Login !== undefined ? User_Login : "";
-      const rollNoSearch = await axios.get(
-        `http://localhost:5000/Search_Person_Maintain?FPM_factory=${factoryValue}&FPM_level=${levelValue}&FPM_cost_center=${costValue}&FPM_user_login=${User_LoginValue}`
+      const rollNoSearch = await axios.post(
+        "/Search_Person_Maintain",
+        {
+          FPM_factory: factoryValue,
+          FPM_level: levelValue,
+          FPM_cost_center: costValue,
+          FPM_user_login: User_LoginValue,
+        }
       );
       const data = rollNoSearch.data;
       setCheckHead("visible");
@@ -201,10 +215,17 @@ function person_maintain() {
     setselectindex(index);
     setloading("false");
     try {
-      const getEdit_show = await axios.get(
-        `http://localhost:5000/Search_Person_Maintain_Edit?FPM_factory=${factory}&FPM_level=${level}&FPM_cost_center=${cost_center}&FPM_user_login=${user_login}`
+      const getEdit_show = await axios.post(
+        "/Search_Person_Maintain_Edit",
+        {
+          FPM_factory: factory,
+          FPM_level: level,
+          FPM_cost_center: cost_center,
+          FPM_user_login: user_login,
+        }
       );
       const data = await getEdit_show.data;
+      console.log(data,"jjjjjjjj88888")
       const DataEdit = data;
       const PAGE_STATUS = "EDIT";
 
@@ -247,12 +268,15 @@ function person_maintain() {
     }).then(async (willDelete) => {
       openPopupLoadding();
       if (willDelete) {
-        try {
-          const delete_person_maintain = await axios.post(
-            `http://localhost:5000/dlt_PERSON_MAINTAIN?FPM_factory_delete=${factory}&FPM_level_delete=${level}&FPM_cost_center_delete=${cost_center}&FPM_user_login_delete=${user_login}`
-          );
+          try {
+            const delete_person_maintain = await axios.post("/dlt_PERSON_MAINTAIN", {
+              FPM_factory_delete: factory,
+              FPM_level_delete : level,
+              FPM_cost_center_delete: cost_center,
+              FPM_user_login_delete: user_login
+                   });
+ 
           const data = await delete_person_maintain.data;
-          // console.log("DELETE DATA PERSON =", data);
           Search();
           swal("Your data has been deleted successfully", {
             icon: "success",
@@ -502,8 +526,8 @@ function person_maintain() {
                       <TableCell className="TexttableA">{item[2]}</TableCell>
                       <TableCell className="TexttableA">{item[5]}</TableCell>
                       <TableCell className="TexttableA">{item[6]}</TableCell>
-                      <TableCell className="TexttableA">{item[7]}</TableCell>
-                      <TableCell className="TexttableA">{item[8]}</TableCell>
+                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[7]}</TableCell>
+                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[8]}</TableCell>
                       <TableCell className="TexttableA">{item[9]}</TableCell>
                       <TableCell className="TexttableA">{item[10]}</TableCell>
                       <TableCell>{item[11]}</TableCell>
@@ -526,8 +550,8 @@ function person_maintain() {
                           marginLeft: "10px",
                         }}
                       >
-                        {" "}
-                        Please fill in information{" "}
+                        {/* {" "}
+                        Please fill in information{" "} */}
                       </text>
                       <Empty style={{ visibility: checkEmpty }} />
                     </TableCell>

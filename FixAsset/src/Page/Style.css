@@ -109,7 +109,7 @@
 .Style4 {
   width: 15%;
   text-align: right;
-  padding: 0.7%;
+ 
 }
 
 .Style5 {
@@ -340,9 +340,16 @@ margin-right: 10px;
  width: 100%;
   margin-left: 100px;
 }
-.File_For_Show th{
+.File_For_Show th {
   background-color: #92CEA8;
+  font-size: medium;
+  font-weight: bold; /* This makes the text bold */
 }
+.File_For_Show td {
+  font-size: medium;
+  font-weight: bold; /* This makes the text bold */
+}
+
 .TableShow{
   justify-content: center;
   display: flex;
@@ -486,4 +493,26 @@ Backgroud-card-menu {
  
 .MenuPadding tr :hover {
   background-color: lightgray;
+}
+.ant-picker.ant-picker-small.css-dev-only-do-not-override-dkbvqv{
+
+box-sizing: border-box;
+    /* margin: 0; */
+    padding: 4px 11px 4px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    line-height: 1;
+    list-style: none;
+    /* position: relative;  */
+    /* display: inline-flex; */
+    align-items: center;
+    /* background: #ffffff; */
+    border: 1px solid #c6c6c6;
+    border-radius: 6px;
+    width:99%;
+   height:40px
+    /* transition: border 0.2s, */
+}
+.datepick .ant-picker-input > input {
+  color: black !important;
 }

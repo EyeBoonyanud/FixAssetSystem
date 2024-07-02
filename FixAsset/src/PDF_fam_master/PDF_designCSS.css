@@ -1,0 +1,759 @@
+.cardpdf {
+  border-color: transparent !important;
+  padding-top: 1.4mm !important;
+  border-bottom: 0px solid black !important;
+}
+.cardContainer {
+  width: 294mm !important;
+  height: 202mm !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: auto !important;
+  border: 1px solid black !important;
+  border-radius: 0px !important;
+  padding: 0px !important;
+}
+.Header {
+  width: 297mm;
+  height: 6mm !important;
+  padding: 0px;
+  margin: 0px;
+}
+
+.HeaderTablecell_1 {
+  width: 170mm;
+  font-weight: bold !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border-bottom: 1px solid black !important;
+  text-align: left !important;
+  font-size: 13px !important;
+}
+.HeaderTablecell_2 {
+  width: 127mm;
+  font-weight: bold !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border-bottom: 1px solid black !important;
+  text-align: right !important;
+  font-size: 13px !important;
+}
+.HeaderOne {
+  width: 297mm;
+  height: 5mm;
+  padding: 0px !important;
+  align-items: left !important;
+}
+.HeaderOneTablecell_1 {
+  width: 29.7mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_2 {
+  width: 88.8mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_3 {
+  width: 88.9mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 0px solid black !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_4 {
+  width: 88.6mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row {
+  width: 88.6mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row_name {
+  width: 58.45mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row_tel {
+  width: 30.45mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row_fac {
+  width: 22.53mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row_cost {
+  width: 31.53mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderOneTablecell_row_dept {
+  width: 34.53mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderTwo {
+  width: 297mm;
+  /* height: 18mm; */
+  padding: 0px !important;
+  align-items: left !important;
+}
+.HeaderTwoTablecell_1 {
+  width: 29.5mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+.HeaderTwoTablecell_2 {
+  width: 265mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  line-height: 1.4 !important;
+}
+.HeaderTwoTablecell_3_checkbox {
+  width: 265mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1.9 !important;
+}
+.HeaderTwoTablecell_3_remark {
+  width: 265mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  border-bottom: 0px solid black !important;
+}
+
+
+.HeaderThree {
+  width: 297mm;
+  height: 5mm;
+  padding: 0px !important;
+  align-items: left !important;
+  line-height: 1 !important;
+}
+.HeaderThree1 {
+  width: 297mm;
+  height: 5mm;
+  padding: 0px !important;
+  align-items: left !important;
+  line-height: 1 !important;
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+}
+.HeaderThreeTablecell_1 {
+  width: 297mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+
+.HeaderTotal {
+  width: 297mm;
+  height: 5mm;
+  padding: 0px !important;
+  align-items: left !important;
+  border-top: 1px solid black !important;
+  line-height: 1 !important;
+}
+
+.HeaderTotal_1 {
+  width: 163mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+.HeaderTotal_2 {
+  width: 24.3mm;
+  font-size: 11px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1 !important;
+}
+.HeaderTotal_3 {
+  width: 20.8mm;
+  font-size: 11px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1 !important;
+}
+.HeaderTotal_4 {
+  width: 19mm;
+  font-size: 11px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  line-height: 1 !important;
+}
+.HeaderTotal_5 {
+  width: 6.9mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+}
+.HeaderFour {
+  width: 297mm;
+  height: 8mm;
+  padding: 0px !important;
+  align-items: left !important;
+}
+.HeaderFourTablecell_1 {
+  width: 30mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+}
+.HeaderFourTablecell_2 {
+  width: 133.5mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+}
+.HeaderFourTablecell_3 {
+  width: 133.5mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+}
+.HeaderFourTablecell_row {
+  width: 129mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderFive {
+  width: 297mm;
+  height: 5mm;
+  padding: 0px !important;
+  align-items: left !important;
+}
+.HeaderFiveTablecell_1 {
+  width: 30mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderFiveTablecell_2 {
+  width: 72.25mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderFiveTablecell_3 {
+  width: 61.35mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderFiveTablecell_4 {
+  width: 10.55mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderFiveTablecell_5 {
+  width: 133.5mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderSix {
+  width: 297mm !important;
+  height: 8mm;
+  padding: 0px !important;
+  align-items: left !important;
+}
+.HeaderSixTablecell_row {
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+.HeaderSixTablecell_1 {
+  width: 30mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  font-size: 11px !important;
+}
+.HeaderSixTablecell_2 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+}
+.HeaderSixTablecell_3 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+}
+.HeaderSixTablecell_4 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+}
+.HeaderSixTablecell_5 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+}
+.HeaderSeven {
+  width: 297mm !important;
+  /* height: 16mm; */
+  height: 8mm;
+  padding: 0px !important;
+  align-items: left !important;
+ 
+}
+.HeaderSevenTablecell_row {
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  
+}
+.HeaderSevenTablecell_1 {
+  width: 30mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 0px solid black !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+.HeaderSevenTablecell_2 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 0px solid black !important;
+}
+.HeaderSevenTablecell_3 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 0px solid black !important;
+}
+.HeaderSevenTablecell_4 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 0px solid black !important;
+}
+.HeaderSevenTablecell_5 {
+  width: 66.75mm;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 0px solid black !important;
+}
+
+.HeaderListTable {
+  width: 297mm !important;
+  padding: 0px !important;
+}
+.HeaderListTableTablecell_1 {
+  font-size: 12px !important;
+  width: 30mm !important;
+  max-width: 30mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_2 {
+  font-size: 12px !important;
+  width: 10mm !important;
+  max-width: 10mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_3 {
+  font-size: 12px !important;
+  width: 9mm !important;
+  max-width: 9mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_4 {
+  font-size: 12px !important;
+  width: 83mm !important;
+  max-width: 83mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_5 {
+  font-size: 12px !important;
+  width: 65.2mm !important;
+  max-width: 65.2mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_6 {
+  font-size: 12px !important;
+  width: 8mm !important;
+  max-width: 8mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_7 {
+  font-size: 12px !important;
+  width: 31mm !important;
+  max-width: 31mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_8 {
+  font-size: 12px !important;
+  width: 25.8mm !important;
+  max-width: 25.8mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_9 {
+  font-size: 12px !important;
+  width: 24mm !important;
+  max-width: 24mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+.HeaderListTableTablecell_10 {
+  font-size: 12px !important;
+  width: 9mm !important;
+  max-width: 9mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  line-height: 1.2 !important;
+}
+
+.HeaderListTableDataTablecell_1 {
+  font-size: 11px !important;
+  width: 30mm !important;
+  max-width: 39.8mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_2 {
+  font-size: 11px !important;
+  width: 10mm !important;
+  max-width: 10mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_3 {
+  font-size: 11px !important;
+  width: 9mm !important;
+  max-width: 9mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_4 {
+  font-size: 11px !important;
+  width: 83mm !important;
+  max-width: 83mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_5 {
+  font-size: 11px !important;
+  width: 65.2mm !important;
+  max-width: 65.2mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_6 {
+  font-size: 11px !important;
+  width: 8mm !important;
+  max-width: 8mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_7 {
+  font-size: 11px !important;
+  width: 31mm !important;
+  max-width: 31mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_8 {
+  font-size: 11px !important;
+  width: 25.8mm !important;
+  max-width: 25.8mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_9 {
+  font-size: 11px !important;
+  width: 24mm !important;
+  max-width: 24mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  border-right: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+.HeaderListTableDataTablecell_10 {
+  font-size: 11px !important;
+  width: 9mm !important;
+  max-width: 9mm !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  /* border-right: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+  word-wrap: break-word;
+  vertical-align: top !important;
+}
+
+.LowheaderL {
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: left !important;
+  font-size: 11px !important;
+  vertical-align: top !important;
+  border-bottom: 0px solid black !important;
+}
+.LowheaderC {
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: center !important;
+  font-size: 11px !important;
+  vertical-align: top !important;
+  border-bottom: 0px solid black !important;
+}
+
+.LowheaderR {
+  padding: 0px !important;
+  margin: 0px !important;
+  text-align: right !important;
+  font-size: 11px !important;
+  vertical-align: top !important;
+  border-bottom: 0px solid black !important;
+}
+
+.Table_Loop_One {
+  width: 294mm !important;
+  height: 139mm !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+.LowheaderROW {
+  height: 0.8mm !important;
+}
