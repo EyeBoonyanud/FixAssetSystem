@@ -38,7 +38,7 @@ function Mail() {
    
  
     Status_Show();
-  navigate(`/${PAGE}`);
+  navigate(`/FAMsystem/${PAGE}`);
    
     
   }, []);

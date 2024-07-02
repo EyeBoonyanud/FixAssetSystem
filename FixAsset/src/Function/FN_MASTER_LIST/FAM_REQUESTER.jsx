@@ -8,10 +8,10 @@ function FAM_REQUESTER() {
     const VIEW_FAM = localStorage.getItem("EDIT");
     const VIEW_TYPE = localStorage.getItem("TYPE_flow")
     const NextPage = async () => {
-      window.location.href = `/FamTrans`;
+      window.location.href = `/FAMsystem/FamTrans`;
     };
     const Back_page = async () => {
-      window.location.href = `/FAMMaster`;
+      window.location.href = `/FAMsystem/FAMMaster`;
       localStorage.removeItem("EDIT");
     };
     const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");

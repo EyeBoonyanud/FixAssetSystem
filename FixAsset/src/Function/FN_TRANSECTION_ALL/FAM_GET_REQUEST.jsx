@@ -823,10 +823,7 @@ function FAM_GET_REQUEST() {
   //       const data = response.data;
   //       setfind_fixasset(data);
   //       setcheckvalue(data[0][5])
-  //       console.log(data[0][5],"คืออะไร")
-  //       console.log(checkvalue,"checkไม่ให้ผ่าน",data[0][5])
   //       if (checkvalue !== "" && checkvalue !== data[0][5]) {
-  //         console.log(checkvalue, data[0][5], "No Pass");
   //         alert("ไม่สามารถ แอดได้ เนื่องจากคนละ BoI Project");
           
   //     }
@@ -917,8 +914,6 @@ function FAM_GET_REQUEST() {
             const data = response.data;
             setfind_fixasset(data);
             // setcheckvalue(data[0][5]);
-            // console.log(data[0][5], "คืออะไร");
-            // console.log(checkvalue, "checkไม่ให้ผ่าน", data[0][5],datatable);
           //   if (datatable.length === 0) {
             
           // } else {
@@ -1038,7 +1033,6 @@ function FAM_GET_REQUEST() {
   const [CountCOMP, setCountCOMP] = useState([]);
   const [Countdatatable, setCountdatatable] = useState([]);
   const handleAdd = () => {
-    console.log(datatable,"hello")
     const hasTrue = selectedItems.includes(true);
 
     if (!hasTrue || selectedItems.length === 0) {
@@ -1105,7 +1099,7 @@ function FAM_GET_REQUEST() {
     } else {
       try {
         const row = await axios.post("/delete_FAM_REQ_DETAIL", {
-          famno: EditFam,
+          famno: Gen_Fam_No,
           fixcode: item,
         });
         //localStorage.removeItem("forDetail");
@@ -1528,10 +1522,10 @@ function FAM_GET_REQUEST() {
   const Back_page = async () => {
     if (page == "SEARCH") {
       clearLocal();
-      navigate("/Search");
+      navigate("/FAMsystem/Search");
     } else if (page == "APPROVEFAM") {
       clearLocal();
-      navigate("/ApproveFam");
+      navigate("/FAMsystem/ApproveFam");
     }
   };
   const Reset = async () => {
@@ -1549,7 +1543,7 @@ function FAM_GET_REQUEST() {
   const navigate = useNavigate();
   const NextPage = async () => {
     Insert_Fam_detail();
-    navigate("/TransDetail");
+    navigate("/FAMsystem/TransDetail");
   };
   const Next = async (value) => {
     Insert_Fam_detail();

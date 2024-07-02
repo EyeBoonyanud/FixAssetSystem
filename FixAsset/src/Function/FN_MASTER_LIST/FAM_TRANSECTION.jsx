@@ -370,7 +370,7 @@ function FAM_TRANSECTION() {
 
   const BackPage = async () => {
     const encodedVIEW_FAM = encodeURIComponent(VIEW_FAM);
-    window.location.href = `/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
+    window.location.href = `/FAMsystem/VIEW_Fammaster?VIEW_FAM=${encodedVIEW_FAM}`;
   };
 
   return {

@@ -50,7 +50,6 @@ export default function SignInSide() {
           Password: password
         });
         const data = response.data;
-        console.log(data,"/////////////",data.length)
         if (data.length>0) {
           Name = data[0][1];
           Lastname = data[0][2];
@@ -64,7 +63,7 @@ export default function SignInSide() {
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
-            window.location.href = "/Homepage";
+            window.location.href = "/FAMsystem/Homepage";
           
         } else {
           console.error("Login failed");

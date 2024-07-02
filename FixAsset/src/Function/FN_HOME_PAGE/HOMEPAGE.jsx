@@ -13,8 +13,6 @@ function function_homepage() {
     const [dataDonation, setdataDonation] = useState([]);
     const [dataScrap, setdataScrap] = useState([]);
     const [dataSale, setdataSale] = useState([]);
-    const [dataLossall, setdataLossall] = useState([]);
-    const [dataLossallname, setdataLossallname] = useState([]);
     const [dataname_show, setdataname_show] = useState("");
     const [dataname_type, setdataname_type] = useState("");
     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -163,11 +161,11 @@ function function_homepage() {
         if (value === "Create") {
           localStorage.setItem("STATUS", value);
           localStorage.setItem("TYPE", type);
-          window.location.href = `/Search`;
+          window.location.href = `/FAMsystem/Search`;
         } else {
           localStorage.setItem("STATUS", value);
           localStorage.setItem("TYPE", type);
-          window.location.href = `/ApproveFam`;
+          window.location.href = `/FAMsystem/ApproveFam`;
         }
       };
 

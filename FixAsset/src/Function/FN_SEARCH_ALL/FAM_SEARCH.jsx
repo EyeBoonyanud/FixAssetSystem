@@ -39,8 +39,6 @@ function FAM_SEARCH() {
   const [loading, setloading] = useState("true");
   const [selectindex, setselectindex] = useState("0");
   const [selectindex_delete, setselectindex_delete] = useState("0");
-  // const [selectedDateFrom, setSelectedDateFrom] = useState(null);
-  // const [selectedDateTo, setSelectedDateTo] = useState(null);
   const [selectedDateFrom, setSelectedDateFrom] = useState("");
   const [selectedDateTo, setSelectedDateTo] = useState("");
   const [Txt_ID_Owner, setTxt_ID_Owner] = useState("");
@@ -97,26 +95,12 @@ function FAM_SEARCH() {
     localStorage.removeItem("Edit_Lending");
     localStorage.removeItem("Edit_Sale");
     localStorage.removeItem("Type");
-    navigate("/ForRe");
+    navigate("/FAMsystem/ForRe");
   };
   const Search = async () => {
-    // let Datafrom = "";
-    // let Dateto = "";
-    // if (convertedDateTo === "Invalid date") {
-    //   Datafrom = "";
-    // } else if (convertedDateTo != "Invalid date") {
-    //   Datafrom = convertedDateTo;
-    // }
-    // if (convertedDate === "Invalid date") {
-    //   Dateto = "";
-    // } else if (convertedDate != "Invalid date") {
-    //   Dateto = convertedDate;
-    // }
     const FamNo = document.getElementById("FamNo").value;
     const FamTo = document.getElementById("FamTo").value;
     const FixAsset = document.getElementById("FixAsset").value;
-    // const Date = Datafrom;
-    // const DateTo = Dateto;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
     let Search_for_type=""
@@ -135,7 +119,6 @@ function FAM_SEARCH() {
           FamNo: FamNo,
           FamTo: FamTo,
           Costcenter: selectcost,
-          // FixAsset: FixAsset,
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo
@@ -162,7 +145,6 @@ function FAM_SEARCH() {
           FamNo: FamNo,
           FamTo: FamTo,
           Costcenter: selectcost,
-          // FixAsset: FixAsset,
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo,
@@ -205,7 +187,6 @@ function FAM_SEARCH() {
           Dept: MultipleDept,
           AssetCC: MultipleAssetCC,
           ReqType: MultipleReqType,
-          // FixCode: FixAsset,
           DateFrom: Date,
           DateTo: DateTo,
           ByID: Txt_ID_Owner.trim(),
@@ -251,8 +232,6 @@ function FAM_SEARCH() {
     setselectCostCenter([]);
     setselectdeptMul([]);
     setselectcostMul([]);
-    // setSelectedDateFrom(null);
-    // setSelectedDateTo(null);
     setSelectedDateFrom("");
     setSelectedDateTo("");
     setTxt_ID_Owner("");
@@ -445,20 +424,20 @@ function FAM_SEARCH() {
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-    window.location.href = "/ForRe";
+    window.location.href = "/FAMsystem/ForRe";
   };
 
   const handlePDF = async (PDF_FAM) => {
     localStorage.removeItem("PDF_FAM_DATA");
     const PDF_FAM_DATA = PDF_FAM;
     localStorage.setItem("PDF_FAM_DATA", PDF_FAM_DATA);
-    window.location.href = `/PDF_download
+    window.location.href = `/FAMsystem/PDF_download
     `;
   };
   const handleVIEW = async (VIEW_FAM, TYPE) => {
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
-   window.location.href = `/VIEW_Fammaster`;
+   window.location.href = `/FAMsystem/VIEW_Fammaster`;
   };
 
   const TextTitle = () => {
@@ -579,7 +558,6 @@ function FAM_SEARCH() {
           "Issue By",
           "Issue Date",
           "Type",
-          // "Fixed Assets Code",
           "Request Status",
         ],
         ...selectedData,
@@ -597,7 +575,6 @@ function FAM_SEARCH() {
           "Issue By",
           "Issue Date",
           "Type",
-          // "Fixed Assets Code",
           "Request Status",
         ],
         ...dataExport,
@@ -609,11 +586,9 @@ function FAM_SEARCH() {
   };
   const handleCheckboxChange = (id) => {
     if (selectAll) {
-      // ถ้ากด Select All ให้ยกเลิกการเลือกทั้งหมด
       setSelectAll(false);
       setSelectedRows([id]);
     } else {
-      // ถ้ายังไม่ได้กด Select All ให้ทำการเลือกหรือยกเลิกตามปกติ
       if (selectedRows.includes(id)) {
         setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
       } else {
@@ -624,39 +599,29 @@ function FAM_SEARCH() {
   const handleSelectAll = () => {
     const allIds = dataSearch.map((item) => item[2]);
     if (selectAll) {
-      // ถ้าเลือกทั้งหมดให้ยกเลิกการเลือกทั้งหมด
       setSelectedRows([]);
     } else {
-      // ถ้ายังไม่ได้เลือกทั้งหมดให้ทำการเลือกทั้งหมด
       setSelectedRows(allIds);
     }
-    // สลับสถานะ SelectAll
     setSelectAll(!selectAll);
   };
 
 
   const handleDateChange = (date, dateString) => {
-    // dateString จะอยู่ในรูปแบบ DD/MM/YYYY ตามที่กำหนดใน format
     const formattedDate = convertDate(dateString);
     setSelectedDateTo(dateString);
     setConvertedDate(formattedDate);
   };
   const handleDateToChange = (date, dateString) => {
-    // dateString จะอยู่ในรูปแบบ DD/MM/YYYY ตามที่กำหนดใน format
     const formattedDate = convertDate(dateString);
     setSelectedDateTo(dateString);
     setConvertedDateTo(formattedDate);
   };
 
   const convertDate = (date) => {
-    // ใช้ moment.js ในการแปลงวันที่
     return moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
   };
 
-  // const handleSubmit = () => {
-  //   // ใช้ค่าของ convertedDate ในการทำงานต่อ
-  //   // คุณสามารถเรียก API หรือฟังก์ชันอื่นที่ต้องการใช้ค่าของ convertedDate ที่นี่
-  // };
   // Use Effect
   useEffect(() => {
     openPopupLoadding();

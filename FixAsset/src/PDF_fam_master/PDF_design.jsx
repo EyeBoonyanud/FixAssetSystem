@@ -25,7 +25,7 @@ import PageLoadding from "../Loadding/Pageload";
 
 function PDF_design() {
   const BackPage = async () => {
-    window.location.href = `/FAMMaster`;
+    window.location.href = `/FAMsystem/FAMMaster`;
   };
   const tableRefOne = useRef([]);
   const tableRefTwo = useRef([]);

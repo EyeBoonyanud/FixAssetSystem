@@ -16,41 +16,7 @@ const CUSR = {
   password: process.env.PASS_CUSR,
   connectString: process.env.CON_CUSR,
 };
-// console.log(CUSR,"-------------------------------------------------------------")
 
-// const CUSR = {
-//   user: import.meta.env.VITE_USER_CUSR,
-//   password: import.meta.env.VITE_PASS_CUSR,
-//   connectString: import.meta.env.VITE_CON_CUSR,
-// };
-// // console.log(CUSR,"-------------------------------------------------------------")
-
-// Login
-// module.exports.login = async function (req, res) {
-//   try {
-//     const  User  = req.query.username;
-//     const  Password  = req.query.password;
-//     // console.log(User,Password)
-//     const connect = await oracledb.getConnection(CUSR);
-//     const query = `
-//         SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
-//         ,T.USER_EMP_ID , REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW
-//         FROM CU_USER_M T
-//         INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
-//         INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID
-//         WHERE T.USER_LOGIN = '${User}'
-//         AND T.USER_PASSWORD = '${Password}'
-//         AND R.SYSTEM_ID = '65'
-//        `;
-//     const result = await connect.execute(query);
-//     connect.release();
-//     // // console.log(result.rows);
-//     res.json(result.rows);
-    
-//   } catch (error) {
-//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-//   }
-// };
 module.exports.login = async (req, res) => {
   try {
     const { User, Password } = req.body;
@@ -80,7 +46,6 @@ module.exports.menu = async function (req, res) {
   try {
     const  Userlogin  = req.query.userlogin;
     const  Role  = req.query.role;
-    // // console.log(Userlogin,Role)
     const connect = await oracledb.getConnection(CUSR);
     const query = 
     `SELECT DISTINCT M.MENU_ID,

@@ -25,7 +25,7 @@ function ButtonAppBar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const Logout = () => {
    localStorage.clear();
-    navigate("/");
+    navigate("/FAMsystem/");
   };
 
   return (
