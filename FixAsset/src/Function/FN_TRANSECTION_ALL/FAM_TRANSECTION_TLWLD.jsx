@@ -3964,7 +3964,7 @@ function FAM_TRANSECTION_TLWLD() {
     }
     getDatatest();
     closePopupLoadding();
-  //navigate("/FAMsystem/ForRe");
+  navigate("/FAMsystem/ForRe");
   };
 
   // ปุ่ม SAVE

@@ -126,6 +126,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
+          
         } catch (error) {
           console.error("Error during login:", error);
         }
@@ -135,6 +136,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         try {
           const response = await axios.get(`/getcost`);
           const CostData = await response.data;
+          CostData.push(['ALL', 'ALL']);
           setcost(CostData);
         } catch (error) {
           console.error("Error during login:", error);

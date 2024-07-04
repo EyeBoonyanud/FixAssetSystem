@@ -45,7 +45,7 @@ export default function SignInSide() {
       const user = usernameElement.value;
       const password = passwordElement.value;
       try {
-        const response = await axios.post("/login", {
+        const response = await axios.post("/Login", {
           User: user,
           Password: password
         });

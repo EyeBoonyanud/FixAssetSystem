@@ -18,7 +18,7 @@ function FAM_REPORT_DETAILS( ) {
   const [checkHead, setCheckHead] = useState("hidden");
   const [checkEmpty, setCheckEmpty] = useState("hidden");
   const [checkData, setCheckData] = useState("visible");
-  const [Checkvale, setcheckvalue] = useState("Please fill in information");
+  const [Checkvale, setcheckvalue] = useState("");
 
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function FAM_REPORT_DETAILS( ) {
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
-    setcheckvalue("Please fill in information");
+    setcheckvalue("");
   };
   const Search = () => {
     if (

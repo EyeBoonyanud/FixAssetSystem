@@ -170,6 +170,7 @@ function FAM_GET_REQUEST() {
 
   const keep = () => {
     if (EditFam != null) {
+      console.log("STS",For_Rq_Edit[10])
       if (For_Rq_Edit != null) {
         setSTS1_for_R(For_Rq_Edit[16]);
         setSTS1_Req(For_Rq_Edit[10]);
@@ -207,8 +208,11 @@ function FAM_GET_REQUEST() {
           STS == "FLWO001" ||
           STS == "FLDN001" ||
           STS == "FLSC001" ||
+          STS == "FLSL001" ||
           STS == "FLLD001"
         ) {
+        
+          console.log("เข้าาาาาา")
           setread_dept(false);
           setread_remark(false);
           setread_type(true);
@@ -258,6 +262,7 @@ function FAM_GET_REQUEST() {
           STS == "FLWO001" ||
           STS == "FLDN001" ||
           STS == "FLSC001" ||
+          STS == "FLSL001" ||
           STS == "FLLD001"
         ) {
           setread_dept(false);
@@ -277,6 +282,7 @@ function FAM_GET_REQUEST() {
           STS == "FLWO001" ||
           STS == "FLDN001" ||
           STS == "FLSC001" ||
+          STS == "FLSL001" ||
           STS == "FLLD001"
         ) {
           setread_dept(false);

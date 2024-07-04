@@ -129,7 +129,9 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         try {
           const response = await axios.get(`/getcost`);
           const CostData = await response.data;
+          CostData.push(['ALL', 'ALL']);
           setcost(CostData);
+          
         } catch (error) {
           console.error("Error during fetching cost data:", error);
         }
@@ -363,7 +365,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       );
    
       const data = await getDatalogin_show.data;
-      console.log("Show data Email =", getDatalogin_show.data);
       if (data && data.length > 0) {
         const USERNAME = data[0][0];
         console.log( data[0][0]," data[0][0]")

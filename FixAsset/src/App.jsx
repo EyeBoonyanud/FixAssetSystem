@@ -21,7 +21,7 @@ import PDF_download from './PDF_fam_master/PDF_design'
 import axios from "axios";
 
 // process.env.NODE_ENV = 'production';
-const backendURL = "http://10.17.100.183:5000";
+const backendURL = "http://10.17.74.202:5000";
 axios.defaults.baseURL = backendURL;
 
 const App = () => {

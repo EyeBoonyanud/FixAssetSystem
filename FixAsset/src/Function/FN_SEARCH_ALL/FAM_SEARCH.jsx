@@ -589,6 +589,7 @@ function FAM_SEARCH() {
       setSelectAll(false);
       setSelectedRows([id]);
     } else {
+      
       if (selectedRows.includes(id)) {
         setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
       } else {

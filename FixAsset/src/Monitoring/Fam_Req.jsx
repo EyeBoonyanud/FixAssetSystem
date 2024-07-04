@@ -25,11 +25,11 @@ import Header from "../Page/Hearder";
 import PageLoadding from "../Loadding/Pageload";
 import { Empty } from "antd";
 import {FAM_REQUESTER} from '../Function/FN_MASTER_LIST/FAM_REQUESTER'
+import image_for_req from '../assets/Image/2.png'
 function ForRequest() {
 const {NextPage,Back_page,isPopupOpenLoadding,
   Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,STS,DataNewCC_ToProj,DataWeight_Size_Unit_Env
   } = FAM_REQUESTER();
-  console.log("STS",STS)
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -715,7 +715,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                 <td>
                   <div className="ImageShowFile">
                     <img
-                      src="./src/assets/Image/2.png"
+                      src={image_for_req}
                       style={{ width: "400px" }}
                       alt="Description of your image"
                     />

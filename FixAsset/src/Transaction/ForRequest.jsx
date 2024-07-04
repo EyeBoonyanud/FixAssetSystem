@@ -47,6 +47,7 @@ import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
 import { FAM_GET_REQUEST } from "../Function/FN_TRANSECTION_ALL/FAM_GET_REQUEST";
+ import imageforshow from "../assets/Image/2.png"
 
 
 function ForRequest() {
@@ -1467,7 +1468,7 @@ function ForRequest() {
                   <td>
                     <div className="ImageShowFile">
                       <img
-                        src="./src/assets/Image/2.png"
+                        src={imageforshow}
                         style={{ width: "250px" }}
                         alt="Description of your image"
                       />
