@@ -509,7 +509,7 @@ function FAM_GET_REQUEST() {
           default:
             break;
         }
-
+localStorage.setItem("TYPE",Request_type1)
         if (StatusType) {
           const response = await axios.post("/getstatus", {
             type: StatusType,

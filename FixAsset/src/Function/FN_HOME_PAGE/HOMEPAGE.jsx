@@ -26,6 +26,7 @@ function function_homepage() {
     };
   
     useEffect(() => {
+      
         openPopupLoadding();
         const fetchData = async () => {
     

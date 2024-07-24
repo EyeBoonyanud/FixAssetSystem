@@ -15,6 +15,7 @@ function FAM_SEARCH() {
   const Emp = localStorage.getItem("EmpID");
   let UserLogin = Emp + ":" + Name + " " + Lastname;
  const Type =localStorage.getItem("TYPE");
+ console.log(Type,"Type")
   //const set
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
