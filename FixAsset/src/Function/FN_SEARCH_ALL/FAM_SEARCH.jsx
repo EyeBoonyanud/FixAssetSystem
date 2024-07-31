@@ -718,6 +718,7 @@ function FAM_SEARCH() {
     emptyRows_table_report,
     handleDateChange,
     handleDateToChange,
+    Type
   };
 }
 

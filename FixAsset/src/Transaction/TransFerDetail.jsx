@@ -630,7 +630,7 @@ function TransFerDetail() {
                             error={ErrorFac && !selecttrans_factory}
                             helperText={
                               ErrorFac && !selecttrans_factory
-                                ? "Please select: Transfer To factory"
+                                ? "กรุณาเลือก: Transfer To factory"
                                 : undefined
                             }
                           >
@@ -692,7 +692,7 @@ function TransFerDetail() {
 
                           {ErrorCC && !selecttrans_cc && (
                             <FormHelperText style={{ color: "red" }}>
-                              Please select: Transfer To CC
+                              กรุณาเลือก: Transfer To CC
                             </FormHelperText>
                           )}
                         </FormControl>
@@ -719,6 +719,9 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
+                    <Typography variant="subtitle2" sx={{fontSize:'10px', color:'red'}}>
+                        * กรุณาเลือก  Transfer to Factory และ Transfer to CC 
+                      </Typography>
                       <FormControl className="Style1">
                         <Autocomplete
                           disabled={read_trans_cc}
@@ -740,7 +743,7 @@ function TransFerDetail() {
                         />
                         {ErrNewboi && !new_boi && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New BOI Project{" "}
+                            กรุณาเลือก: New BOI Project{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -771,7 +774,7 @@ function TransFerDetail() {
                         />
                         {ErrorNewOwn && !selectnew_owner && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New Owner{" "}
+                            กรุณาเลือก: New Owner{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -800,7 +803,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorTel &&
                             (!Tel_for_trans || Tel_for_trans == "null")
-                              ? "Please enter your mobile phone number"
+                              ? "กรุณาระบุ "
                               : undefined
                           }
                         />
@@ -833,7 +836,7 @@ function TransFerDetail() {
                           onChange={(e) => setplan_date(e.target.value)}
                           // helperText={
                           //   ErrorDate && (!plan_date || plan_date == "null")
-                          //     ? "Please select date"
+                          //     ? "กรุณาเลือก date"
                           //     : undefined
                           // }
                         />
@@ -956,7 +959,7 @@ function TransFerDetail() {
                         (!selectdepartment_mana ||
                           !selectdepartment_mana == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Department Manager
+                            กรุณาเลือก: Department Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1086,7 +1089,7 @@ function TransFerDetail() {
                         helperText={
                           ErrorTel_service &&
                           (!Tel_service || Tel_service == "null")
-                            ? "Please enter your mobile phone number"
+                            ? "กรุณาระบุ "
                             : undefined
                         }
                       />
@@ -1127,7 +1130,7 @@ function TransFerDetail() {
                       {ErrorService_by &&
                         (!selectservice_by || selectservice_by == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Service By
+                            กรุณาเลือก: Service By
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1245,7 +1248,7 @@ function TransFerDetail() {
                       {ErrorBoi_Staff &&
                         (!selectboi_staff || selectboi_staff == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1360,7 +1363,7 @@ function TransFerDetail() {
                       {ErrorBoi_manager &&
                         (!selectboi_manager || selectboi_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1479,7 +1482,7 @@ function TransFerDetail() {
                       {ErrorMana_Fac &&
                         (!selectfac_manager || selectfac_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Factory Manager
+                            กรุณาเลือก: Factory Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1604,7 +1607,7 @@ function TransFerDetail() {
                       {ErrorAcc_check &&
                         (!selectacc_check || selectacc_check == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Check:
+                            กรุณาเลือก: ACC Check:
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -2366,7 +2369,7 @@ function TransFerDetail() {
                           (!return_selectacc_manager ||
                             return_selectacc_manager == "null") && (
                             <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
+                              กรุณาเลือก: ACC Manager Return
                             </FormHelperText>
                           )}
                       </FormControl>
@@ -2475,7 +2478,7 @@ function TransFerDetail() {
                               helperText={
                                 ErrorDate_return &&
                                 (!return_date || return_date == "null")
-                                  ? "Please Select Return Date "
+                                  ? "กรุณาเลือก Return Date "
                                   : undefined
                               }
                             />
@@ -2813,7 +2816,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPTE_ENV && !selectpte_env && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE(ENV)
+                            กรุณาเลือก: PTE(ENV)
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -2874,7 +2877,7 @@ function TransFerDetail() {
                           helperText={
                             ErrScp_date  &&
                             (!scrap_date  || scrap_date  == "null")
-                              ? "Please Select Contact date "
+                              ? "กรุณาเลือก Contact date "
                               : undefined
                           }
                         />
@@ -3225,7 +3228,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPLN_Staff && !selectpln_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff
+                            กรุณาเลือก: PLN Staff
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -3611,7 +3614,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorShipping && !selectshipping_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping
+                            กรุณาเลือก: Shipping
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -4033,7 +4036,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE (ENV) input weight/size
+                            กรุณาเลือก: PTE (ENV) input weight/size
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -4425,7 +4428,7 @@ function TransFerDetail() {
                         </Select>
                         {/* {selectpln_staff_boi && !selectpln_staff_boi && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff contact BOI 
+                            กรุณาเลือก: PLN Staff contact BOI 
                           </FormHelperText>
                         )} */}
                       </FormControl>
@@ -4817,7 +4820,7 @@ function TransFerDetail() {
                         </Select>
                         {Errorimport_boi_prepare && !selectimport_boi_prepare && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Import & BOI prepare
+                            กรุณาเลือก: Import & BOI prepare
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -5207,7 +5210,7 @@ function TransFerDetail() {
                         </Select>
                         {Errorboi_input_data && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Input data Import
+                            กรุณาเลือก: BOI Input data Import
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -6420,7 +6423,7 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date &&
                             (!contact_date || contact_date == "null")
-                              ? "Please Select Contact date "
+                              ? "กรุณาเลือก Contact date "
                               : undefined
                           }
                         />
@@ -6827,7 +6830,7 @@ function TransFerDetail() {
                             Errorexport_clearance_date &&
                             (!export_clearance_date ||
                               export_clearance_date == "null")
-                              ? "Please Select export Date "
+                              ? "กรุณาเลือก export Date "
                               : undefined
                           }
                         />
@@ -7235,7 +7238,7 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date_pte &&
                             (!contact_date_pte || contact_date_pte == "null")
-                              ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                              ? "กรุณาเลือก Contact date PTE (ENV) upload file after BOI make export clearance"
                               : undefined
                           }
                         />
@@ -7644,7 +7647,7 @@ function TransFerDetail() {
                           helperText={
                             ErrSale_date  &&
                             (!sale_date  || sale_date  == "null")
-                              ? "Please Select Sale Date "
+                              ? "กรุณาเลือก Sale Date "
                               : undefined
                           }
                         />
@@ -8012,7 +8015,7 @@ function TransFerDetail() {
                         {Errorship_input_inv &&
                         (!ship_input_inv || ship_input_inv == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping Staff input invoice no.
+                            กรุณาเลือก: Shipping Staff input invoice no.
                           </FormHelperText>
                         )}
                         {/* <TextField
@@ -8456,7 +8459,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorVendor_move_date &&
                             (!Vendor_move_date || Vendor_move_date == "null")
-                              ? "Please Select Vendor move date"
+                              ? "กรุณาเลือก Vendor move date"
                               : undefined
                           }
                         />
@@ -8945,7 +8948,7 @@ function TransFerDetail() {
                       {ErrorAcc_Mana &&
                         (!selectacc_manager || selectacc_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Manager
+                            กรุณาเลือก: ACC Manager
                           </FormHelperText>
                         )}
                     </FormControl>

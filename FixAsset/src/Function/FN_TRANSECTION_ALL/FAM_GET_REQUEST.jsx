@@ -56,6 +56,7 @@ function FAM_GET_REQUEST() {
   const [btnSave, setbtnSave] = useState("hidden");
   const [visibityDetails, setvisibityDetails] = useState("hidden");
   const [visibityFile, setvisibityFile] = useState("hidden");
+  const [ownercost_dept,setownercost_dept] = useState("")
 
   // Upload File
   const fileInputRef = useRef();
@@ -81,6 +82,12 @@ function FAM_GET_REQUEST() {
   const [STS1_Req, setSTS1_Req] = useState("");
   const [STS1_for_R, setSTS1_for_R] = useState("");
   const [checknext, setchecknext] = useState("visible");
+
+  const [ErrTelReq ,setErrTelReq] = useState(false);
+  const [ErrOwnerID ,setErrOwnerID] = useState(false);
+  const [ErrTelOwner,setErrTelOwner] = useState(false);
+  const [ErrDept ,setErrDept] = useState(false);
+  const [ErrServiceDept ,setErrServiceDept] = useState(false);
 
   let STS = "";
   // Upload file
@@ -170,7 +177,6 @@ function FAM_GET_REQUEST() {
 
   const keep = () => {
     if (EditFam != null) {
-      console.log("STS",For_Rq_Edit[10])
       if (For_Rq_Edit != null) {
         setSTS1_for_R(For_Rq_Edit[16]);
         setSTS1_Req(For_Rq_Edit[10]);
@@ -185,6 +191,7 @@ function FAM_GET_REQUEST() {
         setowner_dept(For_Rq_Edit[18]);
         setowner_tel(For_Rq_Edit[19]);
         setname_req(For_Rq_Edit[20]);
+        setownercost_dept(For_Rq_Edit[43])
         setcheckGenNo("hidden");
         setcheckReset("hidden");
         setread_fix_group(true);
@@ -211,8 +218,6 @@ function FAM_GET_REQUEST() {
           STS == "FLSL001" ||
           STS == "FLLD001"
         ) {
-        
-          console.log("เข้าาาาาา")
           setread_dept(false);
           setread_remark(false);
           setread_type(true);
@@ -241,6 +246,7 @@ function FAM_GET_REQUEST() {
         setowner_dept(For_Req[16]);
         setowner_tel(For_Req[17]);
         setname_req(For_Req[18]);
+        setownercost_dept(For_Req[19])
         setread_fix_group(true);
         setread_fix_cost(true);
 
@@ -481,6 +487,7 @@ function FAM_GET_REQUEST() {
   // สำหรับการทำงานทั้งหมด
   const Gen_No = async (asset) => {
     openPopupLoadding();
+
     let DataStatus = "";
     let StatusType = "";
     if (
@@ -515,7 +522,8 @@ function FAM_GET_REQUEST() {
           default:
             break;
         }
-        localStorage.setItem("TYPE",Request_type1)
+        localStorage.setItem("TYPE", Request_type1);
+
         if (StatusType) {
           const response = await axios.post("/getstatus", {
             type: StatusType,
@@ -549,17 +557,84 @@ function FAM_GET_REQUEST() {
       if (
         Request_type1.length === 0 &&
         selectFixAssetgroup1.length === 0 &&
-        owner_dept.length === 0
+        owner_dept.length === 0 &&
+        owner_tel.length === 0 &&
+        Tel1.length === 0 
+        // selectDept1.length === 0
       ) {
-        alert("กรุณาเลือก Request Type , Fix Asset Group และ Fix Asset Code");
+        alert(
+          "กรุณาเลือก Request Type , Service Dept , Owner Id , Request By Tel , Owner Tel และ Dept"
+        );
+      } else if (Tel1.length === 0) {
+        alert("กรุณาระบุ Request By Tel");
+        if (
+          Tel1 === null ||
+          Tel1 === undefined ||
+          Tel1 === "" ||
+          Tel1 === "null"
+        ) {
+          setErrTelReq(true);
+          closePopupLoadding();
+        } else {
+          setErrTelReq(false);
+        }
+      } else if (owner_dept.length === 0) {
+        alert("กรุณาระบุ Owner Id");
+        if (
+          owner_dept === null ||
+          owner_dept === undefined ||
+          owner_dept === "" ||
+          owner_dept === "null"
+        ) {
+          setErrOwnerID(true);
+          closePopupLoadding();
+        } else {
+          setErrOwnerID(false);
+        }
+      } else if (owner_tel.length === 0) {
+        alert("กรุณาระบุ Owner Tel");
+        if (
+          owner_tel === null ||
+          owner_tel === undefined ||
+          owner_tel === "" ||
+          owner_tel === "null"
+        ) {
+          setErrTelOwner(true);
+          closePopupLoadding();
+        } else {
+          setErrTelOwner(false);
+        }
+      // } else if (selectDept1.length === 0) {
+      //   alert("กรุณาเลือก Dept");
+      //   if (
+      //     selectDept1 === null ||
+      //     selectDept1 === undefined ||
+      //     selectDept1 === "" ||
+      //     selectDept1 === "null"
+      //   ) {
+      //     setErrDept(true);
+      //     closePopupLoadding();
+      //   } else {
+      //     setErrDept(false);
+      //   }
       } else if (Request_type1.length === 0) {
         alert("กรุณาเลือก Request Type");
       } else if (selectFixAssetgroup1.length === 0) {
-        alert("กรุณาเลือก Fix Asset Group");
-      } else if (owner_dept.length === 0) {
-        alert("กรุณาเลือก Owner Cost Center");
+        alert("กรุณาเลือก Service Dept");
+        if (
+          selectFixAssetgroup1 === null ||
+          selectFixAssetgroup1 === undefined ||
+          selectFixAssetgroup1 === "" ||
+          selectFixAssetgroup1 === "null"
+        ) {
+          setErrServiceDept(true);
+          closePopupLoadding();
+        } else {
+          setErrServiceDept(false);
+        }
       }
-    }
+    
+    }  
     closePopupLoadding();
   };
 
@@ -585,6 +660,7 @@ function FAM_GET_REQUEST() {
       owner_dept,
       owner_tel,
       name_req,
+      ownercost_dept
     ];
     const sentdata = JSON.stringify(setData_ForRequester);
     localStorage.setItem("ForRequester", sentdata);
@@ -651,6 +727,29 @@ function FAM_GET_REQUEST() {
         For_Rq_Edit[18],
         event.target.value,
         For_Rq_Edit[20],
+        For_Rq_Edit[21],
+For_Rq_Edit[22],
+For_Rq_Edit[23],
+For_Rq_Edit[24],
+For_Rq_Edit[25],
+For_Rq_Edit[26],
+For_Rq_Edit[27],
+For_Rq_Edit[28],
+For_Rq_Edit[29],
+For_Rq_Edit[30],
+For_Rq_Edit[31],
+For_Rq_Edit[32],
+For_Rq_Edit[33],
+For_Rq_Edit[34],
+For_Rq_Edit[35],
+For_Rq_Edit[36],
+For_Rq_Edit[37],
+For_Rq_Edit[38],
+For_Rq_Edit[39],
+For_Rq_Edit[40],
+For_Rq_Edit[41],
+For_Rq_Edit[42],
+For_Rq_Edit[43]
       ];
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
@@ -676,6 +775,7 @@ function FAM_GET_REQUEST() {
           owner_dept,
           event.target.value,
           name_req,
+          ownercost_dept
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -700,6 +800,7 @@ function FAM_GET_REQUEST() {
           For_Req[16],
           event.target.value,
           For_Req[18],
+          For_Req[19],
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -707,14 +808,25 @@ function FAM_GET_REQUEST() {
     }
   };
   const handleEmpUser = async (event) => {
+
+  
     try {
       const response = await axios.post("/Id_owner", {
         owner_id: event,
       });
       const data = response.data;
+    
       setowner_dept(data[0][0]);
       setname_req(data[0][1]);
       setowner_dept(data[0][2]);
+      const cost = data[0][2];
+    
+      const res = await axios.post("/getfind_service", {
+        asset_find: cost,
+      });
+    
+      const costdept = res.data[0][1];
+      setownercost_dept(costdept)
       if (EditFam != null) {
         const setData_ForRequester = [
           For_Rq_Edit[0],
@@ -738,6 +850,28 @@ function FAM_GET_REQUEST() {
           data[0][2],
           For_Rq_Edit[19],
           data[0][1],
+          For_Rq_Edit[22],
+          For_Rq_Edit[23],
+          For_Rq_Edit[24],
+          For_Rq_Edit[25],
+          For_Rq_Edit[26],
+          For_Rq_Edit[27],
+          For_Rq_Edit[28],
+          For_Rq_Edit[29],
+          For_Rq_Edit[30],
+          For_Rq_Edit[31],
+          For_Rq_Edit[32],
+          For_Rq_Edit[33],
+          For_Rq_Edit[34],
+          For_Rq_Edit[35],
+          For_Rq_Edit[36],
+          For_Rq_Edit[37],
+          For_Rq_Edit[38],
+          For_Rq_Edit[39],
+          For_Rq_Edit[40],
+          For_Rq_Edit[41],
+          For_Rq_Edit[42],
+          costdept
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("For_Req_Edit", sentdata);
@@ -763,6 +897,7 @@ function FAM_GET_REQUEST() {
             data[0][2],
             owner_tel,
             data[0][1],
+            costdept
           ];
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
@@ -787,6 +922,7 @@ function FAM_GET_REQUEST() {
             data[0][2],
             For_Req[17],
             data[0][1],
+            costdept
           ];
           const sentdata = JSON.stringify(setData_ForRequester);
           localStorage.setItem("ForRequester", sentdata);
@@ -796,7 +932,7 @@ function FAM_GET_REQUEST() {
       console.error("Error fetching data:", error);
     }
   };
-  const[checkvalue, setcheckvalue]=useState("")
+  const [checkvalue, setcheckvalue] = useState("");
   // const ADD = async () => {
   //   openPopupLoadding();
   //   // let group_fix = "";
@@ -804,9 +940,9 @@ function FAM_GET_REQUEST() {
   //   //   group_fix = selectFixAssetgroup1.substring(0, 1);
   //   // } else {
   //   //   group_fix = selectFixAssetgroup1;
-   
-  //   // } 
-   
+
+  //   // }
+
   //   try {
   //     const response = await axios.post("/find_fix_groub", {
   //       fac: Factory[1],
@@ -831,17 +967,15 @@ function FAM_GET_REQUEST() {
   //       setcheckvalue(data[0][5])
   //       if (checkvalue !== "" && checkvalue !== data[0][5]) {
   //         alert("ไม่สามารถ แอดได้ เนื่องจากคนละ BoI Project");
-          
+
   //     }
-  
+
   //     // ถ้า checkvalue เป็นค่าว่างและ data[0][5] ไม่ว่าง หรือ checkvalue เท่ากับ data[0][5]
   //     if ((checkvalue === "" && data[0][5] !== "") || checkvalue === data[0][5]) {
   //         alert("ผ่าน");
   //         return;
   //     }  return;
-      
-  
-  
+
   //       if (data.length > 0) {
   //         try {
   //           const response = await axios.post("/fix_code_find", {
@@ -849,7 +983,7 @@ function FAM_GET_REQUEST() {
   //           });
   //           const responseData = response.data;
   //           setdatafix_for_find(responseData);
-    
+
   //           if (responseData.length !== data.length) {
   //             setOpen(true);
   //           } else if (responseData.length === data.length) {
@@ -898,110 +1032,113 @@ function FAM_GET_REQUEST() {
     openPopupLoadding();
 
     try {
-        const response = await axios.post("/find_fix_groub", {
-            fac: Factory[1],
-            servicedept: selectFixAssetgroup1,
+      const response = await axios.post("/find_fix_groub", {
+        fac: Factory[1],
+        servicedept: selectFixAssetgroup1,
+      });
+      const data = response.data;
+      const validValues = [];
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          validValues.push(data[key][0]);
+        }
+      }
+
+      try {
+        const response = await axios.post("/getfixcode", {
+          Fixcode: find_fixasset1,
+          asset_cc: owner_dept,
+          fixgroup: validValues,
         });
+
         const data = response.data;
-        const validValues = [];
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                validValues.push(data[key][0]);
+        setfind_fixasset(data);
+        // setcheckvalue(data[0][5]);
+        //   if (datatable.length === 0) {
+
+        // } else {
+        //     // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+        //     if (datatable[0][5] === data[0][5]) {
+
+        //     } else {
+        //         // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
+        //         alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
+        //         closePopupLoadding();
+        //         return;
+        //     }
+        // }
+        if (data.length > 0) {
+          setcheckvalue(data[0][5]);
+          if (datatable.length === 0) {
+          } else {
+            // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+            if (datatable[0][5] === data[0][5]) {
+            } else {
+              // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
+              // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
+              Swal.fire({
+                icon: "error",
+                title: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
+              });
+              closePopupLoadding();
+              return;
             }
+          }
+          try {
+            const response = await axios.post("/fix_code_find", {
+              assetcode: find_fixasset1,
+            });
+            const responseData = response.data;
+            setdatafix_for_find(responseData);
+
+            if (responseData.length !== data.length) {
+              setOpen(true);
+            } else if (responseData.length === data.length) {
+              const seen = {};
+              let uniqueKeys = [];
+              responseData.forEach((item) => {
+                const key = item[0];
+                if (!seen[key]) {
+                  seen[key] = true;
+                  uniqueKeys.push(key);
+                }
+              });
+              Swal.fire({
+                 icon: "warning",
+                title: 'Fixed Asset Code ถูกใช้แล้วที่: <br>' + uniqueKeys.join(", "),
+                confirmButtonText: 'OK'
+              });
+            }
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Data is not found",
+          });
         }
 
         try {
-            const response = await axios.post("/getfixcode", {
-                Fixcode: find_fixasset1,
-                asset_cc: owner_dept,
-                fixgroup: validValues,
-            });
+          const response = await axios.post("/get_COMP", {
+            fam_no: Gen_Fam_No,
+          });
+          const data = response.data;
 
-            const data = response.data;
-            setfind_fixasset(data);
-            // setcheckvalue(data[0][5]);
-          //   if (datatable.length === 0) {
-            
-          // } else {
-          //     // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
-          //     if (datatable[0][5] === data[0][5]) {
-                
-          //     } else {
-          //         // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
-          //         alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
-          //         closePopupLoadding();
-          //         return;
-          //     }
-          // }
-            if (data.length > 0) {
-               setcheckvalue(data[0][5]);
-                 if (datatable.length === 0) {
-            
-          } else {
-              // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
-              if (datatable[0][5] === data[0][5]) {
-                
-              } else {
-                  // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
-                  alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
-                  closePopupLoadding();
-                  return;
-              }
-          }
-                try {
-                    const response = await axios.post("/fix_code_find", {
-                        assetcode: find_fixasset1,
-                    });
-                    const responseData = response.data;
-                    setdatafix_for_find(responseData);
-
-                    if (responseData.length !== data.length) {
-                        setOpen(true);
-                    } else if (responseData.length === data.length) {
-                        const seen = {};
-                        let uniqueKeys = [];
-                        responseData.forEach((item) => {
-                            const key = item[0];
-                            if (!seen[key]) {
-                                seen[key] = true;
-                                uniqueKeys.push(key);
-                            }
-                        });
-                        alert(
-                            "Fixed Asset Code has been implemented:\n" +
-                            uniqueKeys.join(", ")
-                        );
-                    }
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Data is not found",
-                });
-            }
-
-            try {
-                const response = await axios.post("/get_COMP", {
-                    fam_no: Gen_Fam_No,
-                });
-                const data = response.data;
-
-                set_COMP(data);
-            } catch (error) {
-                console.error("Error requesting data:", error);
-            }
+          set_COMP(data);
         } catch (error) {
-            console.error("Error requesting data:", error);
+          console.error("Error requesting data:", error);
         }
-    } catch (error) {
+      } catch (error) {
         console.error("Error requesting data:", error);
+      }
+    } catch (error) {
+      console.error("Error requesting data:", error);
     }
 
     closePopupLoadding();
     setSelectAll("");
-};
+  };
 
   const updateSelectedData = (selectedItems) => {
     const newData = find_fixasset.filter((item, index) => selectedItems[index]);
@@ -1161,9 +1298,16 @@ function FAM_GET_REQUEST() {
     setSelectedItems([]);
     setOpen(false);
   };
+
+   const [openManual, setOpenManual] = useState(false);
+
+ 
+  const handleCloseManual = () => {
+    setOpenManual(false);
+  };
   const handleTel = async (event) => {
     setTel1(event.target.value);
-
+   
     if (EditFam != null) {
       const setData_ForRequester = [
         For_Rq_Edit[0],
@@ -1187,52 +1331,82 @@ function FAM_GET_REQUEST() {
         For_Rq_Edit[18],
         For_Rq_Edit[19],
         For_Rq_Edit[20],
+        For_Rq_Edit[21],
+        For_Rq_Edit[22],
+        For_Rq_Edit[23],
+        For_Rq_Edit[24],
+        For_Rq_Edit[25],
+        For_Rq_Edit[26],
+        For_Rq_Edit[27],
+        For_Rq_Edit[28],
+        For_Rq_Edit[29],
+        For_Rq_Edit[30],
+        For_Rq_Edit[31],
+        For_Rq_Edit[32],
+        For_Rq_Edit[33],
+        For_Rq_Edit[34],
+        For_Rq_Edit[35],
+        For_Rq_Edit[36],
+        For_Rq_Edit[37],
+        For_Rq_Edit[38],
+        For_Rq_Edit[39],
+        For_Rq_Edit[40],
+        For_Rq_Edit[41],
+        For_Rq_Edit[42],
+        For_Rq_Edit[43]
+        
       ];
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
+    } else if (For_Req[0] === "" || For_Req[0] === null) {
+      const setData_ForRequester = [
+        "",
+        LocalUserLogin,
+        event.target.value,
+        Factory[1],
+        Costcenter1,
+        selectDept1,
+        Request_type1,
+        selectFixAssetgroup1,
+        owner_dept,
+        "",
+        "",
+        "",
+        Remark,
+        "",
+        Emp_name,
+        ownercost_dept
+        
+      ];
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("ForRequester", sentdata);
     } else {
-      if (For_Req[0] == "" && For_Req[0] == null) {
-        const setData_ForRequester = [
-          "",
-          LocalUserLogin,
-          event.target.value,
-          Factory[1],
-          Costcenter1,
-          selectDept1,
-          Request_type1,
-          selectFixAssetgroup1,
-          owner_dept,
-          "",
-          "",
-          "",
-          Remark,
-          "",
-          Emp_name,
-        ];
-        const sentdata = JSON.stringify(setData_ForRequester);
-        localStorage.setItem("ForRequester", sentdata);
-      } else {
-        const setData_ForRequester = [
-          For_Req[0],
-          For_Req[1],
-          event.target.value,
-          For_Req[3],
-          For_Req[4],
-          For_Req[5],
-          For_Req[6],
-          For_Req[7],
-          For_Req[8],
-          For_Req[9],
-          For_Req[10],
-          For_Req[11],
-          For_Req[12],
-          For_Req[13],
-          For_Req[14],
-        ];
-        const sentdata = JSON.stringify(setData_ForRequester);
-        localStorage.setItem("ForRequester", sentdata);
-      }
+      const setData_ForRequester = [
+        For_Req[0],
+        For_Req[1],
+        event.target.value,
+        For_Req[3],
+        For_Req[4],
+        For_Req[5],
+        For_Req[6],
+        For_Req[7],
+        For_Req[8],
+        For_Req[9],
+        For_Req[10],
+        For_Req[11],
+        For_Req[12],
+        For_Req[13],
+        For_Req[14],
+        For_Req[15],
+        For_Req[16],
+        For_Req[17],
+        For_Req[18],
+        For_Req[19],
+      ];
+      const sentdata = JSON.stringify(setData_ForRequester);
+      localStorage.setItem("ForRequester", sentdata);
     }
+    
   };
   const handleDept = async (event) => {
     setselectDept1(event);
@@ -1259,6 +1433,29 @@ function FAM_GET_REQUEST() {
         For_Rq_Edit[18],
         For_Rq_Edit[19],
         For_Rq_Edit[20],
+        For_Rq_Edit[21],
+        For_Rq_Edit[22],
+        For_Rq_Edit[23],
+        For_Rq_Edit[24],
+        For_Rq_Edit[25],
+        For_Rq_Edit[26],
+        For_Rq_Edit[27],
+        For_Rq_Edit[28],
+        For_Rq_Edit[29],
+        For_Rq_Edit[30],
+        For_Rq_Edit[31],
+        For_Rq_Edit[32],
+        For_Rq_Edit[33],
+        For_Rq_Edit[34],
+        For_Rq_Edit[35],
+        For_Rq_Edit[36],
+        For_Rq_Edit[37],
+        For_Rq_Edit[38],
+        For_Rq_Edit[39],
+        For_Rq_Edit[40],
+        For_Rq_Edit[41],
+        For_Rq_Edit[42],
+        For_Rq_Edit[43]
       ];
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
@@ -1280,6 +1477,7 @@ function FAM_GET_REQUEST() {
           Remark,
           "",
           Emp_name,
+          ownercost_dept
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -1300,6 +1498,11 @@ function FAM_GET_REQUEST() {
           For_Req[12],
           For_Req[13],
           For_Req[14],
+          For_Req[15],
+          For_Req[16],
+          For_Req[17],
+          For_Req[18],
+          For_Req[19],
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -1331,6 +1534,29 @@ function FAM_GET_REQUEST() {
         For_Rq_Edit[18],
         For_Rq_Edit[19],
         For_Rq_Edit[20],
+        For_Rq_Edit[21],
+        For_Rq_Edit[22],
+        For_Rq_Edit[23],
+        For_Rq_Edit[24],
+        For_Rq_Edit[25],
+        For_Rq_Edit[26],
+        For_Rq_Edit[27],
+        For_Rq_Edit[28],
+        For_Rq_Edit[29],
+        For_Rq_Edit[30],
+        For_Rq_Edit[31],
+        For_Rq_Edit[32],
+        For_Rq_Edit[33],
+        For_Rq_Edit[34],
+        For_Rq_Edit[35],
+        For_Rq_Edit[36],
+        For_Rq_Edit[37],
+        For_Rq_Edit[38],
+        For_Rq_Edit[39],
+        For_Rq_Edit[40],
+        For_Rq_Edit[41],
+        For_Rq_Edit[42],
+        For_Rq_Edit[43]
       ];
       const sentdata = JSON.stringify(setData_ForRequester);
       localStorage.setItem("For_Req_Edit", sentdata);
@@ -1352,6 +1578,7 @@ function FAM_GET_REQUEST() {
           Remark,
           "",
           Emp_name,
+         ownercost_dept
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -1372,6 +1599,11 @@ function FAM_GET_REQUEST() {
           event.target.value,
           For_Req[13],
           For_Req[14],
+          For_Req[15],
+          For_Req[16],
+          For_Req[17],
+          For_Req[18],
+          For_Req[19],
         ];
         const sentdata = JSON.stringify(setData_ForRequester);
         localStorage.setItem("ForRequester", sentdata);
@@ -1566,19 +1798,19 @@ function FAM_GET_REQUEST() {
       });
       const fetchedWeights = response.data;
       //setWeights(response.data);
-      
-      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
-      setWeights(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC009'|| For_Rq_Edit[10] == 'FLSL009'){
+
+      const hasNullWeights = fetchedWeights.some(
+        (weight) => weight === null || weight[0] === null
+      );
+      setWeights(fetchedWeights);
+      if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
         if (hasNullWeights) {
           alert("กรุณากรอก Weight");
         }
       }
-      
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
-    
   };
   const fetchSize = async (EditFam) => {
     try {
@@ -1588,12 +1820,15 @@ function FAM_GET_REQUEST() {
       //setsize(response.data);
       const fetchedWeights = response.data;
       //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
-      setsize(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC009'|| For_Rq_Edit[10] == 'FLSL009'){
-      if (hasNullWeights) {
-        alert("กรุณากรอก Size");
-      }}
+      const hasNullWeights = fetchedWeights.some(
+        (weight) => weight === null || weight[0] === null
+      );
+      setsize(fetchedWeights);
+      if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
+        if (hasNullWeights) {
+          alert("กรุณากรอก Size");
+        }
+      }
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
@@ -1605,12 +1840,15 @@ function FAM_GET_REQUEST() {
       });
       const fetchedWeights = response.data;
       //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
-      setunit_price(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC100' ){
-      if (hasNullWeights) {
-        alert("กรุณากรอก Unit Price");
-      }}
+      const hasNullWeights = fetchedWeights.some(
+        (weight) => weight === null || weight[0] === null
+      );
+      setunit_price(fetchedWeights);
+      if (For_Rq_Edit[10] == "FLSC100") {
+        if (hasNullWeights) {
+          alert("กรุณากรอก Unit Price");
+        }
+      }
       //setunit_price(response.data);
     } catch (error) {
       console.error("Error Unit Price", error);
@@ -1623,12 +1861,15 @@ function FAM_GET_REQUEST() {
       });
       const fetchedWeights = response.data;
       //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(weight => weight === null || weight[0] === null);
-      setinvoice(fetchedWeights)
-      if(For_Rq_Edit[10] == 'FLSC101' || For_Rq_Edit[10] == 'FLSL019'){
-      if (hasNullWeights) {
-        alert("กรุณากรอก Invoice No.");
-      }}
+      const hasNullWeights = fetchedWeights.some(
+        (weight) => weight === null || weight[0] === null
+      );
+      setinvoice(fetchedWeights);
+      if (For_Rq_Edit[10] == "FLSC101" || For_Rq_Edit[10] == "FLSL019") {
+        if (hasNullWeights) {
+          alert("กรุณากรอก Invoice No.");
+        }
+      }
       //setinvoice(response.data);
     } catch (error) {
       console.error("Error Unit Price", error);
@@ -1641,7 +1882,7 @@ function FAM_GET_REQUEST() {
 
   const handleWeightChange = async (e, index, Famno, Idfix, namefix) => {
     const { value } = e.target;
- 
+
     setWeights((prevWeights) => ({
       ...prevWeights,
       [index]: value,
@@ -1671,7 +1912,7 @@ function FAM_GET_REQUEST() {
 
   const handleSizeChange = async (e, index, Famno, Idfix, namefix) => {
     const { value } = e.target;
-  
+
     setsize((prevSize) => ({
       ...prevSize,
       [index]: value,
@@ -1701,7 +1942,7 @@ function FAM_GET_REQUEST() {
       ...prevUnit,
       [index]: value,
     }));
-  
+
     try {
       await axios.post("/insert_unit_price", {
         famno: Famno,
@@ -1713,17 +1954,17 @@ function FAM_GET_REQUEST() {
       console.error("Error during size update:", error);
     }
   };
-  
-  const handleInvoiceChange = async (e, index, Famno, Idfix, namefix) => {  
+
+  const handleInvoiceChange = async (e, index, Famno, Idfix, namefix) => {
     const { value } = e.target;
-  
+
     setinvoice((prevInvoice) => ({
       ...prevInvoice,
       [index]: value,
     }));
 
     try {
-    await axios.post("/insert_invoice", {
+      await axios.post("/insert_invoice", {
         famno: Famno,
         idfix_asset: Idfix,
         namefixasset: namefix,
@@ -1741,8 +1982,13 @@ function FAM_GET_REQUEST() {
       // }
     }
   };
-  // const totalSize = Object.values(size).reduce((acc, curr) => acc + parseFloat(curr), 0);
 
+  const handleManual = () =>{
+    setOpenManual(true)
+    
+  }
+  // const totalSize = Object.values(size).reduce((acc, curr) => acc + parseFloat(curr), 0);
+  
   return {
     EditFam,
     dataUserLogin1,
@@ -1853,7 +2099,10 @@ function FAM_GET_REQUEST() {
     handleUnitPriceChange,
     unit_price,
     handleInvoiceChange,
-    invoice,setinvoice
+    invoice,
+    setinvoice,
+    ErrTelReq,
+    ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   };
 }
 

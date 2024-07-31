@@ -24,11 +24,21 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Header from "../Page/Hearder";
 import PageLoadding from "../Loadding/Pageload";
 import { Empty } from "antd";
-import {FAM_REQUESTER} from '../Function/FN_MASTER_LIST/FAM_REQUESTER'
-import image_for_req from '../assets/Image/2.png'
+import { FAM_REQUESTER } from "../Function/FN_MASTER_LIST/FAM_REQUESTER";
+import image_for_req from "../assets/Image/2.png";
 function ForRequest() {
-const {NextPage,Back_page,isPopupOpenLoadding,
-  Datafamno,DataDetailfamno,Filedata,downloadFile,closePopupLoadding,STS,DataNewCC_ToProj,DataWeight_Size_Unit_Env
+  const {
+    NextPage,
+    Back_page,
+    isPopupOpenLoadding,
+    Datafamno,
+    DataDetailfamno,
+    Filedata,
+    downloadFile,
+    closePopupLoadding,
+    STS,
+    DataNewCC_ToProj,
+    DataWeight_Size_Unit_Env,
   } = FAM_REQUESTER();
   return (
     <>
@@ -236,7 +246,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                 </Grid>
 
                 {/* Dept  */}
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
                       Dept :
@@ -254,7 +264,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                       value={Datafamno && Datafamno[0] ? Datafamno[0][9] : ""}
                     ></TextField>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 {/* Radio Button Type  */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -379,7 +389,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                   </Grid>
                 </Grid>
                 {/* Request status */}
-                
+
                 {/* Remark */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -401,17 +411,13 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                   </Grid>
                 </Grid>
 
-                <div className="Button_forGenNo">
-              
-                </div>
+                <div className="Button_forGenNo"></div>
               </Box>
             </Card>
           </Card>
         </div>
         {/* สำหรับ Fixed Assets Code */}
         <br></br>
-        
-       
 
         <div className="Fixed-Asset-Code">
           <Card
@@ -461,8 +467,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                         <TableHead>
                           <TableRow>
                             <TableCell>
-                              <Checkbox
-                              />
+                              <Checkbox />
                             </TableCell>
                             <TableCell>Comp.</TableCell>
                             <TableCell>Cc.</TableCell>
@@ -470,12 +475,12 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                             <TableCell>Fixed Assets Name</TableCell>
                           </TableRow>
                         </TableHead>
-                        <TableBody>
-                        </TableBody>
+                        <TableBody></TableBody>
                       </Table>
                     </TableContainer>
-                    <DialogActions style={{ marginTop: "20px" }}>
-                    </DialogActions>
+                    <DialogActions
+                      style={{ marginTop: "20px" }}
+                    ></DialogActions>
                   </div>
                 </Dialog>
               </div>
@@ -503,51 +508,65 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                           <TableCell>Invoice No.</TableCell>
                           <TableCell>Acquisition Cost(Baht)</TableCell>
                           <TableCell>Book Value(Baht)</TableCell>
-                          {(STS === "FLTR011" || STS=== "FLTR012") && (
-                              <React.Fragment>
-                                <TableCell>New CC</TableCell>
-                                <TableCell>New BOI Projrct</TableCell>
-                              </React.Fragment>
-                            )}
-                            {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC013"  || STS == "FLSC011"
-                              || STS == "FLSL009"
-                              || STS == "FLSL010"
-                              || STS == "FLSL011"
-                              || STS == "FLSL012"
-                              || STS == "FLSL013"
-                              || STS == "FLSL014"
-                              || STS == "FLSL015"
-                              || STS == "FLSL016"
-                              || STS == "FLSL017"
-                              || STS == "FLSL018"
-                              || STS == "FLSL019"
-                              || STS == "FLSL020"
-                              || STS == "FLSL021"
-                              || STS == "FLSL022"
-                              || STS == "FLSL023"
-                              || STS == "FLSL024"
-
-                            ) && (
-                              <React.Fragment>
-                                <TableCell>Weight(kg)</TableCell>
-                                <TableCell>Size</TableCell>
-                              </React.Fragment>
-                            )}
-                              {(STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012"|| STS == "FLSC013"  || STS == "FLSC011") && (
-                              <React.Fragment>
-                                <TableCell>Unit Price(Baht)</TableCell>
-                              </React.Fragment>
-                            )}
-                             {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011"||  STS == "FLSC013"|| STS == "FLSL019"
-                              || STS == "FLSL020"
-                              || STS == "FLSL021"
-                              || STS == "FLSL022"
-                              || STS == "FLSL023"
-                              || STS == "FLSL024") && (
-                              <React.Fragment>
-                                <TableCell>Invoice No.</TableCell>
-                              </React.Fragment>
-                            )}
+                          {(STS === "FLTR011" || STS === "FLTR012") && (
+                            <React.Fragment>
+                              <TableCell>New CC</TableCell>
+                              <TableCell>New BOI Projrct</TableCell>
+                            </React.Fragment>
+                          )}
+                          {(STS == "FLSC009" ||
+                            STS == "FLSC100" ||
+                            STS == "FLSC101" ||
+                            STS == "FLSC010" ||
+                            STS == "FLSC012" ||
+                            STS == "FLSC013" ||
+                            STS == "FLSC011" ||
+                            STS == "FLSL009" ||
+                            STS == "FLSL010" ||
+                            STS == "FLSL011" ||
+                            STS == "FLSL012" ||
+                            STS == "FLSL013" ||
+                            STS == "FLSL014" ||
+                            STS == "FLSL015" ||
+                            STS == "FLSL016" ||
+                            STS == "FLSL017" ||
+                            STS == "FLSL018" ||
+                            STS == "FLSL019" ||
+                            STS == "FLSL020" ||
+                            STS == "FLSL021" ||
+                            STS == "FLSL022" ||
+                            STS == "FLSL023" ||
+                            STS == "FLSL024") && (
+                            <React.Fragment>
+                              <TableCell>Weight(kg)</TableCell>
+                              <TableCell>Size</TableCell>
+                            </React.Fragment>
+                          )}
+                          {(STS == "FLSC100" ||
+                            STS == "FLSC101" ||
+                            STS == "FLSC010" ||
+                            STS == "FLSC012" ||
+                            STS == "FLSC013" ||
+                            STS == "FLSC011") && (
+                            <React.Fragment>
+                              <TableCell>Unit Price(Baht)</TableCell>
+                            </React.Fragment>
+                          )}
+                          {(STS == "FLSC101" ||
+                            STS == "FLSC010" ||
+                            STS == "FLSC012" ||
+                            STS == "FLSC011" ||
+                            STS == "FLSC013" ||
+                            STS == "FLSL019" ||
+                            STS == "FLSL020" ||
+                            STS == "FLSL021" ||
+                            STS == "FLSL022" ||
+                            STS == "FLSL023" ||
+                            STS == "FLSL024") && (
+                            <React.Fragment>
+                              <TableCell>Invoice No.</TableCell>
+                            </React.Fragment>
+                          )}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -581,48 +600,65 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                               </TableCell>
 
                               <TableCell>{item[9]}</TableCell>
-                              {(STS === "FLTR011" || STS=== "FLTR012") && (
-                                  <React.Fragment>
-                                    <TableCell>{item[10]}</TableCell>
-                                    <TableCell>{item[11]}</TableCell>
-                                  </React.Fragment>
-                                )}
-                                {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" ||STS == "FLSC013"  || STS == "FLSC011"  || STS == "FLSL009"
-                              || STS == "FLSL010"
-                              || STS == "FLSL011"
-                              || STS == "FLSL012"
-                              || STS == "FLSL013"
-                              || STS == "FLSL014"
-                              || STS == "FLSL015"
-                              || STS == "FLSL016"
-                              || STS == "FLSL017"
-                              || STS == "FLSL018"
-                              || STS == "FLSL019"
-                              || STS == "FLSL020"
-                              || STS == "FLSL021"
-                              || STS == "FLSL022"
-                              || STS == "FLSL023"
-                              || STS == "FLSL024") && (
-                                  <React.Fragment>
-                                    <TableCell>{item[12]}</TableCell>
-                                    <TableCell>{item[13]}</TableCell>
-                                  </React.Fragment>
-                                )}
-                                {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" ||STS == "FLSC013"  || STS == "FLSC011" ) && (
-                                  <React.Fragment>
-                                    <TableCell>{item[14]}</TableCell>
-                                  </React.Fragment>
-                                )}
-                                 {( STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ||STS == "FLSC013"  || STS == "FLSL019"
-                              || STS == "FLSL020"
-                              || STS == "FLSL021"
-                              || STS == "FLSL022"
-                              || STS == "FLSL023"
-                              || STS == "FLSL024" ) && (
-                                  <React.Fragment>
-                                    <TableCell>{item[15]}</TableCell>
-                                  </React.Fragment>
-                                )}
+                              {(STS === "FLTR011" || STS === "FLTR012") && (
+                                <React.Fragment>
+                                  <TableCell>{item[10]}</TableCell>
+                                  <TableCell>{item[11]}</TableCell>
+                                </React.Fragment>
+                              )}
+                              {(STS == "FLSC009" ||
+                                STS == "FLSC100" ||
+                                STS == "FLSC101" ||
+                                STS == "FLSC010" ||
+                                STS == "FLSC012" ||
+                                STS == "FLSC013" ||
+                                STS == "FLSC011" ||
+                                STS == "FLSL009" ||
+                                STS == "FLSL010" ||
+                                STS == "FLSL011" ||
+                                STS == "FLSL012" ||
+                                STS == "FLSL013" ||
+                                STS == "FLSL014" ||
+                                STS == "FLSL015" ||
+                                STS == "FLSL016" ||
+                                STS == "FLSL017" ||
+                                STS == "FLSL018" ||
+                                STS == "FLSL019" ||
+                                STS == "FLSL020" ||
+                                STS == "FLSL021" ||
+                                STS == "FLSL022" ||
+                                STS == "FLSL023" ||
+                                STS == "FLSL024") && (
+                                <React.Fragment>
+                                  <TableCell>{item[12]}</TableCell>
+                                  <TableCell>{item[13]}</TableCell>
+                                </React.Fragment>
+                              )}
+                              {(STS == "FLSC100" ||
+                                STS == "FLSC101" ||
+                                STS == "FLSC010" ||
+                                STS == "FLSC012" ||
+                                STS == "FLSC013" ||
+                                STS == "FLSC011") && (
+                                <React.Fragment>
+                                  <TableCell>{item[14]}</TableCell>
+                                </React.Fragment>
+                              )}
+                              {(STS == "FLSC101" ||
+                                STS == "FLSC010" ||
+                                STS == "FLSC012" ||
+                                STS == "FLSC011" ||
+                                STS == "FLSC013" ||
+                                STS == "FLSL019" ||
+                                STS == "FLSL020" ||
+                                STS == "FLSL021" ||
+                                STS == "FLSL022" ||
+                                STS == "FLSL023" ||
+                                STS == "FLSL024") && (
+                                <React.Fragment>
+                                  <TableCell>{item[15]}</TableCell>
+                                </React.Fragment>
+                              )}
                             </TableRow>
                           </React.Fragment>
                         ))}
@@ -656,13 +692,19 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                               0
                             ).toLocaleString("en-US")}
                           </TableCell>
-                          {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011" ) && (
-                          <TableCell style={{ fontWeight: "bold" }}>
-                            {DataDetailfamno.reduce(
-                              (acc, curr) => acc + parseInt(curr[12]),
-                              0
-                            ).toLocaleString("en-US")}
-                          </TableCell>)}
+                          {(STS == "FLSC009" ||
+                            STS == "FLSC100" ||
+                            STS == "FLSC101" ||
+                            STS == "FLSC010" ||
+                            STS == "FLSC012" ||
+                            STS == "FLSC011") && (
+                            <TableCell style={{ fontWeight: "bold" }}>
+                              {DataDetailfamno.reduce(
+                                (acc, curr) => acc + parseInt(curr[12]),
+                                0
+                              ).toLocaleString("en-US")}
+                            </TableCell>
+                          )}
                         </TableRow>
                       </TableBody>
                     </Table>
@@ -681,7 +723,7 @@ const {NextPage,Back_page,isPopupOpenLoadding,
         </div>
 
         <br></br>
-     
+
         {/* สำหรับ Upload File */}
 
         <div className="ShowFile">
@@ -733,38 +775,39 @@ const {NextPage,Back_page,isPopupOpenLoadding,
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                        {Filedata.length > 0 ? (
-  Filedata.map((option, index) => (
-    <TableRow key={index}>
-      <TableCell>{Filedata[index][2]}</TableCell>
-      <TableCell>{Filedata[index][3]}</TableCell>
-      <TableCell
-        style={{
-          textAlign: "center",
-          color: "blue",
-          textDecoration: "underline",
-        }}
-      >
-        <p
-          style={{ cursor: "pointer" }}
-          onClick={() => downloadFile(Filedata[index][4])}
-        >
-          {Filedata[index][3]}
-        </p>
-      </TableCell>
-    </TableRow>
-  ))
-) : (
-  <TableRow>
-    <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-  </TableRow>
-)}
-
+                          {Filedata.length > 0 ? (
+                            Filedata.map((option, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{Filedata[index][2]}</TableCell>
+                                <TableCell>{Filedata[index][3]}</TableCell>
+                                <TableCell
+                                  style={{
+                                    textAlign: "center",
+                                    color: "blue",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  <p
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      downloadFile(Filedata[index][4])
+                                    }
+                                  >
+                                    {Filedata[index][3]}
+                                  </p>
+                                </TableCell>
+                              </TableRow>
+                            ))
+                          ) : (
+                            <TableRow>
+                              <TableCell
+                                colSpan={4}
+                                style={{ textAlign: "center" }}
+                              >
+                                <Empty />
+                              </TableCell>
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </TableContainer>

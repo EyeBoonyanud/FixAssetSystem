@@ -26,6 +26,8 @@ function FAM_TRANSECTION_TLWLD() {
   const For_Leading_New = JSON.parse(ForLenging);
   const ForSale = localStorage.getItem("For_Sale");
   const For_Sale_New = JSON.parse(ForSale);
+  const ForScrap = localStorage.getItem("For_Scrap_show");
+  const For_ScrapNew = JSON.parse(ForScrap);
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -42,6 +44,8 @@ function FAM_TRANSECTION_TLWLD() {
   const Edit_For_Scrap = JSON.parse(For_Scrap);
   const For_Sale= localStorage.getItem("Edit_Sale");
   const Edit_For_Sale = JSON.parse(For_Sale);
+
+
 
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -3792,7 +3796,6 @@ function FAM_TRANSECTION_TLWLD() {
         ];
         const sendheader = JSON.stringify(set_data_for_req_details);
         localStorage.setItem("For_Routing", sendheader);
-        console.log("มาแล้ว")
         try {
           const response = await axios.post("/Update_For_Req_All", {
             famno: For_Req[0],
@@ -3841,6 +3844,7 @@ function FAM_TRANSECTION_TLWLD() {
 
           
         if (Type === "GP01002" && Fam_list !== "") {
+
           const set_data_for_req_details = [
             Fam_list,
             selectpte_env,
@@ -3849,7 +3853,6 @@ function FAM_TRANSECTION_TLWLD() {
           ];
           const sendheader = JSON.stringify(set_data_for_req_details);
           localStorage.setItem("For_Scrap_show", sendheader);
-       
           try {
             const response = await axios.post("/update_scrap", {
               famno: For_Req[0],
@@ -4436,28 +4439,30 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
-        }if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }if (
+        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
+        if (
           For_Rq_Edit[17] === null ||
           For_Rq_Edit[17] === undefined ||
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -4467,7 +4472,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -4477,7 +4482,7 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_factory === "" ||
           selecttrans_factory === "null"
         ) {
-          alert("Please fill in information: Factory");
+          alert("กรุณาเลือก: Factory");
           setErrorFac(true);
           return;
         } else {
@@ -4488,7 +4493,7 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_cc === "" ||
           selecttrans_cc === "null"
         ) {
-          alert("Please fill in information: CC");
+          alert("กรุณาเลือก: CC");
           setErrorCC(true);
           return;
         } else {
@@ -4500,7 +4505,7 @@ function FAM_TRANSECTION_TLWLD() {
           new_boi === "null"
         ) {
           setErrNewboi(true);
-          alert("Please fill in information: New BOI Project  ");
+          alert("กรุณาเลือก: New BOI Project  ");
           return;
         } else {
           setErrNewboi(false);
@@ -4511,7 +4516,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectnew_owner === "null"
         ) {
           setErrorNewOwn(true);
-          alert("Please fill in information: New Owner ");
+          alert("กรุณาเลือก: New Owner ");
           return;
         } else {
           setErrorNewOwn(false);
@@ -4521,7 +4526,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_for_trans === "" ||
           Tel_for_trans === "null"
         ) {
-          alert("Please fill in information: Tel ");
+          alert("กรุณาระบุ : Tel ");
           setErrorTel(true);
           return;
         } else {
@@ -4535,7 +4540,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   plan_date === "null"
         // ) {
         //   setErrorDate(true);
-        //   alert("Please fill in information: Date");
+        //   alert("กรุณาเลือก: Date");
         //   return;
         // } else {
         //   setErrorDate(false);
@@ -4547,7 +4552,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -4558,7 +4563,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
 
           return;
         } else {
@@ -4570,7 +4575,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -4581,7 +4586,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -4592,7 +4597,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -4603,7 +4608,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -4613,7 +4618,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -4624,7 +4629,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -4828,7 +4833,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -4901,7 +4906,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -4925,15 +4930,6 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Status", Status);
                   const Approver = [
                     selectdepartment_mana,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -4974,7 +4970,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -5000,14 +4996,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                 
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5028,7 +5017,6 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
                 navigate("/FAMsystem/Mail");
-                navigatenavigate("/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5048,7 +5036,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -5080,13 +5068,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+             
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5106,7 +5088,6 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/ApproveFam");
                 navigate("/FAMsystem/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
@@ -5127,7 +5108,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -5137,10 +5118,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -5150,7 +5131,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -5161,12 +5142,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+              
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5186,7 +5162,6 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/ApproveFam");
                 navigate("/FAMsystem/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
@@ -5207,7 +5182,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -5235,11 +5210,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_staff,
                     selectboi_manager,
                     selectfac_manager,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                 
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5278,7 +5249,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -5307,10 +5278,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_manager,
                     selectfac_manager,
                     selectacc_check,
-                    null,
-                    null,
-                    null,
-                    null,
+                   
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5349,7 +5317,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_receiver == "null" ||
                 cmmtradio_receiver == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_receiver", {
@@ -5440,7 +5408,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -5512,7 +5480,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -5550,7 +5518,6 @@ function FAM_TRANSECTION_TLWLD() {
                     owner_roting,
                     receiver,
                     text_acc_check,
-                    null,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5594,7 +5561,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -5668,7 +5635,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -5677,24 +5644,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -5704,7 +5671,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -5714,7 +5681,7 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_factory === "" ||
           selecttrans_factory === "null"
         ) {
-          alert("Please fill in information: Factory");
+          alert("กรุณาเลือก: Factory");
           setErrorFac(true);
           return;
         } else {
@@ -5725,7 +5692,7 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_cc === "" ||
           selecttrans_cc === "null"
         ) {
-          alert("Please fill in information: CC");
+          alert("กรุณาเลือก: CC");
           setErrorCC(true);
           return;
         } else {
@@ -5739,7 +5706,7 @@ function FAM_TRANSECTION_TLWLD() {
           new_boi === "null"
         ) {
           setErrNewboi(true);
-          alert("Please fill in information: New BOI Project  ");
+          alert("กรุณาเลือก: New BOI Project  ");
           return;
         } else {
           setErrNewboi(false);
@@ -5751,7 +5718,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectnew_owner === "null"
         ) {
           setErrorNewOwn(true);
-          alert("Please fill in information: New Owner ");
+          alert("กรุณาเลือก: New Owner ");
           return;
         } else {
           setErrorNewOwn(false);
@@ -5762,7 +5729,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_for_trans === "" ||
           Tel_for_trans === "null"
         ) {
-          alert("Please fill in information: Tel ");
+          alert("กรุณาระบุ : Tel ");
           setErrorTel(true);
           return;
         } else {
@@ -5775,7 +5742,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   plan_date === "null"
         // ) {
         //   setErrorDate(true);
-        //   alert("Please fill in information: Date");
+        //   alert("กรุณาเลือก: Date");
         //   return;
         // } else {
         //   setErrorDate(false);
@@ -5786,7 +5753,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -5799,7 +5766,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -5811,7 +5778,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -5824,7 +5791,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -5836,7 +5803,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -5848,7 +5815,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -5860,7 +5827,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -5873,7 +5840,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -5965,23 +5932,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -5989,7 +5956,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -6000,7 +5967,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -6012,7 +5979,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -6024,7 +5991,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
 
           return;
         } else {
@@ -6037,7 +6004,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -6050,7 +6017,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -6062,7 +6029,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -6074,7 +6041,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -6085,7 +6052,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -6098,7 +6065,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -6235,7 +6202,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -6300,7 +6267,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -6362,7 +6329,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -6427,7 +6394,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -6498,7 +6465,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -6508,10 +6475,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -6521,7 +6488,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -6571,7 +6538,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -6637,7 +6604,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -6705,7 +6672,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -6774,7 +6741,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -6849,7 +6816,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -6923,7 +6890,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -6932,24 +6899,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -6959,7 +6926,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -6969,7 +6936,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -6982,7 +6949,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -6994,7 +6961,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -7007,7 +6974,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -7019,7 +6986,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -7031,7 +6998,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -7043,7 +7010,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -7056,7 +7023,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -7121,23 +7088,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -7145,7 +7112,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -7156,7 +7123,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -7168,7 +7135,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -7180,7 +7147,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
 
           return;
         } else {
@@ -7193,7 +7160,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -7206,7 +7173,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -7218,7 +7185,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -7230,7 +7197,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -7241,7 +7208,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -7254,7 +7221,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -7305,7 +7272,6 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
               navigate("/FAMsystem/Mail");
-               navigate('/Search');
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -7375,7 +7341,6 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
               navigate("/FAMsystem/Mail");
-              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -7393,7 +7358,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -7459,7 +7424,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -7522,7 +7487,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -7587,7 +7552,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -7658,7 +7623,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -7668,10 +7633,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -7681,7 +7646,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -7731,7 +7696,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -7799,7 +7764,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -7868,7 +7833,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -7938,7 +7903,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -8019,7 +7984,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -8094,7 +8059,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -8103,24 +8068,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา  Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -8130,7 +8095,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -8140,7 +8105,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -8153,7 +8118,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -8165,7 +8130,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -8178,7 +8143,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -8190,7 +8155,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -8202,7 +8167,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -8214,7 +8179,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -8227,7 +8192,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -8293,23 +8258,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -8317,7 +8282,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -8328,7 +8293,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -8340,7 +8305,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -8352,7 +8317,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
 
           return;
         } else {
@@ -8365,7 +8330,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -8378,7 +8343,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -8390,7 +8355,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -8402,7 +8367,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -8413,7 +8378,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -8426,7 +8391,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -8565,7 +8530,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -8631,7 +8596,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -8694,7 +8659,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -8759,7 +8724,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -8831,7 +8796,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -8841,10 +8806,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -8854,7 +8819,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -8899,7 +8864,7 @@ function FAM_TRANSECTION_TLWLD() {
               certificate_date === "null"
             ) {
               setErrorDate_Certificate(true);
-              alert("Please fill in information: certifidate date");
+              alert("กรุณาเลือก: certifidate date");
               return;
             } else {
               setErrorDate_Certificate(false);
@@ -8927,7 +8892,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/date_certificate", {
@@ -9017,7 +8982,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             }
             if (
               DataFile_Requester == null ||
@@ -9093,7 +9058,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -9161,7 +9126,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -9242,7 +9207,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -9316,7 +9281,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -9325,24 +9290,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -9352,7 +9317,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -9362,7 +9327,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -9375,7 +9340,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -9387,7 +9352,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -9400,7 +9365,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -9412,7 +9377,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -9424,7 +9389,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -9436,7 +9401,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -9449,7 +9414,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -9513,23 +9478,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -9537,7 +9502,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -9548,7 +9513,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -9560,7 +9525,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -9572,7 +9537,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           return;
         } else {
           setErrorTel_service(false);
@@ -9584,7 +9549,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -9597,7 +9562,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -9609,7 +9574,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -9621,7 +9586,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -9632,7 +9597,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -9644,7 +9609,7 @@ function FAM_TRANSECTION_TLWLD() {
           return_selectacc_manager === "" ||
           return_selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager return");
+          alert("กรุณาเลือก: ACC Manager return");
           setErrorACCReturn(true);
           return;
         } else {
@@ -9656,7 +9621,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -9811,7 +9776,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -9874,7 +9839,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -9936,7 +9901,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -10000,7 +9965,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -10071,7 +10036,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -10081,10 +10046,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -10094,7 +10059,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -10137,7 +10102,7 @@ function FAM_TRANSECTION_TLWLD() {
               certificate_date === "null"
             ) {
               setErrorDate_Certificate(true);
-              alert("Please fill in information: certifidate date");
+              alert("กรุณาเลือก: certifidate date");
               return;
             } else {
               setErrorDate_Certificate(false);
@@ -10156,7 +10121,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {              
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -10245,7 +10210,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -10291,7 +10256,7 @@ function FAM_TRANSECTION_TLWLD() {
               return_date === "null"
             ) {
               setErrorDate_return(true);
-              alert("Please fill in information: Return Date");
+              alert("กรุณาเลือก: Return Date");
               return;
             } else {
               setErrorDate_return(false);
@@ -10318,7 +10283,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_return_acc == "null" ||
                 cmmtradio_return_acc == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_submit", {
@@ -10448,7 +10413,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -10519,7 +10484,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -10601,7 +10566,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -10678,7 +10643,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -10687,24 +10652,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -10714,7 +10679,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -10724,7 +10689,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -10737,7 +10702,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -10749,7 +10714,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -10762,7 +10727,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -10774,7 +10739,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -10786,7 +10751,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -10798,7 +10763,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -10810,7 +10775,7 @@ function FAM_TRANSECTION_TLWLD() {
           return_selectacc_manager === "" ||
           return_selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager return");
+          alert("กรุณาเลือก: ACC Manager return");
           setErrorACCReturn(true);
           return;
         } else {
@@ -10822,7 +10787,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -10899,23 +10864,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -10923,7 +10888,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -10934,7 +10899,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -10946,7 +10911,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -10958,7 +10923,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
 
           return;
         } else {
@@ -10971,7 +10936,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -10984,7 +10949,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -10996,7 +10961,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -11008,7 +10973,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -11019,7 +10984,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -11032,7 +10997,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_env === "" ||
           selectpte_env === "null"
         ) {
-          alert("Please fill in information: PTE(ENV)");
+          alert("กรุณาเลือก: PTE(ENV)");
           setErrorPTE_ENV(true);
           return;
         } else {
@@ -11044,7 +11009,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff === "" ||
           selectpln_staff === "null"
         ) {
-          alert("Please fill in information: PLN Staff");
+          alert("กรุณาเลือก: PLN Staff");
           setErrorPLN_Staff(true);
           return;
         } else {
@@ -11056,7 +11021,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectshipping_staff === "" ||
           selectshipping_staff === "null"
         ) {
-          alert("Please fill in information: Shipping Staff");
+          alert("กรุณาเลือก: Shipping Staff");
           setErrorShipping(true);
           return;
         } else {
@@ -11068,7 +11033,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -11235,7 +11200,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -11301,7 +11266,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -11363,7 +11328,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -11429,7 +11394,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -11500,7 +11465,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -11510,10 +11475,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -11523,7 +11488,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -11572,7 +11537,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/date_certificate", {
@@ -11650,7 +11615,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา  Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -11696,7 +11661,7 @@ function FAM_TRANSECTION_TLWLD() {
               scrap_date === "null"
             ) {
               setErrScp_date(true);
-              alert("Please fill in information: Scrap Date");
+              alert("กรุณาเลือก : Scrap Date");
               return;
             } else {
               setErrScp_date(false);
@@ -11728,7 +11693,7 @@ function FAM_TRANSECTION_TLWLD() {
               cmmtradio_pte_env == "null" ||
               cmmtradio_pte_env == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             }
               try {
                 const response = await axios.post("/update_submit", {
@@ -11941,7 +11906,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -12014,7 +11979,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -12097,7 +12062,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -12174,7 +12139,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -12183,24 +12148,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -12210,7 +12175,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -12220,7 +12185,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -12233,7 +12198,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -12245,7 +12210,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -12258,7 +12223,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -12270,7 +12235,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -12282,7 +12247,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -12294,7 +12259,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -12306,7 +12271,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_env === "" ||
           selectpte_env === "null"
         ) {
-          alert("Please fill in information: PTE(ENV)");
+          alert("กรุณาเลือก: PTE(ENV)");
           setErrorPTE_ENV(true);
           return;
         } else {
@@ -12318,7 +12283,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff === "" ||
           selectpln_staff === "null"
         ) {
-          alert("Please fill in information: PLN Staff");
+          alert("กรุณาเลือก: PLN Staff");
           setErrorPLN_Staff(true);
           return;
         } else {
@@ -12330,7 +12295,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectshipping_staff === "" ||
           selectshipping_staff === "null"
         ) {
-          alert("Please fill in information: Shipping Staff");
+          alert("กรุณาเลือก: Shipping Staff");
           setErrorShipping(true);
           return;
         } else {
@@ -12343,7 +12308,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -12421,23 +12386,23 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel For Requester");
+          alert("กรุณาระบุ : Tel For Requester");
           navigate("/FAMsystem/ForRe");
           return;
         } else {
           setErrorTel_Rq(false);
         }
-        if (
-          For_Rq_Edit[6] === null ||
-          For_Rq_Edit[6] === undefined ||
-          For_Rq_Edit[6] === "" ||
-          For_Rq_Edit[6] === "null"
-        ) {
-          alert("Please fill in information: Dept ");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Rq_Edit[6] === null ||
+        //   For_Rq_Edit[6] === undefined ||
+        //   For_Rq_Edit[6] === "" ||
+        //   For_Rq_Edit[6] === "null"
+        // ) {
+        //   alert("กรุณาเลือก: Dept ");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
 
         if (
           For_Rq_Edit[17] === null ||
@@ -12445,7 +12410,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -12456,7 +12421,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("Please fill in information:  Owner Tel ");
+          alert("กรุณาระบุ : Owner Tel ");
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -12468,7 +12433,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("Please fill in information: Department Manager ");
+          alert("กรุณาเลือก: Department Manager ");
           return;
         } else {
           setErrorManager(false);
@@ -12480,7 +12445,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           return;
         } else {
           setErrorTel_service(false);
@@ -12492,7 +12457,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           return;
         } else {
           setErrorService_by(false);
@@ -12505,7 +12470,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -12517,7 +12482,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           return;
         } else {
           setErrorBoi_manager(false);
@@ -12529,7 +12494,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           return;
         } else {
           setErrorMana_Fac(false);
@@ -12540,7 +12505,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -12553,7 +12518,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_input_weight_size === "" ||
           selectpte_input_weight_size === "null"
         ) {
-          alert("Please fill in information: PTE (ENV) input weight/size");
+          alert("กรุณาเลือก: PTE (ENV) input weight/size");
           setErrorPTE_INPUT_WS(true);
           return;
         } else {
@@ -12565,7 +12530,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff_boi === "" ||
           selectpln_staff_boi === "null"
         ) {
-          alert("Please fill in information: PLN Staff contact BOI ");
+          alert("กรุณาเลือก: PLN Staff contact BOI ");
           setErrorPLN_Staff_BOI(true);
           return;
         } else {
@@ -12577,7 +12542,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectimport_boi_prepare === "" ||
           selectimport_boi_prepare === "null"
         ) {
-          alert("Please fill in information: Import & BOI prepare  ");
+          alert("กรุณาเลือก: Import & BOI prepare  ");
           setErrorimport_boi_prepare(true);
           return;
         } else {
@@ -12589,7 +12554,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_input_data === "" ||
           selectboi_input_data === "null"
         ) {
-          alert("Please fill in information: BOI Input data Import  ");
+          alert("กรุณาเลือก: BOI Input data Import  ");
           setErrorboi_input_data(true);
           return;
         } else {
@@ -12601,7 +12566,7 @@ function FAM_TRANSECTION_TLWLD() {
           ship_input_inv === "" ||
           ship_input_inv === "null"
         ) {
-          alert("Please fill in information: Shipping Staff input invoice no ");
+          alert("กรุณาเลือก: Shipping Staff input invoice no ");
           setErrorship_input_inv(true);
           return;
         } else {
@@ -12613,7 +12578,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -12797,7 +12762,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -12872,7 +12837,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -12944,7 +12909,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -13018,7 +12983,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -13097,7 +13062,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -13107,10 +13072,10 @@ function FAM_TRANSECTION_TLWLD() {
                   sts: Status,
                 });
 
-                if (selectradio_boimanager != "R") {
+                if (selectradio_facmanager != "R") {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("To", selectacc_check);
                   localStorage.setItem("Genno", EditFam);
@@ -13120,7 +13085,7 @@ function FAM_TRANSECTION_TLWLD() {
                 } else {
                   localStorage.setItem(
                     "status_formail",
-                    selectradio_boimanager
+                    selectradio_facmanager
                   );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
@@ -13179,7 +13144,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/date_certificate", {
@@ -13262,7 +13227,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -13598,7 +13563,7 @@ function FAM_TRANSECTION_TLWLD() {
               Input_thai_categories == "null" ||
               Input_thai_categories == "undefined"
             ) {
-              alert("Please fill in information (Input thai categories)");
+              alert("กรุณาระบุ (Input thai categories)");
               return;
             }
             
@@ -13669,7 +13634,7 @@ function FAM_TRANSECTION_TLWLD() {
               Bidding_result == "null" ||
               Bidding_result == "undefined"
             ) {
-              alert("Please fill in information (Bidding result)");
+              alert("กรุณาระบุ (Bidding result)");
               return;
             }
               try {
@@ -13721,7 +13686,7 @@ function FAM_TRANSECTION_TLWLD() {
               contact_date === "null"
             ) {
               setErrorcontact_date(true);
-              alert("Please fill in information: Contact Date");
+              alert("กรุณาเลือก: Contact Date");
               return;
             } else {
               setErrorcontact_date(false);
@@ -13797,7 +13762,7 @@ function FAM_TRANSECTION_TLWLD() {
               export_clearance_date === "null"
             ) {
               setErrorexport_clearance_date(true);
-              alert("Please fill in information: Clearance date");
+              alert("กรุณาเลือก: Clearance date");
               return;
             } else {
               setErrorexport_clearance_date(false);
@@ -13871,7 +13836,7 @@ function FAM_TRANSECTION_TLWLD() {
               contact_date_pte === "null"
             ) {
               setErrorcontact_date_pte(true);
-              alert("Please fill in information : Contact date ");
+              alert("กรุณาเลือก : Contact date ");
               return;
             } else {
               setErrorcontact_date_pte(false);
@@ -13965,7 +13930,7 @@ function FAM_TRANSECTION_TLWLD() {
               sale_date === "null"
             ) {
               setErrSale_date(true);
-              alert("Please fill in information: Sale Date");
+              alert("กรุณาเลือก: Sale Date");
               return;
             } else {
               setErrSale_date(false);
@@ -14077,7 +14042,7 @@ function FAM_TRANSECTION_TLWLD() {
               Vendor_move_date === "null"
             ) {
               setErrorVendor_move_date(true);
-              alert("Please fill in information : Vendor move date ");
+              alert("กรุณาเลือก : Vendor move date ");
               return;
             } else {
               setErrorVendor_move_date(false);
@@ -14187,7 +14152,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -14268,7 +14233,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -14352,7 +14317,7 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("Please fill in information");
+              alert("กรุณา Comment");
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -14438,7 +14403,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("Please fill in information: Tel Requester");
+          alert("กรุณาระบุ : Tel Requester");
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -14447,24 +14412,24 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(false);
         }
 
-        if (
-          For_Req[5] === null ||
-          For_Req[5] === undefined ||
-          For_Req[5] === "" ||
-          For_Req[5] === "null"
-        ) {
-          alert("Please fill in information: Dept");
-          setErrorDept(true);
-          navigate("/FAMsystem/ForRe");
-          return;
-        }
+        // if (
+        //   For_Req[5] === null ||
+        //   For_Req[5] === undefined ||
+        //   For_Req[5] === "" ||
+        //   For_Req[5] === "null"
+        // ) {
+        //   alert("กรุณา Comment: Dept");
+        //   setErrorDept(true);
+        //   navigate("/FAMsystem/ForRe");
+        //   return;
+        // }
         if (
           For_Req[15] === null ||
           For_Req[15] === undefined ||
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("Please fill in information: Request Owner");
+          alert("กรุณาระบุ : Request Owner");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -14474,7 +14439,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("Please fill in information: Owner Tel");
+          alert("กรุณาเลือก: Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -14484,7 +14449,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("Please fill in information: Department Manager");
+          alert("กรุณาเลือก: Department Manager");
           setErrorManager(true);
           return;
         } else {
@@ -14497,7 +14462,7 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("Please fill in information: Tel_Service By");
+          alert("กรุณาระบุ : Tel_Service By");
           setErrorTel_service(true);
           return;
         } else {
@@ -14509,7 +14474,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("Please fill in information: Service By");
+          alert("กรุณาเลือก: Service By");
           setErrorService_by(true);
           return;
         } else {
@@ -14522,7 +14487,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("Please fill in information: BOI Staff");
+          alert("กรุณาเลือก: BOI Staff");
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -14534,7 +14499,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("Please fill in information: BOI Manager");
+          alert("กรุณาเลือก: BOI Manager");
           setErrorBoi_manager(true);
           return;
         } else {
@@ -14546,7 +14511,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("Please fill in information: Factory Manager");
+          alert("กรุณาเลือก: Factory Manager");
           setErrorMana_Fac(true);
           return;
         } else {
@@ -14558,7 +14523,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          alert("Please fill in information: ACC Check");
+          alert("กรุณาเลือก: ACC Check");
           setErrorAcc_check(true);
           return;
         } else {
@@ -14571,7 +14536,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_input_weight_size === "" ||
           selectpte_input_weight_size === "null"
         ) {
-          alert("Please fill in information: PTE (ENV) input weight/size");
+          alert("กรุณาเลือก: PTE (ENV) input weight/size");
           setErrorPTE_INPUT_WS(true);
           return;
         } else {
@@ -14583,7 +14548,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff_boi === "" ||
           selectpln_staff_boi === "null"
         ) {
-          alert("Please fill in information: PLN Staff contact BOI ");
+          alert("กรุณาเลือก: PLN Staff contact BOI ");
           setErrorPLN_Staff_BOI(true);
           return;
         } else {
@@ -14595,7 +14560,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectimport_boi_prepare === "" ||
           selectimport_boi_prepare === "null"
         ) {
-          alert("Please fill in information: Import & BOI prepare  ");
+          alert("กรุณาเลือก: Import & BOI prepare  ");
           setErrorimport_boi_prepare(true);
           return;
         } else {
@@ -14607,7 +14572,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_input_data === "" ||
           selectboi_input_data === "null"
         ) {
-          alert("Please fill in information: BOI Input data Import  ");
+          alert("กรุณาเลือก: BOI Input data Import  ");
           setErrorboi_input_data(true);
           return;
         } else {
@@ -14619,7 +14584,7 @@ function FAM_TRANSECTION_TLWLD() {
           ship_input_inv === "" ||
           ship_input_inv === "null"
         ) {
-          alert("Please fill in information: Shipping Staff input invoice no ");
+          alert("กรุณาเลือก: Shipping Staff input invoice no ");
           setErrorship_input_inv(true);
           return;
         } else {
@@ -14632,7 +14597,7 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          alert("Please fill in information: ACC Manager");
+          alert("กรุณาเลือก: ACC Manager");
           setErrorAcc_Mana(true);
           return;
         } else {
@@ -15214,7 +15179,6 @@ function FAM_TRANSECTION_TLWLD() {
       const data = response.data.flat();
       setpte_env(data);
       setpte_input_weight_size(data);
-
       if (EditFam != null) { 
         
         if (Edit_For_Scrap.length >0 ) {
@@ -15227,7 +15191,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
       } else {
         if (For_Req != null) {
-          setselectpte_env(For_Rou[10]);
+          setselectpte_env(For_ScrapNew[1]);
         } else {
           setselectpte_env("");
         }
@@ -15252,7 +15216,6 @@ function FAM_TRANSECTION_TLWLD() {
       const data = response.data.flat();
       setpln_staff(data);
       setpln_staff_boi(data);
-
       if (EditFam != null) {
         if (Edit_For_Scrap.length >0) {
           setselectpln_staff(Edit_For_Scrap[0][4]);
@@ -15264,7 +15227,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
       } else {
         if (For_Req != null) {
-          setselectpln_staff(For_Rou[10]);
+          setselectpln_staff(For_ScrapNew[2]);
         } else {
           setselectpln_staff("");
         }
@@ -15297,7 +15260,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
       } else {
         if (For_Req != null) {
-          setselectshipping_staff(For_Rou[10]);
+          setselectshipping_staff(For_ScrapNew[3]);
         } else {
           setselectshipping_staff("");
         }

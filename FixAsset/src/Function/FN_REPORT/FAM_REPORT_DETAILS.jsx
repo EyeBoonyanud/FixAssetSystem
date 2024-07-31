@@ -117,7 +117,8 @@ function FAM_REPORT_DETAILS( ) {
                   var sumAcqCost = 0;
                   var sumBookvalue = 0;
                 }
-                var numericValue = data[i][13].replace(/,/g, "");
+                // var numericValue = data[i][13].replace(/,/g, "");
+                var numericValue = data[i][13] ? data[i][13].replace(/,/g, "") : "";
                 sumAcqCost += parseFloat(numericValue);
                 sumBookvalue = sumBookvalue + data[i][14];
 
