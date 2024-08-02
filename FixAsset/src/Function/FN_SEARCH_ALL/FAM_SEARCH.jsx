@@ -94,6 +94,8 @@ function FAM_SEARCH() {
     localStorage.removeItem("Edit_cer_date");
     localStorage.removeItem("Edit_Lending");
     localStorage.removeItem("Edit_Sale");
+    localStorage.removeItem("For_Scrap_show")
+    localStorage.removeItem("For_Leading_New")
     localStorage.removeItem("Type");
     navigate("/FAMsystem/ForRe");
   };

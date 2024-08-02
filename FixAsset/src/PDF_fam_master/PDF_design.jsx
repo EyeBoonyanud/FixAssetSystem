@@ -905,11 +905,11 @@ function PDF_design() {
                                         &nbsp; Factory : {Datafamno[0][6]}
                                       </TableCell>
                                       <TableCell className="HeaderOneTablecell_row_cost">
-                                        &nbsp;Cost Center : {Datafamno[0][7]}
+                                        &nbsp;CC : {Datafamno[0][7]}
                                       </TableCell>
-                                      <TableCell className="HeaderOneTablecell_row_dept">
+                                      {/* <TableCell className="HeaderOneTablecell_row_dept">
                                         &nbsp;Dept. : {Datafamno[0][3]}
-                                      </TableCell>
+                                      </TableCell> */}
                                     </TableRow>
                                   </TableCell>
                                 </TableRow>
@@ -1462,7 +1462,7 @@ function PDF_design() {
                                     <TableRow>
                                       <TableCell className="HeaderSixTablecell_row ">
                                         &nbsp;Date :{" "}
-                                        {formatDate(Datafamno[0][15])}
+                                        {Datafamno[0][15]}
                                       </TableCell>
                                     </TableRow>
                                   </TableCell>
@@ -1476,7 +1476,7 @@ function PDF_design() {
                                     <TableRow>
                                       <TableCell className="HeaderSixTablecell_row ">
                                         &nbsp;Date :{" "}
-                                        {formatDate(Datafamno[0][17])}
+                                        {Datafamno[0][17]}
                                       </TableCell>
                                     </TableRow>
                                   </TableCell>
@@ -1576,7 +1576,7 @@ function PDF_design() {
                                     <TableRow>
                                       <TableCell className="HeaderSevenTablecell_row ">
                                         &nbsp;Completed Date :{" "}
-                                        {formatDate(Datafamno[0][27])}
+                                        {Datafamno[0][27]}
                                       </TableCell>
                                     </TableRow>
                                   </TableCell>
@@ -1685,11 +1685,11 @@ function PDF_design() {
                                           &nbsp; Factory : {Datafamno[0][6]}
                                         </TableCell>
                                         <TableCell className="HeaderOneTablecell_row_cost">
-                                          &nbsp;Cost Center : {Datafamno[0][7]}
+                                          &nbsp;CC : {Datafamno[0][7]}
                                         </TableCell>
-                                        <TableCell className="HeaderOneTablecell_row_dept">
+                                        {/* <TableCell className="HeaderOneTablecell_row_dept">
                                           &nbsp;Dept. : {Datafamno[0][3]}
-                                        </TableCell>
+                                        </TableCell> */}
                                       </TableRow>
                                     </TableCell>
                                   </TableRow>
@@ -2426,7 +2426,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSixTablecell_row ">
                                           &nbsp;Date :{" "}
-                                          {formatDate(Datafamno[0][15])}
+                                          {Datafamno[0][15]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>
@@ -2440,7 +2440,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSixTablecell_row ">
                                           &nbsp;Date :{" "}
-                                          {formatDate(Datafamno[0][17])}
+                                          {Datafamno[0][17]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>
@@ -2534,7 +2534,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSevenTablecell_row ">
                                           &nbsp;Completed Date :{" "}
-                                          {formatDate(Datafamno[0][27])}
+                                          {Datafamno[0][27]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>
@@ -2644,11 +2644,11 @@ function PDF_design() {
                                           &nbsp; Factory : {Datafamno[0][6]}
                                         </TableCell>
                                         <TableCell className="HeaderOneTablecell_row_cost">
-                                          &nbsp;Cost Center : {Datafamno[0][7]}
+                                          &nbsp;CC : {Datafamno[0][7]}
                                         </TableCell>
-                                        <TableCell className="HeaderOneTablecell_row_dept">
+                                        {/* <TableCell className="HeaderOneTablecell_row_dept">
                                           &nbsp;Dept. : {Datafamno[0][3]}
-                                        </TableCell>
+                                        </TableCell> */}
                                       </TableRow>
                                     </TableCell>
                                   </TableRow>
@@ -3606,7 +3606,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSixTablecell_row ">
                                           &nbsp;Date :{" "}
-                                          {formatDate(Datafamno[0][15])}
+                                          {Datafamno[0][15]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>
@@ -3620,7 +3620,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSixTablecell_row ">
                                           &nbsp;Date :{" "}
-                                          {formatDate(Datafamno[0][17])}
+                                          {Datafamno[0][17]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>
@@ -3714,7 +3714,7 @@ function PDF_design() {
                                       <TableRow>
                                         <TableCell className="HeaderSevenTablecell_row ">
                                           &nbsp;Completed Date :{" "}
-                                          {formatDate(Datafamno[0][27])}
+                                          {Datafamno[0][27]}
                                         </TableCell>
                                       </TableRow>
                                     </TableCell>

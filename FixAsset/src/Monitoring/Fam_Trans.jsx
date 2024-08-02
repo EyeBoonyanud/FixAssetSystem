@@ -461,7 +461,7 @@ console.log(STS,"STS555")
                   <td className="Style5"></td>
                   <td className="Style7">
                     {" "}
-                    <Typography variant="subtitle2">Tel :</Typography>
+                    <Typography variant="subtitle2">Tel Service By :</Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">

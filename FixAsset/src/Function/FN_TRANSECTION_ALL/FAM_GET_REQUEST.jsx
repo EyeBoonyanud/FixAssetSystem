@@ -165,16 +165,19 @@ function FAM_GET_REQUEST() {
     costcenter();
     keep();
     ShowFile();
-    fetchWeights(EditFam);
+    
+   fetchWeights(EditFam);
     fetchSize(EditFam);
+ 
+     
     fetchUnitPrice(EditFam);
     fetch_Inv_No(EditFam);
+    
 
     setTimeout(function () {
       closePopupLoadding();
     }, 2000);
   }, []);
-
   const keep = () => {
     if (EditFam != null) {
       if (For_Rq_Edit != null) {
@@ -562,11 +565,19 @@ function FAM_GET_REQUEST() {
         Tel1.length === 0 
         // selectDept1.length === 0
       ) {
-        alert(
-          "กรุณาเลือก Request Type , Service Dept , Owner Id , Request By Tel , Owner Tel และ Dept"
-        );
+        // alert(
+        //   "กรุณาเลือก Request Type , Service Dept , Owner Id , Request By Tel , Owner Tel และ Dept"
+        // );
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาเลือก   Request By Tel , Service Dept , Owner Id ,, Owner Tel Request Type",
+        });
       } else if (Tel1.length === 0) {
-        alert("กรุณาระบุ Request By Tel");
+        // alert("กรุณาระบุ Request By Tel");
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาระบุ Request By Tel",
+        });
         if (
           Tel1 === null ||
           Tel1 === undefined ||
@@ -579,7 +590,11 @@ function FAM_GET_REQUEST() {
           setErrTelReq(false);
         }
       } else if (owner_dept.length === 0) {
-        alert("กรุณาระบุ Owner Id");
+        // alert("กรุณาระบุ Owner Id");
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาระบุ Owner Id",
+        });
         if (
           owner_dept === null ||
           owner_dept === undefined ||
@@ -592,7 +607,11 @@ function FAM_GET_REQUEST() {
           setErrOwnerID(false);
         }
       } else if (owner_tel.length === 0) {
-        alert("กรุณาระบุ Owner Tel");
+        // alert("กรุณาระบุ Owner Tel");
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาระบุ Owner Tel",
+        });
         if (
           owner_tel === null ||
           owner_tel === undefined ||
@@ -618,9 +637,17 @@ function FAM_GET_REQUEST() {
       //     setErrDept(false);
       //   }
       } else if (Request_type1.length === 0) {
-        alert("กรุณาเลือก Request Type");
+        // alert("กรุณาเลือก Request Type");
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาเลือก Request Type",
+        });
       } else if (selectFixAssetgroup1.length === 0) {
-        alert("กรุณาเลือก Service Dept");
+        // alert("กรุณาเลือก Service Dept");
+        Swal.fire({
+          icon: "error",
+          title: "กรุณาเลือก Service Dept",
+        });
         if (
           selectFixAssetgroup1 === null ||
           selectFixAssetgroup1 === undefined ||
@@ -687,6 +714,7 @@ function FAM_GET_REQUEST() {
       setcheckGenNo("hidden");
       setcheckReset("hidden");
       setvisibityDetails("visible");
+      setvisibityFile("visible");
       setchecknext("visible");
       setread_fix_group(true);
       setread_type(true);
@@ -1104,7 +1132,7 @@ For_Rq_Edit[43]
                 }
               });
               Swal.fire({
-                 icon: "warning",
+                 icon: "error",
                 title: 'Fixed Asset Code ถูกใช้แล้วที่: <br>' + uniqueKeys.join(", "),
                 confirmButtonText: 'OK'
               });
@@ -1278,7 +1306,7 @@ For_Rq_Edit[43]
           by: LocalUserLogin,
         });
 
-        setvisibityFile("visible");
+       // setvisibityFile("visible");
       } catch (error) {
         console.error("Error during POST request:", error);
       }
@@ -1287,7 +1315,7 @@ For_Rq_Edit[43]
           running_no: Gen_Fam_No,
           from_boi: datatable[i][5],
         });
-        setvisibityFile("visible");
+       //  setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
