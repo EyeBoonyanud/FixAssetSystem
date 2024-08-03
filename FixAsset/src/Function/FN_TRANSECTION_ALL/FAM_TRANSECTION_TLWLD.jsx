@@ -1,13 +1,9 @@
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-
 function FAM_TRANSECTION_TLWLD() {
-
   const EditFam = localStorage.getItem("EDIT");
   const User = localStorage.getItem("UserLogin");
   const View = localStorage.getItem("page");
@@ -28,7 +24,6 @@ function FAM_TRANSECTION_TLWLD() {
   const For_Sale_New = JSON.parse(ForSale);
   const ForScrap = localStorage.getItem("For_Scrap_show");
   const For_ScrapNew = JSON.parse(ForScrap);
-  
 
   // กรณี Edit LocalStorage
   const Edit_trans = localStorage.getItem("Edit_Trans");
@@ -43,10 +38,8 @@ function FAM_TRANSECTION_TLWLD() {
   const Edit_For_Lending = JSON.parse(For_Leading);
   const For_Scrap = localStorage.getItem("Edit_Scrap");
   const Edit_For_Scrap = JSON.parse(For_Scrap);
-  const For_Sale= localStorage.getItem("Edit_Sale");
+  const For_Sale = localStorage.getItem("Edit_Sale");
   const Edit_For_Sale = JSON.parse(For_Sale);
-
-
 
   const [STS1, setSTS1] = useState("");
   const [For_sts_reject, setFor_sts_reject] = useState("");
@@ -99,7 +92,8 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectshipping_staff, setselectshipping_staff] = useState("");
   // Sale
   const [pte_input_weight_size, setpte_input_weight_size] = useState([]); //PTE (ENV) input weight/size
-  const [selectpte_input_weight_size, setselectpte_input_weight_size] =useState("");
+  const [selectpte_input_weight_size, setselectpte_input_weight_size] =
+    useState("");
   const [pln_staff_boi, setpln_staff_boi] = useState([]); //PLN Staff contact BOI
   const [selectpln_staff_boi, setselectpln_staff_boi] = useState("");
   const [import_boi_prepare, setimport_boi_prepare] = useState([]); //Import & BOI prepare
@@ -114,15 +108,15 @@ function FAM_TRANSECTION_TLWLD() {
   const [pln_req_inv, setpln_req_inv] = useState(""); //PLN Staff request Invoice
   const [ship_input_inv, setship_input_inv] = useState(""); //Shipping Staff imput invoice no.
   const [pln_upload_final, setpln_upload_final] = useState(""); //PLN Staff upload Final payment 50%:
-  const [Input_thai_categories, setInput_thai_categories] = useState("");//Input thai categories
-  const [Bidding_result, setBidding_result] = useState("");//Bidding result
-  const [contact_date,setcontact_date] = useState("") // contact date BOI make export clearance
-  const [contact_date_pte,setcontact_date_pte] = useState("") 
-  const [Vendor_move_date,setVendor_move_date] = useState("") //Vendor_move_date
-  const [export_clearance_date,setexport_clearance_date]  = useState("")//BOI make export clearance :
-  const [scrap_date,setscrap_date] = useState("") 
-  const [sale_date,setsale_date]  = useState("")
-  
+  const [Input_thai_categories, setInput_thai_categories] = useState(""); //Input thai categories
+  const [Bidding_result, setBidding_result] = useState(""); //Bidding result
+  const [contact_date, setcontact_date] = useState(""); // contact date BOI make export clearance
+  const [contact_date_pte, setcontact_date_pte] = useState("");
+  const [Vendor_move_date, setVendor_move_date] = useState(""); //Vendor_move_date
+  const [export_clearance_date, setexport_clearance_date] = useState(""); //BOI make export clearance :
+  const [scrap_date, setscrap_date] = useState("");
+  const [sale_date, setsale_date] = useState("");
+
   ////////////////////
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
@@ -148,17 +142,18 @@ function FAM_TRANSECTION_TLWLD() {
   const [ErrorPLN_Staff, setErrorPLN_Staff] = useState(false);
   const [ErrorShipping, setErrorShipping] = useState(false);
   //Sale
-  const [ErrorPTE_INPUT_WS,setErrorPTE_INPUT_WS] = useState(false);
+  const [ErrorPTE_INPUT_WS, setErrorPTE_INPUT_WS] = useState(false);
   const [ErrorPLN_Staff_BOI, setErrorPLN_Staff_BOI] = useState(false);
-  const [Errorimport_boi_prepare,setErrorimport_boi_prepare ] = useState(false);
+  const [Errorimport_boi_prepare, setErrorimport_boi_prepare] = useState(false);
   const [Errorboi_input_data, setErrorboi_input_data] = useState(false);
-  const [ErrorVendor_move_date,setErrorVendor_move_date ] = useState(false);
-  const [Errorcontact_date_pte,setErrorcontact_date_pte ] = useState(false);
-  const [Errorcontact_date,setErrorcontact_date ] = useState(false);
-  const [Errorship_input_inv,setErrorship_input_inv ] = useState(false);
-  const [Errorexport_clearance_date,setErrorexport_clearance_date ] = useState(false);
-  const [ErrScp_date,setErrScp_date ] = useState(false);
-  const [ErrSale_date,setErrSale_date ] = useState(false);
+  const [ErrorVendor_move_date, setErrorVendor_move_date] = useState(false);
+  const [Errorcontact_date_pte, setErrorcontact_date_pte] = useState(false);
+  const [Errorcontact_date, setErrorcontact_date] = useState(false);
+  const [Errorship_input_inv, setErrorship_input_inv] = useState(false);
+  const [Errorexport_clearance_date, setErrorexport_clearance_date] =
+    useState(false);
+  const [ErrScp_date, setErrScp_date] = useState(false);
+  const [ErrSale_date, setErrSale_date] = useState(false);
 
   let STS = "";
   let Fam_list = "";
@@ -212,22 +207,26 @@ function FAM_TRANSECTION_TLWLD() {
   const [cmmtradio_pte_env, setcmmtradio_pte_env] = useState("");
   const [cmmtradio_pln_staff, setcmmtradio_pln_staff] = useState("");
   const [cmmtradio_shipping, setcmmtradio__shipping] = useState("");
-  // Sale 
-  const [cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size] = useState("");
+  // Sale
+  const [cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size] =
+    useState("");
   const [cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi] = useState("");
-  const [cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare] = useState("");
+  const [cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare] =
+    useState("");
   const [cmmtradio_boi_input_data, setcmmtradio_boi_input_data] = useState("");
-  const [cmmtradio_thai_catergories, setcmmtradio_thai_catergories] = useState("");
-  const [cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding] = useState("");
+  const [cmmtradio_thai_catergories, setcmmtradio_thai_catergories] =
+    useState("");
+  const [cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding] =
+    useState("");
   const [cmmtradio_pte_dept, setcmmtradio_pte_dept] = useState("");
-  const [cmmtradio_export_clearance, setcmmtradio_export_clearance] = useState("");
-  const [cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file] = useState("");
+  const [cmmtradio_export_clearance, setcmmtradio_export_clearance] =
+    useState("");
+  const [cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file] =
+    useState("");
   const [cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv] = useState("");
   const [cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv] = useState("");
-  const [cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final  ] = useState("");
-
-
-
+  const [cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final] =
+    useState("");
 
   /////////////// ตัวแปร Check Action Date //////////////////////////////
   const [action_dept, setaction__dept] = useState("");
@@ -250,18 +249,19 @@ function FAM_TRANSECTION_TLWLD() {
   const [action__shipping, setaction__shipping] = useState("");
   //Sale
   const [action__pte_weight_size, setaction__pte_weight_size] = useState("");
-  const [action__pte_staff_boi,setaction__pte_staff_boi ] = useState("");
-  const [action__import_boi_prepare,setaction__import_boi_prepare ] = useState("");
-  const [action__boi_input_data,setaction__boi_input_data ] = useState("");
-  const [action__thai_catergories,setaction__thai_catergories ] = useState("");
-  const [action__pln_staff_bidding,setaction__pln_staff_bidding ] = useState("");
-  const [action__pte_dept,setaction__pte_dept ] = useState("");
-  const [action__export_clearance,setaction__export_clearance ] = useState("");
-  const [action__pte_upload_file,setaction__pte_upload_file ] = useState("");
-  const [action__pln_req_inv,setaction__pln_req_inv ] = useState("");
-  const [action__ship_input_inv,setaction__ship_input_inv ] = useState("");
-  const [action__pln_upload_final,setaction__pln_upload_final ] = useState("");
-  
+  const [action__pte_staff_boi, setaction__pte_staff_boi] = useState("");
+  const [action__import_boi_prepare, setaction__import_boi_prepare] =
+    useState("");
+  const [action__boi_input_data, setaction__boi_input_data] = useState("");
+  const [action__thai_catergories, setaction__thai_catergories] = useState("");
+  const [action__pln_staff_bidding, setaction__pln_staff_bidding] =
+    useState("");
+  const [action__pte_dept, setaction__pte_dept] = useState("");
+  const [action__export_clearance, setaction__export_clearance] = useState("");
+  const [action__pte_upload_file, setaction__pte_upload_file] = useState("");
+  const [action__pln_req_inv, setaction__pln_req_inv] = useState("");
+  const [action__ship_input_inv, setaction__ship_input_inv] = useState("");
+  const [action__pln_upload_final, setaction__pln_upload_final] = useState("");
 
   /////////////// ตัวแปร Check Read Only //////////////////////////////
   const [read_trans_fac, setReadTransFac] = useState(true);
@@ -310,50 +310,58 @@ function FAM_TRANSECTION_TLWLD() {
   const [read_pte_env, setReadPte_Env] = useState(true);
   const [read_pte_env_radio, setReadPte_EnvRadio] = useState(true);
   const [read_pte_env_cmmt, setReadPte_EnvCmmt] = useState(true);
- 
+
   const [read_pln_staff, setReadPLN_Staff] = useState(true);
   const [read_pln_staff_radio, setReadPLN_StaffRadio] = useState(true);
   const [read_pln_staff_cmmt, setReadPLN_StaffCmmt] = useState(true);
- 
+
   const [read_shipping, setReadShipping] = useState(true);
   const [read_shipping_radio, setReadShippingRadio] = useState(true);
   const [read_shipping_cmmt, setReadShippingCmmt] = useState(true);
   //Sale
-  const [read_pte_input_weight_size, setReadpte_input_weight_size] = useState(true);
-  const [read_pte_input_weight_size_cmmt, setReadpte_input_weight_sizeCmmt] = useState(true);
-  
+  const [read_pte_input_weight_size, setReadpte_input_weight_size] =
+    useState(true);
+  const [read_pte_input_weight_size_cmmt, setReadpte_input_weight_sizeCmmt] =
+    useState(true);
+
   const [read_pte_staff_boi, setReadpte_staff_boi] = useState(true);
   const [read_pte_staff_boi_cmmt, setReadpte_staff_boiCmmt] = useState(true);
- 
+
   const [read_import_boi_prepare, setReadimport_boi_prepare] = useState(true);
-  const [read_import_boi_prepare_cmmt, setReadimport_boi_prepareCmmt] = useState(true);
-  
+  const [read_import_boi_prepare_cmmt, setReadimport_boi_prepareCmmt] =
+    useState(true);
+
   const [read_boi_input_data, setReadboi_input_data] = useState(true);
   const [read_boi_input_data_cmmt, setReadboi_input_dataCmmt] = useState(true);
- 
+
   const [read_thai_catergories, setReadthai_catergories] = useState(true);
-  const [read_thai_catergories_cmmt, setReadthai_catergoriesCmmt] = useState(true);
- 
+  const [read_thai_catergories_cmmt, setReadthai_catergoriesCmmt] =
+    useState(true);
+
   const [read_pln_staff_bidding, setReadpln_staff_bidding] = useState(true);
-  const [read_pln_staff_bidding_cmmt, setReadpln_staff_biddingCmmt] = useState(true);
- 
+  const [read_pln_staff_bidding_cmmt, setReadpln_staff_biddingCmmt] =
+    useState(true);
+
   const [read_pte_dept, setReadpte_pte_dept] = useState(true);
   const [read_pte_dept_cmmt, setReadpte_deptCmmt] = useState(true);
- 
+
   const [read_export_clearance, setReadexport_clearance] = useState(true);
-  const [read_export_clearance_cmmt, setReadexport_clearanceCmmt] = useState(true);
- 
+  const [read_export_clearance_cmmt, setReadexport_clearanceCmmt] =
+    useState(true);
+
   const [read_pte_upload_file, setReadpte_upload_file] = useState(true);
-  const [read_pte_upload_file_cmmt, setReadpte_upload_fileCmmt] = useState(true);
- 
+  const [read_pte_upload_file_cmmt, setReadpte_upload_fileCmmt] =
+    useState(true);
+
   const [read_pln_req_inv, setReadpln_req_inv] = useState(true);
   const [read_pln_req_inv_cmmt, setReadpln_req_invCmmt] = useState(true);
- 
+
   const [read_ship_input_inv, setReadship_input_inv] = useState(true);
   const [read_ship_input_inv_cmmt, setReadship_input_invCmmt] = useState(true);
- 
+
   const [read_pln_upload_final, setReadpln_upload_final] = useState(true);
-  const [read_pln_upload_final_cmmt, setReadpln_upload_finalCmmt] = useState(true);
+  const [read_pln_upload_final_cmmt, setReadpln_upload_finalCmmt] =
+    useState(true);
 
   /////////////// ตัวแปร Check ซ่อนไม่ซ่อน ของ UI //////////////////////////////
   const [checkrdo, setcheckrdo] = useState("hidden");
@@ -377,7 +385,8 @@ function FAM_TRANSECTION_TLWLD() {
   // Sale Chk
   const [chk_pte_weight_size, setchk_pte_weight_size] = useState("hidden");
   const [chk_pte_staff_boi, setchk_pte_staff_boi] = useState("hidden");
-  const [chk_import_boi_prepare, setchk_import_boi_prepare] = useState("hidden");
+  const [chk_import_boi_prepare, setchk_import_boi_prepare] =
+    useState("hidden");
   const [chk_boi_input_data, setchk_boi_input_data] = useState("hidden");
   const [chk_thai_catergories, setchk_thai_catergories] = useState("hidden");
   const [chk_pln_staff_bidding, setchk_pln_staff_bidding] = useState("hidden");
@@ -387,7 +396,6 @@ function FAM_TRANSECTION_TLWLD() {
   const [chk_pln_req_inv, setchk_pln_req_inv] = useState("hidden");
   const [chk_ship_input_inv, setchk_ship_input_inv] = useState("hidden");
   const [chk_pln_upload_final, setchk_pln_upload_final] = useState("hidden");
-  
 
   // comment ซ่อน ไม่ซ่อน
   const [CM_DepartmentManager, setCM_DepartmentManager] = useState("none");
@@ -455,6 +463,11 @@ function FAM_TRANSECTION_TLWLD() {
         FactoryCC();
         TransCC();
         BOI_FROM();
+      }if  (For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
+        PTE_ENV();
+        PLN_staff();
+        Shipping();
+        Import_boi();
       }
     }
     if (For_Req != null) {
@@ -465,6 +478,11 @@ function FAM_TRANSECTION_TLWLD() {
         FactoryCC();
         TransCC();
         BOI_FROM();
+      } if (For_Req[6] == "GP01002" || For_Req[6] == "GP01003"){
+        PTE_ENV();
+        PLN_staff();
+        Shipping();
+        Import_boi();
       }
     }
 
@@ -475,11 +493,9 @@ function FAM_TRANSECTION_TLWLD() {
     Fac_manager();
     ACC_Check();
     ACC_Manager();
-    PTE_ENV();
-    PLN_staff();
-    Shipping();
-    Import_boi();
-    
+
+   
+
     if (Showtype == "GP01001") {
       edit_New_BOI();
     }
@@ -1252,7 +1268,6 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[7] == "GP01003" ||
           For_Rq_Edit[7] == "GP01002"
         ) {
-         
           if (For_Edit_Rou != null) {
             if (
               For_Edit_Rou[0][7] === null ||
@@ -1264,7 +1279,7 @@ function FAM_TRANSECTION_TLWLD() {
             } else {
               setTel_service(For_Edit_Rou[0][7]);
             }
-        
+
             if (
               STS != "FLWO001" ||
               STS != "FLLS001" ||
@@ -1388,11 +1403,11 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio_return_own(Edit_For_Lending[0][8]);
                 }
               }
-              if(Edit_For_Scrap.length >0){
-                setaction__pte_env(Edit_For_Scrap[0][2])
-                setaction__pln_staff(Edit_For_Scrap[0][5])
-                setaction__shipping(Edit_For_Scrap[0][8])
-                setscrap_date(Edit_For_Scrap[0][10])
+              if (Edit_For_Scrap.length > 0) {
+                setaction__pte_env(Edit_For_Scrap[0][2]);
+                setaction__pln_staff(Edit_For_Scrap[0][5]);
+                setaction__shipping(Edit_For_Scrap[0][8]);
+                setscrap_date(Edit_For_Scrap[0][10]);
                 if (
                   Edit_For_Scrap[0][3] == "null" ||
                   Edit_For_Scrap[0][3] == null
@@ -1418,24 +1433,24 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio__shipping(Edit_For_Scrap[0][9]);
                 }
               }
-              if(Edit_For_Sale.length >0){
-                setaction__pte_weight_size(Edit_For_Sale[0][2])
-                setaction__pte_staff_boi(Edit_For_Sale[0][5])
-                setaction__import_boi_prepare(Edit_For_Sale[0][8])
-                setaction__boi_input_data(Edit_For_Sale[0][11])
-                setaction__thai_catergories(Edit_For_Sale[0][15]) 
-                setaction__pln_staff_bidding(Edit_For_Sale[0][18])
-                setaction__pte_dept(Edit_For_Sale[0][23])
-                setaction__export_clearance(Edit_For_Sale[0][27])
-                setaction__pte_upload_file(Edit_For_Sale[0][31])
-                setaction__pln_req_inv(Edit_For_Sale[0][34])
-                setaction__ship_input_inv(Edit_For_Sale[0][37])
-                setaction__pln_upload_final(Edit_For_Sale[0][40])
-                setcontact_date(Edit_For_Sale[0][22])
-                setexport_clearance_date(Edit_For_Sale[0][26])
-                setcontact_date_pte(Edit_For_Sale[0][30])
-                setVendor_move_date(Edit_For_Sale[0][41])
-                setsale_date(Edit_For_Sale[0][47])
+              if (Edit_For_Sale.length > 0) {
+                setaction__pte_weight_size(Edit_For_Sale[0][2]);
+                setaction__pte_staff_boi(Edit_For_Sale[0][5]);
+                setaction__import_boi_prepare(Edit_For_Sale[0][8]);
+                setaction__boi_input_data(Edit_For_Sale[0][11]);
+                setaction__thai_catergories(Edit_For_Sale[0][15]);
+                setaction__pln_staff_bidding(Edit_For_Sale[0][18]);
+                setaction__pte_dept(Edit_For_Sale[0][23]);
+                setaction__export_clearance(Edit_For_Sale[0][27]);
+                setaction__pte_upload_file(Edit_For_Sale[0][31]);
+                setaction__pln_req_inv(Edit_For_Sale[0][34]);
+                setaction__ship_input_inv(Edit_For_Sale[0][37]);
+                setaction__pln_upload_final(Edit_For_Sale[0][40]);
+                setcontact_date(Edit_For_Sale[0][22]);
+                setexport_clearance_date(Edit_For_Sale[0][26]);
+                setcontact_date_pte(Edit_For_Sale[0][30]);
+                setVendor_move_date(Edit_For_Sale[0][41]);
+                setsale_date(Edit_For_Sale[0][47]);
 
                 if (
                   Edit_For_Sale[0][3] == "null" ||
@@ -1558,7 +1573,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio_pln_upload_final(Edit_For_Sale[0][42]);
                 }
               }
-              
+
               if (
                 STS == "FLWO001" ||
                 For_Rq_Edit[16] === "R" ||
@@ -1635,7 +1650,6 @@ function FAM_TRANSECTION_TLWLD() {
                 setReadpln_upload_final(false);
                 setReadpln_upload_finalCmmt(false);
 
-
                 if (
                   STS == "FLWO092" ||
                   STS == "FLLS092" ||
@@ -1655,7 +1669,7 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN093" ||
                   STS == "FLLD093" ||
                   STS == "FLSC093" ||
-                   STS == "FLSL093"
+                  STS == "FLSL093"
                 ) {
                   setchkservice_by("visible");
                   setcheckrdo("visible");
@@ -1672,7 +1686,7 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN094" ||
                   STS == "FLLD094" ||
                   STS == "FLSC094" ||
-                   STS == "FLSL094"
+                  STS == "FLSL094"
                 ) {
                   setchkboistaff("visible");
                   setchkservice_by("visible");
@@ -1692,8 +1706,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS095" ||
                   STS == "FLDN095" ||
                   STS == "FLLD095" ||
-                  STS == "FLSC095" || 
-                   STS == "FLSL095"
+                  STS == "FLSC095" ||
+                  STS == "FLSL095"
                 ) {
                   setchkboimanager("visible");
                   setchkboistaff("visible");
@@ -1718,7 +1732,7 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN096" ||
                   STS == "FLLD096" ||
                   STS == "FLSC096" ||
-                   STS == "FLSL096"
+                  STS == "FLSL096"
                 ) {
                   setchkfacmanager("visible");
                   setchkboimanager("visible");
@@ -1747,7 +1761,7 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN907" ||
                   STS == "FLLD907" ||
                   STS == "FLSC907" ||
-                   STS == "FLSL097"
+                  STS == "FLSL097"
                 ) {
                   setchkacc_check("visible");
                   setchkfacmanager("visible");
@@ -1780,7 +1794,7 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLLS908" ||
                   STS == "FLLD908" ||
                   STS == "FLSC908" ||
-                   STS == "FLSL098"
+                  STS == "FLSL098"
                 ) {
                   setchkowner("visible");
                   setchkacc_check("visible");
@@ -1890,11 +1904,8 @@ function FAM_TRANSECTION_TLWLD() {
                   STS == "FLDN910" ||
                   STS == "FLLD910" ||
                   STS == "FLSC910" ||
-                   STS == "FLSL921"
-                  
+                  STS == "FLSL921"
                 ) {
-                 
-
                   setchkacc_record("visible");
                   setchkreceiver("visible");
                   setchkowner("visible");
@@ -1929,7 +1940,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_acc_record("table-row");
                   setCM_owner("table-row");
                   setCM_receiver("table-row");
-                  if (STS == "FLSL921"){
+                  if (STS == "FLSL921") {
                     setchk_pln_upload_final("visible");
                     setchk_boi_input_data("visible");
                     setchk_pte_upload_file("visible");
@@ -1968,19 +1979,20 @@ function FAM_TRANSECTION_TLWLD() {
                     setReadship_input_invCmmt(true);
                     setReadpln_upload_finalCmmt(true);
                   }
-                  if(STS == "FLSC910"){ 
-                    setchkpte_env("visable")
-                    setchkpln_staff("visable")
-                    setchkshipping("visable")
+                  if (STS == "FLSC910") {
+                    setchkpte_env("visable");
+                    setchkpln_staff("visable");
+                    setchkshipping("visable");
                     setReadPte_EnvRadio(true);
                     setReadPte_EnvCmmt(true);
                     setReadPLN_StaffCmmt(true);
                     setReadPLN_StaffRadio(true);
-                    setReadShippingCmmt(true)
-                    setReadShippingCmmt(true)
-                    setCM_pte_env("table-row")
-                    setCM_pln_staff("table-row")
-                    setCM_shipping("table-row");}
+                    setReadShippingCmmt(true);
+                    setReadShippingCmmt(true);
+                    setCM_pte_env("table-row");
+                    setCM_pln_staff("table-row");
+                    setCM_shipping("table-row");
+                  }
                   if (STS == "FLLD910") {
                     setchkreturn_owner("visible");
                     setchkreturn_acc("visible");
@@ -2037,19 +2049,20 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_receiver("table-row");
                   setCM_acc_record("table-row");
                   setCM_acc_manager("table-row");
-                  if(STS == "FLSC911"){ 
-                    setchkpte_env("visable")
-                    setchkpln_staff("visable")
-                    setchkshipping("visable")
+                  if (STS == "FLSC911") {
+                    setchkpte_env("visable");
+                    setchkpln_staff("visable");
+                    setchkshipping("visable");
                     setReadPte_EnvRadio(true);
                     setReadPte_EnvCmmt(true);
                     setReadPLN_StaffCmmt(true);
                     setReadPLN_StaffRadio(true);
-                    setReadShippingCmmt(true)
-                    setReadShippingCmmt(true)
-                    setCM_pte_env("table-row")
-                    setCM_pln_staff("table-row")
-                    setCM_shipping("table-row");}
+                    setReadShippingCmmt(true);
+                    setReadShippingCmmt(true);
+                    setCM_pte_env("table-row");
+                    setCM_pln_staff("table-row");
+                    setCM_shipping("table-row");
+                  }
                   if (STS == "FLLD911") {
                     setchkreturn_owner("visible");
                     setchkreturn_acc("visible");
@@ -2120,18 +2133,18 @@ function FAM_TRANSECTION_TLWLD() {
                     setCM_return_acc("table-row");
                     setCM_return_owner("table-row");
                   }
-                  if(STS == "FLSC912"){ 
-                    setchkpte_env("visable")
-                    setchkpln_staff("visable")
-                    setchkshipping("visable")
+                  if (STS == "FLSC912") {
+                    setchkpte_env("visable");
+                    setchkpln_staff("visable");
+                    setchkshipping("visable");
                     setReadPte_EnvRadio(true);
                     setReadPte_EnvCmmt(true);
                     setReadPLN_StaffCmmt(true);
                     setReadPLN_StaffRadio(true);
-                    setReadShippingCmmt(true)
-                    setReadShippingCmmt(true)
-                    setCM_pte_env("table-row")
-                    setCM_pln_staff("table-row")
+                    setReadShippingCmmt(true);
+                    setReadShippingCmmt(true);
+                    setCM_pte_env("table-row");
+                    setCM_pln_staff("table-row");
                     setCM_shipping("table-row");
                   }
                 }
@@ -2386,8 +2399,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pte_env("table-row");
                 setCM_pln_staff("table-row");
                 setCM_shipping("table-row");
-                
-              }else if (STS == "FLSL009") {
+              } else if (STS == "FLSL009") {
                 setaction__pte_weight_size(formattedDate);
                 setchk_pte_weight_size("visible");
                 setchkowner("visible");
@@ -2406,8 +2418,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_acc_check("table-row");
                 setCM_owner("table-row");
                 setCM_pte_weight_size("table-row");
-                
-              }else if (STS == "FLSL010") {
+              } else if (STS == "FLSL010") {
                 setaction__pte_staff_boi(formattedDate);
                 setchk_pte_staff_boi("visible");
                 setchk_pte_weight_size("visible");
@@ -2428,8 +2439,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_owner("table-row");
                 setCM_pte_weight_size("table-row");
                 setCM_pte_staff_boi("table-row");
-                
-              }else if (STS == "FLSL011") {
+              } else if (STS == "FLSL011") {
                 setaction__import_boi_prepare(formattedDate);
                 setchk_import_boi_prepare("visible");
                 setchk_pte_staff_boi("visible");
@@ -2452,8 +2462,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pte_weight_size("table-row");
                 setCM_pte_staff_boi("table-row");
                 setCM_import_boi_prepare("table-row");
-                
-              }else if (STS == "FLSL012") {
+              } else if (STS == "FLSL012") {
                 setaction__boi_input_data(formattedDate);
                 setchk_import_boi_prepare("visible");
                 setchk_pte_staff_boi("visible");
@@ -2477,8 +2486,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pte_staff_boi("table-row");
                 setCM_import_boi_prepare("table-row");
                 setCM_boi_input_data("table-row");
-                
-              }else if (STS == "FLSL013") {
+              } else if (STS == "FLSL013") {
                 setaction__thai_catergories(formattedDate);
                 setchk_thai_catergories("visible");
                 setchk_import_boi_prepare("visible");
@@ -2504,8 +2512,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_import_boi_prepare("table-row");
                 setCM_boi_input_data("table-row");
                 setCM_thai_catergories("table-row");
-                
-              }else if (STS == "FLSL014") {
+              } else if (STS == "FLSL014") {
                 setaction__pln_staff_bidding(formattedDate);
                 setchk_pln_staff_bidding("visible");
                 setchk_thai_catergories("visible");
@@ -2533,8 +2540,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_boi_input_data("table-row");
                 setCM_thai_catergories("table-row");
                 setCM_pln_staff_bidding("table-row");
-                
-              }else if (STS == "FLSL015") {
+              } else if (STS == "FLSL015") {
                 setaction__pte_dept(formattedDate);
                 setchk_pte_dept("visible");
                 setchk_pln_staff_bidding("visible");
@@ -2564,8 +2570,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_thai_catergories("table-row");
                 setCM_pln_staff_bidding("table-row");
                 setCM_pte_dept("table-row");
-                
-              }else if (STS == "FLSL016") {
+              } else if (STS == "FLSL016") {
                 setaction__export_clearance(formattedDate);
                 setchk_export_clearance("visible");
                 setchk_pte_dept("visible");
@@ -2597,7 +2602,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pln_staff_bidding("table-row");
                 setCM_pte_dept("table-row");
                 setCM_export_clearance("table-row");
-              }else if (STS == "FLSL017") {
+              } else if (STS == "FLSL017") {
                 setaction__pte_upload_file(formattedDate);
                 setchk_pte_upload_file("visible");
                 setchk_export_clearance("visible");
@@ -2632,7 +2637,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pte_dept("table-row");
                 setCM_export_clearance("table-row");
                 setCM_pte_upload_file("table-row");
-              }else if (STS == "FLSL018") {
+              } else if (STS == "FLSL018") {
                 setaction__pln_req_inv(formattedDate);
                 setchk_pte_upload_file("visible");
                 setchk_pln_req_inv("visible");
@@ -2669,7 +2674,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_export_clearance("table-row");
                 setCM_pte_upload_file("table-row");
                 setCM_pln_req_inv("table-row");
-              }else if (STS == "FLSL019") {
+              } else if (STS == "FLSL019") {
                 setaction__ship_input_inv(formattedDate);
                 setchk_boi_input_data("visible");
                 setchk_pte_upload_file("visible");
@@ -2709,7 +2714,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_pln_req_inv("table-row");
                 setCM_ship_input_inv("table-row");
                 setCM_pte_upload_file("table-row");
-              }else if (STS == "FLSL020") {
+              } else if (STS == "FLSL020") {
                 setaction__pln_upload_final(formattedDate);
                 setchk_pln_upload_final("visible");
                 setchk_boi_input_data("visible");
@@ -2751,7 +2756,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setCM_ship_input_inv("table-row");
                 setCM_pte_upload_file("table-row");
                 setCM_pln_upload_final("table-row");
-              }else if (
+              } else if (
                 STS == "FLWO010" ||
                 STS == "FLLS010" ||
                 STS == "FLDN010" ||
@@ -2774,7 +2779,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
                 }
-                if(STS == "FLSL021" ){
+                if (STS == "FLSL021") {
                   setchk_pln_upload_final("visible");
                   setchk_boi_input_data("visible");
                   setchk_pte_upload_file("visible");
@@ -2844,7 +2849,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
                 }
-                if(STS == "FLSL022" ){
+                if (STS == "FLSL022") {
                   setchk_pln_upload_final("visible");
                   setchk_boi_input_data("visible");
                   setchk_pte_upload_file("visible");
@@ -2871,7 +2876,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pte_upload_file("table-row");
                   setCM_pln_upload_final("table-row");
                 }
-                
+
                 setaction__acc_manager(formattedDate);
                 setchkacc_manager("visible");
                 setchkacc_record("visible");
@@ -2898,7 +2903,7 @@ function FAM_TRANSECTION_TLWLD() {
                 STS == "FLLS012" ||
                 STS == "FLDN012" ||
                 STS == "FLLD012" ||
-                STS == "FLSL023"||
+                STS == "FLSL023" ||
                 STS == "FLSC012"
               ) {
                 if (STS == "FLLD012") {
@@ -2917,7 +2922,7 @@ function FAM_TRANSECTION_TLWLD() {
                   setCM_pln_staff("table-row");
                   setCM_shipping("table-row");
                 }
-                if(STS == "FLSL023" ){
+                if (STS == "FLSL023") {
                   setchk_pln_upload_final("visible");
                   setchk_boi_input_data("visible");
                   setchk_pte_upload_file("visible");
@@ -2989,10 +2994,11 @@ function FAM_TRANSECTION_TLWLD() {
                 setReadReturnACC(false);
                 setReadReturnOwn(false);
               }
-              if(STS == "FLSC001")
-                { setReadPte_Env(false);
-                  setReadPLN_Staff(false);
-                  setReadShipping(false);}
+              if (STS == "FLSC001") {
+                setReadPte_Env(false);
+                setReadPLN_Staff(false);
+                setReadShipping(false);
+              }
               //setbtnsave("visible");
             }
           } else {
@@ -3123,7 +3129,7 @@ function FAM_TRANSECTION_TLWLD() {
 
         setowner_roting(For_Rou[9]);
       }
-      if(For_Sale_New !== null){
+      if (For_Sale_New !== null) {
         setselectpte_input_weight_size(For_Sale_New[1]);
         setselectpln_staff_boi(For_Sale_New[2]);
         setselectimport_boi_prepare(For_Sale_New[3]);
@@ -3135,7 +3141,7 @@ function FAM_TRANSECTION_TLWLD() {
         setpte_upload_file(For_Sale_New[9]);
         setpln_req_inv(For_Sale_New[10]);
         setship_input_inv(For_Sale_New[11]);
-        setpln_upload_final(For_Sale_New[12])
+        setpln_upload_final(For_Sale_New[12]);
       }
       if (For_Trans != null) {
         setownersend(For_Req[18]);
@@ -3202,7 +3208,6 @@ function FAM_TRANSECTION_TLWLD() {
         } else {
           setplan_date(For_Trans[8]);
         }
-       
       } else {
         if (For_Req != null) {
           STS = For_Req[10];
@@ -3298,8 +3303,6 @@ function FAM_TRANSECTION_TLWLD() {
     }
   };
   const handleNew_BOI = async (event) => {
-
-    console.log("มาแล้วจ้า")
     setselectnew_owner("");
     setnew_boi("");
     let transCC = event;
@@ -3325,7 +3328,6 @@ function FAM_TRANSECTION_TLWLD() {
     }
   };
   const handleNewboi_proj = async (value) => {
-    console.log(selecttrans_cc,selecttrans_factory,"maleaw",value)
     let NewPoroj = value;
     if (data_fromboi == "NON BOI" || data_fromboi == NewPoroj) {
       setsts("N");
@@ -3390,7 +3392,7 @@ function FAM_TRANSECTION_TLWLD() {
         const response = await axios.post("/getEdit_sale", {
           famno: EditFam,
         });
-  
+
         const data = await response.data;
         const data_edit = JSON.stringify(data);
         localStorage.setItem("Edit_Sale", data_edit);
@@ -3579,7 +3581,7 @@ function FAM_TRANSECTION_TLWLD() {
         Type == "GP01007" ||
         Type == "GP01006" ||
         Type == "GP01002" ||
-        Type == "GP01003" 
+        Type == "GP01003"
       ) {
         try {
           const response = await axios.post("/Update_For_Req_All", {
@@ -3626,7 +3628,7 @@ function FAM_TRANSECTION_TLWLD() {
         } catch (error) {
           console.error("Error requesting data:", error);
         }
-      
+
         if (Type === "GP01002") {
           try {
             const response = await axios.post("/update_scrap", {
@@ -3640,7 +3642,7 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_lending:", error.message);
           }
         }
-        if(Type === "GP01003"){
+        if (Type === "GP01003") {
           try {
             const response = await axios.post("/update_sale", {
               famno: For_Rq_Edit[0],
@@ -3648,14 +3650,14 @@ function FAM_TRANSECTION_TLWLD() {
               update_plnboi: selectpln_staff_boi,
               updateboi_prerare: selectimport_boi_prepare,
               updatedata_import: selectboi_input_data,
-              updatethai_catergories:thai_catergories,
-              updatebidding:pln_staff_bidding,
-              updateindustrial:pte_dept,
-              updateclerance:export_clearance,
-              update_upload_file_after:pte_upload_file,
-              updatereq_inv:pln_req_inv,
-              updateinput_in:ship_input_inv,
-              updatepayment:pln_upload_final,
+              updatethai_catergories: thai_catergories,
+              updatebidding: pln_staff_bidding,
+              updateindustrial: pte_dept,
+              updateclerance: export_clearance,
+              update_upload_file_after: pte_upload_file,
+              updatereq_inv: pln_req_inv,
+              updateinput_in: ship_input_inv,
+              updatepayment: pln_upload_final,
               update_by: For_Rq_Edit[2],
             });
           } catch (error) {
@@ -3846,9 +3848,7 @@ function FAM_TRANSECTION_TLWLD() {
           console.error("Error requesting data:", error);
         }
 
-          
         if (Type === "GP01002" && Fam_list !== "") {
-
           const set_data_for_req_details = [
             Fam_list,
             selectpte_env,
@@ -3868,7 +3868,7 @@ function FAM_TRANSECTION_TLWLD() {
           } catch (error) {
             console.error("Error update_lending:", error.message);
           }
-        }else if(Type === "GP01002" && Fam_list ==""){
+        } else if (Type === "GP01002" && Fam_list == "") {
           const set_data_for_req_details = [
             Fam_list,
             selectpte_env,
@@ -3888,24 +3888,24 @@ function FAM_TRANSECTION_TLWLD() {
           } catch (error) {
             console.error("Error update_lending:", error.message);
           }
-        }else if (Type === "GP01003" && Fam_list !== "" ) {
-         const set_data_for_req_details = [
-          Fam_list,
-          selectpte_input_weight_size,
-          selectpln_staff_boi,
-          selectimport_boi_prepare,
-          selectboi_input_data,
-          thai_catergories,
-          pln_staff_bidding,
-          pte_dept,
-          export_clearance,
-          pte_upload_file,
-          pln_req_inv,
-          ship_input_inv,
-          pln_upload_final,
-        ];
-        const sendheader = JSON.stringify(set_data_for_req_details);
-        localStorage.setItem("For_Sale", sendheader);
+        } else if (Type === "GP01003" && Fam_list !== "") {
+          const set_data_for_req_details = [
+            Fam_list,
+            selectpte_input_weight_size,
+            selectpln_staff_boi,
+            selectimport_boi_prepare,
+            selectboi_input_data,
+            thai_catergories,
+            pln_staff_bidding,
+            pte_dept,
+            export_clearance,
+            pte_upload_file,
+            pln_req_inv,
+            ship_input_inv,
+            pln_upload_final,
+          ];
+          const sendheader = JSON.stringify(set_data_for_req_details);
+          localStorage.setItem("For_Sale", sendheader);
           try {
             const response = await axios.post("/update_sale", {
               famno: For_Req[0],
@@ -3913,20 +3913,20 @@ function FAM_TRANSECTION_TLWLD() {
               update_plnboi: selectpln_staff_boi,
               updateboi_prerare: selectimport_boi_prepare,
               updatedata_import: selectboi_input_data,
-              updatethai_catergories:thai_catergories,
-              updatebidding:pln_staff_bidding,
-              updateindustrial:pte_dept,
-              updateclerance:export_clearance,
-              update_upload_file_after:pte_upload_file,
-              updatereq_inv:pln_req_inv,
-              updateinput_in:ship_input_inv,
-              updatepayment:pln_upload_final,
+              updatethai_catergories: thai_catergories,
+              updatebidding: pln_staff_bidding,
+              updateindustrial: pte_dept,
+              updateclerance: export_clearance,
+              update_upload_file_after: pte_upload_file,
+              updatereq_inv: pln_req_inv,
+              updateinput_in: ship_input_inv,
+              updatepayment: pln_upload_final,
               update_by: For_Req[1],
             });
           } catch (error) {
             console.error("Error update_sale", error);
           }
-        }else if(Type === "GP01003" && Fam_list =="") {
+        } else if (Type === "GP01003" && Fam_list == "") {
           const set_data_for_req_details = [
             Fam_list,
             selectpte_input_weight_size,
@@ -3947,53 +3947,42 @@ function FAM_TRANSECTION_TLWLD() {
           try {
             const response = await axios.post("/insert_sale", {
               famno: Fam_list,
-              createinput_ws:selectpte_input_weight_size, 
-              create_plnboi:selectpln_staff_boi, 
-              createboi_prerare:selectimport_boi_prepare, 
-              createdata_import:selectboi_input_data,
-              createthai_catergories:thai_catergories,
-              createbidding:pln_staff_bidding,
-              createindustrial:pte_dept,
-              createclerance:export_clearance,
-              create_upload_file_after:pte_upload_file,
-              createreq_inv:pln_req_inv,
-              createinput_in:ship_input_inv,
-              createpayment:pln_upload_final,
-              create_by:For_Req[1],
+              createinput_ws: selectpte_input_weight_size,
+              create_plnboi: selectpln_staff_boi,
+              createboi_prerare: selectimport_boi_prepare,
+              createdata_import: selectboi_input_data,
+              createthai_catergories: thai_catergories,
+              createbidding: pln_staff_bidding,
+              createindustrial: pte_dept,
+              createclerance: export_clearance,
+              create_upload_file_after: pte_upload_file,
+              createreq_inv: pln_req_inv,
+              createinput_in: ship_input_inv,
+              createpayment: pln_upload_final,
+              create_by: For_Req[1],
             });
           } catch (error) {
             console.error("Error update_lending:", error.message);
           }
-        }else if (Type === "GP01006" && Fam_list !== "" ) {
-          console.log("เข้าแล้ว1")
-          const set_data_for_req_details = [
-           Fam_list,
-          return_selectacc_manager
-         ];
-         const sendheader = JSON.stringify(set_data_for_req_details);
-         localStorage.setItem("For_Lending", sendheader);
-         console.log("เข้าแล้ว1",sendheader,"1")
-         try {  
-         const response = await axios.post("/update_lending", {
-          tranfer: Fam_list,
-          acc_return: return_selectacc_manager,
-          req_reuturn: req_return,
-          req_reuturn_by: req_return,
-        });
-      } catch (error) {
-        console.error("Error update_lending:", error.message);
-      }
-          
-        }else if(Type === "GP01006" && Fam_list =="") {
-          console.log("เข้าแล้ว2")
-           const set_data_for_req_details = [
-             Fam_list,
-             return_selectacc_manager
-           ];
-           const sendheader = JSON.stringify(set_data_for_req_details);
-           localStorage.setItem("For_Lending", sendheader);
-           console.log("เข้าแล้ว2",sendheader,"2")
-           try {
+        } else if (Type === "GP01006" && Fam_list !== "") {
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager];
+          const sendheader = JSON.stringify(set_data_for_req_details);
+          localStorage.setItem("For_Lending", sendheader);
+          try {
+            const response = await axios.post("/update_lending", {
+              tranfer: Fam_list,
+              acc_return: return_selectacc_manager,
+              req_reuturn: req_return,
+              req_reuturn_by: req_return,
+            });
+          } catch (error) {
+            console.error("Error update_lending:", error.message);
+          }
+        } else if (Type === "GP01006" && Fam_list == "") {
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager];
+          const sendheader = JSON.stringify(set_data_for_req_details);
+          localStorage.setItem("For_Lending", sendheader);
+          try {
             const response = await axios.post("/insert_leading", {
               tranfer: Fam_list,
               acc_return: return_selectacc_manager,
@@ -4003,13 +3992,12 @@ function FAM_TRANSECTION_TLWLD() {
           } catch (error) {
             console.error("Error requesting data:", error);
           }
-         }
-       
+        }
       }
     }
     getDatatest();
     closePopupLoadding();
-  navigate("/FAMsystem/ForRe");
+    navigate("/FAMsystem/ForRe");
   };
 
   // ปุ่ม SAVE
@@ -4133,7 +4121,7 @@ function FAM_TRANSECTION_TLWLD() {
             confirmButtonText: "OK",
           });
           setCheckSave("False");
-          navigate("/FAMsystem/Search")
+          navigate("/FAMsystem/Search");
         } else {
           try {
             const response = await axios.post("/Update_For_Req_All", {
@@ -4221,7 +4209,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
 
         setCheckSave("False");
-        navigate("/FAMsystem/Search")
+        navigate("/FAMsystem/Search");
       }
     } else if (
       Type === "GP01004" ||
@@ -4229,7 +4217,7 @@ function FAM_TRANSECTION_TLWLD() {
       Type == "GP01007" ||
       Type == "GP01006" ||
       Type == "GP01003" ||
-      Type == "GP01002" 
+      Type == "GP01002"
     ) {
       const confirmResult = await Swal.fire({
         title: "Are you sure you want to save?",
@@ -4324,14 +4312,14 @@ function FAM_TRANSECTION_TLWLD() {
                 update_plnboi: selectpln_staff_boi,
                 updateboi_prerare: selectimport_boi_prepare,
                 updatedata_import: selectboi_input_data,
-                updatethai_catergories:thai_catergories,
-                updatebidding:pln_staff_bidding,
-                updateindustrial:pte_dept,
-                updateclerance:export_clearance,
-                update_upload_file_after:pte_upload_file,
-                updatereq_inv:pln_req_inv,
-                updateinput_in:ship_input_inv,
-                updatepayment:pln_upload_final,
+                updatethai_catergories: thai_catergories,
+                updatebidding: pln_staff_bidding,
+                updateindustrial: pte_dept,
+                updateclerance: export_clearance,
+                update_upload_file_after: pte_upload_file,
+                updatereq_inv: pln_req_inv,
+                updateinput_in: ship_input_inv,
+                updatepayment: pln_upload_final,
                 update_by: For_Rq_Edit[2],
               });
             } catch (error) {
@@ -4346,7 +4334,7 @@ function FAM_TRANSECTION_TLWLD() {
           });
           setCheckSave("False");
 
-          navigate("/FAMsystem/Search")
+          navigate("/FAMsystem/Search");
         } else {
           try {
             const response = await axios.post("/Update_For_Req_All", {
@@ -4421,21 +4409,20 @@ function FAM_TRANSECTION_TLWLD() {
           if (Type === "GP01003") {
             try {
               const response = await axios.post("/insert_sale", {
-               
                 famno: For_Req[0],
-                createinput_ws:selectpte_input_weight_size, 
-                create_plnboi:selectpln_staff_boi, 
-                createboi_prerare:selectimport_boi_prepare, 
-                createdata_import:selectboi_input_data,
-                createthai_catergories:thai_catergories,
-                createbidding:pln_staff_bidding,
-                createindustrial:pte_dept,
-                createclerance:export_clearance,
-                create_upload_file_after:pte_upload_file,
-                createreq_inv:pln_req_inv,
-                createinput_in:ship_input_inv,
-                createpayment:pln_upload_final,
-                create_by:For_Req[1],
+                createinput_ws: selectpte_input_weight_size,
+                create_plnboi: selectpln_staff_boi,
+                createboi_prerare: selectimport_boi_prepare,
+                createdata_import: selectboi_input_data,
+                createthai_catergories: thai_catergories,
+                createbidding: pln_staff_bidding,
+                createindustrial: pte_dept,
+                createclerance: export_clearance,
+                create_upload_file_after: pte_upload_file,
+                createreq_inv: pln_req_inv,
+                createinput_in: ship_input_inv,
+                createpayment: pln_upload_final,
+                create_by: For_Req[1],
               });
             } catch (error) {
               console.error("Error insert_sale:", error);
@@ -4451,12 +4438,11 @@ function FAM_TRANSECTION_TLWLD() {
         }
 
         setCheckSave("False");
-        navigate("/FAMsystem/Search")
+        navigate("/FAMsystem/Search");
         // setOpen(true);
       }
     }
   };
-  
 
   //  ปุ่ม SUBMIT
   const SUBMIT = async () => {
@@ -4481,10 +4467,9 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          // alert("กรุณาระบุ : Tel For Requester");
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ : Tel For Requester",
+            title: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -4497,7 +4482,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -4508,100 +4493,98 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          // alert("กรุณาระบุ : Request Owner");
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ : Request Owner",
+            title: "กรุณาเลือก  Request Owner",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
-        }if (
+        }
+        if (
           For_Rq_Edit[19] === null ||
           For_Rq_Edit[19] === undefined ||
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          // alert("กรุณาระบุ : Owner Tel ");
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ :  Owner Tel",
+            title: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
-        }if (
+        }
+        if (
           selecttrans_factory === null ||
           selecttrans_factory === undefined ||
           selecttrans_factory === "" ||
           selecttrans_factory === "null"
         ) {
-          console.log("มาแล้ว//////")
-          // alert("กรุณาเลือก Transfer to Factory");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก :  Transfer to Factory",
+            title: "กรุณาเลือก  Transfer to Factory",
           });
           setErrorFac(true);
           return;
         } else {
           setErrorFac(false);
-        }if (
+        }
+        if (
           selecttrans_cc === null ||
           selecttrans_cc === undefined ||
           selecttrans_cc === "" ||
-          selecttrans_cc === "null"||
+          selecttrans_cc === "null" ||
           selecttrans_cc.length == 0
         ) {
-          // alert("กรุณาเลือก Transfer to CC");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก Transfer to CC",
+            title: "กรุณาเลือก  Transfer to CC",
           });
           setErrorCC(true);
           return;
         } else {
           setErrorCC(false);
-        }if (
+        }
+        if (
           new_boi === null ||
           new_boi === undefined ||
           new_boi === "" ||
           new_boi === "null"
         ) {
           setErrNewboi(true);
-          // alert("กรุณาเลือก: New BOI Project  ");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก New BOI Project ",
+            title: "กรุณาเลือก  New BOI Project",
           });
           return;
         } else {
           setErrNewboi(false);
-        }if (
+        }
+        if (
           selectnew_owner === null ||
           selectnew_owner === undefined ||
           selectnew_owner === "" ||
           selectnew_owner === "null"
         ) {
           setErrorNewOwn(true);
-          // alert("กรุณาเลือก: New Owner ");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก New Owner",
+            title: "กรุณาเลือก  New Owner ",
           });
           return;
         } else {
           setErrorNewOwn(false);
-        }if (
+        }
+        if (
           Tel_for_trans === null ||
           Tel_for_trans === undefined ||
           Tel_for_trans === "" ||
           Tel_for_trans === "null"
         ) {
-          // alert("กรุณาระบุ : Tel ");
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ : Tel",
+            title: "กรุณาระบุ  Tel ",
           });
           setErrorTel(true);
           return;
@@ -4616,7 +4599,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   plan_date === "null"
         // ) {
         //   setErrorDate(true);
-        //   alert("กรุณาเลือก: Date");
+        //   alert("กรุณาเลือก  Date");
         //   return;
         // } else {
         //   setErrorDate(false);
@@ -4628,116 +4611,114 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          // alert("กรุณาเลือก: Department Manager ");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก:  Department Manager",
+            title: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
           setErrorManager(false);
-        }if (
+        }
+        if (
           Tel_service === "" ||
           Tel_service === undefined ||
           Tel_service === null ||
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          // alert("กรุณาระบุ : Tel_Service By");
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ : Tel_Service By",
+            title: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
         } else {
           setErrorTel_service(false);
-        }if (
+        }
+        if (
           selectservice_by === null ||
           selectservice_by === undefined ||
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          // alert("กรุณาเลือก: Service By");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: Service By",
+            title: "กรุณาเลือก  Service By",
           });
           return;
         } else {
           setErrorService_by(false);
-        }if (
+        }
+        if (
           selectboi_staff === null ||
           selectboi_staff === undefined ||
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          // alert("กรุณาเลือก: BOI Staff");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: BOI Staff",
+            title: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
           setErrorBoi_Staff(false);
-        }if (
+        }
+        if (
           selectboi_manager === null ||
           selectboi_manager === undefined ||
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          // alert("กรุณาเลือก: BOI Manager");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: BOI Manager",
+            title: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
           setErrorBoi_manager(false);
-        } if (
+        }
+        if (
           selectfac_manager === null ||
           selectfac_manager === undefined ||
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          // alert("กรุณาเลือก: Factory Manager");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: Factory Manager",
+            title: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
           setErrorMana_Fac(false);
-        } if (
+        }
+        if (
           selectacc_check === null ||
           selectacc_check === undefined ||
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          ////alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
-          
           setErrorAcc_check(true);
           return;
         } else {
           setErrorAcc_check(false);
-        }if (
+        }
+        if (
           selectacc_manager === null ||
           selectacc_manager === undefined ||
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -4942,7 +4923,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -5015,7 +4999,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -5037,9 +5024,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -5079,7 +5064,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -5102,11 +5090,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by,
-                 
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -5145,7 +5129,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -5177,7 +5164,6 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-             
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5217,7 +5203,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -5251,7 +5240,6 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-              
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5291,7 +5279,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -5319,7 +5310,6 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_staff,
                     selectboi_manager,
                     selectfac_manager,
-                 
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5358,7 +5348,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -5387,7 +5380,6 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_manager,
                     selectfac_manager,
                     selectacc_check,
-                   
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -5426,7 +5418,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_receiver == "null" ||
                 cmmtradio_receiver == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_receiver", {
@@ -5517,7 +5512,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -5589,7 +5587,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -5670,7 +5671,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -5735,7 +5739,9 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error updating submit status:", error.message);
               }
             }
-          } }} else {
+          }
+        }
+      } else {
         if (
           For_Req[2] === null ||
           For_Req[2] === undefined ||
@@ -5743,7 +5749,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -5758,7 +5767,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -5769,7 +5778,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -5779,9 +5791,13 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Owner Tel",
+          });
           navigate("/FAMsystem/ForRe");
           return;
+          ;
         }
         if (
           selecttrans_factory === null ||
@@ -5789,10 +5805,9 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_factory === "" ||
           selecttrans_factory === "null"
         ) {
-          // alert("กรุณาเลือก Transfer to Factory");
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก :  Transfer to Factory",
+            title: "กรุณาเลือก  Transfer to Factory",
           });
           setErrorFac(true);
           return;
@@ -5802,16 +5817,18 @@ function FAM_TRANSECTION_TLWLD() {
           selecttrans_cc === null ||
           selecttrans_cc === undefined ||
           selecttrans_cc === "" ||
-          selecttrans_cc === "null"||
+          selecttrans_cc === "null" ||
           selecttrans_cc.length == 0
         ) {
-          alert("กรุณาเลือก Transfer to CC");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Transfer to CC",
+          });
           setErrorCC(true);
           return;
         } else {
           setErrorCC(false);
         }
-
         if (
           new_boi === null ||
           new_boi === undefined ||
@@ -5819,7 +5836,10 @@ function FAM_TRANSECTION_TLWLD() {
           new_boi === "null"
         ) {
           setErrNewboi(true);
-          alert("กรุณาเลือก: New BOI Project  ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  New BOI Project",
+          });
           return;
         } else {
           setErrNewboi(false);
@@ -5831,7 +5851,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectnew_owner === "null"
         ) {
           setErrorNewOwn(true);
-          alert("กรุณาเลือก: New Owner ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  New Owner ",
+          });
           return;
         } else {
           setErrorNewOwn(false);
@@ -5842,7 +5865,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_for_trans === "" ||
           Tel_for_trans === "null"
         ) {
-          alert("กรุณาระบุ : Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel ",
+          });
           setErrorTel(true);
           return;
         } else {
@@ -5855,7 +5881,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   plan_date === "null"
         // ) {
         //   setErrorDate(true);
-        //   alert("กรุณาเลือก: Date");
+        //   alert("กรุณาเลือก  Date");
         //   return;
         // } else {
         //   setErrorDate(false);
@@ -5866,7 +5892,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -5879,7 +5908,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -5891,7 +5923,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -5904,7 +5939,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -5916,7 +5954,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -5928,7 +5969,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -5940,10 +5984,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -5957,14 +6000,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          ////alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
-          });
- Swal.fire({
-            icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -5988,7 +6026,6 @@ function FAM_TRANSECTION_TLWLD() {
               New_cc: selecttrans_cc,
               updateby: For_Req[1],
             });
-            //// console(data, "data");
           } catch (error) {
             console.error("Error during login:", error);
           }
@@ -6057,7 +6094,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -6069,7 +6109,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -6081,7 +6121,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -6092,7 +6135,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -6104,7 +6150,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -6116,7 +6165,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
 
           return;
         } else {
@@ -6129,7 +6181,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -6142,7 +6197,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -6154,7 +6212,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -6166,7 +6227,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -6177,10 +6241,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -6194,10 +6257,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -6335,7 +6397,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -6358,9 +6423,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    For_Rq_Edit[2]
-                  ];
+                  const Approver = [For_Rq_Edit[2]];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -6400,7 +6463,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -6422,9 +6488,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -6462,7 +6526,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -6485,10 +6552,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -6527,7 +6591,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -6558,7 +6625,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    selectboi_staff
+                    selectboi_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -6598,7 +6665,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -6631,7 +6701,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    selectboi_manager
+                    selectboi_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -6671,7 +6741,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -6698,7 +6771,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    selectfac_manager
+                    selectfac_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -6737,7 +6810,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -6765,7 +6841,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_staff,
                     selectboi_manager,
                     selectfac_manager,
-                    selectacc_check
+                    selectacc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -6805,7 +6881,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -6874,7 +6953,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -6910,7 +6992,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectfac_manager,
                     selectacc_check,
                     owner_roting,
-                    text_acc_check
+                    text_acc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -6949,7 +7031,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -6988,7 +7073,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectacc_check,
                     owner_roting,
                     text_acc_check,
-                    selectacc_manager
+                    selectacc_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -7023,7 +7108,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -7038,7 +7126,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -7049,7 +7137,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -7059,7 +7150,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Owner Tel",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -7069,7 +7163,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -7082,7 +7179,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -7094,7 +7194,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -7107,7 +7210,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -7119,7 +7225,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -7131,7 +7240,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -7143,10 +7255,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -7160,10 +7271,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -7229,7 +7339,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -7241,7 +7354,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -7253,7 +7366,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -7264,7 +7380,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -7276,7 +7395,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -7288,7 +7410,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
 
           return;
         } else {
@@ -7301,7 +7426,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -7314,7 +7442,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -7326,7 +7457,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -7338,7 +7472,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -7349,10 +7486,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -7366,17 +7502,16 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
         } else {
           setErrorAcc_Mana(false);
         }
-       // openPopupLoadding();
+        // openPopupLoadding();
         if (For_Rq_Edit != null) {
           if (For_Rq_Edit[10] === "FLWO001") {
             let Status = "FLWO002";
@@ -7507,7 +7642,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -7530,9 +7668,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    For_Rq_Edit[2]
-                  ];
+                  const Approver = [For_Rq_Edit[2]];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -7572,7 +7708,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -7594,9 +7733,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -7634,7 +7771,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -7657,10 +7797,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -7699,7 +7836,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -7730,7 +7870,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    selectboi_staff
+                    selectboi_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -7769,7 +7909,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -7802,7 +7945,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    selectboi_manager
+                    selectboi_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -7842,7 +7985,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_acccheck", {
@@ -7869,8 +8015,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    selectfac_manager
-                   
+                    selectfac_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -7909,7 +8054,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -7937,7 +8085,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_staff,
                     selectboi_manager,
                     selectfac_manager,
-                    selectacc_check
+                    selectacc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -7977,7 +8125,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -8046,7 +8197,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -8106,7 +8260,7 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");;
+                navigate("/FAMsystem/Mail");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8126,7 +8280,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -8200,7 +8357,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -8215,7 +8375,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา  Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -8226,7 +8386,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -8236,7 +8399,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Owner Tel",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -8246,7 +8412,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -8259,7 +8428,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -8271,7 +8443,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -8284,7 +8459,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -8296,7 +8474,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -8308,7 +8489,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -8320,10 +8504,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -8337,10 +8520,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -8357,7 +8539,7 @@ function FAM_TRANSECTION_TLWLD() {
           } catch (error) {
             console.error("Error updating submit status:", error.message);
           }
-         
+
           try {
             const response = await axios.post("/Update_For_Req_All", {
               famno: For_Req[0],
@@ -8407,7 +8589,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -8419,7 +8604,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -8431,7 +8616,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -8442,7 +8630,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -8454,7 +8645,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -8466,7 +8660,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
 
           return;
         } else {
@@ -8479,7 +8676,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -8492,7 +8692,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -8504,7 +8707,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -8516,7 +8722,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -8527,10 +8736,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -8544,10 +8752,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -8685,7 +8892,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -8708,9 +8918,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    For_Rq_Edit[2]
-                  ];
+                  const Approver = [For_Rq_Edit[2]];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -8750,7 +8958,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -8772,9 +8983,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -8812,7 +9021,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -8835,10 +9047,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -8877,7 +9086,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -8908,7 +9120,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    selectboi_staff
+                    selectboi_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -8948,7 +9160,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -8981,7 +9196,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    selectboi_manager
+                    selectboi_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -9008,7 +9223,7 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLDN007") {
             let Status = "";
-            
+
             if (selectradio_acc_check == "A") {
               Status = "FLDN008";
             } else if (selectradio_acc_check == "R") {
@@ -9032,10 +9247,11 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา Comment");
-              console.log("Ok 1 ",selectradio_acc_check,cmmtradio_acc_check)
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
-              console.log("Ok 2 ",selectradio_acc_check,cmmtradio_acc_check)
               if (
                 certificate_date === null ||
                 certificate_date === undefined ||
@@ -9043,7 +9259,10 @@ function FAM_TRANSECTION_TLWLD() {
                 certificate_date === "null"
               ) {
                 setErrorDate_Certificate(true);
-                alert("กรุณาเลือก: certifidate date");
+                Swal.fire({
+                  icon: "error",
+                  title: "กรุณาเลือก  certifidate date",
+                });
                 return;
               } else {
                 setErrorDate_Certificate(false);
@@ -9083,7 +9302,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    selectfac_manager
+                    selectfac_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -9115,7 +9334,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'OWNER CHECK'
+                ATT_FROM: "OWNER CHECK",
               });
               const jsonData = await response.data;
               DataFile_Requester = await response.data;
@@ -9136,14 +9355,20 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             }
             if (
               DataFile_Requester == null ||
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
-            ) {
-              alert("กรุณาเลือกไฟล์");
+            ) { 
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             } else {
               try {
@@ -9172,7 +9397,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_staff,
                     selectboi_manager,
                     selectfac_manager,
-                    selectacc_check
+                    selectacc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -9212,7 +9437,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -9242,7 +9470,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_manager,
                     selectfac_manager,
                     selectacc_check,
-                    owner_roting
+                    owner_roting,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -9280,7 +9508,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -9361,7 +9592,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -9435,7 +9669,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -9450,7 +9687,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -9461,7 +9698,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -9471,7 +9711,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -9481,7 +9724,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -9494,7 +9740,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -9506,7 +9755,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -9519,7 +9771,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -9531,7 +9786,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -9543,7 +9801,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -9555,10 +9816,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -9572,10 +9832,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -9640,7 +9899,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -9652,7 +9914,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -9664,7 +9926,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -9675,7 +9940,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -9687,7 +9955,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -9699,7 +9970,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           return;
         } else {
           setErrorTel_service(false);
@@ -9711,7 +9985,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -9724,7 +10001,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -9736,7 +10016,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -9748,7 +10031,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -9759,10 +10045,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -9775,7 +10060,10 @@ function FAM_TRANSECTION_TLWLD() {
           return_selectacc_manager === "" ||
           return_selectacc_manager === "null"
         ) {
-          alert("กรุณาเลือก: ACC Manager return");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  ACC Manager return",
+          });
           setErrorACCReturn(true);
           return;
         } else {
@@ -9787,10 +10075,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -9891,10 +10178,10 @@ function FAM_TRANSECTION_TLWLD() {
               });
             } catch (error) {
               console.error("Error updating submit status:", error.message);
-            }  
+            }
             try {
               const response = await axios.post("/update_for_nullLending", {
-                famno: EditFam
+                famno: EditFam,
               });
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -9944,7 +10231,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -9967,9 +10257,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    For_Rq_Edit[2]
-                  ];
+                  const Approver = [For_Rq_Edit[2]];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -10007,7 +10295,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -10029,9 +10320,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -10069,7 +10358,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -10092,10 +10384,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -10133,7 +10422,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -10164,7 +10456,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    selectboi_staff
+                    selectboi_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10204,7 +10496,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -10237,7 +10532,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    selectboi_manager
+                    selectboi_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10270,9 +10565,11 @@ function FAM_TRANSECTION_TLWLD() {
               certificate_date === "null"
             ) {
               setErrorDate_Certificate(true);
-              alert("กรุณาเลือก: certifidate date");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  certifidate date",
+              });
               return;
-        
             } else {
               setErrorDate_Certificate(false);
             }
@@ -10289,10 +10586,11 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา Comment");
-            } else {     
-             
-         
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
+            } else {
               try {
                 const response = await axios.post("/update_acccheck", {
                   famno: EditFam,
@@ -10319,7 +10617,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    selectfac_manager
+                    selectfac_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10352,7 +10650,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'OWNER CHECK'
+                ATT_FROM: "OWNER CHECK",
               });
               const jsonData = await response.data;
               DataFile_Requester = await response.data;
@@ -10364,7 +10662,10 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+               Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
               return;
             }
             if (selectradio_owner == "A") {
@@ -10380,7 +10681,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -10419,7 +10723,7 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLLD009") {
             let Status = "";
-          
+
             if (selectradio_return_acc == "A") {
               Status = "FLLD100";
             } else if (selectradio_return_acc == "R") {
@@ -10442,7 +10746,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_return_acc == "null" ||
                 cmmtradio_return_acc == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               if (
                 return_date === null ||
@@ -10451,7 +10758,10 @@ function FAM_TRANSECTION_TLWLD() {
                 return_date === "null"
               ) {
                 setErrorDate_return(true);
-                alert("กรุณาเลือก: Return Date");
+                Swal.fire({
+                  icon: "error",
+                  title: "กรุณาเลือก  Return Date",
+                });
                 return;
               } else {
                 setErrorDate_return(false);
@@ -10482,7 +10792,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                } 
+                }
                 Swal.fire({
                   title: "Submit Success",
                   icon: "success",
@@ -10509,7 +10819,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'OWNER RETURN'
+                ATT_FROM: "OWNER RETURN",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -10521,7 +10831,10 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
 
@@ -10584,7 +10897,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -10616,7 +10932,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectacc_check,
                     owner_roting,
                     return_selectacc_manager,
-                    req_return
+                    req_return,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10655,7 +10971,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -10693,7 +11012,7 @@ function FAM_TRANSECTION_TLWLD() {
                     owner_roting,
                     return_selectacc_manager,
                     req_return,
-                    text_acc_check
+                    text_acc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10737,7 +11056,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -10779,7 +11101,6 @@ function FAM_TRANSECTION_TLWLD() {
                     req_return,
                     text_acc_check,
                     selectacc_manager,
-                    
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -10814,7 +11135,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -10829,7 +11153,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -10840,7 +11164,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -10850,7 +11177,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+         Swal.fire({
+          icon: "error",
+          title: "กรุณาระบุ Owner Tel",
+        });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -10860,7 +11190,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -10873,7 +11206,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -10885,7 +11221,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -10898,7 +11237,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -10910,7 +11252,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -10922,7 +11267,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -10934,10 +11282,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -10950,7 +11297,10 @@ function FAM_TRANSECTION_TLWLD() {
           return_selectacc_manager === "" ||
           return_selectacc_manager === "null"
         ) {
-          alert("กรุณาเลือก: ACC Manager return");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  ACC Manager return",
+          });
           setErrorACCReturn(true);
           return;
         } else {
@@ -10962,10 +11312,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -11043,7 +11392,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -11055,7 +11407,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -11067,7 +11419,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -11078,7 +11433,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -11090,7 +11448,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -11102,7 +11463,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
 
           return;
         } else {
@@ -11115,7 +11479,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -11128,7 +11495,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -11140,7 +11510,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -11152,7 +11525,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -11163,10 +11539,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -11180,7 +11555,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_env === "" ||
           selectpte_env === "null"
         ) {
-          alert("กรุณาเลือก: PTE(ENV)");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PTE(ENV)",
+          });
           setErrorPTE_ENV(true);
           return;
         } else {
@@ -11192,7 +11570,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff === "" ||
           selectpln_staff === "null"
         ) {
-          alert("กรุณาเลือก: PLN Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PLN Staff",
+          });
           setErrorPLN_Staff(true);
           return;
         } else {
@@ -11204,7 +11585,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectshipping_staff === "" ||
           selectshipping_staff === "null"
         ) {
-          alert("กรุณาเลือก: Shipping Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Shipping Staff",
+          });
           setErrorShipping(true);
           return;
         } else {
@@ -11215,11 +11599,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === undefined ||
           selectacc_manager === "" ||
           selectacc_manager === "null"
-        ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+        ) {;
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -11259,10 +11642,9 @@ function FAM_TRANSECTION_TLWLD() {
               const response = await axios.post("/update_scrap", {
                 famno: EditFam,
                 pte_env: selectpte_env,
-                pln_staff:selectpln_staff,
-                shipping:selectshipping_staff,
-                update_by: For_Rq_Edit[2]
-
+                pln_staff: selectpln_staff,
+                shipping: selectshipping_staff,
+                update_by: For_Rq_Edit[2],
               });
             } catch (error) {
               console.error("Error updating update_scrap:", error.message);
@@ -11317,10 +11699,9 @@ function FAM_TRANSECTION_TLWLD() {
               const response = await axios.post("/update_scrap", {
                 famno: EditFam,
                 pte_env: selectpte_env,
-                pln_staff:selectpln_staff,
-                shipping:selectshipping_staff,
-                update_by: For_Rq_Edit[2]
-
+                pln_staff: selectpln_staff,
+                shipping: selectshipping_staff,
+                update_by: For_Rq_Edit[2],
               });
             } catch (error) {
               console.error("Error updating update_scrap:", error.message);
@@ -11335,7 +11716,7 @@ function FAM_TRANSECTION_TLWLD() {
             }
             try {
               const response = await axios.post("/update_for_nullScarp", {
-                famno: EditFam
+                famno: EditFam,
               });
             } catch (error) {
               console.error("Error updating submit status:", error.message);
@@ -11386,7 +11767,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -11409,9 +11793,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    For_Rq_Edit[2]
-                  ];
+                  const Approver = [For_Rq_Edit[2]];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -11451,7 +11833,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -11473,9 +11858,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana
-                  ];
+                  const Approver = [selectdepartment_mana];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -11513,7 +11896,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -11536,10 +11922,7 @@ function FAM_TRANSECTION_TLWLD() {
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by
-                  ];
+                  const Approver = [selectdepartment_mana, selectservice_by];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
                 }
@@ -11559,7 +11942,6 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
                 navigate("/FAMsystem/Mail");
-              
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11579,7 +11961,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -11610,7 +11995,7 @@ function FAM_TRANSECTION_TLWLD() {
                   const Approver = [
                     selectdepartment_mana,
                     selectservice_by,
-                    selectboi_staff
+                    selectboi_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -11650,7 +12035,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -11683,7 +12071,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectdepartment_mana,
                     selectservice_by,
                     selectboi_staff,
-                    selectboi_manager
+                    selectboi_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -11722,7 +12110,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/date_certificate", {
@@ -11759,7 +12150,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectservice_by,
                     selectboi_staff,
                     selectboi_manager,
-                    selectfac_manager
+                    selectfac_manager,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -11800,7 +12191,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา  Comment");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -11846,92 +12240,20 @@ function FAM_TRANSECTION_TLWLD() {
               scrap_date === "null"
             ) {
               setErrScp_date(true);
-              alert("กรุณาเลือก : Scrap Date");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Scrap Date",
+              });
+
               return;
             } else {
               setErrScp_date(false);
             }
-              let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_DATA", {
-                  FamNo: EditFam,
-                  ATT_FROM:'ENV CHECK'
-                });
-              const jsonData = await response.data;
-              DataFile_Requester = jsonData;
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-            if (
-              DataFile_Requester == null ||
-              DataFile_Requester == [] ||
-              DataFile_Requester.length == 0
-            ) {
-              alert("กรุณาเลือกไฟล์");
-              return;
-            }
-         
-            if (
-              cmmtradio_pte_env !== null &&
-              (cmmtradio_pte_env == "" ||
-              cmmtradio_pte_env == null ||
-              cmmtradio_pte_env == "null" ||
-              cmmtradio_pte_env == "undefined")
-            ) {
-              alert("กรุณา Comment");
-            }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post(
-                  "/update_scrap_pte",
-                  {
-                    tranfer: EditFam,
-                    pte_env_cmmt: cmmtradio_pte_env,
-                    date_scrap:scrap_date
-                   
-                  }
-                );
-                  localStorage.setItem("status_formail", null );
-                  localStorage.setItem("To", selectpln_staff);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-             
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-            //}
-          } else if (For_Rq_Edit[10] === "FLSC100") {
-            let Status = "FLSC101";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'PLN CHECK'
+                ATT_FROM: "ENV CHECK",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -11943,7 +12265,88 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+
+            if (
+              cmmtradio_pte_env !== null &&
+              (cmmtradio_pte_env == "" ||
+                cmmtradio_pte_env == null ||
+                cmmtradio_pte_env == "null" ||
+                cmmtradio_pte_env == "undefined")
+            ) {
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_scrap_pte", {
+                tranfer: EditFam,
+                pte_env_cmmt: cmmtradio_pte_env,
+                date_scrap: scrap_date,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectpln_staff);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            //}
+          } else if (For_Rq_Edit[10] === "FLSC100") {
+            let Status = "FLSC101";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM: "PLN CHECK",
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {; 
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
 
@@ -11993,88 +12396,90 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSC101") {
             let Status = "FLSC010";
-              let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_DATA", {
-                  FamNo: EditFam,
-                  ATT_FROM:'SHP CHECK'
-                });
-                const jsonData = await response.data;
-                DataFile_Requester = jsonData;
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-              if (
-                DataFile_Requester == null ||
-                DataFile_Requester == [] ||
-                DataFile_Requester.length == 0
-              ) {
-                alert("กรุณาเลือกไฟล์");
-                return;
-              }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_scrap_shipping", {
-                  tranfer: EditFam,
-                  shipping_staff_cmmt: cmmtradio_shipping
-                });
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM: "SHP CHECK",
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_scrap_shipping", {
+                tranfer: EditFam,
+                shipping_staff_cmmt: cmmtradio_shipping,
+              });
 
-                if (selectradio_record != "R") {
-                  localStorage.setItem("status_formail", selectradio_record);
-                  localStorage.setItem("To", text_acc_check);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                } else {
-                  localStorage.setItem("status_formail", selectradio_record);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by,
-                    selectboi_staff,
-                    selectboi_manager,
-                    selectfac_manager,
-                    selectacc_check,
-                    owner_roting,
-                    receiver,
-                    null,
-                    null,
-                  ];
-                  const sentdata = JSON.stringify(Approver);
-                  localStorage.setItem("Approver_formail", sentdata);
-                }
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                 navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
+              if (selectradio_record != "R") {
+                localStorage.setItem("status_formail", selectradio_record);
+                localStorage.setItem("To", text_acc_check);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              } else {
+                localStorage.setItem("status_formail", selectradio_record);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  null,
+                  null,
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
               }
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
             //}
-
           } else if (For_Rq_Edit[10] === "FLSC010") {
             let Status = "";
             if (selectradio_record == "A") {
@@ -12090,7 +12495,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -12123,7 +12531,7 @@ function FAM_TRANSECTION_TLWLD() {
                     owner_roting,
                     selectpte_env,
                     selectpln_staff,
-                    selectshipping_staff
+                    selectshipping_staff,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -12148,7 +12556,7 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSC011") {
+          } else if (For_Rq_Edit[10] === "FLSC011") {
             let Status = "";
             if (selectradio_acc_manager == "A") {
               Status = "FLSC012";
@@ -12162,7 +12570,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -12176,7 +12587,7 @@ function FAM_TRANSECTION_TLWLD() {
                     "status_formail",
                     selectradio_acc_manager
                   );
-                  localStorage.setItem("To",selectservice_by );
+                  localStorage.setItem("To", selectservice_by);
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -12230,7 +12641,7 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSC012") {
+          } else if (For_Rq_Edit[10] === "FLSC012") {
             let Status = "";
             if (selectradio_service_close_by == "A") {
               Status = "FLSC013";
@@ -12245,7 +12656,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -12322,7 +12736,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -12337,7 +12754,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -12348,7 +12765,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -12358,7 +12778,7 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          alert("กรุณาเลือก  Owner Tel");
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -12368,7 +12788,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -12381,7 +12804,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -12393,7 +12819,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -12406,7 +12835,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -12418,7 +12850,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -12430,7 +12865,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -12442,10 +12880,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -12458,7 +12895,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_env === "" ||
           selectpte_env === "null"
         ) {
-          alert("กรุณาเลือก: PTE(ENV)");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PTE(ENV)",
+          });
           setErrorPTE_ENV(true);
           return;
         } else {
@@ -12470,7 +12910,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff === "" ||
           selectpln_staff === "null"
         ) {
-          alert("กรุณาเลือก: PLN Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PLN Staff",
+          });
           setErrorPLN_Staff(true);
           return;
         } else {
@@ -12482,7 +12925,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectshipping_staff === "" ||
           selectshipping_staff === "null"
         ) {
-          alert("กรุณาเลือก: Shipping Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Shipping Staff",
+          });
           setErrorShipping(true);
           return;
         } else {
@@ -12495,10 +12941,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -12568,7 +13013,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
         // setCheckSubmit("False")
       }
-    }else if (Type == "GP01003") {
+    } else if (Type == "GP01003") {
       if (EditFam != null) {
         if (
           For_Rq_Edit[3] === null ||
@@ -12577,7 +13022,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[3] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel For Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ Tel For Requester",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         } else {
@@ -12589,7 +13037,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Rq_Edit[6] === "" ||
         //   For_Rq_Edit[6] === "null"
         // ) {
-        //   alert("กรุณาเลือก: Dept ");
+        //   alert("กรุณาเลือก  Dept ");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -12601,7 +13049,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[17] === "" ||
           For_Rq_Edit[17] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -12612,7 +13063,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Rq_Edit[19] === "" ||
           For_Rq_Edit[19] === "null"
         ) {
-          alert("กรุณาระบุ : Owner Tel ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
           return;
@@ -12624,7 +13078,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "null"
         ) {
           setErrorManager(true);
-          alert("กรุณาเลือก: Department Manager ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager ",
+          });
           return;
         } else {
           setErrorManager(false);
@@ -12636,7 +13093,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "null"
         ) {
           setErrorTel_service(true);
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           return;
         } else {
           setErrorTel_service(false);
@@ -12648,7 +13108,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "null"
         ) {
           setErrorService_by(true);
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           return;
         } else {
           setErrorService_by(false);
@@ -12661,7 +13124,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "null"
         ) {
           setErrorBoi_Staff(true);
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           return;
         } else {
           setErrorBoi_Staff(false);
@@ -12673,7 +13139,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "null"
         ) {
           setErrorBoi_manager(true);
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           return;
         } else {
           setErrorBoi_manager(false);
@@ -12685,7 +13154,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "null"
         ) {
           setErrorMana_Fac(true);
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           return;
         } else {
           setErrorMana_Fac(false);
@@ -12696,10 +13168,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -12713,7 +13184,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_input_weight_size === "" ||
           selectpte_input_weight_size === "null"
         ) {
-          alert("กรุณาเลือก: PTE (ENV) input weight/size");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PTE (ENV) input weight/size",
+          });
           setErrorPTE_INPUT_WS(true);
           return;
         } else {
@@ -12725,7 +13199,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff_boi === "" ||
           selectpln_staff_boi === "null"
         ) {
-          alert("กรุณาเลือก: PLN Staff contact BOI ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PLN Staff contact BOI ",
+          });
           setErrorPLN_Staff_BOI(true);
           return;
         } else {
@@ -12737,7 +13214,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectimport_boi_prepare === "" ||
           selectimport_boi_prepare === "null"
         ) {
-          alert("กรุณาเลือก: Import & BOI prepare  ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Import & BOI prepare",
+          });
           setErrorimport_boi_prepare(true);
           return;
         } else {
@@ -12749,7 +13229,11 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_input_data === "" ||
           selectboi_input_data === "null"
         ) {
-          alert("กรุณาเลือก: BOI Input data Import  ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Input data Import",
+          });
+
           setErrorboi_input_data(true);
           return;
         } else {
@@ -12761,7 +13245,10 @@ function FAM_TRANSECTION_TLWLD() {
           ship_input_inv === "" ||
           ship_input_inv === "null"
         ) {
-          alert("กรุณาเลือก: Shipping Staff input invoice no ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Shipping Staff input invoice no",
+          });
           setErrorship_input_inv(true);
           return;
         } else {
@@ -12773,10 +13260,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -12820,14 +13306,14 @@ function FAM_TRANSECTION_TLWLD() {
                 update_plnboi: selectpln_staff_boi,
                 updateboi_prerare: selectimport_boi_prepare,
                 updatedata_import: selectboi_input_data,
-                updatethai_catergories:thai_catergories,
-                updatebidding:pln_staff_bidding,
-                updateindustrial:pte_dept,
-                updateclerance:export_clearance,
-                update_upload_file_after:pte_upload_file,
-                updatereq_inv:pln_req_inv,
-                updateinput_in:ship_input_inv,
-                updatepayment:pln_upload_final,
+                updatethai_catergories: thai_catergories,
+                updatebidding: pln_staff_bidding,
+                updateindustrial: pte_dept,
+                updateclerance: export_clearance,
+                update_upload_file_after: pte_upload_file,
+                updatereq_inv: pln_req_inv,
+                updateinput_in: ship_input_inv,
+                updatepayment: pln_upload_final,
                 update_by: For_Rq_Edit[2],
               });
             } catch (error) {
@@ -12886,14 +13372,14 @@ function FAM_TRANSECTION_TLWLD() {
                 update_plnboi: selectpln_staff_boi,
                 updateboi_prerare: selectimport_boi_prepare,
                 updatedata_import: selectboi_input_data,
-                updatethai_catergories:thai_catergories,
-                updatebidding:pln_staff_bidding,
-                updateindustrial:pte_dept,
-                updateclerance:export_clearance,
-                update_upload_file_after:pte_upload_file,
-                updatereq_inv:pln_req_inv,
-                updateinput_in:ship_input_inv,
-                updatepayment:pln_upload_final,
+                updatethai_catergories: thai_catergories,
+                updatebidding: pln_staff_bidding,
+                updateindustrial: pte_dept,
+                updateclerance: export_clearance,
+                update_upload_file_after: pte_upload_file,
+                updatereq_inv: pln_req_inv,
+                updateinput_in: ship_input_inv,
+                updatepayment: pln_upload_final,
                 update_by: For_Rq_Edit[2],
               });
             } catch (error) {
@@ -12909,7 +13395,7 @@ function FAM_TRANSECTION_TLWLD() {
             }
             try {
               const response = await axios.post("/update_for_nullSale", {
-                famno: EditFam
+                famno: EditFam,
               });
             } catch (error) {
               console.error("Error update_for_nullSale", error.message);
@@ -12959,7 +13445,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_dept == "null" ||
                 cmmtradio_dept == "undifined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_manager_dept", {
@@ -13033,7 +13522,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_serviceby == "null" ||
                 cmmtradio_serviceby == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_by", {
@@ -13104,7 +13596,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boistaff == "null" ||
                 cmmtradio_boistaff == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_staff", {
@@ -13177,7 +13672,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_boimanager == "null" ||
                 cmmtradio_boimanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_boi_mana", {
@@ -13255,7 +13753,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_facmanager == "null" ||
                 cmmtradio_facmanager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -13321,7 +13822,6 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSL007") {
             let Status = "";
-            
 
             if (selectradio_acc_check == "A") {
               Status = "FLSL008";
@@ -13336,7 +13836,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_check == "null" ||
                 cmmtradio_acc_check == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/date_certificate", {
@@ -13419,7 +13922,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_owner == "null" ||
                 cmmtradio_owner == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_owner", {
@@ -13478,75 +13984,11 @@ function FAM_TRANSECTION_TLWLD() {
             }
           } else if (For_Rq_Edit[10] === "FLSL009") {
             let Status = "FLSL010";
-              let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_DATA", {
-                  FamNo: EditFam,
-                  ATT_FROM:'ENV1 SALE'
-                });
-              const jsonData = await response.data;
-              DataFile_Requester = jsonData;
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-            if (
-              DataFile_Requester == null ||
-              DataFile_Requester == [] ||
-              DataFile_Requester.length == 0
-            ) {
-              alert("กรุณาเลือกไฟล์");
-              return;
-            }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post(
-                  "/update_sale_ws",
-                  {
-                    tranfer: EditFam,
-                    updateinput_ws_cmmt: cmmtradio_pte_weight_size
-                   
-                  }
-                );
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", selectpln_staff_boi);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-            //}
-          } else if (For_Rq_Edit[10] === "FLSL010") {
-            let Status = "FLSL011";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'PLN1 SALE'
+                ATT_FROM: "ENV1 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -13558,7 +14000,73 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_sale_ws", {
+                tranfer: EditFam,
+                updateinput_ws_cmmt: cmmtradio_pte_weight_size,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectpln_staff_boi);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            //}
+          } else if (For_Rq_Edit[10] === "FLSL010") {
+            let Status = "FLSL011";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM: "PLN1 SALE",
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
 
@@ -13573,15 +14081,15 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/update_sale_pln_staff_boi", {
                 tranfer: EditFam,
-                updatepln_staff_boi_cmmt: cmmtradio_pte_staff_boi
+                updatepln_staff_boi_cmmt: cmmtradio_pte_staff_boi,
               });
-                localStorage.setItem("status_formail",null);
-                localStorage.setItem("To",selectimport_boi_prepare);
-                localStorage.setItem("Genno", EditFam);
-                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                localStorage.setItem("Status", Status);
-              
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectimport_boi_prepare);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
               Swal.fire({
                 title: "Submit Success",
                 icon: "success",
@@ -13596,142 +14104,17 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-           navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Mail");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
           } else if (For_Rq_Edit[10] === "FLSL011") {
             let Status = "FLSL012";
-              let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_DATA", {
-                  FamNo: EditFam,
-                  ATT_FROM:'IMP1 SALE'
-                });
-                const jsonData = await response.data;
-                DataFile_Requester = jsonData;
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-              if (
-                DataFile_Requester == null ||
-                DataFile_Requester == [] ||
-                DataFile_Requester.length == 0
-              ) {
-                alert("กรุณาเลือกไฟล์");
-                return;
-              }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_import_boi_prepare", {
-                  tranfer: EditFam,
-                  updateimport_boi_prepare: cmmtradio_import_boi_prepare
-                });
-
-                
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", selectboi_input_data);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                 navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-            //}
-
-          } else if (For_Rq_Edit[10] === "FLSL012") {
-            let Status = "FLSL013";
-            let DataFile_Requester = "";
-              try {
-                const response = await axios.post("/getFAM_FILE_DATA", {
-                  FamNo: EditFam,
-                  ATT_FROM:'BOI1 SALE'
-                });
-                const jsonData = await response.data;
-                DataFile_Requester = jsonData;
-              } catch (error) {
-                console.error("Error fetching data:", error);
-              }
-              if (
-                DataFile_Requester == null ||
-                DataFile_Requester == [] ||
-                DataFile_Requester.length == 0
-              ) {
-                alert("กรุณาเลือกไฟล์");
-                return;
-              }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_boi_input_data", {
-                  tranfer: EditFam,
-                  updateboi_input_data: cmmtradio_boi_input_data
-                });
-                
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", thai_catergories);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-               
-                Swal.fire({
-                  title: "Save Success",
-                  icon: "success",
-                });
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-            
-          }else if (For_Rq_Edit[10] === "FLSL013") {
-            let Status = "FLSL014";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'IMP2 SALE'
+                ATT_FROM: "IMP1 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -13743,7 +14126,138 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_import_boi_prepare", {
+                tranfer: EditFam,
+                updateimport_boi_prepare: cmmtradio_import_boi_prepare,
+              });
+
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", selectboi_input_data);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            //}
+          } else if (For_Rq_Edit[10] === "FLSL012") {
+            let Status = "FLSL013";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM: "BOI1 SALE",
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_boi_input_data", {
+                tranfer: EditFam,
+                updateboi_input_data: cmmtradio_boi_input_data,
+              });
+
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", thai_catergories);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Save Success",
+                icon: "success",
+              });
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL013") {
+            let Status = "FLSL014";
+            let DataFile_Requester = "";
+            try {
+              const response = await axios.post("/getFAM_FILE_DATA", {
+                FamNo: EditFam,
+                ATT_FROM: "IMP2 SALE",
+              });
+              const jsonData = await response.data;
+              DataFile_Requester = jsonData;
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
             if (
@@ -13752,57 +14266,61 @@ function FAM_TRANSECTION_TLWLD() {
               Input_thai_categories == "null" ||
               Input_thai_categories == "undefined"
             ) {
-              alert("กรุณาระบุ (Input thai categories)");
+           
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ (Input thai categories)",
+              });
               return;
             }
-            
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_thai_catergorise", {
-                  tranfer: EditFam,
-                  updatethai_catergorise: cmmtradio_thai_catergories,
-                  update_input_thaicatergory: Input_thai_categories
-                });
-                 
-                  localStorage.setItem("status_formail",null);
-                  localStorage.setItem("To",pln_staff_bidding );
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-          }else if (For_Rq_Edit[10] === "FLSL014") {
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_thai_catergorise", {
+                tranfer: EditFam,
+                updatethai_catergorise: cmmtradio_thai_catergories,
+                update_input_thaicatergory: Input_thai_categories,
+              });
+
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", pln_staff_bidding);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL014") {
             let Status = "FLSL015";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'PLN2 SALE'
+                ATT_FROM: "PLN2 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -13814,7 +14332,10 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
             if (
@@ -13823,50 +14344,53 @@ function FAM_TRANSECTION_TLWLD() {
               Bidding_result == "null" ||
               Bidding_result == "undefined"
             ) {
-              alert("กรุณาระบุ (Bidding result)");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ (Bidding result)",
+              });
               return;
             }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_pln_bidding", {
-                  tranfer: EditFam,
-                  pln_bidding: cmmtradio_pln_staff_bidding,
-                  pln_bidding_result: Bidding_result
-                });
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", pte_dept);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           // }
-          }else if (For_Rq_Edit[10] === "FLSL015") {
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_pln_bidding", {
+                tranfer: EditFam,
+                pln_bidding: cmmtradio_pln_staff_bidding,
+                pln_bidding_result: Bidding_result,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", pte_dept);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+            // }
+          } else if (For_Rq_Edit[10] === "FLSL015") {
             let Status = "FLSL016";
             if (
               contact_date === null ||
@@ -13875,7 +14399,10 @@ function FAM_TRANSECTION_TLWLD() {
               contact_date === "null"
             ) {
               setErrorcontact_date(true);
-              alert("กรุณาเลือก: Contact Date");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Contact Date",
+              });
               return;
             } else {
               setErrorcontact_date(false);
@@ -13884,7 +14411,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'ENV2 SALE'
+                ATT_FROM: "ENV2 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -13896,53 +14423,55 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
-            
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_pte_contact_dept", {
-                  tranfer: EditFam,
-                  pte_contact_dept: cmmtradio_pte_dept,
-                  date_pte_contact_dept: contact_date
-                });
-                
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", export_clearance);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
 
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL016") {
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_pte_contact_dept", {
+                tranfer: EditFam,
+                pte_contact_dept: cmmtradio_pte_dept,
+                date_pte_contact_dept: contact_date,
+              });
+
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", export_clearance);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL016") {
             let Status = "FLSL017";
             if (
               export_clearance_date === null ||
@@ -13951,7 +14480,10 @@ function FAM_TRANSECTION_TLWLD() {
               export_clearance_date === "null"
             ) {
               setErrorexport_clearance_date(true);
-              alert("กรุณาเลือก: Clearance date");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Clearance date",
+              });
               return;
             } else {
               setErrorexport_clearance_date(false);
@@ -13960,7 +14492,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'BOI2 SALE'
+                ATT_FROM: "BOI2 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -13972,51 +14504,53 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_boi_make_clearance", {
-                  tranfer: EditFam,
-                  boi_make_clearance: cmmtradio_export_clearance,
-                  date_export:export_clearance_date
-                });
-                  localStorage.setItem("status_formail", null);
-                  localStorage.setItem("To", pte_upload_file);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-               
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_boi_make_clearance", {
+                tranfer: EditFam,
+                boi_make_clearance: cmmtradio_export_clearance,
+                date_export: export_clearance_date,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", pte_upload_file);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
 
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL017") {
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL017") {
             let Status = "FLSL018";
             if (
               contact_date_pte === null ||
@@ -14025,7 +14559,10 @@ function FAM_TRANSECTION_TLWLD() {
               contact_date_pte === "null"
             ) {
               setErrorcontact_date_pte(true);
-              alert("กรุณาเลือก : Contact date ");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก Contact date",
+              });
               return;
             } else {
               setErrorcontact_date_pte(false);
@@ -14034,7 +14571,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'ENV3 SALE'
+                ATT_FROM: "ENV3 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -14046,58 +14583,62 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_pte_upload_file_clearance", {
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post(
+                "/update_pte_upload_file_clearance",
+                {
                   tranfer: EditFam,
                   pte_upload_file_clearance: cmmtradio_pte_upload_file,
-                  date_pte_upload_file_clearance: contact_date_pte
-                });
-                  localStorage.setItem("status_formail",null);
-                  localStorage.setItem("To", pln_req_inv);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
+                  date_pte_upload_file_clearance: contact_date_pte,
+                }
+              );
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", pln_req_inv);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
 
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL018") {
-           
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL018") {
             let Status = "FLSL019";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'PLN3 SALE'
+                ATT_FROM: "PLN3 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -14109,7 +14650,10 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
             if (
@@ -14119,55 +14663,57 @@ function FAM_TRANSECTION_TLWLD() {
               sale_date === "null"
             ) {
               setErrSale_date(true);
-              alert("กรุณาเลือก: Sale Date");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Sale Date",
+              });
               return;
             } else {
               setErrSale_date(false);
             }
-        
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_pln_request_invoice", {
-                  tranfer: EditFam,
-                  pln_request_invoice: cmmtradio_pln_req_inv,
-                  date_sale:sale_date
-                });
-                  localStorage.setItem( "status_formail",null );
-                  localStorage.setItem("To",  ship_input_inv);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL019") {
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_pln_request_invoice", {
+                tranfer: EditFam,
+                pln_request_invoice: cmmtradio_pln_req_inv,
+                date_sale: sale_date,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", ship_input_inv);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL019") {
             let Status = "FLSL020";
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'SHP CHECK'
+                ATT_FROM: "SHP CHECK",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -14179,50 +14725,52 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {
-              alert("กรุณาเลือกไฟล์");
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
-        
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
-              }
-              try {
-                const response = await axios.post("/update_shipping_inv", {
-                  tranfer: EditFam,
-                  updateshipping_inv: cmmtradio_ship_input_inv
-                });
-                  localStorage.setItem("status_formail",null);
-                  localStorage.setItem("To", pln_upload_final);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
 
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL020") {
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_shipping_inv", {
+                tranfer: EditFam,
+                updateshipping_inv: cmmtradio_ship_input_inv,
+              });
+              localStorage.setItem("status_formail", null);
+              localStorage.setItem("To", pln_upload_final);
+              localStorage.setItem("Genno", EditFam);
+              localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+              localStorage.setItem("Req_by", For_Rq_Edit[2]);
+              localStorage.setItem("Status", Status);
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
+
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL020") {
             let Status = "FLSL021";
             if (
               Vendor_move_date === null ||
@@ -14231,7 +14779,10 @@ function FAM_TRANSECTION_TLWLD() {
               Vendor_move_date === "null"
             ) {
               setErrorVendor_move_date(true);
-              alert("กรุณาเลือก : Vendor move date ");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก Vendor move date",
+              });
               return;
             } else {
               setErrorVendor_move_date(false);
@@ -14240,7 +14791,7 @@ function FAM_TRANSECTION_TLWLD() {
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
-                ATT_FROM:'PLN4 SALE'
+                ATT_FROM: "PLN4 SALE",
               });
               const jsonData = await response.data;
               DataFile_Requester = jsonData;
@@ -14251,82 +14802,78 @@ function FAM_TRANSECTION_TLWLD() {
               DataFile_Requester == null ||
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
-            ) {
-              alert("กรุณาเลือกไฟล์");
+            ) { 
+Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือกไฟล์",
+              });
               return;
             }
-        
-              try {
-                const response = await axios.post("/update_submit", {
-                  famno: EditFam,
-                  sts_submit: Status,
-                });
-              } catch (error) {
-                console.error("Error requesting data:", error);
+
+            try {
+              const response = await axios.post("/update_submit", {
+                famno: EditFam,
+                sts_submit: Status,
+              });
+            } catch (error) {
+              console.error("Error requesting data:", error);
+            }
+            try {
+              const response = await axios.post("/update_pln_upload_final", {
+                tranfer: EditFam,
+                pln_upload_final: cmmtradio_pln_upload_final,
+                move_date: Vendor_move_date,
+              });
+
+              if (selectradio_acc_manager != "R") {
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+                localStorage.setItem("To", text_acc_check);
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+              } else {
+                localStorage.setItem("status_formail", selectradio_acc_manager);
+
+                localStorage.setItem("Genno", EditFam);
+                localStorage.setItem("Req_Type", For_Rq_Edit[7]);
+                localStorage.setItem("Req_by", For_Rq_Edit[2]);
+                localStorage.setItem("Status", Status);
+                const Approver = [
+                  selectdepartment_mana,
+                  selectservice_by,
+                  selectboi_staff,
+                  selectboi_manager,
+                  selectfac_manager,
+                  selectacc_check,
+                  owner_roting,
+                  receiver,
+                  text_acc_check,
+                  selectacc_manager,
+                ];
+                const sentdata = JSON.stringify(Approver);
+                localStorage.setItem("Approver_formail", sentdata);
               }
-              try {
-                const response = await axios.post("/update_pln_upload_final", {
-                  tranfer: EditFam,
-                  pln_upload_final: cmmtradio_pln_upload_final,
-                  move_date:Vendor_move_date
-                });
+              Swal.fire({
+                title: "Submit Success",
+                icon: "success",
+              });
 
-                if (selectradio_acc_manager != "R") {
-                  localStorage.setItem(
-                    "status_formail",
-                    selectradio_acc_manager
-                  );
-                  localStorage.setItem("To", text_acc_check);
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                } else {
-                  localStorage.setItem(
-                    "status_formail",
-                    selectradio_acc_manager
-                  );
-
-                  localStorage.setItem("Genno", EditFam);
-                  localStorage.setItem("Req_Type", For_Rq_Edit[7]);
-                  localStorage.setItem("Req_by", For_Rq_Edit[2]);
-                  localStorage.setItem("Status", Status);
-                  const Approver = [
-                    selectdepartment_mana,
-                    selectservice_by,
-                    selectboi_staff,
-                    selectboi_manager,
-                    selectfac_manager,
-                    selectacc_check,
-                    owner_roting,
-                    receiver,
-                    text_acc_check,
-                    selectacc_manager,
-                  ];
-                  const sentdata = JSON.stringify(Approver);
-                  localStorage.setItem("Approver_formail", sentdata);
-                }
-                Swal.fire({
-                  title: "Submit Success",
-                  icon: "success",
-                });
-
-                localStorage.removeItem("ForRequester");
-                localStorage.removeItem("forDetail");
-                localStorage.removeItem("TransForDetail");
-                localStorage.removeItem("EDIT");
-                localStorage.removeItem("For_Transfer");
-                localStorage.removeItem("For_Routing");
-                localStorage.removeItem("For_Req_Edit");
-                localStorage.removeItem("Edit_Trans");
-                localStorage.removeItem("Edit_Dteail_for_FixedCode");
-                localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
-              } catch (error) {
-                console.error("Error updating submit status:", error.message);
-              }
-           
-          }else if (For_Rq_Edit[10] === "FLSL021") {
+              localStorage.removeItem("ForRequester");
+              localStorage.removeItem("forDetail");
+              localStorage.removeItem("TransForDetail");
+              localStorage.removeItem("EDIT");
+              localStorage.removeItem("For_Transfer");
+              localStorage.removeItem("For_Routing");
+              localStorage.removeItem("For_Req_Edit");
+              localStorage.removeItem("Edit_Trans");
+              localStorage.removeItem("Edit_Dteail_for_FixedCode");
+              localStorage.removeItem("Edit_routing");
+              navigate("/FAMsystem/Mail");
+            } catch (error) {
+              console.error("Error updating submit status:", error.message);
+            }
+          } else if (For_Rq_Edit[10] === "FLSL021") {
             let Status = "";
             if (selectradio_record == "A") {
               Status = "FLSL022";
@@ -14341,7 +14888,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_record == "null" ||
                 cmmtradio_record == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_recode", {
@@ -14383,7 +14933,7 @@ function FAM_TRANSECTION_TLWLD() {
                     pte_upload_file,
                     pln_req_inv,
                     ship_input_inv,
-                    pln_upload_final
+                    pln_upload_final,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -14408,7 +14958,7 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSL022") {
+          } else if (For_Rq_Edit[10] === "FLSL022") {
             let Status = "";
             if (selectradio_acc_manager == "A") {
               Status = "FLSL023";
@@ -14422,7 +14972,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_acc_manager == "null" ||
                 cmmtradio_acc_manager == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_accmanager", {
@@ -14436,13 +14989,16 @@ function FAM_TRANSECTION_TLWLD() {
                     "status_formail",
                     selectradio_acc_manager
                   );
-                  localStorage.setItem("To",selectservice_by );
+                  localStorage.setItem("To", selectservice_by);
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
                   localStorage.setItem("Status", Status);
                 } else {
-                  localStorage.setItem("status_formail", selectradio_acc_manager);
+                  localStorage.setItem(
+                    "status_formail",
+                    selectradio_acc_manager
+                  );
                   localStorage.setItem("Genno", EditFam);
                   localStorage.setItem("Req_Type", For_Rq_Edit[7]);
                   localStorage.setItem("Req_by", For_Rq_Edit[2]);
@@ -14467,7 +15023,7 @@ function FAM_TRANSECTION_TLWLD() {
                     pln_req_inv,
                     ship_input_inv,
                     pln_upload_final,
-                    text_acc_check
+                    text_acc_check,
                   ];
                   const sentdata = JSON.stringify(Approver);
                   localStorage.setItem("Approver_formail", sentdata);
@@ -14491,7 +15047,7 @@ function FAM_TRANSECTION_TLWLD() {
                 console.error("Error updating submit status:", error.message);
               }
             }
-          }else if (For_Rq_Edit[10] === "FLSL023") {
+          } else if (For_Rq_Edit[10] === "FLSL023") {
             let Status = "";
             if (selectradio_service_close_by == "A") {
               Status = "FLSL024";
@@ -14506,7 +15062,10 @@ function FAM_TRANSECTION_TLWLD() {
                 cmmtradio_service_close_by == "null" ||
                 cmmtradio_service_close_by == "undefined")
             ) {
-              alert("กรุณา Comment");
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Comment",
+              });
             } else {
               try {
                 const response = await axios.post("/update_service_close", {
@@ -14543,7 +15102,7 @@ function FAM_TRANSECTION_TLWLD() {
                     selectboi_manager,
                     selectfac_manager,
                     selectacc_check,
-                    owner_roting, 
+                    owner_roting,
                     selectpte_input_weight_size,
                     selectpln_staff_boi,
                     selectimport_boi_prepare,
@@ -14592,7 +15151,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[2] === "null"
         ) {
           setErrorTel_Rq(true);
-          alert("กรุณาระบุ : Tel Requester");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Tel Requester",
+          });
           let ErrorTel_Req = "true";
 
           navigate("/FAMsystem/ForRe", ErrorTel_Req);
@@ -14607,7 +15169,7 @@ function FAM_TRANSECTION_TLWLD() {
         //   For_Req[5] === "" ||
         //   For_Req[5] === "null"
         // ) {
-        //   alert("กรุณา Comment: Dept");
+        //   alert("กรุณาเลือก  Dept");
         //   setErrorDept(true);
         //   navigate("/FAMsystem/ForRe");
         //   return;
@@ -14618,7 +15180,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[15] === "" ||
           For_Req[15] === "null"
         ) {
-          alert("กรุณาระบุ : Request Owner");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Request Owner",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -14628,7 +15193,10 @@ function FAM_TRANSECTION_TLWLD() {
           For_Req[17] === "" ||
           For_Req[17] === "null"
         ) {
-          alert("กรุณาเลือก: Owner Tel");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Owner Tel",
+          });
           navigate("/FAMsystem/ForRe");
           return;
         }
@@ -14638,7 +15206,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectdepartment_mana === "" ||
           selectdepartment_mana === "null"
         ) {
-          alert("กรุณาเลือก: Department Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Department Manager",
+          });
           setErrorManager(true);
           return;
         } else {
@@ -14651,7 +15222,10 @@ function FAM_TRANSECTION_TLWLD() {
           Tel_service === "" ||
           Tel_service === "null"
         ) {
-          alert("กรุณาระบุ : Tel_Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Tel_Service By",
+          });
           setErrorTel_service(true);
           return;
         } else {
@@ -14663,7 +15237,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectservice_by === "" ||
           selectservice_by === "null"
         ) {
-          alert("กรุณาเลือก: Service By");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Service By",
+          });
           setErrorService_by(true);
           return;
         } else {
@@ -14676,7 +15253,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_staff === "" ||
           selectboi_staff === "null"
         ) {
-          alert("กรุณาเลือก: BOI Staff");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Staff",
+          });
           setErrorBoi_Staff(true);
           return;
         } else {
@@ -14688,7 +15268,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_manager === "" ||
           selectboi_manager === "null"
         ) {
-          alert("กรุณาเลือก: BOI Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Manager",
+          });
           setErrorBoi_manager(true);
           return;
         } else {
@@ -14700,7 +15283,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectfac_manager === "" ||
           selectfac_manager === "null"
         ) {
-          alert("กรุณาเลือก: Factory Manager");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Factory Manager",
+          });
           setErrorMana_Fac(true);
           return;
         } else {
@@ -14712,10 +15298,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_check === "" ||
           selectacc_check === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Check");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Check",
+            title: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -14729,7 +15314,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpte_input_weight_size === "" ||
           selectpte_input_weight_size === "null"
         ) {
-          alert("กรุณาเลือก: PTE (ENV) input weight/size");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PTE (ENV) input weight/size",
+          });
           setErrorPTE_INPUT_WS(true);
           return;
         } else {
@@ -14741,7 +15329,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectpln_staff_boi === "" ||
           selectpln_staff_boi === "null"
         ) {
-          alert("กรุณาเลือก: PLN Staff contact BOI ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  PLN Staff contact BOI ",
+          });
           setErrorPLN_Staff_BOI(true);
           return;
         } else {
@@ -14753,7 +15344,10 @@ function FAM_TRANSECTION_TLWLD() {
           selectimport_boi_prepare === "" ||
           selectimport_boi_prepare === "null"
         ) {
-          alert("กรุณาเลือก: Import & BOI prepare  ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  Import & BOI prepare",
+          });
           setErrorimport_boi_prepare(true);
           return;
         } else {
@@ -14765,7 +15359,11 @@ function FAM_TRANSECTION_TLWLD() {
           selectboi_input_data === "" ||
           selectboi_input_data === "null"
         ) {
-          alert("กรุณาเลือก: BOI Input data Import  ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาเลือก  BOI Input data Import",
+          });
+
           setErrorboi_input_data(true);
           return;
         } else {
@@ -14777,7 +15375,10 @@ function FAM_TRANSECTION_TLWLD() {
           ship_input_inv === "" ||
           ship_input_inv === "null"
         ) {
-          alert("กรุณาเลือก: Shipping Staff input invoice no ");
+          Swal.fire({
+            icon: "error",
+            title: "กรุณาระบุ  Shipping Staff input invoice no",
+          });
           setErrorship_input_inv(true);
           return;
         } else {
@@ -14790,10 +15391,9 @@ function FAM_TRANSECTION_TLWLD() {
           selectacc_manager === "" ||
           selectacc_manager === "null"
         ) {
-          //alert("กรุณาเลือก: ACC Manager");
- Swal.fire({
+          Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก: ACC Manager",
+            title: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -14840,21 +15440,20 @@ function FAM_TRANSECTION_TLWLD() {
 
           try {
             const response = await axios.post("/insert_sale", {
-             
               famno: For_Req[0],
-              createinput_ws:selectpte_input_weight_size, 
-              create_plnboi:selectpln_staff_boi, 
-              createboi_prerare:selectimport_boi_prepare, 
-              createdata_import:selectboi_input_data,
-              createthai_catergories:thai_catergories,
-              createbidding:pln_staff_bidding,
-              createindustrial:pte_dept,
-              createclerance:export_clearance,
-              create_upload_file_after:pte_upload_file,
-              createreq_inv:pln_req_inv,
-              createinput_in:ship_input_inv,
-              createpayment:pln_upload_final,
-              create_by:For_Req[1],
+              createinput_ws: selectpte_input_weight_size,
+              create_plnboi: selectpln_staff_boi,
+              createboi_prerare: selectimport_boi_prepare,
+              createdata_import: selectboi_input_data,
+              createthai_catergories: thai_catergories,
+              createbidding: pln_staff_bidding,
+              createindustrial: pte_dept,
+              createclerance: export_clearance,
+              create_upload_file_after: pte_upload_file,
+              createreq_inv: pln_req_inv,
+              createinput_in: ship_input_inv,
+              createpayment: pln_upload_final,
+              create_by: For_Req[1],
             });
           } catch (error) {
             console.error("Error insert_sale:", error);
@@ -14877,30 +15476,40 @@ function FAM_TRANSECTION_TLWLD() {
   // ปุ่ม Reset
   const Reset = async () => {
     if (EditFam !== null) {
-      if (STS1 == "" || STS1 == "FLTR001" || For_sts_reject == "R" || STS1 == "FLLS001" || STS1 == "FLWO001" || STS1 == "FLSC001" || STS1 == "FLDN001" || STS1 == "FLLD001"|| STS1 == "FLSL001"  ) {
-        setselecttrans_factory([]);
-        setselecttrans_cc([]);
+      if (
+        STS1 == "" ||
+        STS1 == "FLTR001" ||
+        For_sts_reject == "R" ||
+        STS1 == "FLLS001" ||
+        STS1 == "FLWO001" ||
+        STS1 == "FLSC001" ||
+        STS1 == "FLDN001" ||
+        STS1 == "FLLD001" ||
+        STS1 == "FLSL001"
+      ) {
+        setselecttrans_factory("");
+        setselecttrans_cc("");
         setnew_boi("");
         setnew_owner([]);
         setplan_date("");
         setTel_for_trans("");
         setTel_service("");
         setabnormal("");
-        setselectdepartment_mana([]);
-        setselectservice_by([]);
-        setselectboi_staff([]);
-        setselectboi_manager([]);
-        setselectfac_manager([]);
-        setselectacc_check([]);
-        setselectacc_manager([]);
-        setreturn_selectacc_manager([]);
-        setselectpte_env([]);
-        setselectpln_staff([]);
-        setselectshipping_staff([]);
-        setselectpte_input_weight_size([]);
-        setselectpln_staff_boi([]);
-        setselectimport_boi_prepare([]);
-        setselectboi_input_data([]);
+        setselectdepartment_mana("");
+        setselectservice_by("");
+        setselectboi_staff("");
+        setselectboi_manager("");
+        setselectfac_manager("");
+        setselectacc_check("");
+        setselectacc_manager("");
+        setreturn_selectacc_manager("");
+        setselectpte_env("");
+        setselectpln_staff("");
+        setselectshipping_staff("");
+        setselectpte_input_weight_size("");
+        setselectpln_staff_boi("");
+        setselectimport_boi_prepare("");
+        setselectboi_input_data("");
         setthai_catergories("");
         setpln_staff_bidding("");
         setpte_dept("");
@@ -14909,34 +15518,88 @@ function FAM_TRANSECTION_TLWLD() {
         setpln_req_inv("");
         setship_input_inv([]);
         setpln_upload_final("");
-
-      
       }
-      if (STS1 == "FLTR002" || STS1 == "FLWO002" || STS1 == "FLLS002" || STS1 == "FLSC002" || STS1 == "FLDN002" || STS1 == "FLLD002"|| STS1 == "FLSL002" ) {
+      if (
+        STS1 == "FLTR002" ||
+        STS1 == "FLWO002" ||
+        STS1 == "FLLS002" ||
+        STS1 == "FLSC002" ||
+        STS1 == "FLDN002" ||
+        STS1 == "FLLD002" ||
+        STS1 == "FLSL002"
+      ) {
         setselectradio_dept("A");
         setcmmtradio_dept("");
       }
-      if (STS1 == "FLTR003" || STS1 == "FLWO003" || STS1 == "FLLS003" || STS1 == "FLSC003" || STS1 == "FLDN003" || STS1 == "FLLD003"|| STS1 == "FLSL003") {
+      if (
+        STS1 == "FLTR003" ||
+        STS1 == "FLWO003" ||
+        STS1 == "FLLS003" ||
+        STS1 == "FLSC003" ||
+        STS1 == "FLDN003" ||
+        STS1 == "FLLD003" ||
+        STS1 == "FLSL003"
+      ) {
         setselectradio_serviceby("A");
         setcmmtradio_serviceby("");
       }
-      if (STS1 == "FLTR004" || STS1 == "FLWO004" || STS1 == "FLLS004" || STS1 == "FLSC004" || STS1 == "FLDN004" || STS1 == "FLLD004" || STS1 == "FLSL004") {
+      if (
+        STS1 == "FLTR004" ||
+        STS1 == "FLWO004" ||
+        STS1 == "FLLS004" ||
+        STS1 == "FLSC004" ||
+        STS1 == "FLDN004" ||
+        STS1 == "FLLD004" ||
+        STS1 == "FLSL004"
+      ) {
         setselectradio_boistaff("A");
         setcmmtradio_boistaff("");
       }
-      if (STS1 == "FLTR005"|| STS1 == "FLWO005" || STS1 == "FLLS005" || STS1 == "FLSC005" || STS1 == "FLDN005" || STS1 == "FLLD005" || STS1 == "FLSL005") {
+      if (
+        STS1 == "FLTR005" ||
+        STS1 == "FLWO005" ||
+        STS1 == "FLLS005" ||
+        STS1 == "FLSC005" ||
+        STS1 == "FLDN005" ||
+        STS1 == "FLLD005" ||
+        STS1 == "FLSL005"
+      ) {
         setselectradio_boimanager("A");
         setcmmtradio_boimanager("");
       }
-      if (STS1 == "FLTR006"|| STS1 == "FLWO006" || STS1 == "FLLS006" || STS1 == "FLSC006" || STS1 == "FLDN006" || STS1 == "FLLD006" || STS1 == "FLSL006") {
+      if (
+        STS1 == "FLTR006" ||
+        STS1 == "FLWO006" ||
+        STS1 == "FLLS006" ||
+        STS1 == "FLSC006" ||
+        STS1 == "FLDN006" ||
+        STS1 == "FLLD006" ||
+        STS1 == "FLSL006"
+      ) {
         setselectradio_facmanager("A");
         setcmmtradio_facmanager("");
       }
-      if (STS1 == "FLTR007"|| STS1 == "FLWO007" || STS1 == "FLLS007" || STS1 == "FLSC007" || STS1 == "FLDN007" || STS1 == "FLLD007" || STS1 == "FLSL007") {
+      if (
+        STS1 == "FLTR007" ||
+        STS1 == "FLWO007" ||
+        STS1 == "FLLS007" ||
+        STS1 == "FLSC007" ||
+        STS1 == "FLDN007" ||
+        STS1 == "FLLD007" ||
+        STS1 == "FLSL007"
+      ) {
         setselectradio_acc_check("A");
         setcmmtradio_acc_check("");
       }
-      if (STS1 == "FLTR008"|| STS1 == "FLWO008" || STS1 == "FLLS008" || STS1 == "FLSC008" || STS1 == "FLDN008" || STS1 == "FLLD008" || STS1 == "FLSL008") {
+      if (
+        STS1 == "FLTR008" ||
+        STS1 == "FLWO008" ||
+        STS1 == "FLLS008" ||
+        STS1 == "FLSC008" ||
+        STS1 == "FLDN008" ||
+        STS1 == "FLLD008" ||
+        STS1 == "FLSL008"
+      ) {
         setselectradio_owner("A");
         setcmmtradio_owner("");
       }
@@ -14976,7 +15639,7 @@ function FAM_TRANSECTION_TLWLD() {
         setcmmtradio_pte_upload_file("");
       }
       if (STS1 == "FLSL018") {
-        setsale_date("")
+        setsale_date("");
         setcmmtradio_pln_req_inv("");
       }
       if (STS1 == "FLSL019") {
@@ -15002,42 +15665,66 @@ function FAM_TRANSECTION_TLWLD() {
       if (STS1 == "FLLD100") {
         setcmmtradio_return_own("");
       }
-      if (STS1 == "FLTR010" || STS1 == "FLWO010" || STS1 == "FLLS010" || STS1 == "FLSC010" || STS1 == "FLDN010" || STS1 == "FLLD010" || STS1 == "FLSL021") {
+      if (
+        STS1 == "FLTR010" ||
+        STS1 == "FLWO010" ||
+        STS1 == "FLLS010" ||
+        STS1 == "FLSC010" ||
+        STS1 == "FLDN010" ||
+        STS1 == "FLLD010" ||
+        STS1 == "FLSL021"
+      ) {
         setselectradio_record("A");
         setcmmtradio_record("");
       }
-      if (STS1 == "FLTR011"|| STS1 == "FLWO011" || STS1 == "FLLS011" || STS1 == "FLSC011" || STS1 == "FLDN011" || STS1 == "FLLD011" || STS1 == "FLSL022") {
+      if (
+        STS1 == "FLTR011" ||
+        STS1 == "FLWO011" ||
+        STS1 == "FLLS011" ||
+        STS1 == "FLSC011" ||
+        STS1 == "FLDN011" ||
+        STS1 == "FLLD011" ||
+        STS1 == "FLSL022"
+      ) {
         setselectradio_acc_manager("A");
         setcmmtradio_acc_manager("");
       }
-      if (STS1 == "FLTR012"|| STS1 == "FLWO012" || STS1 == "FLLS012" || STS1 == "FLSC012" || STS1 == "FLDN012" || STS1 == "FLLD012" || STS1 == "FLSL023") {
+      if (
+        STS1 == "FLTR012" ||
+        STS1 == "FLWO012" ||
+        STS1 == "FLLS012" ||
+        STS1 == "FLSC012" ||
+        STS1 == "FLDN012" ||
+        STS1 == "FLLD012" ||
+        STS1 == "FLSL023"
+      ) {
         setselectradio_service_close_by("A");
         setcmmtradio_service_close_by("");
       }
     } else {
-      setselecttrans_factory([]);
-      setselecttrans_cc([]);
+      setselecttrans_factory("");
+      setselecttrans_cc("");
       setnew_boi("");
-      setnew_owner([]);
+      setnew_owner("");
       setplan_date("");
       setTel_for_trans("");
       setTel_service("");
       setabnormal("");
-      setselectdepartment_mana([]);
-      setselectservice_by([]);
-      setselectboi_staff([]);
-      setselectboi_manager([]);
-      setselectfac_manager([]);
-      setselectacc_check([]);
-      setselectacc_manager([]);      
-      setreturn_selectacc_manager([]);
-      setselectpte_env([]);
-      setselectpln_staff([]);
-      setselectshipping_staff([]);
-      setselectpte_input_weight_size([]);
-      setselectpln_staff_boi([]);
-      setselectimport_boi_prepare([]);
-      setselectboi_input_data([]);
+      setselectdepartment_mana("");
+      setselectservice_by("");
+      setselectboi_staff("");
+      setselectboi_manager("");
+      setselectfac_manager("");
+      setselectacc_check("");
+      setselectacc_manager("");
+      setreturn_selectacc_manager("");
+      setselectpte_env("");
+      setselectpln_staff("");
+      setselectshipping_staff("");
+      setselectpte_input_weight_size("");
+      setselectpln_staff_boi("");
+      setselectimport_boi_prepare("");
+      setselectboi_input_data("");
       setthai_catergories("");
       setpln_staff_bidding("");
       setpte_dept("");
@@ -15046,8 +15733,6 @@ function FAM_TRANSECTION_TLWLD() {
       setpln_req_inv("");
       setship_input_inv([]);
       setpln_upload_final("");
-      
-    
     }
   };
 
@@ -15225,12 +15910,10 @@ function FAM_TRANSECTION_TLWLD() {
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectboi_manager(For_Edit_Rou[0][12]);
-          if(Edit_For_Sale.length >0){
-            setselectboi_input_data(Edit_For_Sale[0][10])
+          if (Edit_For_Sale.length > 0) {
+            setselectboi_input_data(Edit_For_Sale[0][10]);
           }
-          
         }
-        
       } else {
         if (For_Req != null) {
           setselectboi_manager(For_Rou[6]);
@@ -15343,15 +16026,14 @@ function FAM_TRANSECTION_TLWLD() {
       if (EditFam != null) {
         if (For_Edit_Rou != null) {
           setselectacc_manager(For_Edit_Rou[0][28]);
-          if(Edit_For_Lending.length > 0){
+          if (Edit_For_Lending.length > 0) {
             setreturn_selectacc_manager(Edit_For_Lending[0][1]);
           }
-          
         }
       } else {
         if (For_Req != null) {
           setselectacc_manager(For_Rou[10]);
-          setreturn_selectacc_manager(For_Leading_New[1])
+          setreturn_selectacc_manager(For_Leading_New[1]);
         } else {
           setselectacc_manager("");
         }
@@ -15377,15 +16059,14 @@ function FAM_TRANSECTION_TLWLD() {
       const data = response.data.flat();
       setpte_env(data);
       setpte_input_weight_size(data);
-      if (EditFam != null) { 
-        
-        if (Edit_For_Scrap.length >0 ) {
+      if (EditFam != null) {
+        if (Edit_For_Scrap.length > 0) {
           setselectpte_env(Edit_For_Scrap[0][1]);
-        }else if(Edit_For_Sale.length >0 ){
-          setselectpte_input_weight_size(Edit_For_Sale[0][1])
-          setpte_dept(Edit_For_Sale[0][21])
-          setexport_clearance(Edit_For_Sale[0][25])
-          setpte_upload_file(Edit_For_Sale[0][29])
+        } else if (Edit_For_Sale.length > 0) {
+          setselectpte_input_weight_size(Edit_For_Sale[0][1]);
+          setpte_dept(Edit_For_Sale[0][21]);
+          setexport_clearance(Edit_For_Sale[0][25]);
+          setpte_upload_file(Edit_For_Sale[0][29]);
         }
       } else {
         if (For_Req != null) {
@@ -15415,13 +16096,13 @@ function FAM_TRANSECTION_TLWLD() {
       setpln_staff(data);
       setpln_staff_boi(data);
       if (EditFam != null) {
-        if (Edit_For_Scrap.length >0) {
+        if (Edit_For_Scrap.length > 0) {
           setselectpln_staff(Edit_For_Scrap[0][4]);
-        }else if (Edit_For_Sale.length >0){
-          setselectpln_staff_boi(Edit_For_Sale[0][4])
-          setpln_staff_bidding(Edit_For_Sale[0][17])
-          setpln_req_inv(Edit_For_Sale[0][33])
-          setpln_upload_final(Edit_For_Sale[0][39])
+        } else if (Edit_For_Sale.length > 0) {
+          setselectpln_staff_boi(Edit_For_Sale[0][4]);
+          setpln_staff_bidding(Edit_For_Sale[0][17]);
+          setpln_req_inv(Edit_For_Sale[0][33]);
+          setpln_upload_final(Edit_For_Sale[0][39]);
         }
       } else {
         if (For_Req != null) {
@@ -15451,10 +16132,10 @@ function FAM_TRANSECTION_TLWLD() {
       setshipping_staff(data);
 
       if (EditFam != null) {
-        if (Edit_For_Scrap.length >0) {
+        if (Edit_For_Scrap.length > 0) {
           setselectshipping_staff(Edit_For_Scrap[0][7]);
-        }else if(Edit_For_Sale.length >0) {
-          setship_input_inv(Edit_For_Sale[0][36])
+        } else if (Edit_For_Sale.length > 0) {
+          setship_input_inv(Edit_For_Sale[0][36]);
         }
       } else {
         if (For_Req != null) {
@@ -15486,7 +16167,7 @@ function FAM_TRANSECTION_TLWLD() {
       if (EditFam != null) {
         if (Edit_For_Sale.length > 0) {
           setselectimport_boi_prepare(Edit_For_Sale[0][7]);
-          setthai_catergories(Edit_For_Sale[0][13])
+          setthai_catergories(Edit_For_Sale[0][13]);
         }
       } else {
         if (For_Req != null) {
@@ -15517,13 +16198,58 @@ function FAM_TRANSECTION_TLWLD() {
     }
   };
   return {
-    STS1,setSTS1,For_sts_reject,setFor_sts_reject,ownersend,setownersend,trans_factory,settrans_factory,selecttrans_factory,
-    setselecttrans_factory,trans_cc,settrans_cc,selecttrans_cc,setselecttrans_cc,datanew_boi,setdatanew_boi,new_boi,setnew_boi,
-    data_fromboi,setdata_fromboi,new_owner,setnew_owner,selectnew_owner,setselectnew_owner,receiver,setreceiver,sts,setsts,abnormal,
-    setabnormal,Tel_for_trans,setTel_for_trans, plan_date,setplan_date,department_mana,setdepartment_mana,
-    selectdepartment_mana, setselectdepartment_mana,service_dept,setservice_dept,service_by,setservice_by,
-    selectservice_by,setselectservice_by,boi_staff,setboi_staff,selectboi_staff,setselectboi_staff, boi_manager,setboi_manager,
-    selectboi_manager,setselectboi_manager,
+    STS1,
+    setSTS1,
+    For_sts_reject,
+    setFor_sts_reject,
+    ownersend,
+    setownersend,
+    trans_factory,
+    settrans_factory,
+    selecttrans_factory,
+    setselecttrans_factory,
+    trans_cc,
+    settrans_cc,
+    selecttrans_cc,
+    setselecttrans_cc,
+    datanew_boi,
+    setdatanew_boi,
+    new_boi,
+    setnew_boi,
+    data_fromboi,
+    setdata_fromboi,
+    new_owner,
+    setnew_owner,
+    selectnew_owner,
+    setselectnew_owner,
+    receiver,
+    setreceiver,
+    sts,
+    setsts,
+    abnormal,
+    setabnormal,
+    Tel_for_trans,
+    setTel_for_trans,
+    plan_date,
+    setplan_date,
+    department_mana,
+    setdepartment_mana,
+    selectdepartment_mana,
+    setselectdepartment_mana,
+    service_dept,
+    setservice_dept,
+    service_by,
+    setservice_by,
+    selectservice_by,
+    setselectservice_by,
+    boi_staff,
+    setboi_staff,
+    selectboi_staff,
+    setselectboi_staff,
+    boi_manager,
+    setboi_manager,
+    selectboi_manager,
+    setselectboi_manager,
     fac_manager,
     setfac_manager,
     selectfac_manager,
@@ -15790,21 +16516,43 @@ function FAM_TRANSECTION_TLWLD() {
     read_pte_env,
     CM_pte_env,
     CM_pln_staff,
-    CM_shipping,setcmmtradio_pln_staff,setcmmtradio__shipping,pte_input_weight_size, setpte_input_weight_size,
-    selectpte_input_weight_size,setselectpte_input_weight_size,selectpln_staff_boi,setpln_staff_boi,
-    selectboi_input_data,setselectboi_input_data,
-    pln_staff_boi, setpln_staff_boi,
-    selectpln_staff_boi, setselectpln_staff_boi,
-    import_boi_prepare, setimport_boi_prepare,
-    selectimport_boi_prepare, setselectimport_boi_prepare,
-    boi_input_data, setboi_input_data,
-    thai_catergories, setthai_catergories,
-    pln_staff_bidding, setpln_staff_bidding,
-    pte_dept, setpte_dept,
-    pln_req_inv, setpln_req_inv,
-    ship_input_inv, setship_input_inv,
-    pln_upload_final, setpln_upload_final,
-    export_clearance, setexport_clearance,pte_upload_file, setpte_upload_file,
+    CM_shipping,
+    setcmmtradio_pln_staff,
+    setcmmtradio__shipping,
+    pte_input_weight_size,
+    setpte_input_weight_size,
+    selectpte_input_weight_size,
+    setselectpte_input_weight_size,
+    selectpln_staff_boi,
+    setpln_staff_boi,
+    selectboi_input_data,
+    setselectboi_input_data,
+    pln_staff_boi,
+    setpln_staff_boi,
+    selectpln_staff_boi,
+    setselectpln_staff_boi,
+    import_boi_prepare,
+    setimport_boi_prepare,
+    selectimport_boi_prepare,
+    setselectimport_boi_prepare,
+    boi_input_data,
+    setboi_input_data,
+    thai_catergories,
+    setthai_catergories,
+    pln_staff_bidding,
+    setpln_staff_bidding,
+    pte_dept,
+    setpte_dept,
+    pln_req_inv,
+    setpln_req_inv,
+    ship_input_inv,
+    setship_input_inv,
+    pln_upload_final,
+    setpln_upload_final,
+    export_clearance,
+    setexport_clearance,
+    pte_upload_file,
+    setpte_upload_file,
     read_pte_input_weight_size,
     read_pte_input_weight_size_cmmt,
     read_pte_staff_boi,
@@ -15829,48 +16577,106 @@ function FAM_TRANSECTION_TLWLD() {
     read_ship_input_inv_cmmt,
     read_pln_upload_final,
     read_pln_upload_final_cmmt,
-    ErrorPTE_INPUT_WS,ErrorPLN_Staff_BOI,Errorimport_boi_prepare,Errorboi_input_data,ErrorVendor_move_date,Errorcontact_date_pte,Errorcontact_date,
-    cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size,
-    cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi,
-    cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare,
-    cmmtradio_boi_input_data, setcmmtradio_boi_input_data,
-    cmmtradio_thai_catergories, setcmmtradio_thai_catergories,
-    cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding,
-    cmmtradio_pte_dept, setcmmtradio_pte_dept,
-    cmmtradio_export_clearance, setcmmtradio_export_clearance,
-    cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file,
-    cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv,
-    cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv,
-    cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final,
-    CM_pte_weight_size,CM_pte_staff_boi,CM_import_boi_prepare,CM_boi_input_data,CM_thai_catergories,
-    CM_pln_staff_bidding,CM_pte_dept,CM_export_clearance,CM_pte_upload_file,CM_pln_req_inv,CM_ship_input_inv,
-    CM_pln_upload_final,export_clearance_date,setexport_clearance_date,Errorexport_clearance_date,action__pte_weight_size, setaction__pte_weight_size,
-    action__pte_staff_boi, setaction__pte_staff_boi,
-    action__import_boi_prepare, setaction__import_boi_prepare,
-    action__boi_input_data, setaction__boi_input_data,
-    action__thai_catergories, setaction__thai_catergories,
-    action__pln_staff_bidding, setaction__pln_staff_bidding,
-    action__pte_dept, setaction__pte_dept,
-    action__export_clearance, setaction__export_clearance,
-    action__pte_upload_file, setaction__pte_upload_file,
-    action__pln_req_inv, setaction__pln_req_inv,
-    action__ship_input_inv, setaction__ship_input_inv,
-    action__pln_upload_final, setaction__pln_upload_final,
+    ErrorPTE_INPUT_WS,
+    ErrorPLN_Staff_BOI,
+    Errorimport_boi_prepare,
+    Errorboi_input_data,
+    ErrorVendor_move_date,
+    Errorcontact_date_pte,
+    Errorcontact_date,
+    cmmtradio_pte_weight_size,
+    setcmmtradio_pte_weight_size,
+    cmmtradio_pte_staff_boi,
+    setcmmtradio_pte_staff_boi,
+    cmmtradio_import_boi_prepare,
+    setcmmtradio_import_boi_prepare,
+    cmmtradio_boi_input_data,
+    setcmmtradio_boi_input_data,
+    cmmtradio_thai_catergories,
+    setcmmtradio_thai_catergories,
+    cmmtradio_pln_staff_bidding,
+    setcmmtradio_pln_staff_bidding,
+    cmmtradio_pte_dept,
+    setcmmtradio_pte_dept,
+    cmmtradio_export_clearance,
+    setcmmtradio_export_clearance,
+    cmmtradio_pte_upload_file,
+    setcmmtradio_pte_upload_file,
+    cmmtradio_pln_req_inv,
+    setcmmtradio_pln_req_inv,
+    cmmtradio_ship_input_inv,
+    setcmmtradio_ship_input_inv,
+    cmmtradio_pln_upload_final,
+    setcmmtradio_pln_upload_final,
+    CM_pte_weight_size,
+    CM_pte_staff_boi,
+    CM_import_boi_prepare,
+    CM_boi_input_data,
+    CM_thai_catergories,
+    CM_pln_staff_bidding,
+    CM_pte_dept,
+    CM_export_clearance,
+    CM_pte_upload_file,
+    CM_pln_req_inv,
+    CM_ship_input_inv,
+    CM_pln_upload_final,
+    export_clearance_date,
+    setexport_clearance_date,
+    Errorexport_clearance_date,
+    action__pte_weight_size,
+    setaction__pte_weight_size,
+    action__pte_staff_boi,
+    setaction__pte_staff_boi,
+    action__import_boi_prepare,
+    setaction__import_boi_prepare,
+    action__boi_input_data,
+    setaction__boi_input_data,
+    action__thai_catergories,
+    setaction__thai_catergories,
+    action__pln_staff_bidding,
+    setaction__pln_staff_bidding,
+    action__pte_dept,
+    setaction__pte_dept,
+    action__export_clearance,
+    setaction__export_clearance,
+    action__pte_upload_file,
+    setaction__pte_upload_file,
+    action__pln_req_inv,
+    setaction__pln_req_inv,
+    action__ship_input_inv,
+    setaction__ship_input_inv,
+    action__pln_upload_final,
+    setaction__pln_upload_final,
     chk_pte_weight_size,
-    chk_pte_staff_boi, 
-    chk_import_boi_prepare, 
-    chk_boi_input_data, 
+    chk_pte_staff_boi,
+    chk_import_boi_prepare,
+    chk_boi_input_data,
     chk_thai_catergories,
-    chk_pln_staff_bidding, 
-    chk_pte_dept, 
+    chk_pln_staff_bidding,
+    chk_pte_dept,
     chk_export_clearance,
-    chk_pte_upload_file, 
-    chk_pln_req_inv, 
-    chk_ship_input_inv, 
-    chk_pln_upload_final,Errorship_input_inv
-    ,Input_thai_categories, setInput_thai_categories,Bidding_result, setBidding_result,
-    contact_date,setcontact_date,contact_date_pte,contact_date_pte,setcontact_date_pte,Vendor_move_date,setVendor_move_date,
-    scrap_date , setscrap_date,ErrScp_date,sale_date,setsale_date,ErrSale_date
+    chk_pte_upload_file,
+    chk_pln_req_inv,
+    chk_ship_input_inv,
+    chk_pln_upload_final,
+    Errorship_input_inv,
+    Input_thai_categories,
+    setInput_thai_categories,
+    Bidding_result,
+    setBidding_result,
+    contact_date,
+    setcontact_date,
+    contact_date_pte,
+    contact_date_pte,
+    setcontact_date_pte,
+    Vendor_move_date,
+    setVendor_move_date,
+    scrap_date,
+    setscrap_date,
+    ErrScp_date,
+    sale_date,
+    setsale_date,
+    ErrSale_date,
   };
 }
 

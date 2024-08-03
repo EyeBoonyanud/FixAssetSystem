@@ -148,6 +148,7 @@ function FAM_GET_REQUEST() {
     setPopupOpenLoadding(false);
   };
   useEffect(() => {
+    console.log(For_Rq_Edit,"ประเภท")
     openPopupLoadding();
     if (storedFileArray != null) {
       var reconstructedFileArray = storedFileArray.map(
@@ -165,13 +166,18 @@ function FAM_GET_REQUEST() {
     costcenter();
     keep();
     ShowFile();
-    
-   fetchWeights(EditFam);
-    fetchSize(EditFam);
- 
-     
-    fetchUnitPrice(EditFam);
-    fetch_Inv_No(EditFam);
+    if (For_Req !== "" && For_Req  !== null){
+    }else if(EditFam !== "" && EditFam !== null)
+      if(For_Rq_Edit !== ""){
+        console.log("เข้าแล้ว2")
+        if(For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
+          console.log("เข้าแล้ว2.1")
+            fetchWeights(EditFam);
+           // fetchSize(EditFam);
+            fetchUnitPrice(EditFam);
+            fetch_Inv_No(EditFam);
+            }
+      }
     
 
     setTimeout(function () {
@@ -1833,14 +1839,19 @@ For_Rq_Edit[43]
       setWeights(fetchedWeights);
       if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
         if (hasNullWeights) {
-          alert("กรุณากรอก Weight");
+          // alert("กรุณากรอก Weight");
+          await Swal.fire({
+            title: 'กรุณากรอก Weight',
+            text: 'ที่ตาราง Details',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+  
         }
       }
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
-  };
-  const fetchSize = async (EditFam) => {
     try {
       const response = await axios.post("/get_size", {
         famno: EditFam,
@@ -1854,12 +1865,22 @@ For_Rq_Edit[43]
       setsize(fetchedWeights);
       if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
         if (hasNullWeights) {
-          alert("กรุณากรอก Size");
+          // alert("กรุณากรอก Size");
+          await Swal.fire({
+            title: 'กรุณากรอก Size"',
+            text: 'ที่ตาราง Details',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+  
         }
       }
     } catch (error) {
       console.error("Error fetching weights:", error);
     }
+  };
+  const fetchSize = async (EditFam) => {
+ 
   };
   const fetchUnitPrice = async (EditFam) => {
     try {
