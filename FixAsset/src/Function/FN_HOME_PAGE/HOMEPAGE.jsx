@@ -156,6 +156,7 @@ function function_homepage() {
         };
         fetchData();
       }, []);
+
     
       const handleClickNextToSearch =  (value, type) => {
         if (value === "Create") {
@@ -165,7 +166,7 @@ function function_homepage() {
         } else {
           localStorage.setItem("STATUS", value);
           localStorage.setItem("TYPE", type);
-          window.location.href = `/FAMsystem/ApproveFam`;
+         window.location.href = `/FAMsystem/ApproveFam`;
         }
       };
 
@@ -316,6 +317,7 @@ function function_homepage() {
             const response = await axios.get(
             `/getCountSalelistaLLname`
             );
+
             const Saleallname = await response.data;
             setdataallname_Show(Saleallname);
         } catch (error) {

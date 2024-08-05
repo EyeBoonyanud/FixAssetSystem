@@ -120,6 +120,7 @@ export default function BasicGrid() {
                             )
                           }
                         >
+                          
                           <TableCell align="left">
                           {dataallname_Show &&
                               dataallname_Show[0] &&

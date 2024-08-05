@@ -6749,7 +6749,6 @@ function TransFerDetail() {
                     )}
                   {/* //////////////////////////// */}
                   {/*BOI make export clearance :*/}
-                  {console.log(export_clearance,"2222")}
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">

@@ -148,7 +148,6 @@ function FAM_GET_REQUEST() {
     setPopupOpenLoadding(false);
   };
   useEffect(() => {
-    console.log(For_Rq_Edit,"ประเภท")
     openPopupLoadding();
     if (storedFileArray != null) {
       var reconstructedFileArray = storedFileArray.map(
@@ -169,9 +168,7 @@ function FAM_GET_REQUEST() {
     if (For_Req !== "" && For_Req  !== null){
     }else if(EditFam !== "" && EditFam !== null)
       if(For_Rq_Edit !== ""){
-        console.log("เข้าแล้ว2")
         if(For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
-          console.log("เข้าแล้ว2.1")
             fetchWeights(EditFam);
            // fetchSize(EditFam);
             fetchUnitPrice(EditFam);

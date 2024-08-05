@@ -266,7 +266,9 @@ module.exports.search2 = async function (req, res) {
       ReType,
       ReDate,
       ReDateTo,
+      sts
     } = req.body;
+   
     const connect = await oracledb.getConnection(AVO);
     const query = `
       SELECT
@@ -326,6 +328,7 @@ module.exports.search2 = async function (req, res) {
    -- AND ( 'fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${ReDate}' OR '${ReDate}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${ReDateTo}' OR '${ReDateTo}' IS NULL)
+    AND  ('${sts}' IS NULL OR F.FFM_DESC = '${sts}')
     ORDER BY T.FRH_FAM_NO DESC
          `;
     const result = await connect.execute(query);

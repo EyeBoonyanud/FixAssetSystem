@@ -15,6 +15,7 @@ function FAM_SEARCH() {
   const Emp = localStorage.getItem("EmpID");
   let UserLogin = Emp + ":" + Name + " " + Lastname;
  const Type =localStorage.getItem("TYPE");
+ const STS_search =localStorage.getItem("STATUS");
   //const set
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -139,6 +140,13 @@ function FAM_SEARCH() {
         console.error("Error getsearch SEARCH :", error);
       }
     } else if (Path === "APPROVEFAM") {
+      let status = ''
+      if(STS_search == null){
+        status= ''
+      }else
+      {
+        status=STS_search
+      }
       try {
         const response = await axios.post("/getsearch2", {
           UserLogin: UserLoginn,
@@ -150,6 +158,7 @@ function FAM_SEARCH() {
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo,
+          sts : status
         });
         const data = response.data;
         setCheckHead("visible");
