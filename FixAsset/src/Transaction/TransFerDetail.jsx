@@ -4021,7 +4021,7 @@ function TransFerDetail() {
     onChange={(e) => {
       setselectpte_input_weight_size(e.target.value);
       setpte_dept(e.target.value);
-      // setexport_clearance(e.target.value);
+      //setexport_clearance(e.target.value);
       setpte_upload_file(e.target.value);
     }}
     size="small"
@@ -6749,6 +6749,7 @@ function TransFerDetail() {
                     )}
                   {/* //////////////////////////// */}
                   {/*BOI make export clearance :*/}
+                  {console.log(export_clearance,"2222")}
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">

@@ -576,7 +576,7 @@ function FAM_GET_REQUEST() {
         // );
         Swal.fire({
           icon: "error",
-          title: "กรุณาเลือก   Request By Tel , Service Dept , Owner Id ,, Owner Tel Request Type",
+          title: "กรุณาเลือก   Request By Tel , Service Dept , Owner Id , Owner Tel Request Type",
         });
       } else if (Tel1.length === 0) {
         // alert("กรุณาระบุ Request By Tel");
@@ -1867,7 +1867,7 @@ For_Rq_Edit[43]
         if (hasNullWeights) {
           // alert("กรุณากรอก Size");
           await Swal.fire({
-            title: 'กรุณากรอก Size"',
+            title: 'กรุณากรอก Size',
             text: 'ที่ตาราง Details',
             icon: 'error',
             confirmButtonText: 'OK'
@@ -1895,7 +1895,13 @@ For_Rq_Edit[43]
       setunit_price(fetchedWeights);
       if (For_Rq_Edit[10] == "FLSC100") {
         if (hasNullWeights) {
-          alert("กรุณากรอก Unit Price");
+          // alert("กรุณากรอก Unit Price");
+          await Swal.fire({
+            title: 'กรุณากรอก Unit Price',
+            text: 'ที่ตาราง Details',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       }
       //setunit_price(response.data);
@@ -1916,7 +1922,13 @@ For_Rq_Edit[43]
       setinvoice(fetchedWeights);
       if (For_Rq_Edit[10] == "FLSC101" || For_Rq_Edit[10] == "FLSL019") {
         if (hasNullWeights) {
-          alert("กรุณากรอก Invoice No.");
+          // alert("กรุณากรอก Invoice No.");
+          await Swal.fire({
+            title: 'กรุณากรอก Invoice No.',
+            text: 'ที่ตาราง Details',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       }
       //setinvoice(response.data);

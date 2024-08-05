@@ -15798,7 +15798,10 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          setselectdepartment_mana(For_Rou[1]);
+          if(For_Rou !== null){
+            setselectdepartment_mana(For_Rou[1]);
+          }
+          
         } else {
           setselectdepartment_mana("");
         }
@@ -15842,16 +15845,21 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          if (
-            For_Rou[4] === null ||
-            For_Rou[4] === "" ||
-            For_Rou[4] === undefined ||
-            For_Rou[4] === "null"
-          ) {
-            setselectservice_by("");
-          } else {
-            setselectservice_by(For_Rou[4]);
-          }
+      
+          //      if (
+          //   For_Rou[4] === null ||
+          //   For_Rou[4] === "" ||
+          //   For_Rou[4] === undefined ||
+          //   For_Rou[4] === "null"
+          // ) {
+          //   setselectservice_by("");
+          // } else {
+          //   setselectservice_by(For_Rou[4]);
+          // }
+         if(For_Rou !== null){
+          setselectservice_by(For_Rou[4]);
+         }
+       
         } else {
           setselectservice_by("");
         }
@@ -15882,7 +15890,10 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          setselectboi_staff(For_Rou[5]);
+          if(For_Rou !== null){
+         setselectboi_staff(For_Rou[5]);
+          }
+   
         } else {
           setselectboi_staff("");
         }
@@ -15916,7 +15927,9 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
+          if(For_Rou !== null){
           setselectboi_manager(For_Rou[6]);
+          }
         } else {
           setselectboi_manager("");
         }
@@ -15946,7 +15959,9 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          setselectfac_manager(For_Rou[7]);
+          if(For_Rou !== null){
+            setselectfac_manager(For_Rou[7]);
+          }
         } else {
           setselectfac_manager("");
         }
@@ -16032,8 +16047,12 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
+          if(For_Rou !==null){
           setselectacc_manager(For_Rou[10]);
+          if(For_Leading_New !== null){
           setreturn_selectacc_manager(For_Leading_New[1]);
+          }
+          }
         } else {
           setselectacc_manager("");
         }
@@ -16070,7 +16089,9 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          setselectpte_env(For_ScrapNew[1]);
+          if(For_ScrapNew !== null){
+            setselectpte_env(For_ScrapNew[1]);
+          }
         } else {
           setselectpte_env("");
         }
@@ -16106,7 +16127,9 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
+          if(For_ScrapNew !== null){
           setselectpln_staff(For_ScrapNew[2]);
+          }
         } else {
           setselectpln_staff("");
         }
@@ -16139,7 +16162,9 @@ Swal.fire({
         }
       } else {
         if (For_Req != null) {
-          setselectshipping_staff(For_ScrapNew[3]);
+          if(For_ScrapNew !== null){
+            setselectshipping_staff(For_ScrapNew[3]);
+          }
         } else {
           setselectshipping_staff("");
         }
