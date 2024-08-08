@@ -337,7 +337,6 @@ app.post("/sendEmail", async (req, res) => {
       html: req.body.emailMessage
     };
  
-    console.log("Email Sended",req.body.toEmail,req.body.subject);
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
@@ -351,12 +350,10 @@ app.use('/downloads', express.static(__dirname));
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
   const filePath = path.join(__dirname, '../Uploads', fileName);
-  console.log(filePath)
   // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
   if (fs.existsSync(filePath)) {
     // ส่งไฟล์กลับไปยังผู้ใช้
     res.sendFile(filePath);
-    console.log(filePath)
     // res.sendFile(filePath);
   } else {
     // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน

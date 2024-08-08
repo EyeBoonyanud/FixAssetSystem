@@ -396,13 +396,13 @@ const {handleChangeRowsPerPage,
                 // </TableRow>
                 <TableRow style={{ visibility: checkEmpty }}>
                   <TableCell colSpan={16}>
-                    <InfoCircleOutlined
+                    {/* <InfoCircleOutlined
                       style={{
                         visibility: checkData,
                         fontSize: "30px",
                         color: "#ffd580",
                       }}
-                    />
+                    /> */}
                     <text
                       style={{
                         visibility: checkData,

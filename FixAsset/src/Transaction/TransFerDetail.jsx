@@ -620,27 +620,32 @@ function TransFerDetail() {
                       STS1 === "" ||
                       For_sts_reject === "R" ? (
                         <FormControl className="Style1">
-                          <Select
-                            labelId="demo-simple-select-helper-label"
-                            id="demo-simple-select-helper"
-                            value={selecttrans_factory}
-                            onChange={handleFactoryCC}
-                            disabled={read_trans_fac}
-                            size="small"
-                            error={ErrorFac && !selecttrans_factory}
-                            helperText={
-                              ErrorFac && !selecttrans_factory
-                                ? "Please select: Transfer To factory"
-                                : undefined
-                            }
-                          >
-                            {trans_factory.map((option, index) => (
-                              <MenuItem key={index} value={option[0]}>
-                                {option[1]}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
+                        <Select
+                          labelId="demo-simple-select-helper-label"
+                          id="demo-simple-select-helper"
+                          value={selecttrans_factory}
+                          onChange={handleFactoryCC}
+                          disabled={read_trans_fac}
+                          size="small"
+                          error={ErrorFac && !selecttrans_factory}
+                          helperText={
+                            ErrorFac && !selecttrans_factory
+                              ? "กรุณาเลือก : Transfer To factory"
+                              : undefined
+                          }
+                        >
+                          {trans_factory.map((option, index) => (
+                            <MenuItem key={index} value={option[0]}>
+                              {option[1]}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {ErrorFac && !selecttrans_factory && (
+                        <FormHelperText style={{ color: "red" }}>
+                          กรุณาเลือก : Transfer to Factory{" "}
+                        </FormHelperText>
+                      )}
+                      </FormControl>
                       ) : (
                         <TextField
                           style={{
@@ -666,36 +671,36 @@ function TransFerDetail() {
                       STS1 === "" ||
                       For_sts_reject === "R" ? (
                         <FormControl className="Style1">
-                          <Autocomplete
-                            disabled={read_trans_cc}
-                            style={{
-                              backgroundColor: read_trans_cc
-                                ? "rgba(169, 169, 169, 0.3)"
-                                : "",
-                            }}
-                            value={selecttrans_cc}
-                            onChange={(e, value) => {
-                              setselecttrans_cc(value);
-                              handleNew_BOI(value);
-                            }}
-                            options={trans_cc.map((item) => item[0])}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="Select"
-                                size="small"
-                                sx={{ textAlign: "left" }}
-                                error={ErrorCC && !selecttrans_cc}
-                              />
-                            )}
-                          />
-
-                          {ErrorCC && !selecttrans_cc && (
-                            <FormHelperText style={{ color: "red" }}>
-                              Please select: Transfer To CC
-                            </FormHelperText>
+                        <Autocomplete
+                          disabled={read_trans_cc}
+                          style={{
+                            backgroundColor: read_trans_cc
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          value={selecttrans_cc}
+                          onChange={(e, value) => {
+                            setselecttrans_cc(value);
+                            handleNew_BOI(value);
+                          }}
+                          options={trans_cc.map((item) => item[0])}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select"
+                              size="small"
+                              sx={{ textAlign: "left" }}
+                              error={ErrorCC && (!selecttrans_cc || selecttrans_cc.length == 0)}
+                            />
                           )}
-                        </FormControl>
+                        />
+
+                        {ErrorCC && (!selecttrans_cc || selecttrans_cc.length == 0) && (
+                          <FormHelperText style={{ color: "red" }}>
+                            กรุณาเลือก : Transfer To CC
+                          </FormHelperText>
+                        )}
+                      </FormControl>
                       ) : (
                         <TextField
                           style={{
@@ -719,6 +724,9 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
+                    <Typography variant="subtitle2" sx={{fontSize:'10px', color:'red'}}>
+                        * กรุณาเลือก  Transfer to Factory และ Transfer to CC 
+                      </Typography>
                       <FormControl className="Style1">
                         <Autocomplete
                           disabled={read_trans_cc}
@@ -740,7 +748,7 @@ function TransFerDetail() {
                         />
                         {ErrNewboi && !new_boi && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New BOI Project{" "}
+                            กรุณาเลือก: New BOI Project{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -771,7 +779,7 @@ function TransFerDetail() {
                         />
                         {ErrorNewOwn && !selectnew_owner && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New Owner{" "}
+                            กรุณาเลือก: New Owner{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -800,7 +808,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorTel &&
                             (!Tel_for_trans || Tel_for_trans == "null")
-                              ? "Please enter your mobile phone number"
+                              ? "กรุณาระบุ Tel "
                               : undefined
                           }
                         />
@@ -833,7 +841,7 @@ function TransFerDetail() {
                           onChange={(e) => setplan_date(e.target.value)}
                           // helperText={
                           //   ErrorDate && (!plan_date || plan_date == "null")
-                          //     ? "Please select date"
+                          //     ? "กรุณาเลือก date"
                           //     : undefined
                           // }
                         />
@@ -956,7 +964,7 @@ function TransFerDetail() {
                         (!selectdepartment_mana ||
                           !selectdepartment_mana == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Department Manager
+                            กรุณาเลือก: Department Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1064,7 +1072,7 @@ function TransFerDetail() {
                   <td className="Style5"></td>
                   <td className="Style7">
                     {" "}
-                    <Typography variant="subtitle2">Tel:</Typography>
+                    <Typography variant="subtitle2">Tel Service By :</Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">
@@ -1086,7 +1094,7 @@ function TransFerDetail() {
                         helperText={
                           ErrorTel_service &&
                           (!Tel_service || Tel_service == "null")
-                            ? "Please enter your mobile phone number"
+                            ? "กรุณาระบุ Tel Service By"
                             : undefined
                         }
                       />
@@ -1127,7 +1135,7 @@ function TransFerDetail() {
                       {ErrorService_by &&
                         (!selectservice_by || selectservice_by == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Service By
+                            กรุณาเลือก: Service By
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1245,7 +1253,7 @@ function TransFerDetail() {
                       {ErrorBoi_Staff &&
                         (!selectboi_staff || selectboi_staff == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก:BOI Staff
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1360,7 +1368,7 @@ function TransFerDetail() {
                       {ErrorBoi_manager &&
                         (!selectboi_manager || selectboi_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1479,7 +1487,7 @@ function TransFerDetail() {
                       {ErrorMana_Fac &&
                         (!selectfac_manager || selectfac_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Factory Manager
+                            กรุณาเลือก: Factory Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1604,7 +1612,7 @@ function TransFerDetail() {
                       {ErrorAcc_check &&
                         (!selectacc_check || selectacc_check == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Check:
+                            กรุณาเลือก: ACC Check:
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1694,10 +1702,12 @@ function TransFerDetail() {
                               size="small"
                               type="date"
                               format="dd/mm/yyyy"
-                              disabled={read_accchk_cmmt}
+                              disabled={ selectradio_acc_check === "R"||read_accchk_cmmt==true
+                                ? true
+                                : false}
                               style={{
                                 backgroundColor:
-                                  selectradio_acc_check === "R"
+                                  selectradio_acc_check === "R" 
                                     ? "rgba(169, 169, 169, 0.3)"
                                     : read_accchk_cmmt
                                     ? "rgba(169, 169, 169, 0.3)"
@@ -2366,7 +2376,7 @@ function TransFerDetail() {
                           (!return_selectacc_manager ||
                             return_selectacc_manager == "null") && (
                             <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
+                              กรุณาเลือก: ACC Manager Return
                             </FormHelperText>
                           )}
                       </FormControl>
@@ -2452,7 +2462,10 @@ function TransFerDetail() {
                               id="Plan_Remove"
                               size="small"
                               type="date"
-                              disabled={read_return_acc_cmmt}
+                              // disabled={read_return_acc_cmmt}
+                              disabled={selectradio_return_acc === "R"||read_return_acc_cmmt==true
+                                ? true
+                                : false}
                               style={{
                                 backgroundColor:
                                   selectradio_return_acc === "R"
@@ -2475,7 +2488,7 @@ function TransFerDetail() {
                               helperText={
                                 ErrorDate_return &&
                                 (!return_date || return_date == "null")
-                                  ? "Please Select Return Date "
+                                  ? "กรุณาเลือก Return Date "
                                   : undefined
                               }
                             />
@@ -2813,7 +2826,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPTE_ENV && !selectpte_env && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE(ENV)
+                            กรุณาเลือก: PTE(ENV)
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -2874,7 +2887,7 @@ function TransFerDetail() {
                           helperText={
                             ErrScp_date  &&
                             (!scrap_date  || scrap_date  == "null")
-                              ? "Please Select Contact date "
+                              ? "กรุณาเลือก Contact date "
                               : undefined
                           }
                         />
@@ -3225,7 +3238,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPLN_Staff && !selectpln_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff
+                            กรุณาเลือก: PLN Staff
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -3611,7 +3624,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorShipping && !selectshipping_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping
+                            กรุณาเลือก: Shipping
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -3999,44 +4012,38 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3">
-                        <Select
-                          labelId="demo-simple-select-helper-label"
-                          id="demo-simple-select-helper"
-                          value={selectpte_input_weight_size}
-                          disabled={read_pte_input_weight_size}
-                          onChange={(e) => {
-                            setselectpte_input_weight_size(e.target.value);
-                            setpte_dept(e.target.value);
-                            // setexport_clearance(e.target.value);
-                            setpte_upload_file(e.target.value);
-                          }}
-                          size="small"
-                          style={{
-                            borderColor: ErrorPTE_INPUT_WS ? "red" : undefined,
-                            backgroundColor: read_pte_input_weight_size
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
-                            width: "68%",
-                          }}
-                          error={
-                            ErrorPTE_INPUT_WS &&
-                            (!selectpte_input_weight_size ||
-                              selectpte_input_weight_size == "null")
-                          }
-                        >
-                          {pte_input_weight_size.map((option, index) => (
-                            <MenuItem key={index} value={option}>
-                              {option}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE (ENV) input weight/size
-                          </FormHelperText>
-                        )}
-                      </FormControl>
+                    <FormControl className="Style3" error={ErrorPTE_INPUT_WS && (!selectpte_input_weight_size || selectpte_input_weight_size === "null")}>
+  <Select
+    labelId="demo-simple-select-helper-label"
+    id="demo-simple-select-helper"
+    value={selectpte_input_weight_size}
+    disabled={read_pte_input_weight_size}
+    onChange={(e) => {
+      setselectpte_input_weight_size(e.target.value);
+      setpte_dept(e.target.value);
+      //setexport_clearance(e.target.value);
+      setpte_upload_file(e.target.value);
+    }}
+    size="small"
+    style={{
+      borderColor: ErrorPTE_INPUT_WS ? "red" : undefined,
+      backgroundColor: read_pte_input_weight_size ? "rgba(169, 169, 169, 0.3)" : "",
+      width: "68%",
+    }}
+  >
+    {pte_input_weight_size.map((option, index) => (
+      <MenuItem key={index} value={option}>
+        {option}
+      </MenuItem>
+    ))}
+  </Select>
+  {ErrorPTE_INPUT_WS && (!selectpte_input_weight_size || selectpte_input_weight_size === "null") && (
+    <FormHelperText style={{ color: "red" }}>
+      กรุณาเลือก: PTE (ENV) input weight/size
+    </FormHelperText>
+  )}
+</FormControl>
+
                     </td>
 
                     <td style={{ width: "20%" }}></td>
@@ -4391,44 +4398,38 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3">
-                        <Select
-                          labelId="demo-simple-select-helper-label"
-                          id="demo-simple-select-helper"
-                          value={selectpln_staff_boi}
-                          disabled={read_pte_staff_boi}
-                          onChange={(e) => {
-                            setselectpln_staff_boi(e.target.value);
-                            setpln_req_inv(e.target.value);
-                            setpln_upload_final(e.target.value);
-                            setpln_staff_bidding(e.target.value);
-                          }}
-                          size="small"
-                          style={{
-                            borderColor: ErrorPLN_Staff_BOI ? "red" : undefined,
-                            backgroundColor: read_pte_staff_boi
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
-                            width: "68%",
-                          }}
-                          error={
-                            ErrorPLN_Staff_BOI &&
-                            (!selectpln_staff_boi ||
-                              selectpln_staff_boi == "null")
-                          }
-                        >
-                          {pln_staff_boi.map((option, index) => (
-                            <MenuItem key={index} value={option}>
-                              {option}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                        {/* {selectpln_staff_boi && !selectpln_staff_boi && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff contact BOI 
-                          </FormHelperText>
-                        )} */}
-                      </FormControl>
+                    <FormControl className="Style3" error={ErrorPLN_Staff_BOI && (!selectpln_staff_boi || selectpln_staff_boi === "null")}>
+  <Select
+    labelId="demo-simple-select-helper-label"
+    id="demo-simple-select-helper"
+    value={selectpln_staff_boi}
+    disabled={read_pte_staff_boi}
+    onChange={(e) => {
+      setselectpln_staff_boi(e.target.value);
+      setpln_req_inv(e.target.value);
+      setpln_upload_final(e.target.value);
+      setpln_staff_bidding(e.target.value);
+    }}
+    size="small"
+    style={{
+      borderColor: ErrorPLN_Staff_BOI ? "red" : undefined,
+      backgroundColor: read_pte_staff_boi ? "rgba(169, 169, 169, 0.3)" : "",
+      width: "68%",
+    }}
+  >
+    {pln_staff_boi.map((option, index) => (
+      <MenuItem key={index} value={option}>
+        {option}
+      </MenuItem>
+    ))}
+  </Select>
+  {ErrorPLN_Staff_BOI && (!selectpln_staff_boi || selectpln_staff_boi === "null") && (
+    <FormHelperText style={{ color: "red" }}>
+      กรุณาเลือก: PLN Staff contact BOI 
+    </FormHelperText>
+  )}
+</FormControl>
+
                     </td>
 
                     <td style={{ width: "20%" }}></td>
@@ -4817,7 +4818,7 @@ function TransFerDetail() {
                         </Select>
                         {Errorimport_boi_prepare && !selectimport_boi_prepare && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Import & BOI prepare
+                            กรุณาเลือก: Import & BOI prepare
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -5207,7 +5208,7 @@ function TransFerDetail() {
                         </Select>
                         {Errorboi_input_data && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Input data Import
+                            กรุณาเลือก: BOI Input data Import
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -6420,7 +6421,7 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date &&
                             (!contact_date || contact_date == "null")
-                              ? "Please Select Contact date "
+                              ? "กรุณาเลือก Contact date "
                               : undefined
                           }
                         />
@@ -6827,7 +6828,7 @@ function TransFerDetail() {
                             Errorexport_clearance_date &&
                             (!export_clearance_date ||
                               export_clearance_date == "null")
-                              ? "Please Select export Date "
+                              ? "กรุณาเลือก export Date "
                               : undefined
                           }
                         />
@@ -7235,7 +7236,7 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date_pte &&
                             (!contact_date_pte || contact_date_pte == "null")
-                              ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                              ? "กรุณาเลือก Contact date PTE (ENV) upload file after BOI make export clearance"
                               : undefined
                           }
                         />
@@ -7644,7 +7645,7 @@ function TransFerDetail() {
                           helperText={
                             ErrSale_date  &&
                             (!sale_date  || sale_date  == "null")
-                              ? "Please Select Sale Date "
+                              ? "กรุณาเลือก Sale Date "
                               : undefined
                           }
                         />
@@ -8012,7 +8013,7 @@ function TransFerDetail() {
                         {Errorship_input_inv &&
                         (!ship_input_inv || ship_input_inv == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping Staff input invoice no.
+                            กรุณาเลือก: Shipping Staff input invoice no.
                           </FormHelperText>
                         )}
                         {/* <TextField
@@ -8456,7 +8457,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorVendor_move_date &&
                             (!Vendor_move_date || Vendor_move_date == "null")
-                              ? "Please Select Vendor move date"
+                              ? "กรุณาเลือก Vendor move date"
                               : undefined
                           }
                         />
@@ -8945,7 +8946,7 @@ function TransFerDetail() {
                       {ErrorAcc_Mana &&
                         (!selectacc_manager || selectacc_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Manager
+                            กรุณาเลือก: ACC Manager
                           </FormHelperText>
                         )}
                     </FormControl>

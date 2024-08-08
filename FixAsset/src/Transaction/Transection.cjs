@@ -266,7 +266,9 @@ module.exports.search2 = async function (req, res) {
       ReType,
       ReDate,
       ReDateTo,
+      sts
     } = req.body;
+   
     const connect = await oracledb.getConnection(AVO);
     const query = `
       SELECT
@@ -326,6 +328,7 @@ module.exports.search2 = async function (req, res) {
    -- AND ( 'fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${ReDate}' OR '${ReDate}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${ReDateTo}' OR '${ReDateTo}' IS NULL)
+    AND  ('${sts}' IS NULL OR F.FFM_DESC = '${sts}')
     ORDER BY T.FRH_FAM_NO DESC
          `;
     const result = await connect.execute(query);
@@ -1563,7 +1566,7 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     
-    SELECT T.FRH_FAM_NO ,
+      SELECT T.FRH_FAM_NO ,
     TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS FAM_REQ_DATE,
     T.FAM_REQ_BY ,
     T.FAM_REQ_TEL ,
@@ -1583,12 +1586,14 @@ module.exports.getEdit_Request_Show = async function (req, res) {
     T.FAM_REQ_OWNER,
     T.FAM_REQ_OWNER_CC,
     T.FAM_REQ_OWNER_TEL,
-    S.ENAME || '  ' || S.ESURNAME AS NAME_SURNAME 
+    S.ENAME || '  ' || S.ESURNAME AS NAME_SURNAME,
+    MF.CC_CTR||' : '||MF.CC_DESC 
 FROM FAM_REQ_HEADER T 
 LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS 
 LEFT JOIN CUSR.CU_FACTORY_M M ON  M.FACTORY_CODE  =  T.FAM_FACTORY 
 LEFT JOIN CUSR.CU_USER_M R ON R.USER_LOGIN = T.FAM_REQ_BY 
-LEFT JOIN CUSR.CU_USER_HUMANTRIX S  ON S.EMPCODE = T.FAM_REQ_OWNER 
+LEFT JOIN CUSR.CU_USER_HUMANTRIX S  ON S.EMPCODE = T.FAM_REQ_OWNER
+LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR MF ON MF.CC_CTR  =T.FAM_REQ_OWNER_CC 
 
 WHERE T.FRH_FAM_NO = :FamNo
           `;

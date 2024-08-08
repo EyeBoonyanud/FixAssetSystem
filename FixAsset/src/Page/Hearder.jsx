@@ -65,7 +65,7 @@ function ButtonAppBar({ isOpen, onClose }) {
                 fontFamily: "Roboto, sans-serif",
               }}
             >
-              User: {Name} {Lastname} &nbsp; &nbsp; Role : {NameRole} &nbsp; |
+              User: {Name} {Lastname} &nbsp; &nbsp; |
               &nbsp; <text onClick={Logout}>Logout</text>
               <br />
             </Button>
