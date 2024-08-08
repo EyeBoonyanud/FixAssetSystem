@@ -67,7 +67,7 @@ export default function SignInSide() {
           
         } else {
           console.error("Login failed");
-          alert("Invalid username or password");
+          alert("username หรือ password ผิดพลาด");
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -153,6 +153,11 @@ export default function SignInSide() {
                   id="Username"
                   label="Username"
                   onChange={(e) => setUser(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -183,6 +188,11 @@ export default function SignInSide() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -236,6 +246,11 @@ export default function SignInSide() {
                   htmlType="submit"
                   className="login-form-button"
                   onClick={handleLogin}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   loading={loading} 
                 >
                    {loading ? 'Loading' : 'Login'} 
