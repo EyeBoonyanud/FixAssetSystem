@@ -80,7 +80,6 @@ module.exports.getData_Hearder_show_PDF = async function (req, res) {
       LEFT JOIN CUSR.CU_MFGPRO_CC_MSTR MS ON MS.CC_CTR =F.FAM_REQ_OWNER_CC
       WHERE F.FRH_FAM_NO = '${FamNo}' `;
       const result = await connect.execute(query);
-      console.log(result,"result")
     connect.release();
     const rows = result.rows;
     res.json(rows);

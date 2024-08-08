@@ -50,7 +50,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
   const [ErrorUserLogin, setErrorUserLogin] = useState(false);
   const [ErrorEmail, setErrorEmail] = useState(false);
   const [ErrorStatus, setErrorStatus] = useState(false);
-  // console.log(PAGE_STATUS, "ข้อมูลอยู่ตรงนี้ไหม");
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
   const onCloseCancel = () => {
@@ -82,7 +81,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       setuser_update(UserLoginn);
     } else {
       const EDIT = localStorage.getItem("Person_Edit");
-       console.log("show data edit", EDIT);
       const DATA_EDIT_M = JSON.parse(EDIT);
       const combinedArray01 = [DATA_EDIT_M.slice(0, 2)];
       const DATA_EDIT_02 = DATA_EDIT_M.slice(0, 0).concat(
@@ -99,8 +97,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
         combinedArray03,
         DATA_EDIT_03.slice(4)
       );
-      console.log("show data DATA_EDIT", DATA_EDIT);
-      // console.log("CASE EDIT", DATA_EDIT);
       setselecteDatafac(DATA_EDIT[0]);
       setselecteDatalevel(DATA_EDIT[1]);
       setselectcost(DATA_EDIT[2]);
@@ -382,12 +378,10 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
       const data = await getDatalogin_show.data;
       if (data && data.length > 0) {
         const USERNAME = data[0][0];
-        console.log( data[0][0]," data[0][0]")
         const EMAIL = data[0][1];
         if (PAGE_STATUS === "NEW") {
           setusername(data[0][0]);
           setemail(data[0][1]);
-          console.log("Show data Email2 =");
         } else {
           setusername(data[0][0]);
         }
@@ -731,7 +725,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
               ></Typography>
             </TableCell>
           </TableRow>
-          {/* {console.log("PAGE_STATUS === TEST", PAGE_STATUS)} */}
           {PAGE_STATUS === "EDIT" && (
             <>
               <TableRow>
@@ -770,7 +763,6 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                   />
                 </TableCell>
               </TableRow>
-              {/* {console.log("PAGE_STATUS === EDIT")} */}
             </>
           )}
 

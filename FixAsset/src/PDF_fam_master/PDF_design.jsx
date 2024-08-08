@@ -76,7 +76,6 @@ function PDF_design() {
             { FamNo: PDF_FAM }
           );
           const data = await response.data;
-          console.log("DATA PDF ",data)
           setDatafamno(data);
         } catch (error) {
           console.error("Error RequesterORType:", error);

@@ -204,7 +204,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
 
         {/* Menu Monitoring Function */}
-        <div>
+        <div style={{ display:  Role === "214"  ? "none" : "block" }}>
           <ListItem className="ListItem" onClick={toggleSubMenu3}>
             <ListItemIcon>
               <SensorsOutlinedIcon color="success" />
@@ -236,7 +236,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
 
         {/* Menu Master Data Function */}
-        <div style={{ display: Role === "214" ? "none" : "block" }}>
+        <div style={{ display: Role === "214" || Role === "212" || Role === "213" ? "none" : "block" }}>
           <ListItem className="ListItem" onClick={toggleSubMenu4}>
             <ListItemIcon>
               <SensorsOutlinedIcon color="success" />

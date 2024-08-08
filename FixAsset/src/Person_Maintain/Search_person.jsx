@@ -240,7 +240,6 @@ function person_maintain() {
         }
       );
       const data = await getEdit_show.data;
-      console.log(data,"jjjjjjjj88888")
       const DataEdit = data;
       const PAGE_STATUS = "EDIT";
 
