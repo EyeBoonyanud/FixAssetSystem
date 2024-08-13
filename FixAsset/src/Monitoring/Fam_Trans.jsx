@@ -71,23 +71,22 @@ function TransFerDetail() {
     BackPage,
   } = FAM_TRANSECTION();
   const { downloadFile,STS } = FAM_REQUESTER();
-console.log(STS,"STS555")
+  const Statuss = localStorage.getItem("StatusPage");
   return (
     <>
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginRight: "40px",
-          fontSize: "15px",
-        }}
-      >
-        <Typography> FAM NO : {VIEW_FAM}</Typography>
-      </div>
+      <div className="container-pageshow">
+  <div className="pageshow-style1">
+    <Typography sx={{fontSize:'20px',fontWeight:'bold'}}>{Statuss}</Typography>
+  </div>
+  <div className="flex-end-style">
+    <Typography>FAM NO: {VIEW_FAM}</Typography>
+  </div>
+</div>
+      <br></br>
       <div>
         {VIEW_TYPE === "GP01001" && (
           <Card className="Style100">

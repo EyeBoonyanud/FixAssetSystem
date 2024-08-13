@@ -101,10 +101,10 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     if (id === "Person Maintain") {
       window.location.href = "/FAMsystem/Search_person";
     }
-    if (id === "BOI Maintain") {
+    if (id === "BOI Project") {
       window.location.href = "/FAMsystem/BOIMaintain";
     }
-    if (id === "FAM Master") {
+    if (id === "FAM Master List") {
       window.location.href = "/FAMsystem/FAMMaster";
     }
   };

@@ -158,7 +158,7 @@ function ForRequest() {
       {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
     </>
   );
-  
+  const Statuss = localStorage.getItem("StatusPage");
   const getColumns = (STS1_Req) => {
     switch(STS1_Req) {
       case "FLTR011":
@@ -202,7 +202,10 @@ function ForRequest() {
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
+      <div className="pageshow-style">
+  <Typography sx={{fontSize:'20px',fontWeight:'bold'}} >{Statuss}</Typography>
 
+</div>
       <div className="Box-Insert">
         {/* สำหรับ Gen Fam no */}
         <div className="Insert">

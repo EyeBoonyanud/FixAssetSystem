@@ -40,13 +40,17 @@ function ForRequest() {
     DataNewCC_ToProj,
     DataWeight_Size_Unit_Env,
   } = FAM_REQUESTER();
+  const Statuss = localStorage.getItem("StatusPage");
   return (
     <>
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
+      <div className="pageshow-style">
+  <Typography sx={{fontSize:'20px',fontWeight:'bold'}} >{Statuss}</Typography>
 
+</div>
       <div className="Box-Insert">
         {/* สำหรับ Gen Fam no */}
         <div className="Insert">

@@ -80,7 +80,8 @@ function FAM_SEARCH() {
   };
 
   const navigate = useNavigate();
-  const New = () => {
+  const New = (value) => {
+    localStorage.setItem("StatusPage",value)
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
     localStorage.removeItem("TransForDetail");
@@ -342,7 +343,8 @@ function FAM_SEARCH() {
   const Path = cutPath.toUpperCase();
   localStorage.setItem("pageshow", cutPath);
 
-  const handleEdit = async (EditFam, index, TextField) => {
+  const handleEdit = async (EditFam, index, page) => {
+    localStorage.setItem("StatusPage",page)
     setselectindex(index);
     setloading("false");
     try {
@@ -445,7 +447,8 @@ function FAM_SEARCH() {
     window.location.href = `/FAMsystem/PDF_download
     `;
   };
-  const handleVIEW = async (VIEW_FAM, TYPE) => {
+  const handleVIEW = async (VIEW_FAM, TYPE,page) => {
+    localStorage.setItem("StatusPage",page)
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
    window.location.href = `/FAMsystem/VIEW_Fammaster`;

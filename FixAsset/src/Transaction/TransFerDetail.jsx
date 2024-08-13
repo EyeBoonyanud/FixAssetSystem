@@ -518,6 +518,7 @@ function TransFerDetail() {
     showfilepln_upload_final,
   } = FAM_GET_SHOW_FILE();
   // Const Return
+  const Statuss = localStorage.getItem("StatusPage");
   const shouldShowTable = Showtype === "GP01006" && 
                           !["FLLD001", "FLLD002", "FLLD003", "FLLD004", "FLLD005", "FLLD006", "FLLD007", "FLLD008", "FLLD009"].includes(STS1) && 
                           For_sts_reject === "R";
@@ -527,16 +528,14 @@ function TransFerDetail() {
         <Header />
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginRight: "40px",
-          fontSize: "15px",
-        }}
-      >
-        <Typography> FAM NO: {EditFam ? EditFam : For_Req[0]}</Typography>
-      </div>
+      <div className="container-pageshow">
+  <div className="pageshow-style1">
+    <Typography sx={{fontSize:'20px',fontWeight:'bold'}}>{Statuss}</Typography>
+  </div>
+  <div className="flex-end-style">
+    <Typography>FAM NO: {EditFam ? EditFam : For_Req[0]}</Typography>
+  </div>
+</div>
       <br></br>
       <div>
         {Showtype === "GP01001" && (

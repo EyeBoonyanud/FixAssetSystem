@@ -516,3 +516,44 @@ box-sizing: border-box;
 .datepick .ant-picker-input > input {
   color: black !important;
 }
+.pageshow-style{
+  margin-bottom: 30px;
+  background-color:#d5f5e3;
+  border-radius: 10px;
+  margin-left: 20px;
+  max-width: 15%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  
+}
+.container-pageshow{
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%; 
+  padding: 0 40px; 
+  box-sizing: border-box; 
+}
+.pageshow-style1{
+  flex: 1; /* Allows the element to grow and shrink */
+  text-align: center; /* Centers the text within this div */
+  margin-bottom: 10px;
+  background-color:#d7f1e3 ;
+  border-radius: 10px;
+  margin-left: 20px;
+  max-width: 15%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+  
+}
+.flex-end-style {
+  font-size: 15px; /* Sets the font size */
+  flex-shrink: 0; /* Prevents this element from shrinking */
+}

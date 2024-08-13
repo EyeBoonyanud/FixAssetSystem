@@ -547,7 +547,9 @@ function Issue() {
                       backgroundColor: "#391AFB",
                     }}
                     variant="contained"
-                    onClick={New}
+                    onClick={() => {
+                      New('Issue FAM');
+                    }}
                   >
                     <AddIcon />
                     New
@@ -635,7 +637,7 @@ function Issue() {
                             ) : (
                               <EditNoteIcon
                                 style={{ color: "#F4D03F", fontSize: "30px" }}
-                                onClick={() => handleEdit(item[2], index)}
+                                onClick={() => handleEdit(item[2], index,'Issue FAM')}
                               />
                             )
                           ) : Path === "APPROVEFAM" ? (
@@ -644,7 +646,7 @@ function Issue() {
                             ) : (
                               <AddTaskIcon
                                 style={{ color: "#F4D03F", fontSize: "30px" }}
-                                onClick={() => handleEdit(item[2], index)}
+                                onClick={() => handleEdit(item[2], index,'Approve FAM')}
                               />
                             )
                           ) : loading === "false" && index === selectindex ? (
@@ -685,7 +687,7 @@ function Issue() {
                               <FileSearchOutlined
                                 style={{ color: "#40A2E3", fontSize: "30px" }}
                                 onClick={() => {
-                                  handleVIEW(item[2], item[7]);
+                                  handleVIEW(item[2], item[7],'FAM Master List');
                                 }}
                               />
                             ))}
