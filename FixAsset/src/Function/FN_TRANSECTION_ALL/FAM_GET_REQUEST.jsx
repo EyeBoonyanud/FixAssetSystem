@@ -165,16 +165,16 @@ function FAM_GET_REQUEST() {
     costcenter();
     keep();
     ShowFile();
-    if (For_Req !== "" && For_Req  !== null){
-    }else if(EditFam !== "" && EditFam !== null)
-      if(For_Rq_Edit !== ""){
-        if(For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
-            fetchWeights(EditFam);
-           // fetchSize(EditFam);
-            fetchUnitPrice(EditFam);
-            fetch_Inv_No(EditFam);
-            }
-      }
+    // if (For_Req !== "" && For_Req  !== null){
+    // }else if(EditFam !== "" && EditFam !== null)
+    //   if(For_Rq_Edit !== ""){
+    //     if(For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
+    //         fetchWeights(EditFam);
+    //        // fetchSize(EditFam);
+    //         fetchUnitPrice(EditFam);
+    //         fetch_Inv_No(EditFam);
+    //         }
+    //   }
     
 
     setTimeout(function () {
@@ -1060,7 +1060,9 @@ For_Rq_Edit[43]
   //   setSelectAll("");
   // };
   const ADD = async () => {
+    console.log("เข้าาาาาา")
     openPopupLoadding();
+console.log(Factory[1],'Factory[1]')
 
     try {
       const response = await axios.post("/find_fix_groub", {
@@ -1074,7 +1076,6 @@ For_Rq_Edit[43]
           validValues.push(data[key][0]);
         }
       }
-
       try {
         const response = await axios.post("/getfixcode", {
           Fixcode: find_fixasset1,
@@ -1098,9 +1099,15 @@ For_Rq_Edit[43]
         //         return;
         //     }
         // }
+
+
+          
         if (data.length > 0) {
           setcheckvalue(data[0][5]);
-          if (datatable.length === 0) {
+          console.log(Request_type1,"Request_type1")
+       // not sale
+          if(Request_type1 !== 'GP01003'){
+            if (datatable.length === 0) {
           } else {
             // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
             if (datatable[0][5] === data[0][5]) {
@@ -1115,6 +1122,44 @@ For_Rq_Edit[43]
               return;
             }
           }
+          }
+          if(Request_type1 == 'GP01003'){
+          // Sale
+          if (datatable.length === 0) {
+
+          } else {
+            // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+            if (datatable[0][5] === 'NON BOI' && data[0][5]=== 'NON BOI') {
+              
+            }else if(data[0][5] !== 'NON BOI'  && datatable[0][5] === 'NON BOI'){
+                 Swal.fire({
+                icon: "error",
+                // title: "ไม่สามารถ ADD ได้ เนื่องจากตัวแรกที่เลือกมี Project เป็น NON BOI",
+                text:'ไม่สามารถ ADD ได้ กรุณาเลือก Project ที่เป็น NON BOI'
+              });
+                closePopupLoadding();
+              return;
+            }else if(data[0][5] == 'NON BOI'  && datatable[0][5] ){
+              Swal.fire({
+                icon: "error",
+                text: "ไม่สามารถ ADD ได้ กรุณาเลือก Project ที่ไม่ใช่ NON BOI",
+              });
+              closePopupLoadding();
+            return;
+          }
+            else{
+              // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
+              // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
+              // Swal.fire({
+              //   icon: "error",
+              //   title: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
+              // });
+              
+            }
+          }}
+
+
+
           try {
             const response = await axios.post("/fix_code_find", {
               assetcode: find_fixasset1,
@@ -1822,224 +1867,224 @@ For_Rq_Edit[43]
     });
   };
 
-  const fetchWeights = async (EditFam) => {
-    try {
-      const response = await axios.post("/get_weights", {
-        famno: EditFam,
-      });
-      const fetchedWeights = response.data;
-      //setWeights(response.data);
+  // const fetchWeights = async (EditFam) => {
+  //   try {
+  //     const response = await axios.post("/get_weights", {
+  //       famno: EditFam,
+  //     });
+  //     const fetchedWeights = response.data;
+  //     //setWeights(response.data);
 
-      const hasNullWeights = fetchedWeights.some(
-        (weight) => weight === null || weight[0] === null
-      );
-      setWeights(fetchedWeights);
-      if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
-        if (hasNullWeights) {
-          // alert("กรุณากรอก Weight");
-          await Swal.fire({
-            title: 'กรุณากรอก Weight',
-            text: 'ที่ตาราง Details',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
+  //     const hasNullWeights = fetchedWeights.some(
+  //       (weight) => weight === null || weight[0] === null
+  //     );
+  //     setWeights(fetchedWeights);
+  //     if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
+  //       if (hasNullWeights) {
+  //         // alert("กรุณากรอก Weight");
+  //         await Swal.fire({
+  //           title: 'กรุณากรอก Weight',
+  //           text: 'ที่ตาราง Details',
+  //           icon: 'error',
+  //           confirmButtonText: 'OK'
+  //         });
   
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching weights:", error);
-    }
-    try {
-      const response = await axios.post("/get_size", {
-        famno: EditFam,
-      });
-      //setsize(response.data);
-      const fetchedWeights = response.data;
-      //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(
-        (weight) => weight === null || weight[0] === null
-      );
-      setsize(fetchedWeights);
-      if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
-        if (hasNullWeights) {
-          // alert("กรุณากรอก Size");
-          await Swal.fire({
-            title: 'กรุณากรอก Size',
-            text: 'ที่ตาราง Details',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching weights:", error);
+  //   }
+  //   try {
+  //     const response = await axios.post("/get_size", {
+  //       famno: EditFam,
+  //     });
+  //     //setsize(response.data);
+  //     const fetchedWeights = response.data;
+  //     //setWeights(response.data);
+  //     const hasNullWeights = fetchedWeights.some(
+  //       (weight) => weight === null || weight[0] === null
+  //     );
+  //     setsize(fetchedWeights);
+  //     if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
+  //       if (hasNullWeights) {
+  //         // alert("กรุณากรอก Size");
+  //         await Swal.fire({
+  //           title: 'กรุณากรอก Size',
+  //           text: 'ที่ตาราง Details',
+  //           icon: 'error',
+  //           confirmButtonText: 'OK'
+  //         });
   
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching weights:", error);
-    }
-  };
-  const fetchSize = async (EditFam) => {
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching weights:", error);
+  //   }
+  // };
+  // const fetchSize = async (EditFam) => {
  
-  };
-  const fetchUnitPrice = async (EditFam) => {
-    try {
-      const response = await axios.post("/get_unitprice", {
-        famno: EditFam,
-      });
-      const fetchedWeights = response.data;
-      //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(
-        (weight) => weight === null || weight[0] === null
-      );
-      setunit_price(fetchedWeights);
-      if (For_Rq_Edit[10] == "FLSC100") {
-        if (hasNullWeights) {
-          // alert("กรุณากรอก Unit Price");
-          await Swal.fire({
-            title: 'กรุณากรอก Unit Price',
-            text: 'ที่ตาราง Details',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
-        }
-      }
-      //setunit_price(response.data);
-    } catch (error) {
-      console.error("Error Unit Price", error);
-    }
-  };
-  const fetch_Inv_No = async (EditFam) => {
-    try {
-      const response = await axios.post("/get_inv_no", {
-        famno: EditFam,
-      });
-      const fetchedWeights = response.data;
-      //setWeights(response.data);
-      const hasNullWeights = fetchedWeights.some(
-        (weight) => weight === null || weight[0] === null
-      );
-      setinvoice(fetchedWeights);
-      if (For_Rq_Edit[10] == "FLSC101" || For_Rq_Edit[10] == "FLSL019") {
-        if (hasNullWeights) {
-          // alert("กรุณากรอก Invoice No.");
-          await Swal.fire({
-            title: 'กรุณากรอก Invoice No.',
-            text: 'ที่ตาราง Details',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
-        }
-      }
-      //setinvoice(response.data);
-    } catch (error) {
-      console.error("Error Unit Price", error);
-    }
-  };
-  const [weights, setWeights] = useState({});
-  const [size, setsize] = useState({});
-  const [unit_price, setunit_price] = useState({});
-  const [invoice, setinvoice] = useState({});
+  // };
+  // const fetchUnitPrice = async (EditFam) => {
+  //   try {
+  //     const response = await axios.post("/get_unitprice", {
+  //       famno: EditFam,
+  //     });
+  //     const fetchedWeights = response.data;
+  //     //setWeights(response.data);
+  //     const hasNullWeights = fetchedWeights.some(
+  //       (weight) => weight === null || weight[0] === null
+  //     );
+  //     setunit_price(fetchedWeights);
+  //     if (For_Rq_Edit[10] == "FLSC100") {
+  //       if (hasNullWeights) {
+  //         // alert("กรุณากรอก Unit Price");
+  //         await Swal.fire({
+  //           title: 'กรุณากรอก Unit Price',
+  //           text: 'ที่ตาราง Details',
+  //           icon: 'error',
+  //           confirmButtonText: 'OK'
+  //         });
+  //       }
+  //     }
+  //     //setunit_price(response.data);
+  //   } catch (error) {
+  //     console.error("Error Unit Price", error);
+  //   }
+  // };
+  // const fetch_Inv_No = async (EditFam) => {
+  //   try {
+  //     const response = await axios.post("/get_inv_no", {
+  //       famno: EditFam,
+  //     });
+  //     const fetchedWeights = response.data;
+  //     //setWeights(response.data);
+  //     const hasNullWeights = fetchedWeights.some(
+  //       (weight) => weight === null || weight[0] === null
+  //     );
+  //     setinvoice(fetchedWeights);
+  //     if (For_Rq_Edit[10] == "FLSC101" || For_Rq_Edit[10] == "FLSL019") {
+  //       if (hasNullWeights) {
+  //         // alert("กรุณากรอก Invoice No.");
+  //         await Swal.fire({
+  //           title: 'กรุณากรอก Invoice No.',
+  //           text: 'ที่ตาราง Details',
+  //           icon: 'error',
+  //           confirmButtonText: 'OK'
+  //         });
+  //       }
+  //     }
+  //     //setinvoice(response.data);
+  //   } catch (error) {
+  //     console.error("Error Unit Price", error);
+  //   }
+  // };
+  // const [weights, setWeights] = useState({});
+  // const [size, setsize] = useState({});
+  // const [unit_price, setunit_price] = useState({});
+  // const [invoice, setinvoice] = useState({});
 
-  const handleWeightChange = async (e, index, Famno, Idfix, namefix) => {
-    const { value } = e.target;
+  // const handleWeightChange = async (e, index, Famno, Idfix, namefix) => {
+  //   const { value } = e.target;
+ 
 
-    setWeights((prevWeights) => ({
-      ...prevWeights,
-      [index]: value,
-    }));
-    try {
-      const response = await axios.post("/insert_weight", {
-        famno: Famno,
-        idfix_asset: Idfix,
-        namefixasset: namefix,
-        weight_fix: value,
-      });
-      if (response.status === 500) {
-        alert("กรุณากรอกตัวเลข");
-        return;
-      }
-    } catch (error) {
-      console.error("Error during weight update:", error);
-      if (error.response && error.response.status === 500) {
-        alert("กรุณากรอกตัวเลข");
-      }
-    }
-  };
-  const totalWeight = Object.values(weights).reduce(
-    (acc, curr) => acc + parseFloat(curr),
-    0
-  );
+  //   setWeights((prevWeights) => ({
+  //     ...prevWeights,
+  //     [index]: value,
+  //   }));
+  //   try {
+  //     const response = await axios.post("/insert_weight", {
+  //       famno: Famno,
+  //       idfix_asset: Idfix,
+  //       namefixasset: namefix,
+  //       weight_fix: value,
+  //     });
+  //     if (response.status === 500) {
+  //       alert("กรุณากรอกตัวเลข");
+  //       return;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during weight update:", error);
+  //     if (error.response && error.response.status === 500) {
+  //       alert("กรุณากรอกตัวเลข");
+  //     }
+  //   }
+  // };
+  // const totalWeight = Object.values(weights).reduce(
+  //   (acc, curr) => acc + parseFloat(curr),
+  //   0
+  // );
 
-  const handleSizeChange = async (e, index, Famno, Idfix, namefix) => {
-    const { value } = e.target;
+  // const handleSizeChange = async (e, index, Famno, Idfix, namefix) => {
+  //   const { value } = e.target;
+  //   setsize((prevSize) => ({
+  //     ...prevSize,
+  //     [index]: value,
+  //   }));
+  //   try {
+  //     const response = await axios.post("/insert_size", {
+  //       famno: Famno,
+  //       idfix_asset: Idfix,
+  //       namefixasset: namefix,
+  //       size_fix: value,
+  //     });
 
-    setsize((prevSize) => ({
-      ...prevSize,
-      [index]: value,
-    }));
-    try {
-      const response = await axios.post("/insert_size", {
-        famno: Famno,
-        idfix_asset: Idfix,
-        namefixasset: namefix,
-        size_fix: value,
-      });
+  //     if (response.status === 500) {
+  //       alert("กรุณากรอกตัวเลข");
+  //       return;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during size update:", error);
+  //     if (error.response && error.response.status === 500) {
+  //       alert("กรุณากรอกตัวเลข");
+  //     }
+  //   }
+  // };
+  // const handleUnitPriceChange = async (e, index, Famno, Idfix, namefix) => {
+  //   const { value } = e.target;
+  //   setunit_price((prevUnit) => ({
+  //     ...prevUnit,
+  //     [index]: value,
+  //   }));
 
-      if (response.status === 500) {
-        alert("กรุณากรอกตัวเลข");
-        return;
-      }
-    } catch (error) {
-      console.error("Error during size update:", error);
-      if (error.response && error.response.status === 500) {
-        alert("กรุณากรอกตัวเลข");
-      }
-    }
-  };
-  const handleUnitPriceChange = async (e, index, Famno, Idfix, namefix) => {
-    const { value } = e.target;
-    setunit_price((prevUnit) => ({
-      ...prevUnit,
-      [index]: value,
-    }));
+  //   try {
+  //     await axios.post("/insert_unit_price", {
+  //       famno: Famno,
+  //       idfix_asset: Idfix,
+  //       namefixasset: namefix,
+  //       unit_pri: value,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error during size update:", error);
+  //   }
+  // };
 
-    try {
-      await axios.post("/insert_unit_price", {
-        famno: Famno,
-        idfix_asset: Idfix,
-        namefixasset: namefix,
-        unit_pri: value,
-      });
-    } catch (error) {
-      console.error("Error during size update:", error);
-    }
-  };
+  // const handleInvoiceChange = async (e, index, Famno, Idfix, namefix) => {
+  //   const { value } = e.target;
 
-  const handleInvoiceChange = async (e, index, Famno, Idfix, namefix) => {
-    const { value } = e.target;
+  //   setinvoice((prevInvoice) => ({
+  //     ...prevInvoice,
+  //     [index]: value,
+  //   }));
 
-    setinvoice((prevInvoice) => ({
-      ...prevInvoice,
-      [index]: value,
-    }));
+  //   try {
+  //     await axios.post("/insert_invoice", {
+  //       famno: Famno,
+  //       idfix_asset: Idfix,
+  //       namefixasset: namefix,
+  //       invoice_no: value,
+  //     });
 
-    try {
-      await axios.post("/insert_invoice", {
-        famno: Famno,
-        idfix_asset: Idfix,
-        namefixasset: namefix,
-        invoice_no: value,
-      });
-
-      // if (response.status === 500) {
-      //   alert("กรุณากรอกตัวเลข");
-      //   return;
-      // }
-    } catch (error) {
-      console.error("Error during size update:", error);
-      // if (error.response && error.response.status === 500) {
-      //   alert("กรุณากรอกตัวเลข");
-      // }
-    }
-  };
+  //     // if (response.status === 500) {
+  //     //   alert("กรุณากรอกตัวเลข");
+  //     //   return;
+  //     // }
+  //   } catch (error) {
+  //     console.error("Error during size update:", error);
+  //     // if (error.response && error.response.status === 500) {
+  //     //   alert("กรุณากรอกตัวเลข");
+  //     // }
+  //   }
+  // };
 
   const handleManual = () =>{
     setOpenManual(true)
@@ -2149,16 +2194,16 @@ For_Rq_Edit[43]
     downloadFile,
     storedFileArray,
     LocalUserLogin,
-    handleWeightChange,
-    weights,
-    totalWeight,
-    size,
-    handleSizeChange,
-    handleUnitPriceChange,
-    unit_price,
-    handleInvoiceChange,
-    invoice,
-    setinvoice,
+    // handleWeightChange,
+    // weights,
+    // totalWeight,
+    // size,
+    // handleSizeChange,
+    // handleUnitPriceChange,
+    // unit_price,
+    // handleInvoiceChange,
+    // invoice,
+    // setinvoice,
     ErrTelReq,
     ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   };

@@ -148,53 +148,53 @@ function ForRequest() {
     size,handleSizeChange,handleUnitPriceChange,unit_price, handleInvoiceChange,
     invoice,ErrTelReq, ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   } = FAM_GET_REQUEST();
-  const renderTableCells = (columns) => (
-    <>
-      {columns.includes("New CC") && <TableCell>New CC</TableCell>}
-      {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
-      {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
-      {columns.includes("Size") && <TableCell>Size</TableCell>}
-      {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
-      {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
-    </>
-  );
+  // const renderTableCells = (columns) => (
+  //   <>
+  //     {columns.includes("New CC") && <TableCell>New CC</TableCell>}
+  //     {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
+  //     {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
+  //     {columns.includes("Size") && <TableCell>Size</TableCell>}
+  //     {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
+  //     {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
+  //   </>
+  // );
   const Statuss = localStorage.getItem("StatusPage");
-  const getColumns = (STS1_Req) => {
-    switch(STS1_Req) {
-      case "FLTR011":
-      case "FLTR012":
-        return ["New CC", "New BOI Project"];
-      case "FLSC009":
-      case "FLSL009":
-      case "FLSL010":
-      case "FLSL011":
-      case "FLSL012":
-      case "FLSL013":
-      case "FLSL014":
-      case "FLSL015":
-      case "FLSL016":
-      case "FLSL017":
-      case "FLSL018":
-        return ["Weight(kg)", "Size"];
-      case "FLSL019":
-      case "FLSL020":
-      case "FLSL021":
-      case "FLSL022":
-      case "FLSL023":
-        return ["Weight(kg)", "Size", "Invoice No."];
-      case "FLSC100":
-        return ["Weight(kg)", "Size", "Unit Price(Baht)"];
-      case "FLSC101":
-      case "FLSC010":
-      case "FLSC011":
-      case "FLSC012":
-        return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
-      default:
-        return [];
-    }
-  };
+  // const getColumns = (STS1_Req) => {
+  //   switch(STS1_Req) {
+  //     case "FLTR011":
+  //     case "FLTR012":
+  //       return ["New CC", "New BOI Project"];
+  //     case "FLSC009":
+  //     case "FLSL009":
+  //     case "FLSL010":
+  //     case "FLSL011":
+  //     case "FLSL012":
+  //     case "FLSL013":
+  //     case "FLSL014":
+  //     case "FLSL015":
+  //     case "FLSL016":
+  //     case "FLSL017":
+  //     case "FLSL018":
+  //       return ["Weight(kg)", "Size"];
+  //     case "FLSL019":
+  //     case "FLSL020":
+  //     case "FLSL021":
+  //     case "FLSL022":
+  //     case "FLSL023":
+  //       return ["Weight(kg)", "Size", "Invoice No."];
+  //     case "FLSC100":
+  //       return ["Weight(kg)", "Size", "Unit Price(Baht)"];
+  //     case "FLSC101":
+  //     case "FLSC010":
+  //     case "FLSC011":
+  //     case "FLSC012":
+  //       return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
+  //     default:
+  //       return [];
+  //   }
+  // };
   
-  const columns = getColumns(STS1_Req);
+  // const columns = getColumns(STS1_Req);
   
   
   return (
@@ -1014,7 +1014,7 @@ function ForRequest() {
             <TableCell>Invoice No.</TableCell>
             <TableCell>Acquisition Cost(Baht)</TableCell>
             <TableCell>Book Value(Baht)</TableCell>
-            {renderTableCells(columns)}
+            {/* {renderTableCells(columns)} */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -1063,7 +1063,7 @@ function ForRequest() {
                   {typeof item[9] === "number" ? item[9].toLocaleString() : item[9]}
                 </TableCell>
                 <TableCell>{item[10]}</TableCell>
-                {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
+                {/* {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
                   <>
                     <TableCell>{item[11]}</TableCell>
                     <TableCell>{item[12]}</TableCell>
@@ -1072,8 +1072,8 @@ function ForRequest() {
                 {(STS1_Req === "FLSC009" ||STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
                    || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
                    || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" 
-                ) && (
-  <>
+                ) && ( */}
+  {/* <>
     <TableCell>
       <TextField
         style={{ width: '100px' }}
@@ -1097,9 +1097,9 @@ function ForRequest() {
           || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"}
       />
     </TableCell>
-  </>
-)}
-                {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
+  </> */}
+{/* )} */}
+                {/* {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
                   <TableCell>
                      <TextField
         style={{ width: '100px' }}
@@ -1120,7 +1120,7 @@ function ForRequest() {
         disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"||STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" }
       />
                   </TableCell>
-                )}
+                )} */}
               </TableRow>
             </React.Fragment>
           ))}
@@ -1143,12 +1143,12 @@ function ForRequest() {
                   maximumFractionDigits: 2,
                 })}
             </TableCell>
-            <TableCell style={{ fontWeight: "bold" }}>
+            {/* <TableCell style={{ fontWeight: "bold" }}>
               {datatable
                 .reduce((acc, curr) => acc + parseInt(curr[10]), 0)
                 .toLocaleString("en-US")}
-            </TableCell>
-            {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
+            </TableCell> */}
+            {/* {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
               || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
                    || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"
             ) && (
@@ -1158,15 +1158,15 @@ function ForRequest() {
                   maximumFractionDigits: 2,
                 })}
               </TableCell>
-            )}
-             {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
+            )} */}
+             {/* {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
               <TableCell style={{ fontWeight: "bold" }}>
-                {/* {totalSize.toLocaleString("en-US", {
+                {totalSize.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })} */}
+                })}
               </TableCell>
-            )}
+            )} */}
           </TableRow>
         </TableBody>
       </Table>

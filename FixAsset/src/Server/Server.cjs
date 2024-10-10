@@ -147,6 +147,19 @@ app.post("/insert_size",Transaction.insert_size);
 app.post("/insert_unit_price",Transaction.insert_unit_price);
 app.post("/insert_invoice",Transaction.insert_invoice);
 
+//Period
+app.get("/Select_Period",Transaction.Select_Period);
+app.post("/update_periodall",Transaction.update_periodall);
+app.get("/SelectMonthly",Transaction.SelectMonthly);
+app.post("/insertReturn",Transaction.insertReturn);
+app.post("/ShowMonth",Transaction.ShowMonth);
+app.post("/GetMaxReturnDate",Transaction.GetMaxReturnDate);
+
+
+
+
+
+
 
 
 //MAY 

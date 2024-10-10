@@ -90,10 +90,11 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectpln_staff, setselectpln_staff] = useState("");
   const [shipping_staff, setshipping_staff] = useState([]);
   const [selectshipping_staff, setselectshipping_staff] = useState("");
+  const [total_scrap,settotal_scrap]= useState(""); 
+  const [scrap_date, setscrap_date] = useState("");
   // Sale
   const [pte_input_weight_size, setpte_input_weight_size] = useState([]); //PTE (ENV) input weight/size
-  const [selectpte_input_weight_size, setselectpte_input_weight_size] =
-    useState("");
+  const [selectpte_input_weight_size, setselectpte_input_weight_size] =useState("");
   const [pln_staff_boi, setpln_staff_boi] = useState([]); //PLN Staff contact BOI
   const [selectpln_staff_boi, setselectpln_staff_boi] = useState("");
   const [import_boi_prepare, setimport_boi_prepare] = useState([]); //Import & BOI prepare
@@ -114,8 +115,27 @@ function FAM_TRANSECTION_TLWLD() {
   const [contact_date_pte, setcontact_date_pte] = useState("");
   const [Vendor_move_date, setVendor_move_date] = useState(""); //Vendor_move_date
   const [export_clearance_date, setexport_clearance_date] = useState(""); //BOI make export clearance :
-  const [scrap_date, setscrap_date] = useState("");
   const [sale_date, setsale_date] = useState("");
+  const [total_sale,settotal_sale] = useState(""); 
+  const [invoice_no,setinvoice_no ]= useState(""); 
+  //Lending
+  const [borrow_name,setborrow_name]= useState(""); 
+  const [textperiod,settextperiod]= useState(""); 
+  const [ddlperiod,setddlperiod]= useState([]); 
+  const [selectddlperiod,setselectddlperiod]= useState(""); 
+  const currentYear = new Date().getFullYear();
+  const [issueDate] = useState(new Date());
+  const [returnDate, setReturnDate] = useState("");
+  const [updatereturn,setupdatereturn] = useState("")
+  const [showreturnupdate,setshowreturnupdate] = useState("")
+  const [monthly,setmonthly]=useState([])
+  const [selectmonthly, setselectmonthly]=useState("")
+  const [dataresult_return,setdataresult_return]=useState([])
+  const [Maxreturndate,setMaxreturndate]=useState([])
+
+
+
+ 
 
   ////////////////////
   const [ErrorTel, setErrorTel] = useState(false);
@@ -137,6 +157,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [ErrorACCReturn, setErrorACCReturn] = useState(false);
   const [ErrorDate_Certificate, setErrorDate_Certificate] = useState(false);
   const [ErrorDate_return, setErrorDate_return] = useState(false);
+  const [ErrTotalScrap, setErrTotalScrap] = useState(false);
   //Scrap
   const [ErrorPTE_ENV, setErrorPTE_ENV] = useState(false);
   const [ErrorPLN_Staff, setErrorPLN_Staff] = useState(false);
@@ -154,7 +175,8 @@ function FAM_TRANSECTION_TLWLD() {
     useState(false);
   const [ErrScp_date, setErrScp_date] = useState(false);
   const [ErrSale_date, setErrSale_date] = useState(false);
-
+  const [ErrTotalSale,setErrTotalSale] = useState(false);
+  
   let STS = "";
   let Fam_list = "";
   let servivedept = "";
@@ -183,10 +205,12 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectradio_receiver, setselectradio_receiver] = useState("");
   const [selectradio_record, setselectradio_record] = useState("");
   const [selectradio_acc_manager, setselectradio_acc_manager] = useState("");
-  const [selectradio_service_close_by, setselectradio_service_close_by] =
-    useState("");
+  const [selectradio_service_close_by, setselectradio_service_close_by] =useState("");
   const [selectradio_return_acc, setselectradio_return_acc] = useState("");
   const [selectradio_return_own, setselectradio_return_own] = useState("");
+
+  //
+  const [selectreturn, setselectreturn] = useState("");
   /////////////// ตัวแปร Check Commnet //////////////////////////////
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
@@ -203,6 +227,7 @@ function FAM_TRANSECTION_TLWLD() {
   //Lending
   const [cmmtradio_return_acc, setcmmtradio_return_acc] = useState("");
   const [cmmtradio_return_own, setcmmtradio_return_own] = useState("");
+  
   //scarp
   const [cmmtradio_pte_env, setcmmtradio_pte_env] = useState("");
   const [cmmtradio_pln_staff, setcmmtradio_pln_staff] = useState("");
@@ -434,6 +459,8 @@ function FAM_TRANSECTION_TLWLD() {
   const [chk_cer_date, setchk_cer_date] = useState("");
 
   const [Showtype, setShowtype] = useState("");
+
+
   /////////////// ตัวแปร FormatDate //////////////////////////////
   const [currentDate, setCurrentDate] = useState(new Date());
   const formattedDate = `${currentDate
@@ -451,9 +478,13 @@ function FAM_TRANSECTION_TLWLD() {
   const closePopupLoadding = () => {
     setPopupOpenLoadding(false);
   };
+  const today = new Date();
+  const day = today.getDate()
   ////////////////////// Use Effect /////////////////////////////////
   useEffect(() => {
+   
     openPopupLoadding();
+    Period();
     if (For_Rq_Edit != null) {
       setSTS1(For_Rq_Edit[10]);
       setFor_sts_reject(For_Rq_Edit[16]);
@@ -493,6 +524,7 @@ function FAM_TRANSECTION_TLWLD() {
     Fac_manager();
     ACC_Check();
     ACC_Manager();
+    getResult();
 
    
 
@@ -1408,6 +1440,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setaction__pln_staff(Edit_For_Scrap[0][5]);
                 setaction__shipping(Edit_For_Scrap[0][8]);
                 setscrap_date(Edit_For_Scrap[0][10]);
+                settotal_scrap(Edit_For_Scrap[0][12]);
                 if (
                   Edit_For_Scrap[0][3] == "null" ||
                   Edit_For_Scrap[0][3] == null
@@ -1451,6 +1484,7 @@ function FAM_TRANSECTION_TLWLD() {
                 setcontact_date_pte(Edit_For_Sale[0][30]);
                 setVendor_move_date(Edit_For_Sale[0][41]);
                 setsale_date(Edit_For_Sale[0][47]);
+                settotal_sale(Edit_For_Sale[0][49])
 
                 if (
                   Edit_For_Sale[0][3] == "null" ||
@@ -1571,6 +1605,14 @@ function FAM_TRANSECTION_TLWLD() {
                   setcmmtradio_pln_upload_final(null);
                 } else {
                   setcmmtradio_pln_upload_final(Edit_For_Sale[0][42]);
+                }
+                if (
+                  Edit_For_Sale[0][50] == "null" ||
+                  Edit_For_Sale[0][50] == null
+                ) {
+                  setinvoice_no(null);
+                } else {
+                  setinvoice_no(Edit_For_Sale[0][50]);
                 }
               }
 
@@ -3664,6 +3706,20 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_sale", error);
           }
         }
+        if(Type === "GP01006"){
+          console.log(returnDate,"UUUUUU")
+          try {
+            const response = await axios.post("/update_periodall", {
+              tranfer:For_Rq_Edit[0],
+              borrow_by:borrow_name ,
+              periodtxt: textperiod,
+              periodunit: selectddlperiod,
+              returndate: day+'/'+returnDate
+            });
+          } catch (error) {
+            console.error("Error update_periodall:", error.message);
+          }
+        }
       }
     } else {
       if (Type == "GP01001") {
@@ -3965,7 +4021,9 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_lending:", error.message);
           }
         } else if (Type === "GP01006" && Fam_list !== "") {
-          const set_data_for_req_details = [Fam_list, return_selectacc_manager];
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate
+            // dataperiod
+          ];
           const sendheader = JSON.stringify(set_data_for_req_details);
           localStorage.setItem("For_Lending", sendheader);
           try {
@@ -3979,7 +4037,9 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_lending:", error.message);
           }
         } else if (Type === "GP01006" && Fam_list == "") {
-          const set_data_for_req_details = [Fam_list, return_selectacc_manager];
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate
+            // dataperiod
+            ];
           const sendheader = JSON.stringify(set_data_for_req_details);
           localStorage.setItem("For_Lending", sendheader);
           try {
@@ -4280,6 +4340,7 @@ function FAM_TRANSECTION_TLWLD() {
           }
 
           if (Type === "GP01006") {
+             console.log(returnDate,"UUUUUU")
             try {
               const response = await axios.post("/update_lending", {
                 tranfer: For_Rq_Edit[0],
@@ -4289,6 +4350,17 @@ function FAM_TRANSECTION_TLWLD() {
               });
             } catch (error) {
               console.error("Error update_lending:", error.message);
+            }
+            try {
+              const response = await axios.post("/update_periodall", {
+                tranfer: For_Rq_Edit[0],
+                borrow_by:borrow_name ,
+                periodtxt: textperiod,
+                periodunit: selectddlperiod,
+                returndate:day+'/'+returnDate
+              });
+            } catch (error) {
+              console.error("Error update_periodall:", error.message);
             }
           }
           if (Type === "GP01002") {
@@ -4392,6 +4464,17 @@ function FAM_TRANSECTION_TLWLD() {
             } catch (error) {
               console.error("Error requesting data:", error);
             }
+            try {
+              const response = await axios.post("/update_periodall", {
+                tranfer: For_Req[0],
+                borrow_by:borrow_name ,
+                periodtxt: textperiod,
+                periodunit: selectddlperiod,
+                returndate:day+'/'+returnDate
+              });
+            } catch (error) {
+              console.error("Error update_periodall:", error.message);
+            }
           }
           if (Type === "GP01002") {
             try {
@@ -4438,6 +4521,7 @@ function FAM_TRANSECTION_TLWLD() {
         }
 
         setCheckSave("False");
+        localStorage.removeItem("For_Lending")
         navigate("/FAMsystem/Search");
         // setOpen(true);
       }
@@ -4804,7 +4888,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -4905,7 +4990,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -4980,7 +5066,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5045,7 +5132,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5109,7 +5197,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5183,7 +5272,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5259,7 +5349,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5328,7 +5419,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5399,7 +5491,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5474,7 +5567,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5568,7 +5662,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5651,7 +5746,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -5734,7 +5830,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6073,7 +6170,8 @@ function FAM_TRANSECTION_TLWLD() {
             localStorage.setItem("Req_Type", For_Req[6]);
             localStorage.setItem("Req_by", For_Req[1]);
             localStorage.setItem("Status", Status);
-            navigate("/FAMsystem/Mail");
+            // navigate("/FAMsystem/Mail");
+            navigate("/FAMsystem/Search");
             Swal.fire({
               title: "Submit Success",
               icon: "success",
@@ -6311,7 +6409,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -6379,7 +6478,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -6444,7 +6544,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6507,7 +6608,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6571,7 +6673,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6645,7 +6748,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6721,7 +6825,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6790,7 +6895,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6861,7 +6967,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -6934,7 +7041,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7011,7 +7119,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7093,7 +7202,8 @@ function FAM_TRANSECTION_TLWLD() {
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7322,7 +7432,8 @@ function FAM_TRANSECTION_TLWLD() {
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -7555,7 +7666,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Serach");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -7624,7 +7736,8 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -7689,7 +7802,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7752,7 +7866,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7816,7 +7931,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7889,7 +8005,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -7965,7 +8082,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8034,7 +8152,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8105,7 +8224,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8178,7 +8298,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8260,7 +8381,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8342,7 +8464,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -8571,7 +8694,8 @@ Swal.fire({
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -8805,7 +8929,8 @@ Swal.fire({
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -8874,7 +8999,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -8939,7 +9065,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9002,7 +9129,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9066,7 +9194,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9140,7 +9269,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9216,7 +9346,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9323,7 +9454,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9417,7 +9549,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9489,7 +9622,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9572,7 +9706,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9654,7 +9789,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -9883,7 +10019,8 @@ Swal.fire({
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -10138,10 +10275,22 @@ Swal.fire({
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
+            try {
+              const response = await axios.post("/update_periodall", {
+                tranfer: EditFam,
+                borrow_by:borrow_name ,
+                periodtxt: textperiod,
+                periodunit: selectddlperiod,
+                returndate:day+'/'+returnDate
+              });
+            } catch (error) {
+              console.error("Error update_periodall:", error.message);
+            } 
           } else if (For_Rq_Edit[16] === "R") {
             let Status = "FLLD002";
             try {
@@ -10213,7 +10362,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -10276,7 +10426,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10339,7 +10490,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10402,7 +10554,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10476,7 +10629,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10551,7 +10705,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10638,7 +10793,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10664,7 +10820,7 @@ Swal.fire({
             ) {
                Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                title: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -10716,7 +10872,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10751,21 +10908,21 @@ Swal.fire({
                 title: "กรุณาระบุ Comment",
               });
             } else {
-              if (
-                return_date === null ||
-                return_date === undefined ||
-                return_date === "" ||
-                return_date === "null"
-              ) {
-                setErrorDate_return(true);
-                Swal.fire({
-                  icon: "error",
-                  title: "กรุณาเลือก  Return Date",
-                });
-                return;
-              } else {
-                setErrorDate_return(false);
-              }
+              // if (
+              //   return_date === null ||
+              //   return_date === undefined ||
+              //   return_date === "" ||
+              //   return_date === "null"
+              // ) {
+              //   setErrorDate_return(true);
+              //   Swal.fire({
+              //     icon: "error",
+              //     title: "กรุณาเลือก  Return Date",
+              //   });
+              //   return;
+              // } else {
+              //   setErrorDate_return(false);
+              // }
               try {
                 const response = await axios.post("/update_submit", {
                   famno: EditFam,
@@ -10779,7 +10936,7 @@ Swal.fire({
                   "/update_leading_acc_return",
                   {
                     tranfer: EditFam,
-                    return_date_acc: return_date,
+                    // return_date_acc: return_date,
                     acc_return_jud: selectradio_return_acc,
                     acc_return_cmmt: cmmtradio_return_acc,
                   }
@@ -10808,7 +10965,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -10878,7 +11036,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -10952,7 +11111,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11036,7 +11196,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11120,7 +11281,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11370,13 +11532,26 @@ Swal.fire({
           } catch (error) {
             console.error("Error requesting data:", error);
           }
+          try {
+            const response = await axios.post("/update_periodall", {
+              tranfer: For_Req[0],
+              borrow_by:borrow_name ,
+              periodtxt: textperiod,
+              periodunit: selectddlperiod,
+              returndate:day+'/'+returnDate
+            });
+          } catch (error) {
+            console.error("Error update_periodall:", error.message);
+          } 
+          
 
           localStorage.setItem("To", selectdepartment_mana);
           localStorage.setItem("Genno", For_Req[0]);
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -11663,7 +11838,8 @@ Swal.fire({
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -11749,7 +11925,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -11814,7 +11991,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11877,7 +12055,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -11941,7 +12120,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12015,7 +12195,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12091,7 +12272,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12171,7 +12353,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12226,7 +12409,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12242,13 +12426,31 @@ Swal.fire({
               setErrScp_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Scrap Date",
+                title: "กรุณาเลือก  Ship Date",
               });
 
               return;
             } else {
               setErrScp_date(false);
             }
+            // totalCsrap Date 
+            if (
+              total_scrap === null ||
+              total_scrap === undefined ||
+              total_scrap === "" ||
+              total_scrap === "null"
+            ) {
+              setErrTotalScrap(true);
+              Swal.fire({
+                icon: "error",
+                title: "กรุณากรอก Total Amount",
+              });
+
+              return;
+            } else {
+              setErrTotalScrap(false);
+            }
+            ///
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
@@ -12297,6 +12499,7 @@ Swal.fire({
                 tranfer: EditFam,
                 pte_env_cmmt: cmmtradio_pte_env,
                 date_scrap: scrap_date,
+                totalscrap:total_scrap
               });
               localStorage.setItem("status_formail", null);
               localStorage.setItem("To", selectpln_staff);
@@ -12320,7 +12523,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -12390,7 +12594,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -12475,7 +12680,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -12551,7 +12757,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12636,7 +12843,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -12721,7 +12929,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13005,7 +13214,8 @@ Swal.fire({
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -13333,7 +13543,8 @@ Swal.fire({
               localStorage.setItem("Req_Type", For_Rq_Edit[7]);
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -13427,7 +13638,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -13503,7 +13715,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13577,7 +13790,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13652,7 +13866,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13733,7 +13948,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13815,7 +14031,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13902,7 +14119,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13977,7 +14195,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -13985,6 +14204,36 @@ Swal.fire({
           } else if (For_Rq_Edit[10] === "FLSL009") {
             let Status = "FLSL010";
             let DataFile_Requester = "";
+            if (
+              sale_date === null ||
+              sale_date === undefined ||
+              sale_date === "" ||
+              sale_date === "null"
+            ) {
+              setErrSale_date(true);
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Ship Date",
+              });
+              return;
+            } else {
+              setErrSale_date(false);
+            }
+            if (
+              total_sale === null ||
+              total_sale === undefined ||
+              total_sale === "" ||
+              total_sale === "null"
+            ) {
+              setErrTotalSale(true);
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาเลือก  Total Amount",
+              });
+              return;
+            } else {
+              setErrTotalSale(false);
+            }
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
                 FamNo: EditFam,
@@ -14018,6 +14267,10 @@ Swal.fire({
               const response = await axios.post("/update_sale_ws", {
                 tranfer: EditFam,
                 updateinput_ws_cmmt: cmmtradio_pte_weight_size,
+                saledate:sale_date,
+                totalsale:total_sale
+
+
               });
               localStorage.setItem("status_formail", null);
               localStorage.setItem("To", selectpln_staff_boi);
@@ -14040,7 +14293,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14104,7 +14358,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14168,7 +14423,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14232,7 +14488,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14260,19 +14517,19 @@ Swal.fire({
               });
               return;
             }
-            if (
-              Input_thai_categories == "" ||
-              Input_thai_categories == null ||
-              Input_thai_categories == "null" ||
-              Input_thai_categories == "undefined"
-            ) {
+            // if (
+            //   Input_thai_categories == "" ||
+            //   Input_thai_categories == null ||
+            //   Input_thai_categories == "null" ||
+            //   Input_thai_categories == "undefined"
+            // ) {
            
-              Swal.fire({
-                icon: "error",
-                title: "กรุณาระบุ (Input thai categories)",
-              });
-              return;
-            }
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "กรุณาระบุ (Input thai categories)",
+            //   });
+            //   return;
+            // }
 
             try {
               const response = await axios.post("/update_submit", {
@@ -14310,7 +14567,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14385,7 +14643,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14467,7 +14726,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14546,27 +14806,28 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
           } else if (For_Rq_Edit[10] === "FLSL017") {
             let Status = "FLSL018";
-            if (
-              contact_date_pte === null ||
-              contact_date_pte === undefined ||
-              contact_date_pte === "" ||
-              contact_date_pte === "null"
-            ) {
-              setErrorcontact_date_pte(true);
-              Swal.fire({
-                icon: "error",
-                title: "กรุณาเลือก Contact date",
-              });
-              return;
-            } else {
-              setErrorcontact_date_pte(false);
-            }
+            // if (
+            //   contact_date_pte === null ||
+            //   contact_date_pte === undefined ||
+            //   contact_date_pte === "" ||
+            //   contact_date_pte === "null"
+            // ) {
+            //   setErrorcontact_date_pte(true);
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "กรุณาเลือก Contact date",
+            //   });
+            //   return;
+            // } else {
+            //   setErrorcontact_date_pte(false);
+            // }
             let DataFile_Requester = "";
             try {
               const response = await axios.post("/getFAM_FILE_DATA", {
@@ -14602,8 +14863,8 @@ Swal.fire({
                 "/update_pte_upload_file_clearance",
                 {
                   tranfer: EditFam,
-                  pte_upload_file_clearance: cmmtradio_pte_upload_file,
-                  date_pte_upload_file_clearance: contact_date_pte,
+                  pte_upload_file_clearance: cmmtradio_pte_upload_file
+                  // date_pte_upload_file_clearance: contact_date_pte,
                 }
               );
               localStorage.setItem("status_formail", null);
@@ -14628,7 +14889,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14645,6 +14907,7 @@ Swal.fire({
             } catch (error) {
               console.error("Error fetching data:", error);
             }
+            
             if (
               DataFile_Requester == null ||
               DataFile_Requester == [] ||
@@ -14656,21 +14919,7 @@ Swal.fire({
               });
               return;
             }
-            if (
-              sale_date === null ||
-              sale_date === undefined ||
-              sale_date === "" ||
-              sale_date === "null"
-            ) {
-              setErrSale_date(true);
-              Swal.fire({
-                icon: "error",
-                title: "กรุณาเลือก  Sale Date",
-              });
-              return;
-            } else {
-              setErrSale_date(false);
-            }
+            
 
             try {
               const response = await axios.post("/update_submit", {
@@ -14684,7 +14933,7 @@ Swal.fire({
               const response = await axios.post("/update_pln_request_invoice", {
                 tranfer: EditFam,
                 pln_request_invoice: cmmtradio_pln_req_inv,
-                date_sale: sale_date,
+                // date_sale: sale_date,
               });
               localStorage.setItem("status_formail", null);
               localStorage.setItem("To", ship_input_inv);
@@ -14703,7 +14952,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14719,6 +14969,20 @@ Swal.fire({
               DataFile_Requester = jsonData;
             } catch (error) {
               console.error("Error fetching data:", error);
+            }
+          
+              if (
+                invoice_no == "" ||
+                invoice_no == null ||
+                invoice_no == "null" ||
+                invoice_no == "undefined"
+            ) {
+           
+              Swal.fire({
+                icon: "error",
+                title: "กรุณาระบุ Invoice No.",
+              });
+              return;
             }
             if (
               DataFile_Requester == null ||
@@ -14744,6 +15008,7 @@ Swal.fire({
               const response = await axios.post("/update_shipping_inv", {
                 tranfer: EditFam,
                 updateshipping_inv: cmmtradio_ship_input_inv,
+                inputinv:invoice_no
               });
               localStorage.setItem("status_formail", null);
               localStorage.setItem("To", pln_upload_final);
@@ -14766,7 +15031,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14869,7 +15135,8 @@ Swal.fire({
               localStorage.removeItem("Edit_Trans");
               localStorage.removeItem("Edit_Dteail_for_FixedCode");
               localStorage.removeItem("Edit_routing");
-              navigate("/FAMsystem/Mail");
+              // navigate("/FAMsystem/Mail");
+              navigate("/FAMsystem/ApproveFam");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -14953,7 +15220,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -15042,7 +15310,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -15136,7 +15405,8 @@ Swal.fire({
                 localStorage.removeItem("Edit_Trans");
                 localStorage.removeItem("Edit_Dteail_for_FixedCode");
                 localStorage.removeItem("Edit_routing");
-                navigate("/FAMsystem/Mail");
+                // navigate("/FAMsystem/Mail");
+                navigate("/FAMsystem/ApproveFam");
               } catch (error) {
                 console.error("Error updating submit status:", error.message);
               }
@@ -15463,7 +15733,8 @@ Swal.fire({
           localStorage.setItem("Req_Type", For_Req[6]);
           localStorage.setItem("Req_by", For_Req[1]);
           localStorage.setItem("Status", Status);
-          navigate("/FAMsystem/Mail");
+          // navigate("/FAMsystem/Mail");
+          navigate("/FAMsystem/Search");
           Swal.fire({
             title: "Submit Success",
             icon: "success",
@@ -15659,7 +15930,7 @@ Swal.fire({
         setcmmtradio__shipping("");
       }
       if (STS1 == "FLLD009") {
-        setreturn_date("");
+        // setreturn_date("");
         setcmmtradio_return_acc("");
       }
       if (STS1 == "FLLD100") {
@@ -16222,6 +16493,259 @@ Swal.fire({
       console.error("Error during login:", error);
     }
   };
+  const Period = async () => {
+    try {
+      const response = await axios.get(`/Select_Period`);
+      const Period_data = await response.data;
+      setddlperiod(Period_data);
+      if (EditFam != null) {
+        if (For_edit_trans != null)
+          setborrow_name(Edit_For_Lending[0][10])
+          settextperiod(Edit_For_Lending[0][11])
+          setselectddlperiod(Edit_For_Lending[0][12]);
+          setReturnDate(Edit_For_Lending[0][13])
+      } else {
+        if (For_Leading_New != null) {
+          console.log(For_Leading_New,"For_Leading_New")
+          setborrow_name(For_Leading_New[2]);
+          settextperiod(For_Leading_New[3]);
+          setselectddlperiod(For_Leading_New[4]);
+          setReturnDate(For_Leading_New[5])
+        } else {
+          setselectddlperiod("");
+        }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    try {
+      const response = await axios.get(`/SelectMonthly`);
+      const Monthly = await response.data;
+      setmonthly(Monthly);
+      if (EditFam != null) {
+      //   if (For_edit_trans != null){
+      //     setborrow_name(Edit_For_Lending[0][10])
+      //     settextperiod(Edit_For_Lending[0][11])
+      //     setselectddlperiod(Edit_For_Lending[0][12]);
+      //     setReturnDate(Edit_For_Lending[0][13])}
+      // } else {
+      //   if (For_Leading_New != null) {
+      //     console.log(For_Leading_New,"For_Leading_New")
+      //     setborrow_name(For_Leading_New[2]);
+      //     settextperiod(For_Leading_New[3]);
+      //     setselectddlperiod(For_Leading_New[4]);
+      //     setReturnDate(For_Leading_New[5])
+      //   } else {
+      //     setselectddlperiod("");
+      //   }
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+
+  };
+  const calculateReturnDate = () => {
+    const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
+    
+    // Check whether the unit is "Year" or "Month"
+    if (selectddlperiod === "GP05002") {
+      newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); // Add years
+    } else if (selectddlperiod === "GP05001") {
+      newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); // Add months
+    }
+
+    // Get the month names for display
+    const monthNames = [
+      "01/", "02/", "03/", "04/", "05/", "06/", 
+      "07/", "08/", "09/", "10/", "11/", "12/"
+    ];
+
+    // Set the calculated return date (e.g., "March 2024" or "January 2026")
+    setReturnDate(`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`);
+  };
+  const calculateUpdate = () => {
+    const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
+    
+    // Check whether the unit is "Year" or "Month"
+    if (selectddlperiod === "GP05002") {
+      newDate.setFullYear(newDate.getFullYear() + parseInt(updatereturn)); // Add years
+    } else if (selectddlperiod === "GP05001") {
+      newDate.setMonth(newDate.getMonth() + parseInt(updatereturn)); // Add months
+    }
+
+    // Get the month names for display
+    const monthNames = [
+      "01/", "02/", "03/", "04/", "05/", "06/", 
+      "07/", "08/", "09/", "10/", "11/", "12/"
+    ];
+
+    // Set the calculated return date (e.g., "March 2024" or "January 2026")
+    setshowreturnupdate(`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`);
+  };
+  const [rows, setRows] = useState([{ id: 1 }]);
+  const handleAddRow = () => {
+    const newRow = { id: rows.length + 1 }; // สร้างแถวใหม่
+    setRows([...rows, newRow]); // เพิ่มแถวใหม่เข้าไปใน Array
+  };
+ 
+  const handleSaveReturn = async() => {
+    console.log(selectmonthly[0],"selectmonthly[0]")
+  // await getMaxReturnDate();
+  let DateMax =''
+  await axios.post("/GetMaxReturnDate", {
+    tranfer: EditFam
+  }).then((res) => {
+    setMaxreturndate(res.data[0][0])
+    DateMax =res.data[0][0]
+    console.log("Return:", res.data[0][0]); 
+    // setdataresult_return(res.data)
+}).catch((error) => {
+    console.error("Error:", error);
+});
+  
+
+    let month='';
+console.log()
+if (selectmonthly[0] === 'JANUARY') {
+    month = '01';
+} else if (selectmonthly[0] === 'FEBRUARY') {
+    month = '02';
+} else if (selectmonthly[0] === 'MARCH') {
+    month = '03';
+} else if (selectmonthly[0] === 'APRIL') {
+    month = '04';
+} else if (selectmonthly[0] === 'MAY') {
+    month = '05';
+} else if (selectmonthly[0] === 'JUNE') {
+    month = '06';
+} else if (selectmonthly[0] === 'JULY') {
+    month = '07';
+} else if (selectmonthly[0] === 'AUGUST') {
+    month = '08';
+} else if (selectmonthly[0] === 'SEPTEMBER') {
+    month = '09';
+} else if (selectmonthly[0] === 'OCTOBER') {
+    month = '10';
+} else if (selectmonthly[0] === 'NOVEMBER') {
+    month = '11';
+} else if (selectmonthly[0] === 'DECEMBER') {
+    month = '12';
+} else {
+    month = null; // หรือค่าเริ่มต้นอื่น ๆ ถ้าค่าไม่ตรงกับเดือน
+}
+// let newData = month+'/'+updatereturn
+let NewMonth=''
+//   if(DateMax !== null){
+//     NewMonth = DateMax.split('/'); 
+//   }else{
+//     NewMonth=DateMax
+//   }
+  
+//   if(updatereturn > NewMonth[1]){
+//     console.log("เข้าจ้าผ่าน",NewMonth[1])
+    
+//     if(month >= NewMonth[0][0]){
+//       try {
+//         await axios.post("/insertReturn", {
+//           tranfer: EditFam,
+//           datereturn: day+'/'+month+'/'+updatereturn,
+//           createby: User,
+//           updateby: User,
+//         });
+
+//       } catch (error) {
+//         console.error("insertReturn", error);
+      
+//         getResult();
+      
+// }
+//     }else{
+//     }
+//   }else{
+//   // return;
+//   }
+console.log(month, NewMonth[0],"LLLLL",updatereturn , NewMonth[1])
+if(DateMax !== null){
+  NewMonth = DateMax.split('/');
+  if((month == NewMonth[0]) && ( updatereturn == NewMonth[1] )){
+    Swal.fire({
+      icon: "error",
+      text: `กรุณาเลือกเดือนและปีที่ไม่ตรงกับ Return ครั้งล่าสุด `
+    });
+  }else{
+  
+    
+      
+        if(updatereturn >= NewMonth[1]){
+         console.log(updatereturn , ":YEAR",NewMonth[1])
+          if(month >= NewMonth[0]){
+            console.log(month , ":MONTH",NewMonth[0])
+          try {
+            await axios.post("/insertReturn", {
+              tranfer: EditFam,
+              datereturn: day+'/'+month+'/'+updatereturn,
+              createby: User,
+              updateby: User,
+            });
+    
+          } catch (error) {
+            console.error("insertReturn", error);
+          
+        
+          
+    }
+        }else{
+          Swal.fire({
+            icon: "error",
+            text: `กรุณาเลือกเดือนที่มากกว่า ${selectmonthly[0]} `
+          });
+        }
+      }else{
+        Swal.fire({
+          icon: "error",
+          text: `กรุณาเลือกปีที่มากกว่า ${NewMonth[1]}`
+        });
+      }
+    
+  }
+}else{
+  console.log("เข้า 2",day+'/'+month+'/'+updatereturn)
+  try {
+    await axios.post("/insertReturn", {
+      tranfer: EditFam,
+      datereturn: day+'/'+month+'/'+updatereturn,
+      createby: User,
+      updateby: User,
+    });
+
+  } catch (error) {
+    console.error("insertReturn", error);
+
+  }
+}
+    
+
+
+
+getResult()
+  
+}
+
+  const getResult = async() => {
+    await axios.post("/ShowMonth", {
+      tranfer: EditFam
+    }).then((res) => {
+      console.log("Response:", res.data); 
+      setdataresult_return(res.data)
+  }).catch((error) => {
+      console.error("Error:", error);
+  });}
+  const getMaxReturnDate = async() => {
+    
+
+  }
+
+
   return {
     STS1,
     setSTS1,
@@ -16702,7 +17226,12 @@ Swal.fire({
     sale_date,
     setsale_date,
     ErrSale_date,
-  };
+    total_scrap ,settotal_scrap,
+    ErrTotalScrap, setErrTotalScrap,total_sale,settotal_sale , setErrTotalSale,ErrTotalSale,
+    invoice_no,setinvoice_no,textperiod,settextperiod,ddlperiod,selectddlperiod,setselectddlperiod
+  ,borrow_name,setborrow_name,returnDate, setReturnDate,calculateReturnDate,selectreturn, setselectreturn,
+  rows,handleAddRow,updatereturn,setupdatereturn,showreturnupdate,setshowreturnupdate,calculateUpdate,handleSaveReturn,monthly,setmonthly,selectmonthly, setselectmonthly,dataresult_return
+};
 }
 
 export { FAM_TRANSECTION_TLWLD };

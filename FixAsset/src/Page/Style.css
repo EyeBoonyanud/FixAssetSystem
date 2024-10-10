@@ -557,3 +557,18 @@ box-sizing: border-box;
   font-size: 15px; /* Sets the font size */
   flex-shrink: 0; /* Prevents this element from shrinking */
 }
+.returntable{
+  background-color: #d0ece7;
+ 
+ 
+}
+.Return-Table{
+  width: 120%;
+  margin-left: 10%;
+}
+.return-table-show{
+  margin-left: 60%;
+}
+.tableshow-returndate th{
+background-color: #e9f7ef;
+}
