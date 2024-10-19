@@ -21,6 +21,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
   const [menuId, setmenuId] = useState([]);
   const [menudata, setmenudata] = useState([]);
   const [menudataId, setmenudataId] = useState([]);
+  const [level, setlevel] = useState("");
 
   const toggleSubMenu1 = () => {
     setIcondrop1(!Icondrop1);
@@ -62,13 +63,10 @@ const SidebarMenu = ({ isOpen, onClose }) => {
 
   const subMenu = async () => {
     try {
-      const response = await axios.post(
-        "/getsubmenu",
-        {
-          userlogin: UserLogin,
-          role: Role,
-        }
-      );
+      const response = await axios.post("/getsubmenu", {
+        userlogin: UserLogin,
+        role: Role,
+      });
       const data = await response.data;
       let datasubmenu = [];
       let datasubmenuid = [];
@@ -88,11 +86,11 @@ const SidebarMenu = ({ isOpen, onClose }) => {
 
   const handleButtonClick = (id) => {
     if (id === "Issue FAM") {
-      localStorage.removeItem("TYPE")
+      localStorage.removeItem("TYPE");
       window.location.href = "/FAMsystem/Search";
     }
     if (id === "Approve FAM") {
-      localStorage.removeItem("TYPE")
+      localStorage.removeItem("TYPE");
       window.location.href = "/FAMsystem/ApproveFam";
     }
     if (id === "FAM Detail Report") {
@@ -107,14 +105,34 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     if (id === "FAM Master List") {
       window.location.href = "/FAMsystem/FAMMaster";
     }
+    if (id === "Close lending by ACC") {
+      window.location.href = "/FAMsystem/CloseACC";
+    }
   };
 
   const Home = () => {
     navigate("/FAMsystem/Homepage");
   };
+  const GetACC = async () => {
+    axios
+      .post("/getfor_acc_use", {
+        User_login: UserLogin,
+      })
+      .then((response) => {
+        const data = response.data;
+        if (data && data[0] && data[0][0] !== undefined) {
+          setlevel(data[0][0]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   useEffect(() => {
     Menu();
     subMenu();
+    GetACC();
   }, []);
   const [Icondrop1, setIcondrop1] = useState(false);
   const [Icondrop2, setIcondrop2] = useState(false);
@@ -204,7 +222,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
         </div>
 
         {/* Menu Monitoring Function */}
-        <div style={{ display:  Role === "214"  ? "none" : "block" }}>
+        <div style={{ display: Role === "214" ? "none" : "block" }}>
           <ListItem className="ListItem" onClick={toggleSubMenu3}>
             <ListItemIcon>
               <SensorsOutlinedIcon color="success" />
@@ -216,7 +234,25 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <>
               {menudataId.map(
                 (item, index) =>
-                  menudataId[index] === menuId[2] && (
+                  menudataId[index] === menuId[2] &&
+                  (menudata[index].includes("Close lending by ACC") ? (
+                    Role === "211" ||
+                    level === "GP02007" ||
+                    level === "GP02012" ? (
+                      <ListItem
+                        className="SubMenuItem"
+                        onClick={() => {
+                          handleButtonClick(menudata[index]);
+                        }}
+                        key={index}
+                      >
+                        <Circle
+                          style={{ fontSize: "8px", marginRight: "10px" }}
+                        />
+                        <ListItemText primary={menudata[index]} />
+                      </ListItem>
+                    ) : null // ถ้า Role หรือ level ไม่ตรง จะไม่แสดงเมนูนี้
+                  ) : (
                     <ListItem
                       className="SubMenuItem"
                       onClick={() => {
@@ -229,14 +265,21 @@ const SidebarMenu = ({ isOpen, onClose }) => {
                       />
                       <ListItemText primary={menudata[index]} />
                     </ListItem>
-                  )
+                  ))
               )}
             </>
           )}
         </div>
 
         {/* Menu Master Data Function */}
-        <div style={{ display: Role === "214" || Role === "212" || Role === "213" ? "none" : "block" }}>
+        <div
+          style={{
+            display:
+              Role === "214" || Role === "212" || Role === "213"
+                ? "none"
+                : "block",
+          }}
+        >
           <ListItem className="ListItem" onClick={toggleSubMenu4}>
             <ListItemIcon>
               <SensorsOutlinedIcon color="success" />
@@ -248,7 +291,8 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <>
               {menudataId.map(
                 (item, index) =>
-                  menudataId[index] === menuId[3] && menudata[index] !== "Master Code Maintain" && (
+                  menudataId[index] === menuId[3] &&
+                  menudata[index] !== "Master Code Maintain" && (
                     <ListItem
                       className="SubMenuItem"
                       onClick={() => {
@@ -281,7 +325,8 @@ const SidebarMenu = ({ isOpen, onClose }) => {
             <>
               {menudataId.map(
                 (item, index) =>
-                  menudataId[index] === menuId[4] && menudata[index] !== "FAM Form" && (
+                  menudataId[index] === menuId[4] &&
+                  menudata[index] !== "FAM Form" && (
                     <ListItem
                       className="SubMenuItem"
                       onClick={() => {

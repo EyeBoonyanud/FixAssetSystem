@@ -87,10 +87,16 @@ function FAM_REPORT_DETAILS( ) {
       selectRequestType === "" &&
       Txt_FamNo === ""
     ) {
-      alert("Please fill information");
+      Swal.fire({
+        text: "กรุณาเลือกข้อมูล",
+        icon: "warning",
+      });
     } else {
       if (selectRequestType == "") {
-        alert("Please Select Request Type");
+        Swal.fire({
+          text: "กรุณากรอกข้อมูล Request Type",
+          icon: "warning",
+        });
       } else {
         setCheckHead("hidden");
         setCheckEmpty("hidden");
@@ -159,7 +165,7 @@ function FAM_REPORT_DETAILS( ) {
             } else {
               Swal.fire({
                 title: "Not Found Data",
-                text: `Not Found ${Txt_FamNo} Please enter again`,
+                text: `Not Found Please enter again`,
                 icon: "warning",
               });
               setcheckvalue("Not Found Data");

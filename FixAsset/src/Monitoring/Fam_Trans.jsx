@@ -15,6 +15,9 @@ import {
   TableContainer,
   TableHead,
   Paper,
+  Box,
+  InputLabel ,
+  Dialog,DialogActions, DialogContent, DialogContentText, DialogTitle
 } from "@mui/material";
 
 import Header from "../Page/Hearder";
@@ -69,9 +72,13 @@ function TransFerDetail() {
     isPopupOpenLoadding,
     closePopupLoadding,
     BackPage,
+    DataReturn,
+    selectreturn, open,handleClickOpen,handleClose ,comment , setcomment,
+    handleSubmit
   } = FAM_TRANSECTION();
   const { downloadFile,STS } = FAM_REQUESTER();
   const Statuss = localStorage.getItem("StatusPage");
+  const Path = localStorage.getItem("page");
   return (
     <>
       <div style={{ marginTop: "100px" }}>
@@ -288,6 +295,141 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+        )}
+          {VIEW_TYPE == "GP01006" && (
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Lending Detail
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  {/* Department Manager */}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2"> Borrow By:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={DataLending[10]}
+                          disabled
+                          style={{
+                            backgroundColor: 
+                               "rgba(169, 169, 169, 0.3)"
+                          }}
+                         
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr colSpan={4}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Borrow Period :
+                      </Typography>
+                    </td>
+                    <td>
+                      <TextField
+                        sx={{ width: "20%" }}
+                        size="small"
+                        value={DataLending[11]}
+                        fullWidth
+                        disabled
+                        style={{
+                          backgroundColor: 
+                             "rgba(169, 169, 169, 0.3)"
+                           
+                        }}
+                      ></TextField>
+                        <TextField
+                        sx={{ width: "20%",marginLeft:'10px' }}
+                        size="small"
+                        value={DataLending[16]}
+                        fullWidth
+                        disabled
+                        style={{
+                          backgroundColor:"rgba(169, 169, 169, 0.3)"
+                        }}
+                      ></TextField>
+                    
+                    </td>
+                    <td className="Style5"></td>
+
+                    <td className="Style7">
+                      <Typography variant="subtitle2">
+                        Return Period :
+                      </Typography>
+                    </td>
+                    <td>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+                        value={DataLending[14]}
+                        disabled
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </td>
+                  </tr>
+              
+                  <tr
+                       style={{
+                         display:
+                         comment == null || comment == ""
+                             ? "none"
+                             : "table-row",
+                       }}
+                     >
+                       <td className="Style4">
+                         <Typography variant="subtitle2"> ACC Comment :</Typography>
+                       </td>
+                       <td colSpan={4}>
+                         <FormControl className="Style1">
+                           <TextField
+                             style={{
+                               backgroundColor: "rgba(169, 169, 169, 0.3)",
+                             }}
+                             className="Style1"
+                             size="small"
+                             disabled
+                             value={
+                              //  DataLending[8] !== "null" ? DataLending[8] : ""
+                              comment
+                             }
+                           ></TextField>
+                         </FormControl>
+                       </td>
+                     </tr>
+                  
                 </table>
               </div>
             </Card>
@@ -1612,7 +1754,7 @@ function TransFerDetail() {
                       </td>
                     </tr>
 
-                    <tr
+                    {/* <tr
                       style={{
                         display:
                         DataLending[2] === null || DataLending[2] === ""
@@ -1637,7 +1779,7 @@ function TransFerDetail() {
                           />
                         </FormControl>
                       </td>
-                    </tr>
+                    </tr> */}
 
                     <tr
                       style={{
@@ -1754,6 +1896,179 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
+                    {( VIEW_TYPE =='GP01006' &&
+                    <>
+                 <tr
+                 style={{
+                   display: DataLending[14] == null || DataLending[14] === "" ? "none" : "table-row",
+                 }}
+               >
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                        First Return:
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style3">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataLending[14] !== "null" ? DataLending[14] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5"></td>
+                      <td
+                        className="Style7"
+                        style={{
+                          visibility:
+                            chkaction_date == null || chkaction_date == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        
+                      </td>
+                      <td className="Style6">
+                   
+                      </td>
+                    </tr>
+               
+                  </>
+                  )}
+                    {( VIEW_TYPE =='GP01006'  &&
+                    <>
+                    <tr  style={{
+                      display: selectreturn == null || selectreturn === "" ? "none" : "table-row",
+                    }}
+                    >
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Need extend:</Typography>
+                    </td>
+                    <td>
+                      <Box display="flex" alignItems="center" margin="1%">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={selectreturn}
+                          >
+                            <FormControlLabel
+                              value="Y"
+                              control={<Radio size="small" />}
+                              label="Yes"
+                             disabled
+
+                            />
+                            <FormControlLabel
+                              value="N"
+                              control={<Radio size="small" />}
+                              label="No"
+                            disabled
+
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      {/* {VIEW_TYPE == 'GP01006' && (
+                        <Button variant="contained"
+                        sx={{ marginLeft: 2, backgroundColor: '#e84e40'}} 
+                        onClick={handleClickOpen}
+                        >
+        Close Request
+      </Button>)} */}
+      <Dialog 
+  open={open} 
+  onClose={handleClose} 
+  disableEscapeKeyDown
+  disableBackdropClick={true}
+>
+  <DialogTitle>กรุณากรอก Comment</DialogTitle>
+  <DialogContent>
+    <DialogContentText>
+      <Box sx={{ width: 500, maxWidth: '100%', maxHeight: '500px' }}>
+        <TextField
+          multiline
+          rows={4}
+          variant="outlined"
+          fullWidth
+          required
+          error={!comment}
+          helperText={!comment ? 'กรุณา Comment' : ''}
+          value={comment}
+          onChange={(e) => setcomment(e.target.value)} // อย่าลืมอัพเดทค่า comment
+        />
+      </Box>
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+        <Button onClick={handleSubmit} variant="contained">Save</Button>
+    <Button onClick={handleClose} disabled={!comment}>Close</Button>
+
+  </DialogActions>
+</Dialog>
+
+   
+                       
+                      </Box>
+                    </td>
+             
+                    <td>
+                      
+                    </td>
+
+                  </tr>
+                       
+
+                     
+                     </>
+                )}
+                  <tr style={{
+                      display: selectreturn == null || selectreturn === "" ? "none" : "table-row",
+                    }}>
+                    <td className="Style4"></td>
+                    {( VIEW_TYPE =='GP01006' &&
+  <div className="Return-Table">
+    <br />
+    <TableContainer className="return-table-show" component={Paper}>
+      <Table className="tableshow-returndate">
+        <TableHead>
+          <TableRow>
+            <TableCell>No.</TableCell>
+            <TableCell>Return Month</TableCell>
+            <TableCell>Return Year</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {DataReturn.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={3} style={{ textAlign: "center" }}>
+                <Empty />
+              </TableCell>
+            </TableRow>
+          ) : ( 
+            DataReturn.map((option, index) => ( 
+               <TableRow key={index}>
+                <TableCell>{option[0]}</TableCell>
+                <TableCell>{option[1]}</TableCell>
+                <TableCell>{option[2]}</TableCell>
+               </TableRow> 
+           )) 
+          )} 
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>)}
+
+
+                    
+                  </tr> 
                   </table>
                   <tr
                     style={{
@@ -1763,6 +2078,7 @@ function TransFerDetail() {
                           : "table-row",
                     }}
                   >
+                    
                     <td className="Style4"></td>
                     <td colSpan={5}>
                       <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
@@ -1852,6 +2168,7 @@ function TransFerDetail() {
                       </div>
                     </td>
                   </tr>
+                  
                 </div>
               </Card>
             </Card>
@@ -1937,6 +2254,68 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                         Ship Date:
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataScrap[11] !== "null" ? DataScrap[11] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5">
+                      
+                      </td>
+                     
+                      <td
+                        className="Style7"
+                      style={{
+                        visibility:
+                        DataScrap[11] == null || DataScrap[11] == "null"
+                     
+                          ? "hidden"
+                          : "visible"
+                      }}
+                      >
+                        <Typography variant="subtitle2">
+                         Total Amount
+                        </Typography>
+                      </td>
+                      <td className="Style6"
+                      style={{
+                        visibility:
+                        DataScrap[12] == null || DataScrap[12] == "null"
+                          ? "hidden"
+                          : "visible",
+                      }} >
+                        <FormControl
+                          className="Style1"
+                        
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataScrap[12]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
                     <tr
                     style={{
                       display:
@@ -1946,12 +2325,12 @@ function TransFerDetail() {
                           : "table-row",
                     }}
                   >
-                    <td className="Style4">
+                    {/* <td className="Style4">
                       <Typography variant="subtitle2">
                        Contact Date:
                       </Typography>{" "}
-                    </td>
-                    <td>
+                    </td> */}
+                    {/* <td>
                       <FormControl className="Style1">
                         <TextField
                           disabled
@@ -1962,7 +2341,7 @@ function TransFerDetail() {
                           }}
                         />
                       </FormControl>
-                    </td>
+                    </td> */}
                   </tr>
                     <tr
                       style={{
@@ -2554,10 +2933,71 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
+                    <tr>
+                      <td className="Style4">
+                        <Typography variant="subtitle2">
+                        Ship Date:
+                        </Typography>
+                      </td>
+                      <td>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataSale[48] !== "null" ? DataSale[48] : ""
+                            }
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                      <td className="Style5">
+                      
+                      </td>
+                      <td
+                        className="Style7"
+                      style={{
+                        visibility:
+                        DataSale[48] == null || DataSale[48] == "null"
+                     
+                          ? "hidden"
+                          : "visible"
+                      }}
+                      >
+                        <Typography variant="subtitle2">
+                          Total Amount:
+                        </Typography>
+                      </td>
+                      <td className="Style6"
+                      style={{
+                        visibility:
+                        DataSale[49] == null || DataSale[49] == "null"
+                          ? "hidden"
+                          : "visible",
+                      }} >
+                        <FormControl
+                          className="Style1"
+                        
+                        >
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={DataSale[49]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
                     <tr
                       style={{
                         display:
-                        DataSale[2] === null || DataSale[2] === ""
+                        DataSale[49] === null || DataSale[49] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4159,7 +4599,7 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    {(VIEW_TYPE == "GP01003" ) && (
+                    {/* {(VIEW_TYPE == "GP01003" ) && (
                   <tr
                     style={{
                       display:
@@ -4187,7 +4627,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                )}
+                )} */}
                     <tr
                       style={{
                         display:
@@ -4554,6 +4994,33 @@ function TransFerDetail() {
                             size="small"
                             disabled
                             value={DataSale[37]}
+                          ></TextField>
+                        </FormControl>
+                      </td>
+                    </tr>
+                    <tr
+                      style={{
+                        display:
+                        DataSale[50] === null || DataSale[50] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4">
+                        <Typography variant="subtitle2">Invoice No.</Typography>
+                      </td>
+                      <td colSpan={4}>
+                        <FormControl className="Style1">
+                          <TextField
+                            style={{
+                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                            }}
+                            className="Style1"
+                            size="small"
+                            disabled
+                            value={
+                              DataSale[50] !== "null" ? DataSale[50] : ""
+                            }
                           ></TextField>
                         </FormControl>
                       </td>
@@ -5292,7 +5759,7 @@ function TransFerDetail() {
       </div>
       <div>
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", }}>
             <Button
               variant="contained"
               style={{
@@ -5306,6 +5773,16 @@ function TransFerDetail() {
             >
               BACK PAGE
             </Button>
+            {Path == 'CLOSEACC' && (
+                        <Button variant="contained"
+                        sx={{ marginLeft: 2, backgroundColor: '#e84e40', width: "200px",
+                          marginTop: "20px",
+                          marginBottom: "20px",
+                          marginRight: "20px",}} 
+                        onClick={handleClickOpen}
+                        >
+        Close Request
+      </Button>)}
             {/* <Button
               variant="contained"
               style={{

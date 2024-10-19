@@ -7,12 +7,19 @@ function FAM_REQUESTER() {
     const navigate = useNavigate();
     const VIEW_FAM = localStorage.getItem("EDIT");
     const VIEW_TYPE = localStorage.getItem("TYPE_flow")
+    const Path = localStorage.getItem("page")
     const NextPage = async () => {
       window.location.href = `/FAMsystem/FamTrans`;
     };
     const Back_page = async () => {
-      window.location.href = `/FAMsystem/FAMMaster`;
-      localStorage.removeItem("EDIT");
+      if(Path == 'CLOSEACC'){
+        window.location.href = `/FAMsystem/CloseACC`;
+        localStorage.removeItem("EDIT");
+      }else{
+        window.location.href = `/FAMsystem/FAMMaster`;
+        localStorage.removeItem("EDIT");
+      }
+    
     };
     const For_Edit_Fixed = localStorage.getItem("Edit_Dteail_for_FixedCode");
     const For_Ed_FixCode = JSON.parse(For_Edit_Fixed);
@@ -115,24 +122,24 @@ function FAM_REQUESTER() {
           console.error("Error RequesterORType:", error);
         }
       };
-      const Weight_Size_Unit_INV = async () => {
+    //   const Weight_Size_Unit_INV = async () => {
        
-        try {
-          const response = await axios.post("/getWeight_Size_Unit_INV", {
-            famno: VIEW_FAM,
-          });
-        const data = await response.data;
-        setDataWeight_Size_Unit_Env(data);
-      } catch (error) {
-        console.error("Error RequesterORType:", error);
-      }
-    };
+    //     try {
+    //       const response = await axios.post("/getWeight_Size_Unit_INV", {
+    //         famno: VIEW_FAM,
+    //       });
+    //     const data = await response.data;
+    //     setDataWeight_Size_Unit_Env(data);
+    //   } catch (error) {
+    //     console.error("Error RequesterORType:", error);
+    //   }
+    // };
     
         fetchData();
         FAM_Hearder();
         FAM_Detail();
         NewwCC_ToProj();
-        Weight_Size_Unit_INV();
+        // Weight_Size_Unit_INV();
         setTimeout(function () {
           closePopupLoadding();
         }, 2000);

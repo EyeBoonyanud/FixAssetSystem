@@ -573,13 +573,13 @@ function FAM_GET_REQUEST() {
         // );
         Swal.fire({
           icon: "error",
-          title: "กรุณาเลือก   Request By Tel , Service Dept , Owner Id , Owner Tel Request Type",
+          text: "กรุณาเลือก   Request By Tel , Service Dept , Owner Id , Owner Tel Request Type",
         });
       } else if (Tel1.length === 0) {
         // alert("กรุณาระบุ Request By Tel");
         Swal.fire({
           icon: "error",
-          title: "กรุณาระบุ Request By Tel",
+          text: "กรุณาระบุ Request By Tel",
         });
         if (
           Tel1 === null ||
@@ -596,7 +596,7 @@ function FAM_GET_REQUEST() {
         // alert("กรุณาระบุ Owner Id");
         Swal.fire({
           icon: "error",
-          title: "กรุณาระบุ Owner Id",
+          text: "กรุณาระบุ Owner Id",
         });
         if (
           owner_dept === null ||
@@ -613,7 +613,7 @@ function FAM_GET_REQUEST() {
         // alert("กรุณาระบุ Owner Tel");
         Swal.fire({
           icon: "error",
-          title: "กรุณาระบุ Owner Tel",
+          text: "กรุณาระบุ Owner Tel",
         });
         if (
           owner_tel === null ||
@@ -643,13 +643,13 @@ function FAM_GET_REQUEST() {
         // alert("กรุณาเลือก Request Type");
         Swal.fire({
           icon: "error",
-          title: "กรุณาเลือก Request Type",
+          text: "กรุณาเลือก Request Type",
         });
       } else if (selectFixAssetgroup1.length === 0) {
         // alert("กรุณาเลือก Service Dept");
         Swal.fire({
           icon: "error",
-          title: "กรุณาเลือก Service Dept",
+          text: "กรุณาเลือก Service Dept",
         });
         if (
           selectFixAssetgroup1 === null ||
@@ -1038,7 +1038,7 @@ For_Rq_Edit[43]
   //       } else {
   //         Swal.fire({
   //           icon: "error",
-  //           title: "Data is not found",
+  //           text: "Data is not found",
   //         });
   //       }
   //       try {
@@ -1060,9 +1060,7 @@ For_Rq_Edit[43]
   //   setSelectAll("");
   // };
   const ADD = async () => {
-    console.log("เข้าาาาาา")
     openPopupLoadding();
-console.log(Factory[1],'Factory[1]')
 
     try {
       const response = await axios.post("/find_fix_groub", {
@@ -1104,7 +1102,6 @@ console.log(Factory[1],'Factory[1]')
           
         if (data.length > 0) {
           setcheckvalue(data[0][5]);
-          console.log(Request_type1,"Request_type1")
        // not sale
           if(Request_type1 !== 'GP01003'){
             if (datatable.length === 0) {
@@ -1116,7 +1113,7 @@ console.log(Factory[1],'Factory[1]')
               // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
               Swal.fire({
                 icon: "error",
-                title: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
+                text: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
               });
               closePopupLoadding();
               return;
@@ -1134,7 +1131,7 @@ console.log(Factory[1],'Factory[1]')
             }else if(data[0][5] !== 'NON BOI'  && datatable[0][5] === 'NON BOI'){
                  Swal.fire({
                 icon: "error",
-                // title: "ไม่สามารถ ADD ได้ เนื่องจากตัวแรกที่เลือกมี Project เป็น NON BOI",
+                // text: "ไม่สามารถ ADD ได้ เนื่องจากตัวแรกที่เลือกมี Project เป็น NON BOI",
                 text:'ไม่สามารถ ADD ได้ กรุณาเลือก Project ที่เป็น NON BOI'
               });
                 closePopupLoadding();
@@ -1142,7 +1139,7 @@ console.log(Factory[1],'Factory[1]')
             }else if(data[0][5] == 'NON BOI'  && datatable[0][5] ){
               Swal.fire({
                 icon: "error",
-                text: "ไม่สามารถ ADD ได้ กรุณาเลือก Project ที่ไม่ใช่ NON BOI",
+                text: "ไม่สามารถ ADD ได้ กรุณาเลือกที่มี BOI Project",
               });
               closePopupLoadding();
             return;
@@ -1152,14 +1149,11 @@ console.log(Factory[1],'Factory[1]')
               // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
               // Swal.fire({
               //   icon: "error",
-              //   title: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
+              //   text: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
               // });
               
             }
           }}
-
-
-
           try {
             const response = await axios.post("/fix_code_find", {
               assetcode: find_fixasset1,
@@ -1181,7 +1175,7 @@ console.log(Factory[1],'Factory[1]')
               });
               Swal.fire({
                  icon: "error",
-                title: 'Fixed Asset Code ถูกใช้แล้วที่: <br>' + uniqueKeys.join(", "),
+                text: 'Fixed Asset Code ถูกใช้แล้วที่:' + uniqueKeys.join(", "),
                 confirmButtonText: 'OK'
               });
             }
@@ -1191,7 +1185,7 @@ console.log(Factory[1],'Factory[1]')
         } else {
           Swal.fire({
             icon: "error",
-            title: "Data is not found",
+            text: "Data is not found",
           });
         }
 
@@ -1789,7 +1783,7 @@ console.log(Factory[1],'Factory[1]')
     }
 
     Swal.fire({
-      title: "Uploads File Success",
+      text: "Uploads File Success",
       icon: "success",
     });
 
@@ -1883,7 +1877,7 @@ console.log(Factory[1],'Factory[1]')
   //       if (hasNullWeights) {
   //         // alert("กรุณากรอก Weight");
   //         await Swal.fire({
-  //           title: 'กรุณากรอก Weight',
+  //           text: 'กรุณากรอก Weight',
   //           text: 'ที่ตาราง Details',
   //           icon: 'error',
   //           confirmButtonText: 'OK'
@@ -1909,7 +1903,7 @@ console.log(Factory[1],'Factory[1]')
   //       if (hasNullWeights) {
   //         // alert("กรุณากรอก Size");
   //         await Swal.fire({
-  //           title: 'กรุณากรอก Size',
+  //           text: 'กรุณากรอก Size',
   //           text: 'ที่ตาราง Details',
   //           icon: 'error',
   //           confirmButtonText: 'OK'
@@ -1939,7 +1933,7 @@ console.log(Factory[1],'Factory[1]')
   //       if (hasNullWeights) {
   //         // alert("กรุณากรอก Unit Price");
   //         await Swal.fire({
-  //           title: 'กรุณากรอก Unit Price',
+  //           text: 'กรุณากรอก Unit Price',
   //           text: 'ที่ตาราง Details',
   //           icon: 'error',
   //           confirmButtonText: 'OK'
@@ -1966,7 +1960,7 @@ console.log(Factory[1],'Factory[1]')
   //       if (hasNullWeights) {
   //         // alert("กรุณากรอก Invoice No.");
   //         await Swal.fire({
-  //           title: 'กรุณากรอก Invoice No.',
+  //           text: 'กรุณากรอก Invoice No.',
   //           text: 'ที่ตาราง Details',
   //           icon: 'error',
   //           confirmButtonText: 'OK'

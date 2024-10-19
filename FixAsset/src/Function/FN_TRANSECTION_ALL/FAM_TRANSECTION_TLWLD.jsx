@@ -125,7 +125,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectddlperiod,setselectddlperiod]= useState(""); 
   const currentYear = new Date().getFullYear();
   const [issueDate] = useState(new Date());
-  const [returnDate, setReturnDate] = useState("");
+  const [returnDate, setReturnDate] = useState(["",""]);
   const [updatereturn,setupdatereturn] = useState("")
   const [showreturnupdate,setshowreturnupdate] = useState("")
   const [monthly,setmonthly]=useState([])
@@ -210,7 +210,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectradio_return_own, setselectradio_return_own] = useState("");
 
   //
-  const [selectreturn, setselectreturn] = useState("");
+  const [selectreturn, setselectreturn] = useState("No");
   /////////////// ตัวแปร Check Commnet //////////////////////////////
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
@@ -3707,14 +3707,13 @@ function FAM_TRANSECTION_TLWLD() {
           }
         }
         if(Type === "GP01006"){
-          console.log(returnDate,"UUUUUU")
           try {
             const response = await axios.post("/update_periodall", {
               tranfer:For_Rq_Edit[0],
               borrow_by:borrow_name ,
               periodtxt: textperiod,
               periodunit: selectddlperiod,
-              returndate: day+'/'+returnDate
+              returndate: day+'/'+returnDate[0]
             });
           } catch (error) {
             console.error("Error update_periodall:", error.message);
@@ -4021,7 +4020,7 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_lending:", error.message);
           }
         } else if (Type === "GP01006" && Fam_list !== "") {
-          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate[0],returnDate[1],selectreturn
             // dataperiod
           ];
           const sendheader = JSON.stringify(set_data_for_req_details);
@@ -4037,7 +4036,7 @@ function FAM_TRANSECTION_TLWLD() {
             console.error("Error update_lending:", error.message);
           }
         } else if (Type === "GP01006" && Fam_list == "") {
-          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate
+          const set_data_for_req_details = [Fam_list, return_selectacc_manager,borrow_name,textperiod,selectddlperiod,returnDate[0],returnDate[1],selectreturn
             // dataperiod
             ];
           const sendheader = JSON.stringify(set_data_for_req_details);
@@ -4340,7 +4339,6 @@ function FAM_TRANSECTION_TLWLD() {
           }
 
           if (Type === "GP01006") {
-             console.log(returnDate,"UUUUUU")
             try {
               const response = await axios.post("/update_lending", {
                 tranfer: For_Rq_Edit[0],
@@ -4357,7 +4355,7 @@ function FAM_TRANSECTION_TLWLD() {
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
                 periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate
+                returndate:day+'/'+returnDate[0]
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -4470,7 +4468,7 @@ function FAM_TRANSECTION_TLWLD() {
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
                 periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate
+                returndate:day+'/'+returnDate[0]
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -4553,7 +4551,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -4579,7 +4577,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -4593,7 +4591,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -4607,7 +4605,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Transfer to Factory",
+            text: "กรุณาเลือก  Transfer to Factory",
           });
           setErrorFac(true);
           return;
@@ -4623,7 +4621,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Transfer to CC",
+            text: "กรุณาเลือก  Transfer to CC",
           });
           setErrorCC(true);
           return;
@@ -4639,7 +4637,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrNewboi(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  New BOI Project",
+            text: "กรุณาเลือก  New BOI Project",
           });
           return;
         } else {
@@ -4654,7 +4652,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorNewOwn(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  New Owner ",
+            text: "กรุณาเลือก  New Owner ",
           });
           return;
         } else {
@@ -4668,7 +4666,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel ",
+            text: "กรุณาระบุ  Tel ",
           });
           setErrorTel(true);
           return;
@@ -4697,7 +4695,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -4712,7 +4710,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
@@ -4728,7 +4726,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -4743,7 +4741,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -4758,7 +4756,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -4773,7 +4771,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -4787,7 +4785,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -4802,7 +4800,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -5011,7 +5009,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5088,7 +5086,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5154,7 +5152,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5220,7 +5218,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5295,7 +5293,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5372,7 +5370,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5442,7 +5440,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5513,7 +5511,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5608,7 +5606,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5684,7 +5682,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5769,7 +5767,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -5848,7 +5846,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -5877,7 +5875,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -5890,7 +5888,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Owner Tel",
+            text: "กรุณาเลือก  Owner Tel",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -5904,7 +5902,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Transfer to Factory",
+            text: "กรุณาเลือก  Transfer to Factory",
           });
           setErrorFac(true);
           return;
@@ -5919,7 +5917,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Transfer to CC",
+            text: "กรุณาเลือก  Transfer to CC",
           });
           setErrorCC(true);
           return;
@@ -5935,7 +5933,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrNewboi(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  New BOI Project",
+            text: "กรุณาเลือก  New BOI Project",
           });
           return;
         } else {
@@ -5950,7 +5948,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorNewOwn(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  New Owner ",
+            text: "กรุณาเลือก  New Owner ",
           });
           return;
         } else {
@@ -5964,7 +5962,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel ",
+            text: "กรุณาระบุ  Tel ",
           });
           setErrorTel(true);
           return;
@@ -5991,7 +5989,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -6007,7 +6005,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -6022,7 +6020,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -6038,7 +6036,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -6053,7 +6051,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -6068,7 +6066,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -6083,7 +6081,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -6099,7 +6097,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -6194,7 +6192,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -6221,7 +6219,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -6235,7 +6233,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -6250,7 +6248,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -6265,7 +6263,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
@@ -6281,7 +6279,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -6297,7 +6295,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -6312,7 +6310,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -6327,7 +6325,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -6341,7 +6339,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -6357,7 +6355,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -6499,7 +6497,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6566,7 +6564,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6630,7 +6628,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6696,7 +6694,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6771,7 +6769,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6848,7 +6846,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6918,7 +6916,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -6990,7 +6988,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7063,7 +7061,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7142,7 +7140,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7220,7 +7218,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -7249,7 +7247,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -7262,7 +7260,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Owner Tel",
+            text: "กรุณาระบุ Owner Tel",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -7275,7 +7273,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -7291,7 +7289,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -7306,7 +7304,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -7322,7 +7320,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -7337,7 +7335,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -7352,7 +7350,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -7367,7 +7365,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -7383,7 +7381,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -7452,7 +7450,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -7479,7 +7477,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -7493,7 +7491,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -7508,7 +7506,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -7523,7 +7521,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
@@ -7539,7 +7537,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -7555,7 +7553,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -7570,7 +7568,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -7585,7 +7583,7 @@ function FAM_TRANSECTION_TLWLD() {
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -7599,7 +7597,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -7615,7 +7613,7 @@ function FAM_TRANSECTION_TLWLD() {
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -7667,7 +7665,7 @@ function FAM_TRANSECTION_TLWLD() {
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
               // navigate("/FAMsystem/Mail");
-              navigate("/FAMsystem/Serach");
+              navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -7757,7 +7755,7 @@ function FAM_TRANSECTION_TLWLD() {
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7824,7 +7822,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7888,7 +7886,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -7954,7 +7952,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8028,7 +8026,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8105,7 +8103,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8175,7 +8173,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8247,7 +8245,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8320,7 +8318,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8404,7 +8402,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -8482,7 +8480,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -8511,7 +8509,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -8524,7 +8522,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Owner Tel",
+            text: "กรุณาระบุ Owner Tel",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -8537,7 +8535,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -8553,7 +8551,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -8568,7 +8566,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -8584,7 +8582,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -8599,7 +8597,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -8614,7 +8612,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -8629,7 +8627,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -8645,7 +8643,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -8715,7 +8713,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -8742,7 +8740,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -8756,7 +8754,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -8771,7 +8769,7 @@ Swal.fire({
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -8786,7 +8784,7 @@ Swal.fire({
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
@@ -8802,7 +8800,7 @@ Swal.fire({
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -8818,7 +8816,7 @@ Swal.fire({
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -8833,7 +8831,7 @@ Swal.fire({
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -8848,7 +8846,7 @@ Swal.fire({
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -8862,7 +8860,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -8878,7 +8876,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -9020,7 +9018,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9087,7 +9085,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9151,7 +9149,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9217,7 +9215,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9292,7 +9290,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9380,7 +9378,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               if (
@@ -9392,7 +9390,7 @@ Swal.fire({
                 setErrorDate_Certificate(true);
                 Swal.fire({
                   icon: "error",
-                  title: "กรุณาเลือก  certifidate date",
+                  text: "กรุณาเลือก  certifidate date",
                 });
                 return;
               } else {
@@ -9489,7 +9487,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             }
             if (
@@ -9499,7 +9497,7 @@ Swal.fire({
             ) { 
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             } else {
@@ -9572,7 +9570,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9644,7 +9642,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9729,7 +9727,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -9807,7 +9805,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -9836,7 +9834,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -9849,7 +9847,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -9862,7 +9860,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -9878,7 +9876,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -9893,7 +9891,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -9909,7 +9907,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -9924,7 +9922,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -9939,7 +9937,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -9954,7 +9952,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -9970,7 +9968,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -10038,7 +10036,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -10065,7 +10063,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -10079,7 +10077,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -10094,7 +10092,7 @@ Swal.fire({
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -10109,7 +10107,7 @@ Swal.fire({
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           return;
         } else {
@@ -10124,7 +10122,7 @@ Swal.fire({
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -10140,7 +10138,7 @@ Swal.fire({
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -10155,7 +10153,7 @@ Swal.fire({
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -10170,7 +10168,7 @@ Swal.fire({
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -10184,7 +10182,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -10199,7 +10197,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager return",
+            text: "กรุณาเลือก  ACC Manager return",
           });
           setErrorACCReturn(true);
           return;
@@ -10214,7 +10212,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -10286,7 +10284,7 @@ Swal.fire({
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
                 periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate
+                returndate:day+'/'+returnDate[0]
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -10346,6 +10344,17 @@ Swal.fire({
                 title: "Submit Success",
                 icon: "success",
               });
+              try {
+                const response = await axios.post("/update_periodall", {
+                  tranfer: EditFam,
+                  borrow_by:borrow_name ,
+                  periodtxt: textperiod,
+                  periodunit: selectddlperiod,
+                  returndate:day+'/'+returnDate[0]
+                });
+              } catch (error) {
+                console.error("Error update_periodall:", error.message);
+              } 
               localStorage.setItem("status_formail", null);
               localStorage.setItem("To", selectdepartment_mana);
               localStorage.setItem("Genno", EditFam);
@@ -10383,7 +10392,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10448,7 +10457,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10512,7 +10521,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10577,7 +10586,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10652,7 +10661,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10722,7 +10731,7 @@ Swal.fire({
               setErrorDate_Certificate(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  certifidate date",
+                text: "กรุณาเลือก  certifidate date",
               });
               return;
             } else {
@@ -10743,7 +10752,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10820,7 +10829,7 @@ Swal.fire({
             ) {
                Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -10839,7 +10848,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -10905,7 +10914,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               // if (
@@ -10941,6 +10950,7 @@ Swal.fire({
                     acc_return_cmmt: cmmtradio_return_acc,
                   }
                 );
+               
 
                 if (selectradio_record != "R") {
                   localStorage.setItem("status_formail", selectradio_record);
@@ -10991,7 +11001,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -11001,6 +11011,7 @@ Swal.fire({
                 famno: EditFam,
                 sts_submit: Status,
               });
+              
             } catch (error) {
               console.error("Error requesting data:", error);
             }
@@ -11008,6 +11019,12 @@ Swal.fire({
               const response = await axios.post("/update_leading_own_return", {
                 tranfer: EditFam,
                 own_return_cmmt: cmmtradio_return_own,
+              });
+              await axios.post("/update_owner_return", {
+                tranfer: EditFam,
+                userlogin:User,
+                radioreturn:selectreturn
+
               });
               if (selectradio_acc_manager != "R") {
                 localStorage.setItem("status_formail", selectradio_acc_manager);
@@ -11058,7 +11075,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -11133,7 +11150,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -11219,7 +11236,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -11299,7 +11316,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -11328,7 +11345,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -11341,7 +11358,7 @@ Swal.fire({
         ) {
          Swal.fire({
           icon: "error",
-          title: "กรุณาระบุ Owner Tel",
+          text: "กรุณาระบุ Owner Tel",
         });
           navigate("/FAMsystem/ForRe");
           return;
@@ -11354,7 +11371,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -11370,7 +11387,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -11385,7 +11402,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -11401,7 +11418,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -11416,7 +11433,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -11431,7 +11448,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -11446,7 +11463,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -11461,7 +11478,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager return",
+            text: "กรุณาเลือก  ACC Manager return",
           });
           setErrorACCReturn(true);
           return;
@@ -11476,7 +11493,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -11538,7 +11555,7 @@ Swal.fire({
               borrow_by:borrow_name ,
               periodtxt: textperiod,
               periodunit: selectddlperiod,
-              returndate:day+'/'+returnDate
+              returndate:day+'/'+returnDate[0]
             });
           } catch (error) {
             console.error("Error update_periodall:", error.message);
@@ -11569,7 +11586,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -11596,7 +11613,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -11610,7 +11627,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -11625,7 +11642,7 @@ Swal.fire({
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -11640,7 +11657,7 @@ Swal.fire({
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
 
           return;
@@ -11656,7 +11673,7 @@ Swal.fire({
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -11672,7 +11689,7 @@ Swal.fire({
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -11687,7 +11704,7 @@ Swal.fire({
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -11702,7 +11719,7 @@ Swal.fire({
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -11716,7 +11733,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -11732,7 +11749,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PTE(ENV)",
+            text: "กรุณาเลือก  PTE(ENV)",
           });
           setErrorPTE_ENV(true);
           return;
@@ -11747,7 +11764,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PLN Staff",
+            text: "กรุณาเลือก  PLN Staff",
           });
           setErrorPLN_Staff(true);
           return;
@@ -11762,7 +11779,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Shipping Staff",
+            text: "กรุณาเลือก  Shipping Staff",
           });
           setErrorShipping(true);
           return;
@@ -11777,7 +11794,7 @@ Swal.fire({
         ) {;
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -11946,7 +11963,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12013,7 +12030,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12077,7 +12094,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12143,7 +12160,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12218,7 +12235,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12294,7 +12311,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12376,7 +12393,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12426,7 +12443,7 @@ Swal.fire({
               setErrScp_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Ship Date",
+                text: "กรุณาเลือก  Ship Date",
               });
 
               return;
@@ -12443,7 +12460,7 @@ Swal.fire({
               setErrTotalScrap(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณากรอก Total Amount",
+                text: "กรุณากรอก Total Amount",
               });
 
               return;
@@ -12469,7 +12486,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -12483,7 +12500,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             }
             try {
@@ -12549,7 +12566,7 @@ Swal.fire({
             ) {; 
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -12619,7 +12636,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -12703,7 +12720,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12779,7 +12796,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12866,7 +12883,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -12947,7 +12964,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -12976,7 +12993,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -12999,7 +13016,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -13015,7 +13032,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -13030,7 +13047,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -13046,7 +13063,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -13061,7 +13078,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -13076,7 +13093,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -13091,7 +13108,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -13106,7 +13123,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PTE(ENV)",
+            text: "กรุณาเลือก  PTE(ENV)",
           });
           setErrorPTE_ENV(true);
           return;
@@ -13121,7 +13138,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PLN Staff",
+            text: "กรุณาเลือก  PLN Staff",
           });
           setErrorPLN_Staff(true);
           return;
@@ -13136,7 +13153,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Shipping Staff",
+            text: "กรุณาเลือก  Shipping Staff",
           });
           setErrorShipping(true);
           return;
@@ -13152,7 +13169,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -13234,7 +13251,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ Tel For Requester",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -13261,7 +13278,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -13275,7 +13292,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           setErrorDept(true);
           navigate("/FAMsystem/ForRe");
@@ -13290,7 +13307,7 @@ Swal.fire({
           setErrorManager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager ",
+            text: "กรุณาเลือก  Department Manager ",
           });
           return;
         } else {
@@ -13305,7 +13322,7 @@ Swal.fire({
           setErrorTel_service(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           return;
         } else {
@@ -13320,7 +13337,7 @@ Swal.fire({
           setErrorService_by(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           return;
         } else {
@@ -13336,7 +13353,7 @@ Swal.fire({
           setErrorBoi_Staff(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           return;
         } else {
@@ -13351,7 +13368,7 @@ Swal.fire({
           setErrorBoi_manager(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           return;
         } else {
@@ -13366,7 +13383,7 @@ Swal.fire({
           setErrorMana_Fac(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           return;
         } else {
@@ -13380,7 +13397,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -13396,7 +13413,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PTE (ENV) input weight/size",
+            text: "กรุณาเลือก  PTE (ENV) input weight/size",
           });
           setErrorPTE_INPUT_WS(true);
           return;
@@ -13411,7 +13428,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PLN Staff contact BOI ",
+            text: "กรุณาเลือก  PLN Staff contact BOI ",
           });
           setErrorPLN_Staff_BOI(true);
           return;
@@ -13426,7 +13443,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Import & BOI prepare",
+            text: "กรุณาเลือก  Import & BOI prepare",
           });
           setErrorimport_boi_prepare(true);
           return;
@@ -13441,7 +13458,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Input data Import",
+            text: "กรุณาเลือก  BOI Input data Import",
           });
 
           setErrorboi_input_data(true);
@@ -13457,7 +13474,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Shipping Staff input invoice no",
+            text: "กรุณาระบุ  Shipping Staff input invoice no",
           });
           setErrorship_input_inv(true);
           return;
@@ -13472,7 +13489,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -13659,7 +13676,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -13737,7 +13754,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -13812,7 +13829,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -13889,7 +13906,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -13971,7 +13988,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -14055,7 +14072,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -14142,7 +14159,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -14213,7 +14230,7 @@ Swal.fire({
               setErrSale_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Ship Date",
+                text: "กรุณาเลือก  Ship Date",
               });
               return;
             } else {
@@ -14228,7 +14245,7 @@ Swal.fire({
               setErrTotalSale(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Total Amount",
+                text: "กรุณาเลือก  Total Amount",
               });
               return;
             } else {
@@ -14251,7 +14268,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14319,7 +14336,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14383,7 +14400,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14449,7 +14466,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14513,7 +14530,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14526,7 +14543,7 @@ Swal.fire({
            
             //   Swal.fire({
             //     icon: "error",
-            //     title: "กรุณาระบุ (Input thai categories)",
+            //     text: "กรุณาระบุ (Input thai categories)",
             //   });
             //   return;
             // }
@@ -14592,7 +14609,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14604,7 +14621,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ (Bidding result)",
+                text: "กรุณาระบุ (Bidding result)",
               });
               return;
             }
@@ -14660,7 +14677,7 @@ Swal.fire({
               setErrorcontact_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Contact Date",
+                text: "กรุณาเลือก  Contact Date",
               });
               return;
             } else {
@@ -14684,7 +14701,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14742,7 +14759,7 @@ Swal.fire({
               setErrorexport_clearance_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก  Clearance date",
+                text: "กรุณาเลือก  Clearance date",
               });
               return;
             } else {
@@ -14766,7 +14783,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14846,7 +14863,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14915,7 +14932,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -14980,7 +14997,7 @@ Swal.fire({
            
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Invoice No.",
+                text: "กรุณาระบุ Invoice No.",
               });
               return;
             }
@@ -14991,7 +15008,7 @@ Swal.fire({
             ) {
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -15047,7 +15064,7 @@ Swal.fire({
               setErrorVendor_move_date(true);
               Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือก Vendor move date",
+                text: "กรุณาเลือก Vendor move date",
               });
               return;
             } else {
@@ -15071,7 +15088,7 @@ Swal.fire({
             ) { 
 Swal.fire({
                 icon: "error",
-                title: "กรุณาเลือกไฟล์",
+                text: "กรุณาเลือกไฟล์",
               });
               return;
             }
@@ -15157,7 +15174,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -15242,7 +15259,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -15333,7 +15350,7 @@ Swal.fire({
             ) {
               Swal.fire({
                 icon: "error",
-                title: "กรุณาระบุ Comment",
+                text: "กรุณาระบุ Comment",
               });
             } else {
               try {
@@ -15423,7 +15440,7 @@ Swal.fire({
           setErrorTel_Rq(true);
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Tel Requester",
+            text: "กรุณาระบุ  Tel Requester",
           });
           let ErrorTel_Req = "true";
 
@@ -15452,7 +15469,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Request Owner",
+            text: "กรุณาระบุ Tel For Requester",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -15465,7 +15482,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Owner Tel",
+            text: "กรุณาระบุ  Owner Tel",
           });
           navigate("/FAMsystem/ForRe");
           return;
@@ -15478,7 +15495,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Department Manager",
+            text: "กรุณาเลือก  Department Manager",
           });
           setErrorManager(true);
           return;
@@ -15494,7 +15511,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Tel_Service By",
+            text: "กรุณาเลือก  Tel_Service By",
           });
           setErrorTel_service(true);
           return;
@@ -15509,7 +15526,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Service By",
+            text: "กรุณาเลือก  Service By",
           });
           setErrorService_by(true);
           return;
@@ -15525,7 +15542,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Staff",
+            text: "กรุณาเลือก  BOI Staff",
           });
           setErrorBoi_Staff(true);
           return;
@@ -15540,7 +15557,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Manager",
+            text: "กรุณาเลือก  BOI Manager",
           });
           setErrorBoi_manager(true);
           return;
@@ -15555,7 +15572,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Factory Manager",
+            text: "กรุณาเลือก  Factory Manager",
           });
           setErrorMana_Fac(true);
           return;
@@ -15570,7 +15587,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Check",
+            text: "กรุณาเลือก  ACC Check",
           });
           setErrorAcc_check(true);
           return;
@@ -15586,7 +15603,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PTE (ENV) input weight/size",
+            text: "กรุณาเลือก  PTE (ENV) input weight/size",
           });
           setErrorPTE_INPUT_WS(true);
           return;
@@ -15601,7 +15618,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  PLN Staff contact BOI ",
+            text: "กรุณาเลือก  PLN Staff contact BOI ",
           });
           setErrorPLN_Staff_BOI(true);
           return;
@@ -15616,7 +15633,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  Import & BOI prepare",
+            text: "กรุณาเลือก  Import & BOI prepare",
           });
           setErrorimport_boi_prepare(true);
           return;
@@ -15631,7 +15648,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  BOI Input data Import",
+            text: "กรุณาเลือก  BOI Input data Import",
           });
 
           setErrorboi_input_data(true);
@@ -15647,7 +15664,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาระบุ  Shipping Staff input invoice no",
+            text: "กรุณาระบุ  Shipping Staff input invoice no",
           });
           setErrorship_input_inv(true);
           return;
@@ -15663,7 +15680,7 @@ Swal.fire({
         ) {
           Swal.fire({
             icon: "error",
-            title: "กรุณาเลือก  ACC Manager",
+            text: "กรุณาเลือก  ACC Manager",
           });
           setErrorAcc_Mana(true);
           return;
@@ -15934,6 +15951,7 @@ Swal.fire({
         setcmmtradio_return_acc("");
       }
       if (STS1 == "FLLD100") {
+        setselectreturn('No')
         setcmmtradio_return_own("");
       }
       if (
@@ -16503,14 +16521,15 @@ Swal.fire({
           setborrow_name(Edit_For_Lending[0][10])
           settextperiod(Edit_For_Lending[0][11])
           setselectddlperiod(Edit_For_Lending[0][12]);
-          setReturnDate(Edit_For_Lending[0][13])
+          setReturnDate([Edit_For_Lending[0][13],Edit_For_Lending[0][14]])
+          setselectreturn(Edit_For_Lending[0][15])
       } else {
         if (For_Leading_New != null) {
-          console.log(For_Leading_New,"For_Leading_New")
           setborrow_name(For_Leading_New[2]);
           settextperiod(For_Leading_New[3]);
           setselectddlperiod(For_Leading_New[4]);
-          setReturnDate(For_Leading_New[5])
+          setReturnDate([For_Leading_New[5],For_Leading_New[6]])
+          setselectreturn(For_Leading_New[7]);
         } else {
           setselectddlperiod("");
         }
@@ -16544,7 +16563,11 @@ Swal.fire({
     }
 
   };
+
+  //Update for borrowby
   const calculateReturnDate = () => {
+    let text=''
+    let value=''
     const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
     
     // Check whether the unit is "Year" or "Month"
@@ -16559,10 +16582,17 @@ Swal.fire({
       "01/", "02/", "03/", "04/", "05/", "06/", 
       "07/", "08/", "09/", "10/", "11/", "12/"
     ];
-
+    const monthNames2 = [
+      "January  ", "February  ", "March  ", "April  ", "May  ", "June  ", 
+      "July  ", "August  ", "September  ", "October  ", "November  ", "December  "
+    ];
+    
+    value=`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`
+    text=`${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`
     // Set the calculated return date (e.g., "March 2024" or "January 2026")
-    setReturnDate(`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`);
+    setReturnDate([value,text]);
   };
+  //////////////////////////////////////////
   const calculateUpdate = () => {
     const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
     
@@ -16589,15 +16619,25 @@ Swal.fire({
   };
  
   const handleSaveReturn = async() => {
-    console.log(selectmonthly[0],"selectmonthly[0]")
   // await getMaxReturnDate();
   let DateMax =''
+  let fisrtReturn =''
+  let MonthonlyMax =''
+  await axios.post("/GetReturnDate", {
+    tranfer: EditFam
+  }).then((res) => {
+    fisrtReturn =res.data[0][0]
+    // setdataresult_return(res.data)
+}).catch((error) => {
+    console.error("Error:", error);
+});
+
   await axios.post("/GetMaxReturnDate", {
     tranfer: EditFam
   }).then((res) => {
     setMaxreturndate(res.data[0][0])
     DateMax =res.data[0][0]
-    console.log("Return:", res.data[0][0]); 
+    MonthonlyMax =res.data[0][1]
     // setdataresult_return(res.data)
 }).catch((error) => {
     console.error("Error:", error);
@@ -16605,7 +16645,6 @@ Swal.fire({
   
 
     let month='';
-console.log()
 if (selectmonthly[0] === 'JANUARY') {
     month = '01';
 } else if (selectmonthly[0] === 'FEBRUARY') {
@@ -16635,6 +16674,7 @@ if (selectmonthly[0] === 'JANUARY') {
 }
 // let newData = month+'/'+updatereturn
 let NewMonth=''
+let FisrtMonth =''
 //   if(DateMax !== null){
 //     NewMonth = DateMax.split('/'); 
 //   }else{
@@ -16664,7 +16704,6 @@ let NewMonth=''
 //   }else{
 //   // return;
 //   }
-console.log(month, NewMonth[0],"LLLLL",updatereturn , NewMonth[1])
 if(DateMax !== null){
   NewMonth = DateMax.split('/');
   if((month == NewMonth[0]) && ( updatereturn == NewMonth[1] )){
@@ -16677,9 +16716,9 @@ if(DateMax !== null){
     
       
         if(updatereturn >= NewMonth[1]){
-         console.log(updatereturn , ":YEAR",NewMonth[1])
-          if(month >= NewMonth[0]){
-            console.log(month , ":MONTH",NewMonth[0])
+          
+          if(updatereturn > NewMonth[1] || 
+            (updatereturn === NewMonth[1] && month >= NewMonth[0])) {
           try {
             await axios.post("/insertReturn", {
               tranfer: EditFam,
@@ -16687,17 +16726,22 @@ if(DateMax !== null){
               createby: User,
               updateby: User,
             });
+            await axios.post("/update_owner_return", {
+              tranfer: EditFam,
+              userlogin:User,
+              radioreturn:selectreturn
+            });
     
           } catch (error) {
             console.error("insertReturn", error);
           
         
-          
+         
     }
         }else{
           Swal.fire({
             icon: "error",
-            text: `กรุณาเลือกเดือนที่มากกว่า ${selectmonthly[0]} `
+            text: `กรุณาเลือกเดือนที่มากกว่า ${MonthonlyMax} `
           });
         }
       }else{
@@ -16709,41 +16753,69 @@ if(DateMax !== null){
     
   }
 }else{
-  console.log("เข้า 2",day+'/'+month+'/'+updatereturn)
-  try {
-    await axios.post("/insertReturn", {
-      tranfer: EditFam,
-      datereturn: day+'/'+month+'/'+updatereturn,
-      createby: User,
-      updateby: User,
+  FisrtMonth = fisrtReturn.split('/');
+  // if(updatereturn )
+  if((month == FisrtMonth[0]) && ( updatereturn == FisrtMonth[1] )){
+    Swal.fire({
+      icon: "error",
+      text: `กรุณาเลือกเดือนและปีที่ไม่ตรงกับ First Return ครั้งล่าสุด`
     });
-
-  } catch (error) {
-    console.error("insertReturn", error);
-
-  }
-}
-    
-
-
-
-getResult()
+  }else{
   
+    
+      
+    if(updatereturn > FisrtMonth[1] || 
+      (updatereturn === FisrtMonth[1] && month >= FisrtMonth[0])) {
+   
+       try {
+         await axios.post("/insertReturn", {
+           tranfer: EditFam,
+           datereturn: day + '/' + month + '/' + updatereturn,
+           createby: User,
+           updateby: User,
+         });
+         await axios.post("/update_owner_return", {
+           tranfer: EditFam,
+           userlogin: User,
+           radioreturn: selectreturn
+         });
+   
+       } catch (error) {
+         console.error("insertReturn", error);
+       }
+   
+   } else if (updatereturn === FisrtMonth[1] && month < FisrtMonth[0]) {
+     // กรณีเดือนไม่ผ่านเงื่อนไข
+     Swal.fire({
+       icon: "error",
+       text: `กรุณาเลือกเดือนที่มากกว่า ${selectmonthly[0]} `
+     });
+   
+   } else {
+     // กรณีปีไม่ผ่านเงื่อนไข
+     Swal.fire({
+       icon: "error",
+       text: `กรุณาเลือกปีที่มากกว่า ${FisrtMonth[1]}`
+     });
+   }
+   
+      ///
+    
+  }
+
+ 
+}
+getResult()
 }
 
   const getResult = async() => {
     await axios.post("/ShowMonth", {
       tranfer: EditFam
     }).then((res) => {
-      console.log("Response:", res.data); 
       setdataresult_return(res.data)
   }).catch((error) => {
       console.error("Error:", error);
   });}
-  const getMaxReturnDate = async() => {
-    
-
-  }
 
 
   return {

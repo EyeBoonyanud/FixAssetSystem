@@ -518,7 +518,7 @@ function ForRequest() {
                               <TableCell>New BOI Projrct</TableCell>
                             </React.Fragment>
                           )}
-                          {(STS == "FLSC009" ||
+                          {/* {(STS == "FLSC009" ||
                             STS == "FLSC100" ||
                             STS == "FLSC101" ||
                             STS == "FLSC010" ||
@@ -570,7 +570,7 @@ function ForRequest() {
                             <React.Fragment>
                               <TableCell>Invoice No.</TableCell>
                             </React.Fragment>
-                          )}
+                          )} */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -610,7 +610,7 @@ function ForRequest() {
                                   <TableCell>{item[11]}</TableCell>
                                 </React.Fragment>
                               )}
-                              {(STS == "FLSC009" ||
+                              {/* {(STS == "FLSC009" ||
                                 STS == "FLSC100" ||
                                 STS == "FLSC101" ||
                                 STS == "FLSC010" ||
@@ -662,7 +662,7 @@ function ForRequest() {
                                 <React.Fragment>
                                   <TableCell>{item[15]}</TableCell>
                                 </React.Fragment>
-                              )}
+                              )} */}
                             </TableRow>
                           </React.Fragment>
                         ))}
@@ -696,7 +696,7 @@ function ForRequest() {
                               0
                             ).toLocaleString("en-US")}
                           </TableCell>
-                          {(STS == "FLSC009" ||
+                          {/* {(STS == "FLSC009" ||
                             STS == "FLSC100" ||
                             STS == "FLSC101" ||
                             STS == "FLSC010" ||
@@ -708,7 +708,7 @@ function ForRequest() {
                                 0
                               ).toLocaleString("en-US")}
                             </TableCell>
-                          )}
+                          )} */}
                         </TableRow>
                       </TableBody>
                     </Table>

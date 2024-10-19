@@ -49,7 +49,7 @@ function ButtonAppBar({ isOpen, onClose }) {
             </IconButton>
             <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Fix Asset System
+              Fixed Asset System
             </Typography>
             <Avatar
               sx={{ bgcolor: deepOrange[500], marginRight: "10px" }}

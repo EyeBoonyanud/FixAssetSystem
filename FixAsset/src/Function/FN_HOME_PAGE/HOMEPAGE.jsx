@@ -16,6 +16,7 @@ function function_homepage() {
     const [dataname_show, setdataname_show] = useState("");
     const [dataname_type, setdataname_type] = useState("");
     const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
+    const COST = localStorage.getItem('Costcenter')
     const openPopupLoadding = () => {
       setPopupOpenLoadding(true);
     };
@@ -25,6 +26,8 @@ function function_homepage() {
   
     useEffect(() => {
         openPopupLoadding();
+      
+      
         const fetchData = async () => {
     
           const Transfer = async () => {
@@ -54,7 +57,8 @@ function function_homepage() {
               console.error("Error Transferdataall:", error);
             }
           };
-    
+
+
           const Transferlistall = async () => {
             try {
               const response = await axios.post(
@@ -104,11 +108,24 @@ function function_homepage() {
               console.error("Error RequesterORType:", error);
             }
           };
-          const Lending = async () => {
+          // const Lending = async () => {
+          //   try {
+          //     const response = await axios.post(
+          //       "/getCountLending",
+          //       { UserLogin : UserLogin }
+          //     );
+          //     const Lending = await response.data;
+          //     setdataLending(Lending);
+          //   } catch (error) {
+          //     console.error("Error RequesterORType:", error);
+          //   }
+          // };
+
+            const Lending = async () => {
             try {
               const response = await axios.post(
                 "/getCountLending",
-                { UserLogin : UserLogin }
+                { UserLogin : UserLogin , cost_center: COST}
               );
               const Lending = await response.data;
               setdataLending(Lending);
@@ -116,6 +133,7 @@ function function_homepage() {
               console.error("Error RequesterORType:", error);
             }
           };
+
           const Donation = async () => {
             try {
               const response = await axios.post(
@@ -155,8 +173,22 @@ function function_homepage() {
           await Sale();
         };
         fetchData();
-      }, []);
-
+        // GetACC();
+      }, []); 
+    //   const GetACC = async()  =>{
+    //     console.log(UserLogin,"UserLogin")
+    //     axios.post("/getfor_acc_use", {
+    //       User_login: UserLogin,
+    //            })
+    //            .then((response) => {
+    //              const data = response.data;
+    //              console.log('Response:', data);
+    //            })
+    //            .catch((error) => {
+    //              console.error('Error:', error);
+    //            });
+    //  }
+              
     
       const handleClickNextToSearch =  (value, type) => {
         if (value === "Create") {
@@ -253,16 +285,26 @@ function function_homepage() {
             } catch (error) {
                 console.error("Error Lendingallname:", error);
             }
+            // try {
+            //     const response = await axios.post(
+            //     "/getCountLendinglistaLL",
+            //     { UserLogin : UserLogin }
+            //     );
+            //     const Lendingall = await response.data;
+            //     setdataall_Show(Lendingall);
+            // } catch (error) {
+            //     console.error("Error Lendingall:", error);
+            // }
             try {
-                const response = await axios.post(
-                "/getCountLendinglistaLL",
-                { UserLogin : UserLogin }
-                );
-                const Lendingall = await response.data;
-                setdataall_Show(Lendingall);
-            } catch (error) {
-                console.error("Error Lendingall:", error);
-            }
+              const response = await axios.post(
+              "/getCountLendinglistaLL",
+              { UserLogin : UserLogin , cost_center : COST}
+              );
+              const Lendingall = await response.data;
+              setdataall_Show(Lendingall);
+          } catch (error) {
+              console.error("Error Lendingall:", error);
+          }
             setdataname_type("GP01006");
             setdataname_show(Data);
             closePopupLoadding();

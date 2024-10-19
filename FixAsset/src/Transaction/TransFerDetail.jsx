@@ -1017,7 +1017,7 @@ function TransFerDetail() {
                       <Select
                         label="Select"
                         // id="SL_AssetGroup"
-                        sx={{ width: "25%", marginLeft: "2%" }}
+                        sx={{ width: "100px", marginLeft: "2%" }}
                         size="small"
                         value={selectddlperiod}
                         fullWidth
@@ -1057,7 +1057,7 @@ function TransFerDetail() {
                         fullWidth
                         size="small"
                         sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
-                        value={returnDate}
+                        value={returnDate[1]}
                         disabled
                         InputProps={{
                           readOnly: true,
@@ -2798,7 +2798,7 @@ function TransFerDetail() {
                         fullWidth
                         size="small"
                         sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
-                        value={returnDate}
+                        value={returnDate[1]}
                         disabled
                         InputProps={{
                           readOnly: true,
@@ -2828,18 +2828,27 @@ function TransFerDetail() {
                             row
                             aria-labelledby="demo-row-radio-buttons-group-label"
                             name="row-radio-buttons-group"
-                            value={selectreturn}
+                            // value={selectreturn}
+                            value={
+                              selectreturn === null
+                                ? setselectreturn("N")
+                                : selectreturn
+                            }
                             onChange={(e) => setselectreturn(e.target.value)}
                           >
                             <FormControlLabel
-                              value="Yes"
+                              value="Y"
                               control={<Radio size="small" />}
                               label="Yes"
+                             disabled={read_return_own_cmmt}
+
                             />
                             <FormControlLabel
-                              value="No"
+                              value="N"
                               control={<Radio size="small" />}
                               label="No"
+                             disabled={read_return_own_cmmt}
+
                             />
                           </RadioGroup>
                         </FormControl>
@@ -2854,7 +2863,7 @@ function TransFerDetail() {
                         )} */}
                       </Box>
                     </td>
-                 {selectreturn === "Yes" && (   <td>  
+                 {selectreturn === "Y" && STS1== 'FLLD100' &&(   <td>  
                     <FormControl variant="outlined" size="small" sx={{ width: 140, marginRight: 1 }}>
                                   <InputLabel id="month-label">Month</InputLabel>
                                   <Select
@@ -3552,7 +3561,7 @@ function TransFerDetail() {
                             } else {
                               Swal.fire({
                                 icon: "error",
-                                title: "กรุณากรอกตัวเลขเท่านั้น",
+                                text: "กรุณากรอกตัวเลขเท่านั้น",
                               });
                             }
                           }}
@@ -3569,7 +3578,7 @@ function TransFerDetail() {
                           helperText={
                             ErrTotalScrap &&
                             (!total_scrap || total_scrap == "null")
-                              ? "กรุณาเลือก Total Amount "
+                              ? "กรุณากรอก Total Amount "
                               : undefined
                           }
                         />
@@ -4833,7 +4842,7 @@ function TransFerDetail() {
                             } else {
                               Swal.fire({
                                 icon: "error",
-                                title: "กรุณากรอกตัวเลขเท่านั้น",
+                                text: "กรุณากรอกตัวเลขเท่านั้น",
                               });
                             }
                           }}
@@ -4850,7 +4859,7 @@ function TransFerDetail() {
                           helperText={
                             ErrTotalSale &&
                             (!total_sale || total_sale == "null")
-                              ? "กรุณาเลือก Total Amount "
+                              ? "กรุณากรอก Total Amount "
                               : undefined
                           }
                           inputProps={{

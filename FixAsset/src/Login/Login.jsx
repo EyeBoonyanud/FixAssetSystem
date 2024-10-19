@@ -34,6 +34,7 @@ export default function SignInSide() {
   let UserLogin = "";
   let Emp = "";
   let NameRole = "";
+  let Cost_Center ='';
 
   const handleLogin = async () => {
     setLoading(true);
@@ -57,12 +58,14 @@ export default function SignInSide() {
           UserLogin = data[0][3];
           Emp = data[0][4];
           NameRole = data[0][5];
+          Cost_Center = data[0][6];
             localStorage.setItem("Name", Name);
             localStorage.setItem("Lastname", Lastname);
             localStorage.setItem("Role", Role);
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
+            localStorage.setItem("Costcenter",Cost_Center)
             window.location.href = "/FAMsystem/Homepage";
           
         } else {

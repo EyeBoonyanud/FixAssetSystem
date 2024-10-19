@@ -23,7 +23,8 @@ module.exports.login = async (req, res) => {
     const connect = await oracledb.getConnection(CUSR);
     const query = `
     SELECT R.ROLE_ID ,T.USER_FNAME , T.USER_SURNAME , T.USER_LOGIN 
-    ,T.USER_EMP_ID , REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW
+    ,T.USER_EMP_ID , REPLACE(R.ROLE_NAME,'FAS-','') AS ROLE_NAME_SHOW,
+    T.USER_COSTCENTER AS COSTCENTER
     FROM CU_USER_M T
     INNER JOIN CU_ROLE_USER RU ON RU.USER_LOGIN = T.USER_LOGIN
     INNER JOIN CU_ROLE_M R ON R.ROLE_ID = RU.ROLE_ID

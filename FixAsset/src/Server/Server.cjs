@@ -37,6 +37,8 @@ app.use(express.json({ type: 'text/html' }));
 app.post("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
+
+
 app.get("/gethome_page",Transaction.gethome_page);
 app.post("/getsubmenu",Login.submenu);
 app.get("/getemp",Transaction.emp);
@@ -45,10 +47,13 @@ app.post("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
 app.post("/findsts",Transaction.findsts);
+app.get("/findstsLending",Transaction.findstsLending);
 app.post("/getby",Transaction.by);
 app.post("/getstatus",Transaction.status);
 app.post("/getsearch",Transaction.search);
 app.post("/getsearch2",Transaction.search2);
+app.post("/search3",Transaction.search3);
+
 app.post("/getfixcode",Transaction.fixcode);
 app.post("/getfac_insert",Transaction.fac_insert);
 app.post("/getcost_insert",Transaction.cost_insert);
@@ -154,6 +159,12 @@ app.get("/SelectMonthly",Transaction.SelectMonthly);
 app.post("/insertReturn",Transaction.insertReturn);
 app.post("/ShowMonth",Transaction.ShowMonth);
 app.post("/GetMaxReturnDate",Transaction.GetMaxReturnDate);
+app.post("/GetReturnDate",Transaction.GetReturnDate);
+app.post("/update_owner_return",Transaction.update_owner_return);
+app.post("/update_closejob_lending",Transaction.update_closejob_lending);
+
+
+
 
 
 
@@ -244,6 +255,7 @@ app.get("/getCountScraplistaLLname",Homepage.getCountScraplistaLLname);
 app.post("/getCountScraplistaLL",Homepage.getCountScraplistaLL);
 app.get("/getCountSalelistaLLname",Homepage.getCountSalelistaLLname);
 app.post("/getCountSalelistaLL",Homepage.getCountSalelistaLL);
+app.post("/getfor_acc_use",Homepage.getfor_acc_use);
 
 
 
