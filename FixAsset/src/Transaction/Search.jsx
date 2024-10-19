@@ -343,75 +343,7 @@ function Issue() {
                   </FormControl> */}
                 {/* </TableCell> */}
               </TableRow>
-              {Path !== 'CLOSEACC' &&(
-              <TableRow>
-                <TableCell style={{ border: "0" }}>
-                  <FormControl sx={{ width: 200 }} style={{}}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Request Type :
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Request Type :"
-                      value={selectReType}
-                      onChange={(e) => {
-                        setselectReType(e.target.value);
-                        findStatus(e.target.value);
-                      }}
-                      size="small"
-                      style={{
-                        width: "200px",
-                      }}
-                    >
-                      {ReType.map((option) => (
-                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                
-                </TableCell>
-                <FormControl
-                    sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
-                  >
-                    <Autocomplete
-                      value={selectStatus}
-                      onChange={(e, value) => {
-                        setselectStatus(value);
-                        selectStatusID(value.value);
-                      }}
-                      options={Status.map((item) => ({
-                        label: item[1],
-                        value: item[0],
-                      }))}
-                      getOptionLabel={(option) => option.label}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Status :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                      getOptionSelected={(option, value) =>
-                        value === "" ? false : option.value === value.value
-                      }
-                      noOptionsText=" กรุณาเลือก Request Type"
-                    />
-                  </FormControl>
-                {/* <TableCell style={{ border: 0 }}>
-                  <TextField
-                    label="Fix Asset Code :"
-                    size="small"
-                    variant="outlined"
-                    id="FixAsset"
-                    style={{
-                      width: 200,
-                    }}
-                  />
-                </TableCell> */}
-              </TableRow>)}
+         
               <TableRow   >
                 {/* <TableCell style={{ border: 0 }}>
                
@@ -479,7 +411,76 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
-
+              {Path !== 'CLOSEACC' &&(
+              <TableRow>
+                <TableCell style={{ border: "0" }}>
+                  <FormControl sx={{ width: 200 }} style={{}}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Request Type :
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Request Type :"
+                      value={selectReType}
+                      onChange={(e) => {
+                        setselectReType(e.target.value);
+                        findStatus(e.target.value);
+                      }}
+                      size="small"
+                      style={{
+                        width: "200px",
+                      }}
+                    >
+                      {ReType.map((option) => (
+                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                
+                </TableCell>
+                <TableCell style={{ border: "0" }}>
+                <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  >
+                    <Autocomplete
+                      value={selectStatus}
+                      onChange={(e, value) => {
+                        setselectStatus(value);
+                        selectStatusID(value.value);
+                      }}
+                      options={Status.map((item) => ({
+                        label: item[1],
+                        value: item[0],
+                      }))}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Status :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                      getOptionSelected={(option, value) =>
+                        value === "" ? false : option.value === value.value
+                      }
+                      noOptionsText=" กรุณาเลือก Request Type"
+                    />
+                  </FormControl> </TableCell>
+                {/* <TableCell style={{ border: 0 }}>
+                  <TextField
+                    label="Fix Asset Code :"
+                    size="small"
+                    variant="outlined"
+                    id="FixAsset"
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                </TableCell> */}
+              </TableRow>)}
               <TableRow
                 style={{
                   display: Path === "SEARCH" ? "table-row" : "none",

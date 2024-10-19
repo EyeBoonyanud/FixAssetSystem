@@ -4837,18 +4837,19 @@ WHERE FRL_FAM_NO  = '${tranfer}'
 };
 module.exports.update_owner_return = async function (req, res) {
   try {
-    const { tranfer,userlogin,radioreturn} = req.body;
+    const { tranfer,userlogin,radioreturn,comment_retutn} = req.body;
     const connect = await oracledb.getConnection(AVO);
     const query = `
      UPDATE FAM_REQ_LENDING 
     SET FRL_UPDATE_DATE = SYSDATE,
     FRL_OWNER_RETURN_BY  = :userlogin,
-    FRL_EXTEND_STS =:radioreturn
+    FRL_EXTEND_STS =:radioreturn,
+    FRL_OWNER_CMMT =:comment_retutn
     WHERE FRL_FAM_NO = :tranfer
   `;
 
     const data = {
-      tranfer,userlogin,radioreturn
+      tranfer,userlogin,radioreturn,comment_retutn
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();

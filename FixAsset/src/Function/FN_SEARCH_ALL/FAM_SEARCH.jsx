@@ -281,13 +281,13 @@ function FAM_SEARCH() {
   const Reset = async () => {
     document.getElementById("FamNo").value = "";
     document.getElementById("FamTo").value = "";
-    if(Path !== 'CLOSEACC'){
-      document.getElementById("FixAsset").value = "";
-    }
+    // if(Path !== 'CLOSEACC'){
+    //   document.getElementById("FixAsset").value = "";
+    // }
     setselectdept("");
     setselecteDatafac("");
     setselectcost("");
-    setselectReType("");
+
     setdataSearch([]);
     setCheckHead("hidden");
     setCheckEmpty("hidden");
@@ -308,6 +308,7 @@ function FAM_SEARCH() {
     setselectReturnFrom("")
     setselectReturnTo("")
     setselectReturnSts(null);
+    setselectReType("");
     
   };
   const Factory = async () => {
@@ -737,7 +738,9 @@ function FAM_SEARCH() {
           icon: "success",
           text: "Save ACC close request",
         });
-    
+        Search();
+
+
       }
     }else{
       Swal.fire({

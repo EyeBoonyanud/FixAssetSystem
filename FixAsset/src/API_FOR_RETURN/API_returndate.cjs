@@ -1,6 +1,6 @@
 const oracledb = require("oracledb");
-const nodemailer = require("nodemailer");
-const path = require('path');
+const nodemailer = require(" ");
+const path = require("path");
 const fs = require("fs");
 oracledb.initOracleClient({ tnsAdmin: process.env.TNS_ADMIN });
 const AVO = {
@@ -23,28 +23,28 @@ async function get_data() {
   try {
     const connect = await oracledb.getConnection(AVO);
     const query = `
-       SELECT DISTINCT  TO_CHAR(BB.MRETDATE,'MM/YYYY'), 
-       FPM.FPM_USER_LOGIN AS REQUEST_BY, 
+       SELECT DISTINCT  TO_CHAR(BB.MRETDATE,'MM/YYYY'),
+       FPM.FPM_USER_LOGIN AS REQUEST_BY,
        FPM.FPM_EMAIL ,T.FRL_FAM_NO AS FAM,
        FCM.FCM_DESC AS REQUEST_TYPE,
        FFM.FFM_DESC AS STATUS,
        TO_CHAR(BB.MRETDATE,'Month YYYY')
             FROM FAM_REQ_LENDING T
             INNER JOIN FAM_PERSON_MASTER FPM ON T.FRL_OWNER_RETURN_BY = FPM.FPM_USER_LOGIN
-            INNER JOIN FAM_REQ_HEADER FRH ON T.FRL_FAM_NO = FRH.FRH_FAM_NO 
-            INNER JOIN FAM_CODE_MASTER FCM ON FCM.FCM_CODE = FRH.FAM_REQ_TYPE 
-            INNER JOIN FAM_FLOW_MASTER FFM ON FFM.FFM_CODE  = FRH.FAM_REQ_STATUS 
-
+            INNER JOIN FAM_REQ_HEADER FRH ON T.FRL_FAM_NO = FRH.FRH_FAM_NO
+            INNER JOIN FAM_CODE_MASTER FCM ON FCM.FCM_CODE = FRH.FAM_REQ_TYPE
+            INNER JOIN FAM_FLOW_MASTER FFM ON FFM.FFM_CODE  = FRH.FAM_REQ_STATUS
+ 
             INNER JOIN
             (
-            SELECT MAX(AA.RETDATE) AS MRETDATE, AA.NFAM 
+            SELECT MAX(AA.RETDATE) AS MRETDATE, AA.NFAM
             FROM
             (
-                SELECT T.FRL_FAM_NO AS NFAM, T.FRL_RETURN_DATE AS RETDATE 
+                SELECT T.FRL_FAM_NO AS NFAM, T.FRL_RETURN_DATE AS RETDATE
                 FROM FAM_REQ_LENDING T
                 UNION
-                SELECT T.FRLR_FAM_NO AS NFAM, T.FRLR_RETURN AS RETDATE 
-                FROM FAM_LENDING_RETURN T 
+                SELECT T.FRLR_FAM_NO AS NFAM, T.FRLR_RETURN AS RETDATE
+                FROM FAM_LENDING_RETURN T
             ) AA
             WHERE TO_CHAR(AA.RETDATE, 'YYYY/MM') >= TO_CHAR(TRUNC(SYSDATE, 'MM'), 'YYYY/MM')
                 AND TO_CHAR(AA.RETDATE, 'YYYY/MM') <= TO_CHAR(TRUNC(ADD_MONTHS(SYSDATE, 60), 'MM'), 'YYYY/MM')
@@ -62,12 +62,12 @@ async function get_data() {
         fam: result.rows[i][3],
         type: result.rows[i][4],
         status: result.rows[i][5],
-        date_return:result.rows[i][6],
+        date_return: result.rows[i][6],
       });
     }
     return data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 function checkMonth() {
@@ -82,14 +82,14 @@ function logMessage(message) {
   const logDir = path.join(__dirname, "log");
   const logFileName = path.join(logDir, `log-${date}.txt`);
   const logMessage = `${new Date().toISOString()} - ${message}\n`;
-
+ 
   if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
   }
-
+ 
   fs.appendFile(logFileName, logMessage, (err) => {
     if (err) {
-      console.error("Error writing to log file", err);
+      console.log("Error writing to log file", err);
     } else {
       console.log("Log message written to", logFileName);
     }
@@ -111,11 +111,10 @@ async function sendEmail(emailTo, emailsubject, emailHtml) {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const seconds = String(now.getSeconds()).padStart(2, "0");
   const FullDateTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
-  console.log(emailTo, emailsubject, emailHtml);
   const mailOptions = {
     from: "FAMsystem@th.fujikura.com",
     to: emailTo,
-    subject: 'Please Return the Borrowed Item ',
+    subject: "Please Return the Borrowed Item ",
     html: emailHtml,
   };
   try {
@@ -127,25 +126,37 @@ async function sendEmail(emailTo, emailsubject, emailHtml) {
 }
 async function main() {
   const data = await get_data();
-    const returnDate = checkMonth();
+  const returnDate = checkMonth();
   if (data.length > 0) {
     data.forEach(async (item, index) => {
       if (item.enddate === returnDate) {
-       let emailMessage= await Html_return(item.fam,item.type,item.user,item.status,item.date_return)
-        await sendEmail(item.email,'',emailMessage)
-       
+        let emailMessage = await Html_return(
+          item.fam,
+          item.type,
+          item.user,
+          item.status,
+          item.date_return
+        );
+        try {
+          await sendEmail(item.email, "", emailMessage);
+          console.log("Email sent to ", item.email);
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
+  }else{
+    logMessage(`Don't have any data to send email`);
   }
 }
-
-async function Html_return(Fam,Type,RequestBy,Status,date) {
-    let emailMessage = `
+ 
+async function Html_return(Fam, Type, RequestBy, Status, date) {
+  let emailMessage = `
   <html>
   <body style="font-family: sans-serif; font-size: 16px; color: #333; margin: 0; padding: 0;">
   <div className="container" style="width: 700px; margin: 0 auto; padding: 20px; height: 30px; font-family: Tahoma;">
   <div className="header" style="border-radius: 3px; background-color: #93E9BE; color: #ffff; padding: 10px; text-align: center; font-size: 10px;">
-      <h1>FAM system information</h1>
+      <h1>Kindly Return the Borrowed Item</h1>
   </div>
   <div className="content" style="border-radius: 3px; border: 1px solid #ddd; padding: 20px; font-size: 12px;">
       <h2 style="color: red;">Dear All Concern </h2>
@@ -170,10 +181,10 @@ async function Html_return(Fam,Type,RequestBy,Status,date) {
   </div>
 </div>
 </body>
-  </html> 
+  </html>
   <br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br><br> <br> <br> <br> <br>  <br>  <br>  <br>  <br>  <br> <br>
-  `
-    return emailMessage;
-     
-  }
-  main();
+  `;
+  return emailMessage;
+}
+main();
+ 

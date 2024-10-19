@@ -11023,7 +11023,8 @@ Swal.fire({
               await axios.post("/update_owner_return", {
                 tranfer: EditFam,
                 userlogin:User,
-                radioreturn:selectreturn
+                radioreturn:selectreturn,
+                comment_retutn:cmmtradio_return_own
 
               });
               if (selectradio_acc_manager != "R") {
@@ -16729,7 +16730,8 @@ if(DateMax !== null){
             await axios.post("/update_owner_return", {
               tranfer: EditFam,
               userlogin:User,
-              radioreturn:selectreturn
+              radioreturn:selectreturn,
+              comment_retutn:cmmtradio_return_own
             });
     
           } catch (error) {
@@ -16777,7 +16779,8 @@ if(DateMax !== null){
          await axios.post("/update_owner_return", {
            tranfer: EditFam,
            userlogin: User,
-           radioreturn: selectreturn
+           radioreturn: selectreturn,
+           comment_retutn:cmmtradio_return_own
          });
    
        } catch (error) {
