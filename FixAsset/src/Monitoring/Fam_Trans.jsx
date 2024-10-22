@@ -2254,7 +2254,12 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    <tr>
+                    <tr    style={{
+                        display:
+                        DataScrap[2] === null || DataScrap[2] === ""
+                            ? "none"
+                            : "table-row",
+                      }}>
                       <td className="Style4">
                         <Typography variant="subtitle2">
                          Ship Date:
@@ -2933,7 +2938,12 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    <tr>
+                    <tr  style={{
+                        display:
+                        DataSale[49] === null || DataSale[49] === ""
+                            ? "none"
+                            : "table-row",
+                      }}>
                       <td className="Style4">
                         <Typography variant="subtitle2">
                         Ship Date:

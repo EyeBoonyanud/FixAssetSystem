@@ -4149,7 +4149,8 @@ SET
   FRL_ACC_MGR_JUD = NULL,
   FRL_ACC_MGR_CMMT = NULL,
   FRL_OWNER_DATE = NULL,
-  FRL_OWNER_CMMT = NULL
+  FRL_OWNER_CMMT = NULL,
+    FRL_EXTEND_STS = NULL
 WHERE
   FRL_FAM_NO = :famno
 
@@ -4607,14 +4608,16 @@ module.exports.update_boi_make_clearance = async function (req, res) {
   }
 };
 module.exports.update_pte_upload_file_clearance = async function (req, res) {
+ 
   try {
     const { tranfer, pte_upload_file_clearance} =req.body;
+    console.log( tranfer, pte_upload_file_clearance)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 
     SET 
     FRSL_ENV3_CMMT = :pte_upload_file_clearance ,
-     FRSL_ENV3_DATE = SYSDATE
+    FRSL_ENV3_DATE = SYSDATE
     WHERE FRSL_FAM_NO = :tranfer
   `;
 
@@ -4639,12 +4642,12 @@ module.exports.update_pln_request_invoice = async function (req, res) {
     SET 
     FRSL_PLN3_CMMT = :pln_request_invoice ,
     FRSL_PLN3_DATE = SYSDATE 
-    // FRSL_SALE_DATE = TO_DATE(:date_sale, 'YYYY-MM-DD')
+    -- FRSL_SALE_DATE = TO_DATE(:date_sale, 'YYYY-MM-DD')
     WHERE FRSL_FAM_NO = :tranfer
   `;
 
     const data = {
-      tranfer,pln_request_invoice,date_sale
+      tranfer,pln_request_invoice
     };
     const result = await connect.execute(query, data, { autoCommit: true });
     connect.release();

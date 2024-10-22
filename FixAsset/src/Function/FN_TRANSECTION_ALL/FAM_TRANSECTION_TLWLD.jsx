@@ -14604,17 +14604,6 @@ Swal.fire({
               console.error("Error fetching data:", error);
             }
             if (
-              DataFile_Requester == null ||
-              DataFile_Requester == [] ||
-              DataFile_Requester.length == 0
-            ) {
-Swal.fire({
-                icon: "error",
-                text: "กรุณาเลือกไฟล์",
-              });
-              return;
-            }
-            if (
               Bidding_result == "" ||
               Bidding_result == null ||
               Bidding_result == "null" ||
@@ -14626,6 +14615,18 @@ Swal.fire({
               });
               return;
             }
+            if (
+              DataFile_Requester == null ||
+              DataFile_Requester == [] ||
+              DataFile_Requester.length == 0
+            ) {
+Swal.fire({
+                icon: "error",
+                text: "กรุณาเลือกไฟล์",
+              });
+              return;
+            }
+      
             try {
               const response = await axios.post("/update_submit", {
                 famno: EditFam,
