@@ -2254,9 +2254,11 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    <tr    style={{
+                    {console.log(DataScrap[2],"DataScrap[2]")}
+                    <tr   
+                     style={{
                         display:
-                        DataScrap[2] === null || DataScrap[2] === ""
+                        DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
                             ? "none"
                             : "table-row",
                       }}>
@@ -2275,7 +2277,7 @@ function TransFerDetail() {
                             size="small"
                             disabled
                             value={
-                              DataScrap[11] !== "null" ? DataScrap[11] : ""
+                              DataScrap[11] !== "null" ? DataScrap[11] : "" 
                             }
                           ></TextField>
                         </FormControl>
@@ -2288,7 +2290,7 @@ function TransFerDetail() {
                         className="Style7"
                       style={{
                         visibility:
-                        DataScrap[11] == null || DataScrap[11] == "null"
+                        DataScrap[11] == null || DataScrap[11] == "null" || DataScrap[11] == undefined
                      
                           ? "hidden"
                           : "visible"
@@ -2325,7 +2327,7 @@ function TransFerDetail() {
                     style={{
                       display:
                       DataScrap[2] === null ||
-                      DataScrap[2] === ""
+                      DataScrap[2] === "" || DataScrap[2] == undefined
                           ? "none"
                           : "table-row",
                     }}
@@ -2351,7 +2353,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataScrap[2] === null || DataScrap[2] === ""
+                        DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
                             ? "none"
                             : "table-row",
                       }}
@@ -2379,7 +2381,7 @@ function TransFerDetail() {
                     <tr
                     style={{
                       display:
-                      DataScrap[2] === null || DataScrap[2] === ""
+                      DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
                           ? "none"
                           : "table-row",
                     }}
@@ -2539,7 +2541,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataScrap[5] === null || DataScrap[5] === ""
+                        DataScrap[5] === null || DataScrap[5] === "" || DataScrap[5] == undefined
                             ? "none"
                             : "table-row",
                       }}
@@ -2566,7 +2568,7 @@ function TransFerDetail() {
                     <tr
                     style={{
                       display:
-                      DataScrap[5] === null || DataScrap[5] === ""
+                      DataScrap[5] === null || DataScrap[5] === "" || DataScrap[5] == undefined
                           ? "none"
                           : "table-row",
                     }}
@@ -2729,7 +2731,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataScrap[8] === null || DataScrap[8] === ""
+                        DataScrap[8] === null || DataScrap[8] === "" || DataScrap[8] == undefined
                             ? "none"
                             : "table-row",
                       }}
@@ -2756,7 +2758,7 @@ function TransFerDetail() {
                     <tr
                     style={{
                       display:
-                      DataScrap[8] === null || DataScrap[8] === ""
+                      DataScrap[8] === null || DataScrap[8] === "" || DataScrap[8] == undefined
                           ? "none"
                           : "table-row",
                     }}
@@ -2940,7 +2942,7 @@ function TransFerDetail() {
                     </tr>
                     <tr  style={{
                         display:
-                        DataSale[49] === null || DataSale[49] === ""
+                        DataSale[2] === null || DataSale[2] === ""
                             ? "none"
                             : "table-row",
                       }}>
