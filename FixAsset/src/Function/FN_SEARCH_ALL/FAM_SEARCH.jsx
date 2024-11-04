@@ -566,7 +566,7 @@ function FAM_SEARCH() {
               Delect_Status = "FLSC999";
               break;
             case "Sales":
-              Delect_Status = "SALE";
+              Delect_Status = "FLSL924";
               break;
             case "Loss":
               Delect_Status = "FLLS999";
