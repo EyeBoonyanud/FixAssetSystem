@@ -2254,7 +2254,6 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    {console.log(DataScrap[2],"DataScrap[2]")}
                     <tr   
                      style={{
                         display:

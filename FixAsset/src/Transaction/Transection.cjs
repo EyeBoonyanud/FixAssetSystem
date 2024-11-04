@@ -4611,7 +4611,6 @@ module.exports.update_pte_upload_file_clearance = async function (req, res) {
  
   try {
     const { tranfer, pte_upload_file_clearance} =req.body;
-    console.log( tranfer, pte_upload_file_clearance)
     const connect = await oracledb.getConnection(AVO);
     const query = `
     UPDATE FAM_REQ_SALES 

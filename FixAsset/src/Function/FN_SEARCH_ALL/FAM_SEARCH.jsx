@@ -228,7 +228,6 @@ function FAM_SEARCH() {
           }
         });
     }else if (Path === "CLOSEACC") {
-      console.log(idStatus,"idStatus")
       const unwrappedArrayOwnerCC = selectCostCenter.map((item) =>
         item.replace(/'/g, "")
       );
@@ -397,7 +396,6 @@ function FAM_SEARCH() {
       const response = await axios.get(`/findstsLending`);
       const lending = await response.data;
       setReturnStatus(lending);
-      console.log(lending,"OK")
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -514,7 +512,6 @@ function FAM_SEARCH() {
   };
   const handleVIEW = async (VIEW_FAM, TYPE,page) => {
     localStorage.setItem("StatusPage",page)
-    console.log(page,"page")
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
    window.location.href = `/FAMsystem/VIEW_Fammaster`;
@@ -719,9 +716,7 @@ function FAM_SEARCH() {
     return moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
   };
   const SaveCloseJob = async () =>{
-    console.log(selectedRows,"selectedRows")
     if(selectedRows.length > 0){
-      console.log("ไม่ควรเข้า")
 
       for(let i = 0; i < selectedRows.length;i++){
         let row = selectedRows[i]
