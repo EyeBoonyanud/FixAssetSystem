@@ -22,7 +22,7 @@ import Close_ACC from './Transaction/Search'
 import axios from "axios";
 
 // process.env.NODE_ENV = 'production';
-const backendURL = "http://10.17.100.183:5001";
+const backendURL = "http://10.17.70.212:5000";
 axios.defaults.baseURL = backendURL;
 
 const App = () => {

@@ -10280,7 +10280,7 @@ Swal.fire({
             }
             try {
               const response = await axios.post("/update_periodall", {
-                tranfer: EditFam,
+                tranfer: For_Rq_Edit[0],
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
                 periodunit: selectddlperiod,

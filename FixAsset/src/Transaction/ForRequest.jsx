@@ -1135,7 +1135,7 @@ function ForRequest() {
             <TableCell style={{ fontWeight: "bold" }}>
               Total
             </TableCell>
-            <TableCell style={{ fontWeight: "bold" }}>
+            <TableCell style={{ fontWeight: "bold" ,textAlign:'center'}}>
               {datatable
                 .reduce((acc, curr) => acc + parseFloat(curr[9]), 0)
                 .toLocaleString("en-US", {

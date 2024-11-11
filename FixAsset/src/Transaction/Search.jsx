@@ -744,7 +744,9 @@ function Issue() {
           <TableContainer style={{ visibility: checkHead }} component={Paper}>
           <br></br>
             <Table aria-label="simple table">
-              <TableHead className="Serach-Data">
+              <TableHead 
+              className="Serach-Data"
+              >
                 <TableRow>
                   {Path === "FAMMASTER" && (
                     <TableCell>
@@ -879,6 +881,7 @@ function Issue() {
                             style={{
                               borderRadius: "6px",
                               background: "#FFB9B9",
+                              textAlign:'center'
                             }}
                           >
                             {item[6]}
