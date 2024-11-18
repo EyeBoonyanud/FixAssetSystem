@@ -401,6 +401,7 @@ function FAM_SEARCH() {
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
+  localStorage.setItem("pageshow", cutPath);
 
   const handleEdit = async (EditFam, index, page) => {
     localStorage.setItem("StatusPage", page);
