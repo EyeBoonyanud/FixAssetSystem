@@ -117,10 +117,10 @@ app.post("/update_scrap_pte",Transaction.update_scrap_pte);
 app.post("/update_scrap_pln",Transaction.update_scrap_pln);
 app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
 // app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
-app.post("/get_weights",Transaction.get_weights);
-app.post("/get_size",Transaction.get_size);
-app.post("/get_unitprice",Transaction.get_unitprice);
-app.post("/get_inv_no",Transaction.get_inv_no);
+// app.post("/get_weights",Transaction.get_weights);
+// app.post("/get_size",Transaction.get_size);
+// app.post("/get_unitprice",Transaction.get_unitprice);
+// app.post("/get_inv_no",Transaction.get_inv_no);
 app.post("/update_for_nullScarp",Transaction.update_for_nullScarp);
 //sale
 app.post("/import_boi",Transaction.import_boi);
@@ -162,6 +162,8 @@ app.post("/GetMaxReturnDate",Transaction.GetMaxReturnDate);
 app.post("/GetReturnDate",Transaction.GetReturnDate);
 app.post("/update_owner_return",Transaction.update_owner_return);
 app.post("/update_closejob_lending",Transaction.update_closejob_lending);
+app.post("/update_period_fac_mana_returndate",Transaction.update_period_fac_mana_returndate);
+
 
 
 

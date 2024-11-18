@@ -16,8 +16,13 @@ import {
   TableHead,
   Paper,
   Box,
-  InputLabel ,
-  Dialog,DialogActions, DialogContent, DialogContentText, DialogTitle
+  InputLabel,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormHelperText
 } from "@mui/material";
 
 import Header from "../Page/Hearder";
@@ -73,10 +78,15 @@ function TransFerDetail() {
     closePopupLoadding,
     BackPage,
     DataReturn,
-    selectreturn, open,handleClickOpen,handleClose ,comment , setcomment,
-    handleSubmit
+    selectreturn,
+    open,
+    handleClickOpen,
+    handleClose,
+    comment,
+    setcomment,
+    handleSubmit,
   } = FAM_TRANSECTION();
-  const { downloadFile,STS } = FAM_REQUESTER();
+  const { downloadFile, STS } = FAM_REQUESTER();
   const Statuss = localStorage.getItem("StatusPage");
   const Path = localStorage.getItem("page");
   return (
@@ -86,13 +96,15 @@ function TransFerDetail() {
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
       <div className="container-pageshow">
-  <div className="pageshow-style1">
-    <Typography sx={{fontSize:'20px',fontWeight:'bold'}}>{Statuss}</Typography>
-  </div>
-  <div className="flex-end-style">
-    <Typography>FAM NO: {VIEW_FAM}</Typography>
-  </div>
-</div>
+        <div className="pageshow-style1">
+          <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+            {Statuss}
+          </Typography>
+        </div>
+        <div className="flex-end-style">
+          <Typography>FAM NO: {VIEW_FAM}</Typography>
+        </div>
+      </div>
       <br></br>
       <div>
         {VIEW_TYPE === "GP01001" && (
@@ -300,7 +312,7 @@ function TransFerDetail() {
             </Card>
           </Card>
         )}
-          {VIEW_TYPE == "GP01006" && (
+        {VIEW_TYPE == "GP01006" && (
           <Card className="Style100">
             <Card
               sx={{
@@ -341,10 +353,8 @@ function TransFerDetail() {
                           value={DataLending[10]}
                           disabled
                           style={{
-                            backgroundColor: 
-                               "rgba(169, 169, 169, 0.3)"
+                            backgroundColor: "rgba(169, 169, 169, 0.3)",
                           }}
-                         
                         />
                       </FormControl>
                     </td>
@@ -357,79 +367,65 @@ function TransFerDetail() {
                     </td>
                     <td>
                       <TextField
-                        sx={{ width: "20%" }}
+                        sx={{ width: "10%" }}
                         size="small"
                         value={DataLending[11]}
                         fullWidth
                         disabled
                         style={{
-                          backgroundColor: 
-                             "rgba(169, 169, 169, 0.3)"
-                           
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       ></TextField>
-                        <TextField
-                        sx={{ width: "20%",marginLeft:'10px' }}
+                      <TextField
+                        sx={{ width: "12%", marginLeft: "10px" }}
                         size="small"
                         value={DataLending[16]}
                         fullWidth
                         disabled
                         style={{
-                          backgroundColor:"rgba(169, 169, 169, 0.3)"
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
                         }}
                       ></TextField>
-                    
                     </td>
-                    <td className="Style5"></td>
-
-                    <td className="Style7">
-                      <Typography variant="subtitle2">
+                    <td className="Style7"
+                    >
+                      <Typography style={{
+                      visibility:
+                      DataLending[14] == null || DataLending[14] == "null"
+                          ? "hidden"
+                          : "visible",
+                    }} variant="subtitle2">
                         Return Period :
                       </Typography>
                     </td>
-                    <td>
+                    <td  style={{width:'22%'}}>
+                    <FormHelperText sx={{ color: 'red', fontSize: '0.8rem' ,visibility:
+                      DataLending[14] == null || DataLending[14] == "null"
+                          ? "hidden"
+                          : "visible",}}>
+      *plan return date from factory manager approved
+    </FormHelperText>
                       <TextField
+                      style={{
+                      
+                      }}
                         fullWidth
                         size="small"
-                        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+                        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" ,
+                          visibility:
+                          DataLending[14] == null || DataLending[14] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
                         value={DataLending[14]}
                         disabled
                         InputProps={{
                           readOnly: true,
                         }}
                       />
+                     
                     </td>
                   </tr>
-              
-                  <tr
-                       style={{
-                         display:
-                         comment == null || comment == ""
-                             ? "none"
-                             : "table-row",
-                       }}
-                     >
-                       <td className="Style4">
-                         <Typography variant="subtitle2"> ACC Comment :</Typography>
-                       </td>
-                       <td colSpan={4}>
-                         <FormControl className="Style1">
-                           <TextField
-                             style={{
-                               backgroundColor: "rgba(169, 169, 169, 0.3)",
-                             }}
-                             className="Style1"
-                             size="small"
-                             disabled
-                             value={
-                              //  DataLending[8] !== "null" ? DataLending[8] : ""
-                              comment
-                             }
-                           ></TextField>
-                         </FormControl>
-                       </td>
-                     </tr>
-                  
                 </table>
               </div>
             </Card>
@@ -602,7 +598,9 @@ function TransFerDetail() {
                   <td className="Style5"></td>
                   <td className="Style7">
                     {" "}
-                    <Typography variant="subtitle2">Tel Service By :</Typography>
+                    <Typography variant="subtitle2">
+                      Tel Service By :
+                    </Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">
@@ -830,8 +828,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                    DataRoutingFamno[12] === null ||
-                    DataRoutingFamno[12] === ""
+                      DataRoutingFamno[12] === null ||
+                      DataRoutingFamno[12] === ""
                         ? "none"
                         : "table-row",
                   }}
@@ -927,8 +925,8 @@ function TransFerDetail() {
                       className="Style1"
                       style={{
                         visibility:
-                        selectradio_boimanager == null ||
-                        selectradio_boimanager == "null"
+                          selectradio_boimanager == null ||
+                          selectradio_boimanager == "null"
                             ? "hidden"
                             : "visibled",
                       }}
@@ -948,8 +946,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                    selectradio_boimanager == null ||
-                    selectradio_boimanager == "null"
+                      selectradio_boimanager == null ||
+                      selectradio_boimanager == "null"
                         ? "none"
                         : "table-row",
                   }}
@@ -1071,8 +1069,8 @@ function TransFerDetail() {
                   <tr
                     style={{
                       display:
-                      DataRoutingFamno[20] === null ||
-                      DataRoutingFamno[20] === ""
+                        DataRoutingFamno[20] === null ||
+                        DataRoutingFamno[20] === ""
                           ? "none"
                           : "table-row",
                     }}
@@ -1222,8 +1220,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                    DataRoutingFamno[24] === null ||
-                    DataRoutingFamno[24]=== ""
+                      DataRoutingFamno[24] === null ||
+                      DataRoutingFamno[24] === ""
                         ? "none"
                         : "table-row",
                   }}
@@ -1370,8 +1368,8 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                    DataRoutingFamno[28]=== null ||
-                    DataRoutingFamno[28] === ""
+                      DataRoutingFamno[28] === null ||
+                      DataRoutingFamno[28] === ""
                         ? "none"
                         : "table-row",
                   }}
@@ -1398,16 +1396,18 @@ function TransFerDetail() {
                   </td>
                 </tr>{" "}
                 {(VIEW_TYPE === "GP01006" || VIEW_TYPE === "GP01007") && (
-                  <tr  style={{
-                    display:
-                    DataRoutingFamno[28] === null ||
-                    DataRoutingFamno[28] === ""
-                        ? "none"
-                        : "table-row",
-                  }}>
+                  <tr
+                    style={{
+                      display:
+                        DataRoutingFamno[28] === null ||
+                        DataRoutingFamno[28] === ""
+                          ? "none"
+                          : "table-row",
+                    }}
+                  >
                     <td className="Style4"></td>
                     <td colSpan={5}>
-                      <div style={{ marginLeft: "100px" ,marginTop:'20px' }}>
+                      <div style={{ marginLeft: "100px", marginTop: "20px" }}>
                         <table>
                           <tr>
                             <td className="Table_Show_req1">
@@ -1615,8 +1615,8 @@ function TransFerDetail() {
                   <tr
                     style={{
                       display:
-                      selectradio_receiver == null ||
-                      selectradio_receiver == "null"
+                        selectradio_receiver == null ||
+                        selectradio_receiver == "null"
                           ? "none"
                           : "table-row",
                     }}
@@ -1665,7 +1665,6 @@ function TransFerDetail() {
                     <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                         
                           ACC Manager(Return date):
                         </Typography>
                       </td>
@@ -1726,7 +1725,6 @@ function TransFerDetail() {
                         }}
                       >
                         <Typography variant="subtitle2">
-                          
                           Action Date :
                         </Typography>
                       </td>
@@ -1735,8 +1733,8 @@ function TransFerDetail() {
                           className="Style1"
                           style={{
                             visibility:
-                            selectradio_acc_return== null ||
-                            selectradio_acc_return == "null"
+                              selectradio_acc_return == null ||
+                              selectradio_acc_return == "null"
                                 ? "hidden"
                                 : "visibled",
                           }}
@@ -1780,11 +1778,11 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr> */}
-
+{console.log(DataLending[2],"DataLending[2]")}
                     <tr
                       style={{
                         display:
-                        DataLending[2] === null || DataLending[2] === ""
+                          DataLending[2] === null || DataLending[2] === "" || DataLending[2] ===undefined 
                             ? "none"
                             : "table-row",
                       }}
@@ -1850,11 +1848,10 @@ function TransFerDetail() {
                           className="Style1"
                           style={{
                             visibility:
-                            DataLending[7] == null ||  DataLending[7] == "null"
+                              DataLending[7] == null || DataLending[7] == "null"
                                 ? "hidden"
                                 : "visible",
                           }}
-                          
                         >
                           <TextField
                             style={{
@@ -1872,7 +1869,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataLending[7] == null || DataLending[7] == ""
+                          DataLending[7] == null || DataLending[7] == ""
                             ? "none"
                             : "table-row",
                       }}
@@ -1896,192 +1893,166 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    {( VIEW_TYPE =='GP01006' &&
-                    <>
-                 <tr
-                 style={{
-                   display: DataLending[14] == null || DataLending[14] === "" ? "none" : "table-row",
-                 }}
-               >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                        First Return:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style3">
-                          <TextField
+                    {VIEW_TYPE == "GP01006" && (
+                      <>
+                        <tr
+                          style={{
+                            display:
+                              DataLending[14] == null || DataLending[14] === ""
+                                ? "none"
+                                : "table-row",
+                          }}
+                        >
+                          <td className="Style4">
+                            <Typography variant="subtitle2">
+                              First Return:
+                            </Typography>
+                          </td>
+                          <td>
+                            <FormControl className="Style3">
+                              <TextField
+                                style={{
+                                  backgroundColor: "rgba(169, 169, 169, 0.3)",
+                                }}
+                                className="Style1"
+                                size="small"
+                                disabled
+                                value={
+                                  DataLending[14] !== "null"
+                                    ? DataLending[14]
+                                    : ""
+                                }
+                              ></TextField>
+                            </FormControl>
+                          </td>
+                          <td className="Style5"></td>
+                          <td
+                            className="Style7"
                             style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              visibility:
+                                chkaction_date == null ||
+                                chkaction_date == "null"
+                                  ? "hidden"
+                                  : "visible",
                             }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataLending[14] !== "null" ? DataLending[14] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5"></td>
-                      <td
-                        className="Style7"
-                        style={{
-                          visibility:
-                            chkaction_date == null || chkaction_date == "null"
-                              ? "hidden"
-                              : "visible",
-                        }}
-                      >
-                        
-                      </td>
-                      <td className="Style6">
-                   
-                      </td>
-                    </tr>
-               
-                  </>
-                  )}
-                    {( VIEW_TYPE =='GP01006'  &&
-                    <>
-                    <tr  style={{
-                      display: selectreturn == null || selectreturn === "" ? "none" : "table-row",
-                    }}
-                    >
-                    <td className="Style4">
-                      <Typography variant="subtitle2">Need extend:</Typography>
-                    </td>
-                    <td>
-                      <Box display="flex" alignItems="center" margin="1%">
-                        <FormControl>
-                          <RadioGroup
-                            row
-                            aria-labelledby="demo-row-radio-buttons-group-label"
-                            name="row-radio-buttons-group"
-                            value={selectreturn}
-                          >
-                            <FormControlLabel
-                              value="Y"
-                              control={<Radio size="small" />}
-                              label="Yes"
-                             disabled
-
-                            />
-                            <FormControlLabel
-                              value="N"
-                              control={<Radio size="small" />}
-                              label="No"
-                            disabled
-
-                            />
-                          </RadioGroup>
-                        </FormControl>
-                      {/* {VIEW_TYPE == 'GP01006' && (
+                          ></td>
+                          <td className="Style6"></td>
+                        </tr>
+                      </>
+                    )}
+                    {VIEW_TYPE == "GP01006" && (
+                      <>
+                        <tr
+                          style={{
+                            display:
+                              selectreturn == null || selectreturn === ""
+                                ? "none"
+                                : "table-row",
+                          }}
+                        >
+                          <td className="Style4">
+                            <Typography variant="subtitle2">
+                              Need extend:
+                            </Typography>
+                          </td>
+                          <td>
+                            <Box display="flex" alignItems="center" margin="1%">
+                              <FormControl>
+                                <RadioGroup
+                                  row
+                                  aria-labelledby="demo-row-radio-buttons-group-label"
+                                  name="row-radio-buttons-group"
+                                  value={selectreturn}
+                                >
+                                  <FormControlLabel
+                                    value="Y"
+                                    control={<Radio size="small" />}
+                                    label="Yes"
+                                    disabled
+                                  />
+                                  <FormControlLabel
+                                    value="N"
+                                    control={<Radio size="small" />}
+                                    label="No"
+                                    disabled
+                                  />
+                                </RadioGroup>
+                              </FormControl>
+                              {/* {VIEW_TYPE == 'GP01006' && (
                         <Button variant="contained"
                         sx={{ marginLeft: 2, backgroundColor: '#e84e40'}} 
                         onClick={handleClickOpen}
                         >
         Close Request
       </Button>)} */}
-      <Dialog 
-  open={open} 
-  onClose={handleClose} 
-  disableEscapeKeyDown
-  disableBackdropClick={true}
->
-  <DialogTitle>กรุณากรอก Comment</DialogTitle>
-  <DialogContent>
-    <DialogContentText>
-      <Box sx={{ width: 500, maxWidth: '100%', maxHeight: '500px' }}>
-        <TextField
-          multiline
-          rows={4}
-          variant="outlined"
-          fullWidth
-          required
-          error={!comment}
-          helperText={!comment ? 'กรุณา Comment' : ''}
-          value={comment}
-          onChange={(e) => setcomment(e.target.value)} // อย่าลืมอัพเดทค่า comment
-        />
-      </Box>
-    </DialogContentText>
-  </DialogContent>
-  <DialogActions>
-        <Button onClick={handleSubmit} variant="contained">Save</Button>
-    <Button onClick={handleClose} disabled={!comment}>Close</Button>
+                            </Box>
+                          </td>
 
-  </DialogActions>
-</Dialog>
-
-   
-                       
-                      </Box>
-                    </td>
-             
-                    <td>
-                      
-                    </td>
-
-                  </tr>
-                       
-
-                     
-                     </>
-                )}
-                  <tr style={{
-                      display: selectreturn == null || selectreturn === "" ? "none" : "table-row",
-                    }}>
-                    <td className="Style4"></td>
-                    {( VIEW_TYPE =='GP01006' &&
-  <div className="Return-Table">
-    <br />
-    <TableContainer className="return-table-show" component={Paper}>
-      <Table className="tableshow-returndate">
-        <TableHead>
-          <TableRow>
-            <TableCell>No.</TableCell>
-            <TableCell>Return Month</TableCell>
-            <TableCell>Return Year</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {DataReturn.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={3} style={{ textAlign: "center" }}>
-                <Empty />
-              </TableCell>
-            </TableRow>
-          ) : ( 
-            DataReturn.map((option, index) => ( 
-               <TableRow key={index}>
-                <TableCell>{option[0]}</TableCell>
-                <TableCell>{option[1]}</TableCell>
-                <TableCell>{option[2]}</TableCell>
-               </TableRow> 
-           )) 
-          )} 
-        </TableBody>
-      </Table>
-    </TableContainer>
-  </div>)}
-
-
-                    
-                  </tr> 
+                          <td></td>
+                        </tr>
+                      </>
+                    )}
+                    <tr
+                      style={{
+                        display:
+                          selectreturn == null || selectreturn === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      {VIEW_TYPE == "GP01006" && (
+                        <div className="Return-Table">
+                          <br />
+                          <TableContainer
+                            className="return-table-show"
+                            component={Paper}
+                          >
+                            <Table className="tableshow-returndate">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>No.</TableCell>
+                                  <TableCell>Return Month</TableCell>
+                                  <TableCell>Return Year</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {DataReturn.length === 0 ? (
+                                  <TableRow>
+                                    <TableCell
+                                      colSpan={3}
+                                      style={{ textAlign: "center" }}
+                                    >
+                                      <Empty />
+                                    </TableCell>
+                                  </TableRow>
+                                ) : (
+                                  DataReturn.map((option, index) => (
+                                    <TableRow key={index}>
+                                      <TableCell>{option[0]}</TableCell>
+                                      <TableCell>{option[1]}</TableCell>
+                                      <TableCell>{option[2]}</TableCell>
+                                    </TableRow>
+                                  ))
+                                )}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </div>
+                      )}
+                    </tr>
                   </table>
                   <tr
                     style={{
                       display:
-                      DataLending[7] == null || DataLending[7] == ""
+                        DataLending[7] == null || DataLending[7] == ""
                           ? "none"
                           : "table-row",
                     }}
                   >
-                    
                     <td className="Style4"></td>
                     <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
+                      <div style={{ marginLeft: "150px", marginTop: "20px" }}>
                         <table>
                           <tr>
                             <td className="Table_Show_req1">
@@ -2168,14 +2139,13 @@ function TransFerDetail() {
                       </div>
                     </td>
                   </tr>
-                  
                 </div>
               </Card>
             </Card>
           </div>
         )}
         {/* Scrap */}
-         {VIEW_TYPE == "GP01002"  &&(
+        {VIEW_TYPE == "GP01002" && (
           <div>
             <Card className="Style100">
               <Card
@@ -2191,152 +2161,148 @@ function TransFerDetail() {
                 <div className="Style2">
                   <table className="Style3">
                     {/* {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
-                      <>
-                    <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                         PTE(ENV):
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[1] !== "null" ? DataScrap[1] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                      
-                      </td>
-                     
-                      <td
-                        className="Style7"
-                      style={{
-                        visibility:
-                        DataScrap[2] == null || DataScrap[2] == "null"
-                     
-                          ? "hidden"
-                          : "visible"
-                      }}
-                      >
-                        <Typography variant="subtitle2">
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataScrap[2] == null || DataScrap[2] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }} >
-                        <FormControl
-                          className="Style1"
-                        
+                    <>
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">PTE(ENV):</Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[1] !== "null" ? DataScrap[1] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataScrap[2] == null || DataScrap[2] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
                         >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataScrap[2]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr   
-                     style={{
-                        display:
-                        DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
-                            ? "none"
-                            : "table-row",
-                      }}>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                         Ship Date:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[11] !== "null" ? DataScrap[11] : "" 
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                      
-                      </td>
-                     
-                      <td
-                        className="Style7"
-                      style={{
-                        visibility:
-                        DataScrap[11] == null || DataScrap[11] == "null" || DataScrap[11] == undefined
-                     
-                          ? "hidden"
-                          : "visible"
-                      }}
-                      >
-                        <Typography variant="subtitle2">
-                         Total Amount
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataScrap[12] == null || DataScrap[12] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }} >
-                        <FormControl
-                          className="Style1"
-                        
+                          <Typography variant="subtitle2">
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataScrap[2] == null || DataScrap[2] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
                         >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataScrap[12]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                    style={{
-                      display:
-                      DataScrap[2] === null ||
-                      DataScrap[2] === "" || DataScrap[2] == undefined
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    {/* <td className="Style4">
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataScrap[2]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[2] === null ||
+                            DataScrap[2] === "" ||
+                            DataScrap[2] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Ship Date:
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[11] !== "null" ? DataScrap[11] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataScrap[11] == null ||
+                              DataScrap[11] == "null" ||
+                              DataScrap[11] == undefined
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            Total Amount
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataScrap[12] == null || DataScrap[12] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataScrap[12]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[2] === null ||
+                            DataScrap[2] === "" ||
+                            DataScrap[2] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        {/* <td className="Style4">
                       <Typography variant="subtitle2">
                        Contact Date:
                       </Typography>{" "}
                     </td> */}
-                    {/* <td>
+                        {/* <td>
                       <FormControl className="Style1">
                         <TextField
                           disabled
@@ -2348,520 +2314,588 @@ function TransFerDetail() {
                         />
                       </FormControl>
                     </td> */}
-                  </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[3] !== "null" ? DataScrap[3] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                
-                    <tr
-                    style={{
-                      display:
-                      DataScrap[2] === null || DataScrap[2] === "" || DataScrap[2] == undefined
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataPTE_ENV.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataPTE_ENV.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataPTE_ENV[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataPTE_ENV[index][3]}
-                                                </TableCell>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[2] === null ||
+                            DataScrap[2] === "" ||
+                            DataScrap[2] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">Comment :</Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[3] !== "null" ? DataScrap[3] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[2] === null ||
+                            DataScrap[2] === "" ||
+                            DataScrap[2] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {FiledataPTE_ENV.length === 0 ? (
+                                              <TableRow>
                                                 <TableCell
+                                                  colSpan={4}
                                                   style={{
                                                     textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
                                                   }}
                                                 >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataPTE_ENV[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataPTE_ENV[index][3]}
-                                                  </p>
+                                                  <Empty />
                                                 </TableCell>
                                               </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
+                                            ) : (
+                                              FiledataPTE_ENV.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPTE_ENV[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPTE_ENV[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            FiledataPTE_ENV[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          FiledataPTE_ENV[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-               </> 
-               {/* )} */}
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
 
-               {/* {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                    {/* {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
                     <>
-                    <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                         PLN Staff:
-                        </Typography>{" "}
-                      </td>
-                      <td>
-                        <FormControl className="Style3">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[4] !== "null" ? DataScrap[4] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5"></td>
-                      <td
-                        className="Style7"
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            PLN Staff:
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style3">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[4] !== "null" ? DataScrap[4] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataScrap[5] == null || DataScrap[5] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataScrap[5] == null || DataScrap[5] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataScrap[5]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
                         style={{
-                          visibility:
-                          DataScrap[5] == null || DataScrap[5] == "null"
-                            ? "hidden"
-                            : "visible",
+                          display:
+                            DataScrap[5] === null ||
+                            DataScrap[5] === "" ||
+                            DataScrap[5] == undefined
+                              ? "none"
+                              : "table-row",
                         }}
                       >
-                        <Typography variant="subtitle2">
-                          {" "}
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataScrap[5] == null || DataScrap[5] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataScrap[5]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataScrap[5] === null || DataScrap[5] === "" || DataScrap[5] == undefined
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2"> Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[6] !== "null" ? DataScrap[6] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>  
-                    <tr
-                    style={{
-                      display:
-                      DataScrap[5] === null || DataScrap[5] === "" || DataScrap[5] == undefined
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataPLN_Staff.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataPLN_Staff.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataPLN_Staff[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataPLN_Staff[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataPLN_Staff[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataPLN_Staff[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
-
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-              </> 
-              {/* )} */}
-
-
-              {/* {(STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
-                  <>
-                  <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                         Shipping Staff:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[7] !== "null" ? DataScrap[7] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                       
-                      </td>
-                      <td
-                        className="Style7"
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Comment :
+                          </Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[6] !== "null" ? DataScrap[6] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
                         style={{
-                          visibility:
-                          DataScrap[8] == null || DataScrap[8] == "null"
-                            ? "hidden"
-                            : "visible",
+                          display:
+                            DataScrap[5] === null ||
+                            DataScrap[5] === "" ||
+                            DataScrap[5] == undefined
+                              ? "none"
+                              : "table-row",
                         }}
                       >
-                        <Typography variant="subtitle2">
-                          {" "}
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataScrap[8] == null || DataScrap[8] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataScrap[8]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataScrap[8] === null || DataScrap[8] === "" || DataScrap[8] == undefined
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataScrap[9] !== "null" ? DataScrap[9] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                    style={{
-                      display:
-                      DataScrap[8] === null || DataScrap[8] === "" || DataScrap[8] == undefined
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataShiiping.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataShiiping.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataShiiping[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataShiiping[index][3]}
-                                                </TableCell>
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {FiledataPLN_Staff.length === 0 ? (
+                                              <TableRow>
                                                 <TableCell
+                                                  colSpan={4}
                                                   style={{
                                                     textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
                                                   }}
                                                 >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataShiiping[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataShiiping[index][3]}
-                                                  </p>
+                                                  <Empty />
                                                 </TableCell>
                                               </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
+                                            ) : (
+                                              FiledataPLN_Staff.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPLN_Staff[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPLN_Staff[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            FiledataPLN_Staff[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          FiledataPLN_Staff[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  </>
-                  {/* )} */}
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
+
+                    {/* {(STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                    <>
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Shipping Staff:
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[7] !== "null" ? DataScrap[7] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataScrap[8] == null || DataScrap[8] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataScrap[8] == null || DataScrap[8] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataScrap[8]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[8] === null ||
+                            DataScrap[8] === "" ||
+                            DataScrap[8] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">Comment :</Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataScrap[9] !== "null" ? DataScrap[9] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataScrap[8] === null ||
+                            DataScrap[8] === "" ||
+                            DataScrap[8] == undefined
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {FiledataShiiping.length === 0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              FiledataShiiping.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataShiiping[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataShiiping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            FiledataShiiping[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          FiledataShiiping[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
                   </table>
-                
                 </div>
               </Card>
             </Card>
           </div>
         )}
         {/* Sale */}
-        {VIEW_TYPE == "GP01003"  &&(
+        {VIEW_TYPE == "GP01003" && (
           <div>
             <Card className="Style100">
               <Card
@@ -2877,271 +2911,689 @@ function TransFerDetail() {
                 <div className="Style2">
                   <table className="Style3">
                     {/* {(STS == "FLSC009" || STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
-                      <>
-                    <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                        PTE (ENV) input weight/size:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[1] !== "null" ? DataSale[1] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                      
-                      </td>
-                      <td
-                        className="Style7"
-                      style={{
-                        visibility:
-                        DataSale[2] == null || DataSale[2] == "null"
-                     
-                          ? "hidden"
-                          : "visible"
-                      }}
-                      >
-                        <Typography variant="subtitle2">
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[2] == null || DataSale[2] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }} >
-                        <FormControl
-                          className="Style1"
-                        
+                    <>
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            PTE (ENV) input weight/size:
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[1] !== "null" ? DataSale[1] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataSale[2] == null || DataSale[2] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
                         >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataSale[2]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr  style={{
-                        display:
-                        DataSale[2] === null || DataSale[2] === ""
-                            ? "none"
-                            : "table-row",
-                      }}>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                        Ship Date:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[48] !== "null" ? DataSale[48] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                      
-                      </td>
-                      <td
-                        className="Style7"
-                      style={{
-                        visibility:
-                        DataSale[48] == null || DataSale[48] == "null"
-                     
-                          ? "hidden"
-                          : "visible"
-                      }}
-                      >
-                        <Typography variant="subtitle2">
-                          Total Amount:
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[49] == null || DataSale[49] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }} >
-                        <FormControl
-                          className="Style1"
-                        
+                          <Typography variant="subtitle2">
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataSale[2] == null || DataSale[2] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
                         >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataSale[49]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataSale[49] === null || DataSale[49] === ""
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[3] !== "null" ? DataSale[3] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                    style={{
-                      display:
-                      DataSale[2] === null || DataSale[2] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataPTE_EN_input_ws.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataPTE_EN_input_ws.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataPTE_EN_input_ws[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataPTE_EN_input_ws[index][3]}
-                                                </TableCell>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[2]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[2] === null || DataSale[2] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Ship Date:
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={
+                                DataSale[48] !== "null" ? DataSale[48] : ""
+                              }
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataSale[48] == null || DataSale[48] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            Total Amount:
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataSale[49] == null || DataSale[49] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[49]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[49] === null || DataSale[49] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">Comment :</Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[3] !== "null" ? DataSale[3] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[2] === null || DataSale[2] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {FiledataPTE_EN_input_ws.length ===
+                                            0 ? (
+                                              <TableRow>
                                                 <TableCell
+                                                  colSpan={4}
                                                   style={{
                                                     textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
                                                   }}
                                                 >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataPTE_EN_input_ws[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataPTE_EN_input_ws[index][3]}
-                                                  </p>
+                                                  <Empty />
                                                 </TableCell>
                                               </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
+                                            ) : (
+                                              FiledataPTE_EN_input_ws.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPTE_EN_input_ws[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPTE_EN_input_ws[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            FiledataPTE_EN_input_ws[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          FiledataPTE_EN_input_ws[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-               </> 
-               {/* )} */}
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
 
-               {/* {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                    {/* {( STS == "FLSC100" || STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
                     <>
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            PLN Staff contact BOI :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style3">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[4] !== "null" ? DataSale[4] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataSale[5] == null || DataSale[5] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataSale[5] == null || DataSale[5] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[5]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[5] === null || DataSale[5] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Comment :
+                          </Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[6] !== "null" ? DataSale[6] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[5] === null || DataSale[5] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {FiledataPLN_Staff_boi.length ===
+                                            0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              FiledataPLN_Staff_boi.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPLN_Staff_boi[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        FiledataPLN_Staff_boi[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            FiledataPLN_Staff_boi[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          FiledataPLN_Staff_boi[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
+
+                    {/* {(STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
+                    <>
+                      <tr>
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Import & BOI prepare :
+                          </Typography>
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[7] !== "null" ? DataSale[7] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                        <td className="Style5"></td>
+                        <td
+                          className="Style7"
+                          style={{
+                            visibility:
+                              DataSale[8] == null || DataSale[8] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Action Date :
+                          </Typography>
+                        </td>
+                        <td
+                          className="Style6"
+                          style={{
+                            visibility:
+                              DataSale[8] == null || DataSale[8] == "null"
+                                ? "hidden"
+                                : "visible",
+                          }}
+                        >
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[8]}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[8] === null || DataSale[8] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">Comment :</Typography>
+                        </td>
+                        <td colSpan={4}>
+                          <FormControl className="Style1">
+                            <TextField
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                              className="Style1"
+                              size="small"
+                              disabled
+                              value={DataSale[9] !== "null" ? DataSale[9] : ""}
+                            ></TextField>
+                          </FormControl>
+                        </td>
+                      </tr>
+                      <tr
+                        style={{
+                          display:
+                            DataSale[8] === null || DataSale[8] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4"></td>
+                        <td colSpan={5}>
+                          <div
+                            style={{ marginLeft: "150px", marginTop: "20px" }}
+                          >
+                            <table>
+                              <tr>
+                                <td className="Table_Show_req1">
+                                  <td
+                                    className="Show-Data-File"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <div>
+                                      <TableContainer component={Paper}>
+                                        <Table className="FamFilePopUp">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>No.</TableCell>
+                                              <TableCell>File</TableCell>
+                                              <TableCell>View</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {Filedataimp_prapare.length ===
+                                            0 ? (
+                                              <TableRow>
+                                                <TableCell
+                                                  colSpan={4}
+                                                  style={{
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <Empty />
+                                                </TableCell>
+                                              </TableRow>
+                                            ) : (
+                                              Filedataimp_prapare.map(
+                                                (option, index) => (
+                                                  <TableRow key={index}>
+                                                    <TableCell>
+                                                      {
+                                                        Filedataimp_prapare[
+                                                          index
+                                                        ][2]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell>
+                                                      {
+                                                        Filedataimp_prapare[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </TableCell>
+                                                    <TableCell
+                                                      style={{
+                                                        textAlign: "center",
+                                                        color: "blue",
+                                                        textDecoration:
+                                                          "underline",
+                                                      }}
+                                                    >
+                                                      <p
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                          downloadFile(
+                                                            Filedataimp_prapare[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                      >
+                                                        {
+                                                          Filedataimp_prapare[
+                                                            index
+                                                          ][3]
+                                                        }
+                                                      </p>
+                                                    </TableCell>
+                                                  </TableRow>
+                                                )
+                                              )
+                                            )}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    </div>
+                                  </td>
+                                </td>
+                              </tr>
+                            </table>
+
+                            <table>
+                              <tr>
+                                <td className=""></td>
+                              </tr>
+                              <tr></tr>
+                              <tr
+                                style={{
+                                  width: "100%",
+                                  marginBottom: "20px",
+                                  marginTop: "20px",
+                                }}
+                              ></tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                    {/* )} */}
+
+                    {/* BOI Input data Import: */}
                     <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PLN Staff contact BOI :
-                        </Typography>{" "}
+                          BOI Input data Import:
+                        </Typography>
                       </td>
                       <td>
-                        <FormControl className="Style3">
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3149,9 +3601,7 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[4] !== "null" ? DataSale[4] : ""
-                            }
+                            value={DataSale[10] !== "null" ? DataSale[10] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
@@ -3160,404 +3610,26 @@ function TransFerDetail() {
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[5] == null || DataSale[5] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[11] == null || DataSale[11] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
                           {" "}
                           Action Date :
                         </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[5] == null || DataSale[5] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataSale[5]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataSale[5] === null || DataSale[5] === ""
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2"> Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[6] !== "null" ? DataSale[6] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>  
-                    <tr
-                    style={{
-                      display:
-                      DataSale[5] === null || DataSale[5] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataPLN_Staff_boi.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataPLN_Staff_boi.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataPLN_Staff_boi[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataPLN_Staff_boi[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataPLN_Staff_boi[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataPLN_Staff_boi[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
-
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-              </> 
-              {/* )} */}
-
-
-              {/* {(STS == "FLSC101"||STS == "FLSC010" || STS == "FLSC012" || STS == "FLSC011")&&( */}
-                  <>
-                  <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                        Import & BOI prepare :
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[7] !== "null" ? DataSale[7] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                       
                       </td>
                       <td
-                        className="Style7"
+                        className="Style6"
                         style={{
                           visibility:
-                          DataSale[8] == null || DataSale[8] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[11] == null || DataSale[11] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
-                        <Typography variant="subtitle2">
-                          {" "}
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[8] == null || DataSale[8] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={DataSale[8]}
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                      style={{
-                        display:
-                        DataSale[8] === null || DataSale[8] === ""
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">Comment :</Typography>
-                      </td>
-                      <td colSpan={4}>
                         <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[9] !== "null" ? DataSale[9] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                    </tr>
-                    <tr
-                    style={{
-                      display:
-                      DataSale[8] === null || DataSale[8] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedataimp_prapare.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          Filedataimp_prapare.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedataimp_prapare[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedataimp_prapare[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedataimp_prapare[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {Filedataimp_prapare[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
-
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  </>
-                  {/* )} */}
-
-                  {/* BOI Input data Import: */}
-                  <tr>
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                        BOI Input data Import:
-                        </Typography>
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                            className="Style1"
-                            size="small"
-                            disabled
-                            value={
-                              DataSale[10] !== "null" ? DataSale[10] : ""
-                            }
-                          ></TextField>
-                        </FormControl>
-                      </td>
-                      <td className="Style5">
-                       
-                      </td>
-                      <td
-                        className="Style7"
-                        style={{
-                          visibility:
-                          DataSale[11] == null || DataSale[11] == "null"
-                            ? "hidden"
-                            : "visible",
-                        }}
-                      >
-                        <Typography variant="subtitle2">
-                          {" "}
-                          Action Date :
-                        </Typography>
-                      </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[11] == null || DataSale[11] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3573,7 +3645,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[11] === null || DataSale[11] === ""
+                          DataSale[11] === null || DataSale[11] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -3590,117 +3662,130 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[12] !== "null" ? DataSale[12] : ""
-                            }
+                            value={DataSale[12] !== "null" ? DataSale[12] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[11] === null || DataSale[11] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataBoi_input_data.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[11] === null || DataSale[11] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          FiledataBoi_input_data.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataBoi_input_data[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataBoi_input_data[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataBoi_input_data[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {FiledataBoi_input_data.length ===
+                                          0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            FiledataBoi_input_data.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      FiledataBoi_input_data[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      FiledataBoi_input_data[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    {FiledataBoi_input_data[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          FiledataBoi_input_data[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        FiledataBoi_input_data[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* Imp.& BOI input THA categories: */}
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* Imp.& BOI input THA categories: */}
 
-                  <tr>
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        Imp.& BOI input THA categories:
-
+                          Imp.& BOI input THA categories:
                         </Typography>
                       </td>
                       <td>
@@ -3712,22 +3797,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[13] !== "null" ? DataSale[13] : ""
-                            }
+                            value={DataSale[13] !== "null" ? DataSale[13] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[15] == null || DataSale[15] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[15] == null || DataSale[15] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -3735,16 +3816,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[15] == null || DataSale[15] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[15] == null || DataSale[15] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3760,13 +3841,15 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[15] === null || DataSale[15] === ""
+                          DataSale[15] === null || DataSale[15] === ""
                             ? "none"
                             : "table-row",
                       }}
                     >
                       <td className="Style4">
-                        <Typography variant="subtitle2">Input thai catergorise:</Typography>
+                        <Typography variant="subtitle2">
+                          Input thai catergorise:
+                        </Typography>
                       </td>
                       <td colSpan={4}>
                         <FormControl className="Style1">
@@ -3777,9 +3860,7 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[14] !== "null" ? DataSale[14] : ""
-                            }
+                            value={DataSale[14] !== "null" ? DataSale[14] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
@@ -3787,7 +3868,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[15] === null || DataSale[15] === ""
+                          DataSale[15] === null || DataSale[15] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -3804,115 +3885,129 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[16] !== "null" ? DataSale[16] : ""
-                            }
+                            value={DataSale[16] !== "null" ? DataSale[16] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[15] === null || DataSale[15]  === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedatathai_catergorise.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[15] === null || DataSale[15] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedatathai_catergorise.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedatathai_catergorise[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedatathai_catergorise[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedatathai_catergorise[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedatathai_catergorise.length ===
+                                          0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedatathai_catergorise.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      Filedatathai_catergorise[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      Filedatathai_catergorise[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    {Filedatathai_catergorise[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedatathai_catergorise[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        Filedatathai_catergorise[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* PLN Staff bidding: */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* PLN Staff bidding: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PLN Staff bidding:
+                          PLN Staff bidding:
                         </Typography>
                       </td>
                       <td>
@@ -3924,22 +4019,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[17] !== "null" ? DataSale[17] : ""
-                            }
+                            value={DataSale[17] !== "null" ? DataSale[17] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[18] == null || DataSale[18] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[18] == null || DataSale[18] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -3947,16 +4038,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[18] == null || DataSale[18] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[18] == null || DataSale[18] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -3972,13 +4063,15 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[18] === null || DataSale[18] === ""
+                          DataSale[18] === null || DataSale[18] === ""
                             ? "none"
                             : "table-row",
                       }}
                     >
                       <td className="Style4">
-                        <Typography variant="subtitle2">Bidding result:</Typography>
+                        <Typography variant="subtitle2">
+                          Bidding result:
+                        </Typography>
                       </td>
                       <td colSpan={4}>
                         <FormControl className="Style1">
@@ -3989,9 +4082,7 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[19] !== "null" ? DataSale[19] : ""
-                            }
+                            value={DataSale[19] !== "null" ? DataSale[19] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
@@ -3999,7 +4090,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[18] === null || DataSale[18] === ""
+                          DataSale[18] === null || DataSale[18] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4016,116 +4107,129 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[20] !== "null" ? DataSale[20] : ""
-                            }
+                            value={DataSale[20] !== "null" ? DataSale[20] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
-               
-                    <tr
-                    style={{
-                      display:
-                      DataSale[18] === null || DataSale[18] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataShiiping.length === 0 ? (
-                                          <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
-                                          </TableRow>
-                                        ) : (
-                                          FiledataPLN_bidding.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {FiledataPLN_bidding[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {FiledataPLN_bidding[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        FiledataPLN_bidding[index][4]
-                                                      )
-                                                    }
-                                                  >
-                                                    {FiledataPLN_bidding[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
-                              </td>
-                            </td>
-                          </tr>
-                        </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* PTE (ENV) contact DIW: */}
-                  <tr>
+                    <tr
+                      style={{
+                        display:
+                          DataSale[18] === null || DataSale[18] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
+                                          <TableRow>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
+                                          </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                          {FiledataShiiping.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            FiledataPLN_bidding.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      FiledataPLN_bidding[
+                                                        index
+                                                      ][2]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      FiledataPLN_bidding[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
+                                                  >
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          FiledataPLN_bidding[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        FiledataPLN_bidding[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
+                                            )
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* PTE (ENV) contact DIW: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PTE (ENV) contact DIW:
+                          PTE (ENV) contact DIW:
                         </Typography>
                       </td>
                       <td>
@@ -4137,22 +4241,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[21] !== "null" ? DataSale[21] : ""
-                            }
+                            value={DataSale[21] !== "null" ? DataSale[21] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[23] == null || DataSale[23] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[23] == null || DataSale[23] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -4160,16 +4260,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[23] == null || DataSale[23] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[23] == null || DataSale[23] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4182,39 +4282,38 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    {(VIEW_TYPE == "GP01003" ) && (
-                  <tr
-                    style={{
-                      display:
-                        DataSale[23] === null ||
-                        DataSale[23] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                       Contact Date:
-                      </Typography>{" "}
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          disabled
-                          size="small"
-                          value={DataSale[43]}
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                        />
-                      </FormControl>
-                    </td>
-                  </tr>
-                )}
+                    {VIEW_TYPE == "GP01003" && (
+                      <tr
+                        style={{
+                          display:
+                            DataSale[23] === null || DataSale[23] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Contact Date:
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              disabled
+                              size="small"
+                              value={DataSale[43]}
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    )}
                     <tr
                       style={{
                         display:
-                        DataSale[23] === null || DataSale[23] === ""
+                          DataSale[23] === null || DataSale[23] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4231,54 +4330,51 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[24] !== "null" ? DataSale[24] : ""
-                            }
+                            value={DataSale[24] !== "null" ? DataSale[24] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[23] === null || DataSale[23] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {FiledataWID.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[23] === null || DataSale[23] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          FiledataWID.map(
-                                            (option, index) => (
+                                        </TableHead>
+                                        <TableBody>
+                                          {FiledataWID.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            FiledataWID.map((option, index) => (
                                               <TableRow key={index}>
                                                 <TableCell>
                                                   {FiledataWID[index][2]}
@@ -4307,39 +4403,38 @@ function TransFerDetail() {
                                                   </p>
                                                 </TableCell>
                                               </TableRow>
-                                            )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                            ))
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* BOI make export clearance : */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* BOI make export clearance : */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        BOI make export clearance :
+                          BOI make export clearance :
                         </Typography>
                       </td>
                       <td>
@@ -4351,22 +4446,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[25] !== "null" ? DataSale[25] : ""
-                            }
+                            value={DataSale[25] !== "null" ? DataSale[25] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[27] == null || DataSale[27] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[27] == null || DataSale[27] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -4374,16 +4465,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[27] == null || DataSale[27]  == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[27] == null || DataSale[27] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4391,44 +4482,43 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={DataSale[27] }
+                            value={DataSale[27]}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
-                    {(VIEW_TYPE == "GP01003" ) && (
-                  <tr
-                    style={{
-                      display:
-                        DataSale[27] === null ||
-                        DataSale[27] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                      Clearance date :
-                      </Typography>{" "}
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          disabled
-                          size="small"
-                          value={DataSale[44]}
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                        />
-                      </FormControl>
-                    </td>
-                  </tr>
-                )}
+                    {VIEW_TYPE == "GP01003" && (
+                      <tr
+                        style={{
+                          display:
+                            DataSale[27] === null || DataSale[27] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Clearance date :
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              disabled
+                              size="small"
+                              value={DataSale[44]}
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    )}
                     <tr
                       style={{
                         display:
-                        DataSale[27]  === null ||DataSale[27]  === ""
+                          DataSale[27] === null || DataSale[27] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4445,115 +4535,129 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[28]  !== "null" ? DataSale[28]  : ""
-                            }
+                            value={DataSale[28] !== "null" ? DataSale[28] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[27] === null || DataSale[27] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedataexp_clearance.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[27] === null || DataSale[27] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedataexp_clearance.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedataexp_clearance[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedataexp_clearance[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedataexp_clearance[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedataexp_clearance.length ===
+                                          0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedataexp_clearance.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataexp_clearance[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataexp_clearance[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    {Filedataexp_clearance[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedataexp_clearance[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        Filedataexp_clearance[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* PTE(ENV) upload file after clearance: */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* PTE(ENV) upload file after clearance: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PTE(ENV) upload file after clearance:
+                          PTE(ENV) upload file after clearance:
                         </Typography>
                       </td>
                       <td>
@@ -4565,22 +4669,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[29] !== "null" ?  DataSale[29] : ""
-                            }
+                            value={DataSale[29] !== "null" ? DataSale[29] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[31] == null ||  DataSale[31] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[31] == null || DataSale[31] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -4588,16 +4688,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[31]== null || DataSale[31] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[31] == null || DataSale[31] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4642,7 +4742,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[31] === null ||DataSale[31] === ""
+                          DataSale[31] === null || DataSale[31] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4659,115 +4759,128 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[32] !== "null" ? DataSale[32]: ""
-                            }
+                            value={DataSale[32] !== "null" ? DataSale[32] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[31] === null || DataSale[31] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        { Filedataafter_export.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[31] === null || DataSale[31] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedataafter_export.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  { Filedataafter_export[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  { Filedataafter_export[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedataafter_export[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedataafter_export.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedataafter_export.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataafter_export[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataafter_export[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    { Filedataafter_export[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedataafter_export[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        Filedataafter_export[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* PLN Staff request Invoice: */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* PLN Staff request Invoice: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PLN Staff request Invoice:
+                          PLN Staff request Invoice:
                         </Typography>
                       </td>
                       <td>
@@ -4779,22 +4892,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[33] !== "null" ? DataSale[33] : ""
-                            }
+                            value={DataSale[33] !== "null" ? DataSale[33] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[34] == null || DataSale[34] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[34] == null || DataSale[34] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -4802,16 +4911,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[34] == null || DataSale[34] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[34] == null || DataSale[34] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -4827,7 +4936,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[34] === null || DataSale[34] === ""
+                          DataSale[34] === null || DataSale[34] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -4844,115 +4953,120 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[35]!== "null" ?DataSale[35] : ""
-                            }
+                            value={DataSale[35] !== "null" ? DataSale[35] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[34] === null ||  DataSale[34] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedatareq_inv.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[34] === null || DataSale[34] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedatareq_inv.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedatareq_inv[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedatareq_inv[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedatareq_inv[index][4]
-                                                      )
-                                                    }
-                                                  >
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedatareq_inv.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedatareq_inv.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {Filedatareq_inv[index][2]}
+                                                  </TableCell>
+                                                  <TableCell>
                                                     {Filedatareq_inv[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
+                                                  >
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedatareq_inv[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        Filedatareq_inv[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* Shipping Staff input invoice no.: */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* Shipping Staff input invoice no.: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        Shipping Staff input invoice no.:
+                          Shipping Staff input invoice no.:
                         </Typography>
                       </td>
                       <td>
@@ -4964,22 +5078,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[36] !== "null" ? DataSale[36] : ""
-                            }
+                            value={DataSale[36] !== "null" ? DataSale[36] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[37] == null || DataSale[37] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[37] == null || DataSale[37] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -4987,16 +5097,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[37] == null ||DataSale[37] == "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[37] == null || DataSale[37] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -5012,7 +5122,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[50] === null || DataSale[50] === ""
+                          DataSale[50] === null || DataSale[50] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -5029,9 +5139,7 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[50] !== "null" ? DataSale[50] : ""
-                            }
+                            value={DataSale[50] !== "null" ? DataSale[50] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
@@ -5039,7 +5147,7 @@ function TransFerDetail() {
                     <tr
                       style={{
                         display:
-                        DataSale[37] === null || DataSale[37] === ""
+                          DataSale[37] === null || DataSale[37] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -5056,115 +5164,128 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[38] !== "null" ? DataSale[38] : ""
-                            }
+                            value={DataSale[38] !== "null" ? DataSale[38] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[37]  === null || DataSale[37]  === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedataship_staff.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[37] === null || DataSale[37] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedataship_staff.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedataship_staff[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedataship_staff[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedataship_staff[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedataship_staff.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedataship_staff.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataship_staff[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataship_staff[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    {FiledataShiiping[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedataship_staff[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        FiledataShiiping[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* PLN Staff upload Final payment 50%: */}
-                  <tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* PLN Staff upload Final payment 50%: */}
+                    <tr>
                       <td className="Style4">
                         <Typography variant="subtitle2">
-                        PLN Staff upload Final payment 50%:
+                          PLN Staff upload Final payment 50%:
                         </Typography>
                       </td>
                       <td>
@@ -5176,22 +5297,18 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[39] !== "null" ? DataSale[39] : ""
-                            }
+                            value={DataSale[39] !== "null" ? DataSale[39] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
-                      <td className="Style5">
-                       
-                      </td>
+                      <td className="Style5"></td>
                       <td
                         className="Style7"
                         style={{
                           visibility:
-                          DataSale[40] == null ||  DataSale[40] == "null"
-                            ? "hidden"
-                            : "visible",
+                            DataSale[40] == null || DataSale[40] == "null"
+                              ? "hidden"
+                              : "visible",
                         }}
                       >
                         <Typography variant="subtitle2">
@@ -5199,16 +5316,16 @@ function TransFerDetail() {
                           Action Date :
                         </Typography>
                       </td>
-                      <td className="Style6"
-                      style={{
-                        visibility:
-                        DataSale[40] == null || DataSale[40]== "null"
-                          ? "hidden"
-                          : "visible",
-                      }}>
-                        <FormControl
-                          className="Style1"
-                        >
+                      <td
+                        className="Style6"
+                        style={{
+                          visibility:
+                            DataSale[40] == null || DataSale[40] == "null"
+                              ? "hidden"
+                              : "visible",
+                        }}
+                      >
+                        <FormControl className="Style1">
                           <TextField
                             style={{
                               backgroundColor: "rgba(169, 169, 169, 0.3)",
@@ -5221,39 +5338,38 @@ function TransFerDetail() {
                         </FormControl>
                       </td>
                     </tr>
-                    {(VIEW_TYPE == "GP01003" ) && (
-                  <tr
-                    style={{
-                      display:
-                      DataSale[40] === null ||
-                      DataSale[40] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                       Vendor move date:
-                      </Typography>{" "}
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          disabled
-                          size="small"
-                          value={DataSale[46]}
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                        />
-                      </FormControl>
-                    </td>
-                  </tr>
-                )}
+                    {VIEW_TYPE == "GP01003" && (
+                      <tr
+                        style={{
+                          display:
+                            DataSale[40] === null || DataSale[40] === ""
+                              ? "none"
+                              : "table-row",
+                        }}
+                      >
+                        <td className="Style4">
+                          <Typography variant="subtitle2">
+                            Vendor move date:
+                          </Typography>{" "}
+                        </td>
+                        <td>
+                          <FormControl className="Style1">
+                            <TextField
+                              disabled
+                              size="small"
+                              value={DataSale[46]}
+                              style={{
+                                backgroundColor: "rgba(169, 169, 169, 0.3)",
+                              }}
+                            />
+                          </FormControl>
+                        </td>
+                      </tr>
+                    )}
                     <tr
                       style={{
                         display:
-                        DataSale[40] === null ||DataSale[40] === ""
+                          DataSale[40] === null || DataSale[40] === ""
                             ? "none"
                             : "table-row",
                       }}
@@ -5270,112 +5386,124 @@ function TransFerDetail() {
                             className="Style1"
                             size="small"
                             disabled
-                            value={
-                              DataSale[42] !== "null" ? DataSale[42] : ""
-                            }
+                            value={DataSale[42] !== "null" ? DataSale[42] : ""}
                           ></TextField>
                         </FormControl>
                       </td>
                     </tr>
                     <tr
-                    style={{
-                      display:
-                      DataSale[40] === null || DataSale[40] === ""
-                          ? "none"
-                          : "table-row",
-                    }}
-                  >
-                    <td className="Style4"></td>
-                    <td colSpan={5}>
-                      <div  style={{ marginLeft: "150px" ,marginTop:'20px' }}>
-                        <table>
-                          <tr>
-                            <td className="Table_Show_req1">
-                              <td
-                                className="Show-Data-File"
-                                style={{ textAlign: "center" }}
-                              >
-                                <div>
-                                  <TableContainer component={Paper}>
-                                    <Table className="FamFilePopUp">
-                                      <TableHead>
-                                        <TableRow>
-                                          <TableCell>No.</TableCell>
-                                          <TableCell>File</TableCell>
-                                          <TableCell>View</TableCell>
-                                        </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                        {Filedataupload_final.length === 0 ? (
+                      style={{
+                        display:
+                          DataSale[40] === null || DataSale[40] === ""
+                            ? "none"
+                            : "table-row",
+                      }}
+                    >
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ marginLeft: "150px", marginTop: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
                                           <TableRow>
-                                            <TableCell
-                                              colSpan={4}
-                                              style={{ textAlign: "center" }}
-                                            >
-                                              <Empty />
-                                            </TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
                                           </TableRow>
-                                        ) : (
-                                          Filedataupload_final.map(
-                                            (option, index) => (
-                                              <TableRow key={index}>
-                                                <TableCell>
-                                                  {Filedataupload_final[index][2]}
-                                                </TableCell>
-                                                <TableCell>
-                                                  {Filedataupload_final[index][3]}
-                                                </TableCell>
-                                                <TableCell
-                                                  style={{
-                                                    textAlign: "center",
-                                                    color: "blue",
-                                                    textDecoration: "underline",
-                                                  }}
-                                                >
-                                                  <p
-                                                    style={{
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick={() =>
-                                                      downloadFile(
-                                                        Filedataupload_final[index][4]
-                                                      )
+                                        </TableHead>
+                                        <TableBody>
+                                          {Filedataupload_final.length === 0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            Filedataupload_final.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataupload_final[
+                                                        index
+                                                      ][2]
                                                     }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      Filedataupload_final[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
                                                   >
-                                                    {Filedataupload_final[index][3]}
-                                                  </p>
-                                                </TableCell>
-                                              </TableRow>
+                                                    <p
+                                                      style={{
+                                                        cursor: "pointer",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          Filedataupload_final[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        Filedataupload_final[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </p>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
                                             )
-                                          )
-                                        )}
-                                      </TableBody>
-                                    </Table>
-                                  </TableContainer>
-                                </div>
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
                               </td>
-                            </td>
-                          </tr>
-                        </table>
+                            </tr>
+                          </table>
 
-                        <table>
-                          <tr>
-                            <td className=""></td>
-                          </tr>
-                          <tr></tr>
-                          <tr
-                            style={{
-                              width: "100%",
-                              marginBottom: "20px",
-                              marginTop: "20px",
-                            }}
-                          ></tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
                   </table>
-                
                 </div>
               </Card>
             </Card>
@@ -5500,7 +5628,7 @@ function TransFerDetail() {
                 <tr
                   style={{
                     display:
-                    DataRoutingFamno[32] === null ||
+                      DataRoutingFamno[32] === null ||
                       DataRoutingFamno[32] === ""
                         ? "none"
                         : "table-row",
@@ -5767,10 +5895,107 @@ function TransFerDetail() {
             </div>
           </Card>
         </Card>
+        <Card className="Style100">
+          <Card
+            sx={{
+              borderRadius: "8px",
+              border: 2,
+              borderColor: "rgba(64,131,65, 1.5)",
+              boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+              marginTop: 4,
+              display: comment == null || comment == "" ? "none" : "table-row",
+            }}
+            className="Style1"
+          >
+            <Typography
+              sx={{
+                position: "absolute",
+                backgroundColor: "#fff",
+                marginTop: "-0.5%",
+                marginRight: "85%",
+                width: "8%",
+                display: "flex",
+                // border: 1,
+                // borderColor: "rgba(64,131,65, 1.5)",
+                // boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                justifyContent: "center",
+              }}
+            >
+              ACC Comment
+            </Typography>
+            <div className="Style2">
+              <table className="Style3">
+                <tr
+                  style={{
+                    display:
+                      comment == null || comment == "" ? "none" : "table-row",
+                  }}
+                >
+                  
+                  <td className="Style4" >
+                    <Typography variant="subtitle2">
+                      {" "}
+                      ACC(Close) Comment :
+                    </Typography>
+                  </td>
+                  <td className="Style4" style={{ width: "480px" }}>
+                    <FormControl fullWidth>
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                        size="small"
+                        disabled
+                        value={comment}
+                        id="outlined-multiline-static"
+                    
+                        multiline
+                        rows={4}
+                      ></TextField>
+                    </FormControl>
+                  </td>
+                  <td style={{textAlign:'right'}} >
+                    <Typography>  Close Job By :</Typography>
+                  
+                  </td>
+                  <td >
+                    <FormControl className="Style1" fullWidth>
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                        size="small"
+                        disabled
+                        
+                        value={DataRoutingFamno[44]}
+                      ></TextField>
+                    </FormControl>
+                  </td>
+                  <td style={{textAlign:'right'}} >
+                    <Typography>  Date Close Job :</Typography>
+                  
+                  </td>
+                  <td >
+                    <FormControl className="Style1" fullWidth>
+                      <TextField
+                        style={{
+                          backgroundColor: "rgba(169, 169, 169, 0.3)",
+                        }}
+                        size="small"
+                        disabled
+                        value={DataRoutingFamno[45]}
+                      ></TextField>
+                    </FormControl>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </Card>
+        </Card>
       </div>
       <div>
         <div>
-          <div style={{ display: "flex", }}>
+          <div style={{ display: "flex" }}>
             <Button
               variant="contained"
               style={{
@@ -5784,16 +6009,57 @@ function TransFerDetail() {
             >
               BACK PAGE
             </Button>
-            {Path == 'CLOSEACC' && (
-                        <Button variant="contained"
-                        sx={{ marginLeft: 2, backgroundColor: '#e84e40', width: "200px",
-                          marginTop: "20px",
-                          marginBottom: "20px",
-                          marginRight: "20px",}} 
-                        onClick={handleClickOpen}
-                        >
-        Close Request
-      </Button>)}
+            {Path == "CLOSEACC" && (
+              <Button
+                variant="contained"
+                sx={{
+                  marginLeft: 2,
+                  backgroundColor: "#e84e40",
+                  width: "200px",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                  marginRight: "20px",
+                }}
+                onClick={handleClickOpen}
+              >
+                Close Request
+              </Button>
+            )}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              disableEscapeKeyDown
+              disableBackdropClick={true}
+            >
+              <DialogTitle>กรุณากรอก Comment</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  <Box
+                    sx={{ width: 500, maxWidth: "100%", maxHeight: "500px" }}
+                  >
+                    <TextField
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      fullWidth
+                      required
+                      error={!comment}
+                      helperText={!comment ? "กรุณา Comment" : ""}
+                      value={comment}
+                      onChange={(e) => setcomment(e.target.value)} // อย่าลืมอัพเดทค่า comment
+                    />
+                  </Box>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleSubmit}   variant="contained">
+                  Save
+                </Button>
+                <Button onClick={handleClose} disabled={!comment}>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
             {/* <Button
               variant="contained"
               style={{

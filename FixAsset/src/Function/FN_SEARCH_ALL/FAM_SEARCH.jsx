@@ -235,7 +235,7 @@ function FAM_SEARCH() {
       // ตัดวันเดือนปีให้เหลือ YYYY-MM
       const ReturnFrom = selectReturnFrom.substring(0, 7);
       const ReturnTo = selectReturnTo.substring(0, 7);
-      
+      const MultipleReqType = selectReType;
       axios
         .post("/search3", {
           Fac: selecteDatafac,
@@ -247,7 +247,8 @@ function FAM_SEARCH() {
           ByID: Txt_ID_Owner.trim(),
           ReturnFrom:ReturnFrom,
           ReturnTo:ReturnTo,
-          StsID:idStatus
+          StsID:idStatus,
+          ReqType: MultipleReqType,
         })
         .then((res) => {
           const data = res.data;
@@ -359,7 +360,7 @@ function FAM_SEARCH() {
           StatusType = "SCRAP";
           break;
         case "GP01003":
-          StatusType = "SALE";
+          StatusType = "SALES";
           break;
         case "GP01004":
           StatusType = "LOSS";
@@ -471,6 +472,7 @@ function FAM_SEARCH() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Lending", data_edit);
+    
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -482,6 +484,7 @@ function FAM_SEARCH() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Scrap", data_edit);
+      console.log(data,"data")
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -500,7 +503,8 @@ function FAM_SEARCH() {
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-    window.location.href = "/FAMsystem/ForRe";
+   
+   window.location.href = "/FAMsystem/ForRe";
   };
 
   const handlePDF = async (PDF_FAM) => {
@@ -528,7 +532,7 @@ function FAM_SEARCH() {
       setTxt_Title("FAM Master List");
       localStorage.setItem("page", Path);
     }else if (Path == "CLOSEACC") {
-      setTxt_Title("Close lending by ACC");
+      setTxt_Title("Close FAM by ACC");
       localStorage.setItem("page", Path);
     }
   };
@@ -729,14 +733,12 @@ function FAM_SEARCH() {
           famno: row,
           sts_submit:'FLLD899'
         });
-        Swal.fire({
-          icon: "success",
-          text: "Save ACC close request",
-        });
-        Search();
-
-
       }
+      Swal.fire({
+        icon: "success",
+        text: "Save ACC close request",
+      });
+      Search();
     }else{
       Swal.fire({
         icon: "error",

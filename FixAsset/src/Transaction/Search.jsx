@@ -109,7 +109,7 @@ function Issue() {
     selectReturnSts,
     setselectReturnSts,selectStatusReturn
   } = FAM_SEARCH();
-
+console.log(Path,'Path')
   return (
     <>
       <Header />
@@ -411,7 +411,7 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
-              {Path !== 'CLOSEACC' &&(
+            
               <TableRow>
                 <TableCell style={{ border: "0" }}>
                   <FormControl sx={{ width: 200 }} style={{}}>
@@ -442,7 +442,7 @@ function Issue() {
                 <TableCell style={{ border: "0" }}>
                 <FormControl
                     sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                    style={{ display: Path === "FAMMASTER" || Path === "CLOSEACC"  ? "block" : "none" }}
                   >
                     <Autocomplete
                       value={selectStatus}
@@ -480,7 +480,7 @@ function Issue() {
                     }}
                   />
                 </TableCell> */}
-              </TableRow>)}
+              </TableRow>
               <TableRow
                 style={{
                   display: Path === "SEARCH" ? "table-row" : "none",
@@ -500,7 +500,9 @@ function Issue() {
                 </TableCell>
               </TableRow>
 
-              <TableRow style={{ display: Path === 'CLOSEACC' ? '' : 'none' }}>
+              <TableRow 
+              style={{ display: Path === 'CLOSEACC' ? '' : 'none' }}
+              >
   <TableCell style={{ border: 0 }}>
     <FormControl
       sx={{ width: 200 }}
@@ -570,7 +572,7 @@ function Issue() {
                 </TableCell>
               </TableRow>
               <TableRow>
-                
+{/*                 
                 <TableCell style={{ border: "0" }}>
                  
                   {(Path == 'CLOSEACC' &&
@@ -580,9 +582,13 @@ function Issue() {
                   >
                     <Autocomplete
                       value={selectReturnSts}
+                      // onChange={(e, value) => {
+                      //  setselectReturnSts(value);
+                      //  selectStatusReturn(value.value);
+                      // }}
                       onChange={(e, value) => {
-                       setselectReturnSts(value);
-                       selectStatusReturn(value.value);
+                        setselectStatus(value);
+                        selectStatusID(value.value);
                       }}
                       options={ReturnStatus.map((item) => ({
                         label: item[1],
@@ -603,7 +609,7 @@ function Issue() {
                     
                     />
                   </FormControl>)}
-                </TableCell>
+                </TableCell> */}
                
               </TableRow>
               
@@ -862,7 +868,7 @@ function Issue() {
     <FileSearchOutlined
       style={{ color: "#40A2E3", fontSize: "30px" }}
       onClick={() => {
-        handleVIEW(item[2], item[7], Path === "FAMMASTER" ? 'FAM Master List' : 'Close lending by ACC');
+        handleVIEW(item[2], item[7], Path === "FAMMASTER" ? 'FAM Master List' : 'Close FAM by ACC');
       }}
     />
   ))}

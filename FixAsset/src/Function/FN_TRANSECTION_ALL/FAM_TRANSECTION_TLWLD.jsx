@@ -93,28 +93,28 @@ function FAM_TRANSECTION_TLWLD() {
   const [total_scrap,settotal_scrap]= useState(""); 
   const [scrap_date, setscrap_date] = useState("");
   // Sale
-  const [pte_input_weight_size, setpte_input_weight_size] = useState([]); //PTE (ENV) input weight/size
+  const [pte_input_weight_size, setpte_input_weight_size] = useState([]); 
   const [selectpte_input_weight_size, setselectpte_input_weight_size] =useState("");
-  const [pln_staff_boi, setpln_staff_boi] = useState([]); //PLN Staff contact BOI
+  const [pln_staff_boi, setpln_staff_boi] = useState([]);
   const [selectpln_staff_boi, setselectpln_staff_boi] = useState("");
-  const [import_boi_prepare, setimport_boi_prepare] = useState([]); //Import & BOI prepare
+  const [import_boi_prepare, setimport_boi_prepare] = useState([]); 
   const [selectimport_boi_prepare, setselectimport_boi_prepare] = useState("");
-  const [boi_input_data, setboi_input_data] = useState([]); //BOI Input data Import
+  const [boi_input_data, setboi_input_data] = useState([]); 
   const [selectboi_input_data, setselectboi_input_data] = useState("");
-  const [thai_catergories, setthai_catergories] = useState(""); //Import & BOI input thai catergories
-  const [pln_staff_bidding, setpln_staff_bidding] = useState(""); // PLN Staff bidding
-  const [pte_dept, setpte_dept] = useState(""); //PTE (ENV) contact Department of Industrial Works
-  const [export_clearance, setexport_clearance] = useState(""); //BOI make export clearance
-  const [pte_upload_file, setpte_upload_file] = useState(""); // PTE (ENV) upload file after BOI make export clearance:
-  const [pln_req_inv, setpln_req_inv] = useState(""); //PLN Staff request Invoice
-  const [ship_input_inv, setship_input_inv] = useState(""); //Shipping Staff imput invoice no.
-  const [pln_upload_final, setpln_upload_final] = useState(""); //PLN Staff upload Final payment 50%:
-  const [Input_thai_categories, setInput_thai_categories] = useState(""); //Input thai categories
-  const [Bidding_result, setBidding_result] = useState(""); //Bidding result
-  const [contact_date, setcontact_date] = useState(""); // contact date BOI make export clearance
+  const [thai_catergories, setthai_catergories] = useState(""); 
+  const [pln_staff_bidding, setpln_staff_bidding] = useState(""); 
+  const [pte_dept, setpte_dept] = useState(""); 
+  const [export_clearance, setexport_clearance] = useState(""); 
+  const [pte_upload_file, setpte_upload_file] = useState(""); 
+  const [pln_req_inv, setpln_req_inv] = useState(""); 
+  const [ship_input_inv, setship_input_inv] = useState(""); 
+  const [pln_upload_final, setpln_upload_final] = useState(""); 
+  const [Input_thai_categories, setInput_thai_categories] = useState(""); 
+  const [Bidding_result, setBidding_result] = useState(""); 
+  const [contact_date, setcontact_date] = useState(""); 
   const [contact_date_pte, setcontact_date_pte] = useState("");
-  const [Vendor_move_date, setVendor_move_date] = useState(""); //Vendor_move_date
-  const [export_clearance_date, setexport_clearance_date] = useState(""); //BOI make export clearance :
+  const [Vendor_move_date, setVendor_move_date] = useState(""); 
+  const [export_clearance_date, setexport_clearance_date] = useState(""); 
   const [sale_date, setsale_date] = useState("");
   const [total_sale,settotal_sale] = useState(""); 
   const [invoice_no,setinvoice_no ]= useState(""); 
@@ -132,12 +132,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectmonthly, setselectmonthly]=useState("")
   const [dataresult_return,setdataresult_return]=useState([])
   const [Maxreturndate,setMaxreturndate]=useState([])
-
-
-
- 
-
-  ////////////////////
+  //Error 
   const [ErrorTel, setErrorTel] = useState(false);
   const [ErrorFac, setErrorFac] = useState(false);
   const [ErrorCC, setErrorCC] = useState(false);
@@ -171,8 +166,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [Errorcontact_date_pte, setErrorcontact_date_pte] = useState(false);
   const [Errorcontact_date, setErrorcontact_date] = useState(false);
   const [Errorship_input_inv, setErrorship_input_inv] = useState(false);
-  const [Errorexport_clearance_date, setErrorexport_clearance_date] =
-    useState(false);
+  const [Errorexport_clearance_date, setErrorexport_clearance_date] =useState(false);
   const [ErrScp_date, setErrScp_date] = useState(false);
   const [ErrSale_date, setErrSale_date] = useState(false);
   const [ErrTotalSale,setErrTotalSale] = useState(false);
@@ -194,7 +188,7 @@ function FAM_TRANSECTION_TLWLD() {
     setservice_dept(servivedept);
   };
 
-  /////////////// ตัวแปร Radio button//////////////////////////////
+  // ตัวแปร Radio button
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
   const [selectradio_boistaff, setselectradio_boistaff] = useState("");
@@ -208,10 +202,8 @@ function FAM_TRANSECTION_TLWLD() {
   const [selectradio_service_close_by, setselectradio_service_close_by] =useState("");
   const [selectradio_return_acc, setselectradio_return_acc] = useState("");
   const [selectradio_return_own, setselectradio_return_own] = useState("");
-
-  //
   const [selectreturn, setselectreturn] = useState("No");
-  /////////////// ตัวแปร Check Commnet //////////////////////////////
+  //ตัวแปร Check Commnet 
   const [cmmtradio_dept, setcmmtradio_dept] = useState("");
   const [cmmtradio_serviceby, setcmmtradio_serviceby] = useState("");
   const [cmmtradio_boistaff, setcmmtradio_boistaff] = useState("");
@@ -227,33 +219,25 @@ function FAM_TRANSECTION_TLWLD() {
   //Lending
   const [cmmtradio_return_acc, setcmmtradio_return_acc] = useState("");
   const [cmmtradio_return_own, setcmmtradio_return_own] = useState("");
-  
   //scarp
   const [cmmtradio_pte_env, setcmmtradio_pte_env] = useState("");
   const [cmmtradio_pln_staff, setcmmtradio_pln_staff] = useState("");
   const [cmmtradio_shipping, setcmmtradio__shipping] = useState("");
   // Sale
-  const [cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size] =
-    useState("");
+  const [cmmtradio_pte_weight_size, setcmmtradio_pte_weight_size] =useState("");
   const [cmmtradio_pte_staff_boi, setcmmtradio_pte_staff_boi] = useState("");
-  const [cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare] =
-    useState("");
+  const [cmmtradio_import_boi_prepare, setcmmtradio_import_boi_prepare] =useState("");
   const [cmmtradio_boi_input_data, setcmmtradio_boi_input_data] = useState("");
-  const [cmmtradio_thai_catergories, setcmmtradio_thai_catergories] =
-    useState("");
-  const [cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding] =
-    useState("");
+  const [cmmtradio_thai_catergories, setcmmtradio_thai_catergories] = useState("");
+  const [cmmtradio_pln_staff_bidding, setcmmtradio_pln_staff_bidding] =useState("");
   const [cmmtradio_pte_dept, setcmmtradio_pte_dept] = useState("");
-  const [cmmtradio_export_clearance, setcmmtradio_export_clearance] =
-    useState("");
-  const [cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file] =
-    useState("");
+  const [cmmtradio_export_clearance, setcmmtradio_export_clearance] =useState("");
+  const [cmmtradio_pte_upload_file, setcmmtradio_pte_upload_file] =useState("");
   const [cmmtradio_pln_req_inv, setcmmtradio_pln_req_inv] = useState("");
   const [cmmtradio_ship_input_inv, setcmmtradio_ship_input_inv] = useState("");
-  const [cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final] =
-    useState("");
+  const [cmmtradio_pln_upload_final, setcmmtradio_pln_upload_final] =useState("");
 
-  /////////////// ตัวแปร Check Action Date //////////////////////////////
+  // ตัวแปร Check Action Date 
   const [action_dept, setaction__dept] = useState("");
   const [action__serviceby, setaction__serviceby] = useState("");
   const [action__boistaff, setaction__boistaff] = useState("");
@@ -288,7 +272,7 @@ function FAM_TRANSECTION_TLWLD() {
   const [action__ship_input_inv, setaction__ship_input_inv] = useState("");
   const [action__pln_upload_final, setaction__pln_upload_final] = useState("");
 
-  /////////////// ตัวแปร Check Read Only //////////////////////////////
+  // ตัวแปร Check Read Only 
   const [read_trans_fac, setReadTransFac] = useState(true);
   const [read_trans_cc, setReadTransCC] = useState(true);
   const [read_tel, setReadTel] = useState(true);
@@ -410,8 +394,7 @@ function FAM_TRANSECTION_TLWLD() {
   // Sale Chk
   const [chk_pte_weight_size, setchk_pte_weight_size] = useState("hidden");
   const [chk_pte_staff_boi, setchk_pte_staff_boi] = useState("hidden");
-  const [chk_import_boi_prepare, setchk_import_boi_prepare] =
-    useState("hidden");
+  const [chk_import_boi_prepare, setchk_import_boi_prepare] =useState("hidden");
   const [chk_boi_input_data, setchk_boi_input_data] = useState("hidden");
   const [chk_thai_catergories, setchk_thai_catergories] = useState("hidden");
   const [chk_pln_staff_bidding, setchk_pln_staff_bidding] = useState("hidden");
@@ -454,14 +437,10 @@ function FAM_TRANSECTION_TLWLD() {
   const [CM_pln_req_inv, setCM_pln_req_inv] = useState("none");
   const [CM_ship_input_inv, setCM_ship_input_inv] = useState("none");
   const [CM_pln_upload_final, setCM_pln_upload_final] = useState("none");
-
   // Donation check
   const [chk_cer_date, setchk_cer_date] = useState("");
-
   const [Showtype, setShowtype] = useState("");
-
-
-  /////////////// ตัวแปร FormatDate //////////////////////////////
+  // ตัวแปร FormatDate 
   const [currentDate, setCurrentDate] = useState(new Date());
   const formattedDate = `${currentDate
     .getDate()
@@ -470,7 +449,7 @@ function FAM_TRANSECTION_TLWLD() {
     .toString()
     .padStart(2, "0")}/${currentDate.getFullYear()}`;
 
-  //////////////////////////////Loading /////////////////////////
+  ///Loading 
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
   const openPopupLoadding = () => {
     setPopupOpenLoadding(true);
@@ -480,9 +459,8 @@ function FAM_TRANSECTION_TLWLD() {
   };
   const today = new Date();
   const day = today.getDate()
-  ////////////////////// Use Effect /////////////////////////////////
+  // Use Effect 
   useEffect(() => {
-   
     openPopupLoadding();
     Period();
     if (For_Rq_Edit != null) {
@@ -3408,7 +3386,7 @@ function FAM_TRANSECTION_TLWLD() {
       setreceiver(result);
     }
   };
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
   const getDatatest = async () => {
     if (EditFam != null) {
       try {
@@ -3712,8 +3690,7 @@ function FAM_TRANSECTION_TLWLD() {
               tranfer:For_Rq_Edit[0],
               borrow_by:borrow_name ,
               periodtxt: textperiod,
-              periodunit: selectddlperiod,
-              returndate: day+'/'+returnDate[0]
+              periodunit: selectddlperiod
             });
           } catch (error) {
             console.error("Error update_periodall:", error.message);
@@ -4339,23 +4316,36 @@ function FAM_TRANSECTION_TLWLD() {
           }
 
           if (Type === "GP01006") {
-            try {
-              const response = await axios.post("/update_lending", {
-                tranfer: For_Rq_Edit[0],
-                acc_return: return_selectacc_manager,
-                req_reuturn: req_return,
-                req_reuturn_by: req_return,
-              });
-            } catch (error) {
-              console.error("Error update_lending:", error.message);
+            if(Edit_For_Lending.length > 0){
+              try {
+                const response = await axios.post("/update_lending", {
+                  tranfer: For_Rq_Edit[0],
+                  acc_return: return_selectacc_manager,
+                  req_reuturn: req_return,
+                  req_reuturn_by: req_return,
+                });
+              } catch (error) {
+                console.error("Error update_lending:", error.message);
+              }
+            }else{
+              try {
+                const response = await axios.post("/insert_leading", {
+                  tranfer: Fam_list,
+                  acc_return: return_selectacc_manager,
+                  req_reuturn: req_return,
+                  req_reuturn_by: req_return,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
             }
+           
             try {
               const response = await axios.post("/update_periodall", {
                 tranfer: For_Rq_Edit[0],
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
-                periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate[0]
+                periodunit: selectddlperiod
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -4467,8 +4457,7 @@ function FAM_TRANSECTION_TLWLD() {
                 tranfer: For_Req[0],
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
-                periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate[0]
+                periodunit: selectddlperiod
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -10249,7 +10238,9 @@ Swal.fire({
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
-            try {
+            if(Edit_For_Lending.length > 0){
+              console.log(Edit_For_Lending,"Edit_For_Lending")
+                try {
               const response = await axios.post("/update_lending", {
                 tranfer: For_Rq_Edit[0],
                 acc_return: return_selectacc_manager,
@@ -10259,6 +10250,29 @@ Swal.fire({
             } catch (error) {
               console.error("Error update_lending:", error.message);
             }
+            }else{
+              try {
+                const response = await axios.post("/insert_leading", {
+                  tranfer: For_Rq_Edit[0],
+                  acc_return: return_selectacc_manager,
+                  req_reuturn: req_return,
+                  req_reuturn_by: req_return,
+                });
+              } catch (error) {
+                console.error("Error requesting data:", error);
+              }
+              try {
+                const response = await axios.post("/update_periodall", {
+                  tranfer: For_Rq_Edit[0],
+                  borrow_by:borrow_name ,
+                  periodtxt: textperiod,
+                  periodunit: selectddlperiod
+                });
+              } catch (error) {
+                console.error("Error update_periodall:", error.message);
+              } 
+            }
+          
             try {
               const response = await axios.post("/update_submit", {
                 famno: EditFam,
@@ -10274,7 +10288,7 @@ Swal.fire({
               localStorage.setItem("Req_by", For_Rq_Edit[2]);
               localStorage.setItem("Status", Status);
               // navigate("/FAMsystem/Mail");
-              navigate("/FAMsystem/Search");
+              //navigate("/FAMsystem/Search");
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
@@ -10283,8 +10297,7 @@ Swal.fire({
                 tranfer: For_Rq_Edit[0],
                 borrow_by:borrow_name ,
                 periodtxt: textperiod,
-                periodunit: selectddlperiod,
-                returndate:day+'/'+returnDate[0]
+                periodunit: selectddlperiod
               });
             } catch (error) {
               console.error("Error update_periodall:", error.message);
@@ -10349,8 +10362,7 @@ Swal.fire({
                   tranfer: EditFam,
                   borrow_by:borrow_name ,
                   periodtxt: textperiod,
-                  periodunit: selectddlperiod,
-                  returndate:day+'/'+returnDate[0]
+                  periodunit: selectddlperiod
                 });
               } catch (error) {
                 console.error("Error update_periodall:", error.message);
@@ -10645,6 +10657,9 @@ Swal.fire({
               }
             }
           } else if (For_Rq_Edit[10] === "FLLD006") {
+            const returnDate = await calculateReturnDate();
+            console.log("ค่าที่กลับมา",returnDate[0])
+            // console.log("มาจ้าาาา",returnDate)
             let Status = "";
             if (selectradio_facmanager == "A") {
               Status = "FLLD007";
@@ -10663,6 +10678,7 @@ Swal.fire({
                 icon: "error",
                 text: "กรุณาระบุ Comment",
               });
+              
             } else {
               try {
                 const response = await axios.post("/update_facmanager", {
@@ -10670,6 +10686,10 @@ Swal.fire({
                   fm_jud: selectradio_facmanager,
                   fm_cmmt: cmmtradio_facmanager,
                   sts: Status,
+                });
+                await axios.post("/update_period_fac_mana_returndate", {
+                  tranfer: EditFam,
+                  returndate: day+'/'+returnDate[0]
                 });
 
                 if (selectradio_facmanager != "R") {
@@ -11555,8 +11575,7 @@ Swal.fire({
               tranfer: For_Req[0],
               borrow_by:borrow_name ,
               periodtxt: textperiod,
-              periodunit: selectddlperiod,
-              returndate:day+'/'+returnDate[0]
+              periodunit: selectddlperiod
             });
           } catch (error) {
             console.error("Error update_periodall:", error.message);
@@ -12565,7 +12584,7 @@ Swal.fire({
               DataFile_Requester == [] ||
               DataFile_Requester.length == 0
             ) {; 
-Swal.fire({
+            Swal.fire({
                 icon: "error",
                 text: "กรุณาเลือกไฟล์",
               });
@@ -13527,6 +13546,7 @@ Swal.fire({
             } catch (error) {
               console.error("Error updating submit status:", error.message);
             }
+            if(Edit_For_Sale !== ""){
             try {
               const response = await axios.post("/update_sale", {
                 famno: For_Rq_Edit[0],
@@ -13546,6 +13566,27 @@ Swal.fire({
               });
             } catch (error) {
               console.error("Error update_sale", error);
+            }}else{
+              try {
+                const response = await axios.post("/insert_sale", {
+                  famno: For_Rq_Edit[0],
+                  createinput_ws: selectpte_input_weight_size,
+                  create_plnboi: selectpln_staff_boi,
+                  createboi_prerare: selectimport_boi_prepare,
+                  createdata_import: selectboi_input_data,
+                  createthai_catergories: thai_catergories,
+                  createbidding: pln_staff_bidding,
+                  createindustrial: pte_dept,
+                  createclerance: export_clearance,
+                  create_upload_file_after: pte_upload_file,
+                  createreq_inv: pln_req_inv,
+                  createinput_in: ship_input_inv,
+                  createpayment: pln_upload_final,
+                  create_by: For_Rq_Edit[2],
+                });
+              } catch (error) {
+                console.error("Error insert_sale:", error);
+              }
             }
             try {
               const response = await axios.post("/update_submit", {
@@ -16565,20 +16606,50 @@ Swal.fire({
     }
 
   };
-
+// {console.log("DATE",selectddlperiod,textperiod)}
   //Update for borrowby
-  const calculateReturnDate = () => {
-    let text=''
-    let value=''
-    const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
+  // const calculateReturnDate = () => {
+  //   let text=''
+  //   let value=''
+  //   const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
     
+  //   // Check whether the unit is "Year" or "Month"
+  //   if (selectddlperiod === "GP05002") {
+  //     newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); // Add years
+  //   } else if (selectddlperiod === "GP05001") {
+  //     newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); // Add months
+  //   }
+
+  //   // Get the month names for display
+  //   const monthNames = [
+  //     "01/", "02/", "03/", "04/", "05/", "06/", 
+  //     "07/", "08/", "09/", "10/", "11/", "12/"
+  //   ];
+  //   const monthNames2 = [
+  //     "January  ", "February  ", "March  ", "April  ", "May  ", "June  ", 
+  //     "July  ", "August  ", "September  ", "October  ", "November  ", "December  "
+  //   ];
+    
+  //   value=`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`
+  //   text=`${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`
+  //   // Set the calculated return date (e.g., "March 2024" or "January 2026")
+  //   setReturnDate([value,text]);
+  // };
+  const calculateReturnDate = async () => {
+    console.log("มาแล้วจ้า")
+    let text = '';
+    let value = '';
+    const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
+  
     // Check whether the unit is "Year" or "Month"
     if (selectddlperiod === "GP05002") {
-      newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); // Add years
+      // If the unit is "Year" (GP05002), add the years
+      newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); 
     } else if (selectddlperiod === "GP05001") {
-      newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); // Add months
+      // If the unit is "Month" (GP05001), add the months
+      newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); 
     }
-
+  
     // Get the month names for display
     const monthNames = [
       "01/", "02/", "03/", "04/", "05/", "06/", 
@@ -16588,12 +16659,18 @@ Swal.fire({
       "January  ", "February  ", "March  ", "April  ", "May  ", "June  ", 
       "July  ", "August  ", "September  ", "October  ", "November  ", "December  "
     ];
-    
-    value=`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`
-    text=`${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`
+  
+    // Format the return date as 'MM/YYYY' and 'Month YYYY'
+    value = `${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`;
+    text = `${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`;
+  
     // Set the calculated return date (e.g., "March 2024" or "January 2026")
-    setReturnDate([value,text]);
+    setReturnDate([value, text]);
+    // console.log(returnDate,"returndate")
+    // await SUBMIT();
+    return [value, text];
   };
+  
   //////////////////////////////////////////
   const calculateUpdate = () => {
     const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation

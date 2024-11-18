@@ -8,7 +8,7 @@ function FAM_TRANSECTION() {
   const VIEW_FAM = localStorage.getItem("EDIT");
   const VIEW_TYPE = localStorage.getItem("TYPE_flow");
   const User = localStorage.getItem("UserLogin")
-
+console.log("VIEW_TYPE",VIEW_TYPE)
   // const ข้อมูลได้จาก Database
   const [DataTransferFamno, setDataTransferFamno] = useState([]);
   const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
@@ -58,6 +58,7 @@ function FAM_TRANSECTION() {
   //Pop up
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
+    console.log("ร้องได้ร้องไปแล้ว")
     setOpen(true);
   };
   const [comment , setcomment]= useState("");
@@ -69,21 +70,50 @@ function FAM_TRANSECTION() {
     
   };
   const handleSubmit = async () => {
+    let CloseStatus;
+    switch (VIEW_TYPE) {
+      case "GP01001":
+        CloseStatus = "FLTR899";
+        break;
+      case "GP01002":
+        CloseStatus = "FLSC899";
+        break;
+      case "GP01003":
+        CloseStatus = "FLSL899";
+        break;
+      case "GP01004":
+        CloseStatus = "FLLS899";
+        break;
+      case "GP01005":
+        CloseStatus = "FLWO899";
+        break;
+      case "GP01006":
+        CloseStatus = "FLLD899";
+        break;
+      case "GP01007":
+        CloseStatus = "FLDN899";
+        break;
+      default:
+        break;
+    }
+
     try {
       await axios.post("/update_closejob_lending", {
         tranfer: VIEW_FAM,
         userlogin:User,
         comment_lending: comment,
       });
+
       await axios.post("/update_submit", {
         famno: VIEW_FAM,
-        sts_submit:'FLLD899'
+        sts_submit:CloseStatus
       });
       Swal.fire({
         icon: "success",
         text: "Save ACC close request",
       });
       setOpen(false)
+      window.location.reload();
       // const data = response.data;
       // setdata_fromboi(data[0][0]);
     } catch (error) {
@@ -120,6 +150,8 @@ function FAM_TRANSECTION() {
         setselectradio_record(data[31]);
         setselectradio_acc_manager(data[35]);
         setselectradio_service_close_by(data[39]);
+        setcomment(data[43])
+        console.log(data,"dataมาแล้ว")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -185,7 +217,7 @@ function FAM_TRANSECTION() {
         setselectradio_acc_return(data[4]);
         setchkaction_date(data[7]);
         setselectreturn(data[15])
-        setcomment(data[17])
+        
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -198,6 +230,7 @@ function FAM_TRANSECTION() {
 
         const data = await response.data.flat();
         setDataScrap(data);
+        console.log(data,"data0hk")
       } catch (error) {
         console.error("Error during login:", error);
       }

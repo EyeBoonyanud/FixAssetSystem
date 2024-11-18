@@ -105,7 +105,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
     if (id === "FAM Master List") {
       window.location.href = "/FAMsystem/FAMMaster";
     }
-    if (id === "Close lending by ACC") {
+    if (id === "Close FAM by ACC") {
       window.location.href = "/FAMsystem/CloseACC";
     }
   };
@@ -235,7 +235,7 @@ const SidebarMenu = ({ isOpen, onClose }) => {
               {menudataId.map(
                 (item, index) =>
                   menudataId[index] === menuId[2] &&
-                  (menudata[index].includes("Close lending by ACC") ? (
+                  (menudata[index].includes("Close FAM by ACC") ? (
                     Role === "211" ||
                     level === "GP02007" ||
                     level === "GP02012" ? (

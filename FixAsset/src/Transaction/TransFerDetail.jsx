@@ -1035,35 +1035,48 @@ function TransFerDetail() {
                           </MenuItem>
                         ))}
                       </Select>
-                      <Button
+                     
+                      {/* <Button
                         sx={{ marginLeft: "2%" }}
                         variant="contained"
-                        onClick={calculateReturnDate}
+                        // onClick={calculateReturnDate}
                         disabled={read_dept}
                         size="small"
                       >
                         คำนวณ
-                      </Button>
-                    </td>
-                    <td className="Style5"></td>
+                      </Button> */}
+                    </td><td className="Style5" ></td>
+                    {STS1 !== 'FLLD001' && 
+                    STS1 !== 'FLLD002' &&
+                    STS1 !== 'FLLD003' &&
+                    STS1 !== 'FLLD004' &&
+                    STS1 !== 'FLLD005' &&
+                    STS1 !== 'FLLD006' &&
 
-                    <td className="Style7">
-                      <Typography variant="subtitle2">
-                        Return Period :
-                      </Typography>
-                    </td>
-                    <td>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
-                        value={returnDate[1]}
-                        disabled
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </td>
+                    (
+  <>
+    
+    <td className="Style7">
+      <Typography variant="subtitle2">Return Period :</Typography>
+    </td>
+    <td >
+    <FormHelperText sx={{ color: 'red', fontSize: '0.8rem' }}>
+      *plan return date from factory manager approved
+    </FormHelperText>
+      <TextField
+        fullWidth
+        size="small"
+        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+        value={returnDate[1]}
+        disabled
+        InputProps={{
+          readOnly: true,
+        }}
+      />
+       
+    </td>
+  </>
+                    )}
                   </tr>
                 </table>
               </div>
@@ -9990,6 +10003,37 @@ function TransFerDetail() {
                     </Button>
                   )}
                 </td>
+                <td
+                  style={{
+                    display:
+                      STS1 == "FLLD100" 
+                      ? "block"
+                      : "none",
+                  }}
+                >
+                  {CheckSave == "False" ? (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      onClick={() => (window.location.href = '/FAMsystem/ApproveFam')}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      disabled
+                      onClick={SAVE}
+                    >
+                      Save
+                    </Button>
+                  )}
+                </td>
                 <td>
                   {CheckSubmit == "False" ? (
                     <Button
@@ -9998,6 +10042,7 @@ function TransFerDetail() {
                       color="success"
                       className="Style9"
                       onClick={SUBMIT}
+                      
                     >
                       Submit
                     </Button>
