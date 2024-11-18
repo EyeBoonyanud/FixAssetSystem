@@ -168,7 +168,7 @@ function person_maintain() {
         console.error("Error requesting data:", error);
       }
     } else {
-      // console.log("ไม่มีข้อมูลที่กลับมาค้นหา");
+    
     }
     closePopupLoadding();
   };

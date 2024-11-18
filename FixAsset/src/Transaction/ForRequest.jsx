@@ -148,53 +148,8 @@ function ForRequest() {
     size,handleSizeChange,handleUnitPriceChange,unit_price, handleInvoiceChange,
     invoice,ErrTelReq, ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   } = FAM_GET_REQUEST();
-  // const renderTableCells = (columns) => (
-  //   <>
-  //     {columns.includes("New CC") && <TableCell>New CC</TableCell>}
-  //     {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
-  //     {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
-  //     {columns.includes("Size") && <TableCell>Size</TableCell>}
-  //     {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
-  //     {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
-  //   </>
-  // );
   const Statuss = localStorage.getItem("StatusPage");
-  // const getColumns = (STS1_Req) => {
-  //   switch(STS1_Req) {
-  //     case "FLTR011":
-  //     case "FLTR012":
-  //       return ["New CC", "New BOI Project"];
-  //     case "FLSC009":
-  //     case "FLSL009":
-  //     case "FLSL010":
-  //     case "FLSL011":
-  //     case "FLSL012":
-  //     case "FLSL013":
-  //     case "FLSL014":
-  //     case "FLSL015":
-  //     case "FLSL016":
-  //     case "FLSL017":
-  //     case "FLSL018":
-  //       return ["Weight(kg)", "Size"];
-  //     case "FLSL019":
-  //     case "FLSL020":
-  //     case "FLSL021":
-  //     case "FLSL022":
-  //     case "FLSL023":
-  //       return ["Weight(kg)", "Size", "Invoice No."];
-  //     case "FLSC100":
-  //       return ["Weight(kg)", "Size", "Unit Price(Baht)"];
-  //     case "FLSC101":
-  //     case "FLSC010":
-  //     case "FLSC011":
-  //     case "FLSC012":
-  //       return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
-  //     default:
-  //       return [];
-  //   }
-  // };
   
-  // const columns = getColumns(STS1_Req);
   
   
   return (
@@ -438,63 +393,7 @@ function ForRequest() {
                 </Grid>
 
                 {/* Dept  */}
-                {/* <Grid container spacing={3}>
-                  <Grid xs={1.7}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Dept :
-                    </Typography>
-                  </Grid>
-                 
-                  <Grid xs={3}>
-                    {STS1_Req === "FLTR001" ||
-                    STS1_Req === "FLWO001" ||
-                    STS1_Req === "FLLS001" ||
-                    STS1_Req === "FLDN001" ||
-                    STS1_Req === "FLSL001" ||
-                    STS1_Req === "" ||
-                    STS1_for_R === "R" ||
-                    STS1_Req === "FLSC001" ||
-                    STS1_Req == "FLLD001" ? (
-                      <FormControl fullWidth>
-                      <Autocomplete
-                        disabled={read_dept}
-                        style={{
-                          width: "100%",
-                          backgroundColor: read_dept ? "rgba(169, 169, 169, 0.3)" : "",
-                        }}
-                        value={selectDept1}
-                        onChange={(e, value) => {
-                          setselectDept1(value);
-                          handleDept(value);
-                        }}
-                        options={Dept.map((item) => item)}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Select"
-                            size="small"
-                            sx={{ textAlign: "left" }}
-                            error={ErrDept && !selectDept1}
-                            helperText={ErrDept && !selectDept1 ? 'กรุณาเลือก Dept' : ''}
-                          />
-                        )}
-                      />
-                    </FormControl>
-                    ) : (
-                      <TextField
-                        style={{
-                          backgroundColor: read_dept
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                        }}
-                        className="Style1"
-                        size="small"
-                        disabled
-                        value={For_Rq_Edit[6]}
-                      ></TextField>
-                    )}
-                  </Grid>
-                </Grid> */}
+         
                 {/* Radio Button Type  */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -603,10 +502,7 @@ function ForRequest() {
     </FormControl>
     
                   </Grid>
-                  {/* <Grid xs={0.5}>
-                    <MenuBookIcon  onClick={handleManual}/>
-                    
-                    </Grid> */}
+                  
                       <Grid xs={0.5}>
         <AutoStoriesIcon  onClick={handleManual}  sx={{color:'#B22222',fontSize:'30px'}}/>
       </Grid>
@@ -682,30 +578,7 @@ function ForRequest() {
                     </FormControl>
                   </Grid>
                 </Grid>
-                {/* Request status */}
-                {/* <Grid container spacing={3}>
-                  <Grid xs={1.7}></Grid>
-                  <Grid xs={3}></Grid>
-                  <Grid xs={2}>
-                    <Typography style={{ width: "100%", textAlign: "right" }}>
-                      Request Status :
-                    </Typography>
-                  </Grid>
-                  <Grid xs={3}>
-                    <TextField
-                      size="small"
-                      style={{
-                        width: "100%",
-                        backgroundColor: "rgba(169, 169, 169, 0.3)",
-                      }}
-                      // value={status}
-                      disabled
-                      value={Request_sts1}
-                      onChange={(e) => setRequest_sts1(e.target.value)}
-                    ></TextField>
-                  </Grid>
-                </Grid> */}
-                {/* Remark */}
+           
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
@@ -884,27 +757,7 @@ function ForRequest() {
                       Fixed Assets Code : {find_fixasset1}
                     </DialogTitle>
                     <TableContainer component={Paper}>
-                      {/* {find_fixasset.map((item, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                             
-                              <TableCell>
-                                <Checkbox
-                                  checked={selectedItems[index] || false}
-                                  onChange={() => handleCheckboxChange(index)}
-                                />
-                              </TableCell>
-                              <TableCell>{item[1]}</TableCell>
-                              <TableCell>{item[2]}</TableCell>
-                              <TableCell>{item[3]}</TableCell>
-                            </TableRow>
-                          ))} */}
+                     
                       <Table className="Modal-Table">
                         <TableHead>
                           <TableRow>
@@ -1063,64 +916,7 @@ function ForRequest() {
                   {typeof item[9] === "number" ? item[9].toLocaleString() : item[9]}
                 </TableCell>
                 <TableCell>{item[10]}</TableCell>
-                {/* {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
-                  <>
-                    <TableCell>{item[11]}</TableCell>
-                    <TableCell>{item[12]}</TableCell>
-                  </>
-                )}
-                {(STS1_Req === "FLSC009" ||STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
-                   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
-                   || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" 
-                ) && ( */}
-  {/* <>
-    <TableCell>
-      <TextField
-        style={{ width: '100px' }}
-        size="small"
-        value={weights[index] || ''}
-        
-        onChange={(e) => handleWeightChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
-          || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
-          || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"        }
-      />
-    
-    </TableCell>
-    <TableCell>
-      <TextField
-        style={{ width: '100px' }}
-        size="small"
-        value={size[index] || ''}
-        onChange={(e) => handleSizeChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012" || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
-          || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"}
-      />
-    </TableCell>
-  </> */}
-{/* )} */}
-                {/* {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
-                  <TableCell>
-                     <TextField
-        style={{ width: '100px' }}
-        size="small"
-        value={unit_price[index] || ''}
-        onChange={(e) => handleUnitPriceChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"}
-      />
-                  </TableCell>
-                )}
-                {(STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011"|| STS1_Req === "FLSC012" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" )&& (
-                  <TableCell>
-                                  <TextField
-        style={{ width: '100px' }}
-        size="small"
-        value={invoice[index] || ''}
-        onChange={(e) => handleInvoiceChange(e, index, EditFam, item[0], item[3])}
-        disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"||STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" }
-      />
-                  </TableCell>
-                )} */}
+               
               </TableRow>
             </React.Fragment>
           ))}
@@ -1143,30 +939,7 @@ function ForRequest() {
                   maximumFractionDigits: 2,
                 })}
             </TableCell>
-            {/* <TableCell style={{ fontWeight: "bold" }}>
-              {datatable
-                .reduce((acc, curr) => acc + parseInt(curr[10]), 0)
-                .toLocaleString("en-US")}
-            </TableCell> */}
-            {/* {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
-              || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
-                   || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"
-            ) && (
-              <TableCell style={{ fontWeight: "bold" }}>
-                {totalWeight.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </TableCell>
-            )} */}
-             {/* {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
-              <TableCell style={{ fontWeight: "bold" }}>
-                {totalSize.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </TableCell>
-            )} */}
+          
           </TableRow>
         </TableBody>
       </Table>
@@ -1251,11 +1024,7 @@ function ForRequest() {
                       style={{ textAlign: "center" }}
                     >
                       <div
-                      // style={{
-                      //   display: "inline-block",
-                      //   marginBottom: "40px",
-                      //   width: "500px",
-                      // }}
+                  
                       >
                         <TableContainer component={Paper}>
                           <Table className="FamFilePopUp">
@@ -1534,11 +1303,6 @@ function ForRequest() {
   ))
 )}
 
-                            {/* <TableRow>
-              <TableCell colSpan={4} style={{ border: "0" }}>
-                
-              </TableCell>
-            </TableRow> */}
                           </TableBody>
                         </Table>
                       </TableContainer>

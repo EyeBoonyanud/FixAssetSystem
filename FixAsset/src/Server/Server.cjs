@@ -275,34 +275,7 @@ app.post("/RequstType",ReportSystem.getRequstType)
 app.post("/FAM_FILE_ATTACH",ReportSystem.getFAM_FILE_ATTACH)
 //Donation 
 app.post("/getFAM_FILE_DATA",ReportSystem.getFAM_FILE_DATA)
-// //Lending
-// app.post("/getFAM_FILE_Req_Return",ReportSystem.getFAM_FILE_Req_Return)
-// //Scrap
-// app.post("/getFAM_FILE_PTE_ENV",ReportSystem.getFAM_FILE_PTE_ENV)
-// app.post("/getFAM_FILE_PLN_Staff",ReportSystem.getFAM_FILE_PLN_Staff)
-// app.post("/getFAM_FILE_Shipping",ReportSystem.getFAM_FILE_Shipping)
-// app.post("/getWeight_Size_Unit_INV",ReportSystem.getWeight_Size_Unit_INV)
-// //Sale
-// app.post("/getFAM_FILE_ENV1_SALE",ReportSystem.getFAM_FILE_ENV1_SALE)
-// app.post("/getFAM_FILE_PLN1_SALE",ReportSystem.getFAM_FILE_PLN1_SALE)
-// app.post("/getFAM_FILE_IMP1_SALE",ReportSystem.getFAM_FILE_IMP1_SALE)
-// app.post("/getFAM_FILE_BOI1_SALE",ReportSystem.getFAM_FILE_BOI1_SALE)
-// app.post("/getFAM_FILE_IMP2_SALE",ReportSystem.getFAM_FILE_IMP2_SALE)
-// app.post("/getFAM_FILE_PLN2_SALE",ReportSystem.getFAM_FILE_PLN2_SALE)
-// app.post("/getFAM_FILE_ENV2_SALE",ReportSystem.getFAM_FILE_ENV2_SALE)
-// app.post("/getFAM_FILE_BOI2_SALE",ReportSystem.getFAM_FILE_BOI2_SALE)
-// app.post("/getFAM_FILE_ENV3_SALE",ReportSystem.getFAM_FILE_ENV3_SALE)
-// app.post("/getFAM_FILE_PLN3_SALE",ReportSystem.getFAM_FILE_PLN3_SALE)
-// app.post("/getFAM_FILE_SHP_CHECK",ReportSystem.getFAM_FILE_SHP_CHECK)
-// app.post("/getFAM_FILE_PLN4_SALE",ReportSystem.getFAM_FILE_PLN4_SALE)
 
-// PDF Fammaster
-// app.post("/getData_Hearder_show_PDF",PDF_Fammaster.getData_Hearder_show_PDF);
-// app.post("/getData_Loop_show_Detail",PDF_Fammaster.getData_Loop_show_Detail);
-// app.post("/getData_show_number_left",PDF_Fammaster.getData_show_number_left);
-// app.post("/getData_show_number_right",PDF_Fammaster.getData_show_number_right);
-// app.post("/SumCost",PDF_Fammaster.SumCost);
-// app.post("/getSum_Data_total",PDF_Fammaster.getSum_Data_total);
 // VIEW Fammaster หลังแก้
 app.post("/getData_Hearder_show_VIEW",VIEW_Fammaster.getData_Hearder_show_VIEW);
 app.post("/getData_Detail_show_VIEW",VIEW_Fammaster.getData_Detail_show_VIEW);
@@ -330,24 +303,13 @@ app.post("/getStatus_Mail",Mail.getStatus_Mail);
 app.post("/get_req_mail",Mail.get_req_mail);
 
 
-// const transporter = nodemailer.createTransport({
-//   service: '',
-//   auth: {
-//     user: 'boonyanuch.phan@gmail.com',
-//     pass: 'vecw nlzo xown vscs',
-//   },
-// });
-// const transporter = nodemailer.createTransport({
-//   host: 'boonyanud.p@th.fujikura.com',
-//   secure: false, // ถ้าไม่ใช้ SSL/TLS
-// });
 const smtpConfig = {
-  host: '10.17.220.200', // แทนที่ด้วยที่อยู่ IP ของเซิร์ฟเวอร์ SMTP
-  port: 25, // แทนที่ด้วยพอร์ตของเซิร์ฟเวอร์ SMTP
-  secure: false, // กำหนดเป็น true หากต้องการใช้ SSL/TLS
+  host: '10.17.220.200', 
+  port: 25, 
+  secure: false, 
   auth: {
-    user: 'FAMsystem@th.fujikura.com', // แทนที่ด้วยที่อยู่อีเมลของคุณ
-    pass: '' // แทนที่ด้วยรหัสผ่านอีเมลของคุณ
+    user: 'FAMsystem@th.fujikura.com', 
+    pass: '' 
   }
 };
 

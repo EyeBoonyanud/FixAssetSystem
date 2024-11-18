@@ -18,10 +18,8 @@ import VIEW_Fammaster from './Monitoring/Fam_Req';
 import Mail from './Mail/Mail'
 import PDF_download from './PDF_fam_master/PDF_design'
 import Close_ACC from './Transaction/Search'
-//import Tran from './Function/Tranfer_fn'
 import axios from "axios";
 
-// process.env.NODE_ENV = 'production';
 const backendURL = "http://10.17.100.183:5001";
 axios.defaults.baseURL = backendURL;
 

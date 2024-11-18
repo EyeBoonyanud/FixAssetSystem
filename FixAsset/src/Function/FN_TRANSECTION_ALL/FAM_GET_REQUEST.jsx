@@ -165,18 +165,6 @@ function FAM_GET_REQUEST() {
     costcenter();
     keep();
     ShowFile();
-    // if (For_Req !== "" && For_Req  !== null){
-    // }else if(EditFam !== "" && EditFam !== null)
-    //   if(For_Rq_Edit !== ""){
-    //     if(For_Rq_Edit[7] == "GP01002" || For_Rq_Edit[7] == "GP01003"){
-    //         fetchWeights(EditFam);
-    //        // fetchSize(EditFam);
-    //         fetchUnitPrice(EditFam);
-    //         fetch_Inv_No(EditFam);
-    //         }
-    //   }
-    
-
     setTimeout(function () {
       closePopupLoadding();
     }, 2000);
@@ -964,101 +952,7 @@ For_Rq_Edit[43]
     }
   };
   const [checkvalue, setcheckvalue] = useState("");
-  // const ADD = async () => {
-  //   openPopupLoadding();
-  //   // let group_fix = "";
-  //   // if (selectFixAssetgroup1.length > 1) {
-  //   //   group_fix = selectFixAssetgroup1.substring(0, 1);
-  //   // } else {
-  //   //   group_fix = selectFixAssetgroup1;
-
-  //   // }
-
-  //   try {
-  //     const response = await axios.post("/find_fix_groub", {
-  //       fac: Factory[1],
-  //       servicedept: selectFixAssetgroup1,
-  //     });
-  //     const data = response.data;
-  //     const validValues = [];
-  //     for (const key in data) {
-  //       if (data.hasOwnProperty(key)) {
-  //         validValues.push(data[key][0]);
-  //       }
-  //     }
-  //     try {
-  //       const response = await axios.post("/getfixcode", {
-  //         Fixcode: find_fixasset1,
-  //         asset_cc: owner_dept,
-  //         fixgroup: validValues,
-  //       });
-
-  //       const data = response.data;
-  //       setfind_fixasset(data);
-  //       setcheckvalue(data[0][5])
-  //       if (checkvalue !== "" && checkvalue !== data[0][5]) {
-  //         alert("ไม่สามารถ แอดได้ เนื่องจากคนละ BoI Project");
-
-  //     }
-
-  //     // ถ้า checkvalue เป็นค่าว่างและ data[0][5] ไม่ว่าง หรือ checkvalue เท่ากับ data[0][5]
-  //     if ((checkvalue === "" && data[0][5] !== "") || checkvalue === data[0][5]) {
-  //         alert("ผ่าน");
-  //         return;
-  //     }  return;
-
-  //       if (data.length > 0) {
-  //         try {
-  //           const response = await axios.post("/fix_code_find", {
-  //             assetcode: find_fixasset1,
-  //           });
-  //           const responseData = response.data;
-  //           setdatafix_for_find(responseData);
-
-  //           if (responseData.length !== data.length) {
-  //             setOpen(true);
-  //           } else if (responseData.length === data.length) {
-  //             const seen = {};
-  //             let uniqueKeys = [];
-  //             responseData.forEach((item) => {
-  //               const key = item[0];
-  //               if (!seen[key]) {
-  //                 seen[key] = true;
-  //                 uniqueKeys.push(key);
-  //               }
-  //             });
-  //             alert(
-  //               "Fixed Asset Code has been implemented:\n" +
-  //                 uniqueKeys.join(", ")
-  //             );
-  //           }
-  //         } catch (error) {
-  //           console.error("Error fetching data:", error);
-  //         }
-  //       } else {
-  //         Swal.fire({
-  //           icon: "error",
-  //           text: "Data is not found",
-  //         });
-  //       }
-  //       try {
-  //         const response = await axios.post("/get_COMP", {
-  //           fam_no: Gen_Fam_No,
-  //         });
-  //         const data = response.data;
-
-  //         set_COMP(data);
-  //       } catch (error) {
-  //         console.error("Error requesting data:", error);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error requesting data:", error);
-  //     }
-  //   } catch (error) {}
-  //   closePopupLoadding();
-
-  //   setSelectAll("");
-  // };
+ 
   const ADD = async () => {
     openPopupLoadding();
 
@@ -1083,34 +977,16 @@ For_Rq_Edit[43]
 
         const data = response.data;
         setfind_fixasset(data);
-        // setcheckvalue(data[0][5]);
-        //   if (datatable.length === 0) {
-
-        // } else {
-        //     // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
-        //     if (datatable[0][5] === data[0][5]) {
-
-        //     } else {
-        //         // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
-        //         alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
-        //         closePopupLoadding();
-        //         return;
-        //     }
-        // }
-
-
-          
+    
         if (data.length > 0) {
           setcheckvalue(data[0][5]);
-       // not sale
+       
           if(Request_type1 !== 'GP01003'){
             if (datatable.length === 0) {
           } else {
-            // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
+          
             if (datatable[0][5] === data[0][5]) {
             } else {
-              // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
-              // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
               Swal.fire({
                 icon: "error",
                 text: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
@@ -1121,17 +997,14 @@ For_Rq_Edit[43]
           }
           }
           if(Request_type1 == 'GP01003'){
-          // Sale
           if (datatable.length === 0) {
 
           } else {
-            // ถ้า datatable ไม่ว่าง และ datatable[0][5] ต้องมีค่าเท่ากับ data[0][5]
             if (datatable[0][5] === 'NON BOI' && data[0][5]=== 'NON BOI') {
               
             }else if(data[0][5] !== 'NON BOI'  && datatable[0][5] === 'NON BOI'){
                  Swal.fire({
                 icon: "error",
-                // text: "ไม่สามารถ ADD ได้ เนื่องจากตัวแรกที่เลือกมี Project เป็น NON BOI",
                 text:'ไม่สามารถ ADD ได้ กรุณาเลือก Project ที่เป็น NON BOI'
               });
                 closePopupLoadding();
@@ -1145,12 +1018,7 @@ For_Rq_Edit[43]
             return;
           }
             else{
-              // ถ้า datatable[0][5] มีค่าไม่ตรงกันกับ data[0][5]
-              // alert("ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project");
-              // Swal.fire({
-              //   icon: "error",
-              //   text: "ไม่สามารถ ADD ได้ เนื่องจากคนละ BOI Project",
-              // });
+        
               
             }
           }}
@@ -1303,8 +1171,6 @@ For_Rq_Edit[43]
           famno: EditFam,
           fixcode: item,
         });
-        //localStorage.removeItem("Edit_Dteail_for_FixedCode");
-        // Fix_Code();
         setlocalTable(newData);
       } catch (error) {
         console.error("Error requesting data:", error);
@@ -1315,9 +1181,7 @@ For_Rq_Edit[43]
           famno: Gen_Fam_No,
           fixcode: item,
         });
-        //localStorage.removeItem("forDetail");
         setlocalTable(newData);
-        //Fix_Code();
       } catch (error) {
         console.error("Error requesting data:", error);
       }
@@ -1347,8 +1211,6 @@ For_Rq_Edit[43]
           val: datatable[i][10],
           by: LocalUserLogin,
         });
-
-       // setvisibityFile("visible");
       } catch (error) {
         console.error("Error during POST request:", error);
       }
@@ -1357,7 +1219,6 @@ For_Rq_Edit[43]
           running_no: Gen_Fam_No,
           from_boi: datatable[i][5],
         });
-       //  setvisibityFile("visible");
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -1861,230 +1722,12 @@ For_Rq_Edit[43]
     });
   };
 
-  // const fetchWeights = async (EditFam) => {
-  //   try {
-  //     const response = await axios.post("/get_weights", {
-  //       famno: EditFam,
-  //     });
-  //     const fetchedWeights = response.data;
-  //     //setWeights(response.data);
-
-  //     const hasNullWeights = fetchedWeights.some(
-  //       (weight) => weight === null || weight[0] === null
-  //     );
-  //     setWeights(fetchedWeights);
-  //     if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
-  //       if (hasNullWeights) {
-  //         // alert("กรุณากรอก Weight");
-  //         await Swal.fire({
-  //           text: 'กรุณากรอก Weight',
-  //           text: 'ที่ตาราง Details',
-  //           icon: 'error',
-  //           confirmButtonText: 'OK'
-  //         });
-  
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching weights:", error);
-  //   }
-  //   try {
-  //     const response = await axios.post("/get_size", {
-  //       famno: EditFam,
-  //     });
-  //     //setsize(response.data);
-  //     const fetchedWeights = response.data;
-  //     //setWeights(response.data);
-  //     const hasNullWeights = fetchedWeights.some(
-  //       (weight) => weight === null || weight[0] === null
-  //     );
-  //     setsize(fetchedWeights);
-  //     if (For_Rq_Edit[10] == "FLSC009" || For_Rq_Edit[10] == "FLSL009") {
-  //       if (hasNullWeights) {
-  //         // alert("กรุณากรอก Size");
-  //         await Swal.fire({
-  //           text: 'กรุณากรอก Size',
-  //           text: 'ที่ตาราง Details',
-  //           icon: 'error',
-  //           confirmButtonText: 'OK'
-  //         });
-  
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching weights:", error);
-  //   }
-  // };
-  // const fetchSize = async (EditFam) => {
  
-  // };
-  // const fetchUnitPrice = async (EditFam) => {
-  //   try {
-  //     const response = await axios.post("/get_unitprice", {
-  //       famno: EditFam,
-  //     });
-  //     const fetchedWeights = response.data;
-  //     //setWeights(response.data);
-  //     const hasNullWeights = fetchedWeights.some(
-  //       (weight) => weight === null || weight[0] === null
-  //     );
-  //     setunit_price(fetchedWeights);
-  //     if (For_Rq_Edit[10] == "FLSC100") {
-  //       if (hasNullWeights) {
-  //         // alert("กรุณากรอก Unit Price");
-  //         await Swal.fire({
-  //           text: 'กรุณากรอก Unit Price',
-  //           text: 'ที่ตาราง Details',
-  //           icon: 'error',
-  //           confirmButtonText: 'OK'
-  //         });
-  //       }
-  //     }
-  //     //setunit_price(response.data);
-  //   } catch (error) {
-  //     console.error("Error Unit Price", error);
-  //   }
-  // };
-  // const fetch_Inv_No = async (EditFam) => {
-  //   try {
-  //     const response = await axios.post("/get_inv_no", {
-  //       famno: EditFam,
-  //     });
-  //     const fetchedWeights = response.data;
-  //     //setWeights(response.data);
-  //     const hasNullWeights = fetchedWeights.some(
-  //       (weight) => weight === null || weight[0] === null
-  //     );
-  //     setinvoice(fetchedWeights);
-  //     if (For_Rq_Edit[10] == "FLSC101" || For_Rq_Edit[10] == "FLSL019") {
-  //       if (hasNullWeights) {
-  //         // alert("กรุณากรอก Invoice No.");
-  //         await Swal.fire({
-  //           text: 'กรุณากรอก Invoice No.',
-  //           text: 'ที่ตาราง Details',
-  //           icon: 'error',
-  //           confirmButtonText: 'OK'
-  //         });
-  //       }
-  //     }
-  //     //setinvoice(response.data);
-  //   } catch (error) {
-  //     console.error("Error Unit Price", error);
-  //   }
-  // };
-  // const [weights, setWeights] = useState({});
-  // const [size, setsize] = useState({});
-  // const [unit_price, setunit_price] = useState({});
-  // const [invoice, setinvoice] = useState({});
-
-  // const handleWeightChange = async (e, index, Famno, Idfix, namefix) => {
-  //   const { value } = e.target;
- 
-
-  //   setWeights((prevWeights) => ({
-  //     ...prevWeights,
-  //     [index]: value,
-  //   }));
-  //   try {
-  //     const response = await axios.post("/insert_weight", {
-  //       famno: Famno,
-  //       idfix_asset: Idfix,
-  //       namefixasset: namefix,
-  //       weight_fix: value,
-  //     });
-  //     if (response.status === 500) {
-  //       alert("กรุณากรอกตัวเลข");
-  //       return;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during weight update:", error);
-  //     if (error.response && error.response.status === 500) {
-  //       alert("กรุณากรอกตัวเลข");
-  //     }
-  //   }
-  // };
-  // const totalWeight = Object.values(weights).reduce(
-  //   (acc, curr) => acc + parseFloat(curr),
-  //   0
-  // );
-
-  // const handleSizeChange = async (e, index, Famno, Idfix, namefix) => {
-  //   const { value } = e.target;
-  //   setsize((prevSize) => ({
-  //     ...prevSize,
-  //     [index]: value,
-  //   }));
-  //   try {
-  //     const response = await axios.post("/insert_size", {
-  //       famno: Famno,
-  //       idfix_asset: Idfix,
-  //       namefixasset: namefix,
-  //       size_fix: value,
-  //     });
-
-  //     if (response.status === 500) {
-  //       alert("กรุณากรอกตัวเลข");
-  //       return;
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during size update:", error);
-  //     if (error.response && error.response.status === 500) {
-  //       alert("กรุณากรอกตัวเลข");
-  //     }
-  //   }
-  // };
-  // const handleUnitPriceChange = async (e, index, Famno, Idfix, namefix) => {
-  //   const { value } = e.target;
-  //   setunit_price((prevUnit) => ({
-  //     ...prevUnit,
-  //     [index]: value,
-  //   }));
-
-  //   try {
-  //     await axios.post("/insert_unit_price", {
-  //       famno: Famno,
-  //       idfix_asset: Idfix,
-  //       namefixasset: namefix,
-  //       unit_pri: value,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error during size update:", error);
-  //   }
-  // };
-
-  // const handleInvoiceChange = async (e, index, Famno, Idfix, namefix) => {
-  //   const { value } = e.target;
-
-  //   setinvoice((prevInvoice) => ({
-  //     ...prevInvoice,
-  //     [index]: value,
-  //   }));
-
-  //   try {
-  //     await axios.post("/insert_invoice", {
-  //       famno: Famno,
-  //       idfix_asset: Idfix,
-  //       namefixasset: namefix,
-  //       invoice_no: value,
-  //     });
-
-  //     // if (response.status === 500) {
-  //     //   alert("กรุณากรอกตัวเลข");
-  //     //   return;
-  //     // }
-  //   } catch (error) {
-  //     console.error("Error during size update:", error);
-  //     // if (error.response && error.response.status === 500) {
-  //     //   alert("กรุณากรอกตัวเลข");
-  //     // }
-  //   }
-  // };
 
   const handleManual = () =>{
     setOpenManual(true)
     
   }
-  // const totalSize = Object.values(size).reduce((acc, curr) => acc + parseFloat(curr), 0);
   
   return {
     EditFam,
@@ -2188,16 +1831,6 @@ For_Rq_Edit[43]
     downloadFile,
     storedFileArray,
     LocalUserLogin,
-    // handleWeightChange,
-    // weights,
-    // totalWeight,
-    // size,
-    // handleSizeChange,
-    // handleUnitPriceChange,
-    // unit_price,
-    // handleInvoiceChange,
-    // invoice,
-    // setinvoice,
     ErrTelReq,
     ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   };

@@ -415,31 +415,9 @@ const {handleChangeRowsPerPage,
                   </TableCell>
                 </TableRow>
               )}
-               {/* {emptyRows_table_report > 0 && (
-                  <TableRow style={{ height: 10 * emptyRows_table_report }}>
-                    <TableCell colSpan={11} />
-                  </TableRow>
-                )} */}
+           
             </TableBody>
-            {/* <TableFooter>
-              {console.log("KKK",rowsPerPage,page)}
-                <TableRow>
-                <TablePagination
-  rowsPerPageOptions={[10, 25, 50]}
-  colSpan={11}
-  // count={TableSearch ? TableSearch.length : 0} // Ensure TableSearch is not undefined and count is set to its length
-  rowsPerPage={rowsPerPage}
-  page={page}
-  SelectProps={{
-    inputProps: { "aria-label": "rows per page" },
-    // native: true,
-  }}
-  onPageChange={handleChangePage}
-  onRowsPerPageChange={handleChangeRowsPerPage}
-/>
-
-                </TableRow>
-              </TableFooter> */}
+          
           </Table>
         </TableContainer>
       </div>

@@ -2642,64 +2642,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  {/* {Showtype == "GP01006" &&
-                    STS1 != "FLLD001" &&
-                    STS1 != "FLLD002" &&
-                    STS1 != "FLLD003" &&
-                    STS1 != "FLLD004" &&
-                    STS1 != "FLLD005" &&
-                    STS1 != "FLLD006" &&
-                    STS1 != "FLLD007" &&
-                    STS1 != "FLLD008" && (
-                      <tr>
-                        <td className="Style4">
-                          <Typography variant="subtitle2">
-                            Return Date:
-                          </Typography>{" "}
-                        </td>
-                        <td>
-                          <FormControl className="Style1">
-                            <TextField
-                              id="Plan_Remove"
-                              size="small"
-                              type="date"
-                              // disabled={read_return_acc_cmmt}
-                              disabled={
-                                selectradio_return_acc === "R" ||
-                                read_return_acc_cmmt == true
-                                  ? true
-                                  : false
-                              }
-                              style={{
-                                backgroundColor:
-                                  selectradio_return_acc === "R"
-                                    ? "rgba(169, 169, 169, 0.3)"
-                                    : read_return_acc_cmmt
-                                    ? "rgba(169, 169, 169, 0.3)"
-                                    : "",
-                                pointerEvents:
-                                  selectradio_return_acc === "R" &&
-                                  read_return_acc_cmmt
-                                    ? "none"
-                                    : "auto",
-                              }}
-                              value={return_date}
-                              error={
-                                ErrorDate_return &&
-                                (!return_date || return_date == "null")
-                              }
-                              onChange={(e) => setreturn_date(e.target.value)}
-                              helperText={
-                                ErrorDate_return &&
-                                (!return_date || return_date == "null")
-                                  ? "กรุณาเลือก Return Date "
-                                  : undefined
-                              }
-                            />
-                          </FormControl>
-                        </td>
-                      </tr>
-                    )} */}
+           
                   <tr style={{ display: CM_return_acc }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -2865,15 +2808,7 @@ function TransFerDetail() {
                             />
                           </RadioGroup>
                         </FormControl>
-                        {/* {selectreturn === "Yes" && (
-                          <Button
-                            sx={{ marginLeft: 2 }}
-                            variant="contained"
-                            onClick={handleAddRow}
-                          >
-                            ADD
-                          </Button>
-                        )} */}
+                       
                       </Box>
                     </td>
                  {selectreturn === "Y" && STS1== 'FLLD100' &&(   <td>  
@@ -2961,174 +2896,8 @@ function TransFerDetail() {
       </Table>
     </TableContainer>
   </div>
-)}
-
-                    
+)}            
                   </tr>  ) : null}
-
-
-                  {/* <tr>
-                    <td className="Style4"></td>
-                    {selectreturn === "Yes" && (
-                      <td>
-                        <div className="Return-Table">
-                          <TableContainer>
-                            <Table sx={{ width: "90%", margin: "10px" }}>
-                              <TableHead className="returntable">
-                                <TableRow>
-                                  <TableCell >Seq</TableCell>
-                <TableCell  colSpan={4}>Return</TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {rows.map((row) => (
-                                <TableRow
-                                key={row.id}
-                                >
-                                  <TableCell >{row.id}</TableCell>
-                                  <TableCell>
-                                  <FormControl variant="outlined" size="small" sx={{ width: 100, marginRight: 1 }}>
-                                  <InputLabel id="month-label">Month</InputLabel>
-                                  <Select
-                                    label="Month"
-                                    value={selectddlperiod}
-                                    onChange={(e) => setselectddlperiod(e.target.value)}
-                                  >
-                                    {monthly.map((option, index) => (
-                                      <MenuItem key={index} value={monthly[index]}>
-                                        {monthly[index]}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                                  </TableCell>
-
-                                  <TableCell>
-                                    <TextField
-                                    label="Year"  
-                                      size="small"
-                                      variant="outlined"
-                                      sx={{ width: 80, marginRight: "5%" }}
-                                      value={updatereturn}
-                                      onChange={(e) =>
-                                        setupdatereturn(e.target.value)
-                                      }
-                                    />
-                                  </TableCell>
-                                 
-                                  <TableCell>
-                                    <Button
-                                      variant="contained"
-                                      onClick={calculateUpdate}
-                                    >
-                                      คำนวณ
-                                    </Button>
-                                  </TableCell>
-                                  <TableCell>
-                                    <TextField
-                                      fullWidth
-                                      size="small"
-                                      sx={{
-                                        backgroundColor:
-                                          "rgba(169, 169, 169, 0.3)",
-                                      }}
-                                      value={showreturnupdate}
-                                      disabled
-                                      InputProps={{
-                                        readOnly: true,
-                                      }}
-                                    />
-                                  </TableCell>
-                                </TableRow>
-                                 ))} 
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                          <div
-                            style={{
-                              position: "relative",
-                              width: "100%",
-                              marginBottom: "40px",
-                              marginTop: "10px",
-                            }}
-                          >
-                            <Button
-                              variant="contained"
-                              style={{
-                                position: "absolute",
-                                right: 0,
-                              }}
-                              onClick={handleSaveReturn}
-                            >
-                              SAVE
-                            </Button>
-                          </div>
-                          <br></br>
-                          <TableContainer component={Paper}>
-                        <Table className="FamFilePopUp">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell></TableCell>
-                              <TableCell>No.</TableCell>
-                              <TableCell>File</TableCell>
-                              <TableCell>View</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {showfile_owner_return.length === 0 ? (
-                              <TableRow>
-                                <TableCell colSpan={4} style={{ textAlign: "center" }}>
-                                  <Empty />
-                                </TableCell>
-                              </TableRow>
-                            ) : (
-                              showfile_owner_return.map((option, index) => (
-                                <TableRow key={index}>
-                                  <TableCell>
-                                    {STS1 === "FLLD100" && (
-                                      <DeleteOutlined
-                                        onClick={() =>
-                                          handleDL_File_Owner(
-                                            showfile_owner_return[index][0],
-                                            showfile_owner_return[index][3],
-                                            showfile_owner_return[index][4]
-                                          )
-                                        }
-                                        className="Icon_DeleteFile"
-                                      />
-                                    )}
-                                  </TableCell>
-                                  <TableCell>{showfile_owner_return[index][2]}</TableCell>
-                                  <TableCell>{showfile_owner_return[index][3]}</TableCell>
-                                  <TableCell
-                                    style={{
-                                      textAlign: "center",
-                                      color: "blue",
-                                      textDecoration: "underline",
-                                    }}
-                                  >
-                                    <PlagiarismIcon
-                                      style={{
-                                        cursor: "pointer",
-                                        fontSize: "30px",
-                                      }}
-                                      onClick={() => downloadFile(showfile_owner_return[index][4])}
-                                    >
-                                      {showfile_owner_return[index][3]}
-                                    </PlagiarismIcon>
-                                  </TableCell>
-                                </TableRow>
-                              ))
-                            )}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      
-                        </div>
-                      </td>
-                    )}
-                  </tr> */}
-
                   {(Showtype === "GP01006" &&
                     STS1 !== "FLLD001" &&
                     STS1 !== "FLLD002" &&
@@ -8041,40 +7810,7 @@ function TransFerDetail() {
                     </td>
                   </tr>
 
-                  {/* <tr style={{ display: CM_pte_upload_file }}>
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                        Contact date :
-                      </Typography>{" "}
-                    </td>
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          size="small"
-                          type="date"
-                          disabled={read_pte_upload_file_cmmt}
-                          style={{
-                            backgroundColor: read_pte_upload_file_cmmt
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
-                            width: "68%",
-                          }}
-                          value={contact_date_pte}
-                          error={
-                            Errorcontact_date_pte &&
-                            (!contact_date_pte || contact_date_pte == "null")
-                          }
-                          onChange={(e) => setcontact_date_pte(e.target.value)}
-                          helperText={
-                            Errorcontact_date_pte &&
-                            (!contact_date_pte || contact_date_pte == "null")
-                              ? "กรุณาเลือก Contact date PTE (ENV) upload file after BOI make export clearance"
-                              : undefined
-                          }
-                        />
-                      </FormControl>
-                    </td>
-                  </tr> */}
+                
                   <tr style={{ display: CM_pte_upload_file }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>

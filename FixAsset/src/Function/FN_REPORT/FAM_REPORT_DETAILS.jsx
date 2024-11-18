@@ -123,7 +123,7 @@ function FAM_REPORT_DETAILS( ) {
                   var sumAcqCost = 0;
                   var sumBookvalue = 0;
                 }
-                // var numericValue = data[i][13].replace(/,/g, "");
+               
                 var numericValue = data[i][13] ? data[i][13].replace(/,/g, "") : "";
                 sumAcqCost += parseFloat(numericValue);
                 sumBookvalue = sumBookvalue + data[i][14];
@@ -197,13 +197,13 @@ function FAM_REPORT_DETAILS( ) {
   const sortedTableFirst = Object.keys(TableSearch).flatMap((famno) => {
     const famnoRows = TableSearch[famno];
 
-    // คำนวณผลรวมของ row[18] สำหรับ summaryRow
+ 
     const sumRow18 = famnoRows.reduce((sum, row) => row[21], 0);
     const sumRow19 = famnoRows.reduce((sum, row) => row[19], 0);
 
     const summaryRow = [
-      "", // คุณสามารถปรับแต่ง Label ของ summary row ตามต้องการ
-      "", // ช่องว่างสำหรับคอลัมน์อื่น ๆ ปรับแต่งตามต้องการ
+      "", 
+      "", 
       "",
       "",
       "",
@@ -245,7 +245,7 @@ function FAM_REPORT_DETAILS( ) {
       row[17],
     ]);
 
-    // เพิ่ม summary row ไปที่ท้ายของทุกกลุ่ม
+  
     return [...rowsWithSummary, summaryRow];
   });
 

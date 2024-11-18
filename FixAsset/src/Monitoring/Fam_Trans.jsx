@@ -1752,33 +1752,7 @@ function TransFerDetail() {
                       </td>
                     </tr>
 
-                    {/* <tr
-                      style={{
-                        display:
-                        DataLending[2] === null || DataLending[2] === ""
-                            ? "none"
-                            : "table-row",
-                      }}
-                    >
-                      <td className="Style4">
-                        <Typography variant="subtitle2">
-                          Return Date:
-                        </Typography>{" "}
-                      </td>
-                      <td>
-                        <FormControl className="Style1">
-                          <TextField
-                            disabled
-                            size="small"
-                            value={DataLending[9]}
-                            style={{
-                              backgroundColor: "rgba(169, 169, 169, 0.3)",
-                            }}
-                          />
-                        </FormControl>
-                      </td>
-                    </tr> */}
-{console.log(DataLending[2],"DataLending[2]")}
+                 
                     <tr
                       style={{
                         display:
@@ -2297,23 +2271,7 @@ function TransFerDetail() {
                               : "table-row",
                         }}
                       >
-                        {/* <td className="Style4">
-                      <Typography variant="subtitle2">
-                       Contact Date:
-                      </Typography>{" "}
-                    </td> */}
-                        {/* <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          disabled
-                          size="small"
-                          value={DataScrap[11]}
-                          style={{
-                            backgroundColor: "rgba(169, 169, 169, 0.3)",
-                          }}
-                        />
-                      </FormControl>
-                    </td> */}
+                       
                       </tr>
                       <tr
                         style={{

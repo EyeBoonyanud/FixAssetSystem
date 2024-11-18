@@ -10239,7 +10239,6 @@ Swal.fire({
               console.error("Error updating submit status:", error.message);
             }
             if(Edit_For_Lending.length > 0){
-              console.log(Edit_For_Lending,"Edit_For_Lending")
                 try {
               const response = await axios.post("/update_lending", {
                 tranfer: For_Rq_Edit[0],
@@ -10658,8 +10657,6 @@ Swal.fire({
             }
           } else if (For_Rq_Edit[10] === "FLLD006") {
             const returnDate = await calculateReturnDate();
-            console.log("ค่าที่กลับมา",returnDate[0])
-            // console.log("มาจ้าาาา",returnDate)
             let Status = "";
             if (selectradio_facmanager == "A") {
               Status = "FLLD007";
@@ -16585,72 +16582,28 @@ Swal.fire({
       const Monthly = await response.data;
       setmonthly(Monthly);
       if (EditFam != null) {
-      //   if (For_edit_trans != null){
-      //     setborrow_name(Edit_For_Lending[0][10])
-      //     settextperiod(Edit_For_Lending[0][11])
-      //     setselectddlperiod(Edit_For_Lending[0][12]);
-      //     setReturnDate(Edit_For_Lending[0][13])}
-      // } else {
-      //   if (For_Leading_New != null) {
-      //     console.log(For_Leading_New,"For_Leading_New")
-      //     setborrow_name(For_Leading_New[2]);
-      //     settextperiod(For_Leading_New[3]);
-      //     setselectddlperiod(For_Leading_New[4]);
-      //     setReturnDate(For_Leading_New[5])
-      //   } else {
-      //     setselectddlperiod("");
-      //   }
+     
       }
     } catch (error) {
       console.error("Error during login:", error);
     }
 
   };
-// {console.log("DATE",selectddlperiod,textperiod)}
-  //Update for borrowby
-  // const calculateReturnDate = () => {
-  //   let text=''
-  //   let value=''
-  //   const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
-    
-  //   // Check whether the unit is "Year" or "Month"
-  //   if (selectddlperiod === "GP05002") {
-  //     newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); // Add years
-  //   } else if (selectddlperiod === "GP05001") {
-  //     newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); // Add months
-  //   }
 
-  //   // Get the month names for display
-  //   const monthNames = [
-  //     "01/", "02/", "03/", "04/", "05/", "06/", 
-  //     "07/", "08/", "09/", "10/", "11/", "12/"
-  //   ];
-  //   const monthNames2 = [
-  //     "January  ", "February  ", "March  ", "April  ", "May  ", "June  ", 
-  //     "July  ", "August  ", "September  ", "October  ", "November  ", "December  "
-  //   ];
-    
-  //   value=`${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`
-  //   text=`${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`
-  //   // Set the calculated return date (e.g., "March 2024" or "January 2026")
-  //   setReturnDate([value,text]);
-  // };
   const calculateReturnDate = async () => {
-    console.log("มาแล้วจ้า")
     let text = '';
     let value = '';
-    const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
+    const newDate = new Date(issueDate); 
   
-    // Check whether the unit is "Year" or "Month"
     if (selectddlperiod === "GP05002") {
-      // If the unit is "Year" (GP05002), add the years
+     
       newDate.setFullYear(newDate.getFullYear() + parseInt(textperiod)); 
     } else if (selectddlperiod === "GP05001") {
-      // If the unit is "Month" (GP05001), add the months
+    
       newDate.setMonth(newDate.getMonth() + parseInt(textperiod)); 
     }
   
-    // Get the month names for display
+ 
     const monthNames = [
       "01/", "02/", "03/", "04/", "05/", "06/", 
       "07/", "08/", "09/", "10/", "11/", "12/"
@@ -16660,18 +16613,17 @@ Swal.fire({
       "July  ", "August  ", "September  ", "October  ", "November  ", "December  "
     ];
   
-    // Format the return date as 'MM/YYYY' and 'Month YYYY'
+   
     value = `${monthNames[newDate.getMonth()]}${newDate.getFullYear()}`;
     text = `${monthNames2[newDate.getMonth()]}${newDate.getFullYear()}`;
   
-    // Set the calculated return date (e.g., "March 2024" or "January 2026")
+   
     setReturnDate([value, text]);
-    // console.log(returnDate,"returndate")
-    // await SUBMIT();
+   
     return [value, text];
   };
   
-  //////////////////////////////////////////
+
   const calculateUpdate = () => {
     const newDate = new Date(issueDate); // Clone issueDate to avoid direct mutation
     
@@ -16698,7 +16650,7 @@ Swal.fire({
   };
  
   const handleSaveReturn = async() => {
-  // await getMaxReturnDate();
+
   let DateMax =''
   let fisrtReturn =''
   let MonthonlyMax =''
@@ -16706,7 +16658,7 @@ Swal.fire({
     tranfer: EditFam
   }).then((res) => {
     fisrtReturn =res.data[0][0]
-    // setdataresult_return(res.data)
+ 
 }).catch((error) => {
     console.error("Error:", error);
 });
@@ -16717,7 +16669,7 @@ Swal.fire({
     setMaxreturndate(res.data[0][0])
     DateMax =res.data[0][0]
     MonthonlyMax =res.data[0][1]
-    // setdataresult_return(res.data)
+
 }).catch((error) => {
     console.error("Error:", error);
 });
@@ -16749,40 +16701,11 @@ if (selectmonthly[0] === 'JANUARY') {
 } else if (selectmonthly[0] === 'DECEMBER') {
     month = '12';
 } else {
-    month = null; // หรือค่าเริ่มต้นอื่น ๆ ถ้าค่าไม่ตรงกับเดือน
+    month = null; 
 }
-// let newData = month+'/'+updatereturn
 let NewMonth=''
 let FisrtMonth =''
-//   if(DateMax !== null){
-//     NewMonth = DateMax.split('/'); 
-//   }else{
-//     NewMonth=DateMax
-//   }
-  
-//   if(updatereturn > NewMonth[1]){
-//     console.log("เข้าจ้าผ่าน",NewMonth[1])
-    
-//     if(month >= NewMonth[0][0]){
-//       try {
-//         await axios.post("/insertReturn", {
-//           tranfer: EditFam,
-//           datereturn: day+'/'+month+'/'+updatereturn,
-//           createby: User,
-//           updateby: User,
-//         });
 
-//       } catch (error) {
-//         console.error("insertReturn", error);
-      
-//         getResult();
-      
-// }
-//     }else{
-//     }
-//   }else{
-//   // return;
-//   }
 if(DateMax !== null){
   NewMonth = DateMax.split('/');
   if((month == NewMonth[0]) && ( updatereturn == NewMonth[1] )){

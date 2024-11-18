@@ -105,11 +105,8 @@ function Issue() {
     handleDateToChange,Type,
     selectReturnTo ,setselectReturnTo,
     selectReturnFrom ,setselectReturnFrom,
-    CloseJob,open,handleClickOpen,handleClose,handleSaveAndClose,commentall,setcommentall,ReturnStatus,
-    selectReturnSts,
-    setselectReturnSts,selectStatusReturn
+    CloseJob,open,handleClickOpen,handleClose,handleSaveAndClose,commentall,setcommentall,
   } = FAM_SEARCH();
-console.log(Path,'Path')
   return (
     <>
       <Header />
@@ -246,129 +243,11 @@ console.log(Path,'Path')
                 </TableCell>
               </TableRow>
               <TableRow>
-                {/* <TableCell style={{ border: "0" }}>
-                  <FormControl
-                    sx={{ width: 200 }}
-                    style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "block"
-                          : "none",
-                    }}
-                  > */}
-                    {/* <Autocomplete
-                      value={selectdept}
-                      onChange={(e, value) => setselectdept(value)}
-                      options={dept.map((item) => item[0])}
-                      noOptionsText="กรุณาเลือก Factory"
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Dept :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    /> */}
-                  {/* </FormControl> */}
-                  {/* <FormControl
-                    sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
-                  > */}
-                    {/* <Autocomplete
-                      multiple
-                      value={selectdeptMul}
-                      onChange={(e, value) => setselectdeptMul(value)}
-                      options={dept.map((item) => item[0])}
-                      noOptionsText="กรุณาเลือก Factory"
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Dept :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    /> */}
-                  {/* </FormControl>
-                </TableCell> */}
-                {/* <TableCell style={{ border: 0 }}> */}
-                  {/* <FormControl
-                    sx={{ width: 200 }}
-                    style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "block"
-                          : "none",
-                    }}
-                  >
-                    <Autocomplete
-                      value={selectcost}
-                      onChange={(e, value) => setselectcost(value)}
-                      options={getCostCenter.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Cost Center :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                
-                  <FormControl
-                    sx={{ width: 200 }}
-                    style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "none"
-                          : "",
-                    }}
-                  >
-                    <Autocomplete
-                      multiple
-                      value={selectCostCenter}
-                      onChange={(e, value) => setselectCostCenter(value)}
-                      options={getCostCenter.map((item) => item[0])}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Cost Center :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl> */}
-                {/* </TableCell> */}
+              
               </TableRow>
          
               <TableRow   >
-                {/* <TableCell style={{ border: 0 }}>
-               
-                  <Typography color={"gray"} style={{ fontSize: "14px" }}>
-                    Date From :{" "}
-                  </Typography>
-                  <DatePicker
-                    size="small"
-                    fullWidth
-                    format="DD/MM/YYYY"
-                    onChange={handleDateToChange}
-                  />
-                </TableCell>
-                <TableCell style={{ border: 0 }}>
-                
-                  <Typography color={"gray"} style={{ fontSize: "14px" }}>
-                    Date To:{" "}
-                  </Typography>
-                  <DatePicker
-                    size="small"
-                    fullWidth
-                    format="DD/MM/YYYY"
-                    onChange={handleDateChange}
-                  />
-                </TableCell> */}
+           
                  <TableCell style={{ border: 0 }}>
                   <TextField
                     id="Date"
@@ -572,44 +451,7 @@ console.log(Path,'Path')
                 </TableCell>
               </TableRow>
               <TableRow>
-{/*                 
-                <TableCell style={{ border: "0" }}>
-                 
-                  {(Path == 'CLOSEACC' &&
-                  <FormControl
-                    sx={{ width: 200 }}
-                   
-                  >
-                    <Autocomplete
-                      value={selectReturnSts}
-                      // onChange={(e, value) => {
-                      //  setselectReturnSts(value);
-                      //  selectStatusReturn(value.value);
-                      // }}
-                      onChange={(e, value) => {
-                        setselectStatus(value);
-                        selectStatusID(value.value);
-                      }}
-                      options={ReturnStatus.map((item) => ({
-                        label: item[1],
-                        value: item[0],
-                      }))}
-                      getOptionLabel={(option) => option.label}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Status :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                      getOptionSelected={(option, value) =>
-                        value === "" ? false : option.value === value.value
-                      }
-                    
-                    />
-                  </FormControl>)}
-                </TableCell> */}
+
                
               </TableRow>
               
@@ -800,7 +642,6 @@ console.log(Path,'Path')
                         )}
                         {Path === "CLOSEACC" && (
                           <TableCell>
-                            {console.log(item[6],"item[6]")}
                             <Checkbox
                               {...label}
                               onChange={() => CloseJob(item[2])}

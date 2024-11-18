@@ -26,7 +26,6 @@ const CUSR = {
   connectString: "TCIX01",
 };
 
-console.log(AVO,"-------------------- connect secess --------------------")
 
 // getData_Hearder_show_PDF
 module.exports.getData_Hearder_show_PDF = async function (req, res) {

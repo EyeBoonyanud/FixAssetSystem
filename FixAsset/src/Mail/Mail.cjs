@@ -95,25 +95,6 @@ const AVO = {
       res.status(500).json({ error: "An error occurred while sending email" });
     }
   };
-  // module.exports.getStatus = async (req, res) => {
-  //   console.log("sts555555555555555")
-  //   try { 
-  //     const { sts } = req.body;
-
-  //     const connect = await oracledb.getConnection(AVO);
-  //     const query = `
-  //     SELECT FFM_DESC  FROM FAM_FLOW_MASTER WHERE FFM_CODE = '${sts}'
-  //     `;
-  // console.log(query,"data:::::")
-  //     const result = await connect.execute(query);
-    
-  //     connect.release();
-  //     res.status(200).json(result.rows);
-  //   } catch (error) {
-  //     console.error("Error getStatus:", error);
-  //     res.status(500).json({ error: "An error occurred while sending email" });
-  //   }
-  // };
 
   module.exports.getStatus_Mail = async (req, res) => {
     try {

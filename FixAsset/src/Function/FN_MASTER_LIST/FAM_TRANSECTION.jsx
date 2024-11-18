@@ -8,7 +8,6 @@ function FAM_TRANSECTION() {
   const VIEW_FAM = localStorage.getItem("EDIT");
   const VIEW_TYPE = localStorage.getItem("TYPE_flow");
   const User = localStorage.getItem("UserLogin")
-console.log("VIEW_TYPE",VIEW_TYPE)
   // const ข้อมูลได้จาก Database
   const [DataTransferFamno, setDataTransferFamno] = useState([]);
   const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
@@ -58,7 +57,6 @@ console.log("VIEW_TYPE",VIEW_TYPE)
   //Pop up
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
-    console.log("ร้องได้ร้องไปแล้ว")
     setOpen(true);
   };
   const [comment , setcomment]= useState("");
@@ -114,8 +112,6 @@ console.log("VIEW_TYPE",VIEW_TYPE)
       });
       setOpen(false)
       window.location.reload();
-      // const data = response.data;
-      // setdata_fromboi(data[0][0]);
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -151,7 +147,6 @@ console.log("VIEW_TYPE",VIEW_TYPE)
         setselectradio_acc_manager(data[35]);
         setselectradio_service_close_by(data[39]);
         setcomment(data[43])
-        console.log(data,"dataมาแล้ว")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -212,7 +207,6 @@ console.log("VIEW_TYPE",VIEW_TYPE)
         });
 
         const data = await response.data.flat();
-        console.log(data,"data")
         setDataLending(data);
         setselectradio_acc_return(data[4]);
         setchkaction_date(data[7]);
@@ -230,7 +224,6 @@ console.log("VIEW_TYPE",VIEW_TYPE)
 
         const data = await response.data.flat();
         setDataScrap(data);
-        console.log(data,"data0hk")
       } catch (error) {
         console.error("Error during login:", error);
       }

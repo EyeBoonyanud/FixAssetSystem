@@ -173,21 +173,8 @@ function function_homepage() {
           await Sale();
         };
         fetchData();
-        // GetACC();
       }, []); 
-    //   const GetACC = async()  =>{
-    //     console.log(UserLogin,"UserLogin")
-    //     axios.post("/getfor_acc_use", {
-    //       User_login: UserLogin,
-    //            })
-    //            .then((response) => {
-    //              const data = response.data;
-    //              console.log('Response:', data);
-    //            })
-    //            .catch((error) => {
-    //              console.error('Error:', error);
-    //            });
-    //  }
+   
               
     
       const handleClickNextToSearch =  (value, type) => {
