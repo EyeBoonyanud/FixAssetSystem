@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function FAM_TRANSECTION() {
   // const สำหรับ improt function
   // const สำหรับ LocalStorage
   const VIEW_FAM = localStorage.getItem("EDIT");
   const VIEW_TYPE = localStorage.getItem("TYPE_flow");
-
+  const User = localStorage.getItem("UserLogin")
+console.log("VIEW_TYPE",VIEW_TYPE)
   // const ข้อมูลได้จาก Database
   const [DataTransferFamno, setDataTransferFamno] = useState([]);
   const [DataRoutingFamno, setDataRoutingFamno] = useState([]);
@@ -14,6 +16,7 @@ function FAM_TRANSECTION() {
   const [DataLending, setDataLending] = useState([]);
   const [DataScrap ,setDataScrap] = useState([]);
   const [DataSale ,setDataSale] =useState([]);
+  const [DataReturn , setDataReturn]=useState([]);
   // const radio
   const [selectradio_dept, setselectradio_dept] = useState("");
   const [selectradio_serviceby, setselectradio_serviceby] = useState("");
@@ -29,6 +32,8 @@ function FAM_TRANSECTION() {
     useState("");
   const [selectradio_acc_return, setselectradio_acc_return] = useState("");
   const [chkaction_date, setchkaction_date] = useState("");
+  const [selectreturn, setselectreturn] = useState("");
+  
    // const ได้ file จาก database
   const [Filedata, setFiledata] = useState([]);
   const [FiledataReturn, setFiledataReturn] = useState([]);
@@ -49,6 +54,72 @@ function FAM_TRANSECTION() {
   const [Filedataship_staff,setFiledataship_staff] = useState([]);
   const [Filedataupload_final,setFiledataFiledataupload_final] = useState([]);
   
+
+  //Pop up
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    console.log("ร้องได้ร้องไปแล้ว")
+    setOpen(true);
+  };
+  const [comment , setcomment]= useState("");
+
+  const handleClose = () => {
+    if(comment){
+      setOpen(false);
+    }
+    
+  };
+  const handleSubmit = async () => {
+    let CloseStatus;
+    switch (VIEW_TYPE) {
+      case "GP01001":
+        CloseStatus = "FLTR899";
+        break;
+      case "GP01002":
+        CloseStatus = "FLSC899";
+        break;
+      case "GP01003":
+        CloseStatus = "FLSL899";
+        break;
+      case "GP01004":
+        CloseStatus = "FLLS899";
+        break;
+      case "GP01005":
+        CloseStatus = "FLWO899";
+        break;
+      case "GP01006":
+        CloseStatus = "FLLD899";
+        break;
+      case "GP01007":
+        CloseStatus = "FLDN899";
+        break;
+      default:
+        break;
+    }
+
+    try {
+      await axios.post("/update_closejob_lending", {
+        tranfer: VIEW_FAM,
+        userlogin:User,
+        comment_lending: comment,
+      });
+
+      await axios.post("/update_submit", {
+        famno: VIEW_FAM,
+        sts_submit:CloseStatus
+      });
+      Swal.fire({
+        icon: "success",
+        text: "Save ACC close request",
+      });
+      setOpen(false)
+      window.location.reload();
+      // const data = response.data;
+      // setdata_fromboi(data[0][0]);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }
 
   // const Loading 
   const [isPopupOpenLoadding, setPopupOpenLoadding] = useState(false);
@@ -79,6 +150,8 @@ function FAM_TRANSECTION() {
         setselectradio_record(data[31]);
         setselectradio_acc_manager(data[35]);
         setselectradio_service_close_by(data[39]);
+        setcomment(data[43])
+        console.log(data,"dataมาแล้ว")
       } catch (error) {
         console.error("Error RequesterORType:", error);
       }
@@ -131,6 +204,7 @@ function FAM_TRANSECTION() {
         console.error("Error fetching data:", error);
       }
     };
+    
     const fetchData_Leading = async () => {
       try {
         const response = await axios.post("/getEdit_lenging", {
@@ -138,9 +212,12 @@ function FAM_TRANSECTION() {
         });
 
         const data = await response.data.flat();
+        console.log(data,"data")
         setDataLending(data);
         setselectradio_acc_return(data[4]);
         setchkaction_date(data[7]);
+        setselectreturn(data[15])
+        
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -153,6 +230,7 @@ function FAM_TRANSECTION() {
 
         const data = await response.data.flat();
         setDataScrap(data);
+        console.log(data,"data0hk")
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -338,6 +416,14 @@ function FAM_TRANSECTION() {
          console.error("Error fetchData_PLN4_SALE", error);
        }
      };
+     const getResult = async() => {
+      await axios.post("/ShowMonth", {
+        tranfer: VIEW_FAM
+      }).then((res) => {
+        setDataReturn(res.data)
+    }).catch((error) => {
+        console.error("Error:", error);
+    });}
   
   
 
@@ -363,6 +449,7 @@ function FAM_TRANSECTION() {
     fetchData_ENV3_SALE();
     fetchData_PLN3_SALE();
     fetchData_PLN4_SALE();
+    getResult();
     setTimeout(function () {
       closePopupLoadding();
     }, 2000);
@@ -416,6 +503,9 @@ function FAM_TRANSECTION() {
     openPopupLoadding,
     closePopupLoadding,
     BackPage,
+    DataReturn,
+    selectreturn,
+    open,handleClickOpen,handleClose ,comment , setcomment,handleSubmit
   };
 }
 

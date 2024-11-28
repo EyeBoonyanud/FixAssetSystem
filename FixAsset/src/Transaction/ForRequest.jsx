@@ -25,10 +25,12 @@ import {
   InputLabel,
   Autocomplete,
   FormHelperText,
+  DialogContentText,DialogContent 
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 import PlagiarismIcon from "@mui/icons-material/Plagiarism";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Empty } from "antd";
 import "../Page/Style.css";
 import {
@@ -47,6 +49,8 @@ import Header from "../Page/Hearder";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PageLoadding from "../Loadding/Pageload";
 import { FAM_GET_REQUEST } from "../Function/FN_TRANSECTION_ALL/FAM_GET_REQUEST";
+ import imageforshow from "../assets/Image/2.png"
+ import DownloadPDF from "../assets/PDFManual/Manual.png"
 
 
 function ForRequest() {
@@ -142,55 +146,55 @@ function ForRequest() {
     setchecknext,
     fileInputRef,handleWeightChange,weights,totalWeight,
     size,handleSizeChange,handleUnitPriceChange,unit_price, handleInvoiceChange,
-    invoice
+    invoice,ErrTelReq, ErrOwnerID,ErrTelOwner,ErrDept,ErrServiceDept,handleManual,handleCloseManual,openManual,setownercost_dept,ownercost_dept
   } = FAM_GET_REQUEST();
-  const renderTableCells = (columns) => (
-    <>
-      {columns.includes("New CC") && <TableCell>New CC</TableCell>}
-      {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
-      {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
-      {columns.includes("Size") && <TableCell>Size</TableCell>}
-      {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
-      {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
-    </>
-  );
+  // const renderTableCells = (columns) => (
+  //   <>
+  //     {columns.includes("New CC") && <TableCell>New CC</TableCell>}
+  //     {columns.includes("New BOI Project") && <TableCell>New BOI Project</TableCell>}
+  //     {columns.includes("Weight(kg)") && <TableCell>Weight(kg)</TableCell>}
+  //     {columns.includes("Size") && <TableCell>Size</TableCell>}
+  //     {columns.includes("Unit Price(Baht)") && <TableCell>Unit Price(Baht)</TableCell>}
+  //     {columns.includes("Invoice No.") && <TableCell>Invoice No.</TableCell>}
+  //   </>
+  // );
+  const Statuss = localStorage.getItem("StatusPage");
+  // const getColumns = (STS1_Req) => {
+  //   switch(STS1_Req) {
+  //     case "FLTR011":
+  //     case "FLTR012":
+  //       return ["New CC", "New BOI Project"];
+  //     case "FLSC009":
+  //     case "FLSL009":
+  //     case "FLSL010":
+  //     case "FLSL011":
+  //     case "FLSL012":
+  //     case "FLSL013":
+  //     case "FLSL014":
+  //     case "FLSL015":
+  //     case "FLSL016":
+  //     case "FLSL017":
+  //     case "FLSL018":
+  //       return ["Weight(kg)", "Size"];
+  //     case "FLSL019":
+  //     case "FLSL020":
+  //     case "FLSL021":
+  //     case "FLSL022":
+  //     case "FLSL023":
+  //       return ["Weight(kg)", "Size", "Invoice No."];
+  //     case "FLSC100":
+  //       return ["Weight(kg)", "Size", "Unit Price(Baht)"];
+  //     case "FLSC101":
+  //     case "FLSC010":
+  //     case "FLSC011":
+  //     case "FLSC012":
+  //       return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
+  //     default:
+  //       return [];
+  //   }
+  // };
   
-  const getColumns = (STS1_Req) => {
-    switch(STS1_Req) {
-      case "FLTR011":
-      case "FLTR012":
-        return ["New CC", "New BOI Project"];
-      case "FLSC009":
-      case "FLSL009":
-      case "FLSL010":
-      case "FLSL011":
-      case "FLSL012":
-      case "FLSL013":
-      case "FLSL014":
-      case "FLSL015":
-      case "FLSL016":
-      case "FLSL017":
-      case "FLSL018":
-        return ["Weight(kg)", "Size"];
-      case "FLSL019":
-      case "FLSL020":
-      case "FLSL021":
-      case "FLSL022":
-      case "FLSL023":
-        return ["Weight(kg)", "Size", "Invoice No."];
-      case "FLSC100":
-        return ["Weight(kg)", "Size", "Unit Price(Baht)"];
-      case "FLSC101":
-      case "FLSC010":
-      case "FLSC011":
-      case "FLSC012":
-        return ["Weight(kg)", "Size", "Unit Price(Baht)", "Invoice No."];
-      default:
-        return [];
-    }
-  };
-  
-  const columns = getColumns(STS1_Req);
+  // const columns = getColumns(STS1_Req);
   
   
   return (
@@ -198,7 +202,10 @@ function ForRequest() {
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
+      <div className="pageshow-style">
+  <Typography sx={{fontSize:'20px',fontWeight:'bold'}} >{Statuss}</Typography>
 
+</div>
       <div className="Box-Insert">
         {/* สำหรับ Gen Fam no */}
         <div className="Insert">
@@ -309,22 +316,9 @@ function ForRequest() {
                       id="Txt_Tel"
                       value={Tel1}
                       onChange={handleTel}
-                      error={
-                        (Gen_Fam_No || EditFam) &&
-                        (Tel1 === "" || Tel1 === undefined || Tel1 === null)
-                      }
-                      FormHelperTextProps={{
-                        error:
-                          (Gen_Fam_No || EditFam) &&
-                          (Tel1 === "" || Tel1 === undefined || Tel1 === null),
-                      }}
+                      error={ErrTelReq && (!Tel1)}
+                      helperText={ErrTelReq && (!Tel1) ? 'กรุณาระบุ Request By Tel' : ''}
                     >
-                      <FormHelperText>
-                        {(Gen_Fam_No || EditFam) &&
-                        (Tel1 === "" || Tel1 === undefined || Tel1 === null)
-                          ? ""
-                          : "Please enter your mobile phone number"}
-                      </FormHelperText>
                     </TextField>
                   </Grid>
                 </Grid>
@@ -339,25 +333,24 @@ function ForRequest() {
                   <Grid xs={3}>
                     <TextField
                       size="small"
-                      disabled={read_tel}
+                      // disabled={read_tel}
+                      disabled={read_fix_group}
                       style={{
                         width: "100%",
-                        backgroundColor: read_tel
+                        backgroundColor: read_fix_group
                           ? "rgba(169, 169, 169, 0.3)"
                           : "",
                       }}
                       id="Txt_user"
                       value={owner_req}
+                     
                       onChange={(e) => {
                         setowner_req(e.target.value);
                         handleEmpUser(e.target.value);
                       }}
-                      error={
-                        (Gen_Fam_No || EditFam) &&
-                        (owner_req === "" ||
-                          owner_req === undefined ||
-                          owner_req === null)
-                      }
+                      error={ErrOwnerID && (!owner_req)}
+                      helperText={ErrOwnerID && (!owner_req) ? 'กรุณาระบุ Owner Id' : ''}
+                      
                     ></TextField>
                   </Grid>
                   <Grid xs={2}>
@@ -374,8 +367,8 @@ function ForRequest() {
                         backgroundColor: "rgba(169, 169, 169, 0.3)",
                       }}
                       disabled
-                      value={owner_dept}
-                      onChange={(e) => setowner_dept(e.target.value)}
+                      value={ownercost_dept}
+                      onChange={(e) => setownercost_dept(e.target.value)}
                     />
                   </Grid>
                 </Grid>
@@ -417,12 +410,8 @@ function ForRequest() {
                       disabled={read_tel}
                       value={owner_tel}
                       onChange={handleOwner_tel}
-                      error={
-                        (Gen_Fam_No || EditFam) &&
-                        (owner_tel === "" ||
-                          owner_tel === undefined ||
-                          owner_tel === null)
-                      }
+                      error={ErrTelOwner && (!owner_tel)}
+                      helperText={ErrTelOwner && (!owner_tel) ? 'กรุณาระบุ Owner Tel' : ''}
                     />
                   </Grid>
                 </Grid>
@@ -449,7 +438,7 @@ function ForRequest() {
                 </Grid>
 
                 {/* Dept  */}
-                <Grid container spacing={3}>
+                {/* <Grid container spacing={3}>
                   <Grid xs={1.7}>
                     <Typography style={{ width: "100%", textAlign: "right" }}>
                       Dept :
@@ -467,36 +456,30 @@ function ForRequest() {
                     STS1_Req === "FLSC001" ||
                     STS1_Req == "FLLD001" ? (
                       <FormControl fullWidth>
-                        <Autocomplete
-                          disabled={read_dept}
-                          style={{
-                            width: "100%",
-                            backgroundColor: read_dept
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
-                          }}
-                          error={
-                            (Gen_Fam_No || EditFam) &&
-                            (selectDept1 === "" ||
-                              selectDept1 === undefined ||
-                              selectDept1 === null)
-                          }
-                          value={selectDept1}
-                          onChange={(e, value) => {
-                            setselectDept1(value);
-                            handleDept(value);
-                          }}
-                          options={Dept.map((item) => item)}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              label="Select"
-                              size="small"
-                              sx={{ textAlign: "left" }}
-                            />
-                          )}
-                        />
-                      </FormControl>
+                      <Autocomplete
+                        disabled={read_dept}
+                        style={{
+                          width: "100%",
+                          backgroundColor: read_dept ? "rgba(169, 169, 169, 0.3)" : "",
+                        }}
+                        value={selectDept1}
+                        onChange={(e, value) => {
+                          setselectDept1(value);
+                          handleDept(value);
+                        }}
+                        options={Dept.map((item) => item)}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Select"
+                            size="small"
+                            sx={{ textAlign: "left" }}
+                            error={ErrDept && !selectDept1}
+                            helperText={ErrDept && !selectDept1 ? 'กรุณาเลือก Dept' : ''}
+                          />
+                        )}
+                      />
+                    </FormControl>
                     ) : (
                       <TextField
                         style={{
@@ -511,7 +494,7 @@ function ForRequest() {
                       ></TextField>
                     )}
                   </Grid>
-                </Grid>
+                </Grid> */}
                 {/* Radio Button Type  */}
                 <Grid container spacing={3}>
                   <Grid xs={1.7}>
@@ -590,34 +573,71 @@ function ForRequest() {
                       Service Dept:
                     </Typography>
                   </Grid>
-                  <Grid xs={3}>
-                    <FormControl fullWidth>
-                      <InputLabel size="small" id="demo-simple-select-label">
-                        Select
-                      </InputLabel>
-                      <Select
-                        label="Select"
-                        id="SL_AssetGroup"
-                        size="small"
-                        value={selectFixAssetgroup1}
-                        onChange={(e) =>
-                          setselectFixAssetgroup1(e.target.value)
-                        }
-                        style={{
-                          backgroundColor: read_fix_group
-                            ? "rgba(169, 169, 169, 0.3)"
-                            : "",
-                        }}
-                        disabled={read_fix_group}
-                      >
-                        {FixAssetgroup.map((option, index) => (
-                          <MenuItem key={index} value={FixAssetgroup[index][0]}>
-                            {FixAssetgroup[index][1]}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                  <Grid xs={2.5}>
+                  <FormControl fullWidth error={ErrServiceDept && !selectFixAssetgroup1}>
+      <InputLabel size="small" id="demo-simple-select-label">
+        Select
+      </InputLabel>
+      <Select
+        label="Select"
+        id="SL_AssetGroup"
+        size="small"
+        value={selectFixAssetgroup1}
+        onChange={(e) => setselectFixAssetgroup1(e.target.value)}
+        style={{
+          backgroundColor: read_fix_group ? "rgba(169, 169, 169, 0.3)" : "",
+         
+        }}
+        disabled={read_fix_group}
+      >
+        {FixAssetgroup.map((option, index) => (
+          <MenuItem key={index} value={FixAssetgroup[index][0]}>
+            {FixAssetgroup[index][1]}
+          </MenuItem>
+        ))}
+      </Select> 
+      {ErrServiceDept && !selectFixAssetgroup1 && (
+        <FormHelperText>กรุณาเลือก Service Dept</FormHelperText>
+      )}
+     
+    </FormControl>
+    
                   </Grid>
+                  {/* <Grid xs={0.5}>
+                    <MenuBookIcon  onClick={handleManual}/>
+                    
+                    </Grid> */}
+                      <Grid xs={0.5}>
+        <AutoStoriesIcon  onClick={handleManual}  sx={{color:'#B22222',fontSize:'30px'}}/>
+      </Grid>
+
+      <Dialog 
+       maxWidth="lg"
+       fullWidth
+       style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+       open={openManual} onClose={handleCloseManual}>
+        <DialogTitle > <Typography variant="h6" component="div" style={{ fontWeight: 'bold' }}>
+            คู่มือ Service Dept
+          </Typography></DialogTitle>
+    
+          <DialogContentText>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <img  src={DownloadPDF} alt="My Image" style={{ width: '80%' }} />
+          </div>
+          </DialogContentText>
+   
+        <DialogActions>
+          <Button   variant="contained"  onClick={handleCloseManual} color="error">
+           close
+          </Button>
+         
+        </DialogActions>
+      </Dialog>
+                 
                   <Grid xs={2}>
                     <Typography
                       style={{
@@ -994,7 +1014,7 @@ function ForRequest() {
             <TableCell>Invoice No.</TableCell>
             <TableCell>Acquisition Cost(Baht)</TableCell>
             <TableCell>Book Value(Baht)</TableCell>
-            {renderTableCells(columns)}
+            {/* {renderTableCells(columns)} */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -1043,7 +1063,7 @@ function ForRequest() {
                   {typeof item[9] === "number" ? item[9].toLocaleString() : item[9]}
                 </TableCell>
                 <TableCell>{item[10]}</TableCell>
-                {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
+                {/* {(STS1_Req === "FLTR011" || STS1_Req === "FLTR012") && (
                   <>
                     <TableCell>{item[11]}</TableCell>
                     <TableCell>{item[12]}</TableCell>
@@ -1052,8 +1072,8 @@ function ForRequest() {
                 {(STS1_Req === "FLSC009" ||STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"|| STS1_Req === "FLSC011" || STS1_Req === "FLSC012"
                    || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
                    || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" 
-                ) && (
-  <>
+                ) && ( */}
+  {/* <>
     <TableCell>
       <TextField
         style={{ width: '100px' }}
@@ -1077,9 +1097,9 @@ function ForRequest() {
           || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"}
       />
     </TableCell>
-  </>
-)}
-                {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
+  </> */}
+{/* )} */}
+                {/* {(STS1_Req === "FLSC100" || STS1_Req === "FLSC101"|| STS1_Req === "FLSC010" || STS1_Req === "FLSC011" || STS1_Req === "FLSC012")&& (
                   <TableCell>
                      <TextField
         style={{ width: '100px' }}
@@ -1100,7 +1120,7 @@ function ForRequest() {
         disabled={STS1_Req === "FLSC010"|| STS1_Req === "FLSC011"|| STS1_Req === "FLSC012"||STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023" }
       />
                   </TableCell>
-                )}
+                )} */}
               </TableRow>
             </React.Fragment>
           ))}
@@ -1115,7 +1135,7 @@ function ForRequest() {
             <TableCell style={{ fontWeight: "bold" }}>
               Total
             </TableCell>
-            <TableCell style={{ fontWeight: "bold" }}>
+            <TableCell style={{ fontWeight: "bold" ,textAlign:'center'}}>
               {datatable
                 .reduce((acc, curr) => acc + parseFloat(curr[9]), 0)
                 .toLocaleString("en-US", {
@@ -1123,12 +1143,12 @@ function ForRequest() {
                   maximumFractionDigits: 2,
                 })}
             </TableCell>
-            <TableCell style={{ fontWeight: "bold" }}>
+            {/* <TableCell style={{ fontWeight: "bold" }}>
               {datatable
                 .reduce((acc, curr) => acc + parseInt(curr[10]), 0)
                 .toLocaleString("en-US")}
-            </TableCell>
-            {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
+            </TableCell> */}
+            {/* {(STS1_Req === "FLSC009" || STS1_Req === "FLSL009" || STS1_Req === "FLSC100" || STS1_Req === "FLSC101" || STS1_Req === "FLSC010"
               || STS1_Req === "FLSC011" || STS1_Req === "FLSC012"   || STS1_Req === "FLSL010" || STS1_Req === "FLSL011"|| STS1_Req === "FLSL012"|| STS1_Req === "FLSL013"|| STS1_Req === "FLSL014" || STS1_Req === "FLSL015"
                    || STS1_Req === "FLSL016"|| STS1_Req === "FLSL017" || STS1_Req === "FLSL018" || STS1_Req === "FLSL019" || STS1_Req === "FLSL020" || STS1_Req === "FLSL021" || STS1_Req === "FLSL022" || STS1_Req === "FLSL023"
             ) && (
@@ -1138,15 +1158,15 @@ function ForRequest() {
                   maximumFractionDigits: 2,
                 })}
               </TableCell>
-            )}
-             {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
+            )} */}
+             {/* {(STS1_Req === "FLSC009"|| STS1_Req === "FLSL009" ) && (
               <TableCell style={{ fontWeight: "bold" }}>
-                {/* {totalSize.toLocaleString("en-US", {
+                {totalSize.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })} */}
+                })}
               </TableCell>
-            )}
+            )} */}
           </TableRow>
         </TableBody>
       </Table>
@@ -1467,7 +1487,7 @@ function ForRequest() {
                   <td>
                     <div className="ImageShowFile">
                       <img
-                        src="./src/assets/Image/2.png"
+                        src={imageforshow}
                         style={{ width: "250px" }}
                         alt="Description of your image"
                       />
@@ -1485,28 +1505,35 @@ function ForRequest() {
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {Filedata.map((option, index) => (
-                              <TableRow key={index}>
-                                <TableCell>{Filedata[index][2]}</TableCell>
-                                <TableCell>{Filedata[index][3]}</TableCell>
-                                <TableCell
-                                  style={{
-                                    textAlign: "center",
-                                    color: "blue",
-                                    textDecoration: "underline",
-                                  }}
-                                >
-                                  <p
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() =>
-                                      downloadFile(Filedata[index][4])
-                                    }
-                                  >
-                                    {Filedata[index][3]}
-                                  </p>
-                                </TableCell>
-                              </TableRow>
-                            ))}
+                          {Filedata.length === 0 ? (
+  <TableRow>
+    <TableCell colSpan={4} style={{ textAlign: "center" }}>
+      <Empty />
+    </TableCell>
+  </TableRow>
+) : (
+  Filedata.map((option, index) => (
+    <TableRow key={index}>
+      <TableCell>{Filedata[index][2]}</TableCell>
+      <TableCell>{Filedata[index][3]}</TableCell>
+      <TableCell
+        style={{
+          textAlign: "center",
+          color: "blue",
+          textDecoration: "underline",
+        }}
+      >
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={() => downloadFile(Filedata[index][4])}
+        >
+          {Filedata[index][3]}
+        </p>
+      </TableCell>
+    </TableRow>
+  ))
+)}
+
                             {/* <TableRow>
               <TableCell colSpan={4} style={{ border: "0" }}>
                 

@@ -19,7 +19,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  Paper,
+  Paper,InputLabel 
 } from "@mui/material";
 import Header from "../Page/Hearder";
 import PageLoadding from "../Loadding/Pageload";
@@ -39,6 +39,7 @@ import { FAM_TRANSECTION_TLWLD } from "../Function/FN_TRANSECTION_ALL/FAM_TRANSE
 import { FAM_GET_REQUEST } from "../Function/FN_TRANSECTION_ALL/FAM_GET_REQUEST";
 import { FAM_GET_SHOW_FILE } from "../Function/FN_TRANSECTION_ALL/FAM_GET_SHOW_FILE";
 import "../Page/Style.css";
+import Swal from "sweetalert2";
 
 function TransFerDetail() {
   const {
@@ -472,7 +473,42 @@ function TransFerDetail() {
     setInput_thai_categories,
     Bidding_result,
     setBidding_result,
-    scrap_date , setscrap_date,ErrScp_date,sale_date,setsale_date,ErrSale_date
+    scrap_date,
+    setscrap_date,
+    ErrScp_date,
+    sale_date,
+    setsale_date,
+    ErrSale_date,
+    total_scrap,
+    settotal_scrap,
+    ErrTotalScrap,
+    total_sale,
+    settotal_sale,
+    setErrTotalSale,
+    ErrTotalSale,
+    invoice_no,
+    setinvoice_no,
+    textperiod,
+    settextperiod,
+    ddlperiod,
+    selectddlperiod,
+    setselectddlperiod,
+    borrow_name,
+    setborrow_name,
+    returnDate,
+    setReturnDate,
+    calculateReturnDate,
+    selectreturn,
+    setselectreturn,
+    rows,
+    handleAddRow,
+    updatereturn,
+    setupdatereturn,
+    showreturnupdate,
+    setshowreturnupdate,
+    calculateUpdate,
+    handleSaveReturn,
+    monthly,setmonthly,selectmonthly, setselectmonthly,dataresult_return
   } = FAM_TRANSECTION_TLWLD();
 
   const { fileInputRef, downloadFile } = FAM_GET_REQUEST();
@@ -518,24 +554,36 @@ function TransFerDetail() {
     showfilepln_upload_final,
   } = FAM_GET_SHOW_FILE();
   // Const Return
-  const shouldShowTable = Showtype === "GP01006" && 
-                          !["FLLD001", "FLLD002", "FLLD003", "FLLD004", "FLLD005", "FLLD006", "FLLD007", "FLLD008", "FLLD009"].includes(STS1) && 
-                          For_sts_reject === "R";
+  const Statuss = localStorage.getItem("StatusPage");
+  const shouldShowTable =
+    Showtype === "GP01006" &&
+    ![
+      "FLLD001",
+      "FLLD002",
+      "FLLD003",
+      "FLLD004",
+      "FLLD005",
+      "FLLD006",
+      "FLLD007",
+      "FLLD008",
+      "FLLD009",
+    ].includes(STS1) &&
+    For_sts_reject === "R";
   return (
     <>
       <div style={{ marginTop: "100px" }}>
         <Header />
       </div>
       <PageLoadding isOpen={isPopupOpenLoadding} onClose={closePopupLoadding} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginRight: "40px",
-          fontSize: "15px",
-        }}
-      >
-        <Typography> FAM NO: {EditFam ? EditFam : For_Req[0]}</Typography>
+      <div className="container-pageshow">
+        <div className="pageshow-style1">
+          <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+            {Statuss}
+          </Typography>
+        </div>
+        <div className="flex-end-style">
+          <Typography>FAM NO: {EditFam ? EditFam : For_Req[0]}</Typography>
+        </div>
       </div>
       <br></br>
       <div>
@@ -630,7 +678,7 @@ function TransFerDetail() {
                             error={ErrorFac && !selecttrans_factory}
                             helperText={
                               ErrorFac && !selecttrans_factory
-                                ? "Please select: Transfer To factory"
+                                ? "กรุณาเลือก : Transfer To factory"
                                 : undefined
                             }
                           >
@@ -640,6 +688,11 @@ function TransFerDetail() {
                               </MenuItem>
                             ))}
                           </Select>
+                          {ErrorFac && !selecttrans_factory && (
+                            <FormHelperText style={{ color: "red" }}>
+                              กรุณาเลือก : Transfer to Factory{" "}
+                            </FormHelperText>
+                          )}
                         </FormControl>
                       ) : (
                         <TextField
@@ -685,16 +738,21 @@ function TransFerDetail() {
                                 label="Select"
                                 size="small"
                                 sx={{ textAlign: "left" }}
-                                error={ErrorCC && !selecttrans_cc}
+                                error={
+                                  ErrorCC &&
+                                  (!selecttrans_cc ||
+                                    selecttrans_cc.length == 0)
+                                }
                               />
                             )}
                           />
 
-                          {ErrorCC && !selecttrans_cc && (
-                            <FormHelperText style={{ color: "red" }}>
-                              Please select: Transfer To CC
-                            </FormHelperText>
-                          )}
+                          {ErrorCC &&
+                            (!selecttrans_cc || selecttrans_cc.length == 0) && (
+                              <FormHelperText style={{ color: "red" }}>
+                                กรุณาเลือก : Transfer To CC
+                              </FormHelperText>
+                            )}
                         </FormControl>
                       ) : (
                         <TextField
@@ -719,6 +777,12 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{ fontSize: "10px", color: "red" }}
+                      >
+                        * กรุณาเลือก Transfer to Factory และ Transfer to CC
+                      </Typography>
                       <FormControl className="Style1">
                         <Autocomplete
                           disabled={read_trans_cc}
@@ -740,7 +804,7 @@ function TransFerDetail() {
                         />
                         {ErrNewboi && !new_boi && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New BOI Project{" "}
+                            กรุณาเลือก: New BOI Project{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -771,7 +835,7 @@ function TransFerDetail() {
                         />
                         {ErrorNewOwn && !selectnew_owner && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: New Owner{" "}
+                            กรุณาเลือก: New Owner{" "}
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -800,7 +864,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorTel &&
                             (!Tel_for_trans || Tel_for_trans == "null")
-                              ? "Please enter your mobile phone number"
+                              ? "กรุณาระบุ Tel "
                               : undefined
                           }
                         />
@@ -833,7 +897,7 @@ function TransFerDetail() {
                           onChange={(e) => setplan_date(e.target.value)}
                           // helperText={
                           //   ErrorDate && (!plan_date || plan_date == "null")
-                          //     ? "Please select date"
+                          //     ? "กรุณาเลือก date"
                           //     : undefined
                           // }
                         />
@@ -880,6 +944,146 @@ function TransFerDetail() {
             </Card>
           </Card>
         )}
+        {Showtype == "GP01006" && (
+          <Card className="Style100">
+            <Card
+              sx={{
+                borderRadius: "8px",
+                border: 2,
+                borderColor: "rgba(64,131,65, 1.5)",
+                boxShadow: "0px 4px 8px rgba(64,131,65, 0.4)",
+                marginTop: 4,
+              }}
+              className="Style1"
+            >
+              <Typography
+                sx={{
+                  position: "absolute",
+                  backgroundColor: "#fff",
+                  marginTop: "-0.5%",
+                  marginRight: "85%",
+                  width: "8%",
+                  display: "flex",
+
+                  justifyContent: "center",
+                }}
+              >
+                Lending Detail
+              </Typography>
+              <div className="Style2">
+                <table className="Style3">
+                  {/* Department Manager */}
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2"> Borrow By:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={borrow_name}
+                          disabled={read_dept}
+                          style={{
+                            backgroundColor: read_dept
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) => setborrow_name(e.target.value)}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr colSpan={4}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">
+                        Borrow Period :
+                      </Typography>
+                    </td>
+                    <td>
+                      <TextField
+                        sx={{ width: "15%" }}
+                        size="small"
+                        value={textperiod}
+                        fullWidth
+                        disabled={read_dept}
+                        style={{
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        onChange={(e) => settextperiod(e.target.value)}
+                      ></TextField>
+                      <Select
+                        label="Select"
+                        // id="SL_AssetGroup"
+                        sx={{ width: "100px", marginLeft: "2%" }}
+                        size="small"
+                        value={selectddlperiod}
+                        fullWidth
+                        onChange={(e) => setselectddlperiod(e.target.value)}
+                        style={{
+                          backgroundColor: read_dept
+                            ? "rgba(169, 169, 169, 0.3)"
+                            : "",
+                        }}
+                        disabled={read_dept}
+                      >
+                        {ddlperiod.map((option, index) => (
+                          <MenuItem key={index} value={ddlperiod[index][0]}>
+                            {ddlperiod[index][1]}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                     
+                      {/* <Button
+                        sx={{ marginLeft: "2%" }}
+                        variant="contained"
+                        // onClick={calculateReturnDate}
+                        disabled={read_dept}
+                        size="small"
+                      >
+                        คำนวณ
+                      </Button> */}
+                    </td><td className="Style5" ></td>
+                    {STS1 !== 'FLLD001' && 
+                    STS1 !== 'FLLD002' &&
+                    STS1 !== 'FLLD003' &&
+                    STS1 !== 'FLLD004' &&
+                    STS1 !== 'FLLD005' &&
+                    STS1 !== 'FLLD006' &&
+
+                    (
+  <>
+    
+    <td className="Style7">
+      <Typography variant="subtitle2">Return Period :</Typography>
+    </td>
+    <td >
+    <FormHelperText sx={{ color: 'red', fontSize: '0.8rem' }}>
+      *plan return date from factory manager approved
+    </FormHelperText>
+      <TextField
+        fullWidth
+        size="small"
+        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+        value={returnDate[1]}
+        disabled
+        InputProps={{
+          readOnly: true,
+        }}
+      />
+       
+    </td>
+  </>
+                    )}
+                  </tr>
+                </table>
+              </div>
+            </Card>
+          </Card>
+        )}
+        {/* Routing */}
         <Card className="Style100">
           <Card
             sx={{
@@ -956,7 +1160,7 @@ function TransFerDetail() {
                         (!selectdepartment_mana ||
                           !selectdepartment_mana == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Department Manager
+                            กรุณาเลือก: Department Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1064,7 +1268,9 @@ function TransFerDetail() {
                   <td className="Style5"></td>
                   <td className="Style7">
                     {" "}
-                    <Typography variant="subtitle2">Tel:</Typography>
+                    <Typography variant="subtitle2">
+                      Tel Service By :
+                    </Typography>
                   </td>
                   <td>
                     <FormControl className="Style1">
@@ -1086,7 +1292,7 @@ function TransFerDetail() {
                         helperText={
                           ErrorTel_service &&
                           (!Tel_service || Tel_service == "null")
-                            ? "Please enter your mobile phone number"
+                            ? "กรุณาระบุ Tel Service By"
                             : undefined
                         }
                       />
@@ -1127,7 +1333,7 @@ function TransFerDetail() {
                       {ErrorService_by &&
                         (!selectservice_by || selectservice_by == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Service By
+                            กรุณาเลือก: Service By
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1245,7 +1451,7 @@ function TransFerDetail() {
                       {ErrorBoi_Staff &&
                         (!selectboi_staff || selectboi_staff == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก:BOI Staff
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1360,7 +1566,7 @@ function TransFerDetail() {
                       {ErrorBoi_manager &&
                         (!selectboi_manager || selectboi_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Manager
+                            กรุณาเลือก: BOI Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1479,7 +1685,7 @@ function TransFerDetail() {
                       {ErrorMana_Fac &&
                         (!selectfac_manager || selectfac_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Factory Manager
+                            กรุณาเลือก: Factory Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1604,7 +1810,7 @@ function TransFerDetail() {
                       {ErrorAcc_check &&
                         (!selectacc_check || selectacc_check == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Check:
+                            กรุณาเลือก: ACC Check:
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -1694,7 +1900,12 @@ function TransFerDetail() {
                               size="small"
                               type="date"
                               format="dd/mm/yyyy"
-                              disabled={read_accchk_cmmt}
+                              disabled={
+                                selectradio_acc_check === "R" ||
+                                read_accchk_cmmt == true
+                                  ? true
+                                  : false
+                              }
                               style={{
                                 backgroundColor:
                                   selectradio_acc_check === "R"
@@ -2330,7 +2541,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        ACC Manager(Return date):
+                        ACC Manager(Return):
                       </Typography>
                     </td>
                     <td>
@@ -2366,7 +2577,7 @@ function TransFerDetail() {
                           (!return_selectacc_manager ||
                             return_selectacc_manager == "null") && (
                             <FormHelperText style={{ color: "red" }}>
-                              Please select: ACC Manager Return
+                              กรุณาเลือก: ACC Manager Return
                             </FormHelperText>
                           )}
                       </FormControl>
@@ -2431,7 +2642,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  {Showtype == "GP01006" &&
+                  {/* {Showtype == "GP01006" &&
                     STS1 != "FLLD001" &&
                     STS1 != "FLLD002" &&
                     STS1 != "FLLD003" &&
@@ -2452,7 +2663,13 @@ function TransFerDetail() {
                               id="Plan_Remove"
                               size="small"
                               type="date"
-                              disabled={read_return_acc_cmmt}
+                              // disabled={read_return_acc_cmmt}
+                              disabled={
+                                selectradio_return_acc === "R" ||
+                                read_return_acc_cmmt == true
+                                  ? true
+                                  : false
+                              }
                               style={{
                                 backgroundColor:
                                   selectradio_return_acc === "R"
@@ -2475,14 +2692,14 @@ function TransFerDetail() {
                               helperText={
                                 ErrorDate_return &&
                                 (!return_date || return_date == "null")
-                                  ? "Please Select Return Date "
+                                  ? "กรุณาเลือก Return Date "
                                   : undefined
                               }
                             />
                           </FormControl>
                         </td>
                       </tr>
-                    )}
+                    )} */}
                   <tr style={{ display: CM_return_acc }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -2509,7 +2726,6 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                        {" "}
                         Requester Return FA:
                       </Typography>
                     </td>
@@ -2527,14 +2743,12 @@ function TransFerDetail() {
                         />
                       </FormControl>
                     </td>
-                    <td className="Style5">
-                    </td>
+                    <td className="Style5"></td>
                     <td className="Style7">
                       <Typography
                         variant="subtitle2"
                         style={{ visibility: chkreturn_owner }}
                       >
-                        {" "}
                         Action Date:
                       </Typography>
                     </td>
@@ -2577,19 +2791,280 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  {(Showtype === "GP01006" && STS1 !== "FLLD001" && STS1 !== "FLLD002" && STS1 !== "FLLD003" && STS1 !== "FLLD004" && STS1 !== "FLLD005" &&
-    STS1 !== "FLLD006" && STS1 !== "FLLD007" && STS1 !== "FLLD008" && STS1 !== "FLLD009") ||
-    For_sts_reject === "R" ? (
-      <tr>
-        <td className="Style4"></td>
-        <td colSpan={5}>
-          <div style={{ margin: "20px" }}>
-            <table>
-              <tr>
-                <td className="Table_Show_req1">
-                  <td className="Show-Data-File" style={{ textAlign: "center" }}>
-                    <div>
-                      <TableContainer component={Paper}>
+                  {(Showtype === "GP01006" &&
+                    STS1 !== "FLLD001" &&
+                    STS1 !== "FLLD002" &&
+                    STS1 !== "FLLD003" &&
+                    STS1 !== "FLLD004" &&
+                    STS1 !== "FLLD005" &&
+                    STS1 !== "FLLD006" &&
+                    STS1 !== "FLLD007" &&
+                    STS1 !== "FLLD008" &&
+                    STS1 !== "FLLD009") ||
+                  For_sts_reject === "R" ? (
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">First Return:</Typography>
+                    </td>
+                    <FormControl className="Style1">
+                      <TextField
+                        fullWidth
+                        size="small"
+                        sx={{ backgroundColor: "rgba(169, 169, 169, 0.3)" }}
+                        value={returnDate[1]}
+                        disabled
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </FormControl>
+                  </tr>) : null}
+                  {(Showtype === "GP01006" &&
+                    STS1 !== "FLLD001" &&
+                    STS1 !== "FLLD002" &&
+                    STS1 !== "FLLD003" &&
+                    STS1 !== "FLLD004" &&
+                    STS1 !== "FLLD005" &&
+                    STS1 !== "FLLD006" &&
+                    STS1 !== "FLLD007" &&
+                    STS1 !== "FLLD008" &&
+                    STS1 !== "FLLD009") ||
+                  For_sts_reject === "R" ? (
+                  <tr>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Need extend:</Typography>
+                    </td>
+                    <td>
+                      <Box display="flex" alignItems="center" margin="10%">
+                        <FormControl>
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            // value={selectreturn}
+                            value={
+                              selectreturn === null
+                                ? setselectreturn("N")
+                                : selectreturn
+                            }
+                            onChange={(e) => setselectreturn(e.target.value)}
+                          >
+                            <FormControlLabel
+                              value="Y"
+                              control={<Radio size="small" />}
+                              label="Yes"
+                             disabled={read_return_own_cmmt}
+
+                            />
+                            <FormControlLabel
+                              value="N"
+                              control={<Radio size="small" />}
+                              label="No"
+                             disabled={read_return_own_cmmt}
+
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                        {/* {selectreturn === "Yes" && (
+                          <Button
+                            sx={{ marginLeft: 2 }}
+                            variant="contained"
+                            onClick={handleAddRow}
+                          >
+                            ADD
+                          </Button>
+                        )} */}
+                      </Box>
+                    </td>
+                 {selectreturn === "Y" && STS1== 'FLLD100' &&(   <td>  
+                    <FormControl variant="outlined" size="small" sx={{ width: 140, marginRight: 1 }}>
+                                  <InputLabel id="month-label">Month</InputLabel>
+                                  <Select
+                                    label="Month"
+                                    value={selectmonthly}
+                                    onChange={(e) => setselectmonthly(e.target.value)}
+                                  >
+                                    {monthly.map((option, index) => (
+                                      <MenuItem key={index} value={monthly[index]}>
+                                        {monthly[index]}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                                <TextField
+                                    label="Year"  
+                                      size="small"
+                                      variant="outlined"
+                                      sx={{ width: 80, marginRight: "5%" }}
+                                      value={updatereturn}
+                                      onChange={(e) =>
+                                        setupdatereturn(e.target.value)
+                                      }
+                                    />
+                                      <Button
+                              variant="contained"
+                              style={{
+                             
+                              }}
+                              onClick={handleSaveReturn}
+                            >
+                              SAVE
+                            </Button>
+                    </td>)}
+                    <td>
+                      
+                    </td>
+
+                  </tr> ) : null}
+                  {(Showtype === "GP01006" &&
+                    STS1 !== "FLLD001" &&
+                    STS1 !== "FLLD002" &&
+                    STS1 !== "FLLD003" &&
+                    STS1 !== "FLLD004" &&
+                    STS1 !== "FLLD005" &&
+                    STS1 !== "FLLD006" &&
+                    STS1 !== "FLLD007" &&
+                    STS1 !== "FLLD008" &&
+                    STS1 !== "FLLD009") ||
+                  For_sts_reject === "R" ? (
+    <tr>
+                    <td className="Style4"></td>
+                    {dataresult_return.length > 0 && (
+  <div className="Return-Table">
+    <br />
+    <TableContainer className="return-table-show" component={Paper}>
+      <Table className="tableshow-returndate">
+        <TableHead>
+          <TableRow>
+            <TableCell>No.</TableCell>
+            <TableCell>Return Month</TableCell>
+            <TableCell>Return Year</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {dataresult_return.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={3} style={{ textAlign: "center" }}>
+                <Empty />
+              </TableCell>
+            </TableRow>
+          ) : (
+            dataresult_return.map((option, index) => (
+              <TableRow key={index}>
+                <TableCell>{option[0]}</TableCell>
+                <TableCell>{option[1]}</TableCell>
+                <TableCell>{option[2]}</TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </div>
+)}
+
+                    
+                  </tr>  ) : null}
+
+
+                  {/* <tr>
+                    <td className="Style4"></td>
+                    {selectreturn === "Yes" && (
+                      <td>
+                        <div className="Return-Table">
+                          <TableContainer>
+                            <Table sx={{ width: "90%", margin: "10px" }}>
+                              <TableHead className="returntable">
+                                <TableRow>
+                                  <TableCell >Seq</TableCell>
+                <TableCell  colSpan={4}>Return</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {rows.map((row) => (
+                                <TableRow
+                                key={row.id}
+                                >
+                                  <TableCell >{row.id}</TableCell>
+                                  <TableCell>
+                                  <FormControl variant="outlined" size="small" sx={{ width: 100, marginRight: 1 }}>
+                                  <InputLabel id="month-label">Month</InputLabel>
+                                  <Select
+                                    label="Month"
+                                    value={selectddlperiod}
+                                    onChange={(e) => setselectddlperiod(e.target.value)}
+                                  >
+                                    {monthly.map((option, index) => (
+                                      <MenuItem key={index} value={monthly[index]}>
+                                        {monthly[index]}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                                  </TableCell>
+
+                                  <TableCell>
+                                    <TextField
+                                    label="Year"  
+                                      size="small"
+                                      variant="outlined"
+                                      sx={{ width: 80, marginRight: "5%" }}
+                                      value={updatereturn}
+                                      onChange={(e) =>
+                                        setupdatereturn(e.target.value)
+                                      }
+                                    />
+                                  </TableCell>
+                                 
+                                  <TableCell>
+                                    <Button
+                                      variant="contained"
+                                      onClick={calculateUpdate}
+                                    >
+                                      คำนวณ
+                                    </Button>
+                                  </TableCell>
+                                  <TableCell>
+                                    <TextField
+                                      fullWidth
+                                      size="small"
+                                      sx={{
+                                        backgroundColor:
+                                          "rgba(169, 169, 169, 0.3)",
+                                      }}
+                                      value={showreturnupdate}
+                                      disabled
+                                      InputProps={{
+                                        readOnly: true,
+                                      }}
+                                    />
+                                  </TableCell>
+                                </TableRow>
+                                 ))} 
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                          <div
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                              marginBottom: "40px",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <Button
+                              variant="contained"
+                              style={{
+                                position: "absolute",
+                                right: 0,
+                              }}
+                              onClick={handleSaveReturn}
+                            >
+                              SAVE
+                            </Button>
+                          </div>
+                          <br></br>
+                          <TableContainer component={Paper}>
                         <Table className="FamFilePopUp">
                           <TableHead>
                             <TableRow>
@@ -2648,106 +3123,298 @@ function TransFerDetail() {
                           </TableBody>
                         </Table>
                       </TableContainer>
-                    </div>
-                  </td>
-                </td>
-                <td style={{ width: "20px" }}></td>
-                <td className="Table_Show_req2">
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleFileUpload_Own}
-                    style={{ display: "none" }}
-                    id="fileInput"
-                    ref={fileInputRef}
-                  />
-                  {STS1 === "FLLD100" && (
-                    <div style={{ width: "400px" }}>
-                      <label
-                        htmlFor="fileInput"
-                        onDragOver={handleDragOve_Own}
-                        onDrop={handleDrop_Own}
-                        className="bt_ChooseFile"
-                      >
-                        <CloudUploadOutlined
-                          style={{
-                            fontSize: "30px",
-                            color: "#86B6F6",
-                          }}
-                        />
-                        <br />
-                        <span style={{ fontWeight: "bold" }}>Drop your files here</span>
-                        <br />
-                        or
-                        <br />
-                        <Button size="small" component="span">
-                          <b> Browse files</b>
-                        </Button>
-                      </label>
-
-                      {uploadedFiles_Own_return.length > 0 && (
-                        <div>
-                          <ul>
-                            {uploadedFiles_Own_return.map((file, index) => (
-                              <div key={index} className="BorderFile">
-                                <Typography className="Font_File">
-                                  <span style={{ marginLeft: "10px" }}>
-                                    {file.type.startsWith("image/") ? (
-                                      <img src={URL.createObjectURL(file)} alt={file.name} className="Img_file" />
-                                    ) : (
-                                      <>
-                                        {file.name.endsWith(".xlsx") ? (
-                                          <FileExcelOutlined className="Icon_file" style={{ color: "#65B741" }} />
-                                        ) : file.name.endsWith(".pdf") ? (
-                                          <FilePdfOutlined className="Icon_file" style={{ color: "#FF6347" }} />
-                                        ) : file.name.endsWith(".docx") ? (
-                                          <FileWordOutlined className="Icon_file" style={{ color: "#3468C0" }} />
-                                        ) : file.name.endsWith(".txt") ? (
-                                          <FileTextOutlined className="Icon_file" style={{ color: "#B6BBC4" }} />
-                                        ) : (
-                                          <FileUnknownOutlined className="Icon_file" style={{ color: "#FFD3A3" }} />
-                                        )}
-                                      </>
-                                    )}
-                                    {index + 1} {file.name}
-                                  </span>
-
-                                  <DeleteOutlined
-                                    onClick={() => handleDL_File_Owner(index, file.name)}
-                                    className="Icon_DeleteFile"
-                                  />
-                                </Typography>
-                              </div>
-                            ))}
-                          </ul>
+                      
                         </div>
-                      )}
-                      <div style={{ textAlign: "right", marginTop: "5px" }}>
-                        {STS1 === "FLLD100" && (
-                          <Button variant="contained" onClick={handleSav_Own}>
-                            Save
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </td>
-              </tr>
-            </table>
+                      </td>
+                    )}
+                  </tr> */}
 
-            <table>
-              <tr>
-                <td className=""></td>
-              </tr>
-              <tr></tr>
-              <tr style={{ width: "100%", marginBottom: "20px", marginTop: "20px" }}></tr>
-            </table>
-          </div>
-        </td>
-      </tr>
-    ) : null}
-        
-                    
+                  {(Showtype === "GP01006" &&
+                    STS1 !== "FLLD001" &&
+                    STS1 !== "FLLD002" &&
+                    STS1 !== "FLLD003" &&
+                    STS1 !== "FLLD004" &&
+                    STS1 !== "FLLD005" &&
+                    STS1 !== "FLLD006" &&
+                    STS1 !== "FLLD007" &&
+                    STS1 !== "FLLD008" &&
+                    STS1 !== "FLLD009") ||
+                  For_sts_reject === "R" ? (
+                    <tr>
+                      <td className="Style4"></td>
+                      <td colSpan={5}>
+                        <div style={{ margin: "20px" }}>
+                          <table>
+                            <tr>
+                              <td className="Table_Show_req1">
+                                <td
+                                  className="Show-Data-File"
+                                  style={{ textAlign: "center" }}
+                                >
+                                  <div>
+                                    <TableContainer component={Paper}>
+                                      <Table className="FamFilePopUp">
+                                        <TableHead>
+                                          <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell>No.</TableCell>
+                                            <TableCell>File</TableCell>
+                                            <TableCell>View</TableCell>
+                                          </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                          {showfile_owner_return.length ===
+                                          0 ? (
+                                            <TableRow>
+                                              <TableCell
+                                                colSpan={4}
+                                                style={{ textAlign: "center" }}
+                                              >
+                                                <Empty />
+                                              </TableCell>
+                                            </TableRow>
+                                          ) : (
+                                            showfile_owner_return.map(
+                                              (option, index) => (
+                                                <TableRow key={index}>
+                                                  <TableCell>
+                                                    {STS1 === "FLLD100" && (
+                                                      <DeleteOutlined
+                                                        onClick={() =>
+                                                          handleDL_File_Owner(
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][0],
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][3],
+                                                            showfile_owner_return[
+                                                              index
+                                                            ][4]
+                                                          )
+                                                        }
+                                                        className="Icon_DeleteFile"
+                                                      />
+                                                    )}
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      showfile_owner_return[
+                                                        index
+                                                      ][2]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell>
+                                                    {
+                                                      showfile_owner_return[
+                                                        index
+                                                      ][3]
+                                                    }
+                                                  </TableCell>
+                                                  <TableCell
+                                                    style={{
+                                                      textAlign: "center",
+                                                      color: "blue",
+                                                      textDecoration:
+                                                        "underline",
+                                                    }}
+                                                  >
+                                                    <PlagiarismIcon
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        fontSize: "30px",
+                                                      }}
+                                                      onClick={() =>
+                                                        downloadFile(
+                                                          showfile_owner_return[
+                                                            index
+                                                          ][4]
+                                                        )
+                                                      }
+                                                    >
+                                                      {
+                                                        showfile_owner_return[
+                                                          index
+                                                        ][3]
+                                                      }
+                                                    </PlagiarismIcon>
+                                                  </TableCell>
+                                                </TableRow>
+                                              )
+                                            )
+                                          )}
+                                        </TableBody>
+                                      </Table>
+                                    </TableContainer>
+                                  </div>
+                                </td>
+                              </td>
+                              <td style={{ width: "20px" }}></td>
+                              <td className="Table_Show_req2">
+                                <input
+                                  type="file"
+                                  multiple
+                                  onChange={handleFileUpload_Own}
+                                  style={{ display: "none" }}
+                                  id="fileInput"
+                                  ref={fileInputRef}
+                                />
+                                {STS1 === "FLLD100" && (
+                                  <div style={{ width: "400px" }}>
+                                    <label
+                                      htmlFor="fileInput"
+                                      onDragOver={handleDragOve_Own}
+                                      onDrop={handleDrop_Own}
+                                      className="bt_ChooseFile"
+                                    >
+                                      <CloudUploadOutlined
+                                        style={{
+                                          fontSize: "30px",
+                                          color: "#86B6F6",
+                                        }}
+                                      />
+                                      <br />
+                                      <span style={{ fontWeight: "bold" }}>
+                                        Drop your files here
+                                      </span>
+                                      <br />
+                                      or
+                                      <br />
+                                      <Button size="small" component="span">
+                                        <b> Browse files</b>
+                                      </Button>
+                                    </label>
+
+                                    {uploadedFiles_Own_return.length > 0 && (
+                                      <div>
+                                        <ul>
+                                          {uploadedFiles_Own_return.map(
+                                            (file, index) => (
+                                              <div
+                                                key={index}
+                                                className="BorderFile"
+                                              >
+                                                <Typography className="Font_File">
+                                                  <span
+                                                    style={{
+                                                      marginLeft: "10px",
+                                                    }}
+                                                  >
+                                                    {file.type.startsWith(
+                                                      "image/"
+                                                    ) ? (
+                                                      <img
+                                                        src={URL.createObjectURL(
+                                                          file
+                                                        )}
+                                                        alt={file.name}
+                                                        className="Img_file"
+                                                      />
+                                                    ) : (
+                                                      <>
+                                                        {file.name.endsWith(
+                                                          ".xlsx"
+                                                        ) ? (
+                                                          <FileExcelOutlined
+                                                            className="Icon_file"
+                                                            style={{
+                                                              color: "#65B741",
+                                                            }}
+                                                          />
+                                                        ) : file.name.endsWith(
+                                                            ".pdf"
+                                                          ) ? (
+                                                          <FilePdfOutlined
+                                                            className="Icon_file"
+                                                            style={{
+                                                              color: "#FF6347",
+                                                            }}
+                                                          />
+                                                        ) : file.name.endsWith(
+                                                            ".docx"
+                                                          ) ? (
+                                                          <FileWordOutlined
+                                                            className="Icon_file"
+                                                            style={{
+                                                              color: "#3468C0",
+                                                            }}
+                                                          />
+                                                        ) : file.name.endsWith(
+                                                            ".txt"
+                                                          ) ? (
+                                                          <FileTextOutlined
+                                                            className="Icon_file"
+                                                            style={{
+                                                              color: "#B6BBC4",
+                                                            }}
+                                                          />
+                                                        ) : (
+                                                          <FileUnknownOutlined
+                                                            className="Icon_file"
+                                                            style={{
+                                                              color: "#FFD3A3",
+                                                            }}
+                                                          />
+                                                        )}
+                                                      </>
+                                                    )}
+                                                    {index + 1} {file.name}
+                                                  </span>
+
+                                                  <DeleteOutlined
+                                                    onClick={() =>
+                                                      handleDL_File_Owner(
+                                                        index,
+                                                        file.name
+                                                      )
+                                                    }
+                                                    className="Icon_DeleteFile"
+                                                  />
+                                                </Typography>
+                                              </div>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
+                                    <div
+                                      style={{
+                                        textAlign: "right",
+                                        marginTop: "5px",
+                                      }}
+                                    >
+                                      {STS1 === "FLLD100" && (
+                                        <Button
+                                          variant="contained"
+                                          onClick={handleSav_Own}
+                                        >
+                                          Save
+                                        </Button>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                              </td>
+                            </tr>
+                          </table>
+
+                          <table>
+                            <tr>
+                              <td className=""></td>
+                            </tr>
+                            <tr></tr>
+                            <tr
+                              style={{
+                                width: "100%",
+                                marginBottom: "20px",
+                                marginTop: "20px",
+                              }}
+                            ></tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null}
                 </table>
               </div>
             </Card>
@@ -2784,7 +3451,7 @@ function TransFerDetail() {
                     <td className="Style4">
                       <Typography variant="subtitle2">PTE(ENV):</Typography>
                     </td>
-                    <td >
+                    <td>
                       <FormControl className="Style3">
                         <Select
                           labelId="demo-simple-select-helper-label"
@@ -2798,7 +3465,7 @@ function TransFerDetail() {
                             backgroundColor: read_pte_env
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                            width:'70%'
+                            width: "70%",
                           }}
                           error={
                             ErrorPTE_ENV &&
@@ -2813,7 +3480,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPTE_ENV && !selectpte_env && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE(ENV)
+                            กรุณาเลือก: PTE(ENV)
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -2847,10 +3514,8 @@ function TransFerDetail() {
                   </tr>
                   {/* Scrap Date : */}
                   <tr style={{ display: CM_pte_env }}>
-                    <td className="Style4" >
-                      <Typography variant="subtitle2">
-                        Scrap Date :
-                      </Typography>{" "}
+                    <td className="Style4">
+                      <Typography variant="subtitle2"> Ship Date :</Typography>
                     </td>
                     <td>
                       <FormControl className="Style1">
@@ -2859,29 +3524,82 @@ function TransFerDetail() {
                           type="date"
                           disabled={read_pte_env_cmmt}
                           style={{
-                            
                             backgroundColor: read_pte_env_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                             width:'70%'
+                            width: "70%",
                           }}
-                          value={scrap_date }
+                          value={scrap_date}
                           error={
-                            ErrScp_date  &&
-                            (!scrap_date  || scrap_date  == "null")
+                            ErrScp_date && (!scrap_date || scrap_date == "null")
                           }
                           onChange={(e) => setscrap_date(e.target.value)}
                           helperText={
-                            ErrScp_date  &&
-                            (!scrap_date  || scrap_date  == "null")
-                              ? "Please Select Contact date "
+                            ErrScp_date && (!scrap_date || scrap_date == "null")
+                              ? "กรุณาเลือก Contact date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ visibility: chkpte_env }}
+                      >
+                        {" "}
+                        Total Amount :
+                      </Typography>
+                    </td>
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={total_scrap}
+                          // onChange={(e) => settotal_scrap(e.target.value)}
+                          onChange={(e) => {
+                            let value = e.target.value;
+                            // ลบลูกน้ำที่มีอยู่เพื่อทำการคำนวณใหม่
+                            value = value.replace(/,/g, "");
+
+                            // ตรวจสอบว่าเป็นตัวเลขหรือไม่
+                            if (/^\d*$/.test(value)) {
+                              // จัดรูปแบบตัวเลขด้วยลูกน้ำ
+                              const formattedValue =
+                                Number(value).toLocaleString();
+                              settotal_scrap(formattedValue); // ตั้งค่าค่าที่จัดรูปแบบแล้ว
+                            } else {
+                              Swal.fire({
+                                icon: "error",
+                                text: "กรุณากรอกตัวเลขเท่านั้น",
+                              });
+                            }
+                          }}
+                          disabled={read_pte_env_cmmt}
+                          style={{
+                            backgroundColor: read_pte_env_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          error={
+                            ErrTotalScrap &&
+                            (!total_scrap || total_scrap == "null")
+                          }
+                          helperText={
+                            ErrTotalScrap &&
+                            (!total_scrap || total_scrap == "null")
+                              ? "กรุณากรอก Total Amount "
                               : undefined
                           }
                         />
                       </FormControl>
                     </td>
                   </tr>
-                  <tr style={{ display: CM_pte_env}}>
+
+                  <tr style={{ display: CM_pte_env }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
@@ -2913,12 +3631,12 @@ function TransFerDetail() {
                     STS1 != "FLSC007" &&
                     STS1 != "FLSC008" &&
                     For_sts_reject !== "R" && (
-                      <tr >
+                      <tr>
                         <td className="Style4"></td>
                         <td colSpan={5}>
                           <div style={{ margin: "20px" }}>
                             <table>
-                              <tr >
+                              <tr>
                                 <td className="Table_Show_req1">
                                   <td
                                     className="Show-Data-File"
@@ -3192,11 +3910,11 @@ function TransFerDetail() {
                         </td>
                       </tr>
                     )}
-                  <tr >
+                  <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">PLN Staff:</Typography>
                     </td>
-                    <td >
+                    <td>
                       <FormControl className="Style3">
                         <Select
                           labelId="demo-simple-select-helper-label"
@@ -3225,7 +3943,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorPLN_Staff && !selectpln_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff
+                            กรุณาเลือก: PLN Staff
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -3241,7 +3959,7 @@ function TransFerDetail() {
                         Action Date:
                       </Typography>
                     </td>
-                    <td className="Style6" >
+                    <td className="Style6">
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -3262,7 +3980,7 @@ function TransFerDetail() {
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
                     </td>
-                    <td colSpan={4} > 
+                    <td colSpan={4}>
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -3580,7 +4298,10 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3" style={{minWidth:'290px'}}>
+                      <FormControl
+                        className="Style3"
+                        style={{ minWidth: "290px" }}
+                      >
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
@@ -3595,7 +4316,7 @@ function TransFerDetail() {
                             backgroundColor: read_shipping
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
-                          width:'70%'
+                            width: "70%",
                           }}
                           error={
                             ErrorShipping &&
@@ -3611,7 +4332,7 @@ function TransFerDetail() {
                         </Select>
                         {ErrorShipping && !selectshipping_staff && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping
+                            กรุณาเลือก: Shipping
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -3627,7 +4348,7 @@ function TransFerDetail() {
                         Action Date:
                       </Typography>
                     </td>
-                    <td className="Style6" >
+                    <td className="Style6">
                       <FormControl className="Style1">
                         <TextField
                           id="outlined-size-small"
@@ -3994,12 +4715,19 @@ function TransFerDetail() {
                   {/* PTE (ENV) input weight/size: */}
                   <tr>
                     <td className="Style4">
-                      <Typography variant="subtitle2" >
+                      <Typography variant="subtitle2">
                         PTE (ENV) input weight/size:
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3">
+                      <FormControl
+                        className="Style3"
+                        error={
+                          ErrorPTE_INPUT_WS &&
+                          (!selectpte_input_weight_size ||
+                            selectpte_input_weight_size === "null")
+                        }
+                      >
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
@@ -4008,7 +4736,7 @@ function TransFerDetail() {
                           onChange={(e) => {
                             setselectpte_input_weight_size(e.target.value);
                             setpte_dept(e.target.value);
-                            // setexport_clearance(e.target.value);
+                            //setexport_clearance(e.target.value);
                             setpte_upload_file(e.target.value);
                           }}
                           size="small"
@@ -4019,11 +4747,6 @@ function TransFerDetail() {
                               : "",
                             width: "68%",
                           }}
-                          error={
-                            ErrorPTE_INPUT_WS &&
-                            (!selectpte_input_weight_size ||
-                              selectpte_input_weight_size == "null")
-                          }
                         >
                           {pte_input_weight_size.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -4031,11 +4754,13 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {ErrorPTE_INPUT_WS && !ErrorPTE_INPUT_WS && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: PTE (ENV) input weight/size
-                          </FormHelperText>
-                        )}
+                        {ErrorPTE_INPUT_WS &&
+                          (!selectpte_input_weight_size ||
+                            selectpte_input_weight_size === "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              กรุณาเลือก: PTE (ENV) input weight/size
+                            </FormHelperText>
+                          )}
                       </FormControl>
                     </td>
 
@@ -4067,6 +4792,99 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
+                  {/* ship date sale */}
+                  <tr style={{ display: CM_pte_weight_size }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Ship Date :</Typography>
+                    </td>
+
+                    <td>
+                      <FormControl className="Style1">
+                        <TextField
+                          size="small"
+                          type="date"
+                          disabled={read_pte_input_weight_size_cmmt}
+                          style={{
+                            backgroundColor: read_pte_input_weight_size_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                            width: "68%",
+                          }}
+                          value={sale_date}
+                          error={
+                            ErrSale_date && (!sale_date || sale_date == "null")
+                          }
+                          onChange={(e) => setsale_date(e.target.value)}
+                          helperText={
+                            ErrSale_date && (!sale_date || sale_date == "null")
+                              ? "กรุณาเลือก Ship Date "
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                    </td>
+                    <td style={{ width: "20%" }}></td>
+                    <td className="Style7">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ visibility: chk_pte_weight_size }}
+                      >
+                        {" "}
+                        Total Amount :
+                      </Typography>
+                    </td>
+
+                    <td className="Style6">
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          size="small"
+                          value={total_sale}
+                          // onChange={(e) => settotal_sale(e.target.value)}
+                          onChange={(e) => {
+                            let value = e.target.value;
+                            // ลบลูกน้ำที่มีอยู่เพื่อทำการคำนวณใหม่
+                            value = value.replace(/,/g, "");
+
+                            // ตรวจสอบว่าเป็นตัวเลขหรือไม่
+                            if (/^\d*$/.test(value)) {
+                              // จัดรูปแบบตัวเลขด้วยลูกน้ำ
+                              const formattedValue =
+                                Number(value).toLocaleString();
+                              settotal_sale(formattedValue); // ตั้งค่าค่าที่จัดรูปแบบแล้ว
+                            } else {
+                              Swal.fire({
+                                icon: "error",
+                                text: "กรุณากรอกตัวเลขเท่านั้น",
+                              });
+                            }
+                          }}
+                          disabled={read_pte_input_weight_size_cmmt}
+                          style={{
+                            backgroundColor: read_pte_input_weight_size_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          error={
+                            ErrTotalSale &&
+                            (!total_sale || total_sale == "null")
+                          }
+                          helperText={
+                            ErrTotalSale &&
+                            (!total_sale || total_sale == "null")
+                              ? "กรุณากรอก Total Amount "
+                              : undefined
+                          }
+                          inputProps={{
+                            inputMode: "numeric",
+                            pattern: "[0-9]*",
+                          }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  {/* total sale / date */}
+
                   <tr style={{ display: CM_pte_weight_size }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -4391,7 +5209,14 @@ function TransFerDetail() {
                       </Typography>
                     </td>
                     <td>
-                      <FormControl className="Style3">
+                      <FormControl
+                        className="Style3"
+                        error={
+                          ErrorPLN_Staff_BOI &&
+                          (!selectpln_staff_boi ||
+                            selectpln_staff_boi === "null")
+                        }
+                      >
                         <Select
                           labelId="demo-simple-select-helper-label"
                           id="demo-simple-select-helper"
@@ -4411,11 +5236,6 @@ function TransFerDetail() {
                               : "",
                             width: "68%",
                           }}
-                          error={
-                            ErrorPLN_Staff_BOI &&
-                            (!selectpln_staff_boi ||
-                              selectpln_staff_boi == "null")
-                          }
                         >
                           {pln_staff_boi.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -4423,11 +5243,13 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* {selectpln_staff_boi && !selectpln_staff_boi && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: PLN Staff contact BOI 
-                          </FormHelperText>
-                        )} */}
+                        {ErrorPLN_Staff_BOI &&
+                          (!selectpln_staff_boi ||
+                            selectpln_staff_boi === "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              กรุณาเลือก: PLN Staff contact BOI
+                            </FormHelperText>
+                          )}
                       </FormControl>
                     </td>
 
@@ -4518,7 +5340,8 @@ function TransFerDetail() {
                                           </TableHead>
 
                                           <TableBody>
-                                            {showfilepln_stf_boi.length === 0 ? (
+                                            {showfilepln_stf_boi.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -4815,11 +5638,12 @@ function TransFerDetail() {
                             </MenuItem>
                           ))}
                         </Select>
-                        {Errorimport_boi_prepare && !selectimport_boi_prepare && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: Import & BOI prepare
-                          </FormHelperText>
-                        )}
+                        {Errorimport_boi_prepare &&
+                          !selectimport_boi_prepare && (
+                            <FormHelperText style={{ color: "red" }}>
+                              กรุณาเลือก: Import & BOI prepare
+                            </FormHelperText>
+                          )}
                       </FormControl>
                     </td>
 
@@ -4909,7 +5733,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfileimp_boi_prepare.length === 0 ? (
+                                            {showfileimp_boi_prepare.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -5032,7 +5857,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_imp_boi_prepare.length > 0 && (
+                                      {uploadedFiles_imp_boi_prepare.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_imp_boi_prepare.map(
@@ -5207,7 +6033,7 @@ function TransFerDetail() {
                         </Select>
                         {Errorboi_input_data && !selectboi_input_data && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: BOI Input data Import
+                            กรุณาเลือก: BOI Input data Import
                           </FormHelperText>
                         )}
                       </FormControl>
@@ -5300,7 +6126,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfileimp_input_data.length === 0 ? (
+                                            {showfileimp_input_data.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -5423,7 +6250,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_imp_input_data.length > 0 && (
+                                      {uploadedFiles_imp_input_data.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_imp_input_data.map(
@@ -5562,7 +6390,7 @@ function TransFerDetail() {
                   <tr>
                     <td className="Style4">
                       <Typography variant="subtitle2">
-                      Imp.& BOI input THA categories:
+                        Imp.& BOI input THA categories:
                       </Typography>
                     </td>
                     <td>
@@ -5694,7 +6522,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfilethai_catergorise.length === 0 ? (
+                                            {showfilethai_catergorise.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -5817,7 +6646,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_thai_catergorise.length > 0 && (
+                                      {uploadedFiles_thai_catergorise.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_thai_catergorise.map(
@@ -6086,7 +6916,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfilepln_stf_bidding.length === 0 ? (
+                                            {showfilepln_stf_bidding.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -6209,7 +7040,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_pln_stf_bidding.length > 0 && (
+                                      {uploadedFiles_pln_stf_bidding.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_pln_stf_bidding.map(
@@ -6405,7 +7237,6 @@ function TransFerDetail() {
                           type="date"
                           disabled={read_pte_dept_cmmt}
                           style={{
-                            
                             backgroundColor: read_pte_dept_cmmt
                               ? "rgba(169, 169, 169, 0.3)"
                               : "",
@@ -6420,7 +7251,7 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date &&
                             (!contact_date || contact_date == "null")
-                              ? "Please Select Contact date "
+                              ? "กรุณาเลือก Contact date "
                               : undefined
                           }
                         />
@@ -6800,7 +7631,9 @@ function TransFerDetail() {
                   </tr>
                   <tr style={{ display: CM_export_clearance }}>
                     <td className="Style4">
-                      <Typography variant="subtitle2">Clearance date  :</Typography>{" "}
+                      <Typography variant="subtitle2">
+                        Clearance date :
+                      </Typography>{" "}
                     </td>
                     <td>
                       <FormControl className="Style1">
@@ -6827,7 +7660,7 @@ function TransFerDetail() {
                             Errorexport_clearance_date &&
                             (!export_clearance_date ||
                               export_clearance_date == "null")
-                              ? "Please Select export Date "
+                              ? "กรุณาเลือก export Date "
                               : undefined
                           }
                         />
@@ -6897,7 +7730,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfileboi_exp_clearance.length === 0 ? (
+                                            {showfileboi_exp_clearance.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -7020,7 +7854,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_boi_exp_clearance.length > 0 && (
+                                      {uploadedFiles_boi_exp_clearance.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_boi_exp_clearance.map(
@@ -7156,11 +7991,9 @@ function TransFerDetail() {
                   {/* //////////////////////////// */}
                   {/*PTE (ENV) upload file after BOI make export clearance:*/}
                   <tr>
-                    <td 
-                    className="Style4"
-                    >
+                    <td className="Style4">
                       <Typography variant="subtitle2">
-                      PTE(ENV) upload file after clearance:
+                        PTE(ENV) upload file after clearance:
                       </Typography>
                     </td>
                     <td>
@@ -7207,8 +8040,8 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  
-                  <tr style={{ display: CM_pte_upload_file }}>
+
+                  {/* <tr style={{ display: CM_pte_upload_file }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">
                         Contact date :
@@ -7235,13 +8068,13 @@ function TransFerDetail() {
                           helperText={
                             Errorcontact_date_pte &&
                             (!contact_date_pte || contact_date_pte == "null")
-                              ? "Please Select Contact date PTE (ENV) upload file after BOI make export clearance"
+                              ? "กรุณาเลือก Contact date PTE (ENV) upload file after BOI make export clearance"
                               : undefined
                           }
                         />
                       </FormControl>
                     </td>
-                  </tr>
+                  </tr> */}
                   <tr style={{ display: CM_pte_upload_file }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -7306,7 +8139,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfilepte_upload_after.length === 0 ? (
+                                            {showfilepte_upload_after.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -7429,7 +8263,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_pte_upload_after.length > 0 && (
+                                      {uploadedFiles_pte_upload_after.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_pte_upload_after.map(
@@ -7614,43 +8449,7 @@ function TransFerDetail() {
                       </FormControl>
                     </td>
                   </tr>
-                  
-                   <tr style={{ display: CM_pln_req_inv }}>
-                    <td className="Style4">
-                      <Typography variant="subtitle2">
-                        Sale Date :
-                      </Typography>
-                    </td>
-                
-                    <td>
-                      <FormControl className="Style1">
-                        <TextField
-                          size="small"
-                          type="date"
-                          disabled={read_pln_req_inv_cmmt}
-                          style={{
-                            
-                            backgroundColor: read_pln_req_inv_cmmt
-                              ? "rgba(169, 169, 169, 0.3)"
-                              : "",
-                            width: "68%",
-                          }}
-                          value={sale_date}
-                          error={
-                            ErrSale_date  &&
-                            (!sale_date  || sale_date  == "null")
-                          }
-                          onChange={(e) => setsale_date(e.target.value)}
-                          helperText={
-                            ErrSale_date  &&
-                            (!sale_date  || sale_date  == "null")
-                              ? "Please Select Sale Date "
-                              : undefined
-                          }
-                        />
-                      </FormControl>
-                    </td>
-                  </tr> 
+
                   <tr style={{ display: CM_pln_req_inv }}>
                     <td className="Style4">
                       <Typography variant="subtitle2">Comment:</Typography>
@@ -7716,7 +8515,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfilepln_stf_req_inv.length === 0 ? (
+                                            {showfilepln_stf_req_inv.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -7839,7 +8639,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_pln_stf_req_inv.length > 0 && (
+                                      {uploadedFiles_pln_stf_req_inv.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_pln_stf_req_inv.map(
@@ -8010,11 +8811,11 @@ function TransFerDetail() {
                           ))}
                         </Select>
                         {Errorship_input_inv &&
-                        (!ship_input_inv || ship_input_inv == "null") && (
-                          <FormHelperText style={{ color: "red" }}>
-                            Please select: Shipping Staff input invoice no.
-                          </FormHelperText>
-                        )}
+                          (!ship_input_inv || ship_input_inv == "null") && (
+                            <FormHelperText style={{ color: "red" }}>
+                              กรุณาเลือก: Shipping Staff input invoice no.
+                            </FormHelperText>
+                          )}
                         {/* <TextField
                           id="outlined-size-small"
                           size="small"
@@ -8051,6 +8852,27 @@ function TransFerDetail() {
                             backgroundColor: "rgba(169, 169, 169, 0.3)",
                             visibility: chk_ship_input_inv,
                           }}
+                        />
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr style={{ display: CM_ship_input_inv }}>
+                    <td className="Style4">
+                      <Typography variant="subtitle2">Invoice No:</Typography>
+                    </td>
+                    <td colSpan={4}>
+                      <FormControl className="Style1">
+                        <TextField
+                          id="outlined-size-small"
+                          value={invoice_no}
+                          disabled={read_ship_input_inv_cmmt}
+                          style={{
+                            backgroundColor: read_ship_input_inv_cmmt
+                              ? "rgba(169, 169, 169, 0.3)"
+                              : "",
+                          }}
+                          onChange={(e) => setinvoice_no(e.target.value)}
+                          size="small"
                         />
                       </FormControl>
                     </td>
@@ -8121,7 +8943,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfileship_input_inv.length === 0 ? (
+                                            {showfileship_input_inv.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -8244,7 +9067,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_ship_input_inv.length > 0 && (
+                                      {uploadedFiles_ship_input_inv.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_ship_input_inv.map(
@@ -8385,7 +9209,7 @@ function TransFerDetail() {
                         PLN Staff upload Final payment 50%:
                       </Typography>
                     </td>
-                    <td style={{minWidth:'320px'}}>
+                    <td style={{ minWidth: "320px" }}>
                       <FormControl className="Style3">
                         <TextField
                           id="outlined-size-small"
@@ -8456,7 +9280,7 @@ function TransFerDetail() {
                           helperText={
                             ErrorVendor_move_date &&
                             (!Vendor_move_date || Vendor_move_date == "null")
-                              ? "Please Select Vendor move date"
+                              ? "กรุณาเลือก Vendor move date"
                               : undefined
                           }
                         />
@@ -8531,7 +9355,8 @@ function TransFerDetail() {
                                             </TableRow>
                                           </TableHead>
                                           <TableBody>
-                                            {showfilepln_upload_final.length === 0 ? (
+                                            {showfilepln_upload_final.length ===
+                                            0 ? (
                                               <TableRow>
                                                 <TableCell
                                                   colSpan={4}
@@ -8654,7 +9479,8 @@ function TransFerDetail() {
                                         </Button>
                                       </label>
 
-                                      {uploadedFiles_pln_upload_final.length > 0 && (
+                                      {uploadedFiles_pln_upload_final.length >
+                                        0 && (
                                         <div>
                                           <ul>
                                             {uploadedFiles_pln_upload_final.map(
@@ -8945,7 +9771,7 @@ function TransFerDetail() {
                       {ErrorAcc_Mana &&
                         (!selectacc_manager || selectacc_manager == "null") && (
                           <FormHelperText style={{ color: "red" }}>
-                            Please select: ACC Manager
+                            กรุณาเลือก: ACC Manager
                           </FormHelperText>
                         )}
                     </FormControl>
@@ -9177,6 +10003,37 @@ function TransFerDetail() {
                     </Button>
                   )}
                 </td>
+                <td
+                  style={{
+                    display:
+                      STS1 == "FLLD100" 
+                      ? "block"
+                      : "none",
+                  }}
+                >
+                  {CheckSave == "False" ? (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      onClick={() => (window.location.href = '/FAMsystem/ApproveFam')}
+                    >
+                      Save
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      color="primary"
+                      className="Style9"
+                      disabled
+                      onClick={SAVE}
+                    >
+                      Save
+                    </Button>
+                  )}
+                </td>
                 <td>
                   {CheckSubmit == "False" ? (
                     <Button
@@ -9185,6 +10042,7 @@ function TransFerDetail() {
                       color="success"
                       className="Style9"
                       onClick={SUBMIT}
+                      
                     >
                       Submit
                     </Button>

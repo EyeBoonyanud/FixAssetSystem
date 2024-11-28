@@ -22,6 +22,7 @@ import {
   Checkbox,
   TablePagination,
   TableFooter,
+  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,Box 
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -101,8 +102,14 @@ function Issue() {
     rowsPerPage,
     setselectCostCenter,
     handleDateChange,
-    handleDateToChange,
+    handleDateToChange,Type,
+    selectReturnTo ,setselectReturnTo,
+    selectReturnFrom ,setselectReturnFrom,
+    CloseJob,open,handleClickOpen,handleClose,handleSaveAndClose,commentall,setcommentall,ReturnStatus,
+    selectReturnSts,
+    setselectReturnSts,selectStatusReturn
   } = FAM_SEARCH();
+console.log(Path,'Path')
   return (
     <>
       <Header />
@@ -159,86 +166,7 @@ function Issue() {
                   </FormControl>
                 </TableCell>
                 <TableCell style={{ border: "0" }}>
-                </TableCell>
-              </TableRow>
-
-              <TableRow>
-                <TableCell style={{ border: "0" }}>
-                  <TextField
-                    id="FamNo"
-                    size="small"
-                    label="FAM No. :"
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: "4px",
-                      width: "200px",
-                      marginRight: "5px",
-                    }}
-                  ></TextField>
-                </TableCell>
-                <TableCell style={{ border: "0" }}>
-                  <TextField
-                    id="FamTo"
-                    size="small"
-                    label="To. :"
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: "4px",
-                      width: "200px",
-                      marginRight: "5px",
-                    }}
-                  ></TextField>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell style={{ border: "0" }}>
-                  <FormControl
-                    sx={{ width: 200 }}
-                    style={{
-                      display:
-                        Path === "SEARCH" || Path === "APPROVEFAM"
-                          ? "block"
-                          : "none",
-                    }}
-                  >
-                    <Autocomplete
-                      value={selectdept}
-                      onChange={(e, value) => setselectdept(value)}
-                      options={dept.map((item) => item[0])}
-                      noOptionsText="กรุณาเลือก Factory"
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Dept :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  <FormControl
-                    sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
-                  >
-                    <Autocomplete
-                      multiple
-                      value={selectdeptMul}
-                      onChange={(e, value) => setselectdeptMul(value)}
-                      options={dept.map((item) => item[0])}
-                      noOptionsText="กรุณาเลือก Factory"
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Dept :"
-                          size="small"
-                          sx={{ textAlign: "left" }}
-                        />
-                      )}
-                    />
-                  </FormControl>
-                </TableCell>
-                <TableCell style={{ border: 0 }}>
-                  <FormControl
+                <FormControl
                     sx={{ width: 200 }}
                     style={{
                       display:
@@ -288,46 +216,135 @@ function Issue() {
                   </FormControl>
                 </TableCell>
               </TableRow>
+
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  <FormControl sx={{ width: 200 }} style={{}}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Request Type :
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Request Type :"
-                      value={selectReType}
-                      onChange={(e) => {
-                        setselectReType(e.target.value);
-                        findStatus(e.target.value);
-                      }}
-                      size="small"
-                      style={{
-                        width: "200px",
-                      }}
-                    >
-                      {ReType.map((option) => (
-                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                
-                </TableCell>
-                <TableCell style={{ border: 0 }}>
                   <TextField
-                    label="Fix Asset Code :"
+                    id="FamNo"
                     size="small"
-                    variant="outlined"
-                    id="FixAsset"
+                    label="FAM No. :"
                     style={{
-                      width: 200,
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
                     }}
-                  />
+                  ></TextField>
+                </TableCell>
+                <TableCell style={{ border: "0" }}>
+                  <TextField
+                    id="FamTo"
+                    size="small"
+                    label="To. :"
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "4px",
+                      width: "200px",
+                      marginRight: "5px",
+                    }}
+                  ></TextField>
                 </TableCell>
               </TableRow>
               <TableRow>
+                {/* <TableCell style={{ border: "0" }}>
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "block"
+                          : "none",
+                    }}
+                  > */}
+                    {/* <Autocomplete
+                      value={selectdept}
+                      onChange={(e, value) => setselectdept(value)}
+                      options={dept.map((item) => item[0])}
+                      noOptionsText="กรุณาเลือก Factory"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Dept :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    /> */}
+                  {/* </FormControl> */}
+                  {/* <FormControl
+                    sx={{ width: 200 }}
+                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                  > */}
+                    {/* <Autocomplete
+                      multiple
+                      value={selectdeptMul}
+                      onChange={(e, value) => setselectdeptMul(value)}
+                      options={dept.map((item) => item[0])}
+                      noOptionsText="กรุณาเลือก Factory"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Dept :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    /> */}
+                  {/* </FormControl>
+                </TableCell> */}
+                {/* <TableCell style={{ border: 0 }}> */}
+                  {/* <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "block"
+                          : "none",
+                    }}
+                  >
+                    <Autocomplete
+                      value={selectcost}
+                      onChange={(e, value) => setselectcost(value)}
+                      options={getCostCenter.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Cost Center :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                
+                  <FormControl
+                    sx={{ width: 200 }}
+                    style={{
+                      display:
+                        Path === "SEARCH" || Path === "APPROVEFAM"
+                          ? "none"
+                          : "",
+                    }}
+                  >
+                    <Autocomplete
+                      multiple
+                      value={selectCostCenter}
+                      onChange={(e, value) => setselectCostCenter(value)}
+                      options={getCostCenter.map((item) => item[0])}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Cost Center :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                    />
+                  </FormControl> */}
+                {/* </TableCell> */}
+              </TableRow>
+         
+              <TableRow   >
                 {/* <TableCell style={{ border: 0 }}>
                
                   <Typography color={"gray"} style={{ fontSize: "14px" }}>
@@ -357,6 +374,8 @@ function Issue() {
                     id="Date"
                     size="small"
                     type="date"
+                    label="Date From FAM." // เพิ่ม label เพื่อแสดงชื่อว่า Date From
+                    InputLabelProps={{ shrink: true }} 
                     // label="Date From :"
                     style={{
                       backgroundColor: "white",
@@ -377,6 +396,8 @@ function Issue() {
                     size="small"
                     type="date"
                     // label="Date To :"
+                    label="Date To FAM." // เพิ่ม label เพื่อแสดงชื่อว่า Date From
+                    InputLabelProps={{ shrink: true }} 
                     style={{
                       backgroundColor: "white",
                       borderRadius: "4px",
@@ -390,48 +411,38 @@ function Issue() {
                   ></TextField>
                 </TableCell>
               </TableRow>
-
-              <TableRow
-                style={{
-                  display: Path === "SEARCH" ? "table-row" : "none",
-                }}
-              >
-                <TableCell style={{ border: 0 }} colSpan={2}>
-                  <TextField
-                    size="small"
-                    value={UserLogin}
-                    label="Request By :"
-                    disabled
-                    style={{
-                      backgroundColor: "rgba(169, 169, 169, 0.3)",
-                      width: "420px",
-                    }}
-                  ></TextField>
-                </TableCell>
-              </TableRow>
-
-              <TableRow
-                style={{ display: Path === "FAMMASTER" ? "table-row" : "none" }}
-              >
-                <TableCell style={{ border: "0" }} colSpan={2}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Request By :"
-                    size="small"
-                    variant="outlined"
-                    style={{ width: "414px" }}
-                    value={Txt_ID_Owner}
-                    onChange={(e) => {
-                      setTxt_ID_Owner(e.target.value);
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
+            
               <TableRow>
                 <TableCell style={{ border: "0" }}>
-                  <FormControl
+                  <FormControl sx={{ width: 200 }} style={{}}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Request Type :
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Request Type :"
+                      value={selectReType}
+                      onChange={(e) => {
+                        setselectReType(e.target.value);
+                        findStatus(e.target.value);
+                      }}
+                      size="small"
+                      style={{
+                        width: "200px",
+                      }}
+                    >
+                      {ReType.map((option) => (
+                        <MenuItem value={option[0]}>{option[1]}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                
+                </TableCell>
+                <TableCell style={{ border: "0" }}>
+                <FormControl
                     sx={{ width: 200 }}
-                    style={{ display: Path === "FAMMASTER" ? "block" : "none" }}
+                    style={{ display: Path === "FAMMASTER" || Path === "CLOSEACC"  ? "block" : "none" }}
                   >
                     <Autocomplete
                       value={selectStatus}
@@ -457,10 +468,151 @@ function Issue() {
                       }
                       noOptionsText=" กรุณาเลือก Request Type"
                     />
-                  </FormControl>
-                </TableCell>
-                <TableCell style={{ border: 0 }}></TableCell>
+                  </FormControl> </TableCell>
+                {/* <TableCell style={{ border: 0 }}>
+                  <TextField
+                    label="Fix Asset Code :"
+                    size="small"
+                    variant="outlined"
+                    id="FixAsset"
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                </TableCell> */}
               </TableRow>
+              <TableRow
+                style={{
+                  display: Path === "SEARCH" ? "table-row" : "none",
+                }}
+              >
+                <TableCell style={{ border: 0 }} colSpan={2}>
+                  <TextField
+                    size="small"
+                    value={UserLogin}
+                    label="Request By :"
+                    disabled
+                    style={{
+                      backgroundColor: "rgba(169, 169, 169, 0.3)",
+                      width: "420px",
+                    }}
+                  ></TextField>
+                </TableCell>
+              </TableRow>
+
+              <TableRow 
+              style={{ display: Path === 'CLOSEACC' ? '' : 'none' }}
+              >
+  <TableCell style={{ border: 0 }}>
+    <FormControl
+      sx={{ width: 200 }}
+     
+    >
+      <TextField
+        // id="DateFrom"
+        size="small"
+        type="date"
+        label="Date From Return" // เพิ่ม label เพื่อแสดงชื่อว่า Date From
+        InputLabelProps={{ shrink: true }} // ทำให้ label แสดงขึ้นเมื่อเป็น date picker
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '4px',
+          width: '200px',
+          marginRight: '5px',
+        }}
+        value={selectReturnFrom}
+        onChange={(e) => {
+          setselectReturnFrom(e.target.value);
+        }}
+      />
+    </FormControl>
+  </TableCell>
+  <TableCell style={{ border: 0  }}>
+    <FormControl
+      sx={{ width: 200 }}
+     
+    >
+      <TextField
+        // id="DateTo"
+        size="small"
+        type="date"
+        label="Date To Return" // เพิ่ม label เพื่อแสดงชื่อว่า Date To
+        InputLabelProps={{ shrink: true }} // ทำให้ label แสดงขึ้นเมื่อเป็น date picker
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '4px',
+          width: '200px',
+          marginRight: '5px',
+        }}
+        value={selectReturnTo}
+        onChange={(e) => {
+          setselectReturnTo(e.target.value);
+        }}
+      />
+    </FormControl>
+  </TableCell>
+</TableRow>
+
+
+              <TableRow
+                style={{ display: Path === "FAMMASTER" || Path == 'CLOSEACC' ? "table-row" : "none" }}
+              >
+                <TableCell style={{ border: "0" }} colSpan={2}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Request By :"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: "414px" }}
+                    value={Txt_ID_Owner}
+                    onChange={(e) => {
+                      setTxt_ID_Owner(e.target.value);
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+{/*                 
+                <TableCell style={{ border: "0" }}>
+                 
+                  {(Path == 'CLOSEACC' &&
+                  <FormControl
+                    sx={{ width: 200 }}
+                   
+                  >
+                    <Autocomplete
+                      value={selectReturnSts}
+                      // onChange={(e, value) => {
+                      //  setselectReturnSts(value);
+                      //  selectStatusReturn(value.value);
+                      // }}
+                      onChange={(e, value) => {
+                        setselectStatus(value);
+                        selectStatusID(value.value);
+                      }}
+                      options={ReturnStatus.map((item) => ({
+                        label: item[1],
+                        value: item[0],
+                      }))}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Status :"
+                          size="small"
+                          sx={{ textAlign: "left" }}
+                        />
+                      )}
+                      getOptionSelected={(option, value) =>
+                        value === "" ? false : option.value === value.value
+                      }
+                    
+                    />
+                  </FormControl>)}
+                </TableCell> */}
+               
+              </TableRow>
+              
             </Table>
           </div>
         </div>
@@ -490,6 +642,7 @@ function Issue() {
                     Search
                   </Button>
                   &nbsp;
+                  {(Type == null &&
                   <Button
                     className="ButtonSearch"
                     style={{
@@ -497,11 +650,13 @@ function Issue() {
                       backgroundColor: "#391AFB",
                     }}
                     variant="contained"
-                    onClick={New}
+                    onClick={() => {
+                      New('Issue FAM');
+                    }}
                   >
                     <AddIcon />
                     New
-                  </Button>
+                  </Button>)}
                   &nbsp;
                   {Path === "FAMMASTER" && (
                     <Button
@@ -517,6 +672,7 @@ function Issue() {
                       Export Excel
                     </Button>
                   )}
+                   
                   &nbsp;
                   <Button
                     className="ButtonSearch"
@@ -531,16 +687,72 @@ function Issue() {
                     <RestartAltIcon />
                     Reset
                   </Button>
+                  &nbsp;
+                  &nbsp;
+                
                 </TableCell>
               </TableRow>
             </Table>
           </div>
         </div>
-
+   
         <div className="responsive-container">
+        {Path === "CLOSEACC" && (
+          <>
+                    <Button
+                    className="ButtonSearch"
+                    style={{
+                      backgroundColor: "#e51c23",
+                      width: "180px",
+                       visibility: checkHead 
+                    }}
+                    variant="contained"
+                    onClick={handleClickOpen} // เปิด Popup เมื่อคลิก
+                  >
+                    Close Request
+                  </Button>
+            
+                  <Dialog
+                    open={open}
+                    onClose={handleClose} // ปิด Popup
+                  >
+                    <DialogTitle>กรุณากรอก Comment</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                      <Box sx={{ width: 500, maxWidth: '100%', maxHeight: '500px' }}>
+        <TextField
+          multiline
+          rows={4}
+          variant="outlined"
+          fullWidth
+          required
+          error={!commentall}
+          helperText={!commentall ? 'กรุณา Comment' : ''}
+          value={commentall}
+          onChange={(e) => setcommentall(e.target.value)} // อย่าลืมอัพเดทค่า comment
+        />
+      </Box>
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>    
+                      <Button onClick={handleSaveAndClose} color="primary" variant="contained">
+                        Save
+                      </Button>
+                      <Button onClick={handleClose} color="primary">
+                        Close
+                      </Button>
+                  
+                    </DialogActions>
+                  </Dialog>
+                  </>
+                  )}
+                
           <TableContainer style={{ visibility: checkHead }} component={Paper}>
+          <br></br>
             <Table aria-label="simple table">
-              <TableHead className="Serach-Data">
+              <TableHead 
+              className="Serach-Data"
+              >
                 <TableRow>
                   {Path === "FAMMASTER" && (
                     <TableCell>
@@ -552,6 +764,11 @@ function Issue() {
                       />
                     </TableCell>
                   )}
+                       {Path === "CLOSEACC" && (
+                    <TableCell>
+                     
+                    </TableCell>
+                  )}
                   <TableCell></TableCell>
                   <TableCell></TableCell>
                   <TableCell>Factory</TableCell>
@@ -561,6 +778,9 @@ function Issue() {
                   <TableCell>Issue Date</TableCell>
                   <TableCell>Type</TableCell>
                   <TableCell>Request Status</TableCell>
+                  {Path =='CLOSEACC'  &&(
+                  <TableCell>Return Date</TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -578,35 +798,49 @@ function Issue() {
                             />
                           </TableCell>
                         )}
+                        {Path === "CLOSEACC" && (
+                          <TableCell>
+                            {console.log(item[6],"item[6]")}
+                            <Checkbox
+                              {...label}
+                              onChange={() => CloseJob(item[2])}
+                              checked={selectedRows.includes(item[2])}
+                              
+                            />
+                          </TableCell>
+                        )}
                         <TableCell style={{ width: "0px" }}>
-                          {Path === "SEARCH" ? (
-                            loading === "false" && index === selectindex ? (
-                              <LoadingOutlined style={{ fontSize: "30px" }} />
-                            ) : (
-                              <EditNoteIcon
-                                style={{ color: "#F4D03F", fontSize: "30px" }}
-                                onClick={() => handleEdit(item[2], index)}
-                              />
-                            )
-                          ) : Path === "APPROVEFAM" ? (
-                            loading === "false" && index === selectindex ? (
-                              <LoadingOutlined style={{ fontSize: "30px" }} />
-                            ) : (
-                              <AddTaskIcon
-                                style={{ color: "#F4D03F", fontSize: "30px" }}
-                                onClick={() => handleEdit(item[2], index)}
-                              />
-                            )
-                          ) : loading === "false" && index === selectindex ? (
-                            <LoadingOutlined style={{ fontSize: "30px" }} />
-                          ) : (
-                            <>
-                              <FilePdfOutlined
-                                style={{ color: "red", fontSize: "30px" }}
-                                onClick={() => handlePDF(item[2], index)}
-                              />
-                            </>
-                          )}
+                        {Path === "SEARCH" ? (
+  loading === "false" && index === selectindex ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : (
+    <EditNoteIcon
+      style={{ color: "#F4D03F", fontSize: "30px" }}
+      onClick={() => handleEdit(item[2], index, "Issue FAM")}
+    />
+  )
+) : Path === "APPROVEFAM" ? (
+  loading === "false" && index === selectindex ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : (
+    <AddTaskIcon
+      style={{ color: "#F4D03F", fontSize: "30px" }}
+      onClick={() => handleEdit(item[2], index, "Approve FAM")}
+    />
+  )
+) : Path === "FAMMASTER" ? (
+  <>
+    <FilePdfOutlined
+      style={{ color: "red", fontSize: "30px" }}
+      onClick={() => handlePDF(item[2], index)}
+    />
+  </>
+) : (
+  loading === "false" && index === selectindex ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : null
+)}
+
                         </TableCell>
                         <TableCell style={{ width: "0px" }}>
                           {item[6] === "Create" &&
@@ -627,18 +861,18 @@ function Issue() {
                               />
                             ))}
 
-                          {Path === "FAMMASTER" &&
-                            (loading === "false" &&
-                            index === selectindex_delete ? (
-                              <LoadingOutlined style={{ fontSize: "30px" }} />
-                            ) : (
-                              <FileSearchOutlined
-                                style={{ color: "#40A2E3", fontSize: "30px" }}
-                                onClick={() => {
-                                  handleVIEW(item[2], item[7]);
-                                }}
-                              />
-                            ))}
+{(Path === "FAMMASTER" || Path === "CLOSEACC") &&
+  (loading === "false" && index === selectindex_delete ? (
+    <LoadingOutlined style={{ fontSize: "30px" }} />
+  ) : (
+    <FileSearchOutlined
+      style={{ color: "#40A2E3", fontSize: "30px" }}
+      onClick={() => {
+        handleVIEW(item[2], item[7], Path === "FAMMASTER" ? 'FAM Master List' : 'Close FAM by ACC');
+      }}
+    />
+  ))}
+
                         </TableCell>
 
                         <TableCell>{item[0]}</TableCell>
@@ -651,13 +885,24 @@ function Issue() {
                         <TableCell>
                           <Typography
                             style={{
-                              borderRadius: "10px",
+                              borderRadius: "6px",
                               background: "#FFB9B9",
+                              textAlign:'center'
                             }}
                           >
                             {item[6]}
                           </Typography>
                         </TableCell>
+                        {Path =='CLOSEACC'&&(
+                        <TableCell >
+                          <Typography
+                            style={{
+                              borderRadius: "6px",
+                              background: "#FFA07A",
+                            }}
+                          >
+                            {item[8]}</Typography>
+                            </TableCell>)}
                       </TableRow>
                     ))
                 ) : (

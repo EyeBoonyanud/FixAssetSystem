@@ -15,6 +15,8 @@ function FAM_SEARCH() {
   const Emp = localStorage.getItem("EmpID");
   let UserLogin = Emp + ":" + Name + " " + Lastname;
  const Type =localStorage.getItem("TYPE");
+ const STS_search =localStorage.getItem("STATUS");
+ const COST = localStorage.getItem('Costcenter')
   //const set
   const [datafac, setdatafac] = useState([]);
   const [selecteDatafac, setselecteDatafac] = useState("");
@@ -52,6 +54,12 @@ function FAM_SEARCH() {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const [convertedDate, setConvertedDate] = useState("");
   const [convertedDateTo, setConvertedDateTo] = useState("");
+  const [selectReturnFrom ,setselectReturnFrom]= useState("");
+  const [selectReturnTo ,setselectReturnTo]= useState("");
+  const [selectReturnSts,setselectReturnSts]= useState(null);
+  const [ReturnStatus,setReturnStatus]= useState([]);
+   
+  const[commentall,setcommentall]= useState("");
 
   // const pagina
   const [page, setPage] = useState(0);
@@ -79,7 +87,8 @@ function FAM_SEARCH() {
   };
 
   const navigate = useNavigate();
-  const New = () => {
+  const New = (value) => {
+    localStorage.setItem("StatusPage",value)
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
     localStorage.removeItem("TransForDetail");
@@ -94,22 +103,27 @@ function FAM_SEARCH() {
     localStorage.removeItem("Edit_cer_date");
     localStorage.removeItem("Edit_Lending");
     localStorage.removeItem("Edit_Sale");
+    localStorage.removeItem("For_Scrap_show")
+    localStorage.removeItem("For_Leading_New")
     localStorage.removeItem("Type");
     navigate("/FAMsystem/ForRe");
   };
   const Search = async () => {
     const FamNo = document.getElementById("FamNo").value;
     const FamTo = document.getElementById("FamTo").value;
-    const FixAsset = document.getElementById("FixAsset").value;
+    //const FixAsset = document.getElementById("FixAsset").value;
     const Date = document.getElementById("Date").value;
     const DateTo = document.getElementById("DateTo").value;
     let Search_for_type=""
-    if(Type !== null)
+    if (Path !== 'CLOSEACC'){
+      if(Type !== null)
       {
         Search_for_type = Type
       }else{
         Search_for_type = selectReType
       }
+    }
+    
     if (Path === "SEARCH") {
       try {
         const response = await axios.post("/getsearch", {
@@ -137,6 +151,13 @@ function FAM_SEARCH() {
         console.error("Error getsearch SEARCH :", error);
       }
     } else if (Path === "APPROVEFAM") {
+      let status = ''
+      if(STS_search == null){
+        status= ''
+      }else
+      {
+        status=STS_search
+      }
       try {
         const response = await axios.post("/getsearch2", {
           UserLogin: UserLoginn,
@@ -148,6 +169,8 @@ function FAM_SEARCH() {
           ReType: Search_for_type,
           ReDate: Date,
           ReDateTo: DateTo,
+          sts : status,
+          cost_center : COST
         });
         const data = response.data;
         setCheckHead("visible");
@@ -204,6 +227,41 @@ function FAM_SEARCH() {
             setCheckData("visible");
           }
         });
+    }else if (Path === "CLOSEACC") {
+      const unwrappedArrayOwnerCC = selectCostCenter.map((item) =>
+        item.replace(/'/g, "")
+      );
+      const MultipleOwnerCC = unwrappedArrayOwnerCC.join(",");
+      // ตัดวันเดือนปีให้เหลือ YYYY-MM
+      const ReturnFrom = selectReturnFrom.substring(0, 7);
+      const ReturnTo = selectReturnTo.substring(0, 7);
+      const MultipleReqType = selectReType;
+      axios
+        .post("/search3", {
+          Fac: selecteDatafac,
+          OwnerCC: MultipleOwnerCC,
+          FamFrom: FamNo,
+          FamTo: FamTo,
+          DateFrom: Date,
+          DateTo: DateTo,
+          ByID: Txt_ID_Owner.trim(),
+          ReturnFrom:ReturnFrom,
+          ReturnTo:ReturnTo,
+          StsID:idStatus,
+          ReqType: MultipleReqType,
+        })
+        .then((res) => {
+          const data = res.data;
+          setCheckHead("visible");
+          setdataSearch(data);
+          if (data.length === 0) {
+            setCheckEmpty("visible");
+            setCheckData("hidden");
+          } else {
+            setCheckEmpty("hidden");
+            setCheckData("visible");
+          }
+        });
     }
     localStorage.removeItem("ForRequester");
     localStorage.removeItem("forDetail");
@@ -217,14 +275,19 @@ function FAM_SEARCH() {
     localStorage.removeItem("Edit_routing");
     localStorage.removeItem("Type");
   };
+  const selectStatusReturn = async (id) => {
+    setidStatus(id);
+  };
   const Reset = async () => {
     document.getElementById("FamNo").value = "";
     document.getElementById("FamTo").value = "";
-    document.getElementById("FixAsset").value = "";
+    // if(Path !== 'CLOSEACC'){
+    //   document.getElementById("FixAsset").value = "";
+    // }
     setselectdept("");
     setselecteDatafac("");
     setselectcost("");
-    setselectReType("");
+
     setdataSearch([]);
     setCheckHead("hidden");
     setCheckEmpty("hidden");
@@ -242,6 +305,11 @@ function FAM_SEARCH() {
     setselectStatus(null);
     setConvertedDate("");
     setConvertedDateTo("");
+    setselectReturnFrom("")
+    setselectReturnTo("")
+    setselectReturnSts(null);
+    setselectReType("");
+    
   };
   const Factory = async () => {
     try {
@@ -292,7 +360,7 @@ function FAM_SEARCH() {
           StatusType = "SCRAP";
           break;
         case "GP01003":
-          StatusType = "SALE";
+          StatusType = "SALES";
           break;
         case "GP01004":
           StatusType = "LOSS";
@@ -324,14 +392,23 @@ function FAM_SEARCH() {
       console.error("Error:", error);
     }
   };
+  const findLending = async () => {
+    try {
+      const response = await axios.get(`/findstsLending`);
+      const lending = await response.data;
+      setReturnStatus(lending);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
 
   const currentURL = window.location.href;
   const parts = currentURL.split("/");
   const cutPath = parts[parts.length - 1];
   const Path = cutPath.toUpperCase();
-  localStorage.setItem("pageshow", cutPath);
 
-  const handleEdit = async (EditFam, index, TextField) => {
+  const handleEdit = async (EditFam, index, page) => {
+    localStorage.setItem("StatusPage",page)
     setselectindex(index);
     setloading("false");
     try {
@@ -395,6 +472,7 @@ function FAM_SEARCH() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Lending", data_edit);
+    
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -406,6 +484,7 @@ function FAM_SEARCH() {
       const data = await response.data;
       const data_edit = JSON.stringify(data);
       localStorage.setItem("Edit_Scrap", data_edit);
+      console.log(data,"data")
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -424,7 +503,8 @@ function FAM_SEARCH() {
     localStorage.setItem("EDIT", EditFam);
     setloading("True");
     setselectindex("0");
-    window.location.href = "/FAMsystem/ForRe";
+   
+   window.location.href = "/FAMsystem/ForRe";
   };
 
   const handlePDF = async (PDF_FAM) => {
@@ -434,7 +514,8 @@ function FAM_SEARCH() {
     window.location.href = `/FAMsystem/PDF_download
     `;
   };
-  const handleVIEW = async (VIEW_FAM, TYPE) => {
+  const handleVIEW = async (VIEW_FAM, TYPE,page) => {
+    localStorage.setItem("StatusPage",page)
     localStorage.setItem("EDIT", VIEW_FAM);
     localStorage.setItem("TYPE_flow", TYPE);
    window.location.href = `/FAMsystem/VIEW_Fammaster`;
@@ -449,6 +530,9 @@ function FAM_SEARCH() {
       localStorage.setItem("page", Path);
     } else if (Path == "FAMMASTER") {
       setTxt_Title("FAM Master List");
+      localStorage.setItem("page", Path);
+    }else if (Path == "CLOSEACC") {
+      setTxt_Title("Close FAM by ACC");
       localStorage.setItem("page", Path);
     }
   };
@@ -483,7 +567,7 @@ function FAM_SEARCH() {
               Delect_Status = "FLSC999";
               break;
             case "Sales":
-              Delect_Status = "SALE";
+              Delect_Status = "FLSL924";
               break;
             case "Loss":
               Delect_Status = "FLLS999";
@@ -589,6 +673,20 @@ function FAM_SEARCH() {
       setSelectAll(false);
       setSelectedRows([id]);
     } else {
+      
+      if (selectedRows.includes(id)) {
+        setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
+      } else {
+        setSelectedRows((prev) => [...prev, id]);
+      }
+    }
+  };
+  const CloseJob = (id) => {
+    if (selectAll) {
+      setSelectAll(false);
+      setSelectedRows([id]);
+    } else {
+      
       if (selectedRows.includes(id)) {
         setSelectedRows((prev) => prev.filter((rowId) => rowId !== id));
       } else {
@@ -621,6 +719,52 @@ function FAM_SEARCH() {
   const convertDate = (date) => {
     return moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
   };
+  const SaveCloseJob = async () =>{
+    if(selectedRows.length > 0){
+
+      for(let i = 0; i < selectedRows.length;i++){
+        let row = selectedRows[i]
+        await axios.post("/update_closejob_lending", {
+          tranfer: row,
+          userlogin:UserLoginn,
+          comment_lending: commentall,
+        });
+        await axios.post("/update_submit", {
+          famno: row,
+          sts_submit:'FLLD899'
+        });
+      }
+      Swal.fire({
+        icon: "success",
+        text: "Save ACC close request",
+      });
+      Search();
+    }else{
+      Swal.fire({
+        icon: "error",
+        text: "กรุณาเลือก FAM ที่ต้องการ Close Request",
+      });
+    }
+ 
+  }
+  const [open, setOpen] = useState(false);
+
+  // ฟังก์ชันเปิด Popup
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // ฟังก์ชันปิด Popup
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // ฟังก์ชัน Save และปิด Popup
+  const handleSaveAndClose = () => {
+    // ใส่ฟังก์ชัน SaveCloseJob ที่นี่
+    SaveCloseJob();
+    setOpen(false); // ปิด Popup หลังบันทึก
+  };
 
   // Use Effect
   useEffect(() => {
@@ -646,6 +790,7 @@ function FAM_SEARCH() {
     Factory();
     CostCenter();
     RequestType();
+    findLending();
   }, []);
 
   return {
@@ -717,6 +862,11 @@ function FAM_SEARCH() {
     emptyRows_table_report,
     handleDateChange,
     handleDateToChange,
+    Type,selectReturnTo ,setselectReturnTo,
+    selectReturnFrom ,setselectReturnFrom,CloseJob,open,handleClickOpen,handleClose,handleSaveAndClose,ReturnStatus,
+    selectReturnSts,
+    setselectReturnSts,
+    commentall,setcommentall,selectStatusReturn
   };
 }
 

@@ -17,11 +17,12 @@ import FamTrans from './Monitoring/Fam_Trans'
 import VIEW_Fammaster from './Monitoring/Fam_Req';
 import Mail from './Mail/Mail'
 import PDF_download from './PDF_fam_master/PDF_design'
+import Close_ACC from './Transaction/Search'
 //import Tran from './Function/Tranfer_fn'
 import axios from "axios";
 
 // process.env.NODE_ENV = 'production';
-const backendURL = "http://10.17.74.202:5000";
+const backendURL = "http://10.17.100.183:5001";
 axios.defaults.baseURL = backendURL;
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/FAMsystem/VIEW_Fammaster" element={<VIEW_Fammaster />} />
         <Route path="/FAMsystem/Mail" element={<Mail />} />
         <Route path="/FAMsystem/PDF_download" element={<PDF_download />} />
+        <Route path="/FAMsystem/CloseACC" element={<Close_ACC />} />
         
         
         

@@ -34,6 +34,7 @@ export default function SignInSide() {
   let UserLogin = "";
   let Emp = "";
   let NameRole = "";
+  let Cost_Center ='';
 
   const handleLogin = async () => {
     setLoading(true);
@@ -45,7 +46,7 @@ export default function SignInSide() {
       const user = usernameElement.value;
       const password = passwordElement.value;
       try {
-        const response = await axios.post("/login", {
+        const response = await axios.post("/Login", {
           User: user,
           Password: password
         });
@@ -57,17 +58,19 @@ export default function SignInSide() {
           UserLogin = data[0][3];
           Emp = data[0][4];
           NameRole = data[0][5];
+          Cost_Center = data[0][6];
             localStorage.setItem("Name", Name);
             localStorage.setItem("Lastname", Lastname);
             localStorage.setItem("Role", Role);
             localStorage.setItem("UserLogin", UserLogin);
             localStorage.setItem("EmpID", Emp);
             localStorage.setItem("NameRole", NameRole);
+            localStorage.setItem("Costcenter",Cost_Center)
             window.location.href = "/FAMsystem/Homepage";
           
         } else {
           console.error("Login failed");
-          alert("Invalid username or password");
+          alert("username หรือ password ผิดพลาด");
         }
       } catch (error) {
         console.error("Error during login:", error);
@@ -153,6 +156,11 @@ export default function SignInSide() {
                   id="Username"
                   label="Username"
                   onChange={(e) => setUser(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -183,6 +191,11 @@ export default function SignInSide() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -236,6 +249,11 @@ export default function SignInSide() {
                   htmlType="submit"
                   className="login-form-button"
                   onClick={handleLogin}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleLogin();
+                    }
+                  }}
                   loading={loading} 
                 >
                    {loading ? 'Loading' : 'Login'} 

@@ -695,12 +695,18 @@ function FAM_GET_SHOW_FILE() {
       const fileType = file.type;
 
       if (!allowedTypes.includes(fileType)) {
-        alert("Only PDF, JPG, and XLS files are allowed.");
+        Swal.fire({
+          text: "Only PDF, JPG, and XLS files are allowed.",
+          icon: "error",
+        });
         return;
       }
 
       if (file.size > maxSize) {
-        alert("File size exceeds 10 MB.");
+        Swal.fire({
+          text: "File size exceeds 10 MB.",
+          icon: "error",
+        });
         return;
       }
     }

@@ -81,7 +81,7 @@ module.exports.getCountTransferlistaLL = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
-    COUNT(CASE WHEN TT.FFM_CODE = 'FLTR001' THEN 1 ELSE NULL END) AS T_CREATE,
+    COUNT(CASE WHEN TT.FFM_CODE IN ('FLTR001', 'FLTR092','FLTR093','FLTR094','FLTR095','FLTR096','FLTR907','FLTR908','FLTR909','FLTR910','FLTR911','FLTR912') THEN 1 ELSE NULL END) AS T_CREATE,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLTR002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLTR003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLTR004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
@@ -100,7 +100,7 @@ WHERE
     TT.FFM_TYPE = 'TRANSFER'
     AND TT.FFM_STATUS = 'A'
     AND (
-        HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLTR001'
+        HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLTR001', 'FLTR092','FLTR093','FLTR094','FLTR095','FLTR096','FLTR907','FLTR908','FLTR909','FLTR910','FLTR911','FLTR912')
         OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLTR002'
         OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLTR003'
         OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLTR004'
@@ -284,7 +284,7 @@ module.exports.getCountLosslistaLL = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
-    COUNT(CASE WHEN TT.FFM_CODE = 'FLLS001' THEN 1 ELSE NULL END) AS T_CREATE,
+    COUNT(CASE WHEN TT.FFM_CODE IN ('FLLS001','FLLS092','FLLS093','FLLS094','FLLS095','FLLS096','FLLS907','FLLS908','FLLS910','FLLS911','FLLS912') THEN 1 ELSE NULL END) AS T_CREATE,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLLS002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLLS003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLLS004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
@@ -301,7 +301,7 @@ WHERE
     TT.FFM_TYPE = 'LOSS'
     AND TT.FFM_STATUS = 'A'
     AND (
-        HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLS001'
+        HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLLS001','FLLS092','FLLS093','FLLS094','FLLS095','FLLS096','FLLS907','FLLS908','FLLS910','FLLS911','FLLS912')
         OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLS002'
         OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLS003'
         OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLS004'
@@ -386,7 +386,7 @@ module.exports.getCountWrite_offlistaLL = async function (req, res) {
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLWO001' THEN 1 ELSE NULL END) AS T_CREATE,
+      COUNT(CASE WHEN TT.FFM_CODE IN ('FLWO001','FLWO092','FLWO093','FLWO094','FLWO095','FLWO096','FLWO907','FLWO908','FLWO910','FLWO911','FLWO912') THEN 1 ELSE NULL END) AS T_CREATE,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLWO002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLWO003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLWO004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
@@ -403,7 +403,7 @@ module.exports.getCountWrite_offlistaLL = async function (req, res) {
       TT.FFM_TYPE = 'WRITE-OFF'
       AND TT.FFM_STATUS = 'A'
       AND (
-          HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLWO001'
+          HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLWO001','FLWO092','FLWO093','FLWO094','FLWO095','FLWO096','FLWO907','FLWO908','FLWO910','FLWO911','FLWO912')
           OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLWO002'
           OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLWO003'
           OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLWO004'
@@ -443,98 +443,299 @@ module.exports.getCountWrite_offlistaLL = async function (req, res) {
 
   
 //CountLending
+// module.exports.getCountLending = async function (req, res) {
+//     try {
+//       const{UserLogin}=  req.body;
+//       const connect = await oracledb.getConnection(AVO);
+//       const query = `
+//       SELECT  COUNT(T.FRH_FAM_NO)
+//       FROM FAM_REQ_HEADER T
+//       LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = T.FRH_FAM_NO
+//       WHERE 1=1
+//           AND (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD001'
+//           OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD002')
+//           OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD003')
+//           OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD004')
+//           OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD005')
+//           OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD006')
+//           OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD007')
+//           OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD008')
+//           OR (LD.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD009')
+//           OR (LD.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD100')
+//           OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD010')
+//           OR (T.FAM_ACC_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD011')
+//           OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD012')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD092')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD093')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD094')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD095')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD096')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD907')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD908')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD909')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD109')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD910')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD911')
+//           OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD912'))
+//          AND T.FAM_REQ_TYPE  = 'GP01006' 
+//            `;
+//       const result = await connect.execute(query);
+//       connect.release();
+//       res.json(result.rows);
+//     } catch (error) {
+//       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLending", error.message);
+//     }
+//   };
+//ก่อน uodate 15/10/2024
+// module.exports.getCountLending = async function (req, res) {
+//   try {
+//     const{UserLogin,cost_center}=  req.body;
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     SELECT  COUNT(T.FRH_FAM_NO)
+//     FROM FAM_REQ_HEADER T
+//     LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = T.FRH_FAM_NO
+//     WHERE 1=1
+//         AND (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD001'
+//         OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD002')
+//         OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD003')
+//         OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD004')
+//         OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD005')
+//         OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD006')
+//         OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD007')
+//         OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD008')
+//         OR (LD.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD009')
+//         OR (T.FAM_REQ_STATUS = 'FLLD100' AND T.FAM_REQ_CC ='${cost_center}')
+//         --OR (LD.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD100')
+//         OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD010')
+//         OR (T.FAM_ACC_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD011')
+//         OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD012')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD092')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD093')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD094')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD095')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD096')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD907')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD908')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD909')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD109')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD910')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD911')
+//         OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD912'))
+//        AND T.FAM_REQ_TYPE  = 'GP01006' 
+//          `;
+//     const result = await connect.execute(query);
+//     connect.release();
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLending", error.message);
+//   }
+// };
+// Update
 module.exports.getCountLending = async function (req, res) {
-    try {
-      const{UserLogin}=  req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT  COUNT(T.FRH_FAM_NO)
-      FROM FAM_REQ_HEADER T
-      LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = T.FRH_FAM_NO
-      WHERE 1=1
-          AND (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD001'
-          OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD002')
-          OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD003')
-          OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD004')
-          OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD005')
-          OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD006')
-          OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD007')
-          OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD008')
-          OR (LD.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD009')
-          OR (LD.FRL_OWNER_RETURN_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD100')
-          OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD010')
-          OR (T.FAM_ACC_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD011')
-          OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD012')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD092')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD093')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD094')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD095')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD096')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD907')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD908')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD909')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD109')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD910')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD911')
-          OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD912'))
-         AND T.FAM_REQ_TYPE  = 'GP01006' 
-           `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLending", error.message);
-    }
-  };
+  try {
+    const{UserLogin,cost_center}=  req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT  COUNT(T.FRH_FAM_NO)
+    FROM FAM_REQ_HEADER T
+    LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = T.FRH_FAM_NO
+     JOIN cusr.cu_user_m m ON UPPER(T.fam_req_by) = UPPER(m.user_login)
+      JOIN cusr.CU_USER_HUMANTRIX H ON H.EMPCODE = m.user_emp_id
+    WHERE 1=1
+        AND (T.FAM_REQ_BY = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD001'
+        OR (T.FAM_MGR_DEPT = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD002')
+        OR (T.FAM_SERVICE_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD003')
+        OR (T.FAM_BOI_CHK_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD004')
+        OR (T.FAM_BOI_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD005')
+        OR (T.FAM_FM_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD006')
+        OR (T.FAM_ACC_CHK_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD007')
+        OR (T.FAM_OWNER_SEND_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD008')
+        OR (LD.FRL_ACC_MGR_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD009')
+         OR (
+            (T.FAM_REQ_STATUS = 'FLLD100' AND m.user_login = '${UserLogin}')
+            OR (H.STATUS = 'Terminate' AND  T.FAM_REQ_CC = '${cost_center}')
+        )
+        OR (T.FAM_ACC_REC_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD010')
+        OR (T.FAM_ACC_MGR_BY  = '${UserLogin}' AND T.FAM_REQ_STATUS = 'FLLD011')
+        OR (T.FAM_SERVICE_CLOSE_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD012')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD092')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD093')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD094')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD095')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD096')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD907')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD908')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD909')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD109')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD910')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD911')
+        OR (T.FAM_REQ_BY  = '${UserLogin}'  AND T.FAM_REQ_STATUS = 'FLLD912'))
+       AND T.FAM_REQ_TYPE  = 'GP01006' 
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLending", error.message);
+  }
+};
 
   //CountLendingListALL
+// module.exports.getCountLendinglistaLL = async function (req, res) {
+//     try {
+//       const {UserLogin} = req.body;
+//       const connect = await oracledb.getConnection(AVO);
+//       const query = `
+//       SELECT
+//       COUNT(CASE WHEN TT.FFM_CODE IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912') THEN 1 ELSE NULL END) AS T_CREATE,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD005' THEN 1 ELSE NULL END) AS T_WAIT_BOI_M,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD006' THEN 1 ELSE NULL END) AS T_WAIT_FACTORY_M,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD007' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SC,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD008' THEN 1 ELSE NULL END) AS T_WAIT_O_C,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD009' THEN 1 ELSE NULL END) AS T_WAIT_ACC_RE,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD100' THEN 1 ELSE NULL END) AS T_WAIT_O_RE,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD010' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SUD,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD011' THEN 1 ELSE NULL END) AS T_WAIT_ACC_MGR,
+//       COUNT(CASE WHEN TT.FFM_CODE = 'FLLD012' THEN 1 ELSE NULL END) AS T_WAIT_SERVICE_DC
+//   FROM FAM_FLOW_MASTER TT
+//   LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
+//   LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = HT.FRH_FAM_NO
+//   WHERE
+//       TT.FFM_TYPE = 'LENDING'
+//       AND TT.FFM_STATUS = 'A'
+//       AND (
+//           HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912')
+//           OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD002'
+//           OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD003'
+//           OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD004'
+//           OR HT.FAM_BOI_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD005'
+//           OR HT.FAM_FM_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD006'
+//           OR HT.FAM_ACC_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD007'
+//           OR HT.FAM_OWNER_SEND_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD008'
+//           OR LD.FRL_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD009'
+//           OR LD.FRL_OWNER_RETURN_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD100'
+//           OR HT.FAM_ACC_REC_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD010'
+//           OR HT.FAM_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD011'
+//           OR HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD012' )
+//            `;
+//       const result = await connect.execute(query);
+//       connect.release();
+//       res.json(result.rows);
+//     } catch (error) {
+//       console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLL", error.message);
+//     }
+//   };
+// ก่อน update 15/10/2024
+// module.exports.getCountLendinglistaLL = async function (req, res) {
+//   try {
+//     const {UserLogin,cost_center} = req.body;
+//     const connect = await oracledb.getConnection(AVO);
+//     const query = `
+//     SELECT
+//     COUNT(CASE WHEN TT.FFM_CODE IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912') THEN 1 ELSE NULL END) AS T_CREATE,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD005' THEN 1 ELSE NULL END) AS T_WAIT_BOI_M,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD006' THEN 1 ELSE NULL END) AS T_WAIT_FACTORY_M,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD007' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SC,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD008' THEN 1 ELSE NULL END) AS T_WAIT_O_C,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD009' THEN 1 ELSE NULL END) AS T_WAIT_ACC_RE,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD100' THEN 1 ELSE NULL END) AS T_WAIT_O_RE,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD010' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SUD,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD011' THEN 1 ELSE NULL END) AS T_WAIT_ACC_MGR,
+//     COUNT(CASE WHEN TT.FFM_CODE = 'FLLD012' THEN 1 ELSE NULL END) AS T_WAIT_SERVICE_DC
+// FROM FAM_FLOW_MASTER TT
+// LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
+// LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = HT.FRH_FAM_NO
+// WHERE
+//     TT.FFM_TYPE = 'LENDING'
+//     AND TT.FFM_STATUS = 'A'
+//     AND (
+//         HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912')
+//         OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD002'
+//         OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD003'
+//         OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD004'
+//         OR HT.FAM_BOI_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD005'
+//         OR HT.FAM_FM_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD006'
+//         OR HT.FAM_ACC_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD007'
+//         OR HT.FAM_OWNER_SEND_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD008'
+//         OR LD.FRL_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD009'
+//        -- OR LD.FRL_OWNER_RETURN_BY = '${UserLogin}'
+//          OR HT.FAM_REQ_STATUS = 'FLLD100' AND HT.FAM_REQ_CC = '${cost_center}'
+//         OR HT.FAM_ACC_REC_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD010'
+//         OR HT.FAM_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD011'
+//         OR HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD012' )
+//          `;
+//     const result = await connect.execute(query);
+//     connect.release();
+//     res.json(result.rows);
+//   } catch (error) {
+//     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLL", error.message);
+//   }
+// };
+
+// Update
 module.exports.getCountLendinglistaLL = async function (req, res) {
-    try {
-      const {UserLogin} = req.body;
-      const connect = await oracledb.getConnection(AVO);
-      const query = `
-      SELECT
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD001' THEN 1 ELSE NULL END) AS T_CREATE,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD005' THEN 1 ELSE NULL END) AS T_WAIT_BOI_M,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD006' THEN 1 ELSE NULL END) AS T_WAIT_FACTORY_M,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD007' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SC,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD008' THEN 1 ELSE NULL END) AS T_WAIT_O_C,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD009' THEN 1 ELSE NULL END) AS T_WAIT_ACC_RE,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD100' THEN 1 ELSE NULL END) AS T_WAIT_O_RE,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD010' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SUD,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD011' THEN 1 ELSE NULL END) AS T_WAIT_ACC_MGR,
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLLD012' THEN 1 ELSE NULL END) AS T_WAIT_SERVICE_DC
-  FROM FAM_FLOW_MASTER TT
-  LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
-  LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = HT.FRH_FAM_NO
-  WHERE
-      TT.FFM_TYPE = 'LENDING'
-      AND TT.FFM_STATUS = 'A'
-      AND (
-          HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD001'
-          OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD002'
-          OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD003'
-          OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD004'
-          OR HT.FAM_BOI_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD005'
-          OR HT.FAM_FM_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD006'
-          OR HT.FAM_ACC_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD007'
-          OR HT.FAM_OWNER_SEND_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD008'
-          OR LD.FRL_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD009'
-          OR LD.FRL_OWNER_RETURN_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD100'
-          OR HT.FAM_ACC_REC_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD010'
-          OR HT.FAM_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD011'
-          OR HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD012' )
-           `;
-      const result = await connect.execute(query);
-      connect.release();
-      res.json(result.rows);
-    } catch (error) {
-      console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLL", error.message);
-    }
-  };
+  try {
+    const {UserLogin,cost_center} = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT
+    COUNT(CASE WHEN TT.FFM_CODE IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912') THEN 1 ELSE NULL END) AS T_CREATE,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD005' THEN 1 ELSE NULL END) AS T_WAIT_BOI_M,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD006' THEN 1 ELSE NULL END) AS T_WAIT_FACTORY_M,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD007' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SC,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD008' THEN 1 ELSE NULL END) AS T_WAIT_O_C,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD009' THEN 1 ELSE NULL END) AS T_WAIT_ACC_RE,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD100' THEN 1 ELSE NULL END) AS T_WAIT_O_RE,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD010' THEN 1 ELSE NULL END) AS T_WAIT_ACC_SUD,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD011' THEN 1 ELSE NULL END) AS T_WAIT_ACC_MGR,
+    COUNT(CASE WHEN TT.FFM_CODE = 'FLLD012' THEN 1 ELSE NULL END) AS T_WAIT_SERVICE_DC
+FROM FAM_FLOW_MASTER TT
+LEFT JOIN FAM_REQ_HEADER HT ON HT.FAM_REQ_STATUS = TT.FFM_CODE
+LEFT JOIN FAM_REQ_LENDING LD ON LD.FRL_FAM_NO  = HT.FRH_FAM_NO
+ JOIN cusr.cu_user_m m ON UPPER(HT.fam_req_by) = UPPER(m.user_login)
+JOIN cusr.CU_USER_HUMANTRIX H ON H.EMPCODE = m.user_emp_id
+WHERE TT.FFM_TYPE = 'LENDING'
+    AND TT.FFM_STATUS = 'A'
+    AND (
+        (HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLLD001','FLLD092','FLLD093','FLLD094','FLLD095','FLLD096','FLLD907','FLLD908','FLLD909','FLLD109','FLLD910','FLLD911','FLLD912'))
+        OR (HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD002')
+        OR (HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD003')
+        OR (HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD004')
+        OR (HT.FAM_BOI_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD005')
+        OR (HT.FAM_FM_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD006')
+        OR (HT.FAM_ACC_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD007')
+        OR (HT.FAM_OWNER_SEND_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD008')
+        OR (LD.FRL_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD009')
+        OR (
+            (HT.FAM_REQ_STATUS = 'FLLD100' AND HT.FAM_REQ_CC = '${cost_center}' AND m.user_login = '${UserLogin}')
+            OR (H.STATUS = 'Terminate' AND  HT.FAM_REQ_CC = '${cost_center}')
+        )
+        OR (HT.FAM_ACC_REC_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD010')
+        OR (HT.FAM_ACC_MGR_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD011')
+        OR (HT.FAM_SERVICE_CLOSE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLLD012')
+    )
+         `;
+    const result = await connect.execute(query);
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountLendinglistaLL", error.message);
+  }
+};
+
+
+
+
   //CountLendingListALLname
   module.exports.getCountLendinglistaLLname = async function (req, res) {
     try {
@@ -602,7 +803,7 @@ module.exports.getCountDonationlistaLL = async function (req, res) {
       const connect = await oracledb.getConnection(AVO);
       const query = `
       SELECT
-      COUNT(CASE WHEN TT.FFM_CODE = 'FLDN001' THEN 1 ELSE NULL END) AS T_CREATE,
+      COUNT(CASE WHEN TT.FFM_CODE IN ('FLDN001','FLDN092','FLDN093','FLDN094','FLDN095','FLDN096','FLDN907','FLDN908','FLDN910','FLDN911','FLDN912') THEN 1 ELSE NULL END) AS T_CREATE,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLDN002' THEN 1 ELSE NULL END) AS T_WAIT_DM,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLDN003' THEN 1 ELSE NULL END) AS T_WAIT_SDC,
       COUNT(CASE WHEN TT.FFM_CODE = 'FLDN004' THEN 1 ELSE NULL END) AS T_WAIT_BOI_SC,
@@ -619,7 +820,7 @@ module.exports.getCountDonationlistaLL = async function (req, res) {
       TT.FFM_TYPE = 'DONATION'
       AND TT.FFM_STATUS = 'A'
       AND (
-          HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLDN001'
+          HT.FAM_REQ_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS IN ('FLDN001','FLDN092','FLDN093','FLDN094','FLDN095','FLDN096','FLDN907','FLDN908','FLDN910','FLDN911','FLDN912')
           OR HT.FAM_MGR_DEPT = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLDN002'
           OR HT.FAM_SERVICE_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLDN003'
           OR HT.FAM_BOI_CHK_BY = '${UserLogin}' AND HT.FAM_REQ_STATUS = 'FLDN004'
@@ -684,7 +885,7 @@ module.exports.getCountScraplistaLL = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
-    COUNT(CASE WHEN TT.FFM_CODE = 'FLSC001' THEN 1 ELSE NULL END) AS S_Create,
+    COUNT(CASE WHEN TT.FFM_CODE IN ('FLSC001','FLSC092','FLSC093','FLSC094','FLSC095','FLSC096','FLSC907','FLSC908','FLSC910','FLSC911','FLSC912') THEN 1 ELSE NULL END) AS S_Create,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSC002' THEN 1 ELSE NULL END) AS Wait_Department_manager,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSC003' THEN 1 ELSE NULL END) AS Wait_Service_Dept,
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSC004' THEN 1 ELSE NULL END) AS Wait_BOI_Staff,
@@ -709,7 +910,7 @@ module.exports.getCountScraplistaLL = async function (req, res) {
     AND TT.FFM_STATUS = 'A'
     AND (
             HT.FAM_REQ_BY = '${UserLogin}'
-      AND HT.FAM_REQ_STATUS = 'FLSC001'
+      AND HT.FAM_REQ_STATUS IN ('FLSC001','FLSC092','FLSC093','FLSC094','FLSC095','FLSC096','FLSC907','FLSC908','FLSC910','FLSC911','FLSC912')
       OR HT.FAM_MGR_DEPT = '${UserLogin}'
       AND HT.FAM_REQ_STATUS = 'FLSC002'
       OR HT.FAM_SERVICE_BY = '${UserLogin}'
@@ -771,7 +972,7 @@ module.exports.getCountSalelistaLL = async function (req, res) {
     const connect = await oracledb.getConnection(AVO);
     const query = `
     SELECT
-    COUNT(CASE WHEN TT.FFM_CODE = 'FLSL001' THEN 1 ELSE NULL END),
+    COUNT(CASE WHEN TT.FFM_CODE IN ('FLSL001', 'FLSL092','FLSL093','FLSL094','FLSL095','FLSL096','FLSL097','FLSL098','FLSL921','FLSL922','FLSL923') THEN 1 ELSE NULL END),
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSL002' THEN 1 ELSE NULL END),
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSL003' THEN 1 ELSE NULL END),
     COUNT(CASE WHEN TT.FFM_CODE = 'FLSL004' THEN 1 ELSE NULL END),
@@ -804,7 +1005,7 @@ module.exports.getCountSalelistaLL = async function (req, res) {
     TT.FFM_TYPE = 'SALES'
     AND TT.FFM_STATUS = 'A'
     AND (
-            HT.FAM_REQ_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL001'
+            HT.FAM_REQ_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS IN ('FLSL001', 'FLSL092','FLSL093','FLSL094','FLSL095','FLSL096','FLSL097','FLSL098','FLSL921','FLSL922','FLSL923')
       OR HT.FAM_MGR_DEPT = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL002'
       OR HT.FAM_SERVICE_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL003'
       OR HT.FAM_BOI_CHK_BY = '${UserLogin}'AND HT.FAM_REQ_STATUS = 'FLSL004'
@@ -833,5 +1034,21 @@ module.exports.getCountSalelistaLL = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล: getCountSalelistaLL", error.message);
+  }
+};
+module.exports.getfor_acc_use = async function (req, res) {
+  try {
+    const { User_login } = req.body;
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+    SELECT FPM_LEVEL ,FPM_USER_LOGIN FROM FAM_PERSON_MASTER 
+    INNER JOIN FAM_CODE_MASTER ON FPM_LEVEL=FCM_CODE 
+    WHERE FPM_USER_LOGIN ='${User_login}'AND (FPM_LEVEL = 'GP02007' OR FPM_LEVEL = 'GP02012')`;
+          const result = await connect.execute(query);
+          connect.release();
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:getfor_acc_use", error.message);
   }
 };

@@ -49,7 +49,7 @@ function ButtonAppBar({ isOpen, onClose }) {
             </IconButton>
             <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Fix Asset System
+              Fixed Asset System
             </Typography>
             <Avatar
               sx={{ bgcolor: deepOrange[500], marginRight: "10px" }}
@@ -65,7 +65,7 @@ function ButtonAppBar({ isOpen, onClose }) {
                 fontFamily: "Roboto, sans-serif",
               }}
             >
-              User: {Name} {Lastname} &nbsp; &nbsp; Role : {NameRole} &nbsp; |
+              User: {Name} {Lastname} &nbsp; &nbsp; |
               &nbsp; <text onClick={Logout}>Logout</text>
               <br />
             </Button>

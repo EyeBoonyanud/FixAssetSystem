@@ -37,6 +37,8 @@ app.use(express.json({ type: 'text/html' }));
 app.post("/Login", Login.login);
 app.get("/getmenu", Login.menu);
 app.get("/getmainmenu",Login.mainmenu);
+
+
 app.get("/gethome_page",Transaction.gethome_page);
 app.post("/getsubmenu",Login.submenu);
 app.get("/getemp",Transaction.emp);
@@ -45,10 +47,13 @@ app.post("/getdept",Transaction.dept);
 app.get("/getcost",Transaction.cost);
 app.get("/gettype",Transaction.type);
 app.post("/findsts",Transaction.findsts);
+app.get("/findstsLending",Transaction.findstsLending);
 app.post("/getby",Transaction.by);
 app.post("/getstatus",Transaction.status);
 app.post("/getsearch",Transaction.search);
 app.post("/getsearch2",Transaction.search2);
+app.post("/search3",Transaction.search3);
+
 app.post("/getfixcode",Transaction.fixcode);
 app.post("/getfac_insert",Transaction.fac_insert);
 app.post("/getcost_insert",Transaction.cost_insert);
@@ -112,10 +117,10 @@ app.post("/update_scrap_pte",Transaction.update_scrap_pte);
 app.post("/update_scrap_pln",Transaction.update_scrap_pln);
 app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
 // app.post("/update_scrap_shipping",Transaction.update_scrap_shipping);
-app.post("/get_weights",Transaction.get_weights);
-app.post("/get_size",Transaction.get_size);
-app.post("/get_unitprice",Transaction.get_unitprice);
-app.post("/get_inv_no",Transaction.get_inv_no);
+// app.post("/get_weights",Transaction.get_weights);
+// app.post("/get_size",Transaction.get_size);
+// app.post("/get_unitprice",Transaction.get_unitprice);
+// app.post("/get_inv_no",Transaction.get_inv_no);
 app.post("/update_for_nullScarp",Transaction.update_for_nullScarp);
 //sale
 app.post("/import_boi",Transaction.import_boi);
@@ -146,6 +151,27 @@ app.post("/insert_weight",Transaction.insert_weight);
 app.post("/insert_size",Transaction.insert_size);
 app.post("/insert_unit_price",Transaction.insert_unit_price);
 app.post("/insert_invoice",Transaction.insert_invoice);
+
+//Period
+app.get("/Select_Period",Transaction.Select_Period);
+app.post("/update_periodall",Transaction.update_periodall);
+app.get("/SelectMonthly",Transaction.SelectMonthly);
+app.post("/insertReturn",Transaction.insertReturn);
+app.post("/ShowMonth",Transaction.ShowMonth);
+app.post("/GetMaxReturnDate",Transaction.GetMaxReturnDate);
+app.post("/GetReturnDate",Transaction.GetReturnDate);
+app.post("/update_owner_return",Transaction.update_owner_return);
+app.post("/update_closejob_lending",Transaction.update_closejob_lending);
+app.post("/update_period_fac_mana_returndate",Transaction.update_period_fac_mana_returndate);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -231,6 +257,7 @@ app.get("/getCountScraplistaLLname",Homepage.getCountScraplistaLLname);
 app.post("/getCountScraplistaLL",Homepage.getCountScraplistaLL);
 app.get("/getCountSalelistaLLname",Homepage.getCountSalelistaLLname);
 app.post("/getCountSalelistaLL",Homepage.getCountSalelistaLL);
+app.post("/getfor_acc_use",Homepage.getfor_acc_use);
 
 
 
@@ -337,7 +364,6 @@ app.post("/sendEmail", async (req, res) => {
       html: req.body.emailMessage
     };
  
-    console.log("Email Sended",req.body.toEmail,req.body.subject);
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
@@ -351,12 +377,10 @@ app.use('/downloads', express.static(__dirname));
 app.get('/downloads', (req, res) => {
   const fileName = req.query.filename;
   const filePath = path.join(__dirname, '../Uploads', fileName);
-  console.log(filePath)
   // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
   if (fs.existsSync(filePath)) {
     // ส่งไฟล์กลับไปยังผู้ใช้
     res.sendFile(filePath);
-    console.log(filePath)
     // res.sendFile(filePath);
   } else {
     // ถ้าไม่พบไฟล์, ส่งข้อความแจ้งเตือน

@@ -18,7 +18,7 @@ function FAM_REPORT_DETAILS( ) {
   const [checkHead, setCheckHead] = useState("hidden");
   const [checkEmpty, setCheckEmpty] = useState("hidden");
   const [checkData, setCheckData] = useState("visible");
-  const [Checkvale, setcheckvalue] = useState("Please fill in information");
+  const [Checkvale, setcheckvalue] = useState("");
 
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function FAM_REPORT_DETAILS( ) {
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
-    setcheckvalue("Please fill in information");
+    setcheckvalue("");
   };
   const Search = () => {
     if (
@@ -87,10 +87,16 @@ function FAM_REPORT_DETAILS( ) {
       selectRequestType === "" &&
       Txt_FamNo === ""
     ) {
-      alert("Please fill information");
+      Swal.fire({
+        text: "กรุณาเลือกข้อมูล",
+        icon: "warning",
+      });
     } else {
       if (selectRequestType == "") {
-        alert("Please Select Request Type");
+        Swal.fire({
+          text: "กรุณากรอกข้อมูล Request Type",
+          icon: "warning",
+        });
       } else {
         setCheckHead("hidden");
         setCheckEmpty("hidden");
@@ -117,7 +123,8 @@ function FAM_REPORT_DETAILS( ) {
                   var sumAcqCost = 0;
                   var sumBookvalue = 0;
                 }
-                var numericValue = data[i][13].replace(/,/g, "");
+                // var numericValue = data[i][13].replace(/,/g, "");
+                var numericValue = data[i][13] ? data[i][13].replace(/,/g, "") : "";
                 sumAcqCost += parseFloat(numericValue);
                 sumBookvalue = sumBookvalue + data[i][14];
 
@@ -158,7 +165,7 @@ function FAM_REPORT_DETAILS( ) {
             } else {
               Swal.fire({
                 title: "Not Found Data",
-                text: `Not Found ${Txt_FamNo} Please enter again`,
+                text: `Not Found Please enter again`,
                 icon: "warning",
               });
               setcheckvalue("Not Found Data");

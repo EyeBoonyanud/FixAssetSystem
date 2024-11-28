@@ -1,34 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Page/Hearder";
 import "../Page/Style.css";
-import Paper from "@mui/material/Paper";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import Tooltip from "@mui/material/Tooltip";
 import {
   Typography,
   FormControl,
   TableRow,
   Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   Select,
   MenuItem,
-  Grid,
   TextField,
   Button,
   InputLabel,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Empty } from "antd";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import swal from "sweetalert";
 import CloseIcon from "@mui/icons-material/Close";
@@ -126,6 +111,7 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
           );
           const FactoryData = await response.data;
           setdatafac(FactoryData);
+          
         } catch (error) {
           console.error("Error during login:", error);
         }
@@ -135,6 +121,8 @@ function Boi_maintain({ isOpen, onClose, searchFunction }) {
         try {
           const response = await axios.get(`/getcost`);
           const CostData = await response.data;
+          CostData.unshift(['ALL', 'ALL']);
+          // CostData.push(['ALL', 'ALL']);
           setcost(CostData);
         } catch (error) {
           console.error("Error during login:", error);

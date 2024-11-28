@@ -15,6 +15,7 @@ import {
   Grid,
   TextField,
   Button,
+  TablePagination
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
@@ -51,9 +52,26 @@ function Boi_project_mcc() {
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>;
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+   
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+ 
+  };
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, dataSearch.length - page * rowsPerPage);
   const handleSelectChange = async (event, newValue) => {
     setselecteDatafac(newValue);
   };
+
+  
   const handleBOI = (event, newValue) => {
     setselecteDataBOI(newValue);
   };
@@ -96,6 +114,7 @@ function Boi_project_mcc() {
         try {
           const response = await axios.get(`/getcost`);
           const CostData = await response.data;
+          CostData.unshift(['ALL', 'ALL']);
           setcost(CostData);
         } catch (error) {
           console.error("Error during login:", error);
@@ -190,7 +209,7 @@ function Boi_project_mcc() {
     setselectcost("");
     setselecteDataBOI("");
     setUser_Login("");
-    setdataSearch("");
+    setdataSearch([]);
     setCheckHead("hidden");
     setCheckEmpty("hidden");
     setCheckData("visible");
@@ -416,7 +435,7 @@ function Boi_project_mcc() {
         </div>
 
         <div className="responsive-container">
-          <TableContainer
+        <TableContainer
             style={{
               visibility: checkHead,
             }}
@@ -424,79 +443,70 @@ function Boi_project_mcc() {
             component={Paper}
           >
   
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>Factory</TableCell>
-                  <TableCell>Cost Center</TableCell>
-                  <TableCell>BOI Project</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Update By</TableCell>
-                  <TableCell>Update Date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataSearch.length > 0 ? (
-                  dataSearch.map((item, index) => (
-                    <TableRow
-                      sx={{
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell>
-                        {loading == "false" && index == selectindex ? (
-                          <LoadingOutlined style={{ fontSize: "30px" }} />
-                        ) : (
-                          <EditNoteIcon
-                            style={{ color: "#F4D03F", fontSize: "30px" }}
-                            onClick={() => {
-                              handleOpenEdit(item[1], item[3], item[4], index);
-                            }}
-                          />
-                        )}
-                        <DeleteForeverIcon
-                          style={{ color: "red", fontSize: "30px" }}
-                          onClick={() =>
-                            handleOpenDelete(item[1], item[3], item[4])
-                          }
-                        />
-                      </TableCell>
-                      <TableCell className="TexttableA">{item[1]}</TableCell>
-                      <TableCell className="TexttableA">{item[3]}</TableCell>
-                      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[4]}</TableCell>
-                      <TableCell className="TexttableA">{item[5]}</TableCell>
-                      <TableCell className="TexttableA">{item[6]}</TableCell>
-                      <TableCell>{item[7]}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow style={{ visibility: checkEmpty }}>
-                    <TableCell colSpan={9}>
-                      <InfoCircleOutlined
-                        style={{
-                          visibility: checkData,
-                          fontSize: "30px",
-                          color: "#ffd580",
-                        }}
-                      />
-                      <text
-                        style={{
-                          visibility: checkData,
-                          fontSize: "25px",
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {/* {" "}
-                        Please fill in information{" "} */}
-                      </text>
-                      <Empty style={{ visibility: checkEmpty }} />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+ 
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell></TableCell>
+            <TableCell>Factory</TableCell>
+            <TableCell>Cost Center</TableCell>
+            <TableCell>BOI Project</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Update By</TableCell>
+            <TableCell>Update Date</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {dataSearch.length === 0 ? (
+  <TableRow>
+    <TableCell colSpan={7} style={{ textAlign: "center" }}>
+     <Empty/>
+    </TableCell>
+  </TableRow>
+) : (
+  dataSearch.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+    <TableRow key={index} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+      <TableCell>
+        {loading === "false" && index === selectindex ? (
+          <LoadingOutlined style={{ fontSize: "30px" }} />
+        ) : (
+          <EditNoteIcon
+            style={{ color: "#F4D03F", fontSize: "30px" }}
+            onClick={() => handleOpenEdit(item[1], item[3], item[4], index)}
+          />
+        )}
+        <DeleteForeverIcon
+          style={{ color: "red", fontSize: "30px" }}
+          onClick={() => handleOpenDelete(item[1], item[3], item[4])}
+        />
+      </TableCell>
+      <TableCell className="TexttableA">{item[1]}</TableCell>
+      <TableCell className="TexttableA">{item[3]}</TableCell>
+      <TableCell className="TexttableA" style={{ textAlign: "left" }}>{item[4]}</TableCell>
+      <TableCell className="TexttableA">{item[5]}</TableCell>
+      <TableCell className="TexttableA">{item[6]}</TableCell>
+      <TableCell>{item[7]}</TableCell>
+    </TableRow>
+  ))
+)}
+{emptyRows > 0 && (
+  <TableRow >
+   
+  </TableRow>
+)}
+
+        </TableBody>
+      </Table>
+      <TablePagination
+            rowsPerPageOptions={[10, 25, 50]}
+        component="div"
+        count={dataSearch.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </TableContainer>
         </div>
       </div>
     </>
