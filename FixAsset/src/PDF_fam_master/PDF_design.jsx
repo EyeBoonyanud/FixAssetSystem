@@ -1518,7 +1518,7 @@ function PDF_design() {
                                   <TableCell className="HeaderSevenTablecell_2">
                                     <TableRow>
                                       <TableCell className="HeaderSevenTablecell_row ">
-                                        &nbsp;Old Owner : {Datafamno[0][22]}
+                                        &nbsp;Old Owner : {Datafamno[0][2]}
                                       </TableCell>
                                     </TableRow>
                                     <TableRow>
@@ -2485,7 +2485,7 @@ function PDF_design() {
                                     <TableCell className="HeaderSevenTablecell_2">
                                       <TableRow>
                                         <TableCell className="HeaderSevenTablecell_row ">
-                                          &nbsp;Old Owner : {Datafamno[0][22]}
+                                          &nbsp;Old Owner : {Datafamno[0][2]}
                                         </TableCell>
                                       </TableRow>
 
@@ -3665,7 +3665,7 @@ function PDF_design() {
                                     <TableCell className="HeaderSevenTablecell_2">
                                       <TableRow>
                                         <TableCell className="HeaderSevenTablecell_row ">
-                                          &nbsp;Old Owner : {Datafamno[0][22]}
+                                          &nbsp;Old Owner : {Datafamno[0][2]}
                                         </TableCell>
                                       </TableRow>
                                       <TableRow>
