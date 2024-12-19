@@ -1710,9 +1710,34 @@ For_Rq_Edit[43]
     setowner_tel("");
   };
   const navigate = useNavigate();
+  const DATA_Fixasset = async () =>{
+    let data =[]
+    console.log(Gen_Fam_No,"DATA_Fixasset")
+    await axios
+    .post("/dataFixasset_show", {
+      tranfer: Gen_Fam_No,
+    })
+    .then((res) => {
+      data =res.data
+      console.log(res.data,"dataFixasset_show")
+     
+    })
+     return data;
+  }
   const NextPage = async () => {
+    
+    const Data = await DATA_Fixasset()
+    console.log(Data,"NextPage")
+   if(Data.length > 0 || datatable.length >0){
     Insert_Fam_detail();
     navigate("/FAMsystem/TransDetail");
+   }else{
+    Swal.fire({
+      title: "กรุณากรอก Fixed Asset Code",
+      icon: "warning",
+    });
+   }
+    
   };
   const Next = async (value) => {
     Insert_Fam_detail();

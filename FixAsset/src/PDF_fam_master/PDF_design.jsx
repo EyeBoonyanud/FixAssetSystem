@@ -1434,10 +1434,10 @@ function PDF_design() {
                                     &nbsp;5) Service Dept.
                                   </TableCell>
                                   <TableCell className="HeaderFiveTablecell_2">
-                                    &nbsp;Receipt by : {Datafamno[0][11]}
+                                    &nbsp;Receipt by : {Datafamno[0][26]}
                                   </TableCell>
                                   <TableCell className="HeaderFiveTablecell_3">
-                                    &nbsp;CC : {Datafamno[0][12]}
+                                    &nbsp;CC : {Datafamno[0][34]}
                                   </TableCell>
                                   {/* <TableCell className="HeaderFiveTablecell_4"></TableCell> */}
                                   <TableCell className="HeaderFiveTablecell_5">
@@ -2395,10 +2395,10 @@ function PDF_design() {
                                       &nbsp;5) Service Dept.
                                     </TableCell>
                                     <TableCell className="HeaderFiveTablecell_2">
-                                      &nbsp;Receipt by : {Datafamno[0][11]}
+                                      &nbsp;Receipt by : {Datafamno[0][26]}
                                     </TableCell>
                                     <TableCell className="HeaderFiveTablecell_3">
-                                      &nbsp;CC : {Datafamno[0][12]}
+                                      &nbsp;CC : {Datafamno[0][34]}
                                     </TableCell>
                                     <TableCell className="HeaderFiveTablecell_5">
                                       &nbsp;Receipt date : {Datafamno[0][13]}
@@ -3574,10 +3574,10 @@ function PDF_design() {
                                       &nbsp;5) Service Dept.
                                     </TableCell>
                                     <TableCell className="HeaderFiveTablecell_2">
-                                      &nbsp;Receipt by : {Datafamno[0][11]}
+                                      &nbsp;Receipt by : {Datafamno[0][26]}
                                     </TableCell>
                                     <TableCell className="HeaderFiveTablecell_3">
-                                      &nbsp;CC : {Datafamno[0][12]}
+                                      &nbsp;CC : {Datafamno[0][34]}
                                     </TableCell>
 
                                     <TableCell className="HeaderFiveTablecell_5">

@@ -230,6 +230,9 @@ app.post("/search_BOI_project",Transaction.search_BOI_project);
 app.post("/Search_BOI_Maintain_Edit",Transaction.getEdit_BOI_Show);
 app.get("/getlevel",Transaction.level_person_maintain);
 app.get("/get_BOI_project_name",Transaction.get_BOI_project_name);
+app.post("/dataFixasset_show",Transaction.dataFixasset_show);
+
+
 
 // app.post("/getCountTransfer",Transaction.getCountTransfer);
 // app.post("/getCountLoss",Transaction.getCountLoss);
