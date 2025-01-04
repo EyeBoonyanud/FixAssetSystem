@@ -3369,64 +3369,65 @@ module.exports.update_for_date_trans = async function (req, res) {
   }
 };
 // Fam Master
-module.exports.searchFamMaster = async function (req, res) {
-  try {
-    const {
-      Fac,
-      OwnerCC,
-      FamFrom,
-      FamTo,
-      Dept,
-      AssetCC,
-      ReqType,
-      // FixCode,
-      DateFrom,
-      DateTo,
-      ByID,
-      StsID,
-    } = req.body;
-    const connect = await oracledb.getConnection(AVO);
-    const query = `
-    SELECT DISTINCT M.FACTORY_NAME AS FACTORY,
-    T.FAM_REQ_OWNER_CC  AS COSTCENTER,
-    T.FRH_FAM_NO AS FAMNO,
-    TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
-    T.FAM_REQ_BY AS ISSUEBY,
-    R.FCM_DESC AS RETYPE,
-    --(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
-    F.FFM_DESC AS STATUS,
-    T.FAM_REQ_TYPE 
-  FROM
-    FAM_REQ_HEADER T
-  LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
-  LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
-  LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
-  LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
-  LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
-  LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
-  LEFT JOIN FAM_FLOW_MASTER TR ON TR.FFM_CODE = T.FAM_REQ_STATUS 
-  WHERE 1=1
-    AND (T.FAM_FACTORY = '${Fac}' OR '${Fac}' IS NULL)
-    AND ('${OwnerCC}' IS NULL OR T.FAM_REQ_OWNER_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${OwnerCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${OwnerCC}', ',') + 1))
-    AND (T.FRH_FAM_NO >= '${FamFrom}' OR '${FamFrom}' IS NULL)
-    AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}' IS NULL)
-    AND ('${Dept}' IS NULL OR T.FAM_REQ_DEPT  IN (SELECT TRIM(REGEXP_SUBSTR('${Dept}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${Dept}', ',') + 1))
-    AND ('${AssetCC}' IS NULL OR T.FAM_ASSET_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${AssetCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${AssetCC}', ',') + 1))
-    AND ('${ReqType}' IS NULL OR T.FAM_REQ_TYPE  IN (SELECT TRIM(REGEXP_SUBSTR('${ReqType}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${ReqType}', ',') + 1))
-   -- AND ('fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
-    AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
-    AND (T.FAM_REQ_BY = '${ByID}' OR '${ByID}' IS NULL) 
-    AND (T.FAM_REQ_STATUS = '${StsID}' OR '${StsID}' IS NULL)
-    ORDER BY T.FRH_FAM_NO ASC  `;
-    const result = await connect.execute(query);
-    connect.release();
-    res.json(result.rows);
 
-  } catch (error) {
-    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
-  }
-};
+module.exports.searchFamMaster = async function (req, res) {
+    try {
+      const {
+        Fac,
+        OwnerCC,
+        FamFrom,
+        FamTo,
+        Dept,
+        AssetCC,
+        ReqType,
+        // FixCode,
+        DateFrom,
+        DateTo,
+        ByID,
+        StsID,
+      } = req.body;
+      const connect = await oracledb.getConnection(AVO);
+      const query = `
+      SELECT DISTINCT M.FACTORY_NAME AS FACTORY,
+      T.FAM_REQ_OWNER_CC  AS COSTCENTER,
+      T.FRH_FAM_NO AS FAMNO,
+      TO_CHAR(T.FAM_REQ_DATE, 'DD/MM/YYYY') AS ISSUEDATE,
+      T.FAM_REQ_BY AS ISSUEBY,
+      R.FCM_DESC AS RETYPE,
+      --(SELECT TO_CHAR(WM_CONCAT(DISTINCT CD.FRD_ASSET_CODE))FROM FAM_REQ_DETAIL CD WHERE CD.FRD_FAM_NO = T.FRH_FAM_NO ) AS FIXED_CODE,
+      F.FFM_DESC AS STATUS,
+      T.FAM_REQ_TYPE 
+    FROM
+      FAM_REQ_HEADER T
+    LEFT JOIN CUSR.CU_FACTORY_M M ON M.FACTORY_CODE = T.FAM_FACTORY
+    LEFT JOIN FAM_CODE_MASTER R ON R.FCM_CODE = T.FAM_REQ_TYPE
+    LEFT JOIN FAM_FLOW_MASTER F ON F.FFM_CODE = T.FAM_REQ_STATUS
+    LEFT JOIN FAM_REQ_DETAIL C ON C.FRD_FAM_NO = T.FRH_FAM_NO
+    LEFT JOIN FAM_REQ_TRANSFER A ON A.FRT_FAM_NO = T.FRH_FAM_NO
+    LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
+    LEFT JOIN FAM_FLOW_MASTER TR ON TR.FFM_CODE = T.FAM_REQ_STATUS 
+    WHERE 1=1
+      AND (T.FAM_FACTORY = '${Fac}' OR '${Fac}' IS NULL)
+      AND ('${OwnerCC}' IS NULL OR T.FAM_REQ_OWNER_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${OwnerCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${OwnerCC}', ',') + 1))
+      AND (T.FRH_FAM_NO >= '${FamFrom}' OR '${FamFrom}' IS NULL)
+      AND (T.FRH_FAM_NO <= '${FamTo}' OR '${FamTo}' IS NULL)
+      AND ('${Dept}' IS NULL OR T.FAM_REQ_DEPT  IN (SELECT TRIM(REGEXP_SUBSTR('${Dept}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${Dept}', ',') + 1))
+      AND ('${AssetCC}' IS NULL OR T.FAM_ASSET_CC  IN (SELECT TRIM(REGEXP_SUBSTR('${AssetCC}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${AssetCC}', ',') + 1))
+      AND ('${ReqType}' IS NULL OR T.FAM_REQ_TYPE  IN (SELECT TRIM(REGEXP_SUBSTR('${ReqType}', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('${ReqType}', ',') + 1))
+     -- AND ('fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
+      AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
+      AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
+      AND (UPPER(T.FAM_REQ_BY) = UPPER('${ByID}') OR  UPPER('${ByID}') IS NULL) 
+      AND (T.FAM_REQ_STATUS = '${StsID}' OR '${StsID}' IS NULL)
+      ORDER BY T.FRH_FAM_NO ASC  `;
+      const result = await connect.execute(query);
+      connect.release();
+      res.json(result.rows);
+  
+    } catch (error) {
+      console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    }
+  };
 // namefile
 module.exports.namefile = async function (req, res) {
   try {
