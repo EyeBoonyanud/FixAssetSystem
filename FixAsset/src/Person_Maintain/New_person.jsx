@@ -244,6 +244,17 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                      FPM_update_by: UserLoginn,
                    }
                  );
+                 await axios.post("insert_issue", {
+                  userlogin:User_Login, 
+                  crateby:UserLoginn, 
+                  updateby:UserLoginn
+                 }
+                  );
+                  await axios.post("insert_approve", {
+                    userlogin:User_Login, 
+                    crateby:UserLoginn, 
+                    updateby:UserLoginn
+                   });
                  swal("Success", "Data saved successfully", "success");
                  const DATA_BACK_SEARCH = [
                    selecteDatafac,
@@ -296,6 +307,16 @@ function person_maintain_new({ isOpen, onClose, searchFunction }) {
                      FPM_update_by: UserLoginn,
                    }
                  );
+                //  await axios.post("insert_issue", {
+                //   userlogin:User_Login, 
+                //   crateby:UserLoginn, 
+                //   updateby:UserLoginn
+                //  });
+                //  await axios.post("insert_approve", {
+                //   userlogin:User_Login, 
+                //   crateby:UserLoginn, 
+                //   updateby:UserLoginn
+                //  });
                  swal("success", "You save data success", "success");
                  const DATA_BACK_SEARCH = [
                    selecteDatafac,

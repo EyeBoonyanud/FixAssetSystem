@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
@@ -27,6 +27,7 @@ export default function SignInSide() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const fnPassword = useRef([])
 
   let Name = "";
   let Lastname = "";
@@ -35,7 +36,11 @@ export default function SignInSide() {
   let Emp = "";
   let NameRole = "";
   let Cost_Center ='';
-
+  const Username = async()=>{
+    setTimeout(() => {
+      fnPassword.current.focus();
+    }, 300);
+  }
   const handleLogin = async () => {
     setLoading(true);
     sessionStorage.setItem("isLoggedIn", "true");
@@ -158,7 +163,7 @@ export default function SignInSide() {
                   onChange={(e) => setUser(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleLogin();
+                      Username();
                     }
                   }}
                   InputProps={{
@@ -168,7 +173,6 @@ export default function SignInSide() {
                       </InputAdornment>
                     ),
                   }}
-                  s
                   sx={{ width: "50%" }}
                   variant="standard"
                   style={{ margin: "8px" }}
@@ -190,6 +194,7 @@ export default function SignInSide() {
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   value={password}
+                  inputRef={fnPassword}
                   onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {

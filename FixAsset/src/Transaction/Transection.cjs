@@ -419,7 +419,7 @@ LEFT JOIN CUSR.CU_USER_HUMANTRIX MH ON MH.EMPCODE = T.FAM_REQ_OWNER
    -- AND ('fixcode' IS NULL OR C.FRD_ASSET_CODE IN (SELECT TRIM(REGEXP_SUBSTR('fixcode', '[^,]+', 1, LEVEL)) FROM DUAL CONNECT BY LEVEL <= REGEXP_COUNT('fixcode', ',') + 1))
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') >= '${DateFrom}' OR '${DateFrom}' IS NULL)
     AND (TO_CHAR(T.FAM_REQ_DATE , 'YYYY-MM-DD') <= '${DateTo}' OR '${DateTo}' IS NULL)
-    AND (T.FAM_REQ_BY = '${ByID}' OR '${ByID}' IS NULL) 
+    AND (UPPER( T.FAM_REQ_BY) = UPPER('${ByID}') OR UPPER('${ByID}') IS NULL) 
     AND (T.FAM_REQ_STATUS = '${StsID}' OR '${StsID}' IS NULL)
     ORDER BY T.FRH_FAM_NO ASC  
  `;
@@ -2594,6 +2594,115 @@ module.exports.level_person_maintain = async function (req, res) {
     res.json(result.rows);
   } catch (error) {
     console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+module.exports.level_approve_issue = async function (req, res) {
+  try {
+    const connect = await oracledb.getConnection(AVO);
+    const query = `
+     SELECT ROLE_ID,ROLE_DESC FROM CUSR.CU_ROLE_M WHERE SYSTEM_ID ='65' 
+           `;
+    const result = await connect.execute(query);
+    console.log(result,"result1")
+    connect.release();
+    res.json(result.rows);
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+  }
+};
+module.exports.insert_issue = async function (req, res) {
+  try {
+    const { userlogin, crateby, updateby } = req.body;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+      MERGE INTO CU_ROLE_USER target
+      USING (
+        SELECT '212' AS ROLE_ID, :userlogin AS USER_LOGIN FROM DUAL
+      ) source
+      ON (target.ROLE_ID = source.ROLE_ID AND target.USER_LOGIN = source.USER_LOGIN)
+      WHEN MATCHED THEN
+        UPDATE SET
+          RU_STATUS = 'A',
+          RU_UPDATE_BY = :updateby,
+          RU_UPDATE_DATE = SYSDATE
+      WHEN NOT MATCHED THEN
+        INSERT (
+          ROLE_ID,
+          USER_LOGIN,
+          RU_STATUS,
+          RU_CREATE_BY,
+          RU_CREATE_DATE,
+          RU_UPDATE_BY,
+          RU_UPDATE_DATE
+        ) VALUES (
+          source.ROLE_ID,
+          source.USER_LOGIN,
+          'A',
+          :crateby,
+          SYSDATE,
+          :updateby,
+          SYSDATE
+        )
+    `;
+    const data = {
+      userlogin: userlogin,
+      crateby: crateby,
+      updateby: updateby
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+ 
+    await connect.close(); 
+    res.json(result.rowsAffected); 
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    res.status(500).send("ข้อผิดพลาดในการค้นหาข้อมูล");
+  }
+};
+module.exports.insert_approve = async function (req, res) {
+  try {
+    const { userlogin, crateby, updateby } = req.body;
+    const connect = await oracledb.getConnection(CUSR);
+    const query = `
+      MERGE INTO CU_ROLE_USER target
+      USING (
+        SELECT '213' AS ROLE_ID, :userlogin AS USER_LOGIN FROM DUAL
+      ) source
+      ON (target.ROLE_ID = source.ROLE_ID AND target.USER_LOGIN = source.USER_LOGIN)
+      WHEN MATCHED THEN
+        UPDATE SET
+          RU_STATUS = 'A',
+          RU_UPDATE_BY = :updateby,
+          RU_UPDATE_DATE = SYSDATE
+      WHEN NOT MATCHED THEN
+        INSERT (
+          ROLE_ID,
+          USER_LOGIN,
+          RU_STATUS,
+          RU_CREATE_BY,
+          RU_CREATE_DATE,
+          RU_UPDATE_BY,
+          RU_UPDATE_DATE
+        ) VALUES (
+          source.ROLE_ID,
+          source.USER_LOGIN,
+          'A',
+          :crateby,
+          SYSDATE,
+          :updateby,
+          SYSDATE
+        )
+    `;
+    const data = {
+      userlogin: userlogin,
+      crateby: crateby,
+      updateby: updateby
+    };
+    const result = await connect.execute(query, data, { autoCommit: true });
+    await connect.close(); 
+    res.json(result.rowsAffected); 
+  } catch (error) {
+    console.error("ข้อผิดพลาดในการค้นหาข้อมูล:", error.message);
+    res.status(500).send("ข้อผิดพลาดในการค้นหาข้อมูล");
   }
 };
 
